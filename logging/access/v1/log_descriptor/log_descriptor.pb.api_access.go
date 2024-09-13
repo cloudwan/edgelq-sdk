@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *log_descriptor.Filter) (*log_descriptor.Filt
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return log_descriptor.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

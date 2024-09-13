@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetProject][ntt.ztp.v1.GetProject]
+// A request message of the GetProject method.
 type GetProjectRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,7 +161,7 @@ func (m *GetProjectRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetProjects][ntt.ztp.v1.BatchGetProjects]
+// A request message of the BatchGetProjects method.
 type BatchGetProjectsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -268,7 +268,7 @@ func (m *BatchGetProjectsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetProjectsResponse
+// A response message of the BatchGetProjects method.
 type BatchGetProjectsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -357,7 +357,7 @@ func (m *BatchGetProjectsResponse) SetMissing(fv []*project.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListProjects][ntt.ztp.v1.ListProjects]
+// A request message of the ListProjects method.
 type ListProjectsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -367,7 +367,7 @@ type ListProjectsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListProjectsResponse.next_page_token][ntt.ztp.v1.ListProjectsResponse.next_page_token]
+	// ListProjectsResponse.next_page_token.
 	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -541,18 +541,20 @@ func (m *ListProjectsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListProjects][ntt.ztp.v1.ListProjects]
+// A response message of the ListProjects method.
 type ListProjectsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Projects
 	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty" firestore:"projects"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListProjectsRequest.page_token][ntt.ztp.v1.ListProjectsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListProjectsRequest.page_token.
 	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListProjectsRequest.page_token][ntt.ztp.v1.ListProjectsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListProjectsRequest.page_token.
 	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -684,7 +686,7 @@ func (m *ListProjectsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchProject][ntt.ztp.v1.WatchProject]
+// A request message of the WatchProject method.
 type WatchProjectRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -791,7 +793,7 @@ func (m *WatchProjectRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchProjectResponse
+// A response message of the WatchProject method.
 type WatchProjectResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -863,7 +865,7 @@ func (m *WatchProjectResponse) SetChange(fv *project.ProjectChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchProjects][ntt.ztp.v1.WatchProjects]
+// A request message of the WatchProjects method.
 type WatchProjectsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1104,7 +1106,7 @@ func (m *WatchProjectsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchProjectsResponse
+// A response message of the WatchProjects method.
 type WatchProjectsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1307,7 +1309,7 @@ func (m *WatchProjectsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateProject][ntt.ztp.v1.CreateProject]
+// A request message of the CreateProject method.
 type CreateProjectRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1380,7 +1382,7 @@ func (m *CreateProjectRequest) SetProject(fv *project.Project) {
 	m.Project = fv
 }
 
-// Request message for method [UpdateProject][ntt.ztp.v1.UpdateProject]
+// A request message of the UpdateProject method.
 type UpdateProjectRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1510,7 +1512,7 @@ func (m *UpdateProjectRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteProject][ntt.ztp.v1.DeleteProject]
+// A request message of the DeleteProject method.
 type DeleteProjectRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

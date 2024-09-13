@@ -71,10 +71,11 @@ func FullDevice_FieldMask() *Device_FieldMask {
 	res := &Device_FieldMask{}
 	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorMetadata})
+	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorSpec})
 	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorStatus})
 	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorPublicListingSpec})
-	res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName})
 	return res
 }
 
@@ -118,7 +119,7 @@ func (fieldMask *Device_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Device_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -148,7 +149,7 @@ func (fieldMask *Device_FieldMask) Reset() {
 
 func (fieldMask *Device_FieldMask) Subtract(other *Device_FieldMask) *Device_FieldMask {
 	result := &Device_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[Device_FieldPathSelector]gotenobject.FieldMask{
 		Device_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Device_FieldPathSelectorSpec:              &Device_Spec_FieldMask{},
@@ -384,6 +385,10 @@ func (fieldMask *Device_FieldMask) Project(source *Device) *Device {
 			case Device_FieldPathSelectorMetadata:
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true
+			case Device_FieldPathSelectorDisplayName:
+				result.DisplayName = source.DisplayName
+			case Device_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case Device_FieldPathSelectorSpec:
 				result.Spec = source.Spec
 				wholeSpecAccepted = true
@@ -393,8 +398,6 @@ func (fieldMask *Device_FieldMask) Project(source *Device) *Device {
 			case Device_FieldPathSelectorPublicListingSpec:
 				result.PublicListingSpec = source.PublicListingSpec
 				wholePublicListingSpecAccepted = true
-			case Device_FieldPathSelectorDisplayName:
-				result.DisplayName = source.DisplayName
 			}
 		case *Device_FieldSubPath:
 			switch tp.selector {
@@ -9544,7 +9547,9 @@ type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask struct {
 
 func FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask {
 	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks})
 	return res
 }
 
@@ -9588,7 +9593,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -9618,12 +9623,12 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask {
 	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{},
 	}
 	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{},
+		DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -9639,8 +9644,8 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
 				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath); ok {
 					switch tp.selector {
-					case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-						mySubMasks[DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory] = FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask()
+					case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+						mySubMasks[DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks] = FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask()
 					}
 				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -9793,27 +9798,31 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 		return source
 	}
 	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo{}
-	memoryMask := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{}
-	wholeMemoryAccepted := false
+	memoryBanksMask := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{}
+	wholeMemoryBanksAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
 		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-				result.Memory = source.Memory
-				wholeMemoryAccepted = true
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+				result.Description = source.Description
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+				result.SizeBytes = source.SizeBytes
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+				result.MemoryBanks = source.MemoryBanks
+				wholeMemoryBanksAccepted = true
 			}
 		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath:
 			switch tp.selector {
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-				memoryMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath))
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+				memoryBanksMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath))
 			}
 		}
 	}
-	if wholeMemoryAccepted == false && len(memoryMask.Paths) > 0 {
-		for _, sourceItem := range source.GetMemory() {
-			result.Memory = append(result.Memory, memoryMask.Project(sourceItem))
+	if wholeMemoryBanksAccepted == false && len(memoryBanksMask.Paths) > 0 {
+		for _, sourceItem := range source.GetMemoryBanks() {
+			result.MemoryBanks = append(result.MemoryBanks, memoryBanksMask.Project(sourceItem))
 		}
 	}
 	return result
@@ -12745,19 +12754,24 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_Fi
 	return len(fieldMask.Paths)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask struct {
-	Paths []DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask struct {
+	Paths []DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath
 }
 
-func FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask {
-	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks})
+func FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask {
+	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{}
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz})
+	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits})
 	return res
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) String() string {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -12769,7 +12783,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 }
 
 // firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
 	if fieldMask == nil {
 		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
 	}
@@ -12782,9 +12796,9 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	}, nil
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
 	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(value.GetStringValue())
+		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(value.GetStringValue())
 		if err != nil {
 			return err
 		}
@@ -12793,317 +12807,13 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return nil
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 3)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(raw)
-	})
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) ProtoMessage() {
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask {
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{}
-	removedSelectors := make([]bool, 3)
-	otherSubMasks := map[DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{},
-	}
-	mySubMasks := map[DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector]gotenobject.FieldMask{
-		DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks: &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath); ok {
-					switch tp.selector {
-					case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-						mySubMasks[DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks] = FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask()
-					}
-				} else if tp, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask {
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath))
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory), source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory{}
-	memoryBanksMask := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{}
-	wholeMemoryBanksAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath:
-			switch tp.selector {
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-				result.Description = source.Description
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-				result.SizeBytes = source.SizeBytes
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-				result.MemoryBanks = source.MemoryBanks
-				wholeMemoryBanksAccepted = true
-			}
-		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath:
-			switch tp.selector {
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-				memoryBanksMask.AppendPath(tp.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath))
-			}
-		}
-	}
-	if wholeMemoryBanksAccepted == false && len(memoryBanksMask.Paths) > 0 {
-		for _, sourceItem := range source.GetMemoryBanks() {
-			result.MemoryBanks = append(result.MemoryBanks, memoryBanksMask.Project(sourceItem))
-		}
-	}
-	return result
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask struct {
-	Paths []DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath
-}
-
-func FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask {
-	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{}
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz})
-	res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits})
-	return res
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) IsFull() bool {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -13115,28 +12825,28 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return true
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(raw)
+		return ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(raw)
 	})
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) ProtoMessage() {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) ProtoMessage() {
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Reset() {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask {
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) Subtract(other *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{}
 	removedSelectors := make([]bool, 8)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath:
+		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -13152,19 +12862,19 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return result
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask))
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask {
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{}
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) FilterInputFields() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask {
+	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -13172,13 +12882,13 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return protoFieldMask
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(strPath)
+		path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -13188,12 +12898,12 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 }
 
 // implement methods required by customType
-func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -13204,15 +12914,15 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return nil
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Size() int {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -13223,22 +12933,22 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return nil
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath) {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) AppendPath(path DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath))
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath))
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) GetPaths() []DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -13249,8 +12959,8 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return rawPaths
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(raw)
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -13258,7 +12968,7 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return nil
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) Set(target, source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -13269,38 +12979,38 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	}
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank), source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank), source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) Project(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank{}
+	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath:
+		case *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath:
 			switch tp.selector {
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 				result.Description = source.Description
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 				result.Product = source.Product
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 				result.Vendor = source.Vendor
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 				result.Serial = source.Serial
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 				result.Slot = source.Slot
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 				result.SizeBytes = source.SizeBytes
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 				result.FrequencyHz = source.FrequencyHz
-			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+			case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 				result.WidthBits = source.WidthBits
 			}
 		}
@@ -13308,11 +13018,11 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_
 	return result
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask) PathsCount() int {
+func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

@@ -58,6 +58,7 @@ func FullOrganization_FieldMask() *Organization_FieldMask {
 	res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorTitle})
+	res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorParentOrganization})
 	res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorMultiRegionPolicy})
 	res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorAllowedServices})
@@ -110,7 +111,7 @@ func (fieldMask *Organization_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 12)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Organization_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -140,7 +141,7 @@ func (fieldMask *Organization_FieldMask) Reset() {
 
 func (fieldMask *Organization_FieldMask) Subtract(other *Organization_FieldMask) *Organization_FieldMask {
 	result := &Organization_FieldMask{}
-	removedSelectors := make([]bool, 12)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[Organization_FieldPathSelector]gotenobject.FieldMask{
 		Organization_FieldPathSelectorMetadata:          &meta.Meta_FieldMask{},
 		Organization_FieldPathSelectorMultiRegionPolicy: &multi_region_policy.MultiRegionPolicy_FieldMask{},
@@ -362,6 +363,8 @@ func (fieldMask *Organization_FieldMask) Project(source *Organization) *Organiza
 				wholeMetadataAccepted = true
 			case Organization_FieldPathSelectorTitle:
 				result.Title = source.Title
+			case Organization_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case Organization_FieldPathSelectorParentOrganization:
 				result.ParentOrganization = source.ParentOrganization
 			case Organization_FieldPathSelectorMultiRegionPolicy:

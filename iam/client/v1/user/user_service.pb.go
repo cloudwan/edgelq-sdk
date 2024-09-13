@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetUser][ntt.iam.v1.GetUser]
+// A request message of the GetUser method.
 type GetUserRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,7 +161,7 @@ func (m *GetUserRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetUsers][ntt.iam.v1.BatchGetUsers]
+// A request message of the BatchGetUsers method.
 type BatchGetUsersRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -268,7 +268,7 @@ func (m *BatchGetUsersRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetUsersResponse
+// A response message of the BatchGetUsers method.
 type BatchGetUsersResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -357,7 +357,7 @@ func (m *BatchGetUsersResponse) SetMissing(fv []*user.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListUsers][ntt.iam.v1.ListUsers]
+// A request message of the ListUsers method.
 type ListUsersRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -367,7 +367,7 @@ type ListUsersRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListUsersResponse.next_page_token][ntt.iam.v1.ListUsersResponse.next_page_token]
+	// ListUsersResponse.next_page_token.
 	PageToken *user.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -541,18 +541,20 @@ func (m *ListUsersRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListUsers][ntt.iam.v1.ListUsers]
+// A response message of the ListUsers method.
 type ListUsersResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Users
 	Users []*user.User `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" firestore:"users"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListUsersRequest.page_token][ntt.iam.v1.ListUsersRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListUsersRequest.page_token.
 	PrevPageToken *user.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListUsersRequest.page_token][ntt.iam.v1.ListUsersRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListUsersRequest.page_token.
 	NextPageToken *user.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -684,7 +686,7 @@ func (m *ListUsersResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchUser][ntt.iam.v1.WatchUser]
+// A request message of the WatchUser method.
 type WatchUserRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -791,7 +793,7 @@ func (m *WatchUserRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchUserResponse
+// A response message of the WatchUser method.
 type WatchUserResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -863,7 +865,7 @@ func (m *WatchUserResponse) SetChange(fv *user.UserChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchUsers][ntt.iam.v1.WatchUsers]
+// A request message of the WatchUsers method.
 type WatchUsersRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1104,7 +1106,7 @@ func (m *WatchUsersRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchUsersResponse
+// A response message of the WatchUsers method.
 type WatchUsersResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1307,7 +1309,7 @@ func (m *WatchUsersResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateUser][ntt.iam.v1.CreateUser]
+// A request message of the CreateUser method.
 type CreateUserRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1380,7 +1382,7 @@ func (m *CreateUserRequest) SetUser(fv *user.User) {
 	m.User = fv
 }
 
-// Request message for method [UpdateUser][ntt.iam.v1.UpdateUser]
+// A request message of the UpdateUser method.
 type UpdateUserRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1510,7 +1512,7 @@ func (m *UpdateUserRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteUser][ntt.iam.v1.DeleteUser]
+// A request message of the DeleteUser method.
 type DeleteUserRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

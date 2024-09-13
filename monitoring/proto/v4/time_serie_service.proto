@@ -59,4 +59,12 @@ service TimeSerieService {
       >
     };
   }
+
+  // WatchTimeSeries
+  rpc WatchTimeSeries(WatchTimeSeriesRequest)
+      returns (stream WatchTimeSeriesResponse) {
+    option (google.api.http) = {
+      post : "/v4:watch"
+    };
+  }
 }

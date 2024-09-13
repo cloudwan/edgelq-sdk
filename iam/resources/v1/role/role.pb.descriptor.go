@@ -12,7 +12,9 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
+	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -26,7 +28,9 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
+	_ = &organization.Organization{}
 	_ = &permission.Permission{}
+	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
@@ -165,6 +169,8 @@ func (d *Descriptor) CanBeParentless() bool {
 func (d *Descriptor) GetParentResDescriptors() []gotenresource.Descriptor {
 	return []gotenresource.Descriptor{
 		meta_service.GetDescriptor(),
+		project.GetDescriptor(),
+		organization.GetDescriptor(),
 	}
 }
 
@@ -187,8 +193,8 @@ func initRoleDescriptor() {
 		nameDescriptor: gotenresource.NewNameDescriptor(
 			&Role_FieldTerminalPath{selector: Role_FieldPathSelectorName},
 			"pattern", "roleId",
-			[]string{"serviceId"},
-			[]gotenresource.NamePattern{NamePattern_Service}),
+			[]string{"serviceId", "projectId", "organizationId"},
+			[]gotenresource.NamePattern{NamePattern_Service, NamePattern_Project, NamePattern_Organization}),
 	}
 	gotenresource.GetRegistry().RegisterDescriptor(descriptor)
 }

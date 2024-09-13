@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "PhantomTimeSerieServiceProto";
 option java_package = "com.ntt.monitoring.pb.v3";
 
-// Request message for method
-// [GetPhantomTimeSerie][ntt.monitoring.v3.GetPhantomTimeSerie]
+// A request message of the GetPhantomTimeSerie method.
 message GetPhantomTimeSerieRequest {
   // Name of ntt.monitoring.v3.PhantomTimeSerie
   string name = 1;
@@ -32,8 +31,7 @@ message GetPhantomTimeSerieRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetPhantomTimeSeries][ntt.monitoring.v3.BatchGetPhantomTimeSeries]
+// A request message of the BatchGetPhantomTimeSeries method.
 message BatchGetPhantomTimeSeriesRequest {
   // Names of PhantomTimeSeries
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetPhantomTimeSeriesRequest {
   reserved 1;
 }
 
-// BatchGetPhantomTimeSeriesResponse
+// A response message of the BatchGetPhantomTimeSeries method.
 message BatchGetPhantomTimeSeriesResponse {
   // found PhantomTimeSeries
   repeated PhantomTimeSerie phantom_time_series = 1;
@@ -58,8 +56,7 @@ message BatchGetPhantomTimeSeriesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListPhantomTimeSeries][ntt.monitoring.v3.ListPhantomTimeSeries]
+// A request message of the ListPhantomTimeSeries method.
 message ListPhantomTimeSeriesRequest {
   // Parent name of ntt.monitoring.v3.PhantomTimeSerie
   string parent = 1;
@@ -70,7 +67,7 @@ message ListPhantomTimeSeriesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListPhantomTimeSeriesResponse.next_page_token][ntt.monitoring.v3.ListPhantomTimeSeriesResponse.next_page_token]
+  // ListPhantomTimeSeriesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListPhantomTimeSeriesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListPhantomTimeSeries][ntt.monitoring.v3.ListPhantomTimeSeries]
+// A response message of the ListPhantomTimeSeries method.
 message ListPhantomTimeSeriesResponse {
   // The list of PhantomTimeSeries
   repeated PhantomTimeSerie phantom_time_series = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListPhantomTimeSeriesRequest.page_token][ntt.monitoring.v3.ListPhantomTimeSeriesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListPhantomTimeSeriesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListPhantomTimeSeriesRequest.page_token][ntt.monitoring.v3.ListPhantomTimeSeriesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListPhantomTimeSeriesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +125,7 @@ message ListPhantomTimeSeriesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchPhantomTimeSerie][ntt.monitoring.v3.WatchPhantomTimeSerie]
+// A request message of the WatchPhantomTimeSerie method.
 message WatchPhantomTimeSerieRequest {
   // Name of ntt.monitoring.v3.PhantomTimeSerie
   string name = 1;
@@ -142,11 +139,10 @@ message WatchPhantomTimeSerieRequest {
   goten.types.View view = 4;
 }
 
-// WatchPhantomTimeSerieResponse
+// A response message of the WatchPhantomTimeSerie method.
 message WatchPhantomTimeSerieResponse { PhantomTimeSerieChange change = 1; }
 
-// Request message for method
-// [WatchPhantomTimeSeries][ntt.monitoring.v3.WatchPhantomTimeSeries]
+// A request message of the WatchPhantomTimeSeries method.
 message WatchPhantomTimeSeriesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -206,7 +202,7 @@ message WatchPhantomTimeSeriesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchPhantomTimeSeriesResponse
+// A response message of the WatchPhantomTimeSeries method.
 message WatchPhantomTimeSeriesResponse {
   // Changes of PhantomTimeSeries
   repeated PhantomTimeSerieChange phantom_time_serie_changes = 2;
@@ -272,8 +268,7 @@ message WatchPhantomTimeSeriesResponse {
   }
 }
 
-// Request message for method
-// [CreatePhantomTimeSerie][ntt.monitoring.v3.CreatePhantomTimeSerie]
+// A request message of the CreatePhantomTimeSerie method.
 message CreatePhantomTimeSerieRequest {
   // Parent name of ntt.monitoring.v3.PhantomTimeSerie
   string parent = 1;
@@ -282,8 +277,7 @@ message CreatePhantomTimeSerieRequest {
   PhantomTimeSerie phantom_time_serie = 2;
 }
 
-// Request message for method
-// [UpdatePhantomTimeSerie][ntt.monitoring.v3.UpdatePhantomTimeSerie]
+// A request message of the UpdatePhantomTimeSerie method.
 message UpdatePhantomTimeSerieRequest {
   // PhantomTimeSerie resource body
   PhantomTimeSerie phantom_time_serie = 2;
@@ -318,8 +312,7 @@ message UpdatePhantomTimeSerieRequest {
   }
 }
 
-// Request message for method
-// [DeletePhantomTimeSerie][ntt.monitoring.v3.DeletePhantomTimeSerie]
+// A request message of the DeletePhantomTimeSerie method.
 message DeletePhantomTimeSerieRequest {
   // Name of ntt.monitoring.v3.PhantomTimeSerie
   string name = 1;

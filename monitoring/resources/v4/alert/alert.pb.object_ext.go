@@ -378,6 +378,18 @@ func (o *Alert_Info_TimeSerie) MakeDiffFieldMask(other *Alert_Info_TimeSerie) *A
 			}
 		}
 	}
+
+	if len(o.GetData()) == len(other.GetData()) {
+		for i, lValue := range o.GetData() {
+			rValue := other.GetData()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorData})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorData})
+	}
 	return res
 }
 
@@ -396,6 +408,10 @@ func (o *Alert_Info_TimeSerie) Clone() *Alert_Info_TimeSerie {
 	}
 	result.Metric = o.Metric.Clone()
 	result.MonitoredResource = o.MonitoredResource.Clone()
+	result.Data = make([]string, len(o.Data))
+	for i, sourceValue := range o.Data {
+		result.Data[i] = sourceValue
+	}
 	return result
 }
 
@@ -420,6 +436,21 @@ func (o *Alert_Info_TimeSerie) Merge(source *Alert_Info_TimeSerie) {
 		}
 		o.MonitoredResource.Merge(source.GetMonitoredResource())
 	}
+	for _, sourceValue := range source.GetData() {
+		exists := false
+		for _, currentValue := range o.Data {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Data = append(o.Data, newDstElement)
+		}
+	}
+
 }
 
 func (o *Alert_Info_TimeSerie) MergeRaw(source gotenobject.GotenObjectExt) {

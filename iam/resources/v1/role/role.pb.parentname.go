@@ -25,7 +25,9 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
+	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -46,16 +48,22 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
+	_ = &organization.Organization{}
 	_ = &permission.Permission{}
+	_ = &project.Project{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 )
 
 var parentRegexPath_Service = regexp.MustCompile("^services/(?P<service_id>-|[a-z][a-z0-9\\-.]{0,28}[a-z0-9])$")
+var parentRegexPath_Project = regexp.MustCompile("^projects/(?P<project_id>-|[\\w][\\w.-]{0,127})$")
+var parentRegexPath_Organization = regexp.MustCompile("^organizations/(?P<organization_id>-|[\\w][\\w.-]{0,127})$")
 
 type ParentName struct {
 	NamePattern
-	ServiceId string `firestore:"serviceId"`
+	ServiceId      string `firestore:"serviceId"`
+	ProjectId      string `firestore:"projectId"`
+	OrganizationId string `firestore:"organizationId"`
 }
 
 func ParseParentName(name string) (*ParentName, error) {
@@ -63,6 +71,16 @@ func ParseParentName(name string) (*ParentName, error) {
 	if matches = parentRegexPath_Service.FindStringSubmatch(name); matches != nil {
 		return NewNameBuilder().
 			SetServiceId(matches[1]).
+			Parent(), nil
+	}
+	if matches = parentRegexPath_Project.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetProjectId(matches[1]).
+			Parent(), nil
+	}
+	if matches = parentRegexPath_Organization.FindStringSubmatch(name); matches != nil {
+		return NewNameBuilder().
+			SetOrganizationId(matches[1]).
 			Parent(), nil
 	}
 
@@ -81,6 +99,14 @@ func (name *ParentName) SetFromSegments(segments gotenresource.NameSegments) err
 	if len(segments) == 1 && segments[0].CollectionLowerJson == "services" {
 		name.Pattern = NamePattern_Service
 		name.ServiceId = segments[0].Id
+		return nil
+	} else if len(segments) == 1 && segments[0].CollectionLowerJson == "projects" {
+		name.Pattern = NamePattern_Project
+		name.ProjectId = segments[0].Id
+		return nil
+	} else if len(segments) == 1 && segments[0].CollectionLowerJson == "organizations" {
+		name.Pattern = NamePattern_Organization
+		name.OrganizationId = segments[0].Id
 		return nil
 	}
 	return status.Errorf(codes.InvalidArgument, "unable to use segments %s to form Role parent name", segments)
@@ -101,6 +127,36 @@ func (name *ParentName) GetServiceName() *meta_service.Name {
 	}
 }
 
+func (name *ParentName) GetProjectName() *project.Name {
+	if name == nil {
+		return nil
+	}
+
+	switch name.Pattern {
+	case NamePattern_Project:
+		return project.NewNameBuilder().
+			SetId(name.ProjectId).
+			Name()
+	default:
+		return nil
+	}
+}
+
+func (name *ParentName) GetOrganizationName() *organization.Name {
+	if name == nil {
+		return nil
+	}
+
+	switch name.Pattern {
+	case NamePattern_Organization:
+		return organization.NewNameBuilder().
+			SetId(name.OrganizationId).
+			Name()
+	default:
+		return nil
+	}
+}
+
 func (name *ParentName) IsSpecified() bool {
 	if name == nil || name.Pattern == "" {
 		return false
@@ -108,6 +164,10 @@ func (name *ParentName) IsSpecified() bool {
 	switch name.Pattern {
 	case NamePattern_Service:
 		return name.ServiceId != ""
+	case NamePattern_Project:
+		return name.ProjectId != ""
+	case NamePattern_Organization:
+		return name.OrganizationId != ""
 	}
 	return false
 }
@@ -120,6 +180,10 @@ func (name *ParentName) IsFullyQualified() bool {
 	switch name.Pattern {
 	case NamePattern_Service:
 		return name.ServiceId != "" && name.ServiceId != gotenresource.WildcardId
+	case NamePattern_Project:
+		return name.ProjectId != "" && name.ProjectId != gotenresource.WildcardId
+	case NamePattern_Organization:
+		return name.OrganizationId != "" && name.OrganizationId != gotenresource.WildcardId
 	}
 
 	return false
@@ -146,11 +210,15 @@ func (name *ParentName) GetPattern() gotenresource.NamePattern {
 func (name *ParentName) GetIdParts() map[string]string {
 	if name != nil {
 		return map[string]string{
-			"serviceId": name.ServiceId,
+			"serviceId":      name.ServiceId,
+			"projectId":      name.ProjectId,
+			"organizationId": name.OrganizationId,
 		}
 	}
 	return map[string]string{
-		"serviceId": "",
+		"serviceId":      "",
+		"projectId":      "",
+		"organizationId": "",
 	}
 }
 
@@ -165,6 +233,20 @@ func (name *ParentName) GetSegments() gotenresource.NameSegments {
 			gotenresource.NameSegment{
 				CollectionLowerJson: "services",
 				Id:                  name.ServiceId,
+			},
+		}
+	case NamePattern_Project:
+		return gotenresource.NameSegments{
+			gotenresource.NameSegment{
+				CollectionLowerJson: "projects",
+				Id:                  name.ProjectId,
+			},
+		}
+	case NamePattern_Organization:
+		return gotenresource.NameSegments{
+			gotenresource.NameSegment{
+				CollectionLowerJson: "organizations",
+				Id:                  name.OrganizationId,
 			},
 		}
 	}
@@ -199,6 +281,10 @@ func (name *ParentName) DescendsFrom(ancestor string) bool {
 	switch name.Pattern {
 	case NamePattern_Service:
 		return ancestor == "services"
+	case NamePattern_Project:
+		return ancestor == "projects"
+	case NamePattern_Organization:
+		return ancestor == "organizations"
 	}
 
 	return false
@@ -221,6 +307,10 @@ func (name *ParentName) ProtoString() (string, error) {
 	switch name.Pattern {
 	case NamePattern_Service:
 		return "services/" + name.ServiceId, nil
+	case NamePattern_Project:
+		return "projects/" + name.ProjectId, nil
+	case NamePattern_Organization:
+		return "organizations/" + name.OrganizationId, nil
 	}
 	return "", nil
 }
@@ -254,6 +344,12 @@ func (name *ParentName) GotenEqual(other interface{}) bool {
 		return false
 	}
 	if name.ServiceId != other1.ServiceId {
+		return false
+	}
+	if name.ProjectId != other1.ProjectId {
+		return false
+	}
+	if name.OrganizationId != other1.OrganizationId {
 		return false
 	}
 	if name.Pattern != other1.Pattern {
@@ -292,6 +388,16 @@ func (name *ParentName) Matches(other interface{}) bool {
 			name.ServiceId != gotenresource.WildcardId {
 			return false
 		}
+	case NamePattern_Project:
+		if name.ProjectId != other1.ProjectId &&
+			name.ProjectId != gotenresource.WildcardId {
+			return false
+		}
+	case NamePattern_Organization:
+		if name.OrganizationId != other1.OrganizationId &&
+			name.OrganizationId != gotenresource.WildcardId {
+			return false
+		}
 	}
 
 	return true
@@ -309,7 +415,9 @@ func (name *ParentName) SetFromCliFlag(raw string) error {
 
 type ParentReference struct {
 	ParentName
-	service *meta_service.Service
+	service      *meta_service.Service
+	project      *project.Project
+	organization *organization.Organization
 }
 
 func MakeParentReference(name *ParentName) (*ParentReference, error) {
@@ -347,6 +455,34 @@ func (ref *ParentReference) GetServiceReference() *meta_service.Reference {
 		return nil
 	}
 }
+func (ref *ParentReference) GetProjectReference() *project.Reference {
+	if ref == nil {
+		return nil
+	}
+
+	switch ref.Pattern {
+	case NamePattern_Project:
+		return project.NewNameBuilder().
+			SetId(ref.ProjectId).
+			Reference()
+	default:
+		return nil
+	}
+}
+func (ref *ParentReference) GetOrganizationReference() *organization.Reference {
+	if ref == nil {
+		return nil
+	}
+
+	switch ref.Pattern {
+	case NamePattern_Organization:
+		return organization.NewNameBuilder().
+			SetId(ref.OrganizationId).
+			Reference()
+	default:
+		return nil
+	}
+}
 
 func (ref *ParentReference) GetUnderlyingReference() gotenresource.Reference {
 	if ref == nil {
@@ -355,6 +491,14 @@ func (ref *ParentReference) GetUnderlyingReference() gotenresource.Reference {
 	serviceRef := ref.GetServiceReference()
 	if serviceRef != nil {
 		return serviceRef
+	}
+	projectRef := ref.GetProjectReference()
+	if projectRef != nil {
+		return projectRef
+	}
+	organizationRef := ref.GetOrganizationReference()
+	if organizationRef != nil {
+		return organizationRef
 	}
 
 	return nil
@@ -368,6 +512,18 @@ func (ref *ParentReference) ResolveRaw(res gotenresource.Resource) error {
 		}
 		ref.service = typedRes
 		return nil
+	case *project.Project:
+		if name := ref.GetProjectName(); name == nil {
+			return status.Errorf(codes.InvalidArgument, "cannot set Project as parent of Role, because pattern does not match")
+		}
+		ref.project = typedRes
+		return nil
+	case *organization.Organization:
+		if name := ref.GetOrganizationName(); name == nil {
+			return status.Errorf(codes.InvalidArgument, "cannot set Organization as parent of Role, because pattern does not match")
+		}
+		ref.organization = typedRes
+		return nil
 	default:
 		return status.Errorf(codes.Internal, "Invalid parent type for Role, got %s", reflect.TypeOf(res).Elem().Name())
 	}
@@ -377,11 +533,19 @@ func (ref *ParentReference) Resolved() bool {
 	if name := ref.GetServiceName(); name != nil {
 		return ref.service != nil
 	}
+	if name := ref.GetProjectName(); name != nil {
+		return ref.project != nil
+	}
+	if name := ref.GetOrganizationName(); name != nil {
+		return ref.organization != nil
+	}
 	return true
 }
 
 func (ref *ParentReference) ClearCached() {
 	ref.service = nil
+	ref.project = nil
+	ref.organization = nil
 }
 
 func (ref *ParentReference) GetService() *meta_service.Service {
@@ -390,10 +554,28 @@ func (ref *ParentReference) GetService() *meta_service.Service {
 	}
 	return ref.service
 }
+func (ref *ParentReference) GetProject() *project.Project {
+	if ref == nil {
+		return nil
+	}
+	return ref.project
+}
+func (ref *ParentReference) GetOrganization() *organization.Organization {
+	if ref == nil {
+		return nil
+	}
+	return ref.organization
+}
 
 func (ref *ParentReference) GetRawResource() gotenresource.Resource {
 	if name := ref.ParentName.GetServiceName(); name != nil {
 		return ref.service
+	}
+	if name := ref.ParentName.GetProjectName(); name != nil {
+		return ref.project
+	}
+	if name := ref.ParentName.GetOrganizationName(); name != nil {
+		return ref.organization
 	}
 	return nil
 }
@@ -428,7 +610,9 @@ func (ref *ParentReference) GetIdParts() map[string]string {
 		return ref.ParentName.GetIdParts()
 	}
 	return map[string]string{
-		"serviceId": "",
+		"serviceId":      "",
+		"projectId":      "",
+		"organizationId": "",
 	}
 }
 
@@ -492,6 +676,12 @@ func (ref *ParentReference) GotenEqual(other interface{}) bool {
 		return false
 	}
 	if ref.service != other1.service {
+		return false
+	}
+	if ref.project != other1.project {
+		return false
+	}
+	if ref.organization != other1.organization {
 		return false
 	}
 

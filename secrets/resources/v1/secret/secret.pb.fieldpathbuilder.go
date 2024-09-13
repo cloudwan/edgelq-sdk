@@ -31,6 +31,12 @@ func (SecretFieldPathBuilder) Name() SecretPathSelectorName {
 func (SecretFieldPathBuilder) Metadata() SecretPathSelectorMetadata {
 	return SecretPathSelectorMetadata{}
 }
+func (SecretFieldPathBuilder) DisplayName() SecretPathSelectorDisplayName {
+	return SecretPathSelectorDisplayName{}
+}
+func (SecretFieldPathBuilder) Description() SecretPathSelectorDescription {
+	return SecretPathSelectorDescription{}
+}
 func (SecretFieldPathBuilder) EncData() SecretPathSelectorEncData {
 	return SecretPathSelectorEncData{}
 }
@@ -711,6 +717,34 @@ func (s SecretPathSelectorMetadataServicesAllowedServices) WithArrayOfValues(val
 
 func (s SecretPathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *Secret_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Secret_FieldSubPathArrayItemValue)
+}
+
+type SecretPathSelectorDisplayName struct{}
+
+func (SecretPathSelectorDisplayName) FieldPath() *Secret_FieldTerminalPath {
+	return &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDisplayName}
+}
+
+func (s SecretPathSelectorDisplayName) WithValue(value string) *Secret_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldTerminalPathValue)
+}
+
+func (s SecretPathSelectorDisplayName) WithArrayOfValues(values []string) *Secret_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldTerminalPathArrayOfValues)
+}
+
+type SecretPathSelectorDescription struct{}
+
+func (SecretPathSelectorDescription) FieldPath() *Secret_FieldTerminalPath {
+	return &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDescription}
+}
+
+func (s SecretPathSelectorDescription) WithValue(value string) *Secret_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldTerminalPathValue)
+}
+
+func (s SecretPathSelectorDescription) WithArrayOfValues(values []string) *Secret_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldTerminalPathArrayOfValues)
 }
 
 type SecretPathSelectorEncData struct{}

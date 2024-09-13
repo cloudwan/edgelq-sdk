@@ -77,8 +77,14 @@ func (MetricDescriptorFieldPathBuilder) PromotedLabelKeySets() MetricDescriptorP
 func (MetricDescriptorFieldPathBuilder) IndexSpec() MetricDescriptorPathSelectorIndexSpec {
 	return MetricDescriptorPathSelectorIndexSpec{}
 }
+func (MetricDescriptorFieldPathBuilder) Indices() MetricDescriptorPathSelectorIndices {
+	return MetricDescriptorPathSelectorIndices{}
+}
 func (MetricDescriptorFieldPathBuilder) StorageConfig() MetricDescriptorPathSelectorStorageConfig {
 	return MetricDescriptorPathSelectorStorageConfig{}
+}
+func (MetricDescriptorFieldPathBuilder) BinaryIndices() MetricDescriptorPathSelectorBinaryIndices {
+	return MetricDescriptorPathSelectorBinaryIndices{}
 }
 
 type MetricDescriptorPathSelectorName struct{}
@@ -1395,10 +1401,6 @@ func (MetricDescriptorPathSelectorPromotedLabelKeySets) LabelKeys() MetricDescri
 	return MetricDescriptorPathSelectorPromotedLabelKeySetsLabelKeys{}
 }
 
-func (MetricDescriptorPathSelectorPromotedLabelKeySets) WriteOnly() MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly {
-	return MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly{}
-}
-
 type MetricDescriptorPathSelectorPromotedLabelKeySetsLabelKeys struct{}
 
 func (MetricDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) FieldPath() *MetricDescriptor_FieldSubPath {
@@ -1418,23 +1420,6 @@ func (s MetricDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) WithArrayOfVa
 
 func (s MetricDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
-}
-
-type MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly struct{}
-
-func (MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly) FieldPath() *MetricDescriptor_FieldSubPath {
-	return &MetricDescriptor_FieldSubPath{
-		selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets,
-		subPath:  common.NewLabelKeySetFieldPathBuilder().WriteOnly().FieldPath(),
-	}
-}
-
-func (s MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly) WithValue(value bool) *MetricDescriptor_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
-}
-
-func (s MetricDescriptorPathSelectorPromotedLabelKeySetsWriteOnly) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
 type MetricDescriptorPathSelectorIndexSpec struct{}
@@ -1542,10 +1527,6 @@ func (MetricDescriptorPathSelectorIndexSpecPerResourceIndices) PromotedLabels() 
 	return MetricDescriptorPathSelectorIndexSpecPerResourceIndicesPromotedLabels{}
 }
 
-func (MetricDescriptorPathSelectorIndexSpecPerResourceIndices) WriteOnly() MetricDescriptorPathSelectorIndexSpecPerResourceIndicesWriteOnly {
-	return MetricDescriptorPathSelectorIndexSpecPerResourceIndicesWriteOnly{}
-}
-
 type MetricDescriptorPathSelectorIndexSpecPerResourceIndicesPromotedLabels struct{}
 
 func (MetricDescriptorPathSelectorIndexSpecPerResourceIndicesPromotedLabels) FieldPath() *MetricDescriptor_FieldSubPath {
@@ -1567,20 +1548,2503 @@ func (s MetricDescriptorPathSelectorIndexSpecPerResourceIndicesPromotedLabels) W
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
 }
 
-type MetricDescriptorPathSelectorIndexSpecPerResourceIndicesWriteOnly struct{}
+type MetricDescriptorPathSelectorIndices struct{}
 
-func (MetricDescriptorPathSelectorIndexSpecPerResourceIndicesWriteOnly) FieldPath() *MetricDescriptor_FieldSubPath {
+func (MetricDescriptorPathSelectorIndices) FieldPath() *MetricDescriptor_FieldTerminalPath {
+	return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorIndices}
+}
+
+func (s MetricDescriptorPathSelectorIndices) WithValue(value *MetricDescriptor_Indices) *MetricDescriptor_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndices) WithArrayOfValues(values []*MetricDescriptor_Indices) *MetricDescriptor_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldTerminalPathArrayOfValues)
+}
+
+func (MetricDescriptorPathSelectorIndices) WithSubPath(subPath MetricDescriptorIndices_FieldPath) *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorIndices, subPath: subPath}
+}
+
+func (s MetricDescriptorPathSelectorIndices) WithSubValue(subPathValue MetricDescriptorIndices_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
+	return &MetricDescriptor_FieldSubPathValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptorPathSelectorIndices) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndices_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return &MetricDescriptor_FieldSubPathArrayOfValues{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptorPathSelectorIndices) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndices_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return &MetricDescriptor_FieldSubPathArrayItemValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptorPathSelectorIndices) BuiltIn() MetricDescriptorPathSelectorIndicesBuiltIn {
+	return MetricDescriptorPathSelectorIndicesBuiltIn{}
+}
+
+func (MetricDescriptorPathSelectorIndices) UserDefined() MetricDescriptorPathSelectorIndicesUserDefined {
+	return MetricDescriptorPathSelectorIndicesUserDefined{}
+}
+
+func (MetricDescriptorPathSelectorIndices) LegacyMigrated() MetricDescriptorPathSelectorIndicesLegacyMigrated {
+	return MetricDescriptorPathSelectorIndicesLegacyMigrated{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltIn struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltIn) FieldPath() *MetricDescriptor_FieldSubPath {
 	return &MetricDescriptor_FieldSubPath{
-		selector: MetricDescriptor_FieldPathSelectorIndexSpec,
-		subPath:  NewMetricDescriptorIndexSpecFieldPathBuilder().PerResource().Indices().WriteOnly().FieldPath(),
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().FieldPath(),
 	}
 }
 
-func (s MetricDescriptorPathSelectorIndexSpecPerResourceIndicesWriteOnly) WithValue(value bool) *MetricDescriptor_FieldSubPathValue {
+func (s MetricDescriptorPathSelectorIndicesBuiltIn) WithValue(value *MetricDescriptor_Indices_IndexGroups) *MetricDescriptor_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
 }
 
-func (s MetricDescriptorPathSelectorIndexSpecPerResourceIndicesWriteOnly) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
+func (s MetricDescriptorPathSelectorIndicesBuiltIn) WithArrayOfValues(values []*MetricDescriptor_Indices_IndexGroups) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltIn) PreAggregatedIndices() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltIn) NonAggregatedIndices() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltIn) PaginationIndices() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) Name() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) ResourceTypes() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesResourceTypes {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) PartitionLabelSets() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) FilterAndGroupLabelSets() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndices) SupportedAggregations() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Name() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Name() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) WithValue(value []*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) WithArrayOfValues(values [][]*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) WithItemValue(value *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Name() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) PerSeriesAligners() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) CrossSeriesReducers() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) ClosingStatus() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregations) StorageAligners() MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners {
+	return MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithValue(value []common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithArrayOfValues(values [][]common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithItemValue(value common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices) Name() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesName {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices) ResourceTypes() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesResourceTypes {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndices) PartitionLabelSets() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Name() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) WithValue(value []*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) WithItemValue(value *MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) Name() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) ResourceTypes() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesResourceTypes {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesResourceTypes{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) PartitionLabelSets() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) Views() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndices) Functions() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesResourceTypes struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesResourceTypes) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesResourceTypes) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesResourceTypes) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) Name() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Views().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) WithValue(value []*MetricDescriptor_Indices_PaginationView) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationView) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) WithItemValue(value *MetricDescriptor_Indices_PaginationView) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) Name() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) FilterableMetricKeys() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) FilterableResourceKeys() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) PaginatedMetricKeys() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) PaginatedResourceKeys() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViews) ClosingStatus() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Views().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesViewsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Functions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) WithValue(value []*MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) WithArrayOfValues(values [][]*MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) WithItemValue(value *MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) Name() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsName {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) Aligner() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsAligner {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsAligner{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) Reducer() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsReducer {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsReducer{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) ClosingStatus() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsClosingStatus{}
+}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctions) Sorting() MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsSorting {
+	return MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsSorting{}
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Functions().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsAligner struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsAligner) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Functions().Aligner().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsAligner) WithValue(value common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsReducer struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsReducer) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Functions().Reducer().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsReducer) WithValue(value common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsSorting struct{}
+
+func (MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsSorting) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().BuiltIn().PaginationIndices().Functions().Sorting().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsSorting) WithValue(value MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesBuiltInPaginationIndicesFunctionsSorting) WithArrayOfValues(values []MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefined struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefined) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefined) WithValue(value *MetricDescriptor_Indices_IndexGroups) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefined) WithArrayOfValues(values []*MetricDescriptor_Indices_IndexGroups) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefined) PreAggregatedIndices() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefined) NonAggregatedIndices() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefined) PaginationIndices() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) Name() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) ResourceTypes() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesResourceTypes {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) PartitionLabelSets() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) FilterAndGroupLabelSets() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndices) SupportedAggregations() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Name() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Name() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) WithValue(value []*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) WithArrayOfValues(values [][]*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) WithItemValue(value *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Name() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) PerSeriesAligners() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) CrossSeriesReducers() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) ClosingStatus() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) StorageAligners() MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithValue(value []common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithArrayOfValues(values [][]common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithItemValue(value common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices) Name() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices) ResourceTypes() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesResourceTypes {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndices) PartitionLabelSets() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Name() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) WithValue(value []*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) WithItemValue(value *MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) Name() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) ResourceTypes() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesResourceTypes {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesResourceTypes{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) PartitionLabelSets() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) Views() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndices) Functions() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesResourceTypes struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesResourceTypes) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesResourceTypes) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesResourceTypes) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) Name() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Views().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) WithValue(value []*MetricDescriptor_Indices_PaginationView) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationView) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) WithItemValue(value *MetricDescriptor_Indices_PaginationView) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) Name() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) FilterableMetricKeys() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) FilterableResourceKeys() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) PaginatedMetricKeys() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) PaginatedResourceKeys() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViews) ClosingStatus() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Views().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesViewsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Functions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) WithValue(value []*MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) WithArrayOfValues(values [][]*MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) WithItemValue(value *MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) Name() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsName {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) Aligner() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsAligner {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsAligner{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) Reducer() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsReducer {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsReducer{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) ClosingStatus() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsClosingStatus{}
+}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctions) Sorting() MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsSorting {
+	return MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsSorting{}
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Functions().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsAligner struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsAligner) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Functions().Aligner().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsAligner) WithValue(value common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsReducer struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsReducer) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Functions().Reducer().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsReducer) WithValue(value common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsSorting struct{}
+
+func (MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsSorting) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().UserDefined().PaginationIndices().Functions().Sorting().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsSorting) WithValue(value MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesUserDefinedPaginationIndicesFunctionsSorting) WithArrayOfValues(values []MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigrated struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigrated) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigrated) WithValue(value []*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigrated) WithArrayOfValues(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigrated) WithItemValue(value *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigrated) Name() MetricDescriptorPathSelectorIndicesLegacyMigratedName {
+	return MetricDescriptorPathSelectorIndicesLegacyMigratedName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigrated) ResourceTypes() MetricDescriptorPathSelectorIndicesLegacyMigratedResourceTypes {
+	return MetricDescriptorPathSelectorIndicesLegacyMigratedResourceTypes{}
+}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigrated) PartitionLabelSets() MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets {
+	return MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets{}
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigratedName struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigratedResourceTypes struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedResourceTypes) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedResourceTypes) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedResourceTypes) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) Name() MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsName {
+	return MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsName{}
+}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) MetricKeys() MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsMetricKeys {
+	return MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) ResourceKeys() MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsResourceKeys {
+	return MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSets) ClosingStatus() MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsClosingStatus {
+	return MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsName struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsName) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsName) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorIndices,
+		subPath:  NewMetricDescriptorIndicesFieldPathBuilder().LegacyMigrated().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorIndicesLegacyMigratedPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -1633,6 +4097,349 @@ func (s MetricDescriptorPathSelectorStorageConfigStoreRawPoints) WithValue(value
 
 func (s MetricDescriptorPathSelectorStorageConfigStoreRawPoints) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorBinaryIndices struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndices) FieldPath() *MetricDescriptor_FieldTerminalPath {
+	return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorBinaryIndices}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndices) WithValue(value *MetricDescriptor_BinaryIndices) *MetricDescriptor_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndices) WithArrayOfValues(values []*MetricDescriptor_BinaryIndices) *MetricDescriptor_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldTerminalPathArrayOfValues)
+}
+
+func (MetricDescriptorPathSelectorBinaryIndices) WithSubPath(subPath MetricDescriptorBinaryIndices_FieldPath) *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorBinaryIndices, subPath: subPath}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndices) WithSubValue(subPathValue MetricDescriptorBinaryIndices_FieldPathValue) *MetricDescriptor_FieldSubPathValue {
+	return &MetricDescriptor_FieldSubPathValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndices) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorBinaryIndices_FieldPathArrayOfValues) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return &MetricDescriptor_FieldSubPathArrayOfValues{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndices) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorBinaryIndices_FieldPathArrayItemValue) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return &MetricDescriptor_FieldSubPathArrayItemValue{MetricDescriptor_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndices) ByResources() MetricDescriptorPathSelectorBinaryIndicesByResources {
+	return MetricDescriptorPathSelectorBinaryIndicesByResources{}
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResources struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResources) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResources) WithValue(value []*MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResources) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResources) WithItemValue(value *MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResources) ResourceType() MetricDescriptorPathSelectorBinaryIndicesByResourcesResourceType {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesResourceType{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResources) AggsEncoder() MetricDescriptorPathSelectorBinaryIndicesByResourcesAggsEncoder {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesAggsEncoder{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResources) PreAggregatedIndices() MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResources) PaginatingIndices() MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResources) NonAggregatedIndices() MetricDescriptorPathSelectorBinaryIndicesByResourcesNonAggregatedIndices {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesNonAggregatedIndices{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResources) NameParts() MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts{}
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesResourceType struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesResourceType) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().ResourceType().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesResourceType) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesResourceType) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesAggsEncoder struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesAggsEncoder) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().AggsEncoder().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesAggsEncoder) WithValue(value [][]byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesAggsEncoder) WithArrayOfValues(values [][][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesAggsEncoder) WithItemValue(value []byte) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PreAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices) WithValue(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices) WithItemValue(value *MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices) KeyData() MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesKeyData {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesKeyData{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices) WritingAligners() MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndices) ClosedAligners() MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners{}
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesKeyData struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesKeyData) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PreAggregatedIndices().KeyData().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesKeyData) WithValue(value []byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PreAggregatedIndices().WritingAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) WithValue(value [][]byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) WithItemValue(value []byte) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PreAggregatedIndices().ClosedAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) WithValue(value [][]byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) WithItemValue(value []byte) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PaginatingIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices) WithValue(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices) WithItemValue(value *MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices) KeyData() MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesKeyData {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesKeyData{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices) WritingFunctions() MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesWritingFunctions {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesWritingFunctions{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndices) ClosedFunctions() MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesClosedFunctions {
+	return MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesClosedFunctions{}
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesKeyData struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesKeyData) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PaginatingIndices().KeyData().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesKeyData) WithValue(value []byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesWritingFunctions struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PaginatingIndices().WritingFunctions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) WithValue(value [][]byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) WithItemValue(value []byte) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesClosedFunctions struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().PaginatingIndices().ClosedFunctions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) WithValue(value [][]byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) WithItemValue(value []byte) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesNonAggregatedIndices struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesNonAggregatedIndices) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().NonAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNonAggregatedIndices) WithValue(value [][]byte) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNonAggregatedIndices) WithArrayOfValues(values [][][]byte) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNonAggregatedIndices) WithItemValue(value []byte) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().ByResources().NameParts().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts) WithValue(value []string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts) WithArrayOfValues(values [][]string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
 }
 
 type MetricDescriptorMetricDescriptorMetadataFieldPathBuilder struct{}
@@ -1750,10 +4557,6 @@ func (MetricDescriptor_IndexSpecPathSelectorPerResourceIndices) PromotedLabels()
 	return MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesPromotedLabels{}
 }
 
-func (MetricDescriptor_IndexSpecPathSelectorPerResourceIndices) WriteOnly() MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesWriteOnly {
-	return MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesWriteOnly{}
-}
-
 type MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesPromotedLabels struct{}
 
 func (MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesPromotedLabels) FieldPath() *MetricDescriptorIndexSpec_FieldSubPath {
@@ -1775,21 +4578,2515 @@ func (s MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesPromotedLabels) 
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndexSpec_FieldSubPathArrayItemValue)
 }
 
-type MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesWriteOnly struct{}
+type MetricDescriptorIndicesFieldPathBuilder struct{}
 
-func (MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesWriteOnly) FieldPath() *MetricDescriptorIndexSpec_FieldSubPath {
-	return &MetricDescriptorIndexSpec_FieldSubPath{
-		selector: MetricDescriptorIndexSpec_FieldPathSelectorPerResource,
-		subPath:  NewMetricDescriptorIndexSpecPerMonitoredResourceFieldPathBuilder().Indices().WriteOnly().FieldPath(),
+func NewMetricDescriptorIndicesFieldPathBuilder() MetricDescriptorIndicesFieldPathBuilder {
+	return MetricDescriptorIndicesFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesFieldPathBuilder) BuiltIn() MetricDescriptor_IndicesPathSelectorBuiltIn {
+	return MetricDescriptor_IndicesPathSelectorBuiltIn{}
+}
+func (MetricDescriptorIndicesFieldPathBuilder) UserDefined() MetricDescriptor_IndicesPathSelectorUserDefined {
+	return MetricDescriptor_IndicesPathSelectorUserDefined{}
+}
+func (MetricDescriptorIndicesFieldPathBuilder) LegacyMigrated() MetricDescriptor_IndicesPathSelectorLegacyMigrated {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigrated{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltIn struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltIn) FieldPath() *MetricDescriptorIndices_FieldTerminalPath {
+	return &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltIn) WithValue(value *MetricDescriptor_Indices_IndexGroups) *MetricDescriptorIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltIn) WithArrayOfValues(values []*MetricDescriptor_Indices_IndexGroups) *MetricDescriptorIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltIn) WithSubPath(subPath MetricDescriptorIndicesIndexGroups_FieldPath) *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn, subPath: subPath}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltIn) WithSubValue(subPathValue MetricDescriptorIndicesIndexGroups_FieldPathValue) *MetricDescriptorIndices_FieldSubPathValue {
+	return &MetricDescriptorIndices_FieldSubPathValue{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltIn) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndices_FieldSubPathArrayOfValues{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltIn) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndices_FieldSubPathArrayItemValue{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltIn) PreAggregatedIndices() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltIn) NonAggregatedIndices() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltIn) PaginationIndices() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FieldPath(),
 	}
 }
 
-func (s MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesWriteOnly) WithValue(value bool) *MetricDescriptorIndexSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndexSpec_FieldSubPathValue)
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
 }
 
-func (s MetricDescriptor_IndexSpecPathSelectorPerResourceIndicesWriteOnly) WithArrayOfValues(values []bool) *MetricDescriptorIndexSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndexSpec_FieldSubPathArrayOfValues)
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) Name() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) ResourceTypes() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesResourceTypes {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) PartitionLabelSets() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) FilterAndGroupLabelSets() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndices) SupportedAggregations() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) Name() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Name() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) WithValue(value []*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) WithArrayOfValues(values [][]*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) WithItemValue(value *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) Name() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) PerSeriesAligners() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) CrossSeriesReducers() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) ClosingStatus() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregations) StorageAligners() MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithValue(value []common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithArrayOfValues(values [][]common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithItemValue(value common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices) Name() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices) ResourceTypes() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesResourceTypes {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndices) PartitionLabelSets() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) Name() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) WithValue(value []*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) WithItemValue(value *MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) Name() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) ResourceTypes() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesResourceTypes {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) PartitionLabelSets() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) Views() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndices) Functions() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesResourceTypes struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesResourceTypes) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) Name() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) WithValue(value []*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) WithItemValue(value *MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) Name() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) FilterableMetricKeys() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) FilterableResourceKeys() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) PaginatedMetricKeys() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) PaginatedResourceKeys() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViews) ClosingStatus() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsFilterableResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsPaginatedResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesViewsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) WithValue(value []*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) WithArrayOfValues(values [][]*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) WithItemValue(value *MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) Name() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsName {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) Aligner() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsAligner {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsAligner{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) Reducer() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsReducer {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsReducer{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) ClosingStatus() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsClosingStatus{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctions) Sorting() MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsSorting {
+	return MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsSorting{}
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsAligner struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsAligner) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Aligner().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsAligner) WithValue(value common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsReducer struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsReducer) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Reducer().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsReducer) WithValue(value common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsSorting struct{}
+
+func (MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsSorting) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Sorting().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsSorting) WithValue(value MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorBuiltInPaginationIndicesFunctionsSorting) WithArrayOfValues(values []MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefined struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefined) FieldPath() *MetricDescriptorIndices_FieldTerminalPath {
+	return &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorUserDefined}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefined) WithValue(value *MetricDescriptor_Indices_IndexGroups) *MetricDescriptorIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefined) WithArrayOfValues(values []*MetricDescriptor_Indices_IndexGroups) *MetricDescriptorIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefined) WithSubPath(subPath MetricDescriptorIndicesIndexGroups_FieldPath) *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorUserDefined, subPath: subPath}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefined) WithSubValue(subPathValue MetricDescriptorIndicesIndexGroups_FieldPathValue) *MetricDescriptorIndices_FieldSubPathValue {
+	return &MetricDescriptorIndices_FieldSubPathValue{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefined) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndices_FieldSubPathArrayOfValues{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefined) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndices_FieldSubPathArrayItemValue{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefined) PreAggregatedIndices() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefined) NonAggregatedIndices() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefined) PaginationIndices() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) ResourceTypes() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesResourceTypes {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) PartitionLabelSets() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) FilterAndGroupLabelSets() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndices) SupportedAggregations() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) WithValue(value []*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) WithArrayOfValues(values [][]*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) WithItemValue(value *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) PerSeriesAligners() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) CrossSeriesReducers() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) ClosingStatus() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregations) StorageAligners() MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithValue(value []common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithArrayOfValues(values [][]common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithItemValue(value common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices) Name() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices) ResourceTypes() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesResourceTypes {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndices) PartitionLabelSets() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) Name() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) WithValue(value []*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) WithItemValue(value *MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) ResourceTypes() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesResourceTypes {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) PartitionLabelSets() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) Views() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndices) Functions() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesResourceTypes struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesResourceTypes) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) WithValue(value []*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) WithItemValue(value *MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) FilterableMetricKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) FilterableResourceKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) PaginatedMetricKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) PaginatedResourceKeys() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViews) ClosingStatus() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsFilterableResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsPaginatedResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesViewsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) WithValue(value []*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) WithArrayOfValues(values [][]*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) WithItemValue(value *MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) Name() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsName {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) Aligner() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsAligner {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsAligner{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) Reducer() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsReducer {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsReducer{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) ClosingStatus() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsClosingStatus{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctions) Sorting() MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsSorting {
+	return MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsSorting{}
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsAligner struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsAligner) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Aligner().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsAligner) WithValue(value common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsReducer struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsReducer) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Reducer().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsReducer) WithValue(value common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsSorting struct{}
+
+func (MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsSorting) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorUserDefined,
+		subPath:  NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder().PaginationIndices().Functions().Sorting().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsSorting) WithValue(value MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorUserDefinedPaginationIndicesFunctionsSorting) WithArrayOfValues(values []MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigrated struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigrated) FieldPath() *MetricDescriptorIndices_FieldTerminalPath {
+	return &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigrated) WithValue(value []*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigrated) WithArrayOfValues(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigrated) WithItemValue(value *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_IndicesPathSelectorLegacyMigrated) WithSubPath(subPath MetricDescriptorIndicesNonAggregatedIndices_FieldPath) *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated, subPath: subPath}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigrated) WithSubValue(subPathValue MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue) *MetricDescriptorIndices_FieldSubPathValue {
+	return &MetricDescriptorIndices_FieldSubPathValue{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigrated) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndices_FieldSubPathArrayOfValues{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigrated) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndices_FieldSubPathArrayItemValue{MetricDescriptorIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigrated) Name() MetricDescriptor_IndicesPathSelectorLegacyMigratedName {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigratedName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigrated) ResourceTypes() MetricDescriptor_IndicesPathSelectorLegacyMigratedResourceTypes {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigratedResourceTypes{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigrated) PartitionLabelSets() MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets{}
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigratedName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigratedResourceTypes struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedResourceTypes) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedResourceTypes) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedResourceTypes) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) Name() MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsName {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) MetricKeys() MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) ResourceKeys() MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSets) ClosingStatus() MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsName) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndices_FieldSubPath {
+	return &MetricDescriptorIndices_FieldSubPath{
+		selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_IndicesPathSelectorLegacyMigratedPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndices_FieldSubPathArrayOfValues)
 }
 
 type MetricDescriptorStorageConfigFieldPathBuilder struct{}
@@ -1815,6 +7112,336 @@ func (s MetricDescriptor_StorageConfigPathSelectorStoreRawPoints) WithArrayOfVal
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues)
 }
 
+type MetricDescriptorBinaryIndicesFieldPathBuilder struct{}
+
+func NewMetricDescriptorBinaryIndicesFieldPathBuilder() MetricDescriptorBinaryIndicesFieldPathBuilder {
+	return MetricDescriptorBinaryIndicesFieldPathBuilder{}
+}
+func (MetricDescriptorBinaryIndicesFieldPathBuilder) ByResources() MetricDescriptor_BinaryIndicesPathSelectorByResources {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResources{}
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResources struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) FieldPath() *MetricDescriptorBinaryIndices_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResources) WithValue(value []*MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptorBinaryIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResources) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResources) WithItemValue(value *MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) WithSubPath(subPath MetricDescriptorBinaryIndicesByResourceType_FieldPath) *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources, subPath: subPath}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResources) WithSubValue(subPathValue MetricDescriptorBinaryIndicesByResourceType_FieldPathValue) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return &MetricDescriptorBinaryIndices_FieldSubPathValue{MetricDescriptorBinaryIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResources) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues{MetricDescriptorBinaryIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResources) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue{MetricDescriptorBinaryIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) ResourceType() MetricDescriptor_BinaryIndicesPathSelectorByResourcesResourceType {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesResourceType{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) AggsEncoder() MetricDescriptor_BinaryIndicesPathSelectorByResourcesAggsEncoder {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesAggsEncoder{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) PreAggregatedIndices() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) PaginatingIndices() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) NonAggregatedIndices() MetricDescriptor_BinaryIndicesPathSelectorByResourcesNonAggregatedIndices {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesNonAggregatedIndices{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResources) NameParts() MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts{}
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesResourceType struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesResourceType) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().ResourceType().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesResourceType) WithValue(value string) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesResourceType) WithArrayOfValues(values []string) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesAggsEncoder struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesAggsEncoder) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().AggsEncoder().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesAggsEncoder) WithValue(value [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesAggsEncoder) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesAggsEncoder) WithItemValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PreAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices) WithValue(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices) WithItemValue(value *MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices) KeyData() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesKeyData {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesKeyData{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices) WritingAligners() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesWritingAligners {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesWritingAligners{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndices) ClosedAligners() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesClosedAligners {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesClosedAligners{}
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesKeyData struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesKeyData) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PreAggregatedIndices().KeyData().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesKeyData) WithValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesWritingAligners struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesWritingAligners) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PreAggregatedIndices().WritingAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesWritingAligners) WithValue(value [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesWritingAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesWritingAligners) WithItemValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesClosedAligners struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesClosedAligners) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PreAggregatedIndices().ClosedAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesClosedAligners) WithValue(value [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesClosedAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPreAggregatedIndicesClosedAligners) WithItemValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PaginatingIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices) WithValue(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices) WithItemValue(value *MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices) KeyData() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesKeyData {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesKeyData{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices) WritingFunctions() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesWritingFunctions {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesWritingFunctions{}
+}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndices) ClosedFunctions() MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesClosedFunctions {
+	return MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesClosedFunctions{}
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesKeyData struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesKeyData) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PaginatingIndices().KeyData().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesKeyData) WithValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesWritingFunctions struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesWritingFunctions) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PaginatingIndices().WritingFunctions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesWritingFunctions) WithValue(value [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesWritingFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesWritingFunctions) WithItemValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesClosedFunctions struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesClosedFunctions) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().PaginatingIndices().ClosedFunctions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesClosedFunctions) WithValue(value [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesClosedFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesPaginatingIndicesClosedFunctions) WithItemValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesNonAggregatedIndices struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesNonAggregatedIndices) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().NonAggregatedIndices().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNonAggregatedIndices) WithValue(value [][]byte) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNonAggregatedIndices) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNonAggregatedIndices) WithItemValue(value []byte) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts) FieldPath() *MetricDescriptorBinaryIndices_FieldSubPath {
+	return &MetricDescriptorBinaryIndices_FieldSubPath{
+		selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources,
+		subPath:  NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder().NameParts().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts) WithValue(value []string) *MetricDescriptorBinaryIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts) WithArrayOfValues(values [][]string) *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts) WithItemValue(value string) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
 type MetricDescriptorIndexSpecIndexFieldPathBuilder struct{}
 
 func NewMetricDescriptorIndexSpecIndexFieldPathBuilder() MetricDescriptorIndexSpecIndexFieldPathBuilder {
@@ -1822,9 +7449,6 @@ func NewMetricDescriptorIndexSpecIndexFieldPathBuilder() MetricDescriptorIndexSp
 }
 func (MetricDescriptorIndexSpecIndexFieldPathBuilder) PromotedLabels() MetricDescriptor_IndexSpec_IndexPathSelectorPromotedLabels {
 	return MetricDescriptor_IndexSpec_IndexPathSelectorPromotedLabels{}
-}
-func (MetricDescriptorIndexSpecIndexFieldPathBuilder) WriteOnly() MetricDescriptor_IndexSpec_IndexPathSelectorWriteOnly {
-	return MetricDescriptor_IndexSpec_IndexPathSelectorWriteOnly{}
 }
 
 type MetricDescriptor_IndexSpec_IndexPathSelectorPromotedLabels struct{}
@@ -1843,20 +7467,6 @@ func (s MetricDescriptor_IndexSpec_IndexPathSelectorPromotedLabels) WithArrayOfV
 
 func (s MetricDescriptor_IndexSpec_IndexPathSelectorPromotedLabels) WithItemValue(value string) *MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayItemValue)
-}
-
-type MetricDescriptor_IndexSpec_IndexPathSelectorWriteOnly struct{}
-
-func (MetricDescriptor_IndexSpec_IndexPathSelectorWriteOnly) FieldPath() *MetricDescriptorIndexSpecIndex_FieldTerminalPath {
-	return &MetricDescriptorIndexSpecIndex_FieldTerminalPath{selector: MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly}
-}
-
-func (s MetricDescriptor_IndexSpec_IndexPathSelectorWriteOnly) WithValue(value bool) *MetricDescriptorIndexSpecIndex_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndexSpecIndex_FieldTerminalPathValue)
-}
-
-func (s MetricDescriptor_IndexSpec_IndexPathSelectorWriteOnly) WithArrayOfValues(values []bool) *MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayOfValues)
 }
 
 type MetricDescriptorIndexSpecPerMonitoredResourceFieldPathBuilder struct{}
@@ -1922,10 +7532,6 @@ func (MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndices) Promot
 	return MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesPromotedLabels{}
 }
 
-func (MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndices) WriteOnly() MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesWriteOnly {
-	return MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesWriteOnly{}
-}
-
 type MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesPromotedLabels struct{}
 
 func (MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesPromotedLabels) FieldPath() *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPath {
@@ -1947,19 +7553,3107 @@ func (s MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesPromot
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPathArrayItemValue)
 }
 
-type MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesWriteOnly struct{}
+type MetricDescriptorIndicesLabelsGroupFieldPathBuilder struct{}
 
-func (MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesWriteOnly) FieldPath() *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPath {
-	return &MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPath{
-		selector: MetricDescriptorIndexSpecPerMonitoredResource_FieldPathSelectorIndices,
-		subPath:  NewMetricDescriptorIndexSpecIndexFieldPathBuilder().WriteOnly().FieldPath(),
+func NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder() MetricDescriptorIndicesLabelsGroupFieldPathBuilder {
+	return MetricDescriptorIndicesLabelsGroupFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesLabelsGroupFieldPathBuilder) Name() MetricDescriptor_Indices_LabelsGroupPathSelectorName {
+	return MetricDescriptor_Indices_LabelsGroupPathSelectorName{}
+}
+func (MetricDescriptorIndicesLabelsGroupFieldPathBuilder) MetricKeys() MetricDescriptor_Indices_LabelsGroupPathSelectorMetricKeys {
+	return MetricDescriptor_Indices_LabelsGroupPathSelectorMetricKeys{}
+}
+func (MetricDescriptorIndicesLabelsGroupFieldPathBuilder) ResourceKeys() MetricDescriptor_Indices_LabelsGroupPathSelectorResourceKeys {
+	return MetricDescriptor_Indices_LabelsGroupPathSelectorResourceKeys{}
+}
+func (MetricDescriptorIndicesLabelsGroupFieldPathBuilder) ClosingStatus() MetricDescriptor_Indices_LabelsGroupPathSelectorClosingStatus {
+	return MetricDescriptor_Indices_LabelsGroupPathSelectorClosingStatus{}
+}
+
+type MetricDescriptor_Indices_LabelsGroupPathSelectorName struct{}
+
+func (MetricDescriptor_Indices_LabelsGroupPathSelectorName) FieldPath() *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName}
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorName) WithValue(value string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorName) WithArrayOfValues(values []string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_LabelsGroupPathSelectorMetricKeys struct{}
+
+func (MetricDescriptor_Indices_LabelsGroupPathSelectorMetricKeys) FieldPath() *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys}
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorMetricKeys) WithValue(value []string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_LabelsGroupPathSelectorResourceKeys struct{}
+
+func (MetricDescriptor_Indices_LabelsGroupPathSelectorResourceKeys) FieldPath() *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys}
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorResourceKeys) WithValue(value []string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_LabelsGroupPathSelectorClosingStatus struct{}
+
+func (MetricDescriptor_Indices_LabelsGroupPathSelectorClosingStatus) FieldPath() *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus}
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_LabelsGroupPathSelectorClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptorIndicesPaginationViewFieldPathBuilder struct{}
+
+func NewMetricDescriptorIndicesPaginationViewFieldPathBuilder() MetricDescriptorIndicesPaginationViewFieldPathBuilder {
+	return MetricDescriptorIndicesPaginationViewFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesPaginationViewFieldPathBuilder) Name() MetricDescriptor_Indices_PaginationViewPathSelectorName {
+	return MetricDescriptor_Indices_PaginationViewPathSelectorName{}
+}
+func (MetricDescriptorIndicesPaginationViewFieldPathBuilder) FilterableMetricKeys() MetricDescriptor_Indices_PaginationViewPathSelectorFilterableMetricKeys {
+	return MetricDescriptor_Indices_PaginationViewPathSelectorFilterableMetricKeys{}
+}
+func (MetricDescriptorIndicesPaginationViewFieldPathBuilder) FilterableResourceKeys() MetricDescriptor_Indices_PaginationViewPathSelectorFilterableResourceKeys {
+	return MetricDescriptor_Indices_PaginationViewPathSelectorFilterableResourceKeys{}
+}
+func (MetricDescriptorIndicesPaginationViewFieldPathBuilder) PaginatedMetricKeys() MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedMetricKeys {
+	return MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedMetricKeys{}
+}
+func (MetricDescriptorIndicesPaginationViewFieldPathBuilder) PaginatedResourceKeys() MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedResourceKeys {
+	return MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedResourceKeys{}
+}
+func (MetricDescriptorIndicesPaginationViewFieldPathBuilder) ClosingStatus() MetricDescriptor_Indices_PaginationViewPathSelectorClosingStatus {
+	return MetricDescriptor_Indices_PaginationViewPathSelectorClosingStatus{}
+}
+
+type MetricDescriptor_Indices_PaginationViewPathSelectorName struct{}
+
+func (MetricDescriptor_Indices_PaginationViewPathSelectorName) FieldPath() *MetricDescriptorIndicesPaginationView_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorName}
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorName) WithValue(value string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationViewPathSelectorFilterableMetricKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationViewPathSelectorFilterableMetricKeys) FieldPath() *MetricDescriptorIndicesPaginationView_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys}
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorFilterableMetricKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorFilterableMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorFilterableMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationViewPathSelectorFilterableResourceKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationViewPathSelectorFilterableResourceKeys) FieldPath() *MetricDescriptorIndicesPaginationView_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys}
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorFilterableResourceKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorFilterableResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorFilterableResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedMetricKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedMetricKeys) FieldPath() *MetricDescriptorIndicesPaginationView_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys}
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedMetricKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedResourceKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedResourceKeys) FieldPath() *MetricDescriptorIndicesPaginationView_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys}
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedResourceKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorPaginatedResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationViewPathSelectorClosingStatus struct{}
+
+func (MetricDescriptor_Indices_PaginationViewPathSelectorClosingStatus) FieldPath() *MetricDescriptorIndicesPaginationView_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus}
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationViewPathSelectorClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptorIndicesAggregationsGroupFieldPathBuilder struct{}
+
+func NewMetricDescriptorIndicesAggregationsGroupFieldPathBuilder() MetricDescriptorIndicesAggregationsGroupFieldPathBuilder {
+	return MetricDescriptorIndicesAggregationsGroupFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesAggregationsGroupFieldPathBuilder) Name() MetricDescriptor_Indices_AggregationsGroupPathSelectorName {
+	return MetricDescriptor_Indices_AggregationsGroupPathSelectorName{}
+}
+func (MetricDescriptorIndicesAggregationsGroupFieldPathBuilder) PerSeriesAligners() MetricDescriptor_Indices_AggregationsGroupPathSelectorPerSeriesAligners {
+	return MetricDescriptor_Indices_AggregationsGroupPathSelectorPerSeriesAligners{}
+}
+func (MetricDescriptorIndicesAggregationsGroupFieldPathBuilder) CrossSeriesReducers() MetricDescriptor_Indices_AggregationsGroupPathSelectorCrossSeriesReducers {
+	return MetricDescriptor_Indices_AggregationsGroupPathSelectorCrossSeriesReducers{}
+}
+func (MetricDescriptorIndicesAggregationsGroupFieldPathBuilder) ClosingStatus() MetricDescriptor_Indices_AggregationsGroupPathSelectorClosingStatus {
+	return MetricDescriptor_Indices_AggregationsGroupPathSelectorClosingStatus{}
+}
+func (MetricDescriptorIndicesAggregationsGroupFieldPathBuilder) StorageAligners() MetricDescriptor_Indices_AggregationsGroupPathSelectorStorageAligners {
+	return MetricDescriptor_Indices_AggregationsGroupPathSelectorStorageAligners{}
+}
+
+type MetricDescriptor_Indices_AggregationsGroupPathSelectorName struct{}
+
+func (MetricDescriptor_Indices_AggregationsGroupPathSelectorName) FieldPath() *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName}
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorName) WithValue(value string) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorName) WithArrayOfValues(values []string) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_AggregationsGroupPathSelectorPerSeriesAligners struct{}
+
+func (MetricDescriptor_Indices_AggregationsGroupPathSelectorPerSeriesAligners) FieldPath() *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners}
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorPerSeriesAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorPerSeriesAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorPerSeriesAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_AggregationsGroupPathSelectorCrossSeriesReducers struct{}
+
+func (MetricDescriptor_Indices_AggregationsGroupPathSelectorCrossSeriesReducers) FieldPath() *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers}
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorCrossSeriesReducers) WithValue(value []common.Aggregation_Reducer) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorCrossSeriesReducers) WithArrayOfValues(values [][]common.Aggregation_Reducer) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorCrossSeriesReducers) WithItemValue(value common.Aggregation_Reducer) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_AggregationsGroupPathSelectorClosingStatus struct{}
+
+func (MetricDescriptor_Indices_AggregationsGroupPathSelectorClosingStatus) FieldPath() *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus}
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_AggregationsGroupPathSelectorStorageAligners struct{}
+
+func (MetricDescriptor_Indices_AggregationsGroupPathSelectorStorageAligners) FieldPath() *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath {
+	return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners}
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorStorageAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorStorageAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_AggregationsGroupPathSelectorStorageAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptorIndicesSortingFunctionFieldPathBuilder struct{}
+
+func NewMetricDescriptorIndicesSortingFunctionFieldPathBuilder() MetricDescriptorIndicesSortingFunctionFieldPathBuilder {
+	return MetricDescriptorIndicesSortingFunctionFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesSortingFunctionFieldPathBuilder) Name() MetricDescriptor_Indices_SortingFunctionPathSelectorName {
+	return MetricDescriptor_Indices_SortingFunctionPathSelectorName{}
+}
+func (MetricDescriptorIndicesSortingFunctionFieldPathBuilder) Aligner() MetricDescriptor_Indices_SortingFunctionPathSelectorAligner {
+	return MetricDescriptor_Indices_SortingFunctionPathSelectorAligner{}
+}
+func (MetricDescriptorIndicesSortingFunctionFieldPathBuilder) Reducer() MetricDescriptor_Indices_SortingFunctionPathSelectorReducer {
+	return MetricDescriptor_Indices_SortingFunctionPathSelectorReducer{}
+}
+func (MetricDescriptorIndicesSortingFunctionFieldPathBuilder) ClosingStatus() MetricDescriptor_Indices_SortingFunctionPathSelectorClosingStatus {
+	return MetricDescriptor_Indices_SortingFunctionPathSelectorClosingStatus{}
+}
+func (MetricDescriptorIndicesSortingFunctionFieldPathBuilder) Sorting() MetricDescriptor_Indices_SortingFunctionPathSelectorSorting {
+	return MetricDescriptor_Indices_SortingFunctionPathSelectorSorting{}
+}
+
+type MetricDescriptor_Indices_SortingFunctionPathSelectorName struct{}
+
+func (MetricDescriptor_Indices_SortingFunctionPathSelectorName) FieldPath() *MetricDescriptorIndicesSortingFunction_FieldTerminalPath {
+	return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorName}
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorName) WithValue(value string) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorName) WithArrayOfValues(values []string) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_SortingFunctionPathSelectorAligner struct{}
+
+func (MetricDescriptor_Indices_SortingFunctionPathSelectorAligner) FieldPath() *MetricDescriptorIndicesSortingFunction_FieldTerminalPath {
+	return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner}
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorAligner) WithValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_SortingFunctionPathSelectorReducer struct{}
+
+func (MetricDescriptor_Indices_SortingFunctionPathSelectorReducer) FieldPath() *MetricDescriptorIndicesSortingFunction_FieldTerminalPath {
+	return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer}
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorReducer) WithValue(value common.Aggregation_Reducer) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_SortingFunctionPathSelectorClosingStatus struct{}
+
+func (MetricDescriptor_Indices_SortingFunctionPathSelectorClosingStatus) FieldPath() *MetricDescriptorIndicesSortingFunction_FieldTerminalPath {
+	return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus}
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_SortingFunctionPathSelectorSorting struct{}
+
+func (MetricDescriptor_Indices_SortingFunctionPathSelectorSorting) FieldPath() *MetricDescriptorIndicesSortingFunction_FieldTerminalPath {
+	return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting}
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorSorting) WithValue(value MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_SortingFunctionPathSelectorSorting) WithArrayOfValues(values []MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder struct{}
+
+func NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder() MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder {
+	return MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder) Name() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorName {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorName{}
+}
+func (MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder) ResourceTypes() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorResourceTypes {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorResourceTypes{}
+}
+func (MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder) PartitionLabelSets() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets{}
+}
+func (MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder) FilterAndGroupLabelSets() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets{}
+}
+func (MetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder) SupportedAggregations() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations{}
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorName struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorName) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorName) WithValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorResourceTypes struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorResourceTypes) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorResourceTypes) WithValue(value []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorResourceTypes) WithItemValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) WithSubPath(subPath MetricDescriptorIndicesLabelsGroup_FieldPath) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) WithSubValue(subPathValue MetricDescriptorIndicesLabelsGroup_FieldPathValue) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) Name() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsName {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) MetricKeys() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) ResourceKeys() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSets) ClosingStatus() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsName) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().Name().FieldPath(),
 	}
 }
 
-func (s MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesWriteOnly) WithValue(value bool) *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPathValue)
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
 }
 
-func (s MetricDescriptor_IndexSpec_PerMonitoredResourcePathSelectorIndicesWriteOnly) WithArrayOfValues(values []bool) *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPathArrayOfValues)
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) WithSubPath(subPath MetricDescriptorIndicesLabelsGroup_FieldPath) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) WithSubValue(subPathValue MetricDescriptorIndicesLabelsGroup_FieldPathValue) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) Name() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsName {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) MetricKeys() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) ResourceKeys() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSets) ClosingStatus() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsName) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsName) WithValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorFilterAndGroupLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) WithValue(value []*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) WithArrayOfValues(values [][]*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) WithItemValue(value *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) WithSubPath(subPath MetricDescriptorIndicesAggregationsGroup_FieldPath) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) WithSubValue(subPathValue MetricDescriptorIndicesAggregationsGroup_FieldPathValue) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue{MetricDescriptorIndicesPreAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) Name() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsName {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsName{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) PerSeriesAligners() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsPerSeriesAligners {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsPerSeriesAligners{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) CrossSeriesReducers() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsCrossSeriesReducers {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsCrossSeriesReducers{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) ClosingStatus() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsClosingStatus {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsClosingStatus{}
+}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregations) StorageAligners() MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsStorageAligners {
+	return MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsStorageAligners{}
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsName struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsName) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations,
+		subPath:  NewMetricDescriptorIndicesAggregationsGroupFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsName) WithValue(value string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsPerSeriesAligners struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsPerSeriesAligners) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations,
+		subPath:  NewMetricDescriptorIndicesAggregationsGroupFieldPathBuilder().PerSeriesAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsPerSeriesAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsPerSeriesAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsPerSeriesAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsCrossSeriesReducers struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsCrossSeriesReducers) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations,
+		subPath:  NewMetricDescriptorIndicesAggregationsGroupFieldPathBuilder().CrossSeriesReducers().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsCrossSeriesReducers) WithValue(value []common.Aggregation_Reducer) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsCrossSeriesReducers) WithArrayOfValues(values [][]common.Aggregation_Reducer) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsCrossSeriesReducers) WithItemValue(value common.Aggregation_Reducer) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsClosingStatus) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations,
+		subPath:  NewMetricDescriptorIndicesAggregationsGroupFieldPathBuilder().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsStorageAligners struct{}
+
+func (MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsStorageAligners) FieldPath() *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations,
+		subPath:  NewMetricDescriptorIndicesAggregationsGroupFieldPathBuilder().StorageAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsStorageAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsStorageAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PreAggregatedIndicesPathSelectorSupportedAggregationsStorageAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder struct{}
+
+func NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder() MetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder {
+	return MetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder) Name() MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorName {
+	return MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorName{}
+}
+func (MetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder) ResourceTypes() MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorResourceTypes {
+	return MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorResourceTypes{}
+}
+func (MetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder) PartitionLabelSets() MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets {
+	return MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets{}
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorName struct{}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorName) FieldPath() *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorName) WithValue(value string) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorName) WithArrayOfValues(values []string) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorResourceTypes struct{}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorResourceTypes) FieldPath() *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorResourceTypes) WithValue(value []string) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorResourceTypes) WithItemValue(value string) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets struct{}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) FieldPath() *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) WithSubPath(subPath MetricDescriptorIndicesLabelsGroup_FieldPath) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) WithSubValue(subPathValue MetricDescriptorIndicesLabelsGroup_FieldPathValue) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue{MetricDescriptorIndicesNonAggregatedIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues{MetricDescriptorIndicesNonAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue{MetricDescriptorIndicesNonAggregatedIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) Name() MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsName {
+	return MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) MetricKeys() MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) ResourceKeys() MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSets) ClosingStatus() MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsName) FieldPath() *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_NonAggregatedIndicesPathSelectorPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorIndicesPaginationIndicesFieldPathBuilder struct{}
+
+func NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder() MetricDescriptorIndicesPaginationIndicesFieldPathBuilder {
+	return MetricDescriptorIndicesPaginationIndicesFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesPaginationIndicesFieldPathBuilder) Name() MetricDescriptor_Indices_PaginationIndicesPathSelectorName {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorName{}
+}
+func (MetricDescriptorIndicesPaginationIndicesFieldPathBuilder) ResourceTypes() MetricDescriptor_Indices_PaginationIndicesPathSelectorResourceTypes {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorResourceTypes{}
+}
+func (MetricDescriptorIndicesPaginationIndicesFieldPathBuilder) PartitionLabelSets() MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets{}
+}
+func (MetricDescriptorIndicesPaginationIndicesFieldPathBuilder) Views() MetricDescriptor_Indices_PaginationIndicesPathSelectorViews {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorViews{}
+}
+func (MetricDescriptorIndicesPaginationIndicesFieldPathBuilder) Functions() MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions{}
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorName struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorName) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorName) WithValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorResourceTypes struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorResourceTypes) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorResourceTypes) WithValue(value []string) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorResourceTypes) WithItemValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) WithSubPath(subPath MetricDescriptorIndicesLabelsGroup_FieldPath) *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) WithSubValue(subPathValue MetricDescriptorIndicesLabelsGroup_FieldPathValue) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathValue{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) Name() MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsName {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) MetricKeys() MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) ResourceKeys() MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSets) ClosingStatus() MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsName) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets,
+		subPath:  NewMetricDescriptorIndicesLabelsGroupFieldPathBuilder().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorViews struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) WithValue(value []*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) WithItemValue(value *MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) WithSubPath(subPath MetricDescriptorIndicesPaginationView_FieldPath) *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) WithSubValue(subPathValue MetricDescriptorIndicesPaginationView_FieldPathValue) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathValue{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) Name() MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsName {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsName{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) FilterableMetricKeys() MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableMetricKeys {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) FilterableResourceKeys() MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableResourceKeys {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) PaginatedMetricKeys() MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedMetricKeys {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) PaginatedResourceKeys() MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedResourceKeys {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViews) ClosingStatus() MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsClosingStatus {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsName struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsName) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews,
+		subPath:  NewMetricDescriptorIndicesPaginationViewFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsName) WithValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableMetricKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableMetricKeys) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews,
+		subPath:  NewMetricDescriptorIndicesPaginationViewFieldPathBuilder().FilterableMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableMetricKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableResourceKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableResourceKeys) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews,
+		subPath:  NewMetricDescriptorIndicesPaginationViewFieldPathBuilder().FilterableResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableResourceKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsFilterableResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedMetricKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedMetricKeys) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews,
+		subPath:  NewMetricDescriptorIndicesPaginationViewFieldPathBuilder().PaginatedMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedMetricKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedResourceKeys struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedResourceKeys) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews,
+		subPath:  NewMetricDescriptorIndicesPaginationViewFieldPathBuilder().PaginatedResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedResourceKeys) WithValue(value []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsPaginatedResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsClosingStatus) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews,
+		subPath:  NewMetricDescriptorIndicesPaginationViewFieldPathBuilder().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorViewsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) WithValue(value []*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) WithArrayOfValues(values [][]*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) WithItemValue(value *MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) WithSubPath(subPath MetricDescriptorIndicesSortingFunction_FieldPath) *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) WithSubValue(subPathValue MetricDescriptorIndicesSortingFunction_FieldPathValue) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathValue{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue{MetricDescriptorIndicesPaginationIndices_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) Name() MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsName {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsName{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) Aligner() MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsAligner {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsAligner{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) Reducer() MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsReducer {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsReducer{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) ClosingStatus() MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsClosingStatus {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsClosingStatus{}
+}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctions) Sorting() MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsSorting {
+	return MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsSorting{}
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsName struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsName) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions,
+		subPath:  NewMetricDescriptorIndicesSortingFunctionFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsName) WithValue(value string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsAligner struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsAligner) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions,
+		subPath:  NewMetricDescriptorIndicesSortingFunctionFieldPathBuilder().Aligner().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsAligner) WithValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsReducer struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsReducer) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions,
+		subPath:  NewMetricDescriptorIndicesSortingFunctionFieldPathBuilder().Reducer().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsReducer) WithValue(value common.Aggregation_Reducer) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsClosingStatus) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions,
+		subPath:  NewMetricDescriptorIndicesSortingFunctionFieldPathBuilder().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsSorting struct{}
+
+func (MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsSorting) FieldPath() *MetricDescriptorIndicesPaginationIndices_FieldSubPath {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{
+		selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions,
+		subPath:  NewMetricDescriptorIndicesSortingFunctionFieldPathBuilder().Sorting().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsSorting) WithValue(value MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_PaginationIndicesPathSelectorFunctionsSorting) WithArrayOfValues(values []MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorIndicesIndexGroupsFieldPathBuilder struct{}
+
+func NewMetricDescriptorIndicesIndexGroupsFieldPathBuilder() MetricDescriptorIndicesIndexGroupsFieldPathBuilder {
+	return MetricDescriptorIndicesIndexGroupsFieldPathBuilder{}
+}
+func (MetricDescriptorIndicesIndexGroupsFieldPathBuilder) PreAggregatedIndices() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices{}
+}
+func (MetricDescriptorIndicesIndexGroupsFieldPathBuilder) NonAggregatedIndices() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices{}
+}
+func (MetricDescriptorIndicesIndexGroupsFieldPathBuilder) PaginationIndices() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldTerminalPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) WithSubPath(subPath MetricDescriptorIndicesPreAggregatedIndices_FieldPath) *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) WithSubValue(subPathValue MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathValue{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) ResourceTypes() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesResourceTypes {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) PartitionLabelSets() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) FilterAndGroupLabelSets() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndices) SupportedAggregations() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().FilterAndGroupLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) MetricKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) ResourceKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSets) ClosingStatus() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().FilterAndGroupLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().SupportedAggregations().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) WithValue(value []*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) WithArrayOfValues(values [][]*MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) WithItemValue(value *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) PerSeriesAligners() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsPerSeriesAligners {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsPerSeriesAligners{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) CrossSeriesReducers() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) ClosingStatus() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsClosingStatus {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsClosingStatus{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregations) StorageAligners() MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsStorageAligners {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsStorageAligners{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().SupportedAggregations().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsPerSeriesAligners struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithValue(value []common.Aggregation_Reducer) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithArrayOfValues(values [][]common.Aggregation_Reducer) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) WithItemValue(value common.Aggregation_Reducer) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsClosingStatus) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().SupportedAggregations().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsStorageAligners struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsStorageAligners) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesPreAggregatedIndicesFieldPathBuilder().SupportedAggregations().StorageAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsStorageAligners) WithValue(value []common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsStorageAligners) WithArrayOfValues(values [][]common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPreAggregatedIndicesSupportedAggregationsStorageAligners) WithItemValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldTerminalPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) WithValue(value []*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) WithItemValue(value *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) WithSubPath(subPath MetricDescriptorIndicesNonAggregatedIndices_FieldPath) *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) WithSubValue(subPathValue MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathValue{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) ResourceTypes() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesResourceTypes {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndices) PartitionLabelSets() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesResourceTypes struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesResourceTypes) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices,
+		subPath:  NewMetricDescriptorIndicesNonAggregatedIndicesFieldPathBuilder().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorNonAggregatedIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldTerminalPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) WithValue(value []*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) WithItemValue(value *MetricDescriptor_Indices_PaginationIndices) *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) WithSubPath(subPath MetricDescriptorIndicesPaginationIndices_FieldPath) *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices, subPath: subPath}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) WithSubValue(subPathValue MetricDescriptorIndicesPaginationIndices_FieldPathValue) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathValue{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue{MetricDescriptorIndicesIndexGroups_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) ResourceTypes() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesResourceTypes {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesResourceTypes{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) PartitionLabelSets() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) Views() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndices) Functions() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesResourceTypes struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesResourceTypes) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().ResourceTypes().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesResourceTypes) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesResourceTypes) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesResourceTypes) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().PartitionLabelSets().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) WithValue(value []*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) WithArrayOfValues(values [][]*MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) WithItemValue(value *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) MetricKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsMetricKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) ResourceKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsResourceKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSets) ClosingStatus() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsClosingStatus {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().PartitionLabelSets().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsMetricKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsMetricKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().PartitionLabelSets().MetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsMetricKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsResourceKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsResourceKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().PartitionLabelSets().ResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsResourceKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsClosingStatus) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().PartitionLabelSets().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesPartitionLabelSetsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Views().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) WithValue(value []*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) WithArrayOfValues(values [][]*MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) WithItemValue(value *MetricDescriptor_Indices_PaginationView) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) FilterableMetricKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableMetricKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) FilterableResourceKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableResourceKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) PaginatedMetricKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedMetricKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedMetricKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) PaginatedResourceKeys() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedResourceKeys {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedResourceKeys{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViews) ClosingStatus() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsClosingStatus {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsClosingStatus{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Views().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableMetricKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableMetricKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Views().FilterableMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableMetricKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableResourceKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableResourceKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Views().FilterableResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableResourceKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsFilterableResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedMetricKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedMetricKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Views().PaginatedMetricKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedMetricKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedMetricKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedMetricKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedResourceKeys struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedResourceKeys) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Views().PaginatedResourceKeys().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedResourceKeys) WithValue(value []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedResourceKeys) WithArrayOfValues(values [][]string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsPaginatedResourceKeys) WithItemValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsClosingStatus) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Views().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesViewsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Functions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) WithValue(value []*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) WithArrayOfValues(values [][]*MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) WithItemValue(value *MetricDescriptor_Indices_SortingFunction) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue)
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) Name() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsName {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsName{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) Aligner() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsAligner {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsAligner{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) Reducer() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsReducer {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsReducer{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) ClosingStatus() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsClosingStatus {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsClosingStatus{}
+}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctions) Sorting() MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsSorting {
+	return MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsSorting{}
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsName struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsName) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Functions().Name().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsName) WithValue(value string) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsName) WithArrayOfValues(values []string) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsAligner struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsAligner) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Functions().Aligner().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsAligner) WithValue(value common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsAligner) WithArrayOfValues(values []common.Aggregation_Aligner) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsReducer struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsReducer) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Functions().Reducer().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsReducer) WithValue(value common.Aggregation_Reducer) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsReducer) WithArrayOfValues(values []common.Aggregation_Reducer) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsClosingStatus struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsClosingStatus) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Functions().ClosingStatus().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsClosingStatus) WithValue(value MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsClosingStatus) WithArrayOfValues(values []MetricDescriptor_Indices_CloseStatus) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsSorting struct{}
+
+func (MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsSorting) FieldPath() *MetricDescriptorIndicesIndexGroups_FieldSubPath {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPath{
+		selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices,
+		subPath:  NewMetricDescriptorIndicesPaginationIndicesFieldPathBuilder().Functions().Sorting().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsSorting) WithValue(value MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndicesIndexGroups_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_Indices_IndexGroupsPathSelectorPaginationIndicesFunctionsSorting) WithArrayOfValues(values []MetricDescriptor_Indices_SortingFunction_Direction) *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder struct{}
+
+func NewMetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder() MetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder {
+	return MetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder{}
+}
+func (MetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder) KeyData() MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorKeyData {
+	return MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorKeyData{}
+}
+func (MetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder) WritingAligners() MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorWritingAligners {
+	return MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorWritingAligners{}
+}
+func (MetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder) ClosedAligners() MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorClosedAligners {
+	return MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorClosedAligners{}
+}
+
+type MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorKeyData struct{}
+
+func (MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorKeyData) FieldPath() *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData}
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorKeyData) WithValue(value []byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorWritingAligners struct{}
+
+func (MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorWritingAligners) FieldPath() *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners}
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorWritingAligners) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorWritingAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorWritingAligners) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorClosedAligners struct{}
+
+func (MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorClosedAligners) FieldPath() *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners}
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorClosedAligners) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorClosedAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_PreAggregatedIndexPathSelectorClosedAligners) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder struct{}
+
+func NewMetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder() MetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder {
+	return MetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder{}
+}
+func (MetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder) KeyData() MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorKeyData {
+	return MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorKeyData{}
+}
+func (MetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder) WritingFunctions() MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorWritingFunctions {
+	return MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorWritingFunctions{}
+}
+func (MetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder) ClosedFunctions() MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorClosedFunctions {
+	return MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorClosedFunctions{}
+}
+
+type MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorKeyData struct{}
+
+func (MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorKeyData) FieldPath() *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData}
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorKeyData) WithValue(value []byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorWritingFunctions struct{}
+
+func (MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorWritingFunctions) FieldPath() *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions}
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorWritingFunctions) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorWritingFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorWritingFunctions) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorClosedFunctions struct{}
+
+func (MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorClosedFunctions) FieldPath() *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions}
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorClosedFunctions) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorClosedFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_PaginatingIndexPathSelectorClosedFunctions) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder struct{}
+
+func NewMetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder() MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder {
+	return MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder{}
+}
+func (MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder) ResourceType() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorResourceType {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorResourceType{}
+}
+func (MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder) AggsEncoder() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorAggsEncoder {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorAggsEncoder{}
+}
+func (MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder) PreAggregatedIndices() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices{}
+}
+func (MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder) PaginatingIndices() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices{}
+}
+func (MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder) NonAggregatedIndices() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNonAggregatedIndices {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNonAggregatedIndices{}
+}
+func (MetricDescriptorBinaryIndicesByResourceTypeFieldPathBuilder) NameParts() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNameParts {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNameParts{}
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorResourceType struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorResourceType) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorResourceType) WithValue(value string) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorResourceType) WithArrayOfValues(values []string) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorAggsEncoder struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorAggsEncoder) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorAggsEncoder) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorAggsEncoder) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorAggsEncoder) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WithValue(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WithItemValue(value *MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WithSubPath(subPath MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices, subPath: subPath}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WithSubValue(subPathValue MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue{MetricDescriptorBinaryIndicesByResourceType_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) KeyData() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesKeyData {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesKeyData{}
+}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) WritingAligners() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesWritingAligners {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesWritingAligners{}
+}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndices) ClosedAligners() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesClosedAligners {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesClosedAligners{}
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesKeyData struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesKeyData) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{
+		selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder().KeyData().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesKeyData) WithValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesWritingAligners struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesWritingAligners) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{
+		selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder().WritingAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesWritingAligners) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesWritingAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesWritingAligners) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesClosedAligners struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesClosedAligners) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{
+		selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesPreAggregatedIndexFieldPathBuilder().ClosedAligners().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesClosedAligners) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesClosedAligners) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPreAggregatedIndicesClosedAligners) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WithValue(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WithArrayOfValues(values [][]*MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WithItemValue(value *MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue)
+}
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WithSubPath(subPath MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices, subPath: subPath}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WithSubValue(subPathValue MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WithSubArrayOfValues(subPathArrayOfValues MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WithSubArrayItemValue(subPathArrayItemValue MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue{MetricDescriptorBinaryIndicesByResourceType_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) KeyData() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesKeyData {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesKeyData{}
+}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) WritingFunctions() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesWritingFunctions {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesWritingFunctions{}
+}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndices) ClosedFunctions() MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesClosedFunctions {
+	return MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesClosedFunctions{}
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesKeyData struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesKeyData) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{
+		selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder().KeyData().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesKeyData) WithValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesKeyData) WithArrayOfValues(values [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesWritingFunctions struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesWritingFunctions) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{
+		selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder().WritingFunctions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesWritingFunctions) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesWritingFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesWritingFunctions) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesClosedFunctions struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesClosedFunctions) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{
+		selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesPaginatingIndexFieldPathBuilder().ClosedFunctions().FieldPath(),
+	}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesClosedFunctions) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesClosedFunctions) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorPaginatingIndicesClosedFunctions) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNonAggregatedIndices struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNonAggregatedIndices) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNonAggregatedIndices) WithValue(value [][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNonAggregatedIndices) WithArrayOfValues(values [][][]byte) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNonAggregatedIndices) WithItemValue(value []byte) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNameParts struct{}
+
+func (MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNameParts) FieldPath() *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts}
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNameParts) WithValue(value []string) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNameParts) WithArrayOfValues(values [][]string) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues)
+}
+
+func (s MetricDescriptor_BinaryIndices_ByResourceTypePathSelectorNameParts) WithItemValue(value string) *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue)
 }

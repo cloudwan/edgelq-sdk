@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetNotification][ntt.monitoring.v3.GetNotification]
+// A request message of the GetNotification method.
 type GetNotificationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetNotificationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetNotifications][ntt.monitoring.v3.BatchGetNotifications]
+// A request message of the BatchGetNotifications method.
 type BatchGetNotificationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetNotificationsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetNotificationsResponse
+// A response message of the BatchGetNotifications method.
 type BatchGetNotificationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetNotificationsResponse) SetMissing(fv []*notification.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListNotifications][ntt.monitoring.v3.ListNotifications]
+// A request message of the ListNotifications method.
 type ListNotificationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListNotificationsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListNotificationsResponse.next_page_token][ntt.monitoring.v3.ListNotificationsResponse.next_page_token]
+	// ListNotificationsResponse.next_page_token.
 	PageToken *notification.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListNotificationsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListNotifications][ntt.monitoring.v3.ListNotifications]
+// A response message of the ListNotifications method.
 type ListNotificationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Notifications
 	Notifications []*notification.Notification `protobuf:"bytes,1,rep,name=notifications,proto3" json:"notifications,omitempty" firestore:"notifications"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListNotificationsRequest.page_token][ntt.monitoring.v3.ListNotificationsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListNotificationsRequest.page_token.
 	PrevPageToken *notification.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListNotificationsRequest.page_token][ntt.monitoring.v3.ListNotificationsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListNotificationsRequest.page_token.
 	NextPageToken *notification.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -706,8 +704,7 @@ func (m *ListNotificationsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchNotification][ntt.monitoring.v3.WatchNotification]
+// A request message of the WatchNotification method.
 type WatchNotificationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -814,7 +811,7 @@ func (m *WatchNotificationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchNotificationResponse
+// A response message of the WatchNotification method.
 type WatchNotificationResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -886,8 +883,7 @@ func (m *WatchNotificationResponse) SetChange(fv *notification.NotificationChang
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchNotifications][ntt.monitoring.v3.WatchNotifications]
+// A request message of the WatchNotifications method.
 type WatchNotificationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1144,7 +1140,7 @@ func (m *WatchNotificationsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchNotificationsResponse
+// A response message of the WatchNotifications method.
 type WatchNotificationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1347,8 +1343,7 @@ func (m *WatchNotificationsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateNotification][ntt.monitoring.v3.CreateNotification]
+// A request message of the CreateNotification method.
 type CreateNotificationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1437,8 +1432,7 @@ func (m *CreateNotificationRequest) SetNotification(fv *notification.Notificatio
 	m.Notification = fv
 }
 
-// Request message for method
-// [UpdateNotification][ntt.monitoring.v3.UpdateNotification]
+// A request message of the UpdateNotification method.
 type UpdateNotificationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1568,8 +1562,7 @@ func (m *UpdateNotificationRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteNotification][ntt.monitoring.v3.DeleteNotification]
+// A request message of the DeleteNotification method.
 type DeleteNotificationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1642,8 +1635,7 @@ func (m *DeleteNotificationRequest) SetName(fv *notification.Name) {
 	m.Name = fv
 }
 
-// Request message for method
-// [SearchNotifications][ntt.monitoring.v3.SearchNotifications]
+// A request message of the SearchNotifications method.
 type SearchNotificationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1655,7 +1647,7 @@ type SearchNotificationsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [SearchNotificationsResponse.next_page_token][ntt.monitoring.v3.SearchNotificationsResponse.next_page_token]
+	// SearchNotificationsResponse.next_page_token.
 	PageToken *notification.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -1842,19 +1834,20 @@ func (m *SearchNotificationsRequest) SetPhrase(fv string) {
 	m.Phrase = fv
 }
 
-// Request message for method
-// [SearchNotifications][ntt.monitoring.v3.SearchNotifications]
+// A response message of the SearchNotifications method.
 type SearchNotificationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Notifications
 	Notifications []*notification.Notification `protobuf:"bytes,1,rep,name=notifications,proto3" json:"notifications,omitempty" firestore:"notifications"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [SearchNotificationsRequest.page_token][ntt.monitoring.v3.SearchNotificationsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the SearchNotificationsRequest.page_token.
 	PrevPageToken *notification.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [SearchNotificationsRequest.page_token][ntt.monitoring.v3.SearchNotificationsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the SearchNotificationsRequest.page_token.
 	NextPageToken *notification.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page (0 if no page tokens were given). Page
 	// index can be computed from offset and limit provided in a request

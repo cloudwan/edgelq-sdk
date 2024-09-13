@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetOrganizationInvitation][ntt.iam.v1alpha2.GetOrganizationInvitation]
+// A request message of the GetOrganizationInvitation method.
 type GetOrganizationInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetOrganizationInvitationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetOrganizationInvitations][ntt.iam.v1alpha2.BatchGetOrganizationInvitations]
+// A request message of the BatchGetOrganizationInvitations method.
 type BatchGetOrganizationInvitationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetOrganizationInvitationsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetOrganizationInvitationsResponse
+// A response message of the BatchGetOrganizationInvitations method.
 type BatchGetOrganizationInvitationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetOrganizationInvitationsResponse) SetMissing(fv []*organization_
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListOrganizationInvitations][ntt.iam.v1alpha2.ListOrganizationInvitations]
+// A request message of the ListOrganizationInvitations method.
 type ListOrganizationInvitationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListOrganizationInvitationsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListOrganizationInvitationsResponse.next_page_token][ntt.iam.v1alpha2.ListOrganizationInvitationsResponse.next_page_token]
+	// ListOrganizationInvitationsResponse.next_page_token.
 	PageToken *organization_invitation.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListOrganizationInvitationsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListOrganizationInvitations][ntt.iam.v1alpha2.ListOrganizationInvitations]
+// A response message of the ListOrganizationInvitations method.
 type ListOrganizationInvitationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of OrganizationInvitations
 	OrganizationInvitations []*organization_invitation.OrganizationInvitation `protobuf:"bytes,1,rep,name=organization_invitations,json=organizationInvitations,proto3" json:"organization_invitations,omitempty" firestore:"organizationInvitations"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListOrganizationInvitationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationInvitationsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListOrganizationInvitationsRequest.page_token.
 	PrevPageToken *organization_invitation.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListOrganizationInvitationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationInvitationsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListOrganizationInvitationsRequest.page_token.
 	NextPageToken *organization_invitation.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListOrganizationInvitationsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchOrganizationInvitation][ntt.iam.v1alpha2.WatchOrganizationInvitation]
+// A request message of the WatchOrganizationInvitation method.
 type WatchOrganizationInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchOrganizationInvitationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchOrganizationInvitationResponse
+// A response message of the WatchOrganizationInvitation method.
 type WatchOrganizationInvitationResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchOrganizationInvitationResponse) SetChange(fv *organization_invitat
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchOrganizationInvitations][ntt.iam.v1alpha2.WatchOrganizationInvitations]
+// A request message of the WatchOrganizationInvitations method.
 type WatchOrganizationInvitationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchOrganizationInvitationsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchOrganizationInvitationsResponse
+// A response message of the WatchOrganizationInvitations method.
 type WatchOrganizationInvitationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchOrganizationInvitationsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateOrganizationInvitation][ntt.iam.v1alpha2.CreateOrganizationInvitation]
+// A request message of the CreateOrganizationInvitation method.
 type CreateOrganizationInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateOrganizationInvitationRequest) SetOrganizationInvitation(fv *orga
 	m.OrganizationInvitation = fv
 }
 
-// Request message for method
-// [UpdateOrganizationInvitation][ntt.iam.v1alpha2.UpdateOrganizationInvitation]
+// A request message of the UpdateOrganizationInvitation method.
 type UpdateOrganizationInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateOrganizationInvitationRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteOrganizationInvitation][ntt.iam.v1alpha2.DeleteOrganizationInvitation]
+// A request message of the DeleteOrganizationInvitation method.
 type DeleteOrganizationInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

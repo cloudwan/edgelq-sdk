@@ -58,6 +58,7 @@ func FullGroup_FieldMask() *Group_FieldMask {
 	res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorEmail})
 	return res
 }
@@ -102,7 +103,7 @@ func (fieldMask *Group_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Group_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -132,7 +133,7 @@ func (fieldMask *Group_FieldMask) Reset() {
 
 func (fieldMask *Group_FieldMask) Subtract(other *Group_FieldMask) *Group_FieldMask {
 	result := &Group_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[Group_FieldPathSelector]gotenobject.FieldMask{
 		Group_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -340,6 +341,8 @@ func (fieldMask *Group_FieldMask) Project(source *Group) *Group {
 				wholeMetadataAccepted = true
 			case Group_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case Group_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case Group_FieldPathSelectorEmail:
 				result.Email = source.Email
 			}

@@ -1,0 +1,68 @@
+name: logging.edgelq.com
+proto:
+  package:
+    name: ntt.logging
+    currentVersion: v1alpha2
+    nextVersion: v1
+    goPackage: github.com/cloudwan/edgelq/logging
+    protoImportPathPrefix: edgelq/logging/proto
+  service:
+    name: Logging
+    defaultHost: logging.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+imports:
+- iam.edgelq.com
+
+resources:
+- name: LogDescriptor
+  parents:
+  - iam.edgelq.com/Project
+  - iam.edgelq.com/Organization
+  - ""
+  idPattern: "[\\\\w./-]{1,128}/[\\\\w./-]{1,128}"
+
+- name: Log
+  optOuts:
+    basicActions: [ "*" ]
+    standardCrudAccess: true
+    resourceChange: true
+    metadataField: true
+    paging: true
+  parents:
+  - iam.edgelq.com/Project
+  - iam.edgelq.com/Organization
+  - ""
+  idPattern: "[\\\\w./-=+]{1,128}"
+  actions:
+  - name: ListLogs
+    verb: query # dont use 'list' as it would be matched and provided with implementation
+    grpcTranscoding:
+      httpMethod: get
+      isBasic: true
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  - name: CreateLogs
+    verb: batchCreate
+    grpcTranscoding:
+      httpMethod: post
+      isBasic: true
+      httpBodyField: logs
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+      requestPaths:
+        resourceParent: [ "parent" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true

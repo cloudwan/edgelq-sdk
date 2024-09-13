@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetCryptoKey][ntt.secrets.v1.GetCryptoKey]
+// A request message of the GetCryptoKey method.
 type GetCryptoKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,8 +163,7 @@ func (m *GetCryptoKeyRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetCryptoKeys][ntt.secrets.v1.BatchGetCryptoKeys]
+// A request message of the BatchGetCryptoKeys method.
 type BatchGetCryptoKeysRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +270,7 @@ func (m *BatchGetCryptoKeysRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetCryptoKeysResponse
+// A response message of the BatchGetCryptoKeys method.
 type BatchGetCryptoKeysResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -360,7 +359,7 @@ func (m *BatchGetCryptoKeysResponse) SetMissing(fv []*crypto_key.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListCryptoKeys][ntt.secrets.v1.ListCryptoKeys]
+// A request message of the ListCryptoKeys method.
 type ListCryptoKeysRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -372,7 +371,7 @@ type ListCryptoKeysRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListCryptoKeysResponse.next_page_token][ntt.secrets.v1.ListCryptoKeysResponse.next_page_token]
+	// ListCryptoKeysResponse.next_page_token.
 	PageToken *crypto_key.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -560,18 +559,20 @@ func (m *ListCryptoKeysRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListCryptoKeys][ntt.secrets.v1.ListCryptoKeys]
+// A response message of the ListCryptoKeys method.
 type ListCryptoKeysResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of CryptoKeys
 	CryptoKeys []*crypto_key.CryptoKey `protobuf:"bytes,1,rep,name=crypto_keys,json=cryptoKeys,proto3" json:"crypto_keys,omitempty" firestore:"cryptoKeys"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListCryptoKeysRequest.page_token][ntt.secrets.v1.ListCryptoKeysRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListCryptoKeysRequest.page_token.
 	PrevPageToken *crypto_key.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListCryptoKeysRequest.page_token][ntt.secrets.v1.ListCryptoKeysRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListCryptoKeysRequest.page_token.
 	NextPageToken *crypto_key.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -703,7 +704,7 @@ func (m *ListCryptoKeysResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchCryptoKey][ntt.secrets.v1.WatchCryptoKey]
+// A request message of the WatchCryptoKey method.
 type WatchCryptoKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -810,7 +811,7 @@ func (m *WatchCryptoKeyRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchCryptoKeyResponse
+// A response message of the WatchCryptoKey method.
 type WatchCryptoKeyResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -882,7 +883,7 @@ func (m *WatchCryptoKeyResponse) SetChange(fv *crypto_key.CryptoKeyChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchCryptoKeys][ntt.secrets.v1.WatchCryptoKeys]
+// A request message of the WatchCryptoKeys method.
 type WatchCryptoKeysRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1139,7 +1140,7 @@ func (m *WatchCryptoKeysRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchCryptoKeysResponse
+// A response message of the WatchCryptoKeys method.
 type WatchCryptoKeysResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1342,7 +1343,7 @@ func (m *WatchCryptoKeysResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [DeleteCryptoKey][ntt.secrets.v1.DeleteCryptoKey]
+// A request message of the DeleteCryptoKey method.
 type DeleteCryptoKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -74,6 +74,9 @@ func (PodFieldPathBuilder) Metadata() PodPathSelectorMetadata {
 func (PodFieldPathBuilder) DisplayName() PodPathSelectorDisplayName {
 	return PodPathSelectorDisplayName{}
 }
+func (PodFieldPathBuilder) Description() PodPathSelectorDescription {
+	return PodPathSelectorDescription{}
+}
 func (PodFieldPathBuilder) Spec() PodPathSelectorSpec {
 	return PodPathSelectorSpec{}
 }
@@ -770,6 +773,20 @@ func (s PodPathSelectorDisplayName) WithValue(value string) *Pod_FieldTerminalPa
 }
 
 func (s PodPathSelectorDisplayName) WithArrayOfValues(values []string) *Pod_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldTerminalPathArrayOfValues)
+}
+
+type PodPathSelectorDescription struct{}
+
+func (PodPathSelectorDescription) FieldPath() *Pod_FieldTerminalPath {
+	return &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDescription}
+}
+
+func (s PodPathSelectorDescription) WithValue(value string) *Pod_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldTerminalPathValue)
+}
+
+func (s PodPathSelectorDescription) WithArrayOfValues(values []string) *Pod_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldTerminalPathArrayOfValues)
 }
 

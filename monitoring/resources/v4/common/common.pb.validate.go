@@ -56,6 +56,12 @@ func (obj *LabelDescriptor) GotenValidate() error {
 	if int32(obj.ValueType) != 0 {
 		return gotenvalidate.NewValidationError("LabelDescriptor", "valueType", obj.ValueType, "field must be set to the value 0", nil)
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("LabelDescriptor", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -64,6 +70,15 @@ func (obj *LabelDescriptor) GotenValidate() error {
 func (obj *LabelKeySet) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if len(obj.LabelKeys) > 1 {
+		values := make(map[string]struct{})
+		for _, v := range obj.LabelKeys {
+			if _, ok := values[v]; ok {
+				return gotenvalidate.NewValidationError("LabelKeySet", "labelKeys", obj.LabelKeys, "field must contain unique items", nil)
+			}
+			values[v] = struct{}{}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -236,6 +251,39 @@ func (obj *Aggregation) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *Pagination) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if obj.View == "" {
+		return gotenvalidate.NewValidationError("Pagination", "view", obj.View, "field is required", nil)
+	}
+	if obj.Function == "" {
+		return gotenvalidate.NewValidationError("Pagination", "function", obj.Function, "field is required", nil)
+	}
+	if obj.AlignmentPeriod != nil && obj.AlignmentPeriod.CheckValid() != nil {
+		err := obj.AlignmentPeriod.CheckValid()
+		return gotenvalidate.NewValidationError("Pagination", "alignmentPeriod", obj.AlignmentPeriod, "could not validate duration", err)
+	} else {
+		d := obj.AlignmentPeriod.AsDuration()
+
+		if obj.AlignmentPeriod != nil {
+			if d != time.Duration(0) && d != time.Duration(60000000000) && d != time.Duration(180000000000) && d != time.Duration(300000000000) && d != time.Duration(900000000000) && d != time.Duration(1800000000000) && d != time.Duration(3600000000000) && d != time.Duration(10800000000000) && d != time.Duration(21600000000000) && d != time.Duration(43200000000000) && d != time.Duration(86400000000000) && d != time.Duration(604800000000000) && d != time.Duration(2419200000000000) {
+				return gotenvalidate.NewValidationError("Pagination", "alignmentPeriod", d, "field must be equal to exactly one of the following values: 0s, 1m0s, 3m0s, 5m0s, 15m0s, 30m0s, 1h0m0s, 3h0m0s, 6h0m0s, 12h0m0s, 24h0m0s, 168h0m0s, 672h0m0s", nil)
+			}
+		}
+	}
+	if !(obj.Limit >= 0 && obj.Limit <= 100) {
+		return gotenvalidate.NewValidationError("Pagination", "limit", obj.Limit, "field must be in range [0, 100]", nil)
+	}
+	if !(obj.Offset >= 0) {
+		return gotenvalidate.NewValidationError("Pagination", "offset", obj.Offset, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *Metric) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -306,16 +354,10 @@ func (obj *TimeSeriesSelector) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if obj.Metric == nil {
-		return gotenvalidate.NewValidationError("TimeSeriesSelector", "metric", obj.Metric, "field is required", nil)
-	}
 	if subobj, ok := interface{}(obj.Metric).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("TimeSeriesSelector", "metric", obj.Metric, "nested object validation failed", err)
 		}
-	}
-	if obj.Resource == nil {
-		return gotenvalidate.NewValidationError("TimeSeriesSelector", "resource", obj.Resource, "field is required", nil)
 	}
 	if subobj, ok := interface{}(obj.Resource).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {

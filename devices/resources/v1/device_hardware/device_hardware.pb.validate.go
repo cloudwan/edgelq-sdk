@@ -56,6 +56,12 @@ func (obj *DeviceHardware) GotenValidate() error {
 			return gotenvalidate.NewValidationError("DeviceHardware", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("DeviceHardware", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
 	if subobj, ok := interface{}(obj.Status).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("DeviceHardware", "status", obj.Status, "nested object validation failed", err)

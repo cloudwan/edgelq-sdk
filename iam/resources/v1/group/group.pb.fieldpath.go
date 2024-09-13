@@ -77,7 +77,8 @@ const (
 	Group_FieldPathSelectorName        Group_FieldPathSelector = 0
 	Group_FieldPathSelectorMetadata    Group_FieldPathSelector = 1
 	Group_FieldPathSelectorDisplayName Group_FieldPathSelector = 2
-	Group_FieldPathSelectorEmail       Group_FieldPathSelector = 3
+	Group_FieldPathSelectorDescription Group_FieldPathSelector = 3
+	Group_FieldPathSelectorEmail       Group_FieldPathSelector = 4
 )
 
 func (s Group_FieldPathSelector) String() string {
@@ -88,6 +89,8 @@ func (s Group_FieldPathSelector) String() string {
 		return "metadata"
 	case Group_FieldPathSelectorDisplayName:
 		return "display_name"
+	case Group_FieldPathSelectorDescription:
+		return "description"
 	case Group_FieldPathSelectorEmail:
 		return "email"
 	default:
@@ -107,6 +110,8 @@ func BuildGroup_FieldPath(fp gotenobject.RawFieldPath) (Group_FieldPath, error) 
 			return &Group_FieldTerminalPath{selector: Group_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &Group_FieldTerminalPath{selector: Group_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &Group_FieldTerminalPath{selector: Group_FieldPathSelectorDescription}, nil
 		case "email":
 			return &Group_FieldTerminalPath{selector: Group_FieldPathSelectorEmail}, nil
 		}
@@ -173,6 +178,8 @@ func (fp *Group_FieldTerminalPath) Get(source *Group) (values []interface{}) {
 			}
 		case Group_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case Group_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case Group_FieldPathSelectorEmail:
 			values = append(values, source.Email)
 		default:
@@ -197,6 +204,8 @@ func (fp *Group_FieldTerminalPath) GetSingle(source *Group) (interface{}, bool) 
 		return res, res != nil
 	case Group_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case Group_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case Group_FieldPathSelectorEmail:
 		return source.GetEmail(), source != nil
 	default:
@@ -217,6 +226,8 @@ func (fp *Group_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Group_FieldPathSelectorDisplayName:
 		return ""
+	case Group_FieldPathSelectorDescription:
+		return ""
 	case Group_FieldPathSelectorEmail:
 		return ""
 	default:
@@ -233,6 +244,8 @@ func (fp *Group_FieldTerminalPath) ClearValue(item *Group) {
 			item.Metadata = nil
 		case Group_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case Group_FieldPathSelectorDescription:
+			item.Description = ""
 		case Group_FieldPathSelectorEmail:
 			item.Email = ""
 		default:
@@ -249,6 +262,7 @@ func (fp *Group_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Group_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Group_FieldPathSelectorName ||
 		fp.selector == Group_FieldPathSelectorDisplayName ||
+		fp.selector == Group_FieldPathSelectorDescription ||
 		fp.selector == Group_FieldPathSelectorEmail
 }
 
@@ -263,6 +277,8 @@ func (fp *Group_FieldTerminalPath) WithIValue(value interface{}) Group_FieldPath
 	case Group_FieldPathSelectorMetadata:
 		return &Group_FieldTerminalPathValue{Group_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Group_FieldPathSelectorDisplayName:
+		return &Group_FieldTerminalPathValue{Group_FieldTerminalPath: *fp, value: value.(string)}
+	case Group_FieldPathSelectorDescription:
 		return &Group_FieldTerminalPathValue{Group_FieldTerminalPath: *fp, value: value.(string)}
 	case Group_FieldPathSelectorEmail:
 		return &Group_FieldTerminalPathValue{Group_FieldTerminalPath: *fp, value: value.(string)}
@@ -283,6 +299,8 @@ func (fp *Group_FieldTerminalPath) WithIArrayOfValues(values interface{}) Group_
 	case Group_FieldPathSelectorMetadata:
 		return &Group_FieldTerminalPathArrayOfValues{Group_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Group_FieldPathSelectorDisplayName:
+		return &Group_FieldTerminalPathArrayOfValues{Group_FieldTerminalPath: *fp, values: values.([]string)}
+	case Group_FieldPathSelectorDescription:
 		return &Group_FieldTerminalPathArrayOfValues{Group_FieldTerminalPath: *fp, values: values.([]string)}
 	case Group_FieldPathSelectorEmail:
 		return &Group_FieldTerminalPathArrayOfValues{Group_FieldTerminalPath: *fp, values: values.([]string)}
@@ -470,6 +488,10 @@ func (fpv *Group_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Group_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Group_FieldTerminalPathValue) AsEmailValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -487,6 +509,8 @@ func (fpv *Group_FieldTerminalPathValue) SetTo(target **Group) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Group_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case Group_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case Group_FieldPathSelectorEmail:
 		(*target).Email = fpv.value.(string)
 	default:
@@ -526,6 +550,16 @@ func (fpv *Group_FieldTerminalPathValue) CompareWith(source *Group) (int, bool) 
 	case Group_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Group_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -733,6 +767,10 @@ func (fpaov *Group_FieldTerminalPathArrayOfValues) GetRawValues() (values []inte
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Group_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Group_FieldPathSelectorEmail:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -749,6 +787,10 @@ func (fpaov *Group_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]
 	return res, ok
 }
 func (fpaov *Group_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Group_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

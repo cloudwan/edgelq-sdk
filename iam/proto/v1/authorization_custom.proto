@@ -28,11 +28,10 @@ message GetPrincipalRequest {
   // Principal ID, different for users or service accounts
   string principal_key_id = 2;
 
-  // Region ID where data is known to be stored
-  string region_id = 3;
-
   // User authorization token
   string auth_token = 4;
+
+  reserved 3;
 }
 
 // Response message for method [GetPrincipal][ntt.iam.v1.GetPrincipal]
@@ -60,11 +59,10 @@ message GetPrincipalResponse {
 message WatchPrincipalUpdatesRequest {
   string requesting_service = 1;
 
-  // Region ID where principals are expected.
-  string region_id = 2;
-
   // Resume token in case of disconnection
   string resume_token = 3;
+
+  reserved 2;
 }
 
 // Response message for method

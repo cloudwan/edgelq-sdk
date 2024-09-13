@@ -55,6 +55,12 @@ func (obj *DeviceHardwareRegisterSession) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("DeviceHardwareRegisterSession", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
 	if subobj, ok := interface{}(obj.Metadata).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("DeviceHardwareRegisterSession", "metadata", obj.Metadata, "nested object validation failed", err)

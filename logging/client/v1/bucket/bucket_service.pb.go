@@ -60,7 +60,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetBucket][ntt.logging.v1.GetBucket]
+// A request message of the GetBucket method.
 type GetBucketRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -167,7 +167,7 @@ func (m *GetBucketRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetBuckets][ntt.logging.v1.BatchGetBuckets]
+// A request message of the BatchGetBuckets method.
 type BatchGetBucketsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -274,7 +274,7 @@ func (m *BatchGetBucketsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetBucketsResponse
+// A response message of the BatchGetBuckets method.
 type BatchGetBucketsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -363,7 +363,7 @@ func (m *BatchGetBucketsResponse) SetMissing(fv []*bucket.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListBuckets][ntt.logging.v1.ListBuckets]
+// A request message of the ListBuckets method.
 type ListBucketsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -375,7 +375,7 @@ type ListBucketsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListBucketsResponse.next_page_token][ntt.logging.v1.ListBucketsResponse.next_page_token]
+	// ListBucketsResponse.next_page_token.
 	PageToken *bucket.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -563,18 +563,20 @@ func (m *ListBucketsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListBuckets][ntt.logging.v1.ListBuckets]
+// A response message of the ListBuckets method.
 type ListBucketsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Buckets
 	Buckets []*bucket.Bucket `protobuf:"bytes,1,rep,name=buckets,proto3" json:"buckets,omitempty" firestore:"buckets"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListBucketsRequest.page_token][ntt.logging.v1.ListBucketsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListBucketsRequest.page_token.
 	PrevPageToken *bucket.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListBucketsRequest.page_token][ntt.logging.v1.ListBucketsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListBucketsRequest.page_token.
 	NextPageToken *bucket.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -706,7 +708,7 @@ func (m *ListBucketsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchBucket][ntt.logging.v1.WatchBucket]
+// A request message of the WatchBucket method.
 type WatchBucketRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -813,7 +815,7 @@ func (m *WatchBucketRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchBucketResponse
+// A response message of the WatchBucket method.
 type WatchBucketResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -885,7 +887,7 @@ func (m *WatchBucketResponse) SetChange(fv *bucket.BucketChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchBuckets][ntt.logging.v1.WatchBuckets]
+// A request message of the WatchBuckets method.
 type WatchBucketsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1142,7 +1144,7 @@ func (m *WatchBucketsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchBucketsResponse
+// A response message of the WatchBuckets method.
 type WatchBucketsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1345,7 +1347,7 @@ func (m *WatchBucketsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateBucket][ntt.logging.v1.CreateBucket]
+// A request message of the CreateBucket method.
 type CreateBucketRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1434,7 +1436,7 @@ func (m *CreateBucketRequest) SetBucket(fv *bucket.Bucket) {
 	m.Bucket = fv
 }
 
-// Request message for method [UpdateBucket][ntt.logging.v1.UpdateBucket]
+// A request message of the UpdateBucket method.
 type UpdateBucketRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1564,7 +1566,7 @@ func (m *UpdateBucketRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteBucket][ntt.logging.v1.DeleteBucket]
+// A request message of the DeleteBucket method.
 type DeleteBucketRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

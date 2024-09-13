@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "DeviceHardwareServiceProto";
 option java_package = "com.ntt.devices.pb.v1";
 
-// Request message for method
-// [GetDeviceHardware][ntt.devices.v1.GetDeviceHardware]
+// A request message of the GetDeviceHardware method.
 message GetDeviceHardwareRequest {
   // Name of ntt.devices.v1.DeviceHardware
   string name = 1;
@@ -33,8 +32,7 @@ message GetDeviceHardwareRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetDeviceHardwares][ntt.devices.v1.BatchGetDeviceHardwares]
+// A request message of the BatchGetDeviceHardwares method.
 message BatchGetDeviceHardwaresRequest {
   // Names of DeviceHardwares
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetDeviceHardwaresRequest {
   reserved 1;
 }
 
-// BatchGetDeviceHardwaresResponse
+// A response message of the BatchGetDeviceHardwares method.
 message BatchGetDeviceHardwaresResponse {
   // found DeviceHardwares
   repeated DeviceHardware device_hardwares = 1;
@@ -59,8 +57,7 @@ message BatchGetDeviceHardwaresResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListDeviceHardwares][ntt.devices.v1.ListDeviceHardwares]
+// A request message of the ListDeviceHardwares method.
 message ListDeviceHardwaresRequest {
   // Parent name of ntt.devices.v1.DeviceHardware
   string parent = 1;
@@ -71,7 +68,7 @@ message ListDeviceHardwaresRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListDeviceHardwaresResponse.next_page_token][ntt.devices.v1.ListDeviceHardwaresResponse.next_page_token]
+  // ListDeviceHardwaresResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListDeviceHardwaresRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListDeviceHardwares][ntt.devices.v1.ListDeviceHardwares]
+// A response message of the ListDeviceHardwares method.
 message ListDeviceHardwaresResponse {
   // The list of DeviceHardwares
   repeated DeviceHardware device_hardwares = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListDeviceHardwaresRequest.page_token][ntt.devices.v1.ListDeviceHardwaresRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListDeviceHardwaresRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListDeviceHardwaresRequest.page_token][ntt.devices.v1.ListDeviceHardwaresRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListDeviceHardwaresRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListDeviceHardwaresResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchDeviceHardware][ntt.devices.v1.WatchDeviceHardware]
+// A request message of the WatchDeviceHardware method.
 message WatchDeviceHardwareRequest {
   // Name of ntt.devices.v1.DeviceHardware
   string name = 1;
@@ -143,11 +140,10 @@ message WatchDeviceHardwareRequest {
   goten.types.View view = 4;
 }
 
-// WatchDeviceHardwareResponse
+// A response message of the WatchDeviceHardware method.
 message WatchDeviceHardwareResponse { DeviceHardwareChange change = 1; }
 
-// Request message for method
-// [WatchDeviceHardwares][ntt.devices.v1.WatchDeviceHardwares]
+// A request message of the WatchDeviceHardwares method.
 message WatchDeviceHardwaresRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -207,7 +203,7 @@ message WatchDeviceHardwaresRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchDeviceHardwaresResponse
+// A response message of the WatchDeviceHardwares method.
 message WatchDeviceHardwaresResponse {
   // Changes of DeviceHardwares
   repeated DeviceHardwareChange device_hardware_changes = 2;
@@ -273,8 +269,7 @@ message WatchDeviceHardwaresResponse {
   }
 }
 
-// Request message for method
-// [CreateDeviceHardware][ntt.devices.v1.CreateDeviceHardware]
+// A request message of the CreateDeviceHardware method.
 message CreateDeviceHardwareRequest {
   // Parent name of ntt.devices.v1.DeviceHardware
   string parent = 1;
@@ -283,8 +278,7 @@ message CreateDeviceHardwareRequest {
   DeviceHardware device_hardware = 2;
 }
 
-// Request message for method
-// [UpdateDeviceHardware][ntt.devices.v1.UpdateDeviceHardware]
+// A request message of the UpdateDeviceHardware method.
 message UpdateDeviceHardwareRequest {
   // DeviceHardware resource body
   DeviceHardware device_hardware = 2;
@@ -319,8 +313,7 @@ message UpdateDeviceHardwareRequest {
   }
 }
 
-// Request message for method
-// [DeleteDeviceHardware][ntt.devices.v1.DeleteDeviceHardware]
+// A request message of the DeleteDeviceHardware method.
 message DeleteDeviceHardwareRequest {
   // Name of ntt.devices.v1.DeviceHardware
   string name = 1;

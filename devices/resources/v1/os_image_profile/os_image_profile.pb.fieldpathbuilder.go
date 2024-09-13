@@ -36,6 +36,9 @@ func (OsImageProfileFieldPathBuilder) Metadata() OsImageProfilePathSelectorMetad
 func (OsImageProfileFieldPathBuilder) DisplayName() OsImageProfilePathSelectorDisplayName {
 	return OsImageProfilePathSelectorDisplayName{}
 }
+func (OsImageProfileFieldPathBuilder) Description() OsImageProfilePathSelectorDescription {
+	return OsImageProfilePathSelectorDescription{}
+}
 func (OsImageProfileFieldPathBuilder) DeviceType() OsImageProfilePathSelectorDeviceType {
 	return OsImageProfilePathSelectorDeviceType{}
 }
@@ -750,6 +753,20 @@ func (s OsImageProfilePathSelectorDisplayName) WithValue(value string) *OsImageP
 }
 
 func (s OsImageProfilePathSelectorDisplayName) WithArrayOfValues(values []string) *OsImageProfile_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldTerminalPathArrayOfValues)
+}
+
+type OsImageProfilePathSelectorDescription struct{}
+
+func (OsImageProfilePathSelectorDescription) FieldPath() *OsImageProfile_FieldTerminalPath {
+	return &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDescription}
+}
+
+func (s OsImageProfilePathSelectorDescription) WithValue(value string) *OsImageProfile_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldTerminalPathValue)
+}
+
+func (s OsImageProfilePathSelectorDescription) WithArrayOfValues(values []string) *OsImageProfile_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldTerminalPathArrayOfValues)
 }
 

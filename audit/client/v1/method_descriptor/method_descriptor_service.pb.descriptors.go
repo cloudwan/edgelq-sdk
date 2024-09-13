@@ -14,6 +14,7 @@ import (
 // proto imports
 import (
 	method_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1/method_descriptor"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -26,6 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &method_descriptor.MethodDescriptor{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -38,6 +40,7 @@ var (
 	watchMethodDescriptorsDescriptor    *WatchMethodDescriptorsDescriptor
 	createMethodDescriptorDescriptor    *CreateMethodDescriptorDescriptor
 	updateMethodDescriptorDescriptor    *UpdateMethodDescriptorDescriptor
+	deleteMethodDescriptorDescriptor    *DeleteMethodDescriptorDescriptor
 )
 
 type GetMethodDescriptorDescriptor struct{}
@@ -1637,6 +1640,221 @@ func GetUpdateMethodDescriptorDescriptor() *UpdateMethodDescriptorDescriptor {
 	return updateMethodDescriptorDescriptor
 }
 
+type DeleteMethodDescriptorDescriptor struct{}
+
+type DeleteMethodDescriptorDescriptorClientMsgHandle struct{}
+
+type DeleteMethodDescriptorDescriptorServerMsgHandle struct{}
+
+func (d *DeleteMethodDescriptorDescriptor) NewEmptyClientMsg() proto.Message {
+	return &DeleteMethodDescriptorRequest{}
+}
+
+func (d *DeleteMethodDescriptorDescriptor) NewEmptyServerMsg() proto.Message {
+	return &emptypb.Empty{}
+}
+
+func (d *DeleteMethodDescriptorDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *DeleteMethodDescriptorDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *DeleteMethodDescriptorDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *DeleteMethodDescriptorDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *DeleteMethodDescriptorDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *DeleteMethodDescriptorDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *DeleteMethodDescriptorDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetVerb() string {
+	return "delete"
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetMethodName() string {
+	return "DeleteMethodDescriptor"
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetFullMethodName() string {
+	return "/ntt.audit.v1.MethodDescriptorService/DeleteMethodDescriptor"
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetProtoPkgName() string {
+	return "ntt.audit.v1"
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetApiName() string {
+	return "MethodDescriptorService"
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetServiceDomain() string {
+	return "audit.edgelq.com"
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return methodDescriptorServiceDescriptor
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return method_descriptor.GetDescriptor()
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &DeleteMethodDescriptorDescriptorClientMsgHandle{}
+}
+
+func (d *DeleteMethodDescriptorDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &DeleteMethodDescriptorDescriptorServerMsgHandle{}
+}
+
+func (h *DeleteMethodDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*DeleteMethodDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*DeleteMethodDescriptorRequest) *method_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*method_descriptor.Name)(nil)
+}
+
+func (h *DeleteMethodDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*DeleteMethodDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*DeleteMethodDescriptorRequest) []*method_descriptor.Name
+	})
+	if ok {
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*DeleteMethodDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*DeleteMethodDescriptorRequest) *method_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteMethodDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*DeleteMethodDescriptorRequest) *method_descriptor.MethodDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteMethodDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteMethodDescriptorRequest) []*method_descriptor.MethodDescriptor
+	})
+	if ok {
+		return method_descriptor.MethodDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *method_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*emptypb.Empty) []*method_descriptor.Name
+	})
+	if ok {
+		return method_descriptor.MethodDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*emptypb.Empty) *method_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *method_descriptor.MethodDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteMethodDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*method_descriptor.MethodDescriptor
+	})
+	if ok {
+		return method_descriptor.MethodDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetDeleteMethodDescriptorDescriptor() *DeleteMethodDescriptorDescriptor {
+	return deleteMethodDescriptorDescriptor
+}
+
 type MethodDescriptorServiceDescriptor struct{}
 
 func (d *MethodDescriptorServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1648,6 +1866,7 @@ func (d *MethodDescriptorServiceDescriptor) AllMethodDescriptors() []gotenclient
 		watchMethodDescriptorsDescriptor,
 		createMethodDescriptorDescriptor,
 		updateMethodDescriptorDescriptor,
+		deleteMethodDescriptorDescriptor,
 	}
 }
 
@@ -1684,6 +1903,7 @@ func initDescriptors() {
 	watchMethodDescriptorsDescriptor = &WatchMethodDescriptorsDescriptor{}
 	createMethodDescriptorDescriptor = &CreateMethodDescriptorDescriptor{}
 	updateMethodDescriptorDescriptor = &UpdateMethodDescriptorDescriptor{}
+	deleteMethodDescriptorDescriptor = &DeleteMethodDescriptorDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(methodDescriptorServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getMethodDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetMethodDescriptorsDescriptor)
@@ -1692,6 +1912,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchMethodDescriptorsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createMethodDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateMethodDescriptorDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteMethodDescriptorDescriptor)
 }
 
 func init() {

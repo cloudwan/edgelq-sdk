@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetDevice][ntt.devices.v1alpha2.GetDevice]
+// A request message of the GetDevice method.
 type GetDeviceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,8 +163,7 @@ func (m *GetDeviceRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetDevices][ntt.devices.v1alpha2.BatchGetDevices]
+// A request message of the BatchGetDevices method.
 type BatchGetDevicesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +270,7 @@ func (m *BatchGetDevicesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetDevicesResponse
+// A response message of the BatchGetDevices method.
 type BatchGetDevicesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -360,7 +359,7 @@ func (m *BatchGetDevicesResponse) SetMissing(fv []*device.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListDevices][ntt.devices.v1alpha2.ListDevices]
+// A request message of the ListDevices method.
 type ListDevicesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -372,7 +371,7 @@ type ListDevicesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListDevicesResponse.next_page_token][ntt.devices.v1alpha2.ListDevicesResponse.next_page_token]
+	// ListDevicesResponse.next_page_token.
 	PageToken *device.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -560,18 +559,20 @@ func (m *ListDevicesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListDevices][ntt.devices.v1alpha2.ListDevices]
+// A response message of the ListDevices method.
 type ListDevicesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Devices
 	Devices []*device.Device `protobuf:"bytes,1,rep,name=devices,proto3" json:"devices,omitempty" firestore:"devices"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListDevicesRequest.page_token][ntt.devices.v1alpha2.ListDevicesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListDevicesRequest.page_token.
 	PrevPageToken *device.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListDevicesRequest.page_token][ntt.devices.v1alpha2.ListDevicesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListDevicesRequest.page_token.
 	NextPageToken *device.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -703,7 +704,7 @@ func (m *ListDevicesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchDevice][ntt.devices.v1alpha2.WatchDevice]
+// A request message of the WatchDevice method.
 type WatchDeviceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -810,7 +811,7 @@ func (m *WatchDeviceRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchDeviceResponse
+// A response message of the WatchDevice method.
 type WatchDeviceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -882,7 +883,7 @@ func (m *WatchDeviceResponse) SetChange(fv *device.DeviceChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchDevices][ntt.devices.v1alpha2.WatchDevices]
+// A request message of the WatchDevices method.
 type WatchDevicesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1139,7 +1140,7 @@ func (m *WatchDevicesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchDevicesResponse
+// A response message of the WatchDevices method.
 type WatchDevicesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1342,7 +1343,7 @@ func (m *WatchDevicesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateDevice][ntt.devices.v1alpha2.CreateDevice]
+// A request message of the CreateDevice method.
 type CreateDeviceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1431,7 +1432,7 @@ func (m *CreateDeviceRequest) SetDevice(fv *device.Device) {
 	m.Device = fv
 }
 
-// Request message for method [UpdateDevice][ntt.devices.v1alpha2.UpdateDevice]
+// A request message of the UpdateDevice method.
 type UpdateDeviceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1561,7 +1562,7 @@ func (m *UpdateDeviceRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteDevice][ntt.devices.v1alpha2.DeleteDevice]
+// A request message of the DeleteDevice method.
 type DeleteDeviceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

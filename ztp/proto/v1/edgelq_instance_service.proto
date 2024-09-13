@@ -18,7 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "EdgelqInstanceServiceProto";
 option java_package = "com.ntt.ztp.pb.v1";
 
-// Request message for method [GetEdgelqInstance][ntt.ztp.v1.GetEdgelqInstance]
+// A request message of the GetEdgelqInstance method.
 message GetEdgelqInstanceRequest {
   // Name of ntt.ztp.v1.EdgelqInstance
   string name = 1;
@@ -32,8 +32,7 @@ message GetEdgelqInstanceRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetEdgelqInstances][ntt.ztp.v1.BatchGetEdgelqInstances]
+// A request message of the BatchGetEdgelqInstances method.
 message BatchGetEdgelqInstancesRequest {
   // Names of EdgelqInstances
   repeated string names = 2;
@@ -49,7 +48,7 @@ message BatchGetEdgelqInstancesRequest {
   reserved 1;
 }
 
-// BatchGetEdgelqInstancesResponse
+// A response message of the BatchGetEdgelqInstances method.
 message BatchGetEdgelqInstancesResponse {
   // found EdgelqInstances
   repeated EdgelqInstance edgelq_instances = 1;
@@ -58,8 +57,7 @@ message BatchGetEdgelqInstancesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListEdgelqInstances][ntt.ztp.v1.ListEdgelqInstances]
+// A request message of the ListEdgelqInstances method.
 message ListEdgelqInstancesRequest {
   // Parent name of ntt.ztp.v1.EdgelqInstance
   string parent = 1;
@@ -70,7 +68,7 @@ message ListEdgelqInstancesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListEdgelqInstancesResponse.next_page_token][ntt.ztp.v1.ListEdgelqInstancesResponse.next_page_token]
+  // ListEdgelqInstancesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +99,19 @@ message ListEdgelqInstancesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListEdgelqInstances][ntt.ztp.v1.ListEdgelqInstances]
+// A response message of the ListEdgelqInstances method.
 message ListEdgelqInstancesResponse {
   // The list of EdgelqInstances
   repeated EdgelqInstance edgelq_instances = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListEdgelqInstancesRequest.page_token][ntt.ztp.v1.ListEdgelqInstancesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListEdgelqInstancesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListEdgelqInstancesRequest.page_token][ntt.ztp.v1.ListEdgelqInstancesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListEdgelqInstancesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +126,7 @@ message ListEdgelqInstancesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchEdgelqInstance][ntt.ztp.v1.WatchEdgelqInstance]
+// A request message of the WatchEdgelqInstance method.
 message WatchEdgelqInstanceRequest {
   // Name of ntt.ztp.v1.EdgelqInstance
   string name = 1;
@@ -142,11 +140,10 @@ message WatchEdgelqInstanceRequest {
   goten.types.View view = 4;
 }
 
-// WatchEdgelqInstanceResponse
+// A response message of the WatchEdgelqInstance method.
 message WatchEdgelqInstanceResponse { EdgelqInstanceChange change = 1; }
 
-// Request message for method
-// [WatchEdgelqInstances][ntt.ztp.v1.WatchEdgelqInstances]
+// A request message of the WatchEdgelqInstances method.
 message WatchEdgelqInstancesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -206,7 +203,7 @@ message WatchEdgelqInstancesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchEdgelqInstancesResponse
+// A response message of the WatchEdgelqInstances method.
 message WatchEdgelqInstancesResponse {
   // Changes of EdgelqInstances
   repeated EdgelqInstanceChange edgelq_instance_changes = 2;
@@ -272,8 +269,7 @@ message WatchEdgelqInstancesResponse {
   }
 }
 
-// Request message for method
-// [CreateEdgelqInstance][ntt.ztp.v1.CreateEdgelqInstance]
+// A request message of the CreateEdgelqInstance method.
 message CreateEdgelqInstanceRequest {
   // Parent name of ntt.ztp.v1.EdgelqInstance
   string parent = 1;
@@ -282,8 +278,7 @@ message CreateEdgelqInstanceRequest {
   EdgelqInstance edgelq_instance = 2;
 }
 
-// Request message for method
-// [UpdateEdgelqInstance][ntt.ztp.v1.UpdateEdgelqInstance]
+// A request message of the UpdateEdgelqInstance method.
 message UpdateEdgelqInstanceRequest {
   // EdgelqInstance resource body
   EdgelqInstance edgelq_instance = 2;
@@ -318,8 +313,7 @@ message UpdateEdgelqInstanceRequest {
   }
 }
 
-// Request message for method
-// [DeleteEdgelqInstance][ntt.ztp.v1.DeleteEdgelqInstance]
+// A request message of the DeleteEdgelqInstance method.
 message DeleteEdgelqInstanceRequest {
   // Name of ntt.ztp.v1.EdgelqInstance
   string name = 1;

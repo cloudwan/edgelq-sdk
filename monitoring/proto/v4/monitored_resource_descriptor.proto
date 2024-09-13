@@ -65,5 +65,8 @@ message MonitoredResourceDescriptor {
   // underlying backend enabling query optimizations. Metric promoted label sets
   // are combined with MonitoredResource promoted label sets and result in
   // PromotedKeySet.
+  // If they are not specified, it will be necessary to specify indices in
+  // MetricDescriptor. Otherwise they serve as default value if MetricDescriptor
+  // does not describe them.
   repeated LabelKeySet promoted_label_key_sets = 32;
 }

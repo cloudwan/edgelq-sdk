@@ -34,6 +34,9 @@ message OsImageProfile {
   // Display name of the profile
   string display_name = 3;
 
+  // Optional. Description of the profile.
+  string description = 13;
+
   // Device type for the profile
   string device_type = 4;
 

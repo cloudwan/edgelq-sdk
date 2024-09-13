@@ -7044,6 +7044,565 @@ func (fpaov *Aggregation_FieldTerminalPathArrayOfValues) AsGroupByFieldsArrayOfV
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type Pagination_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() Pagination_FieldPathSelector
+	Get(source *Pagination) []interface{}
+	GetSingle(source *Pagination) (interface{}, bool)
+	ClearValue(item *Pagination)
+
+	// Those methods build corresponding Pagination_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) Pagination_FieldPathValue
+	WithIArrayOfValues(values interface{}) Pagination_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) Pagination_FieldPathArrayItemValue
+}
+
+type Pagination_FieldPathSelector int32
+
+const (
+	Pagination_FieldPathSelectorView            Pagination_FieldPathSelector = 0
+	Pagination_FieldPathSelectorFunction        Pagination_FieldPathSelector = 1
+	Pagination_FieldPathSelectorAlignmentPeriod Pagination_FieldPathSelector = 2
+	Pagination_FieldPathSelectorLimit           Pagination_FieldPathSelector = 3
+	Pagination_FieldPathSelectorOffset          Pagination_FieldPathSelector = 4
+)
+
+func (s Pagination_FieldPathSelector) String() string {
+	switch s {
+	case Pagination_FieldPathSelectorView:
+		return "view"
+	case Pagination_FieldPathSelectorFunction:
+		return "function"
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		return "alignment_period"
+	case Pagination_FieldPathSelectorLimit:
+		return "limit"
+	case Pagination_FieldPathSelectorOffset:
+		return "offset"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", s))
+	}
+}
+
+func BuildPagination_FieldPath(fp gotenobject.RawFieldPath) (Pagination_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Pagination")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "view":
+			return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorView}, nil
+		case "function":
+			return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorFunction}, nil
+		case "alignment_period", "alignmentPeriod", "alignment-period":
+			return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorAlignmentPeriod}, nil
+		case "limit":
+			return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorLimit}, nil
+		case "offset":
+			return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorOffset}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Pagination", fp)
+}
+
+func ParsePagination_FieldPath(rawField string) (Pagination_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildPagination_FieldPath(fp)
+}
+
+func MustParsePagination_FieldPath(rawField string) Pagination_FieldPath {
+	fp, err := ParsePagination_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type Pagination_FieldTerminalPath struct {
+	selector Pagination_FieldPathSelector
+}
+
+var _ Pagination_FieldPath = (*Pagination_FieldTerminalPath)(nil)
+
+func (fp *Pagination_FieldTerminalPath) Selector() Pagination_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *Pagination_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *Pagination_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Pagination
+func (fp *Pagination_FieldTerminalPath) Get(source *Pagination) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case Pagination_FieldPathSelectorView:
+			values = append(values, source.View)
+		case Pagination_FieldPathSelectorFunction:
+			values = append(values, source.Function)
+		case Pagination_FieldPathSelectorAlignmentPeriod:
+			if source.AlignmentPeriod != nil {
+				values = append(values, source.AlignmentPeriod)
+			}
+		case Pagination_FieldPathSelectorLimit:
+			values = append(values, source.Limit)
+		case Pagination_FieldPathSelectorOffset:
+			values = append(values, source.Offset)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Pagination: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *Pagination_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Pagination))
+}
+
+// GetSingle returns value pointed by specific field of from source Pagination
+func (fp *Pagination_FieldTerminalPath) GetSingle(source *Pagination) (interface{}, bool) {
+	switch fp.selector {
+	case Pagination_FieldPathSelectorView:
+		return source.GetView(), source != nil
+	case Pagination_FieldPathSelectorFunction:
+		return source.GetFunction(), source != nil
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		res := source.GetAlignmentPeriod()
+		return res, res != nil
+	case Pagination_FieldPathSelectorLimit:
+		return source.GetLimit(), source != nil
+	case Pagination_FieldPathSelectorOffset:
+		return source.GetOffset(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", fp.selector))
+	}
+}
+
+func (fp *Pagination_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Pagination))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *Pagination_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case Pagination_FieldPathSelectorView:
+		return ""
+	case Pagination_FieldPathSelectorFunction:
+		return ""
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		return (*durationpb.Duration)(nil)
+	case Pagination_FieldPathSelectorLimit:
+		return int32(0)
+	case Pagination_FieldPathSelectorOffset:
+		return int32(0)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", fp.selector))
+	}
+}
+
+func (fp *Pagination_FieldTerminalPath) ClearValue(item *Pagination) {
+	if item != nil {
+		switch fp.selector {
+		case Pagination_FieldPathSelectorView:
+			item.View = ""
+		case Pagination_FieldPathSelectorFunction:
+			item.Function = ""
+		case Pagination_FieldPathSelectorAlignmentPeriod:
+			item.AlignmentPeriod = nil
+		case Pagination_FieldPathSelectorLimit:
+			item.Limit = int32(0)
+		case Pagination_FieldPathSelectorOffset:
+			item.Offset = int32(0)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Pagination: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *Pagination_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Pagination))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *Pagination_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == Pagination_FieldPathSelectorView ||
+		fp.selector == Pagination_FieldPathSelectorFunction ||
+		fp.selector == Pagination_FieldPathSelectorAlignmentPeriod ||
+		fp.selector == Pagination_FieldPathSelectorLimit ||
+		fp.selector == Pagination_FieldPathSelectorOffset
+}
+
+func (fp *Pagination_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *Pagination_FieldTerminalPath) WithIValue(value interface{}) Pagination_FieldPathValue {
+	switch fp.selector {
+	case Pagination_FieldPathSelectorView:
+		return &Pagination_FieldTerminalPathValue{Pagination_FieldTerminalPath: *fp, value: value.(string)}
+	case Pagination_FieldPathSelectorFunction:
+		return &Pagination_FieldTerminalPathValue{Pagination_FieldTerminalPath: *fp, value: value.(string)}
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		return &Pagination_FieldTerminalPathValue{Pagination_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
+	case Pagination_FieldPathSelectorLimit:
+		return &Pagination_FieldTerminalPathValue{Pagination_FieldTerminalPath: *fp, value: value.(int32)}
+	case Pagination_FieldPathSelectorOffset:
+		return &Pagination_FieldTerminalPathValue{Pagination_FieldTerminalPath: *fp, value: value.(int32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", fp.selector))
+	}
+}
+
+func (fp *Pagination_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *Pagination_FieldTerminalPath) WithIArrayOfValues(values interface{}) Pagination_FieldPathArrayOfValues {
+	fpaov := &Pagination_FieldTerminalPathArrayOfValues{Pagination_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case Pagination_FieldPathSelectorView:
+		return &Pagination_FieldTerminalPathArrayOfValues{Pagination_FieldTerminalPath: *fp, values: values.([]string)}
+	case Pagination_FieldPathSelectorFunction:
+		return &Pagination_FieldTerminalPathArrayOfValues{Pagination_FieldTerminalPath: *fp, values: values.([]string)}
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		return &Pagination_FieldTerminalPathArrayOfValues{Pagination_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
+	case Pagination_FieldPathSelectorLimit:
+		return &Pagination_FieldTerminalPathArrayOfValues{Pagination_FieldTerminalPath: *fp, values: values.([]int32)}
+	case Pagination_FieldPathSelectorOffset:
+		return &Pagination_FieldTerminalPathArrayOfValues{Pagination_FieldTerminalPath: *fp, values: values.([]int32)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *Pagination_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *Pagination_FieldTerminalPath) WithIArrayItemValue(value interface{}) Pagination_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", fp.selector))
+	}
+}
+
+func (fp *Pagination_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// Pagination_FieldPathValue allows storing values for Pagination fields according to their type
+type Pagination_FieldPathValue interface {
+	Pagination_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Pagination)
+	CompareWith(*Pagination) (cmp int, comparable bool)
+}
+
+func ParsePagination_FieldPathValue(pathStr, valueStr string) (Pagination_FieldPathValue, error) {
+	fp, err := ParsePagination_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Pagination field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(Pagination_FieldPathValue), nil
+}
+
+func MustParsePagination_FieldPathValue(pathStr, valueStr string) Pagination_FieldPathValue {
+	fpv, err := ParsePagination_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type Pagination_FieldTerminalPathValue struct {
+	Pagination_FieldTerminalPath
+	value interface{}
+}
+
+var _ Pagination_FieldPathValue = (*Pagination_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Pagination' as interface{}
+func (fpv *Pagination_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *Pagination_FieldTerminalPathValue) AsViewValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Pagination_FieldTerminalPathValue) AsFunctionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Pagination_FieldTerminalPathValue) AsAlignmentPeriodValue() (*durationpb.Duration, bool) {
+	res, ok := fpv.value.(*durationpb.Duration)
+	return res, ok
+}
+func (fpv *Pagination_FieldTerminalPathValue) AsLimitValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *Pagination_FieldTerminalPathValue) AsOffsetValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Pagination
+func (fpv *Pagination_FieldTerminalPathValue) SetTo(target **Pagination) {
+	if *target == nil {
+		*target = new(Pagination)
+	}
+	switch fpv.selector {
+	case Pagination_FieldPathSelectorView:
+		(*target).View = fpv.value.(string)
+	case Pagination_FieldPathSelectorFunction:
+		(*target).Function = fpv.value.(string)
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		(*target).AlignmentPeriod = fpv.value.(*durationpb.Duration)
+	case Pagination_FieldPathSelectorLimit:
+		(*target).Limit = fpv.value.(int32)
+	case Pagination_FieldPathSelectorOffset:
+		(*target).Offset = fpv.value.(int32)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", fpv.selector))
+	}
+}
+
+func (fpv *Pagination_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Pagination)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'Pagination_FieldTerminalPathValue' with the value under path in 'Pagination'.
+func (fpv *Pagination_FieldTerminalPathValue) CompareWith(source *Pagination) (int, bool) {
+	switch fpv.selector {
+	case Pagination_FieldPathSelectorView:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetView()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Pagination_FieldPathSelectorFunction:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetFunction()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		leftValue := fpv.value.(*durationpb.Duration)
+		rightValue := source.GetAlignmentPeriod()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsDuration() == rightValue.AsDuration() {
+			return 0, true
+		} else if leftValue.AsDuration() < rightValue.AsDuration() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Pagination_FieldPathSelectorLimit:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetLimit()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Pagination_FieldPathSelectorOffset:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pagination: %d", fpv.selector))
+	}
+}
+
+func (fpv *Pagination_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Pagination))
+}
+
+// Pagination_FieldPathArrayItemValue allows storing single item in Path-specific values for Pagination according to their type
+// Present only for array (repeated) types.
+type Pagination_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	Pagination_FieldPath
+	ContainsValue(*Pagination) bool
+}
+
+// ParsePagination_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePagination_FieldPathArrayItemValue(pathStr, valueStr string) (Pagination_FieldPathArrayItemValue, error) {
+	fp, err := ParsePagination_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Pagination field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(Pagination_FieldPathArrayItemValue), nil
+}
+
+func MustParsePagination_FieldPathArrayItemValue(pathStr, valueStr string) Pagination_FieldPathArrayItemValue {
+	fpaiv, err := ParsePagination_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type Pagination_FieldTerminalPathArrayItemValue struct {
+	Pagination_FieldTerminalPath
+	value interface{}
+}
+
+var _ Pagination_FieldPathArrayItemValue = (*Pagination_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Pagination as interface{}
+func (fpaiv *Pagination_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *Pagination_FieldTerminalPathArrayItemValue) GetSingle(source *Pagination) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *Pagination_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Pagination))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Pagination'
+func (fpaiv *Pagination_FieldTerminalPathArrayItemValue) ContainsValue(source *Pagination) bool {
+	slice := fpaiv.Pagination_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// Pagination_FieldPathArrayOfValues allows storing slice of values for Pagination fields according to their type
+type Pagination_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	Pagination_FieldPath
+}
+
+func ParsePagination_FieldPathArrayOfValues(pathStr, valuesStr string) (Pagination_FieldPathArrayOfValues, error) {
+	fp, err := ParsePagination_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Pagination field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(Pagination_FieldPathArrayOfValues), nil
+}
+
+func MustParsePagination_FieldPathArrayOfValues(pathStr, valuesStr string) Pagination_FieldPathArrayOfValues {
+	fpaov, err := ParsePagination_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type Pagination_FieldTerminalPathArrayOfValues struct {
+	Pagination_FieldTerminalPath
+	values interface{}
+}
+
+var _ Pagination_FieldPathArrayOfValues = (*Pagination_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *Pagination_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case Pagination_FieldPathSelectorView:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Pagination_FieldPathSelectorFunction:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Pagination_FieldPathSelectorAlignmentPeriod:
+		for _, v := range fpaov.values.([]*durationpb.Duration) {
+			values = append(values, v)
+		}
+	case Pagination_FieldPathSelectorLimit:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case Pagination_FieldPathSelectorOffset:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *Pagination_FieldTerminalPathArrayOfValues) AsViewArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Pagination_FieldTerminalPathArrayOfValues) AsFunctionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Pagination_FieldTerminalPathArrayOfValues) AsAlignmentPeriodArrayOfValues() ([]*durationpb.Duration, bool) {
+	res, ok := fpaov.values.([]*durationpb.Duration)
+	return res, ok
+}
+func (fpaov *Pagination_FieldTerminalPathArrayOfValues) AsLimitArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *Pagination_FieldTerminalPathArrayOfValues) AsOffsetArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type Metric_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() Metric_FieldPathSelector

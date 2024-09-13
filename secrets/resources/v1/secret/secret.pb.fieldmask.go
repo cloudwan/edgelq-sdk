@@ -53,6 +53,8 @@ func FullSecret_FieldMask() *Secret_FieldMask {
 	res := &Secret_FieldMask{}
 	res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorMetadata})
+	res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorEncData})
 	res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorData})
 	return res
@@ -98,7 +100,7 @@ func (fieldMask *Secret_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Secret_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -128,7 +130,7 @@ func (fieldMask *Secret_FieldMask) Reset() {
 
 func (fieldMask *Secret_FieldMask) Subtract(other *Secret_FieldMask) *Secret_FieldMask {
 	result := &Secret_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[Secret_FieldPathSelector]gotenobject.FieldMask{
 		Secret_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -335,6 +337,10 @@ func (fieldMask *Secret_FieldMask) Project(source *Secret) *Secret {
 			case Secret_FieldPathSelectorMetadata:
 				result.Metadata = source.Metadata
 				wholeMetadataAccepted = true
+			case Secret_FieldPathSelectorDisplayName:
+				result.DisplayName = source.DisplayName
+			case Secret_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case Secret_FieldPathSelectorEncData:
 				result.EncData = source.EncData
 			case Secret_FieldPathSelectorData:

@@ -3648,6 +3648,271 @@ func (fieldMask *Aggregation_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type Pagination_FieldMask struct {
+	Paths []Pagination_FieldPath
+}
+
+func FullPagination_FieldMask() *Pagination_FieldMask {
+	res := &Pagination_FieldMask{}
+	res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorView})
+	res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorFunction})
+	res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorAlignmentPeriod})
+	res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorLimit})
+	res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorOffset})
+	return res
+}
+
+func (fieldMask *Pagination_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Pagination_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Pagination_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParsePagination_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Pagination_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*Pagination_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Pagination_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParsePagination_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Pagination_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Pagination_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Pagination_FieldMask) Subtract(other *Pagination_FieldMask) *Pagination_FieldMask {
+	result := &Pagination_FieldMask{}
+	removedSelectors := make([]bool, 5)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *Pagination_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Pagination_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Pagination_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Pagination_FieldMask) FilterInputFields() *Pagination_FieldMask {
+	result := &Pagination_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Pagination_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Pagination_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]Pagination_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParsePagination_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Pagination_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Pagination_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Pagination_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Pagination_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Pagination_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Pagination_FieldMask) AppendPath(path Pagination_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Pagination_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(Pagination_FieldPath))
+}
+
+func (fieldMask *Pagination_FieldMask) GetPaths() []Pagination_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Pagination_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Pagination_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePagination_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Pagination_FieldMask) Set(target, source *Pagination) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Pagination_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Pagination), source.(*Pagination))
+}
+
+func (fieldMask *Pagination_FieldMask) Project(source *Pagination) *Pagination {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Pagination{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *Pagination_FieldTerminalPath:
+			switch tp.selector {
+			case Pagination_FieldPathSelectorView:
+				result.View = source.View
+			case Pagination_FieldPathSelectorFunction:
+				result.Function = source.Function
+			case Pagination_FieldPathSelectorAlignmentPeriod:
+				result.AlignmentPeriod = source.AlignmentPeriod
+			case Pagination_FieldPathSelectorLimit:
+				result.Limit = source.Limit
+			case Pagination_FieldPathSelectorOffset:
+				result.Offset = source.Offset
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Pagination_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Pagination))
+}
+
+func (fieldMask *Pagination_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type Metric_FieldMask struct {
 	Paths []Metric_FieldPath
 }

@@ -1,0 +1,101 @@
+kind: limits.edgelq.com/Plan
+version: v1
+resources:
+- name: services/applications.edgelq.com/plans/service-large
+  displayName: EdgeLQ Large Service Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: SERVICE
+  businessTier: LARGE
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 100000
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 250000
+
+- name: services/applications.edgelq.com/plans/org-large
+  displayName: EdgeLQ Large Organization Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: LARGE
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 25000
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 60000
+
+- name: services/applications.edgelq.com/plans/org-medium
+  displayName: EdgeLQ Medium Organization Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: MEDIUM
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 15000
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 40000
+
+- name: services/applications.edgelq.com/plans/org-small
+  displayName: EdgeLQ Small Organization Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: SMALL
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 10000
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 25000
+
+- name: services/applications.edgelq.com/plans/org-xsmall
+  displayName: EdgeLQ X-Small Organization Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: XSMALL
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 1000
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 2500
+
+- name: services/applications.edgelq.com/plans/project-large
+  displayName: EdgeLQ Large Project Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: PROJECT
+  businessTier: LARGE
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 500
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 2000
+
+- name: services/applications.edgelq.com/plans/project-medium
+  displayName: EdgeLQ Medium Project Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: PROJECT
+  businessTier: MEDIUM
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 100
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 500
+
+- name: services/applications.edgelq.com/plans/project-small
+  displayName: EdgeLQ Small Project Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: PROJECT
+  businessTier: SMALL
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 25
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 100
+
+- name: services/applications.edgelq.com/plans/project-xsmall
+  displayName: EdgeLQ X-Small Project Plan For Applications
+  service: services/applications.edgelq.com
+  planLevel: PROJECT
+  businessTier: XSMALL
+  resourceLimits:
+  - resource: services/applications.edgelq.com/resources/Distribution
+    value: 5
+  - resource: services/applications.edgelq.com/resources/Pod
+    value: 25

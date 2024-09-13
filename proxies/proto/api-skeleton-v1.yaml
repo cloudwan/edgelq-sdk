@@ -1,0 +1,59 @@
+name: proxies.edgelq.com
+proto:
+  package:
+    name: ntt.proxies
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/proxies
+    protoImportPathPrefix: edgelq/proxies/proto
+  service:
+    name: Proxies
+    defaultHost: proxies.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+resources:
+- name: Project
+  multiRegion:
+    isPolicyHolder: true
+
+apis:
+- name: Broker
+  actions:
+  - name: Connect
+    verb: connect
+    opResourceInfo:
+      name: Project
+      requestPaths:
+        resourceName: [ "open_request.project", "resume_request.project" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: MANUAL
+    streamingRequest: true
+    streamingResponse: true
+    multiRegionRouting:
+      regionIdFieldPaths: [ "open_request.region_id", "resume_request.region_id" ]
+  - name: Listen
+    verb: listen
+    opResourceInfo:
+      name: Project
+      requestPaths:
+        resourceName: [ "open_request.project", "resume_request.project" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: MANUAL
+    streamingRequest: true
+    streamingResponse: true
+    multiRegionRouting:
+      regionIdFieldPaths: [ "open_request.region_id", "resume_request.region_id" ]
+  - name: Accept
+    verb: accept
+    opResourceInfo:
+      name: Project
+      requestPaths:
+        resourceName: [ "open_request.project", "resume_request.project" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: MANUAL
+    streamingRequest: true
+    streamingResponse: true
+    multiRegionRouting:
+      regionIdFieldPaths: [ "open_request.region_id", "resume_request.region_id" ]

@@ -53,6 +53,8 @@ message Alert {
       Metric metric = 1;
 
       MonitoredResource monitored_resource = 2;
+
+      repeated string data = 3;
     }
 
     message ObservedValues {

@@ -238,6 +238,14 @@ func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
 	return &filterCndBuilderMetadata{builder: b.builder}
 }
 
+func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
+	return &filterCndBuilderDisplayName{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
+	return &filterCndBuilderDescription{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Spec() *filterCndBuilderSpec {
 	return &filterCndBuilderSpec{builder: b.builder}
 }
@@ -248,10 +256,6 @@ func (b *filterCndBuilder) Status() *filterCndBuilderStatus {
 
 func (b *filterCndBuilder) PublicListingSpec() *filterCndBuilderPublicListingSpec {
 	return &filterCndBuilderPublicListingSpec{builder: b.builder}
-}
-
-func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
-	return &filterCndBuilderDisplayName{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -2335,6 +2339,124 @@ func (b *filterCndBuilderMetadataServicesAllowedServices) compare(op gotenfilter
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Metadata().Services().AllowedServices().WithValue(value),
+	})
+}
+
+type filterCndBuilderDisplayName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDisplayName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDisplayName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDisplayName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().DisplayName().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().DisplayName().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().DisplayName().WithValue(value),
+	})
+}
+
+type filterCndBuilderDescription struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDescription) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDescription) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDescription) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDescription) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDescription) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDescription) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDescription) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Description().WithValue(value),
 	})
 }
 
@@ -14392,827 +14514,730 @@ func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfo) compare(
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfo) Memory() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory{builder: b.builder}
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfo) Description() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription{builder: b.builder}
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory struct {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfo) SizeBytes() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfo) MemoryBanks() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks{builder: b.builder}
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Eq(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Neq(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Gt(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Gte(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Lt(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Lte(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) In(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Description().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) NotIn(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Description().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Description().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Description().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Contains(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Description().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().SizeBytes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().SizeBytes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().SizeBytes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().SizeBytes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().SizeBytes().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Eq(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Neq(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Gt(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Gte(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Lt(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Lte(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) In(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) NotIn(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Contains(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().FieldPath(),
-		Value:     NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().WithItemValue(value),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WithItemValue(value),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) ContainsAnyOf(values []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
-	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory()
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) ContainsAnyOf(values []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks()
 	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
 		itemValues = append(itemValues, pathSelector.WithItemValue(value))
 	}
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeAny,
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FieldPath(),
 		Values:    itemValues,
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) ContainsAll(values []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
-	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory()
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) ContainsAll(values []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks()
 	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
 		itemValues = append(itemValues, pathSelector.WithItemValue(value))
 	}
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeAll,
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FieldPath(),
 		Values:    itemValues,
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) compare(op gotenfilter.CompareOperator, value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) compare(op gotenfilter.CompareOperator, value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WithValue(value),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) Description() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription{builder: b.builder}
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Description() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription{builder: b.builder}
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) SizeBytes() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes{builder: b.builder}
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Product() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct{builder: b.builder}
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemory) MemoryBanks() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks{builder: b.builder}
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Vendor() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor{builder: b.builder}
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription struct {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Serial() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Slot() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) SizeBytes() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) FrequencyHz() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WidthBits() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits {
+	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits{builder: b.builder}
+}
+
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().Description().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Description().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().Description().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Description().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().Description().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Description().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().Description().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Description().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().Description().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Description().WithValue(value),
 	})
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes struct {
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) Eq(value int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) Neq(value int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) Gt(value int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) Gte(value int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) Lt(value int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) Lte(value int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) In(values []int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().SizeBytes().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Product().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) NotIn(values []int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().SizeBytes().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Product().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().SizeBytes().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Product().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().SizeBytes().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Product().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().SizeBytes().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Product().WithValue(value),
 	})
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks struct {
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Eq(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Neq(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Gt(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Gte(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Lt(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Lte(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) In(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Vendor().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) NotIn(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Vendor().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Vendor().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Vendor().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Contains(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeValue,
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FieldPath(),
-		Value:     NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WithItemValue(value),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) ContainsAnyOf(values []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
-	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks()
-	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAny,
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) ContainsAll(values []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
-	pathSelector := NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks()
-	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAll,
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) compare(op gotenfilter.CompareOperator, value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Vendor().WithValue(value),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Description() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription{builder: b.builder}
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Product() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct{builder: b.builder}
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Vendor() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor{builder: b.builder}
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Serial() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial{builder: b.builder}
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Slot() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot{builder: b.builder}
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) SizeBytes() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes{builder: b.builder}
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) FrequencyHz() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz{builder: b.builder}
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WidthBits() *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits {
-	return &filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits{builder: b.builder}
-}
-
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription struct {
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Description().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Serial().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Description().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Serial().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Description().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Serial().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Description().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Serial().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Description().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Serial().WithValue(value),
 	})
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct struct {
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Product().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Slot().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Product().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Slot().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Product().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Slot().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Product().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Slot().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Product().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Slot().WithValue(value),
 	})
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor struct {
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) Eq(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) Neq(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) Gt(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) Gte(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) Lt(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) Lte(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) In(values []int64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Vendor().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().SizeBytes().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) NotIn(values []int64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Vendor().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().SizeBytes().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Vendor().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().SizeBytes().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Vendor().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().SizeBytes().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Vendor().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().SizeBytes().WithValue(value),
 	})
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial struct {
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) Eq(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) Neq(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) Gt(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) Gte(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) Lt(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) Lte(value int64) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) In(values []int64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Serial().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FrequencyHz().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) NotIn(values []int64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Serial().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FrequencyHz().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Serial().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FrequencyHz().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Serial().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FrequencyHz().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Serial().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FrequencyHz().WithValue(value),
 	})
 }
 
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot struct {
+type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) Eq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) Eq(value int32) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) Neq(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) Neq(value int32) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) Gt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) Gt(value int32) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) Gte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) Gte(value int32) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) Lt(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) Lt(value int32) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) Lte(value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) Lte(value int32) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) In(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) In(values []int32) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Slot().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WidthBits().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) NotIn(values []string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) NotIn(values []int32) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Slot().WithArrayOfValues(values),
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WidthBits().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) IsNull() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Slot().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WidthBits().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) IsNan() *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Slot().FieldPath(),
+		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WidthBits().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Slot().WithValue(value),
-	})
-}
-
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) Eq(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) Neq(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) Gt(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) Gte(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) Lt(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) Lte(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) In(values []int64) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().SizeBytes().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) NotIn(values []int64) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().SizeBytes().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().SizeBytes().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().SizeBytes().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().SizeBytes().WithValue(value),
-	})
-}
-
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) Eq(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) Neq(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) Gt(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) Gte(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) Lt(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) Lte(value int64) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) In(values []int64) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FrequencyHz().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) NotIn(values []int64) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FrequencyHz().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FrequencyHz().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FrequencyHz().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FrequencyHz().WithValue(value),
-	})
-}
-
-type filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) Eq(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) Neq(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) Gt(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) Gte(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) Lt(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) Lte(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) In(values []int32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) NotIn(values []int32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().WithValue(value),
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Status().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WidthBits().WithValue(value),
 	})
 }
 
@@ -23536,64 +23561,5 @@ func (b *filterCndBuilderPublicListingSpecFieldMask) compare(op gotenfilter.Comp
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().PublicListingSpec().FieldMask().WithValue(value),
-	})
-}
-
-type filterCndBuilderDisplayName struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderDisplayName) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderDisplayName) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderDisplayName) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderDisplayName) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderDisplayName) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderDisplayName) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderDisplayName) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().DisplayName().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDisplayName) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().DisplayName().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderDisplayName) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewDeviceFieldPathBuilder().DisplayName().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDisplayName) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewDeviceFieldPathBuilder().DisplayName().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Device_FieldPathValue: NewDeviceFieldPathBuilder().DisplayName().WithValue(value),
 	})
 }

@@ -74,6 +74,9 @@ func (o *OsImageProfile) MakeDiffFieldMask(other *OsImageProfile) *OsImageProfil
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDisplayName})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDescription})
+	}
 	if o.GetDeviceType().String() != other.GetDeviceType().String() {
 		res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDeviceType})
 	}
@@ -125,6 +128,7 @@ func (o *OsImageProfile) Clone() *OsImageProfile {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	if o.DeviceType == nil {
 		result.DeviceType = nil
 	} else if data, err := o.DeviceType.ProtoString(); err != nil {
@@ -170,6 +174,7 @@ func (o *OsImageProfile) Merge(source *OsImageProfile) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	if source.GetDeviceType() != nil {
 		if data, err := source.GetDeviceType().ProtoString(); err != nil {
 			panic(err)

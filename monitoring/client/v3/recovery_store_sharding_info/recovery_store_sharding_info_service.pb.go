@@ -54,8 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetRecoveryStoreShardingInfo][ntt.monitoring.v3.GetRecoveryStoreShardingInfo]
+// A request message of the GetRecoveryStoreShardingInfo method.
 type GetRecoveryStoreShardingInfoRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -162,8 +161,7 @@ func (m *GetRecoveryStoreShardingInfoRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetRecoveryStoreShardingInfos][ntt.monitoring.v3.BatchGetRecoveryStoreShardingInfos]
+// A request message of the BatchGetRecoveryStoreShardingInfos method.
 type BatchGetRecoveryStoreShardingInfosRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -270,7 +268,7 @@ func (m *BatchGetRecoveryStoreShardingInfosRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetRecoveryStoreShardingInfosResponse
+// A response message of the BatchGetRecoveryStoreShardingInfos method.
 type BatchGetRecoveryStoreShardingInfosResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -359,8 +357,7 @@ func (m *BatchGetRecoveryStoreShardingInfosResponse) SetMissing(fv []*recovery_s
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListRecoveryStoreShardingInfos][ntt.monitoring.v3.ListRecoveryStoreShardingInfos]
+// A request message of the ListRecoveryStoreShardingInfos method.
 type ListRecoveryStoreShardingInfosRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -372,7 +369,7 @@ type ListRecoveryStoreShardingInfosRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListRecoveryStoreShardingInfosResponse.next_page_token][ntt.monitoring.v3.ListRecoveryStoreShardingInfosResponse.next_page_token]
+	// ListRecoveryStoreShardingInfosResponse.next_page_token.
 	PageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -560,19 +557,20 @@ func (m *ListRecoveryStoreShardingInfosRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListRecoveryStoreShardingInfos][ntt.monitoring.v3.ListRecoveryStoreShardingInfos]
+// A response message of the ListRecoveryStoreShardingInfos method.
 type ListRecoveryStoreShardingInfosResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of RecoveryStoreShardingInfos
 	RecoveryStoreShardingInfos []*recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,1,rep,name=recovery_store_sharding_infos,json=recoveryStoreShardingInfos,proto3" json:"recovery_store_sharding_infos,omitempty" firestore:"recoveryStoreShardingInfos"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListRecoveryStoreShardingInfosRequest.page_token][ntt.monitoring.v3.ListRecoveryStoreShardingInfosRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListRecoveryStoreShardingInfosRequest.page_token.
 	PrevPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListRecoveryStoreShardingInfosRequest.page_token][ntt.monitoring.v3.ListRecoveryStoreShardingInfosRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListRecoveryStoreShardingInfosRequest.page_token.
 	NextPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -705,8 +703,7 @@ func (m *ListRecoveryStoreShardingInfosResponse) SetTotalResultsCount(fv int32) 
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchRecoveryStoreShardingInfo][ntt.monitoring.v3.WatchRecoveryStoreShardingInfo]
+// A request message of the WatchRecoveryStoreShardingInfo method.
 type WatchRecoveryStoreShardingInfoRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -813,7 +810,7 @@ func (m *WatchRecoveryStoreShardingInfoRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchRecoveryStoreShardingInfoResponse
+// A response message of the WatchRecoveryStoreShardingInfo method.
 type WatchRecoveryStoreShardingInfoResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -885,8 +882,7 @@ func (m *WatchRecoveryStoreShardingInfoResponse) SetChange(fv *recovery_store_sh
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchRecoveryStoreShardingInfos][ntt.monitoring.v3.WatchRecoveryStoreShardingInfos]
+// A request message of the WatchRecoveryStoreShardingInfos method.
 type WatchRecoveryStoreShardingInfosRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1144,7 +1140,7 @@ func (m *WatchRecoveryStoreShardingInfosRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchRecoveryStoreShardingInfosResponse
+// A response message of the WatchRecoveryStoreShardingInfos method.
 type WatchRecoveryStoreShardingInfosResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1347,8 +1343,7 @@ func (m *WatchRecoveryStoreShardingInfosResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateRecoveryStoreShardingInfo][ntt.monitoring.v3.CreateRecoveryStoreShardingInfo]
+// A request message of the CreateRecoveryStoreShardingInfo method.
 type CreateRecoveryStoreShardingInfoRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1437,8 +1432,7 @@ func (m *CreateRecoveryStoreShardingInfoRequest) SetRecoveryStoreShardingInfo(fv
 	m.RecoveryStoreShardingInfo = fv
 }
 
-// Request message for method
-// [UpdateRecoveryStoreShardingInfo][ntt.monitoring.v3.UpdateRecoveryStoreShardingInfo]
+// A request message of the UpdateRecoveryStoreShardingInfo method.
 type UpdateRecoveryStoreShardingInfoRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1568,8 +1562,7 @@ func (m *UpdateRecoveryStoreShardingInfoRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteRecoveryStoreShardingInfo][ntt.monitoring.v3.DeleteRecoveryStoreShardingInfo]
+// A request message of the DeleteRecoveryStoreShardingInfo method.
 type DeleteRecoveryStoreShardingInfoRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

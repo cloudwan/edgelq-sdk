@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "TpmAttestationCertServiceProto";
 option java_package = "com.ntt.ztp.pb.v1";
 
-// Request message for method
-// [GetTpmAttestationCert][ntt.ztp.v1.GetTpmAttestationCert]
+// A request message of the GetTpmAttestationCert method.
 message GetTpmAttestationCertRequest {
   // Name of ntt.ztp.v1.TpmAttestationCert
   string name = 1;
@@ -32,8 +31,7 @@ message GetTpmAttestationCertRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetTpmAttestationCerts][ntt.ztp.v1.BatchGetTpmAttestationCerts]
+// A request message of the BatchGetTpmAttestationCerts method.
 message BatchGetTpmAttestationCertsRequest {
   // Names of TpmAttestationCerts
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetTpmAttestationCertsRequest {
   reserved 1;
 }
 
-// BatchGetTpmAttestationCertsResponse
+// A response message of the BatchGetTpmAttestationCerts method.
 message BatchGetTpmAttestationCertsResponse {
   // found TpmAttestationCerts
   repeated TpmAttestationCert tpm_attestation_certs = 1;
@@ -58,8 +56,7 @@ message BatchGetTpmAttestationCertsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListTpmAttestationCerts][ntt.ztp.v1.ListTpmAttestationCerts]
+// A request message of the ListTpmAttestationCerts method.
 message ListTpmAttestationCertsRequest {
   // Parent name of ntt.ztp.v1.TpmAttestationCert
   string parent = 1;
@@ -70,7 +67,7 @@ message ListTpmAttestationCertsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListTpmAttestationCertsResponse.next_page_token][ntt.ztp.v1.ListTpmAttestationCertsResponse.next_page_token]
+  // ListTpmAttestationCertsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListTpmAttestationCertsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListTpmAttestationCerts][ntt.ztp.v1.ListTpmAttestationCerts]
+// A response message of the ListTpmAttestationCerts method.
 message ListTpmAttestationCertsResponse {
   // The list of TpmAttestationCerts
   repeated TpmAttestationCert tpm_attestation_certs = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListTpmAttestationCertsRequest.page_token][ntt.ztp.v1.ListTpmAttestationCertsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListTpmAttestationCertsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListTpmAttestationCertsRequest.page_token][ntt.ztp.v1.ListTpmAttestationCertsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListTpmAttestationCertsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +125,7 @@ message ListTpmAttestationCertsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchTpmAttestationCert][ntt.ztp.v1.WatchTpmAttestationCert]
+// A request message of the WatchTpmAttestationCert method.
 message WatchTpmAttestationCertRequest {
   // Name of ntt.ztp.v1.TpmAttestationCert
   string name = 1;
@@ -142,11 +139,10 @@ message WatchTpmAttestationCertRequest {
   goten.types.View view = 4;
 }
 
-// WatchTpmAttestationCertResponse
+// A response message of the WatchTpmAttestationCert method.
 message WatchTpmAttestationCertResponse { TpmAttestationCertChange change = 1; }
 
-// Request message for method
-// [WatchTpmAttestationCerts][ntt.ztp.v1.WatchTpmAttestationCerts]
+// A request message of the WatchTpmAttestationCerts method.
 message WatchTpmAttestationCertsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -207,7 +203,7 @@ message WatchTpmAttestationCertsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchTpmAttestationCertsResponse
+// A response message of the WatchTpmAttestationCerts method.
 message WatchTpmAttestationCertsResponse {
   // Changes of TpmAttestationCerts
   repeated TpmAttestationCertChange tpm_attestation_cert_changes = 2;
@@ -273,8 +269,7 @@ message WatchTpmAttestationCertsResponse {
   }
 }
 
-// Request message for method
-// [CreateTpmAttestationCert][ntt.ztp.v1.CreateTpmAttestationCert]
+// A request message of the CreateTpmAttestationCert method.
 message CreateTpmAttestationCertRequest {
   // Parent name of ntt.ztp.v1.TpmAttestationCert
   string parent = 1;
@@ -283,8 +278,7 @@ message CreateTpmAttestationCertRequest {
   TpmAttestationCert tpm_attestation_cert = 2;
 }
 
-// Request message for method
-// [UpdateTpmAttestationCert][ntt.ztp.v1.UpdateTpmAttestationCert]
+// A request message of the UpdateTpmAttestationCert method.
 message UpdateTpmAttestationCertRequest {
   // TpmAttestationCert resource body
   TpmAttestationCert tpm_attestation_cert = 2;
@@ -319,8 +313,7 @@ message UpdateTpmAttestationCertRequest {
   }
 }
 
-// Request message for method
-// [DeleteTpmAttestationCert][ntt.ztp.v1.DeleteTpmAttestationCert]
+// A request message of the DeleteTpmAttestationCert method.
 message DeleteTpmAttestationCertRequest {
   // Name of ntt.ztp.v1.TpmAttestationCert
   string name = 1;

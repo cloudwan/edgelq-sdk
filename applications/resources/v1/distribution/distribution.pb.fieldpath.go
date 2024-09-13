@@ -75,8 +75,9 @@ const (
 	Distribution_FieldPathSelectorName        Distribution_FieldPathSelector = 0
 	Distribution_FieldPathSelectorMetadata    Distribution_FieldPathSelector = 1
 	Distribution_FieldPathSelectorDisplayName Distribution_FieldPathSelector = 2
-	Distribution_FieldPathSelectorSpec        Distribution_FieldPathSelector = 3
-	Distribution_FieldPathSelectorStatus      Distribution_FieldPathSelector = 4
+	Distribution_FieldPathSelectorDescription Distribution_FieldPathSelector = 3
+	Distribution_FieldPathSelectorSpec        Distribution_FieldPathSelector = 4
+	Distribution_FieldPathSelectorStatus      Distribution_FieldPathSelector = 5
 )
 
 func (s Distribution_FieldPathSelector) String() string {
@@ -87,6 +88,8 @@ func (s Distribution_FieldPathSelector) String() string {
 		return "metadata"
 	case Distribution_FieldPathSelectorDisplayName:
 		return "display_name"
+	case Distribution_FieldPathSelectorDescription:
+		return "description"
 	case Distribution_FieldPathSelectorSpec:
 		return "spec"
 	case Distribution_FieldPathSelectorStatus:
@@ -108,6 +111,8 @@ func BuildDistribution_FieldPath(fp gotenobject.RawFieldPath) (Distribution_Fiel
 			return &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorDescription}, nil
 		case "spec":
 			return &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorSpec}, nil
 		case "status":
@@ -188,6 +193,8 @@ func (fp *Distribution_FieldTerminalPath) Get(source *Distribution) (values []in
 			}
 		case Distribution_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case Distribution_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case Distribution_FieldPathSelectorSpec:
 			if source.Spec != nil {
 				values = append(values, source.Spec)
@@ -218,6 +225,8 @@ func (fp *Distribution_FieldTerminalPath) GetSingle(source *Distribution) (inter
 		return res, res != nil
 	case Distribution_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case Distribution_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case Distribution_FieldPathSelectorSpec:
 		res := source.GetSpec()
 		return res, res != nil
@@ -242,6 +251,8 @@ func (fp *Distribution_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Distribution_FieldPathSelectorDisplayName:
 		return ""
+	case Distribution_FieldPathSelectorDescription:
+		return ""
 	case Distribution_FieldPathSelectorSpec:
 		return (*Distribution_Spec)(nil)
 	case Distribution_FieldPathSelectorStatus:
@@ -260,6 +271,8 @@ func (fp *Distribution_FieldTerminalPath) ClearValue(item *Distribution) {
 			item.Metadata = nil
 		case Distribution_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case Distribution_FieldPathSelectorDescription:
+			item.Description = ""
 		case Distribution_FieldPathSelectorSpec:
 			item.Spec = nil
 		case Distribution_FieldPathSelectorStatus:
@@ -277,7 +290,8 @@ func (fp *Distribution_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *Distribution_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Distribution_FieldPathSelectorName ||
-		fp.selector == Distribution_FieldPathSelectorDisplayName
+		fp.selector == Distribution_FieldPathSelectorDisplayName ||
+		fp.selector == Distribution_FieldPathSelectorDescription
 }
 
 func (fp *Distribution_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -291,6 +305,8 @@ func (fp *Distribution_FieldTerminalPath) WithIValue(value interface{}) Distribu
 	case Distribution_FieldPathSelectorMetadata:
 		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Distribution_FieldPathSelectorDisplayName:
+		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(string)}
+	case Distribution_FieldPathSelectorDescription:
 		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(string)}
 	case Distribution_FieldPathSelectorSpec:
 		return &Distribution_FieldTerminalPathValue{Distribution_FieldTerminalPath: *fp, value: value.(*Distribution_Spec)}
@@ -313,6 +329,8 @@ func (fp *Distribution_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case Distribution_FieldPathSelectorMetadata:
 		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Distribution_FieldPathSelectorDisplayName:
+		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]string)}
+	case Distribution_FieldPathSelectorDescription:
 		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]string)}
 	case Distribution_FieldPathSelectorSpec:
 		return &Distribution_FieldTerminalPathArrayOfValues{Distribution_FieldTerminalPath: *fp, values: values.([]*Distribution_Spec)}
@@ -528,6 +546,10 @@ func (fpv *Distribution_FieldTerminalPathValue) AsDisplayNameValue() (string, bo
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Distribution_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Distribution_FieldTerminalPathValue) AsSpecValue() (*Distribution_Spec, bool) {
 	res, ok := fpv.value.(*Distribution_Spec)
 	return res, ok
@@ -549,6 +571,8 @@ func (fpv *Distribution_FieldTerminalPathValue) SetTo(target **Distribution) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Distribution_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case Distribution_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case Distribution_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*Distribution_Spec)
 	case Distribution_FieldPathSelectorStatus:
@@ -590,6 +614,16 @@ func (fpv *Distribution_FieldTerminalPathValue) CompareWith(source *Distribution
 	case Distribution_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Distribution_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -819,6 +853,10 @@ func (fpaov *Distribution_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Distribution_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Distribution_FieldPathSelectorSpec:
 		for _, v := range fpaov.values.([]*Distribution_Spec) {
 			values = append(values, v)
@@ -839,6 +877,10 @@ func (fpaov *Distribution_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValue
 	return res, ok
 }
 func (fpaov *Distribution_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Distribution_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

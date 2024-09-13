@@ -56,6 +56,12 @@ func (obj *Organization) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Organization", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("Organization", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if obj.MultiRegionPolicy == nil {
 		return gotenvalidate.NewValidationError("Organization", "multiRegionPolicy", obj.MultiRegionPolicy, "field is required", nil)
 	}

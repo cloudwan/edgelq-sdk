@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetPlan][ntt.limits.v1alpha2.GetPlan]
+// A request message of the GetPlan method.
 type GetPlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,7 +161,7 @@ func (m *GetPlanRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetPlans][ntt.limits.v1alpha2.BatchGetPlans]
+// A request message of the BatchGetPlans method.
 type BatchGetPlansRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -268,7 +268,7 @@ func (m *BatchGetPlansRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetPlansResponse
+// A response message of the BatchGetPlans method.
 type BatchGetPlansResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -357,7 +357,7 @@ func (m *BatchGetPlansResponse) SetMissing(fv []*plan.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListPlans][ntt.limits.v1alpha2.ListPlans]
+// A request message of the ListPlans method.
 type ListPlansRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -367,7 +367,7 @@ type ListPlansRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListPlansResponse.next_page_token][ntt.limits.v1alpha2.ListPlansResponse.next_page_token]
+	// ListPlansResponse.next_page_token.
 	PageToken *plan.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -541,18 +541,20 @@ func (m *ListPlansRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListPlans][ntt.limits.v1alpha2.ListPlans]
+// A response message of the ListPlans method.
 type ListPlansResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Plans
 	Plans []*plan.Plan `protobuf:"bytes,1,rep,name=plans,proto3" json:"plans,omitempty" firestore:"plans"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListPlansRequest.page_token][ntt.limits.v1alpha2.ListPlansRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListPlansRequest.page_token.
 	PrevPageToken *plan.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListPlansRequest.page_token][ntt.limits.v1alpha2.ListPlansRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListPlansRequest.page_token.
 	NextPageToken *plan.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -684,7 +686,7 @@ func (m *ListPlansResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchPlan][ntt.limits.v1alpha2.WatchPlan]
+// A request message of the WatchPlan method.
 type WatchPlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -791,7 +793,7 @@ func (m *WatchPlanRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchPlanResponse
+// A response message of the WatchPlan method.
 type WatchPlanResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -863,7 +865,7 @@ func (m *WatchPlanResponse) SetChange(fv *plan.PlanChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchPlans][ntt.limits.v1alpha2.WatchPlans]
+// A request message of the WatchPlans method.
 type WatchPlansRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1104,7 +1106,7 @@ func (m *WatchPlansRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchPlansResponse
+// A response message of the WatchPlans method.
 type WatchPlansResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1307,7 +1309,7 @@ func (m *WatchPlansResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreatePlan][ntt.limits.v1alpha2.CreatePlan]
+// A request message of the CreatePlan method.
 type CreatePlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1380,7 +1382,7 @@ func (m *CreatePlanRequest) SetPlan(fv *plan.Plan) {
 	m.Plan = fv
 }
 
-// Request message for method [UpdatePlan][ntt.limits.v1alpha2.UpdatePlan]
+// A request message of the UpdatePlan method.
 type UpdatePlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1510,7 +1512,7 @@ func (m *UpdatePlanRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeletePlan][ntt.limits.v1alpha2.DeletePlan]
+// A request message of the DeletePlan method.
 type DeletePlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

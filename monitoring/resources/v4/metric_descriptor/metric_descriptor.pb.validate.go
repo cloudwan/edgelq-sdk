@@ -38,6 +38,13 @@ var (
 	_ = utf8.RuneCountInString
 	_ = url.Parse
 	_ = gotenvalidate.NewValidationError
+
+	validation_regex_LabelsGroup_metric_keys_3767d375e69c51f9742b2f17e9eb21a2                 = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,31}$")
+	validation_regex_LabelsGroup_resource_keys_3767d375e69c51f9742b2f17e9eb21a2               = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,31}$")
+	validation_regex_PaginationView_filterable_metric_keys_3767d375e69c51f9742b2f17e9eb21a2   = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,31}$")
+	validation_regex_PaginationView_filterable_resource_keys_3767d375e69c51f9742b2f17e9eb21a2 = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,31}$")
+	validation_regex_PaginationView_paginated_metric_keys_3767d375e69c51f9742b2f17e9eb21a2    = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,31}$")
+	validation_regex_PaginationView_paginated_resource_keys_3767d375e69c51f9742b2f17e9eb21a2  = regexp.MustCompile("^[_A-Za-z][_A-Za-z0-9]{0,31}$")
 )
 
 // make sure we're using proto imports
@@ -58,6 +65,12 @@ func (obj *MetricDescriptor) GotenValidate() error {
 			return gotenvalidate.NewValidationError("MetricDescriptor", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	if len(obj.Type) > 256 {
+		return gotenvalidate.NewValidationError("MetricDescriptor", "type", obj.Type, "field must contain at most 256 characters", nil)
+	}
+	if len(obj.ResourceTypes) > 25 {
+		return gotenvalidate.NewValidationError("MetricDescriptor", "resourceTypes", obj.ResourceTypes, "field must have at most 25 items", nil)
+	}
 	if len(obj.ResourceTypes) > 1 {
 		values := make(map[string]struct{})
 		for _, v := range obj.ResourceTypes {
@@ -67,11 +80,35 @@ func (obj *MetricDescriptor) GotenValidate() error {
 			values[v] = struct{}{}
 		}
 	}
+	for _, el := range obj.ResourceTypes {
+
+		if len(el) > 256 {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "resourceTypes", el, "field must contain at most 256 characters", nil)
+		}
+	}
 	for idx, elem := range obj.Labels {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("MetricDescriptor", "labels", obj.Labels[idx], "nested object validation failed", err)
 			}
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Unit)
+		if rlen > 32 {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "unit", obj.Unit, "field must contain at most 32 characters", nil)
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 128 {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "displayName", obj.DisplayName, "field must contain at most 128 characters", nil)
 		}
 	}
 	if subobj, ok := interface{}(obj.MetricDescriptorMetadata).(gotenvalidate.Validator); ok {
@@ -96,9 +133,19 @@ func (obj *MetricDescriptor) GotenValidate() error {
 			return gotenvalidate.NewValidationError("MetricDescriptor", "indexSpec", obj.IndexSpec, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.Indices).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "indices", obj.Indices, "nested object validation failed", err)
+		}
+	}
 	if subobj, ok := interface{}(obj.StorageConfig).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("MetricDescriptor", "storageConfig", obj.StorageConfig, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.BinaryIndices).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "binaryIndices", obj.BinaryIndices, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -131,9 +178,51 @@ func (obj *MetricDescriptor_IndexSpec) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *MetricDescriptor_Indices) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.BuiltIn).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Indices", "builtIn", obj.BuiltIn, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.UserDefined).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Indices", "userDefined", obj.UserDefined, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.LegacyMigrated {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Indices", "legacyMigrated", obj.LegacyMigrated[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *MetricDescriptor_StorageConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_BinaryIndices) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.ByResources {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("BinaryIndices", "byResources", obj.ByResources[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -157,6 +246,402 @@ func (obj *MetricDescriptor_IndexSpec_PerMonitoredResource) GotenValidate() erro
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
 				return gotenvalidate.NewValidationError("PerMonitoredResource", "indices", obj.Indices[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_LabelsGroup) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Name)
+		if rlen < 1 {
+			return gotenvalidate.NewValidationError("LabelsGroup", "name", obj.Name, "field must contain at least 1 characters", nil)
+		}
+		if rlen > 64 {
+			return gotenvalidate.NewValidationError("LabelsGroup", "name", obj.Name, "field must contain at most 64 characters", nil)
+		}
+	}
+	if len(obj.MetricKeys) > 16 {
+		return gotenvalidate.NewValidationError("LabelsGroup", "metricKeys", obj.MetricKeys, "field must have at most 16 items", nil)
+	}
+	for _, el := range obj.MetricKeys {
+
+		if !validation_regex_LabelsGroup_metric_keys_3767d375e69c51f9742b2f17e9eb21a2.Match([]byte(el)) {
+			return gotenvalidate.NewValidationError("LabelsGroup", "metricKeys", el, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,31}$", nil)
+		}
+	}
+	if len(obj.ResourceKeys) > 16 {
+		return gotenvalidate.NewValidationError("LabelsGroup", "resourceKeys", obj.ResourceKeys, "field must have at most 16 items", nil)
+	}
+	for _, el := range obj.ResourceKeys {
+
+		if !validation_regex_LabelsGroup_resource_keys_3767d375e69c51f9742b2f17e9eb21a2.Match([]byte(el)) {
+			return gotenvalidate.NewValidationError("LabelsGroup", "resourceKeys", el, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,31}$", nil)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_PaginationView) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Name)
+		if rlen < 1 {
+			return gotenvalidate.NewValidationError("PaginationView", "name", obj.Name, "field must contain at least 1 characters", nil)
+		}
+		if rlen > 64 {
+			return gotenvalidate.NewValidationError("PaginationView", "name", obj.Name, "field must contain at most 64 characters", nil)
+		}
+	}
+	if len(obj.FilterableMetricKeys) > 16 {
+		return gotenvalidate.NewValidationError("PaginationView", "filterableMetricKeys", obj.FilterableMetricKeys, "field must have at most 16 items", nil)
+	}
+	for _, el := range obj.FilterableMetricKeys {
+
+		if !validation_regex_PaginationView_filterable_metric_keys_3767d375e69c51f9742b2f17e9eb21a2.Match([]byte(el)) {
+			return gotenvalidate.NewValidationError("PaginationView", "filterableMetricKeys", el, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,31}$", nil)
+		}
+	}
+	if len(obj.FilterableResourceKeys) > 16 {
+		return gotenvalidate.NewValidationError("PaginationView", "filterableResourceKeys", obj.FilterableResourceKeys, "field must have at most 16 items", nil)
+	}
+	for _, el := range obj.FilterableResourceKeys {
+
+		if !validation_regex_PaginationView_filterable_resource_keys_3767d375e69c51f9742b2f17e9eb21a2.Match([]byte(el)) {
+			return gotenvalidate.NewValidationError("PaginationView", "filterableResourceKeys", el, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,31}$", nil)
+		}
+	}
+	if len(obj.PaginatedMetricKeys) > 16 {
+		return gotenvalidate.NewValidationError("PaginationView", "paginatedMetricKeys", obj.PaginatedMetricKeys, "field must have at most 16 items", nil)
+	}
+	for _, el := range obj.PaginatedMetricKeys {
+
+		if !validation_regex_PaginationView_paginated_metric_keys_3767d375e69c51f9742b2f17e9eb21a2.Match([]byte(el)) {
+			return gotenvalidate.NewValidationError("PaginationView", "paginatedMetricKeys", el, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,31}$", nil)
+		}
+	}
+	if len(obj.PaginatedResourceKeys) > 16 {
+		return gotenvalidate.NewValidationError("PaginationView", "paginatedResourceKeys", obj.PaginatedResourceKeys, "field must have at most 16 items", nil)
+	}
+	for _, el := range obj.PaginatedResourceKeys {
+
+		if !validation_regex_PaginationView_paginated_resource_keys_3767d375e69c51f9742b2f17e9eb21a2.Match([]byte(el)) {
+			return gotenvalidate.NewValidationError("PaginationView", "paginatedResourceKeys", el, "field must match the regex ^[_A-Za-z][_A-Za-z0-9]{0,31}$", nil)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_AggregationsGroup) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Name)
+		if rlen < 1 {
+			return gotenvalidate.NewValidationError("AggregationsGroup", "name", obj.Name, "field must contain at least 1 characters", nil)
+		}
+		if rlen > 64 {
+			return gotenvalidate.NewValidationError("AggregationsGroup", "name", obj.Name, "field must contain at most 64 characters", nil)
+		}
+	}
+	if len(obj.PerSeriesAligners) < 1 {
+		return gotenvalidate.NewValidationError("AggregationsGroup", "perSeriesAligners", obj.PerSeriesAligners, "field must have at least 1 items", nil)
+	}
+	if len(obj.PerSeriesAligners) > 1 {
+		values := make(map[common.Aggregation_Aligner]struct{})
+		for _, v := range obj.PerSeriesAligners {
+			if _, ok := values[v]; ok {
+				return gotenvalidate.NewValidationError("AggregationsGroup", "perSeriesAligners", obj.PerSeriesAligners, "field must contain unique items", nil)
+			}
+			values[v] = struct{}{}
+		}
+	}
+	if len(obj.CrossSeriesReducers) > 1 {
+		values := make(map[common.Aggregation_Reducer]struct{})
+		for _, v := range obj.CrossSeriesReducers {
+			if _, ok := values[v]; ok {
+				return gotenvalidate.NewValidationError("AggregationsGroup", "crossSeriesReducers", obj.CrossSeriesReducers, "field must contain unique items", nil)
+			}
+			values[v] = struct{}{}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_SortingFunction) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if _, ok := MetricDescriptor_Indices_SortingFunction_Direction_name[int32(obj.Sorting)]; !ok {
+		return gotenvalidate.NewValidationError("SortingFunction", "sorting", obj.Sorting, "field must be a defined enum value", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_PreAggregatedIndices) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Name)
+		if rlen < 1 {
+			return gotenvalidate.NewValidationError("PreAggregatedIndices", "name", obj.Name, "field must contain at least 1 characters", nil)
+		}
+		if rlen > 64 {
+			return gotenvalidate.NewValidationError("PreAggregatedIndices", "name", obj.Name, "field must contain at most 64 characters", nil)
+		}
+	}
+	if len(obj.ResourceTypes) < 1 {
+		return gotenvalidate.NewValidationError("PreAggregatedIndices", "resourceTypes", obj.ResourceTypes, "field must have at least 1 items", nil)
+	}
+	if len(obj.ResourceTypes) > 8 {
+		return gotenvalidate.NewValidationError("PreAggregatedIndices", "resourceTypes", obj.ResourceTypes, "field must have at most 8 items", nil)
+	}
+	if len(obj.ResourceTypes) > 1 {
+		values := make(map[string]struct{})
+		for _, v := range obj.ResourceTypes {
+			if _, ok := values[v]; ok {
+				return gotenvalidate.NewValidationError("PreAggregatedIndices", "resourceTypes", obj.ResourceTypes, "field must contain unique items", nil)
+			}
+			values[v] = struct{}{}
+		}
+	}
+	for _, el := range obj.ResourceTypes {
+
+		{
+			rlen := utf8.RuneCountInString(el)
+			if rlen < 1 {
+				return gotenvalidate.NewValidationError("PreAggregatedIndices", "resourceTypes", el, "field must contain at least 1 characters", nil)
+			}
+			if rlen > 64 {
+				return gotenvalidate.NewValidationError("PreAggregatedIndices", "resourceTypes", el, "field must contain at most 64 characters", nil)
+			}
+		}
+	}
+	for idx, elem := range obj.PartitionLabelSets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("PreAggregatedIndices", "partitionLabelSets", obj.PartitionLabelSets[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.FilterAndGroupLabelSets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("PreAggregatedIndices", "filterAndGroupLabelSets", obj.FilterAndGroupLabelSets[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.SupportedAggregations {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("PreAggregatedIndices", "supportedAggregations", obj.SupportedAggregations[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_NonAggregatedIndices) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Name)
+		if rlen < 1 {
+			return gotenvalidate.NewValidationError("NonAggregatedIndices", "name", obj.Name, "field must contain at least 1 characters", nil)
+		}
+		if rlen > 64 {
+			return gotenvalidate.NewValidationError("NonAggregatedIndices", "name", obj.Name, "field must contain at most 64 characters", nil)
+		}
+	}
+	if len(obj.ResourceTypes) < 1 {
+		return gotenvalidate.NewValidationError("NonAggregatedIndices", "resourceTypes", obj.ResourceTypes, "field must have at least 1 items", nil)
+	}
+	if len(obj.ResourceTypes) > 8 {
+		return gotenvalidate.NewValidationError("NonAggregatedIndices", "resourceTypes", obj.ResourceTypes, "field must have at most 8 items", nil)
+	}
+	if len(obj.ResourceTypes) > 1 {
+		values := make(map[string]struct{})
+		for _, v := range obj.ResourceTypes {
+			if _, ok := values[v]; ok {
+				return gotenvalidate.NewValidationError("NonAggregatedIndices", "resourceTypes", obj.ResourceTypes, "field must contain unique items", nil)
+			}
+			values[v] = struct{}{}
+		}
+	}
+	for _, el := range obj.ResourceTypes {
+
+		{
+			rlen := utf8.RuneCountInString(el)
+			if rlen < 1 {
+				return gotenvalidate.NewValidationError("NonAggregatedIndices", "resourceTypes", el, "field must contain at least 1 characters", nil)
+			}
+			if rlen > 64 {
+				return gotenvalidate.NewValidationError("NonAggregatedIndices", "resourceTypes", el, "field must contain at most 64 characters", nil)
+			}
+		}
+	}
+	for idx, elem := range obj.PartitionLabelSets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("NonAggregatedIndices", "partitionLabelSets", obj.PartitionLabelSets[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_PaginationIndices) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Name)
+		if rlen < 1 {
+			return gotenvalidate.NewValidationError("PaginationIndices", "name", obj.Name, "field must contain at least 1 characters", nil)
+		}
+		if rlen > 64 {
+			return gotenvalidate.NewValidationError("PaginationIndices", "name", obj.Name, "field must contain at most 64 characters", nil)
+		}
+	}
+	if len(obj.ResourceTypes) < 1 {
+		return gotenvalidate.NewValidationError("PaginationIndices", "resourceTypes", obj.ResourceTypes, "field must have at least 1 items", nil)
+	}
+	if len(obj.ResourceTypes) > 8 {
+		return gotenvalidate.NewValidationError("PaginationIndices", "resourceTypes", obj.ResourceTypes, "field must have at most 8 items", nil)
+	}
+	if len(obj.ResourceTypes) > 1 {
+		values := make(map[string]struct{})
+		for _, v := range obj.ResourceTypes {
+			if _, ok := values[v]; ok {
+				return gotenvalidate.NewValidationError("PaginationIndices", "resourceTypes", obj.ResourceTypes, "field must contain unique items", nil)
+			}
+			values[v] = struct{}{}
+		}
+	}
+	for _, el := range obj.ResourceTypes {
+
+		{
+			rlen := utf8.RuneCountInString(el)
+			if rlen < 1 {
+				return gotenvalidate.NewValidationError("PaginationIndices", "resourceTypes", el, "field must contain at least 1 characters", nil)
+			}
+			if rlen > 64 {
+				return gotenvalidate.NewValidationError("PaginationIndices", "resourceTypes", el, "field must contain at most 64 characters", nil)
+			}
+		}
+	}
+	for idx, elem := range obj.PartitionLabelSets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("PaginationIndices", "partitionLabelSets", obj.PartitionLabelSets[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Views {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("PaginationIndices", "views", obj.Views[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.Functions {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("PaginationIndices", "functions", obj.Functions[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_Indices_IndexGroups) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.PreAggregatedIndices {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("IndexGroups", "preAggregatedIndices", obj.PreAggregatedIndices[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.NonAggregatedIndices {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("IndexGroups", "nonAggregatedIndices", obj.NonAggregatedIndices[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.PaginationIndices {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("IndexGroups", "paginationIndices", obj.PaginationIndices[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_BinaryIndices_PreAggregatedIndex) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_BinaryIndices_PaginatingIndex) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *MetricDescriptor_BinaryIndices_ByResourceType) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.PreAggregatedIndices {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ByResourceType", "preAggregatedIndices", obj.PreAggregatedIndices[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.PaginatingIndices {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ByResourceType", "paginatingIndices", obj.PaginatingIndices[idx], "nested object validation failed", err)
 			}
 		}
 	}

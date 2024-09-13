@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetGroupMember][ntt.iam.v1alpha2.GetGroupMember]
+// A request message of the GetGroupMember method.
 type GetGroupMemberRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,8 +163,7 @@ func (m *GetGroupMemberRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetGroupMembers][ntt.iam.v1alpha2.BatchGetGroupMembers]
+// A request message of the BatchGetGroupMembers method.
 type BatchGetGroupMembersRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +270,7 @@ func (m *BatchGetGroupMembersRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetGroupMembersResponse
+// A response message of the BatchGetGroupMembers method.
 type BatchGetGroupMembersResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -360,8 +359,7 @@ func (m *BatchGetGroupMembersResponse) SetMissing(fv []*group_member.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListGroupMembers][ntt.iam.v1alpha2.ListGroupMembers]
+// A request message of the ListGroupMembers method.
 type ListGroupMembersRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -373,7 +371,7 @@ type ListGroupMembersRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListGroupMembersResponse.next_page_token][ntt.iam.v1alpha2.ListGroupMembersResponse.next_page_token]
+	// ListGroupMembersResponse.next_page_token.
 	PageToken *group_member.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -561,19 +559,20 @@ func (m *ListGroupMembersRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListGroupMembers][ntt.iam.v1alpha2.ListGroupMembers]
+// A response message of the ListGroupMembers method.
 type ListGroupMembersResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of GroupMembers
 	GroupMembers []*group_member.GroupMember `protobuf:"bytes,1,rep,name=group_members,json=groupMembers,proto3" json:"group_members,omitempty" firestore:"groupMembers"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListGroupMembersRequest.page_token][ntt.iam.v1alpha2.ListGroupMembersRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListGroupMembersRequest.page_token.
 	PrevPageToken *group_member.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListGroupMembersRequest.page_token][ntt.iam.v1alpha2.ListGroupMembersRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListGroupMembersRequest.page_token.
 	NextPageToken *group_member.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -705,8 +704,7 @@ func (m *ListGroupMembersResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchGroupMember][ntt.iam.v1alpha2.WatchGroupMember]
+// A request message of the WatchGroupMember method.
 type WatchGroupMemberRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -813,7 +811,7 @@ func (m *WatchGroupMemberRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchGroupMemberResponse
+// A response message of the WatchGroupMember method.
 type WatchGroupMemberResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -885,8 +883,7 @@ func (m *WatchGroupMemberResponse) SetChange(fv *group_member.GroupMemberChange)
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchGroupMembers][ntt.iam.v1alpha2.WatchGroupMembers]
+// A request message of the WatchGroupMembers method.
 type WatchGroupMembersRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1143,7 +1140,7 @@ func (m *WatchGroupMembersRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchGroupMembersResponse
+// A response message of the WatchGroupMembers method.
 type WatchGroupMembersResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1346,8 +1343,7 @@ func (m *WatchGroupMembersResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateGroupMember][ntt.iam.v1alpha2.CreateGroupMember]
+// A request message of the CreateGroupMember method.
 type CreateGroupMemberRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1436,8 +1432,7 @@ func (m *CreateGroupMemberRequest) SetGroupMember(fv *group_member.GroupMember) 
 	m.GroupMember = fv
 }
 
-// Request message for method
-// [UpdateGroupMember][ntt.iam.v1alpha2.UpdateGroupMember]
+// A request message of the UpdateGroupMember method.
 type UpdateGroupMemberRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1567,8 +1562,7 @@ func (m *UpdateGroupMemberRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteGroupMember][ntt.iam.v1alpha2.DeleteGroupMember]
+// A request message of the DeleteGroupMember method.
 type DeleteGroupMemberRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

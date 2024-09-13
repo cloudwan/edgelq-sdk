@@ -35,6 +35,12 @@ message Device {
   // services by higher ones).
   goten.types.Meta metadata = 2;
 
+  // Display name for the device
+  string display_name = 6;
+
+  // Optional. Description of the Device.
+  string description = 7;
+
   // Spec holds the expected state of the Device, meaning configurations.
   Spec spec = 3;
 
@@ -42,9 +48,6 @@ message Device {
   Status status = 4;
 
   PublicListingSpec public_listing_spec = 5;
-
-  // Display name for the device
-  string display_name = 6;
 
   message Spec {
     // The associated service account to the Device.
@@ -413,7 +416,7 @@ message Device {
 
         GPU gpu = 7;
 
-        MemoryInfo memory_info = 8;
+        MemoryInfo memory_info = 23;
 
         HailoInfo hailo_info = 20;
 
@@ -586,32 +589,28 @@ message Device {
         }
 
         message MemoryInfo {
-          repeated Memory memory = 1;
+          string description = 1;
 
-          message Memory {
+          int64 size_bytes = 2;
+
+          repeated MemoryBank memory_banks = 3;
+
+          message MemoryBank {
             string description = 1;
 
-            int64 size_bytes = 2;
+            string product = 2;
 
-            repeated MemoryBank memory_banks = 3;
+            string vendor = 3;
 
-            message MemoryBank {
-              string description = 1;
+            string serial = 4;
 
-              string product = 2;
+            string slot = 5;
 
-              string vendor = 3;
+            int64 size_bytes = 6;
 
-              string serial = 4;
+            int64 frequency_hz = 7;
 
-              string slot = 5;
-
-              int64 size_bytes = 6;
-
-              int64 frequency_hz = 7;
-
-              int32 width_bits = 8;
-            }
+            int32 width_bits = 8;
           }
         }
 
@@ -842,6 +841,8 @@ message Device {
             reserved 5, 6;
           }
         }
+
+        reserved 8;
       }
 
       // Network Interface

@@ -1,0 +1,145 @@
+kind: "iam.edgelq.com/Role"
+version: "v1"
+resources:
+- name: services/devices.edgelq.com/roles/v1-device-agent
+  displayName: Devices Agent
+  description: >
+    Assigned to all device agents service accounts, provides isolation.
+  category: AGENT
+  scopeParams:
+  - name: project
+    type: STRING
+  - name: region
+    type: STRING
+  - name: device
+    type: STRING
+  - name: serviceAccount
+    type: STRING
+  - name: bucket
+    type: STRING
+  # It will be responsibility of Applications server to update role binding
+  # when creating/updating/deleting Pod, using spec.image_pull_secrets
+  # to get secrets, then to use spec.node to get Device and its service account.
+  # TODO: Uncomment, requires some applications code change (adding secrets to role binding)
+  #- name: secret
+  #  type: ARRAY_OF_STRINGS
+
+  grants:
+  - permissions:
+    - services/iam.edgelq.com/permissions/attestationDomains.verify
+    - services/iam.edgelq.com/permissions/attestationDomains.get
+    - services/applications.edgelq.com/permissions/configMaps.get # TODO: Consider some reference info?
+    # TODO: Those remove when we have proper secret scope param
+    - services/secrets.edgelq.com/permissions/secrets.get
+    - services/secrets.edgelq.com/permissions/secrets.sensitiveData
+
+  - subScope: regions/{region}/devices/{device}
+    permissions:
+    - services/devices.edgelq.com/permissions/devices.get
+    - services/devices.edgelq.com/permissions/devices.update
+    - services/devices.edgelq.com/permissions/devices.watch
+    - services/devices.edgelq.com/permissions/devices.listenForConnections
+    - services/devices.edgelq.com/permissions/devices.openConnectionChannelSocket
+    - services/devices.edgelq.com/permissions/devices.heartbeat
+    - services/proxies.edgelq.com/permissions/projects.listen
+    - services/proxies.edgelq.com/permissions/projects.accept
+
+  - subScope: regions/{region}
+    permissions:
+    - services/devices.edgelq.com/permissions/devices.list
+    - services/devices.edgelq.com/permissions/provisioningPolicies.list
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.list
+    resourceFieldConditions:
+    - path: spec.service_account
+      value: projects/{project}/regions/{region}/serviceAccounts/{serviceAccount}
+
+  - subScope: regions/{region}/provisioningPolicies/-
+    permissions:
+    - services/devices.edgelq.com/permissions/provisioningPolicies.get
+    - services/devices.edgelq.com/permissions/provisioningPolicies.provisionDeviceViaPolicy
+    - services/devices.edgelq.com/permissions/provisioningPolicies.requestProvisioningApproval
+    - services/devices.edgelq.com/permissions/provisioningPolicies.watch
+    resourceFieldConditions:
+    - path: spec.service_account
+      value: projects/{project}/regions/{region}/serviceAccounts/{serviceAccount}
+
+  - subScope: regions/{region}/provisioningApprovalRequests/-
+    permissions:
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.get
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.provisionDeviceForApprovedRequest
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.watch
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.delete
+    resourceFieldConditions:
+    - path: spec.service_account
+      value: projects/{project}/regions/{region}/serviceAccounts/{serviceAccount}
+
+  - subScope: regions/{region}
+    permissions:
+    - services/applications.edgelq.com/permissions/pods.watch
+    - services/applications.edgelq.com/permissions/pods.get
+    - services/applications.edgelq.com/permissions/pods.update
+    resourceFieldConditions:
+    - path: spec.node
+      value: projects/{project}/regions/{region}/devices/{device}
+
+  - subScope: regions/{region}/serviceAccounts/{serviceAccount}
+    permissions:
+    - services/iam.edgelq.com/permissions/serviceAccounts.get
+    - services/iam.edgelq.com/permissions/serviceAccounts.watch
+    - services/iam.edgelq.com/permissions/serviceAccountKeys.get
+    - services/iam.edgelq.com/permissions/serviceAccountKeys.watch
+
+  - subScope: regions/{region}/buckets/{bucket}
+    permissions:
+    - services/logging.edgelq.com/permissions/logs.create
+    - services/monitoring.edgelq.com/permissions/timeSeries.create
+    - services/logging.edgelq.com/permissions/buckets!attach
+    - services/monitoring.edgelq.com/permissions/buckets!attach
+
+  # TODO: Uncomment, requires some applications code change (adding secrets to role binding)
+  #- subScope: regions/{region}/secrets/{secret}
+  #  permissions:
+  #  - services/secrets.edgelq.com/permissions/secrets.get
+  #  - services/secrets.edgelq.com/permissions/secrets.sensitiveData
+
+- name: services/devices.edgelq.com/roles/v1-device-provisioner
+  displayName: V1 Device provisioner
+  description: >
+    Assigned to all service accounts with ability to provision device.
+  category: AGENT
+  scopeParams:
+  - name: project
+    type: STRING
+  - name: region
+    type: STRING
+  - name: serviceAccount
+    type: STRING
+  - name: provisioningPolicy
+    type: STRING
+  grants:
+  - subScope: regions/{region}/provisioningPolicies/{provisioningPolicy}
+    permissions:
+    - services/devices.edgelq.com/permissions/provisioningPolicies.batchGet
+    - services/devices.edgelq.com/permissions/provisioningPolicies.get
+    - services/devices.edgelq.com/permissions/provisioningPolicies.watch
+    - services/devices.edgelq.com/permissions/provisioningPolicies.provisionDeviceViaPolicy
+    - services/devices.edgelq.com/permissions/provisioningPolicies.requestProvisioningApproval
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.batchGet
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.get
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.update
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.watch
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.list
+  - subScope: regions/{region}
+    permissions:
+    - services/devices.edgelq.com/permissions/provisioningPolicies.list
+    - services/devices.edgelq.com/permissions/provisioningPolicies.watch
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.list
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.watch
+    resourceFieldConditions:
+    - path: spec.service_account
+      value: projects/{project}/regions/{region}/serviceAccounts/{serviceAccount}
+  # Needed so during provisionDeviceViaPolicy call we can create buckets...
+  - permissions:
+    - services/logging.edgelq.com/permissions/buckets!attach
+    - services/monitoring.edgelq.com/permissions/buckets!attach
+    - services/iam.edgelq.com/permissions/serviceAccounts!attach

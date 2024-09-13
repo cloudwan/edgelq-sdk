@@ -66,8 +66,13 @@ func (obj *ListTimeSeriesRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("ListTimeSeriesRequest", "aggregation", obj.Aggregation, "nested object validation failed", err)
 		}
 	}
-	if !(obj.PageSize >= 0 && obj.PageSize <= 100000) {
-		return gotenvalidate.NewValidationError("ListTimeSeriesRequest", "pageSize", obj.PageSize, "field must be in range [0, 100000]", nil)
+	if subobj, ok := interface{}(obj.Pagination).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ListTimeSeriesRequest", "pagination", obj.Pagination, "nested object validation failed", err)
+		}
+	}
+	if !(obj.PointsCap >= 0 && obj.PointsCap <= 100000) {
+		return gotenvalidate.NewValidationError("ListTimeSeriesRequest", "pointsCap", obj.PointsCap, "field must be in range [0, 100000]", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -85,10 +90,10 @@ func (obj *ListTimeSeriesResponse) GotenValidate() error {
 			}
 		}
 	}
-	for idx, elem := range obj.ExecutionErrors {
+	for idx, elem := range obj.TotalPointCounters {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("ListTimeSeriesResponse", "executionErrors", obj.ExecutionErrors[idx], "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("ListTimeSeriesResponse", "totalPointCounters", obj.TotalPointCounters[idx], "nested object validation failed", err)
 			}
 		}
 	}

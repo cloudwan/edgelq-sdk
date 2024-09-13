@@ -76,6 +76,9 @@ func (o *Organization) MakeDiffFieldMask(other *Organization) *Organization_Fiel
 	if o.GetTitle() != other.GetTitle() {
 		res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorTitle})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorDescription})
+	}
 	if o.GetParentOrganization().String() != other.GetParentOrganization().String() {
 		res.Paths = append(res.Paths, &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorParentOrganization})
 	}
@@ -170,6 +173,7 @@ func (o *Organization) Clone() *Organization {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.Title = o.Title
+	result.Description = o.Description
 	if o.ParentOrganization == nil {
 		result.ParentOrganization = nil
 	} else if data, err := o.ParentOrganization.ProtoString(); err != nil {
@@ -254,6 +258,7 @@ func (o *Organization) Merge(source *Organization) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.Title = source.GetTitle()
+	o.Description = source.GetDescription()
 	if source.GetParentOrganization() != nil {
 		if data, err := source.GetParentOrganization().ProtoString(); err != nil {
 			panic(err)

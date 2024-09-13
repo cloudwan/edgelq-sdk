@@ -2380,6 +2380,7 @@ const (
 	AlertInfoTimeSerie_FieldPathSelectorKey               AlertInfoTimeSerie_FieldPathSelector = 0
 	AlertInfoTimeSerie_FieldPathSelectorMetric            AlertInfoTimeSerie_FieldPathSelector = 1
 	AlertInfoTimeSerie_FieldPathSelectorMonitoredResource AlertInfoTimeSerie_FieldPathSelector = 2
+	AlertInfoTimeSerie_FieldPathSelectorData              AlertInfoTimeSerie_FieldPathSelector = 3
 )
 
 func (s AlertInfoTimeSerie_FieldPathSelector) String() string {
@@ -2390,6 +2391,8 @@ func (s AlertInfoTimeSerie_FieldPathSelector) String() string {
 		return "metric"
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 		return "monitored_resource"
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		return "data"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", s))
 	}
@@ -2407,6 +2410,8 @@ func BuildAlertInfoTimeSerie_FieldPath(fp gotenobject.RawFieldPath) (AlertInfoTi
 			return &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorMetric}, nil
 		case "monitored_resource", "monitoredResource", "monitored-resource":
 			return &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorMonitoredResource}, nil
+		case "data":
+			return &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorData}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2477,6 +2482,10 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) Get(source *Alert_Info_TimeSerie
 			if source.MonitoredResource != nil {
 				values = append(values, source.MonitoredResource)
 			}
+		case AlertInfoTimeSerie_FieldPathSelectorData:
+			for _, value := range source.GetData() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 		}
@@ -2500,6 +2509,9 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) GetSingle(source *Alert_Info_Tim
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 		res := source.GetMonitoredResource()
 		return res, res != nil
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		res := source.GetData()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2518,6 +2530,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) GetDefault() interface{} {
 		return (*common.Metric)(nil)
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 		return (*common.MonitoredResource)(nil)
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		return ([]string)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2532,6 +2546,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) ClearValue(item *Alert_Info_Time
 			item.Metric = nil
 		case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 			item.MonitoredResource = nil
+		case AlertInfoTimeSerie_FieldPathSelectorData:
+			item.Data = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 		}
@@ -2544,7 +2560,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) ClearValueRaw(item proto.Message
 
 // IsLeaf - whether field path is holds simple value
 func (fp *AlertInfoTimeSerie_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == AlertInfoTimeSerie_FieldPathSelectorKey
+	return fp.selector == AlertInfoTimeSerie_FieldPathSelectorKey ||
+		fp.selector == AlertInfoTimeSerie_FieldPathSelectorData
 }
 
 func (fp *AlertInfoTimeSerie_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2559,6 +2576,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIValue(value interface{}) Al
 		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(*common.Metric)}
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(*common.MonitoredResource)}
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2577,6 +2596,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.Metric)}
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.MonitoredResource)}
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([][]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2589,6 +2610,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithRawIArrayOfValues(values int
 
 func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIArrayItemValue(value interface{}) AlertInfoTimeSerie_FieldPathArrayItemValue {
 	switch fp.selector {
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		return &AlertInfoTimeSerie_FieldTerminalPathArrayItemValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2774,6 +2797,10 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsMonitoredResourceValue()
 	res, ok := fpv.value.(*common.MonitoredResource)
 	return res, ok
 }
+func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsDataValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object TimeSerie
 func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) SetTo(target **Alert_Info_TimeSerie) {
@@ -2787,6 +2814,8 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) SetTo(target **Alert_Info_
 		(*target).Metric = fpv.value.(*common.Metric)
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 		(*target).MonitoredResource = fpv.value.(*common.MonitoredResource)
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		(*target).Data = fpv.value.([]string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpv.selector))
 	}
@@ -2805,6 +2834,8 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) CompareWith(source *Alert_
 	case AlertInfoTimeSerie_FieldPathSelectorMetric:
 		return 0, false
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
+		return 0, false
+	case AlertInfoTimeSerie_FieldPathSelectorData:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpv.selector))
@@ -2909,6 +2940,10 @@ var _ AlertInfoTimeSerie_FieldPathArrayItemValue = (*AlertInfoTimeSerie_FieldTer
 func (fpaiv *AlertInfoTimeSerie_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
+func (fpaiv *AlertInfoTimeSerie_FieldTerminalPathArrayItemValue) AsDataItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
 
 func (fpaiv *AlertInfoTimeSerie_FieldTerminalPathArrayItemValue) GetSingle(source *Alert_Info_TimeSerie) (interface{}, bool) {
 	return nil, false
@@ -3010,6 +3045,10 @@ func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]*common.MonitoredResource) {
 			values = append(values, v)
 		}
+	case AlertInfoTimeSerie_FieldPathSelectorData:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3023,6 +3062,10 @@ func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsMetricArrayOfV
 }
 func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsMonitoredResourceArrayOfValues() ([]*common.MonitoredResource, bool) {
 	res, ok := fpaov.values.([]*common.MonitoredResource)
+	return res, ok
+}
+func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
 

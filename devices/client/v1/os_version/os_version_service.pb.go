@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetOsVersion][ntt.devices.v1.GetOsVersion]
+// A request message of the GetOsVersion method.
 type GetOsVersionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,8 +161,7 @@ func (m *GetOsVersionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetOsVersions][ntt.devices.v1.BatchGetOsVersions]
+// A request message of the BatchGetOsVersions method.
 type BatchGetOsVersionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -269,7 +268,7 @@ func (m *BatchGetOsVersionsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetOsVersionsResponse
+// A response message of the BatchGetOsVersions method.
 type BatchGetOsVersionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -358,7 +357,7 @@ func (m *BatchGetOsVersionsResponse) SetMissing(fv []*os_version.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListOsVersions][ntt.devices.v1.ListOsVersions]
+// A request message of the ListOsVersions method.
 type ListOsVersionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -368,7 +367,7 @@ type ListOsVersionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListOsVersionsResponse.next_page_token][ntt.devices.v1.ListOsVersionsResponse.next_page_token]
+	// ListOsVersionsResponse.next_page_token.
 	PageToken *os_version.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -542,18 +541,20 @@ func (m *ListOsVersionsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListOsVersions][ntt.devices.v1.ListOsVersions]
+// A response message of the ListOsVersions method.
 type ListOsVersionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of OsVersions
 	OsVersions []*os_version.OsVersion `protobuf:"bytes,1,rep,name=os_versions,json=osVersions,proto3" json:"os_versions,omitempty" firestore:"osVersions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListOsVersionsRequest.page_token][ntt.devices.v1.ListOsVersionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListOsVersionsRequest.page_token.
 	PrevPageToken *os_version.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListOsVersionsRequest.page_token][ntt.devices.v1.ListOsVersionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListOsVersionsRequest.page_token.
 	NextPageToken *os_version.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -685,7 +686,7 @@ func (m *ListOsVersionsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchOsVersion][ntt.devices.v1.WatchOsVersion]
+// A request message of the WatchOsVersion method.
 type WatchOsVersionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -792,7 +793,7 @@ func (m *WatchOsVersionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchOsVersionResponse
+// A response message of the WatchOsVersion method.
 type WatchOsVersionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -864,7 +865,7 @@ func (m *WatchOsVersionResponse) SetChange(fv *os_version.OsVersionChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchOsVersions][ntt.devices.v1.WatchOsVersions]
+// A request message of the WatchOsVersions method.
 type WatchOsVersionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1105,7 +1106,7 @@ func (m *WatchOsVersionsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchOsVersionsResponse
+// A response message of the WatchOsVersions method.
 type WatchOsVersionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1308,7 +1309,7 @@ func (m *WatchOsVersionsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateOsVersion][ntt.devices.v1.CreateOsVersion]
+// A request message of the CreateOsVersion method.
 type CreateOsVersionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1381,7 +1382,7 @@ func (m *CreateOsVersionRequest) SetOsVersion(fv *os_version.OsVersion) {
 	m.OsVersion = fv
 }
 
-// Request message for method [UpdateOsVersion][ntt.devices.v1.UpdateOsVersion]
+// A request message of the UpdateOsVersion method.
 type UpdateOsVersionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1511,7 +1512,7 @@ func (m *UpdateOsVersionRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteOsVersion][ntt.devices.v1.DeleteOsVersion]
+// A request message of the DeleteOsVersion method.
 type DeleteOsVersionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

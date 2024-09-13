@@ -59,6 +59,12 @@ func (DeviceFieldPathBuilder) Name() DevicePathSelectorName {
 func (DeviceFieldPathBuilder) Metadata() DevicePathSelectorMetadata {
 	return DevicePathSelectorMetadata{}
 }
+func (DeviceFieldPathBuilder) DisplayName() DevicePathSelectorDisplayName {
+	return DevicePathSelectorDisplayName{}
+}
+func (DeviceFieldPathBuilder) Description() DevicePathSelectorDescription {
+	return DevicePathSelectorDescription{}
+}
 func (DeviceFieldPathBuilder) Spec() DevicePathSelectorSpec {
 	return DevicePathSelectorSpec{}
 }
@@ -67,9 +73,6 @@ func (DeviceFieldPathBuilder) Status() DevicePathSelectorStatus {
 }
 func (DeviceFieldPathBuilder) PublicListingSpec() DevicePathSelectorPublicListingSpec {
 	return DevicePathSelectorPublicListingSpec{}
-}
-func (DeviceFieldPathBuilder) DisplayName() DevicePathSelectorDisplayName {
-	return DevicePathSelectorDisplayName{}
 }
 
 type DevicePathSelectorName struct{}
@@ -745,6 +748,34 @@ func (s DevicePathSelectorMetadataServicesAllowedServices) WithArrayOfValues(val
 
 func (s DevicePathSelectorMetadataServicesAllowedServices) WithItemValue(value string) *Device_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorDisplayName struct{}
+
+func (DevicePathSelectorDisplayName) FieldPath() *Device_FieldTerminalPath {
+	return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName}
+}
+
+func (s DevicePathSelectorDisplayName) WithValue(value string) *Device_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldTerminalPathValue)
+}
+
+func (s DevicePathSelectorDisplayName) WithArrayOfValues(values []string) *Device_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldTerminalPathArrayOfValues)
+}
+
+type DevicePathSelectorDescription struct{}
+
+func (DevicePathSelectorDescription) FieldPath() *Device_FieldTerminalPath {
+	return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDescription}
+}
+
+func (s DevicePathSelectorDescription) WithValue(value string) *Device_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldTerminalPathValue)
+}
+
+func (s DevicePathSelectorDescription) WithArrayOfValues(values []string) *Device_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldTerminalPathArrayOfValues)
 }
 
 type DevicePathSelectorSpec struct{}
@@ -4650,263 +4681,238 @@ func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfo) WithArr
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfo) Memory() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory{}
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfo) Description() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoDescription {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoDescription{}
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory struct{}
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfo) SizeBytes() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes{}
+}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfo) MemoryBanks() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks{}
+}
+
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoDescription struct{}
+
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoDescription) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Description().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoDescription) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoDescription) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *Device_FieldSubPathArrayItemValue {
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes struct{}
+
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().SizeBytes().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) WithValue(value int64) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoSizeBytes) WithArrayOfValues(values []int64) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks struct{}
+
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorStatus,
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *Device_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
 }
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory) Description() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription{}
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Description() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription{}
 }
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory) SizeBytes() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes{}
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Product() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct{}
 }
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemory) MemoryBanks() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks{}
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Vendor() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor{}
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription struct{}
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Serial() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial{}
+}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Slot() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) SizeBytes() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) FrequencyHz() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz{}
+}
+
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WidthBits() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits {
+	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits{}
+}
+
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription struct{}
+
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().Description().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Description().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryDescription) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes struct{}
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct struct{}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().SizeBytes().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Product().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) WithValue(value int64) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) WithArrayOfValues(values []int64) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks struct{}
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor struct{}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Vendor().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *Device_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
-}
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial struct{}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Description() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription{}
-}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Product() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct{}
-}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Vendor() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor{}
-}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Serial() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial{}
-}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Slot() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot{}
-}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) SizeBytes() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes{}
-}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) FrequencyHz() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz{}
-}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WidthBits() DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits {
-	return DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits{}
-}
-
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription struct{}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Description().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Serial().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct struct{}
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot struct{}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Product().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().Slot().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) WithValue(value string) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor struct{}
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes struct{}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Vendor().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().SizeBytes().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) WithValue(value int64) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial struct{}
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz struct{}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Serial().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().FrequencyHz().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) WithValue(value int64) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot struct{}
+type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits struct{}
 
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) FieldPath() *Device_FieldSubPath {
+func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) FieldPath() *Device_FieldSubPath {
 	return &Device_FieldSubPath{
 		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Slot().FieldPath(),
+		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().MemoryBanks().WidthBits().FieldPath(),
 	}
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) WithValue(value string) *Device_FieldSubPathValue {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) WithValue(value int32) *Device_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
 }
 
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
-}
-
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes struct{}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) FieldPath() *Device_FieldSubPath {
-	return &Device_FieldSubPath{
-		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().SizeBytes().FieldPath(),
-	}
-}
-
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) WithValue(value int64) *Device_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
-}
-
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *Device_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
-}
-
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz struct{}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) FieldPath() *Device_FieldSubPath {
-	return &Device_FieldSubPath{
-		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FrequencyHz().FieldPath(),
-	}
-}
-
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) WithValue(value int64) *Device_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
-}
-
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *Device_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
-}
-
-type DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits struct{}
-
-func (DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) FieldPath() *Device_FieldSubPath {
-	return &Device_FieldSubPath{
-		selector: Device_FieldPathSelectorStatus,
-		subPath:  NewDeviceStatusFieldPathBuilder().DeviceInfo().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().FieldPath(),
-	}
-}
-
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithValue(value int32) *Device_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
-}
-
-func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *Device_FieldSubPathArrayOfValues {
+func (s DevicePathSelectorStatusDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) WithArrayOfValues(values []int32) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -7540,20 +7546,6 @@ func (s DevicePathSelectorPublicListingSpecFieldMask) WithValue(value *Device_Fi
 
 func (s DevicePathSelectorPublicListingSpecFieldMask) WithArrayOfValues(values []*Device_FieldMask) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
-}
-
-type DevicePathSelectorDisplayName struct{}
-
-func (DevicePathSelectorDisplayName) FieldPath() *Device_FieldTerminalPath {
-	return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName}
-}
-
-func (s DevicePathSelectorDisplayName) WithValue(value string) *Device_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Device_FieldTerminalPathValue)
-}
-
-func (s DevicePathSelectorDisplayName) WithArrayOfValues(values []string) *Device_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldTerminalPathArrayOfValues)
 }
 
 type DeviceSpecFieldPathBuilder struct{}
@@ -11505,263 +11497,238 @@ func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfo) WithAr
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfo) Memory() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory{}
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfo) Description() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoDescription {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoDescription{}
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory struct{}
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfo) SizeBytes() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoSizeBytes {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoSizeBytes{}
+}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfo) MemoryBanks() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks{}
+}
+
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoDescription struct{}
+
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoDescription) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Description().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoDescription) WithValue(value string) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoDescription) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatus_FieldSubPathArrayItemValue {
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoSizeBytes struct{}
+
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoSizeBytes) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().SizeBytes().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoSizeBytes) WithValue(value int64) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoSizeBytes) WithArrayOfValues(values []int64) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks struct{}
+
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) FieldPath() *DeviceStatus_FieldSubPath {
+	return &DeviceStatus_FieldSubPath{
+		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().FieldPath(),
+	}
+}
+
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
+}
+
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatus_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatus_FieldSubPathArrayItemValue)
 }
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory) Description() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryDescription {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryDescription{}
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Description() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription{}
 }
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory) SizeBytes() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes{}
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Product() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct{}
 }
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemory) MemoryBanks() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks{}
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Vendor() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor{}
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryDescription struct{}
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Serial() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial{}
+}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryDescription) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) Slot() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) SizeBytes() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) FrequencyHz() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz{}
+}
+
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanks) WidthBits() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits {
+	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits{}
+}
+
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription struct{}
+
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().Description().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().Description().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryDescription) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) WithValue(value string) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryDescription) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes struct{}
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct struct{}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().SizeBytes().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().Product().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) WithValue(value int64) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) WithValue(value string) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemorySizeBytes) WithArrayOfValues(values []int64) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks struct{}
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor struct{}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().Vendor().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) WithValue(value string) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatus_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatus_FieldSubPathArrayItemValue)
-}
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial struct{}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Description() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription{}
-}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Product() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct{}
-}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Vendor() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor{}
-}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Serial() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial{}
-}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) Slot() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot{}
-}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) SizeBytes() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes{}
-}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) FrequencyHz() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz{}
-}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanks) WidthBits() Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits {
-	return Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits{}
-}
-
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription struct{}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Description().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().Serial().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) WithValue(value string) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct struct{}
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot struct{}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Product().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().Slot().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) WithValue(value string) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor struct{}
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes struct{}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Vendor().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().SizeBytes().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial struct{}
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz struct{}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Serial().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().FrequencyHz().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot struct{}
+type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits struct{}
 
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) FieldPath() *DeviceStatus_FieldSubPath {
+func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) FieldPath() *DeviceStatus_FieldSubPath {
 	return &DeviceStatus_FieldSubPath{
 		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().Slot().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().MemoryBanks().WidthBits().FieldPath(),
 	}
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) WithValue(value string) *DeviceStatus_FieldSubPathValue {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) WithValue(value int32) *DeviceStatus_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
 }
 
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatus_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
-}
-
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes struct{}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) FieldPath() *DeviceStatus_FieldSubPath {
-	return &DeviceStatus_FieldSubPath{
-		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().SizeBytes().FieldPath(),
-	}
-}
-
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatus_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
-}
-
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatus_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
-}
-
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz struct{}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) FieldPath() *DeviceStatus_FieldSubPath {
-	return &DeviceStatus_FieldSubPath{
-		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().FrequencyHz().FieldPath(),
-	}
-}
-
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatus_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
-}
-
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatus_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
-}
-
-type Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits struct{}
-
-func (Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) FieldPath() *DeviceStatus_FieldSubPath {
-	return &DeviceStatus_FieldSubPath{
-		selector: DeviceStatus_FieldPathSelectorDeviceInfo,
-		subPath:  NewDeviceStatusDeviceInfoFieldPathBuilder().HardwareInformation().MemoryInfo().Memory().MemoryBanks().WidthBits().FieldPath(),
-	}
-}
-
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithValue(value int32) *DeviceStatus_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatus_FieldSubPathValue)
-}
-
-func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatus_FieldSubPathArrayOfValues {
+func (s Device_StatusPathSelectorDeviceInfoHardwareInformationMemoryInfoMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatus_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatus_FieldSubPathArrayOfValues)
 }
 
@@ -18329,263 +18296,238 @@ func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfo) WithA
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfo) Memory() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory{}
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfo) Description() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoDescription {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoDescription{}
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory struct{}
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfo) SizeBytes() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoSizeBytes {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoSizeBytes{}
+}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfo) MemoryBanks() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks{}
+}
+
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoDescription struct{}
+
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoDescription) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Description().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoDescription) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue {
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoSizeBytes struct{}
+
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoSizeBytes) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().SizeBytes().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks struct{}
+
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfo_FieldSubPath{
+		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfo_FieldSubPathArrayItemValue)
 }
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory) Description() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryDescription {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryDescription{}
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) Description() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksDescription {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksDescription{}
 }
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory) SizeBytes() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemorySizeBytes {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemorySizeBytes{}
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) Product() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksProduct {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksProduct{}
 }
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemory) MemoryBanks() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks{}
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) Vendor() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksVendor {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksVendor{}
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryDescription struct{}
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) Serial() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSerial {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSerial{}
+}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryDescription) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) Slot() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSlot {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSlot{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) SizeBytes() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSizeBytes {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSizeBytes{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) FrequencyHz() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksFrequencyHz {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksFrequencyHz{}
+}
+
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanks) WidthBits() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksWidthBits {
+	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksWidthBits{}
+}
+
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksDescription struct{}
+
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksDescription) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().Description().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().Description().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryDescription) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksDescription) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemorySizeBytes struct{}
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksProduct struct{}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemorySizeBytes) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksProduct) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().SizeBytes().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().Product().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemorySizeBytes) WithValue(value int64) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksProduct) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemorySizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks struct{}
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksVendor struct{}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksVendor) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().Vendor().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksVendor) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfo_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfo_FieldSubPathArrayItemValue)
-}
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSerial struct{}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) Description() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksDescription {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksDescription{}
-}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) Product() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksProduct {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksProduct{}
-}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) Vendor() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksVendor {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksVendor{}
-}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) Serial() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSerial {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSerial{}
-}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) Slot() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSlot {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSlot{}
-}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) SizeBytes() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes{}
-}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) FrequencyHz() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz{}
-}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanks) WidthBits() Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits {
-	return Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits{}
-}
-
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksDescription struct{}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksDescription) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSerial) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().Description().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().Serial().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksDescription) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSerial) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksProduct struct{}
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSlot struct{}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksProduct) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSlot) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().Product().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().Slot().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksProduct) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSlot) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksVendor struct{}
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSizeBytes struct{}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksVendor) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSizeBytes) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().Vendor().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().SizeBytes().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksVendor) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSerial struct{}
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksFrequencyHz struct{}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSerial) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksFrequencyHz) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().Serial().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().FrequencyHz().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSerial) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSlot struct{}
+type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksWidthBits struct{}
 
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSlot) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
+func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksWidthBits) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfo_FieldSubPath{
 		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().Slot().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().MemoryBanks().WidthBits().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSlot) WithValue(value string) *DeviceStatusDeviceInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksWidthBits) WithValue(value int32) *DeviceStatusDeviceInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes struct{}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
-	return &DeviceStatusDeviceInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().SizeBytes().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfo_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz struct{}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
-	return &DeviceStatusDeviceInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().FrequencyHz().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfo_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits struct{}
-
-func (Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) FieldPath() *DeviceStatusDeviceInfo_FieldSubPath {
-	return &DeviceStatusDeviceInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfo_FieldPathSelectorHardwareInformation,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationFieldPathBuilder().MemoryInfo().Memory().MemoryBanks().WidthBits().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithValue(value int32) *DeviceStatusDeviceInfo_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfo_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfoPathSelectorHardwareInformationMemoryInfoMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfo_FieldSubPathArrayOfValues)
 }
 
@@ -22633,263 +22575,238 @@ func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfo) With
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformation_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfo) Memory() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory{}
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfo) Description() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoDescription {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoDescription{}
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory struct{}
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfo) SizeBytes() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoSizeBytes {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoSizeBytes{}
+}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfo) MemoryBanks() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks{}
+}
+
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoDescription struct{}
+
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Description().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue {
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoSizeBytes struct{}
+
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
+		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().SizeBytes().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks struct{}
+
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
+		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().FieldPath(),
+	}
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue)
 }
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory) Description() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryDescription {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryDescription{}
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) Description() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksDescription {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksDescription{}
 }
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory) SizeBytes() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemorySizeBytes {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemorySizeBytes{}
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) Product() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksProduct {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksProduct{}
 }
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemory) MemoryBanks() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks{}
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) Vendor() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksVendor {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksVendor{}
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryDescription struct{}
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) Serial() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSerial {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSerial{}
+}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) Slot() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSlot {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSlot{}
+}
+
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) SizeBytes() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSizeBytes {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSizeBytes{}
+}
+
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) FrequencyHz() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksFrequencyHz {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksFrequencyHz{}
+}
+
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanks) WidthBits() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksWidthBits {
+	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksWidthBits{}
+}
+
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksDescription struct{}
+
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().Description().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().Description().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemorySizeBytes struct{}
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksProduct struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemorySizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksProduct) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().SizeBytes().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().Product().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemorySizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksProduct) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemorySizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks struct{}
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksVendor struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksVendor) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().Vendor().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksVendor) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayItemValue)
-}
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSerial struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) Description() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksDescription {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksDescription{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) Product() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksProduct {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksProduct{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) Vendor() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksVendor {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksVendor{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) Serial() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSerial {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSerial{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) Slot() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSlot {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSlot{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) SizeBytes() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSizeBytes {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSizeBytes{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) FrequencyHz() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksFrequencyHz {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksFrequencyHz{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanks) WidthBits() Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksWidthBits {
-	return Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksWidthBits{}
-}
-
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksDescription struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSerial) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().Description().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().Serial().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSerial) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksProduct struct{}
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSlot struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksProduct) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSlot) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().Product().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().Slot().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksProduct) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSlot) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksVendor struct{}
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSizeBytes struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksVendor) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().Vendor().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().SizeBytes().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksVendor) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSerial struct{}
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksFrequencyHz struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSerial) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksFrequencyHz) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().Serial().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().FrequencyHz().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSerial) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSlot struct{}
+type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksWidthBits struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSlot) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksWidthBits) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
 		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().Slot().FieldPath(),
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().MemoryBanks().WidthBits().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSlot) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksWidthBits) WithValue(value int32) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSizeBytes struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().SizeBytes().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksFrequencyHz struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksFrequencyHz) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().FrequencyHz().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksWidthBits struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksWidthBits) FieldPath() *DeviceStatusDeviceInfoHardwareInformation_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformation_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformation_FieldPathSelectorMemoryInfo,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder().Memory().MemoryBanks().WidthBits().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksWidthBits) WithValue(value int32) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformationPathSelectorMemoryInfoMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformation_FieldSubPathArrayOfValues)
 }
 
@@ -26887,275 +26804,242 @@ type DeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder struct{
 func NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder() DeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder {
 	return DeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder) Memory() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorDescription {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorDescription{}
+}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorSizeBytes {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorSizeBytes{}
+}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoFieldPathBuilder) MemoryBanks() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks{}
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorDescription struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue)
-}
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) WithSubPath(subPath DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory, subPath: subPath}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorSizeBytes struct{}
+
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) WithSubValue(subPathValue DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks struct{}
+
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks}
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue)
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues)
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue)
+}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WithSubPath(subPath DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks, subPath: subPath}
+}
+
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WithSubValue(subPathValue DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) WithSubArrayOfValues(subPathArrayOfValues DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WithSubArrayOfValues(subPathArrayOfValues DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) WithSubArrayItemValue(subPathArrayItemValue DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WithSubArrayItemValue(subPathArrayItemValue DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryDescription {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryDescription{}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksDescription {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksDescription{}
 }
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemorySizeBytes {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemorySizeBytes{}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) Product() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksProduct {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksProduct{}
 }
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemory) MemoryBanks() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks{}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) Vendor() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksVendor {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksVendor{}
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryDescription struct{}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) Serial() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSerial {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSerial{}
+}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) Slot() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSlot {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSlot{}
+}
+
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSizeBytes {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSizeBytes{}
+}
+
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) FrequencyHz() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksFrequencyHz {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksFrequencyHz{}
+}
+
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanks) WidthBits() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksWidthBits {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksWidthBits{}
+}
+
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksDescription struct{}
+
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().Description().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().Description().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemorySizeBytes struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksProduct struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemorySizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksProduct) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().SizeBytes().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().Product().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemorySizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksProduct) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemorySizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksVendor struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksVendor) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().Vendor().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksVendor) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue)
-}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSerial struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksDescription {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksDescription{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) Product() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksProduct {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksProduct{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) Vendor() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksVendor {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksVendor{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) Serial() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSerial {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSerial{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) Slot() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSlot {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSlot{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSizeBytes {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSizeBytes{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) FrequencyHz() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksFrequencyHz {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksFrequencyHz{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanks) WidthBits() Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksWidthBits {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksWidthBits{}
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksDescription struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSerial) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().Description().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().Serial().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSerial) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksProduct struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSlot struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksProduct) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSlot) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().Product().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().Slot().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksProduct) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSlot) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksVendor struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSizeBytes struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksVendor) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().Vendor().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().SizeBytes().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksVendor) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSerial struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksFrequencyHz struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSerial) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksFrequencyHz) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().Serial().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().FrequencyHz().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSerial) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSlot struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksWidthBits struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSlot) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksWidthBits) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
 	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().Slot().FieldPath(),
+		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks,
+		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder().WidthBits().FieldPath(),
 	}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSlot) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksWidthBits) WithValue(value int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSizeBytes struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().SizeBytes().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksFrequencyHz struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksFrequencyHz) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().FrequencyHz().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksWidthBits struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksWidthBits) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder().MemoryBanks().WidthBits().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksWidthBits) WithValue(value int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfoPathSelectorMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues)
 }
 
@@ -30185,390 +30069,146 @@ func (s Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCardPathSelector
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPathArrayOfValues)
 }
 
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder struct{}
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder struct{}
 
-func NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder {
-	return DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder{}
+func NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder {
+	return DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorDescription {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorDescription{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorDescription {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorDescription{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorSizeBytes {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorSizeBytes{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) Product() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorProduct {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorProduct{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryFieldPathBuilder) MemoryBanks() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) Vendor() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorVendor {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorVendor{}
 }
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorDescription struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorSizeBytes struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WithValue(value []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WithArrayOfValues(values [][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WithItemValue(value *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue)
-}
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WithSubPath(subPath DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks, subPath: subPath}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WithSubValue(subPathValue DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WithSubArrayOfValues(subPathArrayOfValues DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WithSubArrayItemValue(subPathArrayItemValue DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayItemValue {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksDescription {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksDescription{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) Product() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksProduct {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksProduct{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) Vendor() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksVendor {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksVendor{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) Serial() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSerial {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSerial{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) Slot() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSlot {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSlot{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSizeBytes {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSizeBytes{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) FrequencyHz() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksFrequencyHz {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksFrequencyHz{}
-}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanks) WidthBits() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksWidthBits {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksWidthBits{}
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksDescription struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().Description().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksProduct struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksProduct) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().Product().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksProduct) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksVendor struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksVendor) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().Vendor().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksVendor) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSerial struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSerial) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().Serial().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSerial) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSlot struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSlot) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().Slot().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSlot) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSizeBytes struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().SizeBytes().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksFrequencyHz struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksFrequencyHz) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().FrequencyHz().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksWidthBits struct{}
-
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksWidthBits) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{
-		selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks,
-		subPath:  NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder().WidthBits().FieldPath(),
-	}
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksWidthBits) WithValue(value int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)
-}
-
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryPathSelectorMemoryBanksWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder struct{}
-
-func NewDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder {
-	return DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder{}
-}
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) Description() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorDescription {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorDescription{}
-}
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) Product() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorProduct {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorProduct{}
-}
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) Vendor() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorVendor {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorVendor{}
-}
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) Serial() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSerial {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSerial{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) Serial() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSerial {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSerial{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) Slot() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSlot {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSlot{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) Slot() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSlot {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSlot{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSizeBytes {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSizeBytes{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) SizeBytes() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSizeBytes {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSizeBytes{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) FrequencyHz() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorFrequencyHz {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorFrequencyHz{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) FrequencyHz() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorFrequencyHz {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorFrequencyHz{}
 }
-func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBankFieldPathBuilder) WidthBits() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorWidthBits {
-	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorWidthBits{}
+func (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBankFieldPathBuilder) WidthBits() Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorWidthBits {
+	return Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorWidthBits{}
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorDescription struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorDescription struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorDescription) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorDescription) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorDescription) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorProduct struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorProduct struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorProduct) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorProduct) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorProduct) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorProduct) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorProduct) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorVendor struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorVendor struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorVendor) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorVendor) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorVendor) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorVendor) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorVendor) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSerial struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSerial struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSerial) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSerial) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSerial) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSerial) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSerial) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSlot struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSlot struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSlot) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSlot) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSlot) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSlot) WithValue(value string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSlot) WithArrayOfValues(values []string) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSizeBytes struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSizeBytes struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSizeBytes) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSizeBytes) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorSizeBytes) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorFrequencyHz struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorFrequencyHz struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorFrequencyHz) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorFrequencyHz) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorFrequencyHz) WithValue(value int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorFrequencyHz) WithArrayOfValues(values []int64) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
-type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorWidthBits struct{}
+type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorWidthBits struct{}
 
-func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorWidthBits) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits}
+func (Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorWidthBits) FieldPath() *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath {
+	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits}
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorWidthBits) WithValue(value int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorWidthBits) WithValue(value int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)
 }
 
-func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBankPathSelectorWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)
+func (s Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBankPathSelectorWidthBits) WithArrayOfValues(values []int32) *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)
 }
 
 type DeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfoFieldPathBuilder struct{}

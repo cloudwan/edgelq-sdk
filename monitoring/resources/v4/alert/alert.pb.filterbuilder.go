@@ -2523,6 +2523,10 @@ func (b *filterCndBuilderInfoTimeSerie) MonitoredResource() *filterCndBuilderInf
 	return &filterCndBuilderInfoTimeSerieMonitoredResource{builder: b.builder}
 }
 
+func (b *filterCndBuilderInfoTimeSerie) Data() *filterCndBuilderInfoTimeSerieData {
+	return &filterCndBuilderInfoTimeSerieData{builder: b.builder}
+}
+
 type filterCndBuilderInfoTimeSerieKey struct {
 	builder *FilterBuilder
 }
@@ -3271,6 +3275,99 @@ func (b *filterCndBuilderInfoTimeSerieMonitoredResourceReducedLabels) compare(op
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:             op,
 		Alert_FieldPathValue: NewAlertFieldPathBuilder().Info().TimeSerie().MonitoredResource().ReducedLabels().WithValue(value),
+	})
+}
+
+type filterCndBuilderInfoTimeSerieData struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().Info().TimeSerie().Data().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().Info().TimeSerie().Data().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().Data().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().Data().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().Data().FieldPath(),
+		Value:     NewAlertFieldPathBuilder().Info().TimeSerie().Data().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewAlertFieldPathBuilder().Info().TimeSerie().Data()
+	itemValues := make([]Alert_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().Data().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewAlertFieldPathBuilder().Info().TimeSerie().Data()
+	itemValues := make([]Alert_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().Data().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieData) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:             op,
+		Alert_FieldPathValue: NewAlertFieldPathBuilder().Info().TimeSerie().Data().WithValue(value),
 	})
 }
 

@@ -79,9 +79,10 @@ const (
 	Pod_FieldPathSelectorName         Pod_FieldPathSelector = 0
 	Pod_FieldPathSelectorMetadata     Pod_FieldPathSelector = 1
 	Pod_FieldPathSelectorDisplayName  Pod_FieldPathSelector = 2
-	Pod_FieldPathSelectorSpec         Pod_FieldPathSelector = 3
-	Pod_FieldPathSelectorDistribution Pod_FieldPathSelector = 4
-	Pod_FieldPathSelectorStatus       Pod_FieldPathSelector = 5
+	Pod_FieldPathSelectorDescription  Pod_FieldPathSelector = 3
+	Pod_FieldPathSelectorSpec         Pod_FieldPathSelector = 4
+	Pod_FieldPathSelectorDistribution Pod_FieldPathSelector = 5
+	Pod_FieldPathSelectorStatus       Pod_FieldPathSelector = 6
 )
 
 func (s Pod_FieldPathSelector) String() string {
@@ -92,6 +93,8 @@ func (s Pod_FieldPathSelector) String() string {
 		return "metadata"
 	case Pod_FieldPathSelectorDisplayName:
 		return "display_name"
+	case Pod_FieldPathSelectorDescription:
+		return "description"
 	case Pod_FieldPathSelectorSpec:
 		return "spec"
 	case Pod_FieldPathSelectorDistribution:
@@ -115,6 +118,8 @@ func BuildPod_FieldPath(fp gotenobject.RawFieldPath) (Pod_FieldPath, error) {
 			return &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDescription}, nil
 		case "spec":
 			return &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorSpec}, nil
 		case "distribution":
@@ -197,6 +202,8 @@ func (fp *Pod_FieldTerminalPath) Get(source *Pod) (values []interface{}) {
 			}
 		case Pod_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case Pod_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case Pod_FieldPathSelectorSpec:
 			if source.Spec != nil {
 				values = append(values, source.Spec)
@@ -231,6 +238,8 @@ func (fp *Pod_FieldTerminalPath) GetSingle(source *Pod) (interface{}, bool) {
 		return res, res != nil
 	case Pod_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case Pod_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case Pod_FieldPathSelectorSpec:
 		res := source.GetSpec()
 		return res, res != nil
@@ -258,6 +267,8 @@ func (fp *Pod_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Pod_FieldPathSelectorDisplayName:
 		return ""
+	case Pod_FieldPathSelectorDescription:
+		return ""
 	case Pod_FieldPathSelectorSpec:
 		return (*common.PodSpec)(nil)
 	case Pod_FieldPathSelectorDistribution:
@@ -278,6 +289,8 @@ func (fp *Pod_FieldTerminalPath) ClearValue(item *Pod) {
 			item.Metadata = nil
 		case Pod_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case Pod_FieldPathSelectorDescription:
+			item.Description = ""
 		case Pod_FieldPathSelectorSpec:
 			item.Spec = nil
 		case Pod_FieldPathSelectorDistribution:
@@ -298,6 +311,7 @@ func (fp *Pod_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Pod_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Pod_FieldPathSelectorName ||
 		fp.selector == Pod_FieldPathSelectorDisplayName ||
+		fp.selector == Pod_FieldPathSelectorDescription ||
 		fp.selector == Pod_FieldPathSelectorDistribution
 }
 
@@ -312,6 +326,8 @@ func (fp *Pod_FieldTerminalPath) WithIValue(value interface{}) Pod_FieldPathValu
 	case Pod_FieldPathSelectorMetadata:
 		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Pod_FieldPathSelectorDisplayName:
+		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(string)}
+	case Pod_FieldPathSelectorDescription:
 		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(string)}
 	case Pod_FieldPathSelectorSpec:
 		return &Pod_FieldTerminalPathValue{Pod_FieldTerminalPath: *fp, value: value.(*common.PodSpec)}
@@ -336,6 +352,8 @@ func (fp *Pod_FieldTerminalPath) WithIArrayOfValues(values interface{}) Pod_Fiel
 	case Pod_FieldPathSelectorMetadata:
 		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Pod_FieldPathSelectorDisplayName:
+		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]string)}
+	case Pod_FieldPathSelectorDescription:
 		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]string)}
 	case Pod_FieldPathSelectorSpec:
 		return &Pod_FieldTerminalPathArrayOfValues{Pod_FieldTerminalPath: *fp, values: values.([]*common.PodSpec)}
@@ -553,6 +571,10 @@ func (fpv *Pod_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Pod_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Pod_FieldTerminalPathValue) AsSpecValue() (*common.PodSpec, bool) {
 	res, ok := fpv.value.(*common.PodSpec)
 	return res, ok
@@ -578,6 +600,8 @@ func (fpv *Pod_FieldTerminalPathValue) SetTo(target **Pod) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Pod_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case Pod_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case Pod_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*common.PodSpec)
 	case Pod_FieldPathSelectorDistribution:
@@ -621,6 +645,16 @@ func (fpv *Pod_FieldTerminalPathValue) CompareWith(source *Pod) (int, bool) {
 	case Pod_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Pod_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -869,6 +903,10 @@ func (fpaov *Pod_FieldTerminalPathArrayOfValues) GetRawValues() (values []interf
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Pod_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Pod_FieldPathSelectorSpec:
 		for _, v := range fpaov.values.([]*common.PodSpec) {
 			values = append(values, v)
@@ -893,6 +931,10 @@ func (fpaov *Pod_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*m
 	return res, ok
 }
 func (fpaov *Pod_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Pod_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

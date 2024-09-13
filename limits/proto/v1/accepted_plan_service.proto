@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "AcceptedPlanServiceProto";
 option java_package = "com.ntt.limits.pb.v1";
 
-// Request message for method [GetAcceptedPlan][ntt.limits.v1.GetAcceptedPlan]
+// A request message of the GetAcceptedPlan method.
 message GetAcceptedPlanRequest {
   // Name of ntt.limits.v1.AcceptedPlan
   string name = 1;
@@ -31,8 +31,7 @@ message GetAcceptedPlanRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetAcceptedPlans][ntt.limits.v1.BatchGetAcceptedPlans]
+// A request message of the BatchGetAcceptedPlans method.
 message BatchGetAcceptedPlansRequest {
   // Names of AcceptedPlans
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetAcceptedPlansRequest {
   reserved 1;
 }
 
-// BatchGetAcceptedPlansResponse
+// A response message of the BatchGetAcceptedPlans method.
 message BatchGetAcceptedPlansResponse {
   // found AcceptedPlans
   repeated AcceptedPlan accepted_plans = 1;
@@ -57,8 +56,7 @@ message BatchGetAcceptedPlansResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListAcceptedPlans][ntt.limits.v1.ListAcceptedPlans]
+// A request message of the ListAcceptedPlans method.
 message ListAcceptedPlansRequest {
   // Parent name of ntt.limits.v1.AcceptedPlan
   string parent = 1;
@@ -69,7 +67,7 @@ message ListAcceptedPlansRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListAcceptedPlansResponse.next_page_token][ntt.limits.v1.ListAcceptedPlansResponse.next_page_token]
+  // ListAcceptedPlansResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -100,18 +98,19 @@ message ListAcceptedPlansRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListAcceptedPlans][ntt.limits.v1.ListAcceptedPlans]
+// A response message of the ListAcceptedPlans method.
 message ListAcceptedPlansResponse {
   // The list of AcceptedPlans
   repeated AcceptedPlan accepted_plans = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListAcceptedPlansRequest.page_token][ntt.limits.v1.ListAcceptedPlansRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListAcceptedPlansRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListAcceptedPlansRequest.page_token][ntt.limits.v1.ListAcceptedPlansRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListAcceptedPlansRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -125,8 +124,7 @@ message ListAcceptedPlansResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchAcceptedPlan][ntt.limits.v1.WatchAcceptedPlan]
+// A request message of the WatchAcceptedPlan method.
 message WatchAcceptedPlanRequest {
   // Name of ntt.limits.v1.AcceptedPlan
   string name = 1;
@@ -140,11 +138,10 @@ message WatchAcceptedPlanRequest {
   goten.types.View view = 4;
 }
 
-// WatchAcceptedPlanResponse
+// A response message of the WatchAcceptedPlan method.
 message WatchAcceptedPlanResponse { AcceptedPlanChange change = 1; }
 
-// Request message for method
-// [WatchAcceptedPlans][ntt.limits.v1.WatchAcceptedPlans]
+// A request message of the WatchAcceptedPlans method.
 message WatchAcceptedPlansRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -204,7 +201,7 @@ message WatchAcceptedPlansRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchAcceptedPlansResponse
+// A response message of the WatchAcceptedPlans method.
 message WatchAcceptedPlansResponse {
   // Changes of AcceptedPlans
   repeated AcceptedPlanChange accepted_plan_changes = 2;
@@ -270,8 +267,7 @@ message WatchAcceptedPlansResponse {
   }
 }
 
-// Request message for method
-// [CreateAcceptedPlan][ntt.limits.v1.CreateAcceptedPlan]
+// A request message of the CreateAcceptedPlan method.
 message CreateAcceptedPlanRequest {
   // Parent name of ntt.limits.v1.AcceptedPlan
   string parent = 1;
@@ -280,8 +276,7 @@ message CreateAcceptedPlanRequest {
   AcceptedPlan accepted_plan = 2;
 }
 
-// Request message for method
-// [UpdateAcceptedPlan][ntt.limits.v1.UpdateAcceptedPlan]
+// A request message of the UpdateAcceptedPlan method.
 message UpdateAcceptedPlanRequest {
   // AcceptedPlan resource body
   AcceptedPlan accepted_plan = 2;
@@ -316,8 +311,7 @@ message UpdateAcceptedPlanRequest {
   }
 }
 
-// Request message for method
-// [DeleteAcceptedPlan][ntt.limits.v1.DeleteAcceptedPlan]
+// A request message of the DeleteAcceptedPlan method.
 message DeleteAcceptedPlanRequest {
   // Name of ntt.limits.v1.AcceptedPlan
   string name = 1;

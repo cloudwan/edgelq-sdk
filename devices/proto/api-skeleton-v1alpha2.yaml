@@ -1,0 +1,149 @@
+name: devices.edgelq.com
+proto:
+  package:
+    name: ntt.devices
+    currentVersion: v1alpha2
+    nextVersion: v1
+    goPackage: github.com/cloudwan/edgelq/devices
+    protoImportPathPrefix: edgelq/devices/proto
+  service:
+    name: Devices
+    defaultHost: devices.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+imports:
+- iam.edgelq.com
+
+resources:
+- name: Project
+  multiRegion:
+    isPolicyHolder: true
+
+- name: Device
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: ProvisionServiceAccountToDevice
+    verb: provision_service_account_to_device
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: RemoveServiceAccountFromDevice
+    verb: remove_service_account_from_device
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+
+- name: ProvisioningPolicy
+  plural: ProvisioningPolicies
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: ProvisionServiceAccountToProvisioningPolicy
+    verb: provision_service_account_to_provisioning_policy
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: RemoveServiceAccountFromProvisioningPolicy
+    verb: remove_service_account_from_provisioning_policy
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: ProvisionDeviceViaPolicy
+    verb: provision_device_via_policy
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: RequestProvisioningApproval
+    verb: request_provisioning_approval
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+
+- name: ProvisioningApprovalRequest
+  parents:
+  - ProvisioningPolicy
+  actions:
+  - name: ProvisionDeviceForApprovedRequest
+    verb: provision_device_for_approved_request
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+
+- name: CustomizedImage
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: RequestUrl
+    verb: request_url
+    withStoreHandle:
+      readOnly: true
+      transaction: SNAPSHOT
+
+- name: DeviceType
+
+- name: OsVersion
+
+- name: OsImageProfile
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+
+apis:
+- name: Public
+  actions:
+  - name: ListPublicDevices
+    grpcTranscoding:
+      httpMethod: get
+    opResourceInfo:
+      name: Device
+      isPlural: true
+      isCollection: true
+      responsePaths:
+        resourceBody: [ "devices" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+- name: Broker
+  actions:
+  - name: ListenForConnections
+    verb: listen_for_connections
+    opResourceInfo:
+      name: Device
+      requestPaths:
+        resourceName: [ "register_listener.device" ]
+    withStoreHandle:
+      readOnly: false
+      transaction: NONE
+    streamingRequest: true
+    streamingResponse: true
+  - name: OpenConnectionChannelSocket
+    verb: open_connection_channel_socket
+    opResourceInfo:
+      name: Device
+      requestPaths:
+        resourceName: [ "register_socket.device" ]
+    withStoreHandle:
+      readOnly: false
+      transaction: NONE
+    streamingRequest: true
+    streamingResponse: true
+  - name: ConnectToDevice
+    verb: connect_to_device
+    opResourceInfo:
+      name: Device
+      requestPaths:
+        resourceName: [ "open_request.device" ]
+    withStoreHandle:
+      readOnly: false
+      transaction: NONE
+    streamingRequest: true
+    streamingResponse: true

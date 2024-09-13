@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "ProvisioningApprovalRequestServiceProto";
 option java_package = "com.ntt.devices.pb.v1";
 
-// Request message for method
-// [GetProvisioningApprovalRequest][ntt.devices.v1.GetProvisioningApprovalRequest]
+// A request message of the GetProvisioningApprovalRequest method.
 message GetProvisioningApprovalRequestRequest {
   // Name of ntt.devices.v1.ProvisioningApprovalRequest
   string name = 1;
@@ -33,8 +32,7 @@ message GetProvisioningApprovalRequestRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetProvisioningApprovalRequests][ntt.devices.v1.BatchGetProvisioningApprovalRequests]
+// A request message of the BatchGetProvisioningApprovalRequests method.
 message BatchGetProvisioningApprovalRequestsRequest {
   // Names of ProvisioningApprovalRequests
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetProvisioningApprovalRequestsRequest {
   reserved 1;
 }
 
-// BatchGetProvisioningApprovalRequestsResponse
+// A response message of the BatchGetProvisioningApprovalRequests method.
 message BatchGetProvisioningApprovalRequestsResponse {
   // found ProvisioningApprovalRequests
   repeated ProvisioningApprovalRequest provisioning_approval_requests = 1;
@@ -59,8 +57,7 @@ message BatchGetProvisioningApprovalRequestsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListProvisioningApprovalRequests][ntt.devices.v1.ListProvisioningApprovalRequests]
+// A request message of the ListProvisioningApprovalRequests method.
 message ListProvisioningApprovalRequestsRequest {
   // Parent name of ntt.devices.v1.ProvisioningApprovalRequest
   string parent = 1;
@@ -71,7 +68,7 @@ message ListProvisioningApprovalRequestsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListProvisioningApprovalRequestsResponse.next_page_token][ntt.devices.v1.ListProvisioningApprovalRequestsResponse.next_page_token]
+  // ListProvisioningApprovalRequestsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListProvisioningApprovalRequestsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListProvisioningApprovalRequests][ntt.devices.v1.ListProvisioningApprovalRequests]
+// A response message of the ListProvisioningApprovalRequests method.
 message ListProvisioningApprovalRequestsResponse {
   // The list of ProvisioningApprovalRequests
   repeated ProvisioningApprovalRequest provisioning_approval_requests = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListProvisioningApprovalRequestsRequest.page_token][ntt.devices.v1.ListProvisioningApprovalRequestsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListProvisioningApprovalRequestsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListProvisioningApprovalRequestsRequest.page_token][ntt.devices.v1.ListProvisioningApprovalRequestsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListProvisioningApprovalRequestsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListProvisioningApprovalRequestsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchProvisioningApprovalRequest][ntt.devices.v1.WatchProvisioningApprovalRequest]
+// A request message of the WatchProvisioningApprovalRequest method.
 message WatchProvisioningApprovalRequestRequest {
   // Name of ntt.devices.v1.ProvisioningApprovalRequest
   string name = 1;
@@ -143,13 +140,12 @@ message WatchProvisioningApprovalRequestRequest {
   goten.types.View view = 4;
 }
 
-// WatchProvisioningApprovalRequestResponse
+// A response message of the WatchProvisioningApprovalRequest method.
 message WatchProvisioningApprovalRequestResponse {
   ProvisioningApprovalRequestChange change = 1;
 }
 
-// Request message for method
-// [WatchProvisioningApprovalRequests][ntt.devices.v1.WatchProvisioningApprovalRequests]
+// A request message of the WatchProvisioningApprovalRequests method.
 message WatchProvisioningApprovalRequestsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -210,7 +206,7 @@ message WatchProvisioningApprovalRequestsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchProvisioningApprovalRequestsResponse
+// A response message of the WatchProvisioningApprovalRequests method.
 message WatchProvisioningApprovalRequestsResponse {
   // Changes of ProvisioningApprovalRequests
   repeated ProvisioningApprovalRequestChange
@@ -277,8 +273,7 @@ message WatchProvisioningApprovalRequestsResponse {
   }
 }
 
-// Request message for method
-// [CreateProvisioningApprovalRequest][ntt.devices.v1.CreateProvisioningApprovalRequest]
+// A request message of the CreateProvisioningApprovalRequest method.
 message CreateProvisioningApprovalRequestRequest {
   // Parent name of ntt.devices.v1.ProvisioningApprovalRequest
   string parent = 1;
@@ -287,8 +282,7 @@ message CreateProvisioningApprovalRequestRequest {
   ProvisioningApprovalRequest provisioning_approval_request = 2;
 }
 
-// Request message for method
-// [UpdateProvisioningApprovalRequest][ntt.devices.v1.UpdateProvisioningApprovalRequest]
+// A request message of the UpdateProvisioningApprovalRequest method.
 message UpdateProvisioningApprovalRequestRequest {
   // ProvisioningApprovalRequest resource body
   ProvisioningApprovalRequest provisioning_approval_request = 2;
@@ -323,8 +317,7 @@ message UpdateProvisioningApprovalRequestRequest {
   }
 }
 
-// Request message for method
-// [DeleteProvisioningApprovalRequest][ntt.devices.v1.DeleteProvisioningApprovalRequest]
+// A request message of the DeleteProvisioningApprovalRequest method.
 message DeleteProvisioningApprovalRequestRequest {
   // Name of ntt.devices.v1.ProvisioningApprovalRequest
   string name = 1;

@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetProvisioningPolicy][ntt.devices.v1.GetProvisioningPolicy]
+// A request message of the GetProvisioningPolicy method.
 type GetProvisioningPolicyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetProvisioningPolicyRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetProvisioningPolicies][ntt.devices.v1.BatchGetProvisioningPolicies]
+// A request message of the BatchGetProvisioningPolicies method.
 type BatchGetProvisioningPoliciesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetProvisioningPoliciesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetProvisioningPoliciesResponse
+// A response message of the BatchGetProvisioningPolicies method.
 type BatchGetProvisioningPoliciesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetProvisioningPoliciesResponse) SetMissing(fv []*provisioning_pol
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListProvisioningPolicies][ntt.devices.v1.ListProvisioningPolicies]
+// A request message of the ListProvisioningPolicies method.
 type ListProvisioningPoliciesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListProvisioningPoliciesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListProvisioningPoliciesResponse.next_page_token][ntt.devices.v1.ListProvisioningPoliciesResponse.next_page_token]
+	// ListProvisioningPoliciesResponse.next_page_token.
 	PageToken *provisioning_policy.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListProvisioningPoliciesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListProvisioningPolicies][ntt.devices.v1.ListProvisioningPolicies]
+// A response message of the ListProvisioningPolicies method.
 type ListProvisioningPoliciesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of ProvisioningPolicies
 	ProvisioningPolicies []*provisioning_policy.ProvisioningPolicy `protobuf:"bytes,1,rep,name=provisioning_policies,json=provisioningPolicies,proto3" json:"provisioning_policies,omitempty" firestore:"provisioningPolicies"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListProvisioningPoliciesRequest.page_token][ntt.devices.v1.ListProvisioningPoliciesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListProvisioningPoliciesRequest.page_token.
 	PrevPageToken *provisioning_policy.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListProvisioningPoliciesRequest.page_token][ntt.devices.v1.ListProvisioningPoliciesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListProvisioningPoliciesRequest.page_token.
 	NextPageToken *provisioning_policy.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListProvisioningPoliciesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchProvisioningPolicy][ntt.devices.v1.WatchProvisioningPolicy]
+// A request message of the WatchProvisioningPolicy method.
 type WatchProvisioningPolicyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchProvisioningPolicyRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchProvisioningPolicyResponse
+// A response message of the WatchProvisioningPolicy method.
 type WatchProvisioningPolicyResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchProvisioningPolicyResponse) SetChange(fv *provisioning_policy.Prov
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchProvisioningPolicies][ntt.devices.v1.WatchProvisioningPolicies]
+// A request message of the WatchProvisioningPolicies method.
 type WatchProvisioningPoliciesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchProvisioningPoliciesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchProvisioningPoliciesResponse
+// A response message of the WatchProvisioningPolicies method.
 type WatchProvisioningPoliciesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchProvisioningPoliciesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateProvisioningPolicy][ntt.devices.v1.CreateProvisioningPolicy]
+// A request message of the CreateProvisioningPolicy method.
 type CreateProvisioningPolicyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateProvisioningPolicyRequest) SetProvisioningPolicy(fv *provisioning
 	m.ProvisioningPolicy = fv
 }
 
-// Request message for method
-// [UpdateProvisioningPolicy][ntt.devices.v1.UpdateProvisioningPolicy]
+// A request message of the UpdateProvisioningPolicy method.
 type UpdateProvisioningPolicyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateProvisioningPolicyRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteProvisioningPolicy][ntt.devices.v1.DeleteProvisioningPolicy]
+// A request message of the DeleteProvisioningPolicy method.
 type DeleteProvisioningPolicyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

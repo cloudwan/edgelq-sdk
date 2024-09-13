@@ -60,6 +60,7 @@ func FullPod_FieldMask() *Pod_FieldMask {
 	res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorSpec})
 	res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDistribution})
 	res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorStatus})
@@ -106,7 +107,7 @@ func (fieldMask *Pod_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 7)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Pod_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -136,7 +137,7 @@ func (fieldMask *Pod_FieldMask) Reset() {
 
 func (fieldMask *Pod_FieldMask) Subtract(other *Pod_FieldMask) *Pod_FieldMask {
 	result := &Pod_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[Pod_FieldPathSelector]gotenobject.FieldMask{
 		Pod_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		Pod_FieldPathSelectorSpec:     &common.PodSpec_FieldMask{},
@@ -355,6 +356,8 @@ func (fieldMask *Pod_FieldMask) Project(source *Pod) *Pod {
 				wholeMetadataAccepted = true
 			case Pod_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case Pod_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case Pod_FieldPathSelectorSpec:
 				result.Spec = source.Spec
 				wholeSpecAccepted = true

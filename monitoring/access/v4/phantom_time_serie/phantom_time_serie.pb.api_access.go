@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *phantom_time_serie.Filter) (*phantom_time_se
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return phantom_time_serie.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

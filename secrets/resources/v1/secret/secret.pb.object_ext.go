@@ -69,6 +69,12 @@ func (o *Secret) MakeDiffFieldMask(other *Secret) *Secret_FieldMask {
 			}
 		}
 	}
+	if o.GetDisplayName() != other.GetDisplayName() {
+		res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDisplayName})
+	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDescription})
+	}
 	if string(o.GetEncData()) != string(other.GetEncData()) {
 		res.Paths = append(res.Paths, &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorEncData})
 	}
@@ -107,6 +113,8 @@ func (o *Secret) Clone() *Secret {
 		}
 	}
 	result.Metadata = o.Metadata.Clone()
+	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.EncData = make([]byte, len(o.EncData))
 	for i, bt := range o.EncData {
 		result.EncData[i] = bt
@@ -141,6 +149,8 @@ func (o *Secret) Merge(source *Secret) {
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
+	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	o.EncData = make([]byte, len(source.GetEncData()))
 	for i, bt := range source.GetEncData() {
 		o.EncData[i] = bt

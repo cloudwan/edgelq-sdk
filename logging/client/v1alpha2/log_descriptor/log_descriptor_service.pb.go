@@ -58,8 +58,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetLogDescriptor][ntt.logging.v1alpha2.GetLogDescriptor]
+// A request message of the GetLogDescriptor method.
 type GetLogDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -166,8 +165,7 @@ func (m *GetLogDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetLogDescriptors][ntt.logging.v1alpha2.BatchGetLogDescriptors]
+// A request message of the BatchGetLogDescriptors method.
 type BatchGetLogDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -274,7 +272,7 @@ func (m *BatchGetLogDescriptorsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetLogDescriptorsResponse
+// A response message of the BatchGetLogDescriptors method.
 type BatchGetLogDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -363,8 +361,7 @@ func (m *BatchGetLogDescriptorsResponse) SetMissing(fv []*log_descriptor.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListLogDescriptors][ntt.logging.v1alpha2.ListLogDescriptors]
+// A request message of the ListLogDescriptors method.
 type ListLogDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -376,7 +373,7 @@ type ListLogDescriptorsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListLogDescriptorsResponse.next_page_token][ntt.logging.v1alpha2.ListLogDescriptorsResponse.next_page_token]
+	// ListLogDescriptorsResponse.next_page_token.
 	PageToken *log_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -564,19 +561,20 @@ func (m *ListLogDescriptorsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListLogDescriptors][ntt.logging.v1alpha2.ListLogDescriptors]
+// A response message of the ListLogDescriptors method.
 type ListLogDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of LogDescriptors
 	LogDescriptors []*log_descriptor.LogDescriptor `protobuf:"bytes,1,rep,name=log_descriptors,json=logDescriptors,proto3" json:"log_descriptors,omitempty" firestore:"logDescriptors"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListLogDescriptorsRequest.page_token][ntt.logging.v1alpha2.ListLogDescriptorsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListLogDescriptorsRequest.page_token.
 	PrevPageToken *log_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListLogDescriptorsRequest.page_token][ntt.logging.v1alpha2.ListLogDescriptorsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListLogDescriptorsRequest.page_token.
 	NextPageToken *log_descriptor.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -709,8 +707,7 @@ func (m *ListLogDescriptorsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchLogDescriptor][ntt.logging.v1alpha2.WatchLogDescriptor]
+// A request message of the WatchLogDescriptor method.
 type WatchLogDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -817,7 +814,7 @@ func (m *WatchLogDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchLogDescriptorResponse
+// A response message of the WatchLogDescriptor method.
 type WatchLogDescriptorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -889,8 +886,7 @@ func (m *WatchLogDescriptorResponse) SetChange(fv *log_descriptor.LogDescriptorC
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchLogDescriptors][ntt.logging.v1alpha2.WatchLogDescriptors]
+// A request message of the WatchLogDescriptors method.
 type WatchLogDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1147,7 +1143,7 @@ func (m *WatchLogDescriptorsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchLogDescriptorsResponse
+// A response message of the WatchLogDescriptors method.
 type WatchLogDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1350,8 +1346,7 @@ func (m *WatchLogDescriptorsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateLogDescriptor][ntt.logging.v1alpha2.CreateLogDescriptor]
+// A request message of the CreateLogDescriptor method.
 type CreateLogDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1440,8 +1435,7 @@ func (m *CreateLogDescriptorRequest) SetLogDescriptor(fv *log_descriptor.LogDesc
 	m.LogDescriptor = fv
 }
 
-// Request message for method
-// [UpdateLogDescriptor][ntt.logging.v1alpha2.UpdateLogDescriptor]
+// A request message of the UpdateLogDescriptor method.
 type UpdateLogDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1571,8 +1565,7 @@ func (m *UpdateLogDescriptorRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteLogDescriptor][ntt.logging.v1alpha2.DeleteLogDescriptor]
+// A request message of the DeleteLogDescriptor method.
 type DeleteLogDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

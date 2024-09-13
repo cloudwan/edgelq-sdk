@@ -52,8 +52,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetAuditedResourceDescriptor][ntt.audit.v1alpha2.GetAuditedResourceDescriptor]
+// A request message of the GetAuditedResourceDescriptor method.
 type GetAuditedResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -160,8 +159,7 @@ func (m *GetAuditedResourceDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetAuditedResourceDescriptors][ntt.audit.v1alpha2.BatchGetAuditedResourceDescriptors]
+// A request message of the BatchGetAuditedResourceDescriptors method.
 type BatchGetAuditedResourceDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -268,7 +266,7 @@ func (m *BatchGetAuditedResourceDescriptorsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetAuditedResourceDescriptorsResponse
+// A response message of the BatchGetAuditedResourceDescriptors method.
 type BatchGetAuditedResourceDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -357,8 +355,7 @@ func (m *BatchGetAuditedResourceDescriptorsResponse) SetMissing(fv []*audited_re
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]
+// A request message of the ListAuditedResourceDescriptors method.
 type ListAuditedResourceDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -368,7 +365,7 @@ type ListAuditedResourceDescriptorsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListAuditedResourceDescriptorsResponse.next_page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsResponse.next_page_token]
+	// ListAuditedResourceDescriptorsResponse.next_page_token.
 	PageToken *audited_resource_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -542,19 +539,20 @@ func (m *ListAuditedResourceDescriptorsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]
+// A response message of the ListAuditedResourceDescriptors method.
 type ListAuditedResourceDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of AuditedResourceDescriptors
 	AuditedResourceDescriptors []*audited_resource_descriptor.AuditedResourceDescriptor `protobuf:"bytes,1,rep,name=audited_resource_descriptors,json=auditedResourceDescriptors,proto3" json:"audited_resource_descriptors,omitempty" firestore:"auditedResourceDescriptors"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListAuditedResourceDescriptorsRequest.page_token.
 	PrevPageToken *audited_resource_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListAuditedResourceDescriptorsRequest.page_token.
 	NextPageToken *audited_resource_descriptor.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -687,8 +685,7 @@ func (m *ListAuditedResourceDescriptorsResponse) SetTotalResultsCount(fv int32) 
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchAuditedResourceDescriptor][ntt.audit.v1alpha2.WatchAuditedResourceDescriptor]
+// A request message of the WatchAuditedResourceDescriptor method.
 type WatchAuditedResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -795,7 +792,7 @@ func (m *WatchAuditedResourceDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchAuditedResourceDescriptorResponse
+// A response message of the WatchAuditedResourceDescriptor method.
 type WatchAuditedResourceDescriptorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -867,8 +864,7 @@ func (m *WatchAuditedResourceDescriptorResponse) SetChange(fv *audited_resource_
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchAuditedResourceDescriptors][ntt.audit.v1alpha2.WatchAuditedResourceDescriptors]
+// A request message of the WatchAuditedResourceDescriptors method.
 type WatchAuditedResourceDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1110,7 +1106,7 @@ func (m *WatchAuditedResourceDescriptorsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchAuditedResourceDescriptorsResponse
+// A response message of the WatchAuditedResourceDescriptors method.
 type WatchAuditedResourceDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1313,8 +1309,7 @@ func (m *WatchAuditedResourceDescriptorsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateAuditedResourceDescriptor][ntt.audit.v1alpha2.CreateAuditedResourceDescriptor]
+// A request message of the CreateAuditedResourceDescriptor method.
 type CreateAuditedResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1387,8 +1382,7 @@ func (m *CreateAuditedResourceDescriptorRequest) SetAuditedResourceDescriptor(fv
 	m.AuditedResourceDescriptor = fv
 }
 
-// Request message for method
-// [UpdateAuditedResourceDescriptor][ntt.audit.v1alpha2.UpdateAuditedResourceDescriptor]
+// A request message of the UpdateAuditedResourceDescriptor method.
 type UpdateAuditedResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -34,6 +34,9 @@ message Distribution {
   // Display name of Distribution
   string display_name = 2;
 
+  // Optional. Description of the Distribution.
+  string description = 6;
+
   Spec spec = 4;
 
   Status status = 5;

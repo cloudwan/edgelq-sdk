@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "OsVersionServiceProto";
 option java_package = "com.ntt.devices.pb.v1alpha2";
 
-// Request message for method [GetOsVersion][ntt.devices.v1alpha2.GetOsVersion]
+// A request message of the GetOsVersion method.
 message GetOsVersionRequest {
   // Name of ntt.devices.v1alpha2.OsVersion
   string name = 1;
@@ -31,8 +31,7 @@ message GetOsVersionRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetOsVersions][ntt.devices.v1alpha2.BatchGetOsVersions]
+// A request message of the BatchGetOsVersions method.
 message BatchGetOsVersionsRequest {
   // Names of OsVersions
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetOsVersionsRequest {
   reserved 1;
 }
 
-// BatchGetOsVersionsResponse
+// A response message of the BatchGetOsVersions method.
 message BatchGetOsVersionsResponse {
   // found OsVersions
   repeated OsVersion os_versions = 1;
@@ -57,8 +56,7 @@ message BatchGetOsVersionsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListOsVersions][ntt.devices.v1alpha2.ListOsVersions]
+// A request message of the ListOsVersions method.
 message ListOsVersionsRequest {
   // Requested page size. Server may return fewer OsVersions than requested.
   // If unspecified, server will pick an appropriate default.
@@ -66,7 +64,7 @@ message ListOsVersionsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListOsVersionsResponse.next_page_token][ntt.devices.v1alpha2.ListOsVersionsResponse.next_page_token]
+  // ListOsVersionsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -97,18 +95,19 @@ message ListOsVersionsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListOsVersions][ntt.devices.v1alpha2.ListOsVersions]
+// A response message of the ListOsVersions method.
 message ListOsVersionsResponse {
   // The list of OsVersions
   repeated OsVersion os_versions = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListOsVersionsRequest.page_token][ntt.devices.v1alpha2.ListOsVersionsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListOsVersionsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListOsVersionsRequest.page_token][ntt.devices.v1alpha2.ListOsVersionsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListOsVersionsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -122,8 +121,7 @@ message ListOsVersionsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchOsVersion][ntt.devices.v1alpha2.WatchOsVersion]
+// A request message of the WatchOsVersion method.
 message WatchOsVersionRequest {
   // Name of ntt.devices.v1alpha2.OsVersion
   string name = 1;
@@ -137,11 +135,10 @@ message WatchOsVersionRequest {
   goten.types.View view = 4;
 }
 
-// WatchOsVersionResponse
+// A response message of the WatchOsVersion method.
 message WatchOsVersionResponse { OsVersionChange change = 1; }
 
-// Request message for method
-// [WatchOsVersions][ntt.devices.v1alpha2.WatchOsVersions]
+// A request message of the WatchOsVersions method.
 message WatchOsVersionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -198,7 +195,7 @@ message WatchOsVersionsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchOsVersionsResponse
+// A response message of the WatchOsVersions method.
 message WatchOsVersionsResponse {
   // Changes of OsVersions
   repeated OsVersionChange os_version_changes = 2;
@@ -264,15 +261,13 @@ message WatchOsVersionsResponse {
   }
 }
 
-// Request message for method
-// [CreateOsVersion][ntt.devices.v1alpha2.CreateOsVersion]
+// A request message of the CreateOsVersion method.
 message CreateOsVersionRequest {
   // OsVersion resource body
   OsVersion os_version = 2;
 }
 
-// Request message for method
-// [UpdateOsVersion][ntt.devices.v1alpha2.UpdateOsVersion]
+// A request message of the UpdateOsVersion method.
 message UpdateOsVersionRequest {
   // OsVersion resource body
   OsVersion os_version = 2;
@@ -307,8 +302,7 @@ message UpdateOsVersionRequest {
   }
 }
 
-// Request message for method
-// [DeleteOsVersion][ntt.devices.v1alpha2.DeleteOsVersion]
+// A request message of the DeleteOsVersion method.
 message DeleteOsVersionRequest {
   // Name of ntt.devices.v1alpha2.OsVersion
   string name = 1;

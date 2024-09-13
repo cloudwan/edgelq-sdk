@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetAlertingCondition][ntt.monitoring.v3.GetAlertingCondition]
+// A request message of the GetAlertingCondition method.
 type GetAlertingConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetAlertingConditionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetAlertingConditions][ntt.monitoring.v3.BatchGetAlertingConditions]
+// A request message of the BatchGetAlertingConditions method.
 type BatchGetAlertingConditionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetAlertingConditionsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetAlertingConditionsResponse
+// A response message of the BatchGetAlertingConditions method.
 type BatchGetAlertingConditionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetAlertingConditionsResponse) SetMissing(fv []*alerting_condition
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListAlertingConditions][ntt.monitoring.v3.ListAlertingConditions]
+// A request message of the ListAlertingConditions method.
 type ListAlertingConditionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListAlertingConditionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListAlertingConditionsResponse.next_page_token][ntt.monitoring.v3.ListAlertingConditionsResponse.next_page_token]
+	// ListAlertingConditionsResponse.next_page_token.
 	PageToken *alerting_condition.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListAlertingConditionsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListAlertingConditions][ntt.monitoring.v3.ListAlertingConditions]
+// A response message of the ListAlertingConditions method.
 type ListAlertingConditionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of AlertingConditions
 	AlertingConditions []*alerting_condition.AlertingCondition `protobuf:"bytes,1,rep,name=alerting_conditions,json=alertingConditions,proto3" json:"alerting_conditions,omitempty" firestore:"alertingConditions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListAlertingConditionsRequest.page_token][ntt.monitoring.v3.ListAlertingConditionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListAlertingConditionsRequest.page_token.
 	PrevPageToken *alerting_condition.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListAlertingConditionsRequest.page_token][ntt.monitoring.v3.ListAlertingConditionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListAlertingConditionsRequest.page_token.
 	NextPageToken *alerting_condition.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListAlertingConditionsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchAlertingCondition][ntt.monitoring.v3.WatchAlertingCondition]
+// A request message of the WatchAlertingCondition method.
 type WatchAlertingConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchAlertingConditionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchAlertingConditionResponse
+// A response message of the WatchAlertingCondition method.
 type WatchAlertingConditionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchAlertingConditionResponse) SetChange(fv *alerting_condition.Alerti
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchAlertingConditions][ntt.monitoring.v3.WatchAlertingConditions]
+// A request message of the WatchAlertingConditions method.
 type WatchAlertingConditionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchAlertingConditionsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchAlertingConditionsResponse
+// A response message of the WatchAlertingConditions method.
 type WatchAlertingConditionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchAlertingConditionsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateAlertingCondition][ntt.monitoring.v3.CreateAlertingCondition]
+// A request message of the CreateAlertingCondition method.
 type CreateAlertingConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateAlertingConditionRequest) SetAlertingCondition(fv *alerting_condi
 	m.AlertingCondition = fv
 }
 
-// Request message for method
-// [UpdateAlertingCondition][ntt.monitoring.v3.UpdateAlertingCondition]
+// A request message of the UpdateAlertingCondition method.
 type UpdateAlertingConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateAlertingConditionRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteAlertingCondition][ntt.monitoring.v3.DeleteAlertingCondition]
+// A request message of the DeleteAlertingCondition method.
 type DeleteAlertingConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1644,8 +1637,7 @@ func (m *DeleteAlertingConditionRequest) SetName(fv *alerting_condition.Name) {
 	m.Name = fv
 }
 
-// Request message for method
-// [SearchAlertingConditions][ntt.monitoring.v3.SearchAlertingConditions]
+// A request message of the SearchAlertingConditions method.
 type SearchAlertingConditionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1657,7 +1649,7 @@ type SearchAlertingConditionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [SearchAlertingConditionsResponse.next_page_token][ntt.monitoring.v3.SearchAlertingConditionsResponse.next_page_token]
+	// SearchAlertingConditionsResponse.next_page_token.
 	PageToken *alerting_condition.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -1844,19 +1836,20 @@ func (m *SearchAlertingConditionsRequest) SetPhrase(fv string) {
 	m.Phrase = fv
 }
 
-// Request message for method
-// [SearchAlertingConditions][ntt.monitoring.v3.SearchAlertingConditions]
+// A response message of the SearchAlertingConditions method.
 type SearchAlertingConditionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of AlertingConditions
 	AlertingConditions []*alerting_condition.AlertingCondition `protobuf:"bytes,1,rep,name=alerting_conditions,json=alertingConditions,proto3" json:"alerting_conditions,omitempty" firestore:"alertingConditions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [SearchAlertingConditionsRequest.page_token][ntt.monitoring.v3.SearchAlertingConditionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the SearchAlertingConditionsRequest.page_token.
 	PrevPageToken *alerting_condition.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [SearchAlertingConditionsRequest.page_token][ntt.monitoring.v3.SearchAlertingConditionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the SearchAlertingConditionsRequest.page_token.
 	NextPageToken *alerting_condition.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page (0 if no page tokens were given). Page
 	// index can be computed from offset and limit provided in a request

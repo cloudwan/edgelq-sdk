@@ -1,0 +1,77 @@
+kind: "iam.edgelq.com/Condition"
+version: "v1alpha2"
+resources:
+- name: projects/<project>/conditions/device-isolation-with-attestation-<attestationId>
+  displayName: Device Isolation With Attestation
+  expression: |
+    // unrestricted resources
+    (resource.type in ["devices.edgelq.com/Project", "iam.edgelq.com/AttestationDomain", "monitoring.edgelq.com/TimeSerie"])
+    ||
+    // restricted resources
+    (resource.type == "iam.edgelq.com/ServiceAccount" &&
+      (request.action in ["watch"]
+      ||
+      (request.action in ["get"] &&
+        request.body.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId))))
+    ||
+    (resource.type == "iam.edgelq.com/ServiceAccountKey" &&
+      (request.action in ["watch"]
+      ||
+      (request.action in ["get"] &&
+        request.body.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId + "/serviceAccountKeys/" + parameters.serviceAccKeyId))))
+    ||
+    (resource.type == "logging.edgelq.com/Log" &&
+      request.body.logs.all(log, log.labels["device_id"] == parameters.deviceId) &&
+      request.body.logs.all(log, log.region == parameters.regionId) &&
+      (
+        request.body.parent.satisfies("projects/" + parameters.projectId) ||
+        request.body.parent.satisfies("organizations/-") ||
+        request.body.parent.satisfies("")
+      )
+    )
+    ||
+    (resource.type == "devices.edgelq.com/Device" &&
+      (request.action in ["get", "watch", "provisionServiceAccountToDevice"] &&
+        request.body.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/devices/" + parameters.deviceId)
+      ||
+      (request.action in ["list"] &&
+        (request.body.filter.satisfies('spec.service_account = "serviceAccounts/' + parameters.serviceAccId + '"')
+        ||
+        request.body.filter.satisfies('spec.service_account = "projects/' + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId + '"')))
+      ||
+      (request.action in ["update"] &&
+        request.body.device.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/devices/" + parameters.deviceId))))
+    ||
+    (resource.type == "devices.edgelq.com/ProvisioningApprovalRequest" &&
+      (request.action in ["list"] &&
+        (request.body.filter.satisfies('spec.service_account = "serviceAccounts/' + parameters.serviceAccId + '"')
+        ||
+        request.body.filter.satisfies('spec.service_account = "projects/' + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId + '"')))
+      ||
+      (request.action in ["watch", "delete", "provisionDeviceForApprovedRequest"]))
+    ||
+    // restricted + attestation required
+    (attest.domain in ["projects/<project>/attestationDomains/<attestationId>"] &&
+      (resource.type == "devices.edgelq.com/Device" && 
+        request.action in ["listenForConnections", "openConnectionChannelSocket"])
+      ||
+      (resource.type == "applications.edgelq.com/Pod" &&
+        request.action in ["update", "watch"])
+      ||
+      (resource.type == "secrets.edgelq.com/Secret" &&
+        request.action in ["get"])
+      ||
+      (resource.type == "watchdog.edgelq.com/Probe") 
+      ||
+      (resource.type == "watchdog.edgelq.com/ProbeGroup"))
+  parameterDeclarations:
+  - key: deviceId
+    type: STRING
+  - key: projectId
+    type: STRING
+  - key: regionId
+    type: STRING
+  - key: serviceAccId
+    type: STRING
+  - key: serviceAccKeyId
+    type: STRING

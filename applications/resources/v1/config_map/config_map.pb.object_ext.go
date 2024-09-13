@@ -72,6 +72,9 @@ func (o *ConfigMap) MakeDiffFieldMask(other *ConfigMap) *ConfigMap_FieldMask {
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorDisplayName})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorDescription})
+	}
 
 	if len(o.GetData()) == len(other.GetData()) {
 		for i, lValue := range o.GetData() {
@@ -120,6 +123,7 @@ func (o *ConfigMap) Clone() *ConfigMap {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.Data = map[string]string{}
 	for key, sourceValue := range o.Data {
 		result.Data[key] = sourceValue
@@ -155,6 +159,7 @@ func (o *ConfigMap) Merge(source *ConfigMap) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	if source.GetData() != nil {
 		if o.Data == nil {
 			o.Data = make(map[string]string, len(source.GetData()))

@@ -64,6 +64,7 @@ func FullProvisioningPolicy_FieldMask() *ProvisioningPolicy_FieldMask {
 	res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorSpec})
 	res.Paths = append(res.Paths, &ProvisioningPolicy_FieldTerminalPath{selector: ProvisioningPolicy_FieldPathSelectorStatus})
 	return res
@@ -109,7 +110,7 @@ func (fieldMask *ProvisioningPolicy_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ProvisioningPolicy_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -139,7 +140,7 @@ func (fieldMask *ProvisioningPolicy_FieldMask) Reset() {
 
 func (fieldMask *ProvisioningPolicy_FieldMask) Subtract(other *ProvisioningPolicy_FieldMask) *ProvisioningPolicy_FieldMask {
 	result := &ProvisioningPolicy_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[ProvisioningPolicy_FieldPathSelector]gotenobject.FieldMask{
 		ProvisioningPolicy_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		ProvisioningPolicy_FieldPathSelectorSpec:     &ProvisioningPolicy_Spec_FieldMask{},
@@ -371,6 +372,8 @@ func (fieldMask *ProvisioningPolicy_FieldMask) Project(source *ProvisioningPolic
 				wholeMetadataAccepted = true
 			case ProvisioningPolicy_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case ProvisioningPolicy_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case ProvisioningPolicy_FieldPathSelectorSpec:
 				result.Spec = source.Spec
 				wholeSpecAccepted = true

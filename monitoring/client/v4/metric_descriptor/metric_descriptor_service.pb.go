@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [BatchGetMetricDescriptors][ntt.monitoring.v4.BatchGetMetricDescriptors]
+// A request message of the BatchGetMetricDescriptors method.
 type BatchGetMetricDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,7 +163,7 @@ func (m *BatchGetMetricDescriptorsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetMetricDescriptorsResponse
+// A response message of the BatchGetMetricDescriptors method.
 type BatchGetMetricDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -253,8 +252,7 @@ func (m *BatchGetMetricDescriptorsResponse) SetMissing(fv []*metric_descriptor.N
 	m.Missing = fv
 }
 
-// Request message for method
-// [WatchMetricDescriptor][ntt.monitoring.v4.WatchMetricDescriptor]
+// A request message of the WatchMetricDescriptor method.
 type WatchMetricDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,7 +359,7 @@ func (m *WatchMetricDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchMetricDescriptorResponse
+// A response message of the WatchMetricDescriptor method.
 type WatchMetricDescriptorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -433,8 +431,7 @@ func (m *WatchMetricDescriptorResponse) SetChange(fv *metric_descriptor.MetricDe
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchMetricDescriptors][ntt.monitoring.v4.WatchMetricDescriptors]
+// A request message of the WatchMetricDescriptors method.
 type WatchMetricDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -691,7 +688,7 @@ func (m *WatchMetricDescriptorsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchMetricDescriptorsResponse
+// A response message of the WatchMetricDescriptors method.
 type WatchMetricDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

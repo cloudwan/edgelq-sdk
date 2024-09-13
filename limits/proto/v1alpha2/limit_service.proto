@@ -18,7 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "LimitServiceProto";
 option java_package = "com.ntt.limits.pb.v1alpha2";
 
-// Request message for method [GetLimit][ntt.limits.v1alpha2.GetLimit]
+// A request message of the GetLimit method.
 message GetLimitRequest {
   // Name of ntt.limits.v1alpha2.Limit
   string name = 1;
@@ -32,8 +32,7 @@ message GetLimitRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetLimits][ntt.limits.v1alpha2.BatchGetLimits]
+// A request message of the BatchGetLimits method.
 message BatchGetLimitsRequest {
   // Names of Limits
   repeated string names = 2;
@@ -49,7 +48,7 @@ message BatchGetLimitsRequest {
   reserved 1;
 }
 
-// BatchGetLimitsResponse
+// A response message of the BatchGetLimits method.
 message BatchGetLimitsResponse {
   // found Limits
   repeated Limit limits = 1;
@@ -58,7 +57,7 @@ message BatchGetLimitsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListLimits][ntt.limits.v1alpha2.ListLimits]
+// A request message of the ListLimits method.
 message ListLimitsRequest {
   // Parent name of ntt.limits.v1alpha2.Limit
   string parent = 1;
@@ -69,7 +68,7 @@ message ListLimitsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListLimitsResponse.next_page_token][ntt.limits.v1alpha2.ListLimitsResponse.next_page_token]
+  // ListLimitsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -100,17 +99,19 @@ message ListLimitsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListLimits][ntt.limits.v1alpha2.ListLimits]
+// A response message of the ListLimits method.
 message ListLimitsResponse {
   // The list of Limits
   repeated Limit limits = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListLimitsRequest.page_token][ntt.limits.v1alpha2.ListLimitsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListLimitsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListLimitsRequest.page_token][ntt.limits.v1alpha2.ListLimitsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListLimitsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -124,7 +125,7 @@ message ListLimitsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchLimit][ntt.limits.v1alpha2.WatchLimit]
+// A request message of the WatchLimit method.
 message WatchLimitRequest {
   // Name of ntt.limits.v1alpha2.Limit
   string name = 1;
@@ -138,10 +139,10 @@ message WatchLimitRequest {
   goten.types.View view = 4;
 }
 
-// WatchLimitResponse
+// A response message of the WatchLimit method.
 message WatchLimitResponse { LimitChange change = 1; }
 
-// Request message for method [WatchLimits][ntt.limits.v1alpha2.WatchLimits]
+// A request message of the WatchLimits method.
 message WatchLimitsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -201,7 +202,7 @@ message WatchLimitsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchLimitsResponse
+// A response message of the WatchLimits method.
 message WatchLimitsResponse {
   // Changes of Limits
   repeated LimitChange limit_changes = 2;
@@ -267,7 +268,7 @@ message WatchLimitsResponse {
   }
 }
 
-// Request message for method [UpdateLimit][ntt.limits.v1alpha2.UpdateLimit]
+// A request message of the UpdateLimit method.
 message UpdateLimitRequest {
   // Limit resource body
   Limit limit = 2;
@@ -295,7 +296,7 @@ message UpdateLimitRequest {
   }
 }
 
-// Request message for method [DeleteLimit][ntt.limits.v1alpha2.DeleteLimit]
+// A request message of the DeleteLimit method.
 message DeleteLimitRequest {
   // Name of ntt.limits.v1alpha2.Limit
   string name = 1;

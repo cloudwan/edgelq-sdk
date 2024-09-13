@@ -1,0 +1,97 @@
+kind: "iam.edgelq.com/Condition"
+version: "v1alpha2"
+resources:
+- name: conditions/device-isolation
+  displayName: Device Isolation
+  expression: |
+    // unrestricted resources
+    (resource.type in ["devices.edgelq.com/Project", "iam.edgelq.com/AttestationPolicy", "iam.edgelq.com/AttestationDomain", "monitoring.edgelq.com/TimeSerie"])
+    ||
+    // restricted resources
+    (resource.type == "iam.edgelq.com/ServiceAccount" &&
+      (request.action in ["watch"]
+      ||
+      (request.action in ["get"] &&
+        request.body.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId))))
+    ||
+    (resource.type == "iam.edgelq.com/ServiceAccountKey" &&
+      (request.action in ["watch"]
+      ||
+      (request.action in ["get"] &&
+        request.body.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId + "/serviceAccountKeys/" + parameters.serviceAccKeyId))))
+    ||
+    (resource.type == "logging.edgelq.com/Log" &&
+      request.body.logs.all(log, log.labels["device_id"] == parameters.deviceId) &&
+      request.body.logs.all(log, log.region == parameters.regionId) &&
+      (
+        request.body.parent.satisfies("projects/" + parameters.projectId) || 
+        request.body.parent.satisfies("organizations/-") ||
+        request.body.parent.satisfies("")
+      )
+    )
+    ||
+    (resource.type == "applications.edgelq.com/Pod" &&
+      request.action in ["update", "watch"])
+    ||
+    (resource.type == "applications.edgelq.com/ConfigMap" &&
+      request.action in ["get"])
+    ||
+    (resource.type == "secrets.edgelq.com/Secret" &&
+      request.action in ["get"])
+    ||
+    (resource.type == "watchdog.edgelq.com/Probe") ||  (resource.type == "watchdog.edgelq.com/ProbeGroup")
+    ||
+    (resource.type == "devices.edgelq.com/Device" &&
+      (request.action in ["listenForConnections", "openConnectionChannelSocket"]
+      ||
+      (request.action in ["get", "watch", "provisionServiceAccountToDevice"] &&
+        request.body.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/devices/" + parameters.deviceId))
+      ||
+      (request.action in ["list"] &&
+        (request.body.filter.satisfies('spec.service_account = "serviceAccounts/' + parameters.serviceAccId + '"')
+        ||
+        request.body.filter.satisfies('spec.service_account = "projects/' + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId + '"')))
+      ||
+      (request.action in ["update"] &&
+        request.body.device.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/devices/" + parameters.deviceId))))
+    ||
+    (resource.type == "devices.edgelq.com/ProvisioningApprovalRequest" &&
+      (request.action in ["list"] &&
+        (request.body.filter.satisfies('spec.service_account = "serviceAccounts/' + parameters.serviceAccId + '"')
+        ||
+        request.body.filter.satisfies('spec.service_account = "projects/' + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId + '"')))
+      ||
+      (request.action in ["watch", "delete", "provisionDeviceForApprovedRequest"]))
+  parameterDeclarations:
+  - key: deviceId
+    type: STRING
+  - key: projectId
+    type: STRING
+  - key: regionId
+    type: STRING
+  - key: serviceAccId
+    type: STRING
+  - key: serviceAccKeyId
+    type: STRING
+
+- name: conditions/provisioning-policy-isolation
+  displayName: Provisioning Policy Isolation
+  expression: |
+    // restricted resources
+    (resource.type == "devices.edgelq.com/ProvisioningPolicy" &&
+      (request.action in ["get", "provisionServiceAccountToProvisioningPolicy", "provisionDeviceViaPolicy", "requestProvisioningApproval"] &&
+        request.body.name.satisfies("projects/" + parameters.projectId + "/regions/" + parameters.regionId + "/provisioningPolicies/" + parameters.provisioningPolicyId))
+      ||
+      (request.action in ["list"] &&
+        (request.body.filter.satisfies('spec.service_account = "serviceAccounts/' + parameters.serviceAccId + '"')
+        ||
+        request.body.filter.satisfies('spec.service_account = "projects/' + parameters.projectId + "/regions/" + parameters.regionId + "/serviceAccounts/" + parameters.serviceAccId + '"'))))
+  parameterDeclarations:
+  - key: provisioningPolicyId
+    type: STRING
+  - key: projectId
+    type: STRING
+  - key: regionId
+    type: STRING
+  - key: serviceAccId
+    type: STRING

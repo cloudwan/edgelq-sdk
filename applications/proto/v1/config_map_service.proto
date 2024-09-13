@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "ConfigMapServiceProto";
 option java_package = "com.ntt.applications.pb.v1";
 
-// Request message for method [GetConfigMap][ntt.applications.v1.GetConfigMap]
+// A request message of the GetConfigMap method.
 message GetConfigMapRequest {
   // Name of ntt.applications.v1.ConfigMap
   string name = 1;
@@ -31,8 +31,7 @@ message GetConfigMapRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetConfigMaps][ntt.applications.v1.BatchGetConfigMaps]
+// A request message of the BatchGetConfigMaps method.
 message BatchGetConfigMapsRequest {
   // Names of ConfigMaps
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetConfigMapsRequest {
   reserved 1;
 }
 
-// BatchGetConfigMapsResponse
+// A response message of the BatchGetConfigMaps method.
 message BatchGetConfigMapsResponse {
   // found ConfigMaps
   repeated ConfigMap config_maps = 1;
@@ -57,8 +56,7 @@ message BatchGetConfigMapsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListConfigMaps][ntt.applications.v1.ListConfigMaps]
+// A request message of the ListConfigMaps method.
 message ListConfigMapsRequest {
   // Parent name of ntt.applications.v1.ConfigMap
   string parent = 1;
@@ -69,7 +67,7 @@ message ListConfigMapsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListConfigMapsResponse.next_page_token][ntt.applications.v1.ListConfigMapsResponse.next_page_token]
+  // ListConfigMapsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -100,18 +98,19 @@ message ListConfigMapsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListConfigMaps][ntt.applications.v1.ListConfigMaps]
+// A response message of the ListConfigMaps method.
 message ListConfigMapsResponse {
   // The list of ConfigMaps
   repeated ConfigMap config_maps = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListConfigMapsRequest.page_token][ntt.applications.v1.ListConfigMapsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListConfigMapsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListConfigMapsRequest.page_token][ntt.applications.v1.ListConfigMapsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListConfigMapsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -125,8 +124,7 @@ message ListConfigMapsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchConfigMap][ntt.applications.v1.WatchConfigMap]
+// A request message of the WatchConfigMap method.
 message WatchConfigMapRequest {
   // Name of ntt.applications.v1.ConfigMap
   string name = 1;
@@ -140,11 +138,10 @@ message WatchConfigMapRequest {
   goten.types.View view = 4;
 }
 
-// WatchConfigMapResponse
+// A response message of the WatchConfigMap method.
 message WatchConfigMapResponse { ConfigMapChange change = 1; }
 
-// Request message for method
-// [WatchConfigMaps][ntt.applications.v1.WatchConfigMaps]
+// A request message of the WatchConfigMaps method.
 message WatchConfigMapsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -204,7 +201,7 @@ message WatchConfigMapsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchConfigMapsResponse
+// A response message of the WatchConfigMaps method.
 message WatchConfigMapsResponse {
   // Changes of ConfigMaps
   repeated ConfigMapChange config_map_changes = 2;
@@ -270,8 +267,7 @@ message WatchConfigMapsResponse {
   }
 }
 
-// Request message for method
-// [CreateConfigMap][ntt.applications.v1.CreateConfigMap]
+// A request message of the CreateConfigMap method.
 message CreateConfigMapRequest {
   // Parent name of ntt.applications.v1.ConfigMap
   string parent = 1;
@@ -280,8 +276,7 @@ message CreateConfigMapRequest {
   ConfigMap config_map = 2;
 }
 
-// Request message for method
-// [UpdateConfigMap][ntt.applications.v1.UpdateConfigMap]
+// A request message of the UpdateConfigMap method.
 message UpdateConfigMapRequest {
   // ConfigMap resource body
   ConfigMap config_map = 2;
@@ -316,8 +311,7 @@ message UpdateConfigMapRequest {
   }
 }
 
-// Request message for method
-// [DeleteConfigMap][ntt.applications.v1.DeleteConfigMap]
+// A request message of the DeleteConfigMap method.
 message DeleteConfigMapRequest {
   // Name of ntt.applications.v1.ConfigMap
   string name = 1;

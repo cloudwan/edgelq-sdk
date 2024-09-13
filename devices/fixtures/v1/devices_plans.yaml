@@ -1,0 +1,191 @@
+kind: limits.edgelq.com/Plan
+version: v1
+resources:
+- name: services/devices.edgelq.com/plans/service-large
+  displayName: EdgeLQ Large Service Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: SERVICE
+  businessTier: LARGE
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 250000
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 500000 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 500000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 250000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 250000
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 250000
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 250000
+
+- name: services/devices.edgelq.com/plans/org-large
+  displayName: EdgeLQ Large Organization Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: LARGE
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 60000
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 120000 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 120000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 60000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 60000
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 60000
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 60000
+
+- name: services/devices.edgelq.com/plans/org-medium
+  displayName: EdgeLQ Medium Organization Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: MEDIUM
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 40000
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 80000 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 80000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 40000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 40000
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 40000
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 40000
+
+- name: services/devices.edgelq.com/plans/org-small
+  displayName: EdgeLQ Small Organization Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: SMALL
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 25000
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 50000 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 50000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 25000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 25000
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 25000
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 25000
+
+- name: services/devices.edgelq.com/plans/org-xsmall
+  displayName: EdgeLQ X-Small Organization Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: ORGANIZATION
+  businessTier: XSMALL
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 2500
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 5000 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 5000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 2500 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 2500
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 2500
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 2500
+
+- name: services/devices.edgelq.com/plans/project-large
+  displayName: EdgeLQ Large Project Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: PROJECT
+  businessTier: LARGE
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 2000
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 4000 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 4000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 2000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 2000
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 2000
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 2000
+
+- name: services/devices.edgelq.com/plans/project-medium
+  displayName: EdgeLQ Medium Project Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: PROJECT
+  businessTier: MEDIUM
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 500
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 1000 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 1000 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 500 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 500
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 500
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 500
+
+- name: services/devices.edgelq.com/plans/project-small
+  displayName: EdgeLQ Small Project Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: PROJECT
+  businessTier: SMALL
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 100
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 200 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 200 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 100 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 100
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 100
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 100
+
+- name: services/devices.edgelq.com/plans/project-xsmall
+  displayName: EdgeLQ X-Small Project Plan For Devices
+  service: services/devices.edgelq.com
+  planLevel: PROJECT
+  businessTier: XSMALL
+  resourceLimits:
+  - resource: services/devices.edgelq.com/resources/Device
+    value: 25
+  - resource: services/devices.edgelq.com/resources/DeviceHardware
+    value: 50 # Limits not applicable, set a higher value than devices
+  - resource: services/devices.edgelq.com/resources/DeviceHardwareRegisterSession
+    value: 50 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/TpmAttestationCert
+    value: 25 # Limits not applicable
+  - resource: services/devices.edgelq.com/resources/ProvisioningPolicy
+    value: 25
+  - resource: services/devices.edgelq.com/resources/ProvisioningApprovalRequest
+    value: 25
+  - resource: services/devices.edgelq.com/resources/CustomizedImage
+    value: 25

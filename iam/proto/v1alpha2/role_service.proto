@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "RoleServiceProto";
 option java_package = "com.ntt.iam.pb.v1alpha2";
 
-// Request message for method [GetRole][ntt.iam.v1alpha2.GetRole]
+// A request message of the GetRole method.
 message GetRoleRequest {
   // Name of ntt.iam.v1alpha2.Role
   string name = 1;
@@ -31,7 +31,7 @@ message GetRoleRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method [BatchGetRoles][ntt.iam.v1alpha2.BatchGetRoles]
+// A request message of the BatchGetRoles method.
 message BatchGetRolesRequest {
   // Names of Roles
   repeated string names = 2;
@@ -47,7 +47,7 @@ message BatchGetRolesRequest {
   reserved 1;
 }
 
-// BatchGetRolesResponse
+// A response message of the BatchGetRoles method.
 message BatchGetRolesResponse {
   // found Roles
   repeated Role roles = 1;
@@ -56,7 +56,7 @@ message BatchGetRolesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListRoles][ntt.iam.v1alpha2.ListRoles]
+// A request message of the ListRoles method.
 message ListRolesRequest {
   // Requested page size. Server may return fewer Roles than requested.
   // If unspecified, server will pick an appropriate default.
@@ -64,7 +64,7 @@ message ListRolesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListRolesResponse.next_page_token][ntt.iam.v1alpha2.ListRolesResponse.next_page_token]
+  // ListRolesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -95,17 +95,19 @@ message ListRolesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListRoles][ntt.iam.v1alpha2.ListRoles]
+// A response message of the ListRoles method.
 message ListRolesResponse {
   // The list of Roles
   repeated Role roles = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListRolesRequest.page_token][ntt.iam.v1alpha2.ListRolesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListRolesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListRolesRequest.page_token][ntt.iam.v1alpha2.ListRolesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListRolesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -119,7 +121,7 @@ message ListRolesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchRole][ntt.iam.v1alpha2.WatchRole]
+// A request message of the WatchRole method.
 message WatchRoleRequest {
   // Name of ntt.iam.v1alpha2.Role
   string name = 1;
@@ -133,10 +135,10 @@ message WatchRoleRequest {
   goten.types.View view = 4;
 }
 
-// WatchRoleResponse
+// A response message of the WatchRole method.
 message WatchRoleResponse { RoleChange change = 1; }
 
-// Request message for method [WatchRoles][ntt.iam.v1alpha2.WatchRoles]
+// A request message of the WatchRoles method.
 message WatchRolesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -193,7 +195,7 @@ message WatchRolesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchRolesResponse
+// A response message of the WatchRoles method.
 message WatchRolesResponse {
   // Changes of Roles
   repeated RoleChange role_changes = 2;
@@ -259,13 +261,13 @@ message WatchRolesResponse {
   }
 }
 
-// Request message for method [CreateRole][ntt.iam.v1alpha2.CreateRole]
+// A request message of the CreateRole method.
 message CreateRoleRequest {
   // Role resource body
   Role role = 2;
 }
 
-// Request message for method [UpdateRole][ntt.iam.v1alpha2.UpdateRole]
+// A request message of the UpdateRole method.
 message UpdateRoleRequest {
   // Role resource body
   Role role = 2;
@@ -300,7 +302,7 @@ message UpdateRoleRequest {
   }
 }
 
-// Request message for method [DeleteRole][ntt.iam.v1alpha2.DeleteRole]
+// A request message of the DeleteRole method.
 message DeleteRoleRequest {
   // Name of ntt.iam.v1alpha2.Role
   string name = 1;

@@ -54,6 +54,18 @@ func (obj *ServiceAccountKey) GotenValidate() error {
 			return gotenvalidate.NewValidationError("ServiceAccountKey", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("ServiceAccountKey", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("ServiceAccountKey", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if _, ok := ServiceAccountKey_Algorithm_name[int32(obj.Algorithm)]; !ok {
 		return gotenvalidate.NewValidationError("ServiceAccountKey", "algorithm", obj.Algorithm, "field must be a defined enum value", nil)
 	}

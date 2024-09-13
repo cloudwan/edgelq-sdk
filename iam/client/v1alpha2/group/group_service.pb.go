@@ -58,7 +58,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetGroup][ntt.iam.v1alpha2.GetGroup]
+// A request message of the GetGroup method.
 type GetGroupRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -165,7 +165,7 @@ func (m *GetGroupRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetGroups][ntt.iam.v1alpha2.BatchGetGroups]
+// A request message of the BatchGetGroups method.
 type BatchGetGroupsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +272,7 @@ func (m *BatchGetGroupsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetGroupsResponse
+// A response message of the BatchGetGroups method.
 type BatchGetGroupsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,7 +361,7 @@ func (m *BatchGetGroupsResponse) SetMissing(fv []*group.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListGroups][ntt.iam.v1alpha2.ListGroups]
+// A request message of the ListGroups method.
 type ListGroupsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -373,7 +373,7 @@ type ListGroupsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListGroupsResponse.next_page_token][ntt.iam.v1alpha2.ListGroupsResponse.next_page_token]
+	// ListGroupsResponse.next_page_token.
 	PageToken *group.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -561,18 +561,20 @@ func (m *ListGroupsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListGroups][ntt.iam.v1alpha2.ListGroups]
+// A response message of the ListGroups method.
 type ListGroupsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Groups
 	Groups []*group.Group `protobuf:"bytes,1,rep,name=groups,proto3" json:"groups,omitempty" firestore:"groups"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListGroupsRequest.page_token][ntt.iam.v1alpha2.ListGroupsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListGroupsRequest.page_token.
 	PrevPageToken *group.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListGroupsRequest.page_token][ntt.iam.v1alpha2.ListGroupsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListGroupsRequest.page_token.
 	NextPageToken *group.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -704,7 +706,7 @@ func (m *ListGroupsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchGroup][ntt.iam.v1alpha2.WatchGroup]
+// A request message of the WatchGroup method.
 type WatchGroupRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -811,7 +813,7 @@ func (m *WatchGroupRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchGroupResponse
+// A response message of the WatchGroup method.
 type WatchGroupResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -883,7 +885,7 @@ func (m *WatchGroupResponse) SetChange(fv *group.GroupChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchGroups][ntt.iam.v1alpha2.WatchGroups]
+// A request message of the WatchGroups method.
 type WatchGroupsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1140,7 +1142,7 @@ func (m *WatchGroupsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchGroupsResponse
+// A response message of the WatchGroups method.
 type WatchGroupsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1343,7 +1345,7 @@ func (m *WatchGroupsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateGroup][ntt.iam.v1alpha2.CreateGroup]
+// A request message of the CreateGroup method.
 type CreateGroupRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1432,7 +1434,7 @@ func (m *CreateGroupRequest) SetGroup(fv *group.Group) {
 	m.Group = fv
 }
 
-// Request message for method [UpdateGroup][ntt.iam.v1alpha2.UpdateGroup]
+// A request message of the UpdateGroup method.
 type UpdateGroupRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1562,7 +1564,7 @@ func (m *UpdateGroupRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteGroup][ntt.iam.v1alpha2.DeleteGroup]
+// A request message of the DeleteGroup method.
 type DeleteGroupRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

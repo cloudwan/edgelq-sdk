@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "RegionServiceProto";
 option java_package = "com.ntt.meta.pb.v1alpha2";
 
-// Request message for method [GetRegion][ntt.meta.v1alpha2.GetRegion]
+// A request message of the GetRegion method.
 message GetRegionRequest {
   // Name of ntt.meta.v1alpha2.Region
   string name = 1;
@@ -31,8 +31,7 @@ message GetRegionRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetRegions][ntt.meta.v1alpha2.BatchGetRegions]
+// A request message of the BatchGetRegions method.
 message BatchGetRegionsRequest {
   // Names of Regions
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetRegionsRequest {
   reserved 1;
 }
 
-// BatchGetRegionsResponse
+// A response message of the BatchGetRegions method.
 message BatchGetRegionsResponse {
   // found Regions
   repeated Region regions = 1;
@@ -57,7 +56,7 @@ message BatchGetRegionsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListRegions][ntt.meta.v1alpha2.ListRegions]
+// A request message of the ListRegions method.
 message ListRegionsRequest {
   // Requested page size. Server may return fewer Regions than requested.
   // If unspecified, server will pick an appropriate default.
@@ -65,7 +64,7 @@ message ListRegionsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListRegionsResponse.next_page_token][ntt.meta.v1alpha2.ListRegionsResponse.next_page_token]
+  // ListRegionsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -96,17 +95,19 @@ message ListRegionsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListRegions][ntt.meta.v1alpha2.ListRegions]
+// A response message of the ListRegions method.
 message ListRegionsResponse {
   // The list of Regions
   repeated Region regions = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListRegionsRequest.page_token][ntt.meta.v1alpha2.ListRegionsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListRegionsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListRegionsRequest.page_token][ntt.meta.v1alpha2.ListRegionsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListRegionsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -120,7 +121,7 @@ message ListRegionsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchRegion][ntt.meta.v1alpha2.WatchRegion]
+// A request message of the WatchRegion method.
 message WatchRegionRequest {
   // Name of ntt.meta.v1alpha2.Region
   string name = 1;
@@ -134,10 +135,10 @@ message WatchRegionRequest {
   goten.types.View view = 4;
 }
 
-// WatchRegionResponse
+// A response message of the WatchRegion method.
 message WatchRegionResponse { RegionChange change = 1; }
 
-// Request message for method [WatchRegions][ntt.meta.v1alpha2.WatchRegions]
+// A request message of the WatchRegions method.
 message WatchRegionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -194,7 +195,7 @@ message WatchRegionsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchRegionsResponse
+// A response message of the WatchRegions method.
 message WatchRegionsResponse {
   // Changes of Regions
   repeated RegionChange region_changes = 2;

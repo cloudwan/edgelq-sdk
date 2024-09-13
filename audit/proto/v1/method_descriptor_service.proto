@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "MethodDescriptorServiceProto";
 option java_package = "com.ntt.audit.pb.v1";
 
-// Request message for method
-// [GetMethodDescriptor][ntt.audit.v1.GetMethodDescriptor]
+// A request message of the GetMethodDescriptor method.
 message GetMethodDescriptorRequest {
   // Name of ntt.audit.v1.MethodDescriptor
   string name = 1;
@@ -32,8 +31,7 @@ message GetMethodDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetMethodDescriptors][ntt.audit.v1.BatchGetMethodDescriptors]
+// A request message of the BatchGetMethodDescriptors method.
 message BatchGetMethodDescriptorsRequest {
   // Names of MethodDescriptors
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetMethodDescriptorsRequest {
   reserved 1;
 }
 
-// BatchGetMethodDescriptorsResponse
+// A response message of the BatchGetMethodDescriptors method.
 message BatchGetMethodDescriptorsResponse {
   // found MethodDescriptors
   repeated MethodDescriptor method_descriptors = 1;
@@ -58,8 +56,7 @@ message BatchGetMethodDescriptorsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListMethodDescriptors][ntt.audit.v1.ListMethodDescriptors]
+// A request message of the ListMethodDescriptors method.
 message ListMethodDescriptorsRequest {
   // Parent name of ntt.audit.v1.MethodDescriptor
   string parent = 1;
@@ -70,7 +67,7 @@ message ListMethodDescriptorsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListMethodDescriptorsResponse.next_page_token][ntt.audit.v1.ListMethodDescriptorsResponse.next_page_token]
+  // ListMethodDescriptorsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListMethodDescriptorsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListMethodDescriptors][ntt.audit.v1.ListMethodDescriptors]
+// A response message of the ListMethodDescriptors method.
 message ListMethodDescriptorsResponse {
   // The list of MethodDescriptors
   repeated MethodDescriptor method_descriptors = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListMethodDescriptorsRequest.page_token][ntt.audit.v1.ListMethodDescriptorsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListMethodDescriptorsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListMethodDescriptorsRequest.page_token][ntt.audit.v1.ListMethodDescriptorsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListMethodDescriptorsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +125,7 @@ message ListMethodDescriptorsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchMethodDescriptor][ntt.audit.v1.WatchMethodDescriptor]
+// A request message of the WatchMethodDescriptor method.
 message WatchMethodDescriptorRequest {
   // Name of ntt.audit.v1.MethodDescriptor
   string name = 1;
@@ -142,11 +139,10 @@ message WatchMethodDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// WatchMethodDescriptorResponse
+// A response message of the WatchMethodDescriptor method.
 message WatchMethodDescriptorResponse { MethodDescriptorChange change = 1; }
 
-// Request message for method
-// [WatchMethodDescriptors][ntt.audit.v1.WatchMethodDescriptors]
+// A request message of the WatchMethodDescriptors method.
 message WatchMethodDescriptorsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -206,7 +202,7 @@ message WatchMethodDescriptorsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchMethodDescriptorsResponse
+// A response message of the WatchMethodDescriptors method.
 message WatchMethodDescriptorsResponse {
   // Changes of MethodDescriptors
   repeated MethodDescriptorChange method_descriptor_changes = 2;
@@ -272,8 +268,7 @@ message WatchMethodDescriptorsResponse {
   }
 }
 
-// Request message for method
-// [CreateMethodDescriptor][ntt.audit.v1.CreateMethodDescriptor]
+// A request message of the CreateMethodDescriptor method.
 message CreateMethodDescriptorRequest {
   // Parent name of ntt.audit.v1.MethodDescriptor
   string parent = 1;
@@ -282,8 +277,7 @@ message CreateMethodDescriptorRequest {
   MethodDescriptor method_descriptor = 2;
 }
 
-// Request message for method
-// [UpdateMethodDescriptor][ntt.audit.v1.UpdateMethodDescriptor]
+// A request message of the UpdateMethodDescriptor method.
 message UpdateMethodDescriptorRequest {
   // MethodDescriptor resource body
   MethodDescriptor method_descriptor = 2;
@@ -316,6 +310,12 @@ message UpdateMethodDescriptorRequest {
     // compare.
     google.protobuf.FieldMask field_mask = 2;
   }
+}
+
+// A request message of the DeleteMethodDescriptor method.
+message DeleteMethodDescriptorRequest {
+  // Name of ntt.audit.v1.MethodDescriptor
+  string name = 1;
 }
 
 // MethodDescriptor service API for Audit
@@ -378,6 +378,14 @@ service MethodDescriptorService {
     option (google.api.http) = {
       put : "/v1/{method_descriptor.name=services/*/methodDescriptors/*}"
       body : "method_descriptor"
+    };
+  }
+
+  // DeleteMethodDescriptor
+  rpc DeleteMethodDescriptor(DeleteMethodDescriptorRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1/{name=services/*/methodDescriptors/*}"
     };
   }
 }

@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetProjectInvitation][ntt.iam.v1alpha2.GetProjectInvitation]
+// A request message of the GetProjectInvitation method.
 type GetProjectInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetProjectInvitationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetProjectInvitations][ntt.iam.v1alpha2.BatchGetProjectInvitations]
+// A request message of the BatchGetProjectInvitations method.
 type BatchGetProjectInvitationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetProjectInvitationsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetProjectInvitationsResponse
+// A response message of the BatchGetProjectInvitations method.
 type BatchGetProjectInvitationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetProjectInvitationsResponse) SetMissing(fv []*project_invitation
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListProjectInvitations][ntt.iam.v1alpha2.ListProjectInvitations]
+// A request message of the ListProjectInvitations method.
 type ListProjectInvitationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListProjectInvitationsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListProjectInvitationsResponse.next_page_token][ntt.iam.v1alpha2.ListProjectInvitationsResponse.next_page_token]
+	// ListProjectInvitationsResponse.next_page_token.
 	PageToken *project_invitation.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListProjectInvitationsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListProjectInvitations][ntt.iam.v1alpha2.ListProjectInvitations]
+// A response message of the ListProjectInvitations method.
 type ListProjectInvitationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of ProjectInvitations
 	ProjectInvitations []*project_invitation.ProjectInvitation `protobuf:"bytes,1,rep,name=project_invitations,json=projectInvitations,proto3" json:"project_invitations,omitempty" firestore:"projectInvitations"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListProjectInvitationsRequest.page_token][ntt.iam.v1alpha2.ListProjectInvitationsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListProjectInvitationsRequest.page_token.
 	PrevPageToken *project_invitation.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListProjectInvitationsRequest.page_token][ntt.iam.v1alpha2.ListProjectInvitationsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListProjectInvitationsRequest.page_token.
 	NextPageToken *project_invitation.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListProjectInvitationsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchProjectInvitation][ntt.iam.v1alpha2.WatchProjectInvitation]
+// A request message of the WatchProjectInvitation method.
 type WatchProjectInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchProjectInvitationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchProjectInvitationResponse
+// A response message of the WatchProjectInvitation method.
 type WatchProjectInvitationResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchProjectInvitationResponse) SetChange(fv *project_invitation.Projec
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchProjectInvitations][ntt.iam.v1alpha2.WatchProjectInvitations]
+// A request message of the WatchProjectInvitations method.
 type WatchProjectInvitationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchProjectInvitationsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchProjectInvitationsResponse
+// A response message of the WatchProjectInvitations method.
 type WatchProjectInvitationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchProjectInvitationsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateProjectInvitation][ntt.iam.v1alpha2.CreateProjectInvitation]
+// A request message of the CreateProjectInvitation method.
 type CreateProjectInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateProjectInvitationRequest) SetProjectInvitation(fv *project_invita
 	m.ProjectInvitation = fv
 }
 
-// Request message for method
-// [UpdateProjectInvitation][ntt.iam.v1alpha2.UpdateProjectInvitation]
+// A request message of the UpdateProjectInvitation method.
 type UpdateProjectInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateProjectInvitationRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteProjectInvitation][ntt.iam.v1alpha2.DeleteProjectInvitation]
+// A request message of the DeleteProjectInvitation method.
 type DeleteProjectInvitationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

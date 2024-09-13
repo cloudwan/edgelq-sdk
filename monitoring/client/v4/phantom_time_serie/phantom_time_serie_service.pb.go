@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetPhantomTimeSerie][ntt.monitoring.v4.GetPhantomTimeSerie]
+// A request message of the GetPhantomTimeSerie method.
 type GetPhantomTimeSerieRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetPhantomTimeSerieRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetPhantomTimeSeries][ntt.monitoring.v4.BatchGetPhantomTimeSeries]
+// A request message of the BatchGetPhantomTimeSeries method.
 type BatchGetPhantomTimeSeriesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetPhantomTimeSeriesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetPhantomTimeSeriesResponse
+// A response message of the BatchGetPhantomTimeSeries method.
 type BatchGetPhantomTimeSeriesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetPhantomTimeSeriesResponse) SetMissing(fv []*phantom_time_serie.
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListPhantomTimeSeries][ntt.monitoring.v4.ListPhantomTimeSeries]
+// A request message of the ListPhantomTimeSeries method.
 type ListPhantomTimeSeriesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListPhantomTimeSeriesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListPhantomTimeSeriesResponse.next_page_token][ntt.monitoring.v4.ListPhantomTimeSeriesResponse.next_page_token]
+	// ListPhantomTimeSeriesResponse.next_page_token.
 	PageToken *phantom_time_serie.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListPhantomTimeSeriesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListPhantomTimeSeries][ntt.monitoring.v4.ListPhantomTimeSeries]
+// A response message of the ListPhantomTimeSeries method.
 type ListPhantomTimeSeriesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of PhantomTimeSeries
 	PhantomTimeSeries []*phantom_time_serie.PhantomTimeSerie `protobuf:"bytes,1,rep,name=phantom_time_series,json=phantomTimeSeries,proto3" json:"phantom_time_series,omitempty" firestore:"phantomTimeSeries"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListPhantomTimeSeriesRequest.page_token][ntt.monitoring.v4.ListPhantomTimeSeriesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListPhantomTimeSeriesRequest.page_token.
 	PrevPageToken *phantom_time_serie.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListPhantomTimeSeriesRequest.page_token][ntt.monitoring.v4.ListPhantomTimeSeriesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListPhantomTimeSeriesRequest.page_token.
 	NextPageToken *phantom_time_serie.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListPhantomTimeSeriesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchPhantomTimeSerie][ntt.monitoring.v4.WatchPhantomTimeSerie]
+// A request message of the WatchPhantomTimeSerie method.
 type WatchPhantomTimeSerieRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchPhantomTimeSerieRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchPhantomTimeSerieResponse
+// A response message of the WatchPhantomTimeSerie method.
 type WatchPhantomTimeSerieResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchPhantomTimeSerieResponse) SetChange(fv *phantom_time_serie.Phantom
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchPhantomTimeSeries][ntt.monitoring.v4.WatchPhantomTimeSeries]
+// A request message of the WatchPhantomTimeSeries method.
 type WatchPhantomTimeSeriesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1145,7 +1141,7 @@ func (m *WatchPhantomTimeSeriesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchPhantomTimeSeriesResponse
+// A response message of the WatchPhantomTimeSeries method.
 type WatchPhantomTimeSeriesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1348,8 +1344,7 @@ func (m *WatchPhantomTimeSeriesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreatePhantomTimeSerie][ntt.monitoring.v4.CreatePhantomTimeSerie]
+// A request message of the CreatePhantomTimeSerie method.
 type CreatePhantomTimeSerieRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1438,8 +1433,7 @@ func (m *CreatePhantomTimeSerieRequest) SetPhantomTimeSerie(fv *phantom_time_ser
 	m.PhantomTimeSerie = fv
 }
 
-// Request message for method
-// [UpdatePhantomTimeSerie][ntt.monitoring.v4.UpdatePhantomTimeSerie]
+// A request message of the UpdatePhantomTimeSerie method.
 type UpdatePhantomTimeSerieRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1569,8 +1563,7 @@ func (m *UpdatePhantomTimeSerieRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeletePhantomTimeSerie][ntt.monitoring.v4.DeletePhantomTimeSerie]
+// A request message of the DeletePhantomTimeSerie method.
 type DeletePhantomTimeSerieRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetEdgelqInstance][ntt.ztp.v1.GetEdgelqInstance]
+// A request message of the GetEdgelqInstance method.
 type GetEdgelqInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,8 +163,7 @@ func (m *GetEdgelqInstanceRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetEdgelqInstances][ntt.ztp.v1.BatchGetEdgelqInstances]
+// A request message of the BatchGetEdgelqInstances method.
 type BatchGetEdgelqInstancesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +270,7 @@ func (m *BatchGetEdgelqInstancesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetEdgelqInstancesResponse
+// A response message of the BatchGetEdgelqInstances method.
 type BatchGetEdgelqInstancesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -360,8 +359,7 @@ func (m *BatchGetEdgelqInstancesResponse) SetMissing(fv []*edgelq_instance.Name)
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListEdgelqInstances][ntt.ztp.v1.ListEdgelqInstances]
+// A request message of the ListEdgelqInstances method.
 type ListEdgelqInstancesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -373,7 +371,7 @@ type ListEdgelqInstancesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListEdgelqInstancesResponse.next_page_token][ntt.ztp.v1.ListEdgelqInstancesResponse.next_page_token]
+	// ListEdgelqInstancesResponse.next_page_token.
 	PageToken *edgelq_instance.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -561,19 +559,20 @@ func (m *ListEdgelqInstancesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListEdgelqInstances][ntt.ztp.v1.ListEdgelqInstances]
+// A response message of the ListEdgelqInstances method.
 type ListEdgelqInstancesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of EdgelqInstances
 	EdgelqInstances []*edgelq_instance.EdgelqInstance `protobuf:"bytes,1,rep,name=edgelq_instances,json=edgelqInstances,proto3" json:"edgelq_instances,omitempty" firestore:"edgelqInstances"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListEdgelqInstancesRequest.page_token][ntt.ztp.v1.ListEdgelqInstancesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListEdgelqInstancesRequest.page_token.
 	PrevPageToken *edgelq_instance.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListEdgelqInstancesRequest.page_token][ntt.ztp.v1.ListEdgelqInstancesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListEdgelqInstancesRequest.page_token.
 	NextPageToken *edgelq_instance.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -706,8 +705,7 @@ func (m *ListEdgelqInstancesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchEdgelqInstance][ntt.ztp.v1.WatchEdgelqInstance]
+// A request message of the WatchEdgelqInstance method.
 type WatchEdgelqInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -814,7 +812,7 @@ func (m *WatchEdgelqInstanceRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchEdgelqInstanceResponse
+// A response message of the WatchEdgelqInstance method.
 type WatchEdgelqInstanceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -886,8 +884,7 @@ func (m *WatchEdgelqInstanceResponse) SetChange(fv *edgelq_instance.EdgelqInstan
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchEdgelqInstances][ntt.ztp.v1.WatchEdgelqInstances]
+// A request message of the WatchEdgelqInstances method.
 type WatchEdgelqInstancesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1144,7 +1141,7 @@ func (m *WatchEdgelqInstancesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchEdgelqInstancesResponse
+// A response message of the WatchEdgelqInstances method.
 type WatchEdgelqInstancesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1347,8 +1344,7 @@ func (m *WatchEdgelqInstancesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateEdgelqInstance][ntt.ztp.v1.CreateEdgelqInstance]
+// A request message of the CreateEdgelqInstance method.
 type CreateEdgelqInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1437,8 +1433,7 @@ func (m *CreateEdgelqInstanceRequest) SetEdgelqInstance(fv *edgelq_instance.Edge
 	m.EdgelqInstance = fv
 }
 
-// Request message for method
-// [UpdateEdgelqInstance][ntt.ztp.v1.UpdateEdgelqInstance]
+// A request message of the UpdateEdgelqInstance method.
 type UpdateEdgelqInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1568,8 +1563,7 @@ func (m *UpdateEdgelqInstanceRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteEdgelqInstance][ntt.ztp.v1.DeleteEdgelqInstance]
+// A request message of the DeleteEdgelqInstance method.
 type DeleteEdgelqInstanceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

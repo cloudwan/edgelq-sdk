@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "DistributionServiceProto";
 option java_package = "com.ntt.applications.pb.v1alpha2";
 
-// Request message for method
-// [GetDistribution][ntt.applications.v1alpha2.GetDistribution]
+// A request message of the GetDistribution method.
 message GetDistributionRequest {
   // Name of ntt.applications.v1alpha2.Distribution
   string name = 1;
@@ -32,8 +31,7 @@ message GetDistributionRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetDistributions][ntt.applications.v1alpha2.BatchGetDistributions]
+// A request message of the BatchGetDistributions method.
 message BatchGetDistributionsRequest {
   // Names of Distributions
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetDistributionsRequest {
   reserved 1;
 }
 
-// BatchGetDistributionsResponse
+// A response message of the BatchGetDistributions method.
 message BatchGetDistributionsResponse {
   // found Distributions
   repeated Distribution distributions = 1;
@@ -58,8 +56,7 @@ message BatchGetDistributionsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListDistributions][ntt.applications.v1alpha2.ListDistributions]
+// A request message of the ListDistributions method.
 message ListDistributionsRequest {
   // Parent name of ntt.applications.v1alpha2.Distribution
   string parent = 1;
@@ -70,7 +67,7 @@ message ListDistributionsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListDistributionsResponse.next_page_token][ntt.applications.v1alpha2.ListDistributionsResponse.next_page_token]
+  // ListDistributionsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListDistributionsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListDistributions][ntt.applications.v1alpha2.ListDistributions]
+// A response message of the ListDistributions method.
 message ListDistributionsResponse {
   // The list of Distributions
   repeated Distribution distributions = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListDistributionsRequest.page_token][ntt.applications.v1alpha2.ListDistributionsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListDistributionsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListDistributionsRequest.page_token][ntt.applications.v1alpha2.ListDistributionsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListDistributionsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -126,8 +124,7 @@ message ListDistributionsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchDistribution][ntt.applications.v1alpha2.WatchDistribution]
+// A request message of the WatchDistribution method.
 message WatchDistributionRequest {
   // Name of ntt.applications.v1alpha2.Distribution
   string name = 1;
@@ -141,11 +138,10 @@ message WatchDistributionRequest {
   goten.types.View view = 4;
 }
 
-// WatchDistributionResponse
+// A response message of the WatchDistribution method.
 message WatchDistributionResponse { DistributionChange change = 1; }
 
-// Request message for method
-// [WatchDistributions][ntt.applications.v1alpha2.WatchDistributions]
+// A request message of the WatchDistributions method.
 message WatchDistributionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -205,7 +201,7 @@ message WatchDistributionsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchDistributionsResponse
+// A response message of the WatchDistributions method.
 message WatchDistributionsResponse {
   // Changes of Distributions
   repeated DistributionChange distribution_changes = 2;
@@ -271,8 +267,7 @@ message WatchDistributionsResponse {
   }
 }
 
-// Request message for method
-// [CreateDistribution][ntt.applications.v1alpha2.CreateDistribution]
+// A request message of the CreateDistribution method.
 message CreateDistributionRequest {
   // Parent name of ntt.applications.v1alpha2.Distribution
   string parent = 1;
@@ -281,8 +276,7 @@ message CreateDistributionRequest {
   Distribution distribution = 2;
 }
 
-// Request message for method
-// [UpdateDistribution][ntt.applications.v1alpha2.UpdateDistribution]
+// A request message of the UpdateDistribution method.
 message UpdateDistributionRequest {
   // Distribution resource body
   Distribution distribution = 2;
@@ -317,8 +311,7 @@ message UpdateDistributionRequest {
   }
 }
 
-// Request message for method
-// [DeleteDistribution][ntt.applications.v1alpha2.DeleteDistribution]
+// A request message of the DeleteDistribution method.
 message DeleteDistributionRequest {
   // Name of ntt.applications.v1alpha2.Distribution
   string name = 1;

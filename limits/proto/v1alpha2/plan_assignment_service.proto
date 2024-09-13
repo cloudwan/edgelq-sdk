@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "PlanAssignmentServiceProto";
 option java_package = "com.ntt.limits.pb.v1alpha2";
 
-// Request message for method
-// [GetPlanAssignment][ntt.limits.v1alpha2.GetPlanAssignment]
+// A request message of the GetPlanAssignment method.
 message GetPlanAssignmentRequest {
   // Name of ntt.limits.v1alpha2.PlanAssignment
   string name = 1;
@@ -33,8 +32,7 @@ message GetPlanAssignmentRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetPlanAssignments][ntt.limits.v1alpha2.BatchGetPlanAssignments]
+// A request message of the BatchGetPlanAssignments method.
 message BatchGetPlanAssignmentsRequest {
   // Names of PlanAssignments
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetPlanAssignmentsRequest {
   reserved 1;
 }
 
-// BatchGetPlanAssignmentsResponse
+// A response message of the BatchGetPlanAssignments method.
 message BatchGetPlanAssignmentsResponse {
   // found PlanAssignments
   repeated PlanAssignment plan_assignments = 1;
@@ -59,8 +57,7 @@ message BatchGetPlanAssignmentsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListPlanAssignments][ntt.limits.v1alpha2.ListPlanAssignments]
+// A request message of the ListPlanAssignments method.
 message ListPlanAssignmentsRequest {
   // Parent name of ntt.limits.v1alpha2.PlanAssignment
   string parent = 1;
@@ -71,7 +68,7 @@ message ListPlanAssignmentsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListPlanAssignmentsResponse.next_page_token][ntt.limits.v1alpha2.ListPlanAssignmentsResponse.next_page_token]
+  // ListPlanAssignmentsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListPlanAssignmentsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListPlanAssignments][ntt.limits.v1alpha2.ListPlanAssignments]
+// A response message of the ListPlanAssignments method.
 message ListPlanAssignmentsResponse {
   // The list of PlanAssignments
   repeated PlanAssignment plan_assignments = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListPlanAssignmentsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListPlanAssignmentsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListPlanAssignmentsRequest.page_token][ntt.limits.v1alpha2.ListPlanAssignmentsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListPlanAssignmentsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListPlanAssignmentsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchPlanAssignment][ntt.limits.v1alpha2.WatchPlanAssignment]
+// A request message of the WatchPlanAssignment method.
 message WatchPlanAssignmentRequest {
   // Name of ntt.limits.v1alpha2.PlanAssignment
   string name = 1;
@@ -143,11 +140,10 @@ message WatchPlanAssignmentRequest {
   goten.types.View view = 4;
 }
 
-// WatchPlanAssignmentResponse
+// A response message of the WatchPlanAssignment method.
 message WatchPlanAssignmentResponse { PlanAssignmentChange change = 1; }
 
-// Request message for method
-// [WatchPlanAssignments][ntt.limits.v1alpha2.WatchPlanAssignments]
+// A request message of the WatchPlanAssignments method.
 message WatchPlanAssignmentsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -207,7 +203,7 @@ message WatchPlanAssignmentsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchPlanAssignmentsResponse
+// A response message of the WatchPlanAssignments method.
 message WatchPlanAssignmentsResponse {
   // Changes of PlanAssignments
   repeated PlanAssignmentChange plan_assignment_changes = 2;
@@ -273,8 +269,7 @@ message WatchPlanAssignmentsResponse {
   }
 }
 
-// Request message for method
-// [CreatePlanAssignment][ntt.limits.v1alpha2.CreatePlanAssignment]
+// A request message of the CreatePlanAssignment method.
 message CreatePlanAssignmentRequest {
   // Parent name of ntt.limits.v1alpha2.PlanAssignment
   string parent = 1;
@@ -283,8 +278,7 @@ message CreatePlanAssignmentRequest {
   PlanAssignment plan_assignment = 2;
 }
 
-// Request message for method
-// [UpdatePlanAssignment][ntt.limits.v1alpha2.UpdatePlanAssignment]
+// A request message of the UpdatePlanAssignment method.
 message UpdatePlanAssignmentRequest {
   // PlanAssignment resource body
   PlanAssignment plan_assignment = 2;
@@ -319,8 +313,7 @@ message UpdatePlanAssignmentRequest {
   }
 }
 
-// Request message for method
-// [DeletePlanAssignment][ntt.limits.v1alpha2.DeletePlanAssignment]
+// A request message of the DeletePlanAssignment method.
 message DeletePlanAssignmentRequest {
   // Name of ntt.limits.v1alpha2.PlanAssignment
   string name = 1;

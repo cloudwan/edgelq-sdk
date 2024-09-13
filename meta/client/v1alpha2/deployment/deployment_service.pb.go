@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetDeployment][ntt.meta.v1alpha2.GetDeployment]
+// A request message of the GetDeployment method.
 type GetDeploymentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,8 +161,7 @@ func (m *GetDeploymentRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetDeployments][ntt.meta.v1alpha2.BatchGetDeployments]
+// A request message of the BatchGetDeployments method.
 type BatchGetDeploymentsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -269,7 +268,7 @@ func (m *BatchGetDeploymentsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetDeploymentsResponse
+// A response message of the BatchGetDeployments method.
 type BatchGetDeploymentsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -358,8 +357,7 @@ func (m *BatchGetDeploymentsResponse) SetMissing(fv []*deployment.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListDeployments][ntt.meta.v1alpha2.ListDeployments]
+// A request message of the ListDeployments method.
 type ListDeploymentsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -371,7 +369,7 @@ type ListDeploymentsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListDeploymentsResponse.next_page_token][ntt.meta.v1alpha2.ListDeploymentsResponse.next_page_token]
+	// ListDeploymentsResponse.next_page_token.
 	PageToken *deployment.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -559,19 +557,20 @@ func (m *ListDeploymentsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListDeployments][ntt.meta.v1alpha2.ListDeployments]
+// A response message of the ListDeployments method.
 type ListDeploymentsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Deployments
 	Deployments []*deployment.Deployment `protobuf:"bytes,1,rep,name=deployments,proto3" json:"deployments,omitempty" firestore:"deployments"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListDeploymentsRequest.page_token][ntt.meta.v1alpha2.ListDeploymentsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListDeploymentsRequest.page_token.
 	PrevPageToken *deployment.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListDeploymentsRequest.page_token][ntt.meta.v1alpha2.ListDeploymentsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListDeploymentsRequest.page_token.
 	NextPageToken *deployment.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -703,8 +702,7 @@ func (m *ListDeploymentsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchDeployment][ntt.meta.v1alpha2.WatchDeployment]
+// A request message of the WatchDeployment method.
 type WatchDeploymentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -811,7 +809,7 @@ func (m *WatchDeploymentRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchDeploymentResponse
+// A response message of the WatchDeployment method.
 type WatchDeploymentResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -883,8 +881,7 @@ func (m *WatchDeploymentResponse) SetChange(fv *deployment.DeploymentChange) {
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchDeployments][ntt.meta.v1alpha2.WatchDeployments]
+// A request message of the WatchDeployments method.
 type WatchDeploymentsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1141,7 +1138,7 @@ func (m *WatchDeploymentsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchDeploymentsResponse
+// A response message of the WatchDeployments method.
 type WatchDeploymentsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

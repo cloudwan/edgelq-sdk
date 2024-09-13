@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetConfigMap][ntt.applications.v1alpha2.GetConfigMap]
+// A request message of the GetConfigMap method.
 type GetConfigMapRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetConfigMapRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetConfigMaps][ntt.applications.v1alpha2.BatchGetConfigMaps]
+// A request message of the BatchGetConfigMaps method.
 type BatchGetConfigMapsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetConfigMapsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetConfigMapsResponse
+// A response message of the BatchGetConfigMaps method.
 type BatchGetConfigMapsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetConfigMapsResponse) SetMissing(fv []*config_map.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListConfigMaps][ntt.applications.v1alpha2.ListConfigMaps]
+// A request message of the ListConfigMaps method.
 type ListConfigMapsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListConfigMapsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListConfigMapsResponse.next_page_token][ntt.applications.v1alpha2.ListConfigMapsResponse.next_page_token]
+	// ListConfigMapsResponse.next_page_token.
 	PageToken *config_map.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListConfigMapsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListConfigMaps][ntt.applications.v1alpha2.ListConfigMaps]
+// A response message of the ListConfigMaps method.
 type ListConfigMapsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of ConfigMaps
 	ConfigMaps []*config_map.ConfigMap `protobuf:"bytes,1,rep,name=config_maps,json=configMaps,proto3" json:"config_maps,omitempty" firestore:"configMaps"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListConfigMapsRequest.page_token][ntt.applications.v1alpha2.ListConfigMapsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListConfigMapsRequest.page_token.
 	PrevPageToken *config_map.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListConfigMapsRequest.page_token][ntt.applications.v1alpha2.ListConfigMapsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListConfigMapsRequest.page_token.
 	NextPageToken *config_map.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -706,8 +704,7 @@ func (m *ListConfigMapsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchConfigMap][ntt.applications.v1alpha2.WatchConfigMap]
+// A request message of the WatchConfigMap method.
 type WatchConfigMapRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -814,7 +811,7 @@ func (m *WatchConfigMapRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchConfigMapResponse
+// A response message of the WatchConfigMap method.
 type WatchConfigMapResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -886,8 +883,7 @@ func (m *WatchConfigMapResponse) SetChange(fv *config_map.ConfigMapChange) {
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchConfigMaps][ntt.applications.v1alpha2.WatchConfigMaps]
+// A request message of the WatchConfigMaps method.
 type WatchConfigMapsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1144,7 +1140,7 @@ func (m *WatchConfigMapsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchConfigMapsResponse
+// A response message of the WatchConfigMaps method.
 type WatchConfigMapsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1347,8 +1343,7 @@ func (m *WatchConfigMapsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateConfigMap][ntt.applications.v1alpha2.CreateConfigMap]
+// A request message of the CreateConfigMap method.
 type CreateConfigMapRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1437,8 +1432,7 @@ func (m *CreateConfigMapRequest) SetConfigMap(fv *config_map.ConfigMap) {
 	m.ConfigMap = fv
 }
 
-// Request message for method
-// [UpdateConfigMap][ntt.applications.v1alpha2.UpdateConfigMap]
+// A request message of the UpdateConfigMap method.
 type UpdateConfigMapRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1568,8 +1562,7 @@ func (m *UpdateConfigMapRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteConfigMap][ntt.applications.v1alpha2.DeleteConfigMap]
+// A request message of the DeleteConfigMap method.
 type DeleteConfigMapRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

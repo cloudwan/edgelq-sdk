@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *customized_image.Filter) (*customized_image.
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return customized_image.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

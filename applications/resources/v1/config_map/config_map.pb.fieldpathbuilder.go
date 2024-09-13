@@ -34,6 +34,9 @@ func (ConfigMapFieldPathBuilder) Metadata() ConfigMapPathSelectorMetadata {
 func (ConfigMapFieldPathBuilder) DisplayName() ConfigMapPathSelectorDisplayName {
 	return ConfigMapPathSelectorDisplayName{}
 }
+func (ConfigMapFieldPathBuilder) Description() ConfigMapPathSelectorDescription {
+	return ConfigMapPathSelectorDescription{}
+}
 func (ConfigMapFieldPathBuilder) Data() ConfigMapPathSelectorData {
 	return ConfigMapPathSelectorData{}
 }
@@ -727,6 +730,20 @@ func (s ConfigMapPathSelectorDisplayName) WithValue(value string) *ConfigMap_Fie
 }
 
 func (s ConfigMapPathSelectorDisplayName) WithArrayOfValues(values []string) *ConfigMap_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldTerminalPathArrayOfValues)
+}
+
+type ConfigMapPathSelectorDescription struct{}
+
+func (ConfigMapPathSelectorDescription) FieldPath() *ConfigMap_FieldTerminalPath {
+	return &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorDescription}
+}
+
+func (s ConfigMapPathSelectorDescription) WithValue(value string) *ConfigMap_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldTerminalPathValue)
+}
+
+func (s ConfigMapPathSelectorDescription) WithArrayOfValues(values []string) *ConfigMap_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldTerminalPathArrayOfValues)
 }
 

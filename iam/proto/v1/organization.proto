@@ -35,6 +35,9 @@ message Organization {
   // Official Name of Organization
   string title = 2;
 
+  // Optional. Description of Organization.
+  string description = 14;
+
   // Parent organization
   string parent_organization = 3;
 

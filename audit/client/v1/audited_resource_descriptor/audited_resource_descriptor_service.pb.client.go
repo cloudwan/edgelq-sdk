@@ -14,6 +14,7 @@ import (
 // proto imports
 import (
 	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1/audited_resource_descriptor"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -26,6 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &audited_resource_descriptor.AuditedResourceDescriptor{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,6 +56,7 @@ type AuditedResourceDescriptorServiceClient interface {
 	WatchAuditedResourceDescriptors(ctx context.Context, in *WatchAuditedResourceDescriptorsRequest, opts ...grpc.CallOption) (WatchAuditedResourceDescriptorsClientStream, error)
 	CreateAuditedResourceDescriptor(ctx context.Context, in *CreateAuditedResourceDescriptorRequest, opts ...grpc.CallOption) (*audited_resource_descriptor.AuditedResourceDescriptor, error)
 	UpdateAuditedResourceDescriptor(ctx context.Context, in *UpdateAuditedResourceDescriptorRequest, opts ...grpc.CallOption) (*audited_resource_descriptor.AuditedResourceDescriptor, error)
+	DeleteAuditedResourceDescriptor(ctx context.Context, in *DeleteAuditedResourceDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -177,6 +180,15 @@ func (c *client) CreateAuditedResourceDescriptor(ctx context.Context, in *Create
 func (c *client) UpdateAuditedResourceDescriptor(ctx context.Context, in *UpdateAuditedResourceDescriptorRequest, opts ...grpc.CallOption) (*audited_resource_descriptor.AuditedResourceDescriptor, error) {
 	out := new(audited_resource_descriptor.AuditedResourceDescriptor)
 	err := c.cc.Invoke(ctx, "/ntt.audit.v1.AuditedResourceDescriptorService/UpdateAuditedResourceDescriptor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) DeleteAuditedResourceDescriptor(ctx context.Context, in *DeleteAuditedResourceDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/ntt.audit.v1.AuditedResourceDescriptorService/DeleteAuditedResourceDescriptor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

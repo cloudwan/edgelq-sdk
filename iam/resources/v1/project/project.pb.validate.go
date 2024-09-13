@@ -60,8 +60,8 @@ func (obj *Project) GotenValidate() error {
 	}
 	{
 		rlen := utf8.RuneCountInString(obj.Description)
-		if rlen > 8196 {
-			return gotenvalidate.NewValidationError("Project", "description", obj.Description, "field must contain at most 8196 characters", nil)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("Project", "description", obj.Description, "field must contain at most 256 characters", nil)
 		}
 	}
 	if obj.MultiRegionPolicy == nil {

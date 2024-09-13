@@ -34,14 +34,16 @@ message ListTimeSeriesRequest {
   // in the response.
   TimeInterval interval = 4;
 
-  // By default, the raw time series data is returned.
-  // Use this field to combine multiple time series for different
-  // views of the data.
+  // Instructs how to transform individual time series (aligner) and combine
+  // them together (reducer, group by fields).
+  // Cannot be used with pagination, as pagination exactly defines aggregation.
+  // Query will be rejected if it touches too many time series.
   Aggregation aggregation = 5;
 
-  // Unsupported: must be left blank. The points in each time series are
-  // returned in reverse time order.
-  string order_by = 6;
+  // Picks paginated time series according to pre-defined (in metric descriptor)
+  // view and function. Cannot be used with aggregation, because pagination
+  // view and function determines time series transformation and sorting.
+  Pagination pagination = 3;
 
   // Specifies which information is returned about the time series.
   TimeSeriesView view = 7;
@@ -55,17 +57,18 @@ message ListTimeSeriesRequest {
   // NOTE: points are added implicitly
   google.protobuf.FieldMask field_mask = 12;
 
-  // A positive number that is the maximum number of results to return. If
-  // `page_size` is empty or more than 100,000 results, the effective
-  // `page_size` is 100,000 results. If `view` is set to `FULL`, this is the
-  // maximum number of `Points` returned. If `view` is set to `HEADERS`, this is
+  // A positive number that is the maximum number of Points to return. If
+  // `points_cap` is empty or more than 100,000 results, the effective
+  // `points_cap` is 100,000 results. If `view` is set to `HEADERS`, this is
   // the maximum number of `TimeSeries` returned.
-  int32 page_size = 8;
+  int32 points_cap = 8;
 
-  // If this field is not empty then it must contain the `nextPageToken` value
-  // returned by a previous call to this method.  Using this field causes the
-  // method to return additional results from the previous method call.
-  string page_token = 9;
+  // If this field is not empty then it must contain the `continuation_token`
+  // value returned by a previous call to this method.  Using this field causes
+  // the method to return additional results from the previous method call.
+  string continuation_token = 9;
+
+  reserved 6;
 }
 
 // Response message for method
@@ -74,14 +77,23 @@ message ListTimeSeriesResponse {
   // One or more time series that match the filter included in the request.
   repeated TimeSerie time_series = 1;
 
-  // If there are more results than have been returned, then this field is set
-  // to a non-empty value.  To see the additional results,
-  // use that value as `pageToken` in the next call to this method.
-  string next_page_token = 2;
-
   // Query execution errors that may have caused the time series data returned
   // to be incomplete.
   repeated ntt.rpc.Status execution_errors = 3;
+
+  // If there are more results than have been returned, then this field is set
+  // to a non-empty value.  To see the additional results,
+  // use that value as `continuation_token` in the next call to this method.
+  string continuation_token = 2;
+
+  // Special time series with total amount of records available for pagination
+  // by given time series key. Metric/Resource labels will contain "common"
+  // values shared by all ranked time series. ValueType will be always INT64 and
+  // metricKind GAUGE. In a sense, this time series is execution of
+  // ListTimeSeries with Aggregation = {groupByFields: [<viewPaginatedLabels>],
+  // REDUCER: REDUCE_COUNT} This field is only populated for paginated queries
+  // (pagination in ListTimeSeries is specified).
+  repeated TimeSerie total_point_counters = 4;
 
   // ErrorDetails is used when one of the queried regions fails to produce
   // results. It is used in execution_errors field (see subfield
@@ -556,3 +568,15 @@ message QueryServiceTimeSeriesStatsResponse {
     string region_id = 1;
   }
 }
+
+message WatchTimeSeriesRequest {
+  string parent = 1;
+
+  string filter = 2;
+
+  Aggregation aggregation = 3;
+
+  google.protobuf.Duration snapshot_interval_to_fetch = 4;
+}
+
+message WatchTimeSeriesResponse { repeated TimeSerie time_series = 1; }

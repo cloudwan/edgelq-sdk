@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "BucketServiceProto";
 option java_package = "com.ntt.logging.pb.v1";
 
-// Request message for method [GetBucket][ntt.logging.v1.GetBucket]
+// A request message of the GetBucket method.
 message GetBucketRequest {
   // Name of ntt.logging.v1.Bucket
   string name = 1;
@@ -31,7 +31,7 @@ message GetBucketRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method [BatchGetBuckets][ntt.logging.v1.BatchGetBuckets]
+// A request message of the BatchGetBuckets method.
 message BatchGetBucketsRequest {
   // Names of Buckets
   repeated string names = 2;
@@ -47,7 +47,7 @@ message BatchGetBucketsRequest {
   reserved 1;
 }
 
-// BatchGetBucketsResponse
+// A response message of the BatchGetBuckets method.
 message BatchGetBucketsResponse {
   // found Buckets
   repeated Bucket buckets = 1;
@@ -56,7 +56,7 @@ message BatchGetBucketsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListBuckets][ntt.logging.v1.ListBuckets]
+// A request message of the ListBuckets method.
 message ListBucketsRequest {
   // Parent name of ntt.logging.v1.Bucket
   string parent = 1;
@@ -67,7 +67,7 @@ message ListBucketsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListBucketsResponse.next_page_token][ntt.logging.v1.ListBucketsResponse.next_page_token]
+  // ListBucketsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -98,17 +98,19 @@ message ListBucketsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListBuckets][ntt.logging.v1.ListBuckets]
+// A response message of the ListBuckets method.
 message ListBucketsResponse {
   // The list of Buckets
   repeated Bucket buckets = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListBucketsRequest.page_token][ntt.logging.v1.ListBucketsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListBucketsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListBucketsRequest.page_token][ntt.logging.v1.ListBucketsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListBucketsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -122,7 +124,7 @@ message ListBucketsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchBucket][ntt.logging.v1.WatchBucket]
+// A request message of the WatchBucket method.
 message WatchBucketRequest {
   // Name of ntt.logging.v1.Bucket
   string name = 1;
@@ -136,10 +138,10 @@ message WatchBucketRequest {
   goten.types.View view = 4;
 }
 
-// WatchBucketResponse
+// A response message of the WatchBucket method.
 message WatchBucketResponse { BucketChange change = 1; }
 
-// Request message for method [WatchBuckets][ntt.logging.v1.WatchBuckets]
+// A request message of the WatchBuckets method.
 message WatchBucketsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -199,7 +201,7 @@ message WatchBucketsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchBucketsResponse
+// A response message of the WatchBuckets method.
 message WatchBucketsResponse {
   // Changes of Buckets
   repeated BucketChange bucket_changes = 2;
@@ -265,7 +267,7 @@ message WatchBucketsResponse {
   }
 }
 
-// Request message for method [CreateBucket][ntt.logging.v1.CreateBucket]
+// A request message of the CreateBucket method.
 message CreateBucketRequest {
   // Parent name of ntt.logging.v1.Bucket
   string parent = 1;
@@ -274,7 +276,7 @@ message CreateBucketRequest {
   Bucket bucket = 2;
 }
 
-// Request message for method [UpdateBucket][ntt.logging.v1.UpdateBucket]
+// A request message of the UpdateBucket method.
 message UpdateBucketRequest {
   // Bucket resource body
   Bucket bucket = 2;
@@ -309,7 +311,7 @@ message UpdateBucketRequest {
   }
 }
 
-// Request message for method [DeleteBucket][ntt.logging.v1.DeleteBucket]
+// A request message of the DeleteBucket method.
 message DeleteBucketRequest {
   // Name of ntt.logging.v1.Bucket
   string name = 1;

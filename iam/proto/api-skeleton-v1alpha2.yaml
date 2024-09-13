@@ -1,0 +1,286 @@
+name: iam.edgelq.com
+proto:
+  package:
+    name: ntt.iam
+    currentVersion: v1alpha2
+    nextVersion: v1
+    goPackage: github.com/cloudwan/edgelq/iam
+    protoImportPathPrefix: edgelq/iam/proto
+  service:
+    name: IAM
+    defaultHost: iam.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+imports:
+- meta.edgelq.com
+
+resources:
+- name: Permission
+
+- name: Role
+
+- name: Organization
+  actions:
+  - name: ListMyOrganizations
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "organizations" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+- name: Group
+  parents:
+  - Project
+  - Organization
+  - ""
+
+- name: GroupMember
+  parents:
+  - Group
+
+- name: OrganizationInvitation
+  parents:
+  - Organization
+  actions:
+  - name: AcceptOrganizationInvitation
+    verb: accept
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: DeclineOrganizationInvitation
+    verb: decline
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: ListMyOrganizationInvitations
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "organization_invitations" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+- name: Project
+  actions:
+  - name: ListMyProjects
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "projects" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+- name: ServiceAccount
+  scopeAttributes:
+  - Region
+  parents:
+  - Project
+
+- name: ServiceAccountKey
+  parents:
+  - ServiceAccount
+
+- name: ProjectInvitation
+  parents:
+  - Project
+  actions:
+  - name: AcceptProjectInvitation
+    verb: accept
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: DeclineProjectInvitation
+    verb: decline
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: ListMyProjectInvitations
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: ResendProjectInvitation
+    verb: resend
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+- name: User
+  actions:
+  - name: GetUserByEmail
+    verb: getByEmail
+    opResourceInfo:
+      skipResourceInRequest: true
+    skipResponseMsgGen: true
+    responseName: User
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: BatchGetUsersByEmail
+    verb: batchGetByEmail
+    opResourceInfo:
+      isPlural: true
+      skipResourceInRequest: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+  - name: GetMySettings
+    verb: getMySettings
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+      skipResourceInRequest: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: SetMySettings
+    verb: setMySettings
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+      skipResourceInRequest: true
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+  - name: RefreshUserFromIdToken
+    verb: refreshUserFromIdToken
+    opResourceInfo:
+      isCollection: true
+      skipResourceInRequest: true
+    multiRegionRouting:
+      executeOnOwningRegion: true
+    withStoreHandle:
+      transaction: MANUAL
+
+  - name: ResendVerificationEmail
+    verb: resendVerificationEmail
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+      
+  - name: IsUserVerified
+    verb: isUserVerified
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: MANUAL
+
+  - name: ResetMFAIfRecoveryKeyUsed
+    verb: resetMFAIfRecoveryKeyUsed
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+  - name: SetUsersNameInAuth0
+    verb: setUsersNameInAuth0
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+- name: RoleBinding
+  parents:
+  - Project
+  - Organization
+  - ""
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+
+- name: Condition
+  parents:
+  - Project
+  - Organization
+  - ""
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+
+- name: AttestationDomain
+  plural: AttestationDomains
+  parents:
+  - Project
+
+apis:
+- name: Authorization
+  actions:
+  - name: CheckPermissions
+    verb: check
+    opResourceInfo:
+      name: Permission
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+    grpcTranscoding:
+      httpBodyField: "*"
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  - name: CheckMyPermissions
+    verb: checkMy
+    opResourceInfo:
+      name: Permission
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+    grpcTranscoding:
+      httpBodyField: "*"
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  - name: CheckMyRoles
+    verb: checkMy
+    opResourceInfo:
+      name: Role
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+    grpcTranscoding:
+      httpBodyField: "*"
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    versioning:
+      replacement: CheckMyRoleBindings
+
+- name: Attestation
+  actions:
+  - name: Verify
+    verb: verify
+    streamingRequest: true
+    streamingResponse: true
+    opResourceInfo:
+      name: AttestationDomain
+      requestPaths:
+        resourceName: [ "ask_for_challenge.attestation_domain" ]
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true

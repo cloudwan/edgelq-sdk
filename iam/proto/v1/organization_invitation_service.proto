@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "OrganizationInvitationServiceProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// Request message for method
-// [GetOrganizationInvitation][ntt.iam.v1.GetOrganizationInvitation]
+// A request message of the GetOrganizationInvitation method.
 message GetOrganizationInvitationRequest {
   // Name of ntt.iam.v1.OrganizationInvitation
   string name = 1;
@@ -33,8 +32,7 @@ message GetOrganizationInvitationRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetOrganizationInvitations][ntt.iam.v1.BatchGetOrganizationInvitations]
+// A request message of the BatchGetOrganizationInvitations method.
 message BatchGetOrganizationInvitationsRequest {
   // Names of OrganizationInvitations
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetOrganizationInvitationsRequest {
   reserved 1;
 }
 
-// BatchGetOrganizationInvitationsResponse
+// A response message of the BatchGetOrganizationInvitations method.
 message BatchGetOrganizationInvitationsResponse {
   // found OrganizationInvitations
   repeated OrganizationInvitation organization_invitations = 1;
@@ -59,8 +57,7 @@ message BatchGetOrganizationInvitationsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListOrganizationInvitations][ntt.iam.v1.ListOrganizationInvitations]
+// A request message of the ListOrganizationInvitations method.
 message ListOrganizationInvitationsRequest {
   // Parent name of ntt.iam.v1.OrganizationInvitation
   string parent = 1;
@@ -71,7 +68,7 @@ message ListOrganizationInvitationsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListOrganizationInvitationsResponse.next_page_token][ntt.iam.v1.ListOrganizationInvitationsResponse.next_page_token]
+  // ListOrganizationInvitationsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListOrganizationInvitationsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListOrganizationInvitations][ntt.iam.v1.ListOrganizationInvitations]
+// A response message of the ListOrganizationInvitations method.
 message ListOrganizationInvitationsResponse {
   // The list of OrganizationInvitations
   repeated OrganizationInvitation organization_invitations = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListOrganizationInvitationsRequest.page_token][ntt.iam.v1.ListOrganizationInvitationsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListOrganizationInvitationsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListOrganizationInvitationsRequest.page_token][ntt.iam.v1.ListOrganizationInvitationsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListOrganizationInvitationsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListOrganizationInvitationsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchOrganizationInvitation][ntt.iam.v1.WatchOrganizationInvitation]
+// A request message of the WatchOrganizationInvitation method.
 message WatchOrganizationInvitationRequest {
   // Name of ntt.iam.v1.OrganizationInvitation
   string name = 1;
@@ -143,13 +140,12 @@ message WatchOrganizationInvitationRequest {
   goten.types.View view = 4;
 }
 
-// WatchOrganizationInvitationResponse
+// A response message of the WatchOrganizationInvitation method.
 message WatchOrganizationInvitationResponse {
   OrganizationInvitationChange change = 1;
 }
 
-// Request message for method
-// [WatchOrganizationInvitations][ntt.iam.v1.WatchOrganizationInvitations]
+// A request message of the WatchOrganizationInvitations method.
 message WatchOrganizationInvitationsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -210,7 +206,7 @@ message WatchOrganizationInvitationsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchOrganizationInvitationsResponse
+// A response message of the WatchOrganizationInvitations method.
 message WatchOrganizationInvitationsResponse {
   // Changes of OrganizationInvitations
   repeated OrganizationInvitationChange organization_invitation_changes = 2;
@@ -276,8 +272,7 @@ message WatchOrganizationInvitationsResponse {
   }
 }
 
-// Request message for method
-// [CreateOrganizationInvitation][ntt.iam.v1.CreateOrganizationInvitation]
+// A request message of the CreateOrganizationInvitation method.
 message CreateOrganizationInvitationRequest {
   // Parent name of ntt.iam.v1.OrganizationInvitation
   string parent = 1;
@@ -286,8 +281,7 @@ message CreateOrganizationInvitationRequest {
   OrganizationInvitation organization_invitation = 2;
 }
 
-// Request message for method
-// [UpdateOrganizationInvitation][ntt.iam.v1.UpdateOrganizationInvitation]
+// A request message of the UpdateOrganizationInvitation method.
 message UpdateOrganizationInvitationRequest {
   // OrganizationInvitation resource body
   OrganizationInvitation organization_invitation = 2;
@@ -322,8 +316,7 @@ message UpdateOrganizationInvitationRequest {
   }
 }
 
-// Request message for method
-// [DeleteOrganizationInvitation][ntt.iam.v1.DeleteOrganizationInvitation]
+// A request message of the DeleteOrganizationInvitation method.
 message DeleteOrganizationInvitationRequest {
   // Name of ntt.iam.v1.OrganizationInvitation
   string name = 1;

@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "AlertingPolicyServiceProto";
 option java_package = "com.ntt.monitoring.pb.v3";
 
-// Request message for method
-// [GetAlertingPolicy][ntt.monitoring.v3.GetAlertingPolicy]
+// A request message of the GetAlertingPolicy method.
 message GetAlertingPolicyRequest {
   // Name of ntt.monitoring.v3.AlertingPolicy
   string name = 1;
@@ -32,8 +31,7 @@ message GetAlertingPolicyRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetAlertingPolicies][ntt.monitoring.v3.BatchGetAlertingPolicies]
+// A request message of the BatchGetAlertingPolicies method.
 message BatchGetAlertingPoliciesRequest {
   // Names of AlertingPolicies
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetAlertingPoliciesRequest {
   reserved 1;
 }
 
-// BatchGetAlertingPoliciesResponse
+// A response message of the BatchGetAlertingPolicies method.
 message BatchGetAlertingPoliciesResponse {
   // found AlertingPolicies
   repeated AlertingPolicy alerting_policies = 1;
@@ -58,8 +56,7 @@ message BatchGetAlertingPoliciesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListAlertingPolicies][ntt.monitoring.v3.ListAlertingPolicies]
+// A request message of the ListAlertingPolicies method.
 message ListAlertingPoliciesRequest {
   // Parent name of ntt.monitoring.v3.AlertingPolicy
   string parent = 1;
@@ -70,7 +67,7 @@ message ListAlertingPoliciesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListAlertingPoliciesResponse.next_page_token][ntt.monitoring.v3.ListAlertingPoliciesResponse.next_page_token]
+  // ListAlertingPoliciesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListAlertingPoliciesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListAlertingPolicies][ntt.monitoring.v3.ListAlertingPolicies]
+// A response message of the ListAlertingPolicies method.
 message ListAlertingPoliciesResponse {
   // The list of AlertingPolicies
   repeated AlertingPolicy alerting_policies = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListAlertingPoliciesRequest.page_token][ntt.monitoring.v3.ListAlertingPoliciesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListAlertingPoliciesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListAlertingPoliciesRequest.page_token][ntt.monitoring.v3.ListAlertingPoliciesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListAlertingPoliciesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +125,7 @@ message ListAlertingPoliciesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchAlertingPolicy][ntt.monitoring.v3.WatchAlertingPolicy]
+// A request message of the WatchAlertingPolicy method.
 message WatchAlertingPolicyRequest {
   // Name of ntt.monitoring.v3.AlertingPolicy
   string name = 1;
@@ -142,11 +139,10 @@ message WatchAlertingPolicyRequest {
   goten.types.View view = 4;
 }
 
-// WatchAlertingPolicyResponse
+// A response message of the WatchAlertingPolicy method.
 message WatchAlertingPolicyResponse { AlertingPolicyChange change = 1; }
 
-// Request message for method
-// [WatchAlertingPolicies][ntt.monitoring.v3.WatchAlertingPolicies]
+// A request message of the WatchAlertingPolicies method.
 message WatchAlertingPoliciesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -206,7 +202,7 @@ message WatchAlertingPoliciesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchAlertingPoliciesResponse
+// A response message of the WatchAlertingPolicies method.
 message WatchAlertingPoliciesResponse {
   // Changes of AlertingPolicies
   repeated AlertingPolicyChange alerting_policy_changes = 2;
@@ -272,8 +268,7 @@ message WatchAlertingPoliciesResponse {
   }
 }
 
-// Request message for method
-// [CreateAlertingPolicy][ntt.monitoring.v3.CreateAlertingPolicy]
+// A request message of the CreateAlertingPolicy method.
 message CreateAlertingPolicyRequest {
   // Parent name of ntt.monitoring.v3.AlertingPolicy
   string parent = 1;
@@ -282,8 +277,7 @@ message CreateAlertingPolicyRequest {
   AlertingPolicy alerting_policy = 2;
 }
 
-// Request message for method
-// [UpdateAlertingPolicy][ntt.monitoring.v3.UpdateAlertingPolicy]
+// A request message of the UpdateAlertingPolicy method.
 message UpdateAlertingPolicyRequest {
   // AlertingPolicy resource body
   AlertingPolicy alerting_policy = 2;
@@ -318,15 +312,13 @@ message UpdateAlertingPolicyRequest {
   }
 }
 
-// Request message for method
-// [DeleteAlertingPolicy][ntt.monitoring.v3.DeleteAlertingPolicy]
+// A request message of the DeleteAlertingPolicy method.
 message DeleteAlertingPolicyRequest {
   // Name of ntt.monitoring.v3.AlertingPolicy
   string name = 1;
 }
 
-// Request message for method
-// [SearchAlertingPolicies][ntt.monitoring.v3.SearchAlertingPolicies]
+// A request message of the SearchAlertingPolicies method.
 message SearchAlertingPoliciesRequest {
   // Parent name of ntt.monitoring.v3.AlertingPolicy
   string parent = 1;
@@ -337,7 +329,7 @@ message SearchAlertingPoliciesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [SearchAlertingPoliciesResponse.next_page_token][ntt.monitoring.v3.SearchAlertingPoliciesResponse.next_page_token]
+  // SearchAlertingPoliciesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -367,18 +359,19 @@ message SearchAlertingPoliciesRequest {
   string phrase = 8;
 }
 
-// Request message for method
-// [SearchAlertingPolicies][ntt.monitoring.v3.SearchAlertingPolicies]
+// A response message of the SearchAlertingPolicies method.
 message SearchAlertingPoliciesResponse {
   // The list of AlertingPolicies
   repeated AlertingPolicy alerting_policies = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [SearchAlertingPoliciesRequest.page_token][ntt.monitoring.v3.SearchAlertingPoliciesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the SearchAlertingPoliciesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [SearchAlertingPoliciesRequest.page_token][ntt.monitoring.v3.SearchAlertingPoliciesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the SearchAlertingPoliciesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page (0 if no page tokens were given). Page

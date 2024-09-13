@@ -1,0 +1,36 @@
+name: applications.edgelq.com
+proto:
+  package:
+    name: ntt.applications
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/applications
+    protoImportPathPrefix: edgelq/applications/proto
+  service:
+    name: Applications
+    defaultHost: applications.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+imports:
+- devices.edgelq.com
+- secrets.edgelq.com
+
+resources:
+- name: Project
+  multiRegion:
+    isPolicyHolder: true
+
+- name: Pod
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+
+- name: ConfigMap
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+
+- name: Distribution
+  parents:
+  - Project

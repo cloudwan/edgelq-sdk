@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "DeviceHardwareRegisterSessionServiceProto";
 option java_package = "com.ntt.devices.pb.v1";
 
-// Request message for method
-// [GetDeviceHardwareRegisterSession][ntt.devices.v1.GetDeviceHardwareRegisterSession]
+// A request message of the GetDeviceHardwareRegisterSession method.
 message GetDeviceHardwareRegisterSessionRequest {
   // Name of ntt.devices.v1.DeviceHardwareRegisterSession
   string name = 1;
@@ -33,8 +32,7 @@ message GetDeviceHardwareRegisterSessionRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetDeviceHardwareRegisterSessions][ntt.devices.v1.BatchGetDeviceHardwareRegisterSessions]
+// A request message of the BatchGetDeviceHardwareRegisterSessions method.
 message BatchGetDeviceHardwareRegisterSessionsRequest {
   // Names of DeviceHardwareRegisterSessions
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetDeviceHardwareRegisterSessionsRequest {
   reserved 1;
 }
 
-// BatchGetDeviceHardwareRegisterSessionsResponse
+// A response message of the BatchGetDeviceHardwareRegisterSessions method.
 message BatchGetDeviceHardwareRegisterSessionsResponse {
   // found DeviceHardwareRegisterSessions
   repeated DeviceHardwareRegisterSession device_hardware_register_sessions = 1;
@@ -59,8 +57,7 @@ message BatchGetDeviceHardwareRegisterSessionsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListDeviceHardwareRegisterSessions][ntt.devices.v1.ListDeviceHardwareRegisterSessions]
+// A request message of the ListDeviceHardwareRegisterSessions method.
 message ListDeviceHardwareRegisterSessionsRequest {
   // Parent name of ntt.devices.v1.DeviceHardwareRegisterSession
   string parent = 1;
@@ -71,7 +68,7 @@ message ListDeviceHardwareRegisterSessionsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListDeviceHardwareRegisterSessionsResponse.next_page_token][ntt.devices.v1.ListDeviceHardwareRegisterSessionsResponse.next_page_token]
+  // ListDeviceHardwareRegisterSessionsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,21 @@ message ListDeviceHardwareRegisterSessionsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListDeviceHardwareRegisterSessions][ntt.devices.v1.ListDeviceHardwareRegisterSessions]
+// A response message of the ListDeviceHardwareRegisterSessions method.
 message ListDeviceHardwareRegisterSessionsResponse {
   // The list of DeviceHardwareRegisterSessions
   repeated DeviceHardwareRegisterSession device_hardware_register_sessions = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListDeviceHardwareRegisterSessionsRequest.page_token][ntt.devices.v1.ListDeviceHardwareRegisterSessionsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the
+  // ListDeviceHardwareRegisterSessionsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListDeviceHardwareRegisterSessionsRequest.page_token][ntt.devices.v1.ListDeviceHardwareRegisterSessionsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the
+  // ListDeviceHardwareRegisterSessionsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +128,7 @@ message ListDeviceHardwareRegisterSessionsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchDeviceHardwareRegisterSession][ntt.devices.v1.WatchDeviceHardwareRegisterSession]
+// A request message of the WatchDeviceHardwareRegisterSession method.
 message WatchDeviceHardwareRegisterSessionRequest {
   // Name of ntt.devices.v1.DeviceHardwareRegisterSession
   string name = 1;
@@ -143,13 +142,12 @@ message WatchDeviceHardwareRegisterSessionRequest {
   goten.types.View view = 4;
 }
 
-// WatchDeviceHardwareRegisterSessionResponse
+// A response message of the WatchDeviceHardwareRegisterSession method.
 message WatchDeviceHardwareRegisterSessionResponse {
   DeviceHardwareRegisterSessionChange change = 1;
 }
 
-// Request message for method
-// [WatchDeviceHardwareRegisterSessions][ntt.devices.v1.WatchDeviceHardwareRegisterSessions]
+// A request message of the WatchDeviceHardwareRegisterSessions method.
 message WatchDeviceHardwareRegisterSessionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -211,7 +209,7 @@ message WatchDeviceHardwareRegisterSessionsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchDeviceHardwareRegisterSessionsResponse
+// A response message of the WatchDeviceHardwareRegisterSessions method.
 message WatchDeviceHardwareRegisterSessionsResponse {
   // Changes of DeviceHardwareRegisterSessions
   repeated DeviceHardwareRegisterSessionChange
@@ -278,8 +276,7 @@ message WatchDeviceHardwareRegisterSessionsResponse {
   }
 }
 
-// Request message for method
-// [CreateDeviceHardwareRegisterSession][ntt.devices.v1.CreateDeviceHardwareRegisterSession]
+// A request message of the CreateDeviceHardwareRegisterSession method.
 message CreateDeviceHardwareRegisterSessionRequest {
   // Parent name of ntt.devices.v1.DeviceHardwareRegisterSession
   string parent = 1;
@@ -288,8 +285,7 @@ message CreateDeviceHardwareRegisterSessionRequest {
   DeviceHardwareRegisterSession device_hardware_register_session = 2;
 }
 
-// Request message for method
-// [UpdateDeviceHardwareRegisterSession][ntt.devices.v1.UpdateDeviceHardwareRegisterSession]
+// A request message of the UpdateDeviceHardwareRegisterSession method.
 message UpdateDeviceHardwareRegisterSessionRequest {
   // DeviceHardwareRegisterSession resource body
   DeviceHardwareRegisterSession device_hardware_register_session = 2;
@@ -324,8 +320,7 @@ message UpdateDeviceHardwareRegisterSessionRequest {
   }
 }
 
-// Request message for method
-// [DeleteDeviceHardwareRegisterSession][ntt.devices.v1.DeleteDeviceHardwareRegisterSession]
+// A request message of the DeleteDeviceHardwareRegisterSession method.
 message DeleteDeviceHardwareRegisterSessionRequest {
   // Name of ntt.devices.v1.DeviceHardwareRegisterSession
   string name = 1;

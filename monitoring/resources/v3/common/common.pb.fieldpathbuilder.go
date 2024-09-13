@@ -1896,6 +1896,97 @@ func (s AggregationPathSelectorGroupByFields) WithItemValue(value string) *Aggre
 	return s.FieldPath().WithIArrayItemValue(value).(*Aggregation_FieldTerminalPathArrayItemValue)
 }
 
+type PaginationFieldPathBuilder struct{}
+
+func NewPaginationFieldPathBuilder() PaginationFieldPathBuilder {
+	return PaginationFieldPathBuilder{}
+}
+func (PaginationFieldPathBuilder) View() PaginationPathSelectorView {
+	return PaginationPathSelectorView{}
+}
+func (PaginationFieldPathBuilder) Function() PaginationPathSelectorFunction {
+	return PaginationPathSelectorFunction{}
+}
+func (PaginationFieldPathBuilder) AlignmentPeriod() PaginationPathSelectorAlignmentPeriod {
+	return PaginationPathSelectorAlignmentPeriod{}
+}
+func (PaginationFieldPathBuilder) Limit() PaginationPathSelectorLimit {
+	return PaginationPathSelectorLimit{}
+}
+func (PaginationFieldPathBuilder) Offset() PaginationPathSelectorOffset {
+	return PaginationPathSelectorOffset{}
+}
+
+type PaginationPathSelectorView struct{}
+
+func (PaginationPathSelectorView) FieldPath() *Pagination_FieldTerminalPath {
+	return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorView}
+}
+
+func (s PaginationPathSelectorView) WithValue(value string) *Pagination_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Pagination_FieldTerminalPathValue)
+}
+
+func (s PaginationPathSelectorView) WithArrayOfValues(values []string) *Pagination_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pagination_FieldTerminalPathArrayOfValues)
+}
+
+type PaginationPathSelectorFunction struct{}
+
+func (PaginationPathSelectorFunction) FieldPath() *Pagination_FieldTerminalPath {
+	return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorFunction}
+}
+
+func (s PaginationPathSelectorFunction) WithValue(value string) *Pagination_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Pagination_FieldTerminalPathValue)
+}
+
+func (s PaginationPathSelectorFunction) WithArrayOfValues(values []string) *Pagination_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pagination_FieldTerminalPathArrayOfValues)
+}
+
+type PaginationPathSelectorAlignmentPeriod struct{}
+
+func (PaginationPathSelectorAlignmentPeriod) FieldPath() *Pagination_FieldTerminalPath {
+	return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorAlignmentPeriod}
+}
+
+func (s PaginationPathSelectorAlignmentPeriod) WithValue(value *durationpb.Duration) *Pagination_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Pagination_FieldTerminalPathValue)
+}
+
+func (s PaginationPathSelectorAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *Pagination_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pagination_FieldTerminalPathArrayOfValues)
+}
+
+type PaginationPathSelectorLimit struct{}
+
+func (PaginationPathSelectorLimit) FieldPath() *Pagination_FieldTerminalPath {
+	return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorLimit}
+}
+
+func (s PaginationPathSelectorLimit) WithValue(value int32) *Pagination_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Pagination_FieldTerminalPathValue)
+}
+
+func (s PaginationPathSelectorLimit) WithArrayOfValues(values []int32) *Pagination_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pagination_FieldTerminalPathArrayOfValues)
+}
+
+type PaginationPathSelectorOffset struct{}
+
+func (PaginationPathSelectorOffset) FieldPath() *Pagination_FieldTerminalPath {
+	return &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorOffset}
+}
+
+func (s PaginationPathSelectorOffset) WithValue(value int32) *Pagination_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Pagination_FieldTerminalPathValue)
+}
+
+func (s PaginationPathSelectorOffset) WithArrayOfValues(values []int32) *Pagination_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pagination_FieldTerminalPathArrayOfValues)
+}
+
 type MetricFieldPathBuilder struct{}
 
 func NewMetricFieldPathBuilder() MetricFieldPathBuilder {

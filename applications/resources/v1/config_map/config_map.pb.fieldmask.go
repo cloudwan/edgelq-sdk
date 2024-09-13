@@ -54,6 +54,7 @@ func FullConfigMap_FieldMask() *ConfigMap_FieldMask {
 	res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorData})
 	res.Paths = append(res.Paths, &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorBinaryData})
 	return res
@@ -99,7 +100,7 @@ func (fieldMask *ConfigMap_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ConfigMap_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -129,7 +130,7 @@ func (fieldMask *ConfigMap_FieldMask) Reset() {
 
 func (fieldMask *ConfigMap_FieldMask) Subtract(other *ConfigMap_FieldMask) *ConfigMap_FieldMask {
 	result := &ConfigMap_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[ConfigMap_FieldPathSelector]gotenobject.FieldMask{
 		ConfigMap_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -340,6 +341,8 @@ func (fieldMask *ConfigMap_FieldMask) Project(source *ConfigMap) *ConfigMap {
 				wholeMetadataAccepted = true
 			case ConfigMap_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case ConfigMap_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case ConfigMap_FieldPathSelectorData:
 				result.Data = source.Data
 				wholeDataAccepted = true

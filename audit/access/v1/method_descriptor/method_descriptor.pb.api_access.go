@@ -236,7 +236,14 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 }
 
 func (a *apiMethodDescriptorAccess) DeleteMethodDescriptor(ctx context.Context, ref *method_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
-	return fmt.Errorf("Delete operation on MethodDescriptor is prohibited")
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
+	request := &method_descriptor_client.DeleteMethodDescriptorRequest{
+		Name: &ref.Name,
+	}
+	_, err := a.client.DeleteMethodDescriptor(ctx, request)
+	return err
 }
 func getParentAndFilter(fullFilter *method_descriptor.Filter) (*method_descriptor.Filter, *method_descriptor.ParentName) {
 	var withParentExtraction func(cnd method_descriptor.FilterCondition) method_descriptor.FilterCondition
@@ -254,6 +261,9 @@ func getParentAndFilter(fullFilter *method_descriptor.Filter) (*method_descripto
 				}
 				if len(withoutParentCnds) == 0 {
 					return nil
+				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
 				}
 				return method_descriptor.AndFilterConditions(withoutParentCnds...)
 			} else {

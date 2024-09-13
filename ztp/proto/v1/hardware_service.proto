@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "HardwareServiceProto";
 option java_package = "com.ntt.ztp.pb.v1";
 
-// Request message for method [GetHardware][ntt.ztp.v1.GetHardware]
+// A request message of the GetHardware method.
 message GetHardwareRequest {
   // Name of ntt.ztp.v1.Hardware
   string name = 1;
@@ -31,7 +31,7 @@ message GetHardwareRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method [BatchGetHardwares][ntt.ztp.v1.BatchGetHardwares]
+// A request message of the BatchGetHardwares method.
 message BatchGetHardwaresRequest {
   // Names of Hardwares
   repeated string names = 2;
@@ -47,7 +47,7 @@ message BatchGetHardwaresRequest {
   reserved 1;
 }
 
-// BatchGetHardwaresResponse
+// A response message of the BatchGetHardwares method.
 message BatchGetHardwaresResponse {
   // found Hardwares
   repeated Hardware hardwares = 1;
@@ -56,7 +56,7 @@ message BatchGetHardwaresResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListHardwares][ntt.ztp.v1.ListHardwares]
+// A request message of the ListHardwares method.
 message ListHardwaresRequest {
   // Parent name of ntt.ztp.v1.Hardware
   string parent = 1;
@@ -67,7 +67,7 @@ message ListHardwaresRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListHardwaresResponse.next_page_token][ntt.ztp.v1.ListHardwaresResponse.next_page_token]
+  // ListHardwaresResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -98,17 +98,19 @@ message ListHardwaresRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListHardwares][ntt.ztp.v1.ListHardwares]
+// A response message of the ListHardwares method.
 message ListHardwaresResponse {
   // The list of Hardwares
   repeated Hardware hardwares = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListHardwaresRequest.page_token][ntt.ztp.v1.ListHardwaresRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListHardwaresRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListHardwaresRequest.page_token][ntt.ztp.v1.ListHardwaresRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListHardwaresRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -122,7 +124,7 @@ message ListHardwaresResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchHardware][ntt.ztp.v1.WatchHardware]
+// A request message of the WatchHardware method.
 message WatchHardwareRequest {
   // Name of ntt.ztp.v1.Hardware
   string name = 1;
@@ -136,10 +138,10 @@ message WatchHardwareRequest {
   goten.types.View view = 4;
 }
 
-// WatchHardwareResponse
+// A response message of the WatchHardware method.
 message WatchHardwareResponse { HardwareChange change = 1; }
 
-// Request message for method [WatchHardwares][ntt.ztp.v1.WatchHardwares]
+// A request message of the WatchHardwares method.
 message WatchHardwaresRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -199,7 +201,7 @@ message WatchHardwaresRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchHardwaresResponse
+// A response message of the WatchHardwares method.
 message WatchHardwaresResponse {
   // Changes of Hardwares
   repeated HardwareChange hardware_changes = 2;
@@ -265,7 +267,7 @@ message WatchHardwaresResponse {
   }
 }
 
-// Request message for method [CreateHardware][ntt.ztp.v1.CreateHardware]
+// A request message of the CreateHardware method.
 message CreateHardwareRequest {
   // Parent name of ntt.ztp.v1.Hardware
   string parent = 1;
@@ -274,7 +276,7 @@ message CreateHardwareRequest {
   Hardware hardware = 2;
 }
 
-// Request message for method [UpdateHardware][ntt.ztp.v1.UpdateHardware]
+// A request message of the UpdateHardware method.
 message UpdateHardwareRequest {
   // Hardware resource body
   Hardware hardware = 2;
@@ -309,7 +311,7 @@ message UpdateHardwareRequest {
   }
 }
 
-// Request message for method [DeleteHardware][ntt.ztp.v1.DeleteHardware]
+// A request message of the DeleteHardware method.
 message DeleteHardwareRequest {
   // Name of ntt.ztp.v1.Hardware
   string name = 1;

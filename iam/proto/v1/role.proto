@@ -16,6 +16,8 @@ message Role {
   option (google.api.resource) = {
     type : "iam.edgelq.com/Role"
     pattern : "services/{service}/roles/{role}"
+    pattern : "projects/{project}/roles/{role}"
+    pattern : "organizations/{organization}/roles/{role}"
   };
 
   // Name of Role
@@ -30,6 +32,12 @@ message Role {
 
   // Display Name
   string display_name = 2;
+
+  // Optional description
+  string description = 9;
+
+  // Category to which Role belongs to. It cannot be changed.
+  Category category = 10;
 
   // List of scope params, they are used to evaluate object prefixes in
   // grants and values in their field conditions, if any.
@@ -120,6 +128,39 @@ message Role {
       string value = 2;
     }
   }
+
+  // Category points to the intended role use. It may restrict how RoleBindings
+  // are created.
+  enum Category {
+    // Undefined, not allowed.
+    UNDEFINED = 0;
+
+    // Role is intended for public access. Restricted members: allUsers,
+    // allAuthenticatedUsers. No RoleBinding scope restrictions.
+    PUBLIC = 1;
+
+    // Role is for internal purposes, defined by a parent service. There are no
+    // restrictions to scope and members.
+    INTERNAL = 2;
+
+    // Special owner role - reserved to "scope-admin" role in IAM. It is de
+    // facto reserved category for EdgeLQ core services only, but is also kind
+    // of USER type.
+    OWNER = 3;
+
+    // Role relevant for Service Management, check display name and/or
+    // description for more information.
+    SERVICE = 4;
+
+    // Role for various edge agents. Restricted to project scope and service
+    // account member types. Cannot be assigned to groups.
+    AGENT = 5;
+
+    // Role relevant for users, provides an access to various actions on
+    // organization/project level. Typically should be given to users, but
+    // ServiceAccount is also possible. Can be assigned to group members.
+    USER = 6;
+  }
 }
 
 message ScopeParam {
@@ -129,9 +170,23 @@ message ScopeParam {
     StringValue string = 2;
 
     ArrayOfStringsValue strings = 3;
+
+    FromValue value_from = 4;
   }
 
   message StringValue { string value = 1; }
 
   message ArrayOfStringsValue { repeated string values = 1; }
+
+  message FromValue {
+    Source source = 1;
+
+    string path = 2;
+
+    enum Source {
+      UNDEFINED = 0;
+
+      PRINCIPAL_METADATA = 1;
+    }
+  }
 }

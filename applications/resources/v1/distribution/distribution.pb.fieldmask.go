@@ -56,6 +56,7 @@ func FullDistribution_FieldMask() *Distribution_FieldMask {
 	res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorSpec})
 	res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorStatus})
 	return res
@@ -101,7 +102,7 @@ func (fieldMask *Distribution_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 6)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Distribution_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -131,7 +132,7 @@ func (fieldMask *Distribution_FieldMask) Reset() {
 
 func (fieldMask *Distribution_FieldMask) Subtract(other *Distribution_FieldMask) *Distribution_FieldMask {
 	result := &Distribution_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[Distribution_FieldPathSelector]gotenobject.FieldMask{
 		Distribution_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		Distribution_FieldPathSelectorSpec:     &Distribution_Spec_FieldMask{},
@@ -363,6 +364,8 @@ func (fieldMask *Distribution_FieldMask) Project(source *Distribution) *Distribu
 				wholeMetadataAccepted = true
 			case Distribution_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case Distribution_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case Distribution_FieldPathSelectorSpec:
 				result.Spec = source.Spec
 				wholeSpecAccepted = true

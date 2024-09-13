@@ -254,6 +254,10 @@ func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
 	return &filterCndBuilderDisplayName{builder: b.builder}
 }
 
+func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
+	return &filterCndBuilderDescription{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Spec() *filterCndBuilderSpec {
 	return &filterCndBuilderSpec{builder: b.builder}
 }
@@ -2406,6 +2410,65 @@ func (b *filterCndBuilderDisplayName) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().DisplayName().WithValue(value),
+	})
+}
+
+type filterCndBuilderDescription struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDescription) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDescription) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDescription) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDescription) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDescription) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDescription) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDescription) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPodFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPodFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Pod_FieldPathValue: NewPodFieldPathBuilder().Description().WithValue(value),
 	})
 }
 

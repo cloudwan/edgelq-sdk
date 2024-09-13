@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetResource][ntt.meta.v1alpha2.GetResource]
+// A request message of the GetResource method.
 type GetResourceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,8 +161,7 @@ func (m *GetResourceRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetResources][ntt.meta.v1alpha2.BatchGetResources]
+// A request message of the BatchGetResources method.
 type BatchGetResourcesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -269,7 +268,7 @@ func (m *BatchGetResourcesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetResourcesResponse
+// A response message of the BatchGetResources method.
 type BatchGetResourcesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -358,7 +357,7 @@ func (m *BatchGetResourcesResponse) SetMissing(fv []*resource.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListResources][ntt.meta.v1alpha2.ListResources]
+// A request message of the ListResources method.
 type ListResourcesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -370,7 +369,7 @@ type ListResourcesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListResourcesResponse.next_page_token][ntt.meta.v1alpha2.ListResourcesResponse.next_page_token]
+	// ListResourcesResponse.next_page_token.
 	PageToken *resource.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -558,18 +557,20 @@ func (m *ListResourcesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListResources][ntt.meta.v1alpha2.ListResources]
+// A response message of the ListResources method.
 type ListResourcesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Resources
 	Resources []*resource.Resource `protobuf:"bytes,1,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListResourcesRequest.page_token][ntt.meta.v1alpha2.ListResourcesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListResourcesRequest.page_token.
 	PrevPageToken *resource.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListResourcesRequest.page_token][ntt.meta.v1alpha2.ListResourcesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListResourcesRequest.page_token.
 	NextPageToken *resource.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -701,7 +702,7 @@ func (m *ListResourcesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchResource][ntt.meta.v1alpha2.WatchResource]
+// A request message of the WatchResource method.
 type WatchResourceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -808,7 +809,7 @@ func (m *WatchResourceRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchResourceResponse
+// A response message of the WatchResource method.
 type WatchResourceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -880,7 +881,7 @@ func (m *WatchResourceResponse) SetChange(fv *resource.ResourceChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchResources][ntt.meta.v1alpha2.WatchResources]
+// A request message of the WatchResources method.
 type WatchResourcesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1137,7 +1138,7 @@ func (m *WatchResourcesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchResourcesResponse
+// A response message of the WatchResources method.
 type WatchResourcesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

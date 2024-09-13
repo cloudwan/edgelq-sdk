@@ -207,6 +207,19 @@ func (fieldMask *Alert_FieldMask) FilterInputFields() *Alert_FieldMask {
 					result.Paths = append(result.Paths, &Alert_FieldSubPath{selector: Alert_FieldPathSelectorMetadata, subPath: allowedPath})
 				}
 			}
+		case Alert_FieldPathSelectorInfo:
+			if _, ok := path.(*Alert_FieldTerminalPath); ok {
+				for _, subpath := range FullAlert_Info_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &Alert_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*Alert_FieldSubPath); ok {
+				selectedMask := &Alert_Info_FieldMask{
+					Paths: []AlertInfo_FieldPath{sub.subPath.(AlertInfo_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &Alert_FieldSubPath{selector: Alert_FieldPathSelectorInfo, subPath: allowedPath})
+				}
+			}
 		default:
 			result.Paths = append(result.Paths, path)
 		}
@@ -529,7 +542,25 @@ func (fieldMask *Alert_Info_FieldMask) SubtractRaw(other gotenobject.FieldMask) 
 // FilterInputFields generates copy of field paths with output_only field paths removed
 func (fieldMask *Alert_Info_FieldMask) FilterInputFields() *Alert_Info_FieldMask {
 	result := &Alert_Info_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case AlertInfo_FieldPathSelectorTimeSerie:
+			if _, ok := path.(*AlertInfo_FieldTerminalPath); ok {
+				for _, subpath := range FullAlert_Info_TimeSerie_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertInfo_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*AlertInfo_FieldSubPath); ok {
+				selectedMask := &Alert_Info_TimeSerie_FieldMask{
+					Paths: []AlertInfoTimeSerie_FieldPath{sub.subPath.(AlertInfoTimeSerie_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertInfo_FieldSubPath{selector: AlertInfo_FieldPathSelectorTimeSerie, subPath: allowedPath})
+				}
+			}
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
 	return result
 }
 
@@ -1013,6 +1044,7 @@ func FullAlert_Info_TimeSerie_FieldMask() *Alert_Info_TimeSerie_FieldMask {
 	res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorKey})
 	res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorMetric})
 	res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorMonitoredResource})
+	res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorData})
 	return res
 }
 
@@ -1056,7 +1088,7 @@ func (fieldMask *Alert_Info_TimeSerie_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertInfoTimeSerie_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1086,7 +1118,7 @@ func (fieldMask *Alert_Info_TimeSerie_FieldMask) Reset() {
 
 func (fieldMask *Alert_Info_TimeSerie_FieldMask) Subtract(other *Alert_Info_TimeSerie_FieldMask) *Alert_Info_TimeSerie_FieldMask {
 	result := &Alert_Info_TimeSerie_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[AlertInfoTimeSerie_FieldPathSelector]gotenobject.FieldMask{
 		AlertInfoTimeSerie_FieldPathSelectorMetric:            &common.Metric_FieldMask{},
 		AlertInfoTimeSerie_FieldPathSelectorMonitoredResource: &common.MonitoredResource_FieldMask{},
@@ -1143,7 +1175,13 @@ func (fieldMask *Alert_Info_TimeSerie_FieldMask) SubtractRaw(other gotenobject.F
 // FilterInputFields generates copy of field paths with output_only field paths removed
 func (fieldMask *Alert_Info_TimeSerie_FieldMask) FilterInputFields() *Alert_Info_TimeSerie_FieldMask {
 	result := &Alert_Info_TimeSerie_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case AlertInfoTimeSerie_FieldPathSelectorData:
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
 	return result
 }
 
@@ -1282,6 +1320,8 @@ func (fieldMask *Alert_Info_TimeSerie_FieldMask) Project(source *Alert_Info_Time
 			case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 				result.MonitoredResource = source.MonitoredResource
 				wholeMonitoredResourceAccepted = true
+			case AlertInfoTimeSerie_FieldPathSelectorData:
+				result.Data = source.Data
 			}
 		case *AlertInfoTimeSerie_FieldSubPath:
 			switch tp.selector {

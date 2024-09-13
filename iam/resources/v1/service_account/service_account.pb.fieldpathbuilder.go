@@ -40,6 +40,9 @@ func (ServiceAccountFieldPathBuilder) Metadata() ServiceAccountPathSelectorMetad
 func (ServiceAccountFieldPathBuilder) DisplayName() ServiceAccountPathSelectorDisplayName {
 	return ServiceAccountPathSelectorDisplayName{}
 }
+func (ServiceAccountFieldPathBuilder) Description() ServiceAccountPathSelectorDescription {
+	return ServiceAccountPathSelectorDescription{}
+}
 func (ServiceAccountFieldPathBuilder) Email() ServiceAccountPathSelectorEmail {
 	return ServiceAccountPathSelectorEmail{}
 }
@@ -730,6 +733,20 @@ func (s ServiceAccountPathSelectorDisplayName) WithValue(value string) *ServiceA
 }
 
 func (s ServiceAccountPathSelectorDisplayName) WithArrayOfValues(values []string) *ServiceAccount_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccount_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceAccountPathSelectorDescription struct{}
+
+func (ServiceAccountPathSelectorDescription) FieldPath() *ServiceAccount_FieldTerminalPath {
+	return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorDescription}
+}
+
+func (s ServiceAccountPathSelectorDescription) WithValue(value string) *ServiceAccount_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccount_FieldTerminalPathValue)
+}
+
+func (s ServiceAccountPathSelectorDescription) WithArrayOfValues(values []string) *ServiceAccount_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccount_FieldTerminalPathArrayOfValues)
 }
 

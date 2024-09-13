@@ -14,6 +14,7 @@ import (
 // proto imports
 import (
 	audited_resource_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1/audited_resource_descriptor"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -26,6 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &audited_resource_descriptor.AuditedResourceDescriptor{}
+	_ = &emptypb.Empty{}
 )
 
 var (
@@ -38,6 +40,7 @@ var (
 	watchAuditedResourceDescriptorsDescriptor    *WatchAuditedResourceDescriptorsDescriptor
 	createAuditedResourceDescriptorDescriptor    *CreateAuditedResourceDescriptorDescriptor
 	updateAuditedResourceDescriptorDescriptor    *UpdateAuditedResourceDescriptorDescriptor
+	deleteAuditedResourceDescriptorDescriptor    *DeleteAuditedResourceDescriptorDescriptor
 )
 
 type GetAuditedResourceDescriptorDescriptor struct{}
@@ -1637,6 +1640,221 @@ func GetUpdateAuditedResourceDescriptorDescriptor() *UpdateAuditedResourceDescri
 	return updateAuditedResourceDescriptorDescriptor
 }
 
+type DeleteAuditedResourceDescriptorDescriptor struct{}
+
+type DeleteAuditedResourceDescriptorDescriptorClientMsgHandle struct{}
+
+type DeleteAuditedResourceDescriptorDescriptorServerMsgHandle struct{}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) NewEmptyClientMsg() proto.Message {
+	return &DeleteAuditedResourceDescriptorRequest{}
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) NewEmptyServerMsg() proto.Message {
+	return &emptypb.Empty{}
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetVerb() string {
+	return "delete"
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetMethodName() string {
+	return "DeleteAuditedResourceDescriptor"
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetFullMethodName() string {
+	return "/ntt.audit.v1.AuditedResourceDescriptorService/DeleteAuditedResourceDescriptor"
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetProtoPkgName() string {
+	return "ntt.audit.v1"
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetApiName() string {
+	return "AuditedResourceDescriptorService"
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetServiceDomain() string {
+	return "audit.edgelq.com"
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return auditedResourceDescriptorServiceDescriptor
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return audited_resource_descriptor.GetDescriptor()
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &DeleteAuditedResourceDescriptorDescriptorClientMsgHandle{}
+}
+
+func (d *DeleteAuditedResourceDescriptorDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &DeleteAuditedResourceDescriptorDescriptorServerMsgHandle{}
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*DeleteAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*DeleteAuditedResourceDescriptorRequest) *audited_resource_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*audited_resource_descriptor.Name)(nil)
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*DeleteAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*DeleteAuditedResourceDescriptorRequest) []*audited_resource_descriptor.Name
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*DeleteAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*DeleteAuditedResourceDescriptorRequest) *audited_resource_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*DeleteAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*DeleteAuditedResourceDescriptorRequest) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*DeleteAuditedResourceDescriptorRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*DeleteAuditedResourceDescriptorRequest) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*emptypb.Empty) *audited_resource_descriptor.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*emptypb.Empty) []*audited_resource_descriptor.Name
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*emptypb.Empty) *audited_resource_descriptor.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*emptypb.Empty) *audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *DeleteAuditedResourceDescriptorDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*emptypb.Empty)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*emptypb.Empty) []*audited_resource_descriptor.AuditedResourceDescriptor
+	})
+	if ok {
+		return audited_resource_descriptor.AuditedResourceDescriptorList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetDeleteAuditedResourceDescriptorDescriptor() *DeleteAuditedResourceDescriptorDescriptor {
+	return deleteAuditedResourceDescriptorDescriptor
+}
+
 type AuditedResourceDescriptorServiceDescriptor struct{}
 
 func (d *AuditedResourceDescriptorServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1648,6 +1866,7 @@ func (d *AuditedResourceDescriptorServiceDescriptor) AllMethodDescriptors() []go
 		watchAuditedResourceDescriptorsDescriptor,
 		createAuditedResourceDescriptorDescriptor,
 		updateAuditedResourceDescriptorDescriptor,
+		deleteAuditedResourceDescriptorDescriptor,
 	}
 }
 
@@ -1684,6 +1903,7 @@ func initDescriptors() {
 	watchAuditedResourceDescriptorsDescriptor = &WatchAuditedResourceDescriptorsDescriptor{}
 	createAuditedResourceDescriptorDescriptor = &CreateAuditedResourceDescriptorDescriptor{}
 	updateAuditedResourceDescriptorDescriptor = &UpdateAuditedResourceDescriptorDescriptor{}
+	deleteAuditedResourceDescriptorDescriptor = &DeleteAuditedResourceDescriptorDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(auditedResourceDescriptorServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getAuditedResourceDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetAuditedResourceDescriptorsDescriptor)
@@ -1692,6 +1912,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchAuditedResourceDescriptorsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createAuditedResourceDescriptorDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateAuditedResourceDescriptorDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteAuditedResourceDescriptorDescriptor)
 }
 
 func init() {

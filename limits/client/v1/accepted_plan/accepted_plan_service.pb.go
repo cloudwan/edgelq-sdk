@@ -58,7 +58,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetAcceptedPlan][ntt.limits.v1.GetAcceptedPlan]
+// A request message of the GetAcceptedPlan method.
 type GetAcceptedPlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -165,8 +165,7 @@ func (m *GetAcceptedPlanRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetAcceptedPlans][ntt.limits.v1.BatchGetAcceptedPlans]
+// A request message of the BatchGetAcceptedPlans method.
 type BatchGetAcceptedPlansRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -273,7 +272,7 @@ func (m *BatchGetAcceptedPlansRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetAcceptedPlansResponse
+// A response message of the BatchGetAcceptedPlans method.
 type BatchGetAcceptedPlansResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -362,8 +361,7 @@ func (m *BatchGetAcceptedPlansResponse) SetMissing(fv []*accepted_plan.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListAcceptedPlans][ntt.limits.v1.ListAcceptedPlans]
+// A request message of the ListAcceptedPlans method.
 type ListAcceptedPlansRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -375,7 +373,7 @@ type ListAcceptedPlansRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListAcceptedPlansResponse.next_page_token][ntt.limits.v1.ListAcceptedPlansResponse.next_page_token]
+	// ListAcceptedPlansResponse.next_page_token.
 	PageToken *accepted_plan.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -563,19 +561,20 @@ func (m *ListAcceptedPlansRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListAcceptedPlans][ntt.limits.v1.ListAcceptedPlans]
+// A response message of the ListAcceptedPlans method.
 type ListAcceptedPlansResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of AcceptedPlans
 	AcceptedPlans []*accepted_plan.AcceptedPlan `protobuf:"bytes,1,rep,name=accepted_plans,json=acceptedPlans,proto3" json:"accepted_plans,omitempty" firestore:"acceptedPlans"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListAcceptedPlansRequest.page_token][ntt.limits.v1.ListAcceptedPlansRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListAcceptedPlansRequest.page_token.
 	PrevPageToken *accepted_plan.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListAcceptedPlansRequest.page_token][ntt.limits.v1.ListAcceptedPlansRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListAcceptedPlansRequest.page_token.
 	NextPageToken *accepted_plan.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +706,7 @@ func (m *ListAcceptedPlansResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchAcceptedPlan][ntt.limits.v1.WatchAcceptedPlan]
+// A request message of the WatchAcceptedPlan method.
 type WatchAcceptedPlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +813,7 @@ func (m *WatchAcceptedPlanRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchAcceptedPlanResponse
+// A response message of the WatchAcceptedPlan method.
 type WatchAcceptedPlanResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +885,7 @@ func (m *WatchAcceptedPlanResponse) SetChange(fv *accepted_plan.AcceptedPlanChan
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchAcceptedPlans][ntt.limits.v1.WatchAcceptedPlans]
+// A request message of the WatchAcceptedPlans method.
 type WatchAcceptedPlansRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1145,7 +1142,7 @@ func (m *WatchAcceptedPlansRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchAcceptedPlansResponse
+// A response message of the WatchAcceptedPlans method.
 type WatchAcceptedPlansResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1348,8 +1345,7 @@ func (m *WatchAcceptedPlansResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateAcceptedPlan][ntt.limits.v1.CreateAcceptedPlan]
+// A request message of the CreateAcceptedPlan method.
 type CreateAcceptedPlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1438,8 +1434,7 @@ func (m *CreateAcceptedPlanRequest) SetAcceptedPlan(fv *accepted_plan.AcceptedPl
 	m.AcceptedPlan = fv
 }
 
-// Request message for method
-// [UpdateAcceptedPlan][ntt.limits.v1.UpdateAcceptedPlan]
+// A request message of the UpdateAcceptedPlan method.
 type UpdateAcceptedPlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1569,8 +1564,7 @@ func (m *UpdateAcceptedPlanRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteAcceptedPlan][ntt.limits.v1.DeleteAcceptedPlan]
+// A request message of the DeleteAcceptedPlan method.
 type DeleteAcceptedPlanRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

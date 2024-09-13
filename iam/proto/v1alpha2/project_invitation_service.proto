@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "ProjectInvitationServiceProto";
 option java_package = "com.ntt.iam.pb.v1alpha2";
 
-// Request message for method
-// [GetProjectInvitation][ntt.iam.v1alpha2.GetProjectInvitation]
+// A request message of the GetProjectInvitation method.
 message GetProjectInvitationRequest {
   // Name of ntt.iam.v1alpha2.ProjectInvitation
   string name = 1;
@@ -33,8 +32,7 @@ message GetProjectInvitationRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetProjectInvitations][ntt.iam.v1alpha2.BatchGetProjectInvitations]
+// A request message of the BatchGetProjectInvitations method.
 message BatchGetProjectInvitationsRequest {
   // Names of ProjectInvitations
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetProjectInvitationsRequest {
   reserved 1;
 }
 
-// BatchGetProjectInvitationsResponse
+// A response message of the BatchGetProjectInvitations method.
 message BatchGetProjectInvitationsResponse {
   // found ProjectInvitations
   repeated ProjectInvitation project_invitations = 1;
@@ -59,8 +57,7 @@ message BatchGetProjectInvitationsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListProjectInvitations][ntt.iam.v1alpha2.ListProjectInvitations]
+// A request message of the ListProjectInvitations method.
 message ListProjectInvitationsRequest {
   // Parent name of ntt.iam.v1alpha2.ProjectInvitation
   string parent = 1;
@@ -71,7 +68,7 @@ message ListProjectInvitationsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListProjectInvitationsResponse.next_page_token][ntt.iam.v1alpha2.ListProjectInvitationsResponse.next_page_token]
+  // ListProjectInvitationsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListProjectInvitationsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListProjectInvitations][ntt.iam.v1alpha2.ListProjectInvitations]
+// A response message of the ListProjectInvitations method.
 message ListProjectInvitationsResponse {
   // The list of ProjectInvitations
   repeated ProjectInvitation project_invitations = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListProjectInvitationsRequest.page_token][ntt.iam.v1alpha2.ListProjectInvitationsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListProjectInvitationsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListProjectInvitationsRequest.page_token][ntt.iam.v1alpha2.ListProjectInvitationsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListProjectInvitationsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListProjectInvitationsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchProjectInvitation][ntt.iam.v1alpha2.WatchProjectInvitation]
+// A request message of the WatchProjectInvitation method.
 message WatchProjectInvitationRequest {
   // Name of ntt.iam.v1alpha2.ProjectInvitation
   string name = 1;
@@ -143,11 +140,10 @@ message WatchProjectInvitationRequest {
   goten.types.View view = 4;
 }
 
-// WatchProjectInvitationResponse
+// A response message of the WatchProjectInvitation method.
 message WatchProjectInvitationResponse { ProjectInvitationChange change = 1; }
 
-// Request message for method
-// [WatchProjectInvitations][ntt.iam.v1alpha2.WatchProjectInvitations]
+// A request message of the WatchProjectInvitations method.
 message WatchProjectInvitationsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -208,7 +204,7 @@ message WatchProjectInvitationsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchProjectInvitationsResponse
+// A response message of the WatchProjectInvitations method.
 message WatchProjectInvitationsResponse {
   // Changes of ProjectInvitations
   repeated ProjectInvitationChange project_invitation_changes = 2;
@@ -274,8 +270,7 @@ message WatchProjectInvitationsResponse {
   }
 }
 
-// Request message for method
-// [CreateProjectInvitation][ntt.iam.v1alpha2.CreateProjectInvitation]
+// A request message of the CreateProjectInvitation method.
 message CreateProjectInvitationRequest {
   // Parent name of ntt.iam.v1alpha2.ProjectInvitation
   string parent = 1;
@@ -284,8 +279,7 @@ message CreateProjectInvitationRequest {
   ProjectInvitation project_invitation = 2;
 }
 
-// Request message for method
-// [UpdateProjectInvitation][ntt.iam.v1alpha2.UpdateProjectInvitation]
+// A request message of the UpdateProjectInvitation method.
 message UpdateProjectInvitationRequest {
   // ProjectInvitation resource body
   ProjectInvitation project_invitation = 2;
@@ -320,8 +314,7 @@ message UpdateProjectInvitationRequest {
   }
 }
 
-// Request message for method
-// [DeleteProjectInvitation][ntt.iam.v1alpha2.DeleteProjectInvitation]
+// A request message of the DeleteProjectInvitation method.
 message DeleteProjectInvitationRequest {
   // Name of ntt.iam.v1alpha2.ProjectInvitation
   string name = 1;

@@ -52,7 +52,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetRegion][ntt.meta.v1alpha2.GetRegion]
+// A request message of the GetRegion method.
 type GetRegionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -159,8 +159,7 @@ func (m *GetRegionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetRegions][ntt.meta.v1alpha2.BatchGetRegions]
+// A request message of the BatchGetRegions method.
 type BatchGetRegionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -267,7 +266,7 @@ func (m *BatchGetRegionsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetRegionsResponse
+// A response message of the BatchGetRegions method.
 type BatchGetRegionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -356,7 +355,7 @@ func (m *BatchGetRegionsResponse) SetMissing(fv []*region.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListRegions][ntt.meta.v1alpha2.ListRegions]
+// A request message of the ListRegions method.
 type ListRegionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -366,7 +365,7 @@ type ListRegionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListRegionsResponse.next_page_token][ntt.meta.v1alpha2.ListRegionsResponse.next_page_token]
+	// ListRegionsResponse.next_page_token.
 	PageToken *region.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -540,18 +539,20 @@ func (m *ListRegionsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListRegions][ntt.meta.v1alpha2.ListRegions]
+// A response message of the ListRegions method.
 type ListRegionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Regions
 	Regions []*region.Region `protobuf:"bytes,1,rep,name=regions,proto3" json:"regions,omitempty" firestore:"regions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListRegionsRequest.page_token][ntt.meta.v1alpha2.ListRegionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListRegionsRequest.page_token.
 	PrevPageToken *region.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListRegionsRequest.page_token][ntt.meta.v1alpha2.ListRegionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListRegionsRequest.page_token.
 	NextPageToken *region.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -683,7 +684,7 @@ func (m *ListRegionsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchRegion][ntt.meta.v1alpha2.WatchRegion]
+// A request message of the WatchRegion method.
 type WatchRegionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -790,7 +791,7 @@ func (m *WatchRegionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchRegionResponse
+// A response message of the WatchRegion method.
 type WatchRegionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -862,7 +863,7 @@ func (m *WatchRegionResponse) SetChange(fv *region.RegionChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchRegions][ntt.meta.v1alpha2.WatchRegions]
+// A request message of the WatchRegions method.
 type WatchRegionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1103,7 +1104,7 @@ func (m *WatchRegionsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchRegionsResponse
+// A response message of the WatchRegions method.
 type WatchRegionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

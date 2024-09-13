@@ -1,0 +1,223 @@
+# TODO: monitoring v3 is coming from backward compatibility to stackdriver and probably for this
+# reason it may stay forever, unless we develop some different backward compatible API endpoint?
+name: monitoring.edgelq.com
+proto:
+  package:
+    name: ntt.monitoring
+    currentVersion: v3 # same as google.monitoring to match REST API transcoding
+    nextVersion: v4
+    goPackage: github.com/cloudwan/edgelq/monitoring
+    protoImportPathPrefix: edgelq/monitoring/proto
+  service:
+    name: Monitoring
+    defaultHost: monitoring.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+resources:
+- name: Project
+
+- name: MonitoredResourceDescriptor
+  optOuts:
+    basicActions:
+    - GetMonitoredResourceDescriptor
+    - ListMonitoredResourceDescriptors
+  idPattern: "[\\\\w./-]{4,128}"
+  actions:
+  - name: GetMonitoredResourceDescriptor
+    verb: get
+    grpcTranscoding:
+      isBasic: true
+      httpMethod: get
+    responseName: MonitoredResourceDescriptor
+    skipResponseMsgGen: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: ListMonitoredResourceDescriptors
+    verb: list
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+    grpcTranscoding:
+      isBasic: true
+      httpMethod: get
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+
+- name: MetricDescriptor
+  optOuts:
+    # replace basic actions in order to maintain wire-compatibility with stackdriver api
+    basicActions:
+    - "{Get,Create,Update,Delete}MetricDescriptor"
+    - "ListMetricDescriptors"
+  parents:
+  - Project
+  idPattern: "[\\\\w./-]{4,128}"
+  actions:
+  - name: GetMetricDescriptor
+    verb: get
+    grpcTranscoding:
+      isBasic: true
+      httpMethod: get
+    responseName: MetricDescriptor
+    skipResponseMsgGen: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: CreateMetricDescriptor
+    verb: create
+    opResourceInfo:
+      isCollection: true
+      requestPaths:
+        resourceParent: [ "parent" ]
+        resourceBody: [ "metric_descriptor" ]
+    grpcTranscoding:
+      isBasic: true
+      httpMethod: post
+    responseName: MetricDescriptor
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: UpdateMetricDescriptor
+    verb: update
+    opResourceInfo:
+      isCollection: false
+      requestPaths:
+        resourceBody: [ "metric_descriptor" ]
+      responsePaths:
+        resourceName: [ "name" ]
+    grpcTranscoding:
+      isBasic: true
+      httpMethod: put
+    responseName: MetricDescriptor
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: DeleteMetricDescriptor
+    verb: delete
+    grpcTranscoding:
+      isBasic: true
+      httpMethod: delete
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: ListMetricDescriptors
+    verb: list
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+    grpcTranscoding:
+      isBasic: true
+      httpMethod: get
+    withStoreHandle:
+      transaction: NONE
+
+- name: TimeSerie
+  optOuts:
+    nameField: true
+    metadataField: true
+    standardCrudAccess: true
+    resourceChange: true
+    paging: true
+  parents:
+  - Project
+  actions:
+  - name: ListTimeSeries
+    verb: query # dont use 'list' as it would be matched and provided with implementation
+    grpcTranscoding:
+      httpMethod: get
+      isBasic: true
+      # TODO: TimeSerie has parent, but no name field. Perhaps type should still be generated in goten
+      # so this is supported without hard overwrites
+      httpPathOverrides:
+      - "/v3/{parent=projects/*}/timeSeries"
+    opResourceInfo:
+      isCollection: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  - name: CreateTimeSeries
+    verb: batchCreate
+    grpcTranscoding:
+      httpMethod: post
+      isBasic: true
+      # TODO: TimeSerie has parent, but no name field. Perhaps type should still be generated in goten
+      # so this is supported without hard overwrites
+      httpPathOverrides:
+      - "/v3/{parent=projects/*}/timeSeries"
+      httpBodyField: time_series
+    opResourceInfo:
+      isCollection: true
+    responseName: CreateTimeSeriesResponse
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+
+- name: PhantomTimeSerie
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  idPattern: "[\\\\w+/=]{1,256}"
+  multiRegion:
+    syncType: NEVER
+
+- name: AlertingPolicy
+  plural: AlertingPolicies
+  optIns:
+    searchable: true
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+
+- name: AlertingCondition
+  optIns:
+    searchable: true
+  parents:
+  - AlertingPolicy
+
+- name: Alert
+  parents:
+  - AlertingCondition
+  idPattern: "[a-zA-Z0-9_.:-]{1,128}"
+
+- name: Notification
+  optIns:
+    searchable: true
+  parents:
+  - AlertingPolicy
+  idPattern: "[a-zA-Z0-9_.:-]{1,128}"
+
+- name: NotificationChannel
+  parents:
+  - Project
+  actions:
+  # Action to test a notification channel
+  - name: TestNotificationChannel
+    verb: test
+    opResourceInfo:
+      isCollection: false
+      isPlural: false
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+      readOnly: false
+
+# Internal resource for time series recovery store
+# We must persist sharding info to guarantee that recovering is possible at all.
+# If we change for example shards count per day, then we can only reshard for the
+# next one. If we change maximum AP period we want to support, we must also do
+# this in proper way - change config of controller, then wait till next period starts.
+- name: RecoveryStoreShardingInfo
+  scopeAttributes:
+  - Region
+  multiRegion:
+    syncType: NEVER
+  idPattern: "[a-zA-Z0-9_.-]{1,128}"

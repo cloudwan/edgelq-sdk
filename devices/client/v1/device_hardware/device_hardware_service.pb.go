@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetDeviceHardware][ntt.devices.v1.GetDeviceHardware]
+// A request message of the GetDeviceHardware method.
 type GetDeviceHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetDeviceHardwareRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetDeviceHardwares][ntt.devices.v1.BatchGetDeviceHardwares]
+// A request message of the BatchGetDeviceHardwares method.
 type BatchGetDeviceHardwaresRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetDeviceHardwaresRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetDeviceHardwaresResponse
+// A response message of the BatchGetDeviceHardwares method.
 type BatchGetDeviceHardwaresResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetDeviceHardwaresResponse) SetMissing(fv []*device_hardware.Name)
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListDeviceHardwares][ntt.devices.v1.ListDeviceHardwares]
+// A request message of the ListDeviceHardwares method.
 type ListDeviceHardwaresRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListDeviceHardwaresRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListDeviceHardwaresResponse.next_page_token][ntt.devices.v1.ListDeviceHardwaresResponse.next_page_token]
+	// ListDeviceHardwaresResponse.next_page_token.
 	PageToken *device_hardware.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListDeviceHardwaresRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListDeviceHardwares][ntt.devices.v1.ListDeviceHardwares]
+// A response message of the ListDeviceHardwares method.
 type ListDeviceHardwaresResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of DeviceHardwares
 	DeviceHardwares []*device_hardware.DeviceHardware `protobuf:"bytes,1,rep,name=device_hardwares,json=deviceHardwares,proto3" json:"device_hardwares,omitempty" firestore:"deviceHardwares"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListDeviceHardwaresRequest.page_token][ntt.devices.v1.ListDeviceHardwaresRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListDeviceHardwaresRequest.page_token.
 	PrevPageToken *device_hardware.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListDeviceHardwaresRequest.page_token][ntt.devices.v1.ListDeviceHardwaresRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListDeviceHardwaresRequest.page_token.
 	NextPageToken *device_hardware.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListDeviceHardwaresResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchDeviceHardware][ntt.devices.v1.WatchDeviceHardware]
+// A request message of the WatchDeviceHardware method.
 type WatchDeviceHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchDeviceHardwareRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchDeviceHardwareResponse
+// A response message of the WatchDeviceHardware method.
 type WatchDeviceHardwareResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchDeviceHardwareResponse) SetChange(fv *device_hardware.DeviceHardwa
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchDeviceHardwares][ntt.devices.v1.WatchDeviceHardwares]
+// A request message of the WatchDeviceHardwares method.
 type WatchDeviceHardwaresRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1145,7 +1141,7 @@ func (m *WatchDeviceHardwaresRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchDeviceHardwaresResponse
+// A response message of the WatchDeviceHardwares method.
 type WatchDeviceHardwaresResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1348,8 +1344,7 @@ func (m *WatchDeviceHardwaresResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateDeviceHardware][ntt.devices.v1.CreateDeviceHardware]
+// A request message of the CreateDeviceHardware method.
 type CreateDeviceHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1438,8 +1433,7 @@ func (m *CreateDeviceHardwareRequest) SetDeviceHardware(fv *device_hardware.Devi
 	m.DeviceHardware = fv
 }
 
-// Request message for method
-// [UpdateDeviceHardware][ntt.devices.v1.UpdateDeviceHardware]
+// A request message of the UpdateDeviceHardware method.
 type UpdateDeviceHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1569,8 +1563,7 @@ func (m *UpdateDeviceHardwareRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteDeviceHardware][ntt.devices.v1.DeleteDeviceHardware]
+// A request message of the DeleteDeviceHardware method.
 type DeleteDeviceHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

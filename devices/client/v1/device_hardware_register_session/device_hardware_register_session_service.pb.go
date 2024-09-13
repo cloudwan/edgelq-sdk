@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetDeviceHardwareRegisterSession][ntt.devices.v1.GetDeviceHardwareRegisterSession]
+// A request message of the GetDeviceHardwareRegisterSession method.
 type GetDeviceHardwareRegisterSessionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetDeviceHardwareRegisterSessionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetDeviceHardwareRegisterSessions][ntt.devices.v1.BatchGetDeviceHardwareRegisterSessions]
+// A request message of the BatchGetDeviceHardwareRegisterSessions method.
 type BatchGetDeviceHardwareRegisterSessionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetDeviceHardwareRegisterSessionsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetDeviceHardwareRegisterSessionsResponse
+// A response message of the BatchGetDeviceHardwareRegisterSessions method.
 type BatchGetDeviceHardwareRegisterSessionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetDeviceHardwareRegisterSessionsResponse) SetMissing(fv []*device
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListDeviceHardwareRegisterSessions][ntt.devices.v1.ListDeviceHardwareRegisterSessions]
+// A request message of the ListDeviceHardwareRegisterSessions method.
 type ListDeviceHardwareRegisterSessionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListDeviceHardwareRegisterSessionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListDeviceHardwareRegisterSessionsResponse.next_page_token][ntt.devices.v1.ListDeviceHardwareRegisterSessionsResponse.next_page_token]
+	// ListDeviceHardwareRegisterSessionsResponse.next_page_token.
 	PageToken *device_hardware_register_session.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,22 @@ func (m *ListDeviceHardwareRegisterSessionsRequest) SetIncludePagingInfo(fv bool
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListDeviceHardwareRegisterSessions][ntt.devices.v1.ListDeviceHardwareRegisterSessions]
+// A response message of the ListDeviceHardwareRegisterSessions method.
 type ListDeviceHardwareRegisterSessionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of DeviceHardwareRegisterSessions
 	DeviceHardwareRegisterSessions []*device_hardware_register_session.DeviceHardwareRegisterSession `protobuf:"bytes,1,rep,name=device_hardware_register_sessions,json=deviceHardwareRegisterSessions,proto3" json:"device_hardware_register_sessions,omitempty" firestore:"deviceHardwareRegisterSessions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListDeviceHardwareRegisterSessionsRequest.page_token][ntt.devices.v1.ListDeviceHardwareRegisterSessionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the
+	// ListDeviceHardwareRegisterSessionsRequest.page_token.
 	PrevPageToken *device_hardware_register_session.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListDeviceHardwareRegisterSessionsRequest.page_token][ntt.devices.v1.ListDeviceHardwareRegisterSessionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the
+	// ListDeviceHardwareRegisterSessionsRequest.page_token.
 	NextPageToken *device_hardware_register_session.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +707,7 @@ func (m *ListDeviceHardwareRegisterSessionsResponse) SetTotalResultsCount(fv int
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchDeviceHardwareRegisterSession][ntt.devices.v1.WatchDeviceHardwareRegisterSession]
+// A request message of the WatchDeviceHardwareRegisterSession method.
 type WatchDeviceHardwareRegisterSessionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +814,7 @@ func (m *WatchDeviceHardwareRegisterSessionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchDeviceHardwareRegisterSessionResponse
+// A response message of the WatchDeviceHardwareRegisterSession method.
 type WatchDeviceHardwareRegisterSessionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +886,7 @@ func (m *WatchDeviceHardwareRegisterSessionResponse) SetChange(fv *device_hardwa
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchDeviceHardwareRegisterSessions][ntt.devices.v1.WatchDeviceHardwareRegisterSessions]
+// A request message of the WatchDeviceHardwareRegisterSessions method.
 type WatchDeviceHardwareRegisterSessionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1147,7 +1145,7 @@ func (m *WatchDeviceHardwareRegisterSessionsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchDeviceHardwareRegisterSessionsResponse
+// A response message of the WatchDeviceHardwareRegisterSessions method.
 type WatchDeviceHardwareRegisterSessionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1350,8 +1348,7 @@ func (m *WatchDeviceHardwareRegisterSessionsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateDeviceHardwareRegisterSession][ntt.devices.v1.CreateDeviceHardwareRegisterSession]
+// A request message of the CreateDeviceHardwareRegisterSession method.
 type CreateDeviceHardwareRegisterSessionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1440,8 +1437,7 @@ func (m *CreateDeviceHardwareRegisterSessionRequest) SetDeviceHardwareRegisterSe
 	m.DeviceHardwareRegisterSession = fv
 }
 
-// Request message for method
-// [UpdateDeviceHardwareRegisterSession][ntt.devices.v1.UpdateDeviceHardwareRegisterSession]
+// A request message of the UpdateDeviceHardwareRegisterSession method.
 type UpdateDeviceHardwareRegisterSessionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1571,8 +1567,7 @@ func (m *UpdateDeviceHardwareRegisterSessionRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteDeviceHardwareRegisterSession][ntt.devices.v1.DeleteDeviceHardwareRegisterSession]
+// A request message of the DeleteDeviceHardwareRegisterSession method.
 type DeleteDeviceHardwareRegisterSessionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

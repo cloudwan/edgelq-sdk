@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetAttestationDomain][ntt.iam.v1.GetAttestationDomain]
+// A request message of the GetAttestationDomain method.
 type GetAttestationDomainRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetAttestationDomainRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetAttestationDomains][ntt.iam.v1.BatchGetAttestationDomains]
+// A request message of the BatchGetAttestationDomains method.
 type BatchGetAttestationDomainsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetAttestationDomainsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetAttestationDomainsResponse
+// A response message of the BatchGetAttestationDomains method.
 type BatchGetAttestationDomainsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetAttestationDomainsResponse) SetMissing(fv []*attestation_domain
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListAttestationDomains][ntt.iam.v1.ListAttestationDomains]
+// A request message of the ListAttestationDomains method.
 type ListAttestationDomainsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListAttestationDomainsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListAttestationDomainsResponse.next_page_token][ntt.iam.v1.ListAttestationDomainsResponse.next_page_token]
+	// ListAttestationDomainsResponse.next_page_token.
 	PageToken *attestation_domain.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListAttestationDomainsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListAttestationDomains][ntt.iam.v1.ListAttestationDomains]
+// A response message of the ListAttestationDomains method.
 type ListAttestationDomainsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of AttestationDomains
 	AttestationDomains []*attestation_domain.AttestationDomain `protobuf:"bytes,1,rep,name=attestation_domains,json=attestationDomains,proto3" json:"attestation_domains,omitempty" firestore:"attestationDomains"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListAttestationDomainsRequest.page_token][ntt.iam.v1.ListAttestationDomainsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListAttestationDomainsRequest.page_token.
 	PrevPageToken *attestation_domain.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListAttestationDomainsRequest.page_token][ntt.iam.v1.ListAttestationDomainsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListAttestationDomainsRequest.page_token.
 	NextPageToken *attestation_domain.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListAttestationDomainsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchAttestationDomain][ntt.iam.v1.WatchAttestationDomain]
+// A request message of the WatchAttestationDomain method.
 type WatchAttestationDomainRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchAttestationDomainRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchAttestationDomainResponse
+// A response message of the WatchAttestationDomain method.
 type WatchAttestationDomainResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchAttestationDomainResponse) SetChange(fv *attestation_domain.Attest
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchAttestationDomains][ntt.iam.v1.WatchAttestationDomains]
+// A request message of the WatchAttestationDomains method.
 type WatchAttestationDomainsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchAttestationDomainsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchAttestationDomainsResponse
+// A response message of the WatchAttestationDomains method.
 type WatchAttestationDomainsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchAttestationDomainsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateAttestationDomain][ntt.iam.v1.CreateAttestationDomain]
+// A request message of the CreateAttestationDomain method.
 type CreateAttestationDomainRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateAttestationDomainRequest) SetAttestationDomain(fv *attestation_do
 	m.AttestationDomain = fv
 }
 
-// Request message for method
-// [UpdateAttestationDomain][ntt.iam.v1.UpdateAttestationDomain]
+// A request message of the UpdateAttestationDomain method.
 type UpdateAttestationDomainRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateAttestationDomainRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteAttestationDomain][ntt.iam.v1.DeleteAttestationDomain]
+// A request message of the DeleteAttestationDomain method.
 type DeleteAttestationDomainRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

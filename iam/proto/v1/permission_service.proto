@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "PermissionServiceProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// Request message for method [GetPermission][ntt.iam.v1.GetPermission]
+// A request message of the GetPermission method.
 message GetPermissionRequest {
   // Name of ntt.iam.v1.Permission
   string name = 1;
@@ -31,8 +31,7 @@ message GetPermissionRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetPermissions][ntt.iam.v1.BatchGetPermissions]
+// A request message of the BatchGetPermissions method.
 message BatchGetPermissionsRequest {
   // Names of Permissions
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetPermissionsRequest {
   reserved 1;
 }
 
-// BatchGetPermissionsResponse
+// A response message of the BatchGetPermissions method.
 message BatchGetPermissionsResponse {
   // found Permissions
   repeated Permission permissions = 1;
@@ -57,7 +56,7 @@ message BatchGetPermissionsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListPermissions][ntt.iam.v1.ListPermissions]
+// A request message of the ListPermissions method.
 message ListPermissionsRequest {
   // Parent name of ntt.iam.v1.Permission
   string parent = 1;
@@ -68,7 +67,7 @@ message ListPermissionsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListPermissionsResponse.next_page_token][ntt.iam.v1.ListPermissionsResponse.next_page_token]
+  // ListPermissionsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -99,17 +98,19 @@ message ListPermissionsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListPermissions][ntt.iam.v1.ListPermissions]
+// A response message of the ListPermissions method.
 message ListPermissionsResponse {
   // The list of Permissions
   repeated Permission permissions = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListPermissionsRequest.page_token][ntt.iam.v1.ListPermissionsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListPermissionsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListPermissionsRequest.page_token][ntt.iam.v1.ListPermissionsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListPermissionsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -123,7 +124,7 @@ message ListPermissionsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchPermission][ntt.iam.v1.WatchPermission]
+// A request message of the WatchPermission method.
 message WatchPermissionRequest {
   // Name of ntt.iam.v1.Permission
   string name = 1;
@@ -137,10 +138,10 @@ message WatchPermissionRequest {
   goten.types.View view = 4;
 }
 
-// WatchPermissionResponse
+// A response message of the WatchPermission method.
 message WatchPermissionResponse { PermissionChange change = 1; }
 
-// Request message for method [WatchPermissions][ntt.iam.v1.WatchPermissions]
+// A request message of the WatchPermissions method.
 message WatchPermissionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -200,7 +201,7 @@ message WatchPermissionsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchPermissionsResponse
+// A response message of the WatchPermissions method.
 message WatchPermissionsResponse {
   // Changes of Permissions
   repeated PermissionChange permission_changes = 2;
@@ -266,7 +267,7 @@ message WatchPermissionsResponse {
   }
 }
 
-// Request message for method [CreatePermission][ntt.iam.v1.CreatePermission]
+// A request message of the CreatePermission method.
 message CreatePermissionRequest {
   // Parent name of ntt.iam.v1.Permission
   string parent = 1;
@@ -275,7 +276,7 @@ message CreatePermissionRequest {
   Permission permission = 2;
 }
 
-// Request message for method [UpdatePermission][ntt.iam.v1.UpdatePermission]
+// A request message of the UpdatePermission method.
 message UpdatePermissionRequest {
   // Permission resource body
   Permission permission = 2;
@@ -310,7 +311,7 @@ message UpdatePermissionRequest {
   }
 }
 
-// Request message for method [DeletePermission][ntt.iam.v1.DeletePermission]
+// A request message of the DeletePermission method.
 message DeletePermissionRequest {
   // Name of ntt.iam.v1.Permission
   string name = 1;

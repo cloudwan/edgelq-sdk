@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "NotificationChannelServiceProto";
 option java_package = "com.ntt.monitoring.pb.v3";
 
-// Request message for method
-// [GetNotificationChannel][ntt.monitoring.v3.GetNotificationChannel]
+// A request message of the GetNotificationChannel method.
 message GetNotificationChannelRequest {
   // Name of ntt.monitoring.v3.NotificationChannel
   string name = 1;
@@ -33,8 +32,7 @@ message GetNotificationChannelRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetNotificationChannels][ntt.monitoring.v3.BatchGetNotificationChannels]
+// A request message of the BatchGetNotificationChannels method.
 message BatchGetNotificationChannelsRequest {
   // Names of NotificationChannels
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetNotificationChannelsRequest {
   reserved 1;
 }
 
-// BatchGetNotificationChannelsResponse
+// A response message of the BatchGetNotificationChannels method.
 message BatchGetNotificationChannelsResponse {
   // found NotificationChannels
   repeated NotificationChannel notification_channels = 1;
@@ -59,8 +57,7 @@ message BatchGetNotificationChannelsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListNotificationChannels][ntt.monitoring.v3.ListNotificationChannels]
+// A request message of the ListNotificationChannels method.
 message ListNotificationChannelsRequest {
   // Parent name of ntt.monitoring.v3.NotificationChannel
   string parent = 1;
@@ -71,7 +68,7 @@ message ListNotificationChannelsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListNotificationChannelsResponse.next_page_token][ntt.monitoring.v3.ListNotificationChannelsResponse.next_page_token]
+  // ListNotificationChannelsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListNotificationChannelsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListNotificationChannels][ntt.monitoring.v3.ListNotificationChannels]
+// A response message of the ListNotificationChannels method.
 message ListNotificationChannelsResponse {
   // The list of NotificationChannels
   repeated NotificationChannel notification_channels = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListNotificationChannelsRequest.page_token][ntt.monitoring.v3.ListNotificationChannelsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListNotificationChannelsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListNotificationChannelsRequest.page_token][ntt.monitoring.v3.ListNotificationChannelsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListNotificationChannelsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListNotificationChannelsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchNotificationChannel][ntt.monitoring.v3.WatchNotificationChannel]
+// A request message of the WatchNotificationChannel method.
 message WatchNotificationChannelRequest {
   // Name of ntt.monitoring.v3.NotificationChannel
   string name = 1;
@@ -143,13 +140,12 @@ message WatchNotificationChannelRequest {
   goten.types.View view = 4;
 }
 
-// WatchNotificationChannelResponse
+// A response message of the WatchNotificationChannel method.
 message WatchNotificationChannelResponse {
   NotificationChannelChange change = 1;
 }
 
-// Request message for method
-// [WatchNotificationChannels][ntt.monitoring.v3.WatchNotificationChannels]
+// A request message of the WatchNotificationChannels method.
 message WatchNotificationChannelsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -210,7 +206,7 @@ message WatchNotificationChannelsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchNotificationChannelsResponse
+// A response message of the WatchNotificationChannels method.
 message WatchNotificationChannelsResponse {
   // Changes of NotificationChannels
   repeated NotificationChannelChange notification_channel_changes = 2;
@@ -276,8 +272,7 @@ message WatchNotificationChannelsResponse {
   }
 }
 
-// Request message for method
-// [CreateNotificationChannel][ntt.monitoring.v3.CreateNotificationChannel]
+// A request message of the CreateNotificationChannel method.
 message CreateNotificationChannelRequest {
   // Parent name of ntt.monitoring.v3.NotificationChannel
   string parent = 1;
@@ -286,8 +281,7 @@ message CreateNotificationChannelRequest {
   NotificationChannel notification_channel = 2;
 }
 
-// Request message for method
-// [UpdateNotificationChannel][ntt.monitoring.v3.UpdateNotificationChannel]
+// A request message of the UpdateNotificationChannel method.
 message UpdateNotificationChannelRequest {
   // NotificationChannel resource body
   NotificationChannel notification_channel = 2;
@@ -322,8 +316,7 @@ message UpdateNotificationChannelRequest {
   }
 }
 
-// Request message for method
-// [DeleteNotificationChannel][ntt.monitoring.v3.DeleteNotificationChannel]
+// A request message of the DeleteNotificationChannel method.
 message DeleteNotificationChannelRequest {
   // Name of ntt.monitoring.v3.NotificationChannel
   string name = 1;

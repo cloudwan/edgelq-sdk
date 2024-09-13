@@ -1,0 +1,193 @@
+name: devices.edgelq.com
+proto:
+  package:
+    name: ntt.devices
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/devices
+    protoImportPathPrefix: edgelq/devices/proto
+  service:
+    name: Devices
+    defaultHost: devices.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+imports:
+- iam.edgelq.com
+- logging.edgelq.com
+- monitoring.edgelq.com
+
+resources:
+- name: Project
+  multiRegion:
+    isPolicyHolder: true
+
+- name: DeviceHardware
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: Deregister
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+
+- name: DeviceHardwareRegisterSession
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: GetDeviceHardwareRegisterSessionFromToken
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    grpcTranscoding:
+      httpMethod: get
+    opResourceInfo:
+      skipResourceInRequest: true
+      isCollection: true
+      isPlural: false
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: RegisterHardware
+    opResourceInfo:
+      skipResourceInRequest: true
+      isCollection: true
+      isPlural: false
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    streamingRequest: false
+    streamingResponse: false
+    withStoreHandle:
+      transaction: MANUAL
+  - name: HardwareStatus
+    grpcTranscoding:
+      httpMethod: get
+    opResourceInfo:
+      skipResourceInRequest: true
+      isCollection: true
+      isPlural: false
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    streamingRequest: false
+    streamingResponse: false
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+- name: TpmAttestationCert
+  parents:
+  - Project
+  - ""
+
+- name: Device
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: ProvisionServiceAccountToDevice
+    verb: provision_service_account_to_device
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: RemoveServiceAccountFromDevice
+    verb: remove_service_account_from_device
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: Heartbeat
+    verb: heartbeat
+    responseName: HeartbeatResponse
+    skipResponseMsgGen: true
+    requestName: HeartbeatMsg
+    skipRequestMsgGen: true
+    streamingRequest: true
+    streamingResponse: true
+    withStoreHandle:
+      transaction: MANUAL
+
+- name: ProvisioningPolicy
+  plural: ProvisioningPolicies
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: ProvisionServiceAccountToProvisioningPolicy
+    verb: provision_service_account_to_provisioning_policy
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: RemoveServiceAccountFromProvisioningPolicy
+    verb: remove_service_account_from_provisioning_policy
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: ProvisionDeviceViaPolicy
+    verb: provision_device_via_policy
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+  - name: RequestProvisioningApproval
+    verb: request_provisioning_approval
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+
+- name: ProvisioningApprovalRequest
+  parents:
+  - ProvisioningPolicy
+  actions:
+  - name: ProvisionDeviceForApprovedRequest
+    verb: provision_device_for_approved_request
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
+
+- name: CustomizedImage
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  actions:
+  - name: RequestUrl
+    verb: request_url
+    withStoreHandle:
+      readOnly: true
+      transaction: SNAPSHOT
+
+- name: DeviceType
+
+- name: OsVersion
+
+- name: OsImageProfile
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+
+apis:
+- name: Public
+  actions:
+  - name: ListPublicDevices
+    grpcTranscoding:
+      httpMethod: get
+    opResourceInfo:
+      name: Device
+      isPlural: true
+      isCollection: true
+      responsePaths:
+        resourceBody: [ "devices" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+- name: ZtpProvisionHardware
+  actions:
+  - name: ProvisionHardware
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    streamingRequest: true
+    streamingResponse: true
+    withStoreHandle:
+      transaction: MANUAL

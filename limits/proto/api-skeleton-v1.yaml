@@ -1,0 +1,124 @@
+name: limits.edgelq.com
+proto:
+  package:
+    name: ntt.limits
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/limits
+    protoImportPathPrefix: edgelq/limits/proto
+  service:
+    name: Limits
+    defaultHost: limits.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+imports:
+- meta.goten.com
+- iam.edgelq.com
+
+resources:
+- name: Plan
+  parents:
+  - meta.goten.com/Service
+  - iam.edgelq.com/Organization
+  idPattern: "[a-zA-Z0-9_.-]{1,128}"
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+
+- name: PlanAssignment
+  parents:
+  - meta.goten.com/Service
+  - iam.edgelq.com/Project
+  - iam.edgelq.com/Organization
+  idPattern: "[a-zA-Z0-9_.-]{1,128}"
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+  actions:
+  # Its like update, but used if org/project switches parent organization
+  - name: MigratePlanAssignment
+    verb: migrate
+    grpcTranscoding:
+      httpMethod: put
+    skipResponseMsgGen: true
+    responseName: PlanAssignment
+    opResourceInfo:
+      requestPaths:
+        resourceBody: [ "plan_assignment" ]
+      responsePaths:
+        resourceName: [ "name" ]
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+- name: AcceptedPlan
+  parents:
+  - meta.goten.com/Service
+  - iam.edgelq.com/Organization
+  idPattern: "[a-zA-Z0-9_.-]{1,128}"
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+
+- name: PlanAssignmentRequest
+  parents:
+  - iam.edgelq.com/Project
+  - iam.edgelq.com/Organization
+  actions:
+  - name: AcceptPlanAssignment
+    verb: accept
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: DeclinePlanAssignment
+    verb: decline
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: ListApproverPlanAssignmentRequests
+    verb: listApprover
+    grpcTranscoding:
+      httpMethod: get
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      skipResourceInRequest: true
+    responseName: ListPlanAssignmentRequestsResponse
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+
+- name: LimitPool
+  parents:
+  - meta.goten.com/Service
+  - iam.edgelq.com/Organization
+  idPattern: "[a-zA-Z0-9-]{1,128}\\\\/[a-zA-Z0-9-.]{1,128}\\\\/[a-zA-Z]{1,128}"
+  optOuts:
+    basicActions:
+    - "{Create}LimitPool"
+  multiRegion:
+    syncType: NEVER
+  actions:
+  - name: MigrateLimitPoolSource
+    verb: migrate
+    skipResponseMsgGen: true
+    responseName: LimitPool
+    opResourceInfo:
+      responsePaths:
+        resourceName: [ "name" ]
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+- name: Limit
+  parents:
+  - iam.edgelq.com/Project
+  idPattern: "[a-zA-Z0-9-]{1,128}\\\\/[a-zA-Z0-9-.]{1,128}\\\\/[a-zA-Z]{1,128}"
+  optOuts:
+    basicActions: [ "{Create}Limit" ]
+  multiRegion:
+    syncType: NEVER
+  actions:
+  - name: MigrateLimitSource
+    verb: migrate
+    skipResponseMsgGen: true
+    responseName: Limit
+    opResourceInfo:
+      responsePaths:
+        resourceName: [ "name" ]
+    withStoreHandle:
+      transaction: SNAPSHOT

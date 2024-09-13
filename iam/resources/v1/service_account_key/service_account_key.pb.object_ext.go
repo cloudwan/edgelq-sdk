@@ -74,6 +74,9 @@ func (o *ServiceAccountKey) MakeDiffFieldMask(other *ServiceAccountKey) *Service
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorDisplayName})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorDescription})
+	}
 	if o.GetPublicKeyData() != other.GetPublicKeyData() {
 		res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorPublicKeyData})
 	}
@@ -116,6 +119,7 @@ func (o *ServiceAccountKey) Clone() *ServiceAccountKey {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.PublicKeyData = o.PublicKeyData
 	result.PrivateKeyData = o.PrivateKeyData
 	result.ApiKey = o.ApiKey
@@ -149,6 +153,7 @@ func (o *ServiceAccountKey) Merge(source *ServiceAccountKey) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	o.PublicKeyData = source.GetPublicKeyData()
 	o.PrivateKeyData = source.GetPrivateKeyData()
 	o.ApiKey = source.GetApiKey()

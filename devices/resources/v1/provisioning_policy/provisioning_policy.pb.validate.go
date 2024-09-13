@@ -62,6 +62,18 @@ func (obj *ProvisioningPolicy) GotenValidate() error {
 			return gotenvalidate.NewValidationError("ProvisioningPolicy", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("ProvisioningPolicy", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("ProvisioningPolicy", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if subobj, ok := interface{}(obj.Spec).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("ProvisioningPolicy", "spec", obj.Spec, "nested object validation failed", err)

@@ -232,6 +232,9 @@ func getParentAndFilter(fullFilter *crypto_key.Filter) (*crypto_key.Filter, *cry
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return crypto_key.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

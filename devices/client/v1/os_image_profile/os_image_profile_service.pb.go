@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetOsImageProfile][ntt.devices.v1.GetOsImageProfile]
+// A request message of the GetOsImageProfile method.
 type GetOsImageProfileRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetOsImageProfileRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetOsImageProfiles][ntt.devices.v1.BatchGetOsImageProfiles]
+// A request message of the BatchGetOsImageProfiles method.
 type BatchGetOsImageProfilesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetOsImageProfilesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetOsImageProfilesResponse
+// A response message of the BatchGetOsImageProfiles method.
 type BatchGetOsImageProfilesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetOsImageProfilesResponse) SetMissing(fv []*os_image_profile.Name
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListOsImageProfiles][ntt.devices.v1.ListOsImageProfiles]
+// A request message of the ListOsImageProfiles method.
 type ListOsImageProfilesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListOsImageProfilesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListOsImageProfilesResponse.next_page_token][ntt.devices.v1.ListOsImageProfilesResponse.next_page_token]
+	// ListOsImageProfilesResponse.next_page_token.
 	PageToken *os_image_profile.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListOsImageProfilesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListOsImageProfiles][ntt.devices.v1.ListOsImageProfiles]
+// A response message of the ListOsImageProfiles method.
 type ListOsImageProfilesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of OsImageProfiles
 	OsImageProfiles []*os_image_profile.OsImageProfile `protobuf:"bytes,1,rep,name=os_image_profiles,json=osImageProfiles,proto3" json:"os_image_profiles,omitempty" firestore:"osImageProfiles"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListOsImageProfilesRequest.page_token][ntt.devices.v1.ListOsImageProfilesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListOsImageProfilesRequest.page_token.
 	PrevPageToken *os_image_profile.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListOsImageProfilesRequest.page_token][ntt.devices.v1.ListOsImageProfilesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListOsImageProfilesRequest.page_token.
 	NextPageToken *os_image_profile.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListOsImageProfilesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchOsImageProfile][ntt.devices.v1.WatchOsImageProfile]
+// A request message of the WatchOsImageProfile method.
 type WatchOsImageProfileRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchOsImageProfileRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchOsImageProfileResponse
+// A response message of the WatchOsImageProfile method.
 type WatchOsImageProfileResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchOsImageProfileResponse) SetChange(fv *os_image_profile.OsImageProf
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchOsImageProfiles][ntt.devices.v1.WatchOsImageProfiles]
+// A request message of the WatchOsImageProfiles method.
 type WatchOsImageProfilesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1145,7 +1141,7 @@ func (m *WatchOsImageProfilesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchOsImageProfilesResponse
+// A response message of the WatchOsImageProfiles method.
 type WatchOsImageProfilesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1348,8 +1344,7 @@ func (m *WatchOsImageProfilesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateOsImageProfile][ntt.devices.v1.CreateOsImageProfile]
+// A request message of the CreateOsImageProfile method.
 type CreateOsImageProfileRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1438,8 +1433,7 @@ func (m *CreateOsImageProfileRequest) SetOsImageProfile(fv *os_image_profile.OsI
 	m.OsImageProfile = fv
 }
 
-// Request message for method
-// [UpdateOsImageProfile][ntt.devices.v1.UpdateOsImageProfile]
+// A request message of the UpdateOsImageProfile method.
 type UpdateOsImageProfileRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1569,8 +1563,7 @@ func (m *UpdateOsImageProfileRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteOsImageProfile][ntt.devices.v1.DeleteOsImageProfile]
+// A request message of the DeleteOsImageProfile method.
 type DeleteOsImageProfileRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

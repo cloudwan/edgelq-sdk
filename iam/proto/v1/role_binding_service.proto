@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "RoleBindingServiceProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// Request message for method [GetRoleBinding][ntt.iam.v1.GetRoleBinding]
+// A request message of the GetRoleBinding method.
 message GetRoleBindingRequest {
   // Name of ntt.iam.v1.RoleBinding
   string name = 1;
@@ -31,8 +31,7 @@ message GetRoleBindingRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetRoleBindings][ntt.iam.v1.BatchGetRoleBindings]
+// A request message of the BatchGetRoleBindings method.
 message BatchGetRoleBindingsRequest {
   // Names of RoleBindings
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetRoleBindingsRequest {
   reserved 1;
 }
 
-// BatchGetRoleBindingsResponse
+// A response message of the BatchGetRoleBindings method.
 message BatchGetRoleBindingsResponse {
   // found RoleBindings
   repeated RoleBinding role_bindings = 1;
@@ -57,7 +56,7 @@ message BatchGetRoleBindingsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListRoleBindings][ntt.iam.v1.ListRoleBindings]
+// A request message of the ListRoleBindings method.
 message ListRoleBindingsRequest {
   // Parent name of ntt.iam.v1.RoleBinding
   string parent = 1;
@@ -68,7 +67,7 @@ message ListRoleBindingsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListRoleBindingsResponse.next_page_token][ntt.iam.v1.ListRoleBindingsResponse.next_page_token]
+  // ListRoleBindingsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -99,17 +98,19 @@ message ListRoleBindingsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListRoleBindings][ntt.iam.v1.ListRoleBindings]
+// A response message of the ListRoleBindings method.
 message ListRoleBindingsResponse {
   // The list of RoleBindings
   repeated RoleBinding role_bindings = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListRoleBindingsRequest.page_token][ntt.iam.v1.ListRoleBindingsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListRoleBindingsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListRoleBindingsRequest.page_token][ntt.iam.v1.ListRoleBindingsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListRoleBindingsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -123,7 +124,7 @@ message ListRoleBindingsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchRoleBinding][ntt.iam.v1.WatchRoleBinding]
+// A request message of the WatchRoleBinding method.
 message WatchRoleBindingRequest {
   // Name of ntt.iam.v1.RoleBinding
   string name = 1;
@@ -137,10 +138,10 @@ message WatchRoleBindingRequest {
   goten.types.View view = 4;
 }
 
-// WatchRoleBindingResponse
+// A response message of the WatchRoleBinding method.
 message WatchRoleBindingResponse { RoleBindingChange change = 1; }
 
-// Request message for method [WatchRoleBindings][ntt.iam.v1.WatchRoleBindings]
+// A request message of the WatchRoleBindings method.
 message WatchRoleBindingsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -200,7 +201,7 @@ message WatchRoleBindingsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchRoleBindingsResponse
+// A response message of the WatchRoleBindings method.
 message WatchRoleBindingsResponse {
   // Changes of RoleBindings
   repeated RoleBindingChange role_binding_changes = 2;
@@ -266,7 +267,7 @@ message WatchRoleBindingsResponse {
   }
 }
 
-// Request message for method [CreateRoleBinding][ntt.iam.v1.CreateRoleBinding]
+// A request message of the CreateRoleBinding method.
 message CreateRoleBindingRequest {
   // Parent name of ntt.iam.v1.RoleBinding
   string parent = 1;
@@ -275,7 +276,7 @@ message CreateRoleBindingRequest {
   RoleBinding role_binding = 2;
 }
 
-// Request message for method [UpdateRoleBinding][ntt.iam.v1.UpdateRoleBinding]
+// A request message of the UpdateRoleBinding method.
 message UpdateRoleBindingRequest {
   // RoleBinding resource body
   RoleBinding role_binding = 2;
@@ -310,7 +311,7 @@ message UpdateRoleBindingRequest {
   }
 }
 
-// Request message for method [DeleteRoleBinding][ntt.iam.v1.DeleteRoleBinding]
+// A request message of the DeleteRoleBinding method.
 message DeleteRoleBindingRequest {
   // Name of ntt.iam.v1.RoleBinding
   string name = 1;

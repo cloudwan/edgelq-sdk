@@ -60,7 +60,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetCondition][ntt.iam.v1.GetCondition]
+// A request message of the GetCondition method.
 type GetConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -167,8 +167,7 @@ func (m *GetConditionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetConditions][ntt.iam.v1.BatchGetConditions]
+// A request message of the BatchGetConditions method.
 type BatchGetConditionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -275,7 +274,7 @@ func (m *BatchGetConditionsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetConditionsResponse
+// A response message of the BatchGetConditions method.
 type BatchGetConditionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -364,7 +363,7 @@ func (m *BatchGetConditionsResponse) SetMissing(fv []*condition.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListConditions][ntt.iam.v1.ListConditions]
+// A request message of the ListConditions method.
 type ListConditionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -376,7 +375,7 @@ type ListConditionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListConditionsResponse.next_page_token][ntt.iam.v1.ListConditionsResponse.next_page_token]
+	// ListConditionsResponse.next_page_token.
 	PageToken *condition.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -564,18 +563,20 @@ func (m *ListConditionsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListConditions][ntt.iam.v1.ListConditions]
+// A response message of the ListConditions method.
 type ListConditionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Conditions
 	Conditions []*condition.Condition `protobuf:"bytes,1,rep,name=conditions,proto3" json:"conditions,omitempty" firestore:"conditions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListConditionsRequest.page_token][ntt.iam.v1.ListConditionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListConditionsRequest.page_token.
 	PrevPageToken *condition.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListConditionsRequest.page_token][ntt.iam.v1.ListConditionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListConditionsRequest.page_token.
 	NextPageToken *condition.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,7 +708,7 @@ func (m *ListConditionsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchCondition][ntt.iam.v1.WatchCondition]
+// A request message of the WatchCondition method.
 type WatchConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -814,7 +815,7 @@ func (m *WatchConditionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchConditionResponse
+// A response message of the WatchCondition method.
 type WatchConditionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -886,7 +887,7 @@ func (m *WatchConditionResponse) SetChange(fv *condition.ConditionChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchConditions][ntt.iam.v1.WatchConditions]
+// A request message of the WatchConditions method.
 type WatchConditionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1143,7 +1144,7 @@ func (m *WatchConditionsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchConditionsResponse
+// A response message of the WatchConditions method.
 type WatchConditionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1346,7 +1347,7 @@ func (m *WatchConditionsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateCondition][ntt.iam.v1.CreateCondition]
+// A request message of the CreateCondition method.
 type CreateConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1435,7 +1436,7 @@ func (m *CreateConditionRequest) SetCondition(fv *condition.Condition) {
 	m.Condition = fv
 }
 
-// Request message for method [UpdateCondition][ntt.iam.v1.UpdateCondition]
+// A request message of the UpdateCondition method.
 type UpdateConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1565,7 +1566,7 @@ func (m *UpdateConditionRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteCondition][ntt.iam.v1.DeleteCondition]
+// A request message of the DeleteCondition method.
 type DeleteConditionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

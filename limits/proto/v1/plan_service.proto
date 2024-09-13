@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "PlanServiceProto";
 option java_package = "com.ntt.limits.pb.v1";
 
-// Request message for method [GetPlan][ntt.limits.v1.GetPlan]
+// A request message of the GetPlan method.
 message GetPlanRequest {
   // Name of ntt.limits.v1.Plan
   string name = 1;
@@ -31,7 +31,7 @@ message GetPlanRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method [BatchGetPlans][ntt.limits.v1.BatchGetPlans]
+// A request message of the BatchGetPlans method.
 message BatchGetPlansRequest {
   // Names of Plans
   repeated string names = 2;
@@ -47,7 +47,7 @@ message BatchGetPlansRequest {
   reserved 1;
 }
 
-// BatchGetPlansResponse
+// A response message of the BatchGetPlans method.
 message BatchGetPlansResponse {
   // found Plans
   repeated Plan plans = 1;
@@ -56,7 +56,7 @@ message BatchGetPlansResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListPlans][ntt.limits.v1.ListPlans]
+// A request message of the ListPlans method.
 message ListPlansRequest {
   // Parent name of ntt.limits.v1.Plan
   string parent = 1;
@@ -67,7 +67,7 @@ message ListPlansRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListPlansResponse.next_page_token][ntt.limits.v1.ListPlansResponse.next_page_token]
+  // ListPlansResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -98,17 +98,19 @@ message ListPlansRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListPlans][ntt.limits.v1.ListPlans]
+// A response message of the ListPlans method.
 message ListPlansResponse {
   // The list of Plans
   repeated Plan plans = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListPlansRequest.page_token][ntt.limits.v1.ListPlansRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListPlansRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListPlansRequest.page_token][ntt.limits.v1.ListPlansRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListPlansRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -122,7 +124,7 @@ message ListPlansResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchPlan][ntt.limits.v1.WatchPlan]
+// A request message of the WatchPlan method.
 message WatchPlanRequest {
   // Name of ntt.limits.v1.Plan
   string name = 1;
@@ -136,10 +138,10 @@ message WatchPlanRequest {
   goten.types.View view = 4;
 }
 
-// WatchPlanResponse
+// A response message of the WatchPlan method.
 message WatchPlanResponse { PlanChange change = 1; }
 
-// Request message for method [WatchPlans][ntt.limits.v1.WatchPlans]
+// A request message of the WatchPlans method.
 message WatchPlansRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -199,7 +201,7 @@ message WatchPlansRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchPlansResponse
+// A response message of the WatchPlans method.
 message WatchPlansResponse {
   // Changes of Plans
   repeated PlanChange plan_changes = 2;
@@ -265,7 +267,7 @@ message WatchPlansResponse {
   }
 }
 
-// Request message for method [CreatePlan][ntt.limits.v1.CreatePlan]
+// A request message of the CreatePlan method.
 message CreatePlanRequest {
   // Parent name of ntt.limits.v1.Plan
   string parent = 1;
@@ -274,7 +276,7 @@ message CreatePlanRequest {
   Plan plan = 2;
 }
 
-// Request message for method [UpdatePlan][ntt.limits.v1.UpdatePlan]
+// A request message of the UpdatePlan method.
 message UpdatePlanRequest {
   // Plan resource body
   Plan plan = 2;
@@ -309,7 +311,7 @@ message UpdatePlanRequest {
   }
 }
 
-// Request message for method [DeletePlan][ntt.limits.v1.DeletePlan]
+// A request message of the DeletePlan method.
 message DeletePlanRequest {
   // Name of ntt.limits.v1.Plan
   string name = 1;

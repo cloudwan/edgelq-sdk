@@ -73,8 +73,9 @@ const (
 	ConfigMap_FieldPathSelectorName        ConfigMap_FieldPathSelector = 0
 	ConfigMap_FieldPathSelectorMetadata    ConfigMap_FieldPathSelector = 1
 	ConfigMap_FieldPathSelectorDisplayName ConfigMap_FieldPathSelector = 2
-	ConfigMap_FieldPathSelectorData        ConfigMap_FieldPathSelector = 3
-	ConfigMap_FieldPathSelectorBinaryData  ConfigMap_FieldPathSelector = 4
+	ConfigMap_FieldPathSelectorDescription ConfigMap_FieldPathSelector = 3
+	ConfigMap_FieldPathSelectorData        ConfigMap_FieldPathSelector = 4
+	ConfigMap_FieldPathSelectorBinaryData  ConfigMap_FieldPathSelector = 5
 )
 
 func (s ConfigMap_FieldPathSelector) String() string {
@@ -85,6 +86,8 @@ func (s ConfigMap_FieldPathSelector) String() string {
 		return "metadata"
 	case ConfigMap_FieldPathSelectorDisplayName:
 		return "display_name"
+	case ConfigMap_FieldPathSelectorDescription:
+		return "description"
 	case ConfigMap_FieldPathSelectorData:
 		return "data"
 	case ConfigMap_FieldPathSelectorBinaryData:
@@ -106,6 +109,8 @@ func BuildConfigMap_FieldPath(fp gotenobject.RawFieldPath) (ConfigMap_FieldPath,
 			return &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorDescription}, nil
 		case "data":
 			return &ConfigMap_FieldTerminalPath{selector: ConfigMap_FieldPathSelectorData}, nil
 		case "binary_data", "binaryData", "binary-data":
@@ -184,6 +189,8 @@ func (fp *ConfigMap_FieldTerminalPath) Get(source *ConfigMap) (values []interfac
 			}
 		case ConfigMap_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case ConfigMap_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case ConfigMap_FieldPathSelectorData:
 			values = append(values, source.Data)
 		case ConfigMap_FieldPathSelectorBinaryData:
@@ -212,6 +219,8 @@ func (fp *ConfigMap_FieldTerminalPath) GetSingle(source *ConfigMap) (interface{}
 		return res, res != nil
 	case ConfigMap_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case ConfigMap_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case ConfigMap_FieldPathSelectorData:
 		res := source.GetData()
 		return res, res != nil
@@ -236,6 +245,8 @@ func (fp *ConfigMap_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case ConfigMap_FieldPathSelectorDisplayName:
 		return ""
+	case ConfigMap_FieldPathSelectorDescription:
+		return ""
 	case ConfigMap_FieldPathSelectorData:
 		return (map[string]string)(nil)
 	case ConfigMap_FieldPathSelectorBinaryData:
@@ -254,6 +265,8 @@ func (fp *ConfigMap_FieldTerminalPath) ClearValue(item *ConfigMap) {
 			item.Metadata = nil
 		case ConfigMap_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case ConfigMap_FieldPathSelectorDescription:
+			item.Description = ""
 		case ConfigMap_FieldPathSelectorData:
 			item.Data = nil
 		case ConfigMap_FieldPathSelectorBinaryData:
@@ -272,6 +285,7 @@ func (fp *ConfigMap_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *ConfigMap_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ConfigMap_FieldPathSelectorName ||
 		fp.selector == ConfigMap_FieldPathSelectorDisplayName ||
+		fp.selector == ConfigMap_FieldPathSelectorDescription ||
 		fp.selector == ConfigMap_FieldPathSelectorData ||
 		fp.selector == ConfigMap_FieldPathSelectorBinaryData
 }
@@ -287,6 +301,8 @@ func (fp *ConfigMap_FieldTerminalPath) WithIValue(value interface{}) ConfigMap_F
 	case ConfigMap_FieldPathSelectorMetadata:
 		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case ConfigMap_FieldPathSelectorDisplayName:
+		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(string)}
+	case ConfigMap_FieldPathSelectorDescription:
 		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(string)}
 	case ConfigMap_FieldPathSelectorData:
 		return &ConfigMap_FieldTerminalPathValue{ConfigMap_FieldTerminalPath: *fp, value: value.(map[string]string)}
@@ -309,6 +325,8 @@ func (fp *ConfigMap_FieldTerminalPath) WithIArrayOfValues(values interface{}) Co
 	case ConfigMap_FieldPathSelectorMetadata:
 		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case ConfigMap_FieldPathSelectorDisplayName:
+		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]string)}
+	case ConfigMap_FieldPathSelectorDescription:
 		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]string)}
 	case ConfigMap_FieldPathSelectorData:
 		return &ConfigMap_FieldTerminalPathArrayOfValues{ConfigMap_FieldTerminalPath: *fp, values: values.([]map[string]string)}
@@ -648,6 +666,10 @@ func (fpv *ConfigMap_FieldTerminalPathValue) AsDisplayNameValue() (string, bool)
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *ConfigMap_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *ConfigMap_FieldTerminalPathValue) AsDataValue() (map[string]string, bool) {
 	res, ok := fpv.value.(map[string]string)
 	return res, ok
@@ -669,6 +691,8 @@ func (fpv *ConfigMap_FieldTerminalPathValue) SetTo(target **ConfigMap) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case ConfigMap_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case ConfigMap_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case ConfigMap_FieldPathSelectorData:
 		(*target).Data = fpv.value.(map[string]string)
 	case ConfigMap_FieldPathSelectorBinaryData:
@@ -710,6 +734,16 @@ func (fpv *ConfigMap_FieldTerminalPathValue) CompareWith(source *ConfigMap) (int
 	case ConfigMap_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ConfigMap_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -981,6 +1015,10 @@ func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case ConfigMap_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case ConfigMap_FieldPathSelectorData:
 		for _, v := range fpaov.values.([]map[string]string) {
 			values = append(values, v)
@@ -1001,6 +1039,10 @@ func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues()
 	return res, ok
 }
 func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ConfigMap_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

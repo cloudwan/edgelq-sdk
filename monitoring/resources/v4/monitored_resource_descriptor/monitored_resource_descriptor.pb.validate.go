@@ -59,6 +59,12 @@ func (obj *MonitoredResourceDescriptor) GotenValidate() error {
 	if !validation_regex_MonitoredResourceDescriptor_type_e8902cb4d938f84496a381cb8dc140e5.Match([]byte(obj.Type)) {
 		return gotenvalidate.NewValidationError("MonitoredResourceDescriptor", "type", obj.Type, "field must match the regex ^[A-Za-z0-9_\\-.,+!*()%\\\\/]{1,256}$", nil)
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("MonitoredResourceDescriptor", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	for idx, elem := range obj.Labels {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {

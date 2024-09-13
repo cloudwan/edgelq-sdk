@@ -14,6 +14,8 @@ import "edgelq-sdk/iam/proto/v1/group.proto";
 import "edgelq-sdk/iam/proto/v1/group_member.proto";
 import "edgelq-sdk/iam/proto/v1/group_member_service.proto";
 import "edgelq-sdk/iam/proto/v1/group_service.proto";
+import "edgelq-sdk/iam/proto/v1/member_assignment.proto";
+import "edgelq-sdk/iam/proto/v1/member_assignment_service.proto";
 import "edgelq-sdk/iam/proto/v1/organization.proto";
 import "edgelq-sdk/iam/proto/v1/organization_custom.proto";
 import "edgelq-sdk/iam/proto/v1/organization_invitation.proto";

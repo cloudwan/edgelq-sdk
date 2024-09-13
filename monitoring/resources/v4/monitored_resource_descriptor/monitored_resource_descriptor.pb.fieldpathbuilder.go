@@ -943,10 +943,6 @@ func (MonitoredResourceDescriptorPathSelectorPromotedLabelKeySets) LabelKeys() M
 	return MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsLabelKeys{}
 }
 
-func (MonitoredResourceDescriptorPathSelectorPromotedLabelKeySets) WriteOnly() MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsWriteOnly {
-	return MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsWriteOnly{}
-}
-
 type MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsLabelKeys struct{}
 
 func (MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) FieldPath() *MonitoredResourceDescriptor_FieldSubPath {
@@ -966,21 +962,4 @@ func (s MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) Wi
 
 func (s MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsLabelKeys) WithItemValue(value string) *MonitoredResourceDescriptor_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MonitoredResourceDescriptor_FieldSubPathArrayItemValue)
-}
-
-type MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsWriteOnly struct{}
-
-func (MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsWriteOnly) FieldPath() *MonitoredResourceDescriptor_FieldSubPath {
-	return &MonitoredResourceDescriptor_FieldSubPath{
-		selector: MonitoredResourceDescriptor_FieldPathSelectorPromotedLabelKeySets,
-		subPath:  common.NewLabelKeySetFieldPathBuilder().WriteOnly().FieldPath(),
-	}
-}
-
-func (s MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsWriteOnly) WithValue(value bool) *MonitoredResourceDescriptor_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*MonitoredResourceDescriptor_FieldSubPathValue)
-}
-
-func (s MonitoredResourceDescriptorPathSelectorPromotedLabelKeySetsWriteOnly) WithArrayOfValues(values []bool) *MonitoredResourceDescriptor_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*MonitoredResourceDescriptor_FieldSubPathArrayOfValues)
 }

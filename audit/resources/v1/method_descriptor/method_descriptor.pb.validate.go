@@ -54,6 +54,18 @@ func (obj *MethodDescriptor) GotenValidate() error {
 			return gotenvalidate.NewValidationError("MethodDescriptor", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("MethodDescriptor", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("MethodDescriptor", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	for idx, elem := range obj.Labels {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {

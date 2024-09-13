@@ -18,7 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "LimitPoolServiceProto";
 option java_package = "com.ntt.limits.pb.v1alpha2";
 
-// Request message for method [GetLimitPool][ntt.limits.v1alpha2.GetLimitPool]
+// A request message of the GetLimitPool method.
 message GetLimitPoolRequest {
   // Name of ntt.limits.v1alpha2.LimitPool
   string name = 1;
@@ -32,8 +32,7 @@ message GetLimitPoolRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetLimitPools][ntt.limits.v1alpha2.BatchGetLimitPools]
+// A request message of the BatchGetLimitPools method.
 message BatchGetLimitPoolsRequest {
   // Names of LimitPools
   repeated string names = 2;
@@ -49,7 +48,7 @@ message BatchGetLimitPoolsRequest {
   reserved 1;
 }
 
-// BatchGetLimitPoolsResponse
+// A response message of the BatchGetLimitPools method.
 message BatchGetLimitPoolsResponse {
   // found LimitPools
   repeated LimitPool limit_pools = 1;
@@ -58,8 +57,7 @@ message BatchGetLimitPoolsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListLimitPools][ntt.limits.v1alpha2.ListLimitPools]
+// A request message of the ListLimitPools method.
 message ListLimitPoolsRequest {
   // Parent name of ntt.limits.v1alpha2.LimitPool
   string parent = 1;
@@ -70,7 +68,7 @@ message ListLimitPoolsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListLimitPoolsResponse.next_page_token][ntt.limits.v1alpha2.ListLimitPoolsResponse.next_page_token]
+  // ListLimitPoolsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +99,19 @@ message ListLimitPoolsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListLimitPools][ntt.limits.v1alpha2.ListLimitPools]
+// A response message of the ListLimitPools method.
 message ListLimitPoolsResponse {
   // The list of LimitPools
   repeated LimitPool limit_pools = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListLimitPoolsRequest.page_token][ntt.limits.v1alpha2.ListLimitPoolsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListLimitPoolsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListLimitPoolsRequest.page_token][ntt.limits.v1alpha2.ListLimitPoolsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListLimitPoolsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -126,8 +125,7 @@ message ListLimitPoolsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchLimitPool][ntt.limits.v1alpha2.WatchLimitPool]
+// A request message of the WatchLimitPool method.
 message WatchLimitPoolRequest {
   // Name of ntt.limits.v1alpha2.LimitPool
   string name = 1;
@@ -141,11 +139,10 @@ message WatchLimitPoolRequest {
   goten.types.View view = 4;
 }
 
-// WatchLimitPoolResponse
+// A response message of the WatchLimitPool method.
 message WatchLimitPoolResponse { LimitPoolChange change = 1; }
 
-// Request message for method
-// [WatchLimitPools][ntt.limits.v1alpha2.WatchLimitPools]
+// A request message of the WatchLimitPools method.
 message WatchLimitPoolsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -205,7 +202,7 @@ message WatchLimitPoolsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchLimitPoolsResponse
+// A response message of the WatchLimitPools method.
 message WatchLimitPoolsResponse {
   // Changes of LimitPools
   repeated LimitPoolChange limit_pool_changes = 2;
@@ -271,8 +268,7 @@ message WatchLimitPoolsResponse {
   }
 }
 
-// Request message for method
-// [UpdateLimitPool][ntt.limits.v1alpha2.UpdateLimitPool]
+// A request message of the UpdateLimitPool method.
 message UpdateLimitPoolRequest {
   // LimitPool resource body
   LimitPool limit_pool = 2;
@@ -300,8 +296,7 @@ message UpdateLimitPoolRequest {
   }
 }
 
-// Request message for method
-// [DeleteLimitPool][ntt.limits.v1alpha2.DeleteLimitPool]
+// A request message of the DeleteLimitPool method.
 message DeleteLimitPoolRequest {
   // Name of ntt.limits.v1alpha2.LimitPool
   string name = 1;

@@ -1,0 +1,56 @@
+kind: "monitoring.edgelq.com/MetricDescriptor"
+version: "v4"
+resources:
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/cpu/utilization
+  type: applications.edgelq.com/pod/cpu/utilization
+  displayName: Pod CPU utilization in percentage
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "%"
+  labels:
+  - key: container_id
+    description: Container ID
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com
+
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/memory/utilization
+  type: applications.edgelq.com/pod/memory/utilization
+  displayName: Pod memory utilization in percentage
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "%"
+  labels:
+  - key: container_id
+    description: Container ID
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com
+
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/memory/used
+  type: applications.edgelq.com/pod/memory/used
+  displayName: Memory used (Total - Available)
+  metricKind: GAUGE
+  valueType: INT64
+  unit: By
+  labels:
+  - key: container_id
+    description: Container ID
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com

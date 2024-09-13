@@ -78,6 +78,9 @@ func (o *Pod) MakeDiffFieldMask(other *Pod) *Pod_FieldMask {
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDisplayName})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &Pod_FieldTerminalPath{selector: Pod_FieldPathSelectorDescription})
+	}
 	{
 		subMask := o.GetSpec().MakeDiffFieldMask(other.GetSpec())
 		if subMask.IsFull() {
@@ -125,6 +128,7 @@ func (o *Pod) Clone() *Pod {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.Spec = o.Spec.Clone()
 	if o.Distribution == nil {
 		result.Distribution = nil
@@ -164,6 +168,7 @@ func (o *Pod) Merge(source *Pod) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	if source.GetSpec() != nil {
 		if o.Spec == nil {
 			o.Spec = new(common.PodSpec)

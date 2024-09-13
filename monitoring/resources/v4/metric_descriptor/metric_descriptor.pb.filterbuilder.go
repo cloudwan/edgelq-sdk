@@ -268,8 +268,16 @@ func (b *filterCndBuilder) IndexSpec() *filterCndBuilderIndexSpec {
 	return &filterCndBuilderIndexSpec{builder: b.builder}
 }
 
+func (b *filterCndBuilder) Indices() *filterCndBuilderIndices {
+	return &filterCndBuilderIndices{builder: b.builder}
+}
+
 func (b *filterCndBuilder) StorageConfig() *filterCndBuilderStorageConfig {
 	return &filterCndBuilderStorageConfig{builder: b.builder}
+}
+
+func (b *filterCndBuilder) BinaryIndices() *filterCndBuilderBinaryIndices {
+	return &filterCndBuilderBinaryIndices{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -4376,10 +4384,6 @@ func (b *filterCndBuilderPromotedLabelKeySets) LabelKeys() *filterCndBuilderProm
 	return &filterCndBuilderPromotedLabelKeySetsLabelKeys{builder: b.builder}
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) WriteOnly() *filterCndBuilderPromotedLabelKeySetsWriteOnly {
-	return &filterCndBuilderPromotedLabelKeySetsWriteOnly{builder: b.builder}
-}
-
 type filterCndBuilderPromotedLabelKeySetsLabelKeys struct {
 	builder *FilterBuilder
 }
@@ -4470,65 +4474,6 @@ func (b *filterCndBuilderPromotedLabelKeySetsLabelKeys) compare(op gotenfilter.C
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().LabelKeys().WithValue(value),
-	})
-}
-
-type filterCndBuilderPromotedLabelKeySetsWriteOnly struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                        op,
-		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().WithValue(value),
 	})
 }
 
@@ -4852,10 +4797,6 @@ func (b *filterCndBuilderIndexSpecPerResourceIndices) PromotedLabels() *filterCn
 	return &filterCndBuilderIndexSpecPerResourceIndicesPromotedLabels{builder: b.builder}
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndices) WriteOnly() *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly {
-	return &filterCndBuilderIndexSpecPerResourceIndicesWriteOnly{builder: b.builder}
-}
-
 type filterCndBuilderIndexSpecPerResourceIndicesPromotedLabels struct {
 	builder *FilterBuilder
 }
@@ -4949,62 +4890,8814 @@ func (b *filterCndBuilderIndexSpecPerResourceIndicesPromotedLabels) compare(op g
 	})
 }
 
-type filterCndBuilderIndexSpecPerResourceIndicesWriteOnly struct {
+type filterCndBuilderIndices struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) Eq(value bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) Eq(value *MetricDescriptor_Indices) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) Neq(value bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) Neq(value *MetricDescriptor_Indices) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) Gt(value bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) Gt(value *MetricDescriptor_Indices) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) Gte(value bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) Gte(value *MetricDescriptor_Indices) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) Lt(value bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) Lt(value *MetricDescriptor_Indices) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) Lte(value bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) Lte(value *MetricDescriptor_Indices) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) In(values []bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) In(values []*MetricDescriptor_Indices) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().IndexSpec().PerResource().Indices().WriteOnly().WithArrayOfValues(values),
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) NotIn(values []bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) NotIn(values []*MetricDescriptor_Indices) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().IndexSpec().PerResource().Indices().WriteOnly().WithArrayOfValues(values),
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) IsNull() *FilterBuilder {
+func (b *filterCndBuilderIndices) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewMetricDescriptorFieldPathBuilder().IndexSpec().PerResource().Indices().WriteOnly().FieldPath(),
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) IsNan() *FilterBuilder {
+func (b *filterCndBuilderIndices) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewMetricDescriptorFieldPathBuilder().IndexSpec().PerResource().Indices().WriteOnly().FieldPath(),
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderIndexSpecPerResourceIndicesWriteOnly) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+func (b *filterCndBuilderIndices) compare(op gotenfilter.CompareOperator, value *MetricDescriptor_Indices) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
-		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().IndexSpec().PerResource().Indices().WriteOnly().WithValue(value),
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndices) BuiltIn() *filterCndBuilderIndicesBuiltIn {
+	return &filterCndBuilderIndicesBuiltIn{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndices) UserDefined() *filterCndBuilderIndicesUserDefined {
+	return &filterCndBuilderIndicesUserDefined{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndices) LegacyMigrated() *filterCndBuilderIndicesLegacyMigrated {
+	return &filterCndBuilderIndicesLegacyMigrated{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltIn struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) Eq(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) Neq(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) Gt(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) Gte(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) Lt(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) Lte(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) In(values []*MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) NotIn(values []*MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) compare(op gotenfilter.CompareOperator, value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) PreAggregatedIndices() *filterCndBuilderIndicesBuiltInPreAggregatedIndices {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndices{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) NonAggregatedIndices() *filterCndBuilderIndicesBuiltInNonAggregatedIndices {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndices{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltIn) PaginationIndices() *filterCndBuilderIndicesBuiltInPaginationIndices {
+	return &filterCndBuilderIndicesBuiltInPaginationIndices{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Eq(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Neq(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Gt(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Gte(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Lt(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Lte(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) In(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) NotIn(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Contains(value *MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) ContainsAnyOf(values []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) ContainsAll(values []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) Name() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) ResourceTypes() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) PartitionLabelSets() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) FilterAndGroupLabelSets() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndices) SupportedAggregations() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().ResourceTypes().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) Name() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) MetricKeys() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) ResourceKeys() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSets) ClosingStatus() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesPartitionLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) Name() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) MetricKeys() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ResourceKeys() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSets) ClosingStatus() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Eq(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Neq(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Gt(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Gte(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Lt(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Lte(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) In(values [][]*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) NotIn(values [][]*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Contains(value *MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) ContainsAnyOf(values []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) ContainsAll(values []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) Name() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) PerSeriesAligners() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) CrossSeriesReducers() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) ClosingStatus() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregations) StorageAligners() *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners {
+	return &filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Eq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Neq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Gt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Gte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Lt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Lte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) In(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) NotIn(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Contains(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) ContainsAnyOf(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) ContainsAll(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) compare(op gotenfilter.CompareOperator, value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Eq(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Neq(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Gt(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Gte(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Lt(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Lte(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) In(values [][]common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) NotIn(values [][]common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Contains(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) ContainsAnyOf(values []common.Aggregation_Reducer) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) ContainsAll(values []common.Aggregation_Reducer) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) compare(op gotenfilter.CompareOperator, value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) Eq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) Neq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) Gt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) Gte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) Lt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) Lte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) In(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) NotIn(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) Contains(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) ContainsAnyOf(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) ContainsAll(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPreAggregatedIndicesSupportedAggregationsStorageAligners) compare(op gotenfilter.CompareOperator, value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Eq(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Neq(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Gt(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Gte(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Lt(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Lte(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) In(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) NotIn(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Contains(value *MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) ContainsAnyOf(values []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) ContainsAll(values []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) Name() *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndicesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) ResourceTypes() *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndices) PartitionLabelSets() *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndicesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().ResourceTypes().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) Name() *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) MetricKeys() *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) ResourceKeys() *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSets) ClosingStatus() *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInNonAggregatedIndicesPartitionLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Eq(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Neq(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Gt(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Gte(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Lt(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Lte(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) In(values [][]*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) NotIn(values [][]*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Contains(value *MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) ContainsAnyOf(values []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) ContainsAll(values []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Name() *filterCndBuilderIndicesBuiltInPaginationIndicesName {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) ResourceTypes() *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) PartitionLabelSets() *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Views() *filterCndBuilderIndicesBuiltInPaginationIndicesViews {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesViews{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndices) Functions() *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesFunctions{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().ResourceTypes().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) Name() *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) MetricKeys() *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) ResourceKeys() *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSets) ClosingStatus() *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesPartitionLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().PartitionLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesViews struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Eq(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Neq(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Gt(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Gte(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Lt(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Lte(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) In(values [][]*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) NotIn(values [][]*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Contains(value *MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) ContainsAnyOf(values []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) ContainsAll(values []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) Name() *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesViewsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) FilterableMetricKeys() *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) FilterableResourceKeys() *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) PaginatedMetricKeys() *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) PaginatedResourceKeys() *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViews) ClosingStatus() *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesViewsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableMetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsFilterableResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().FilterableResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedMetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsPaginatedResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().PaginatedResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesViewsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Views().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesFunctions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Eq(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Neq(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Gt(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Gte(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Lt(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Lte(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) In(values [][]*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) NotIn(values [][]*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Contains(value *MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) ContainsAnyOf(values []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) ContainsAll(values []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Name() *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Aligner() *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Reducer() *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) ClosingStatus() *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctions) Sorting() *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting {
+	return &filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting{builder: b.builder}
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) Eq(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) Neq(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) Gt(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) Gte(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) Lt(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) Lte(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) In(values []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Aligner().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) NotIn(values []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Aligner().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Aligner().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Aligner().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsAligner) compare(op gotenfilter.CompareOperator, value common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Aligner().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) Eq(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) Neq(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) Gt(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) Gte(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) Lt(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) Lte(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) In(values []common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Reducer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) NotIn(values []common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Reducer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Reducer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Reducer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsReducer) compare(op gotenfilter.CompareOperator, value common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Reducer().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) Eq(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) Neq(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) Gt(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) Gte(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) Lt(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) Lte(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) In(values []MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Sorting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) NotIn(values []MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Sorting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Sorting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Sorting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesBuiltInPaginationIndicesFunctionsSorting) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().BuiltIn().PaginationIndices().Functions().Sorting().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefined struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefined) Eq(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefined) Neq(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefined) Gt(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefined) Gte(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefined) Lt(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefined) Lte(value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefined) In(values []*MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefined) NotIn(values []*MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefined) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefined) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefined) compare(op gotenfilter.CompareOperator, value *MetricDescriptor_Indices_IndexGroups) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefined) PreAggregatedIndices() *filterCndBuilderIndicesUserDefinedPreAggregatedIndices {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndices{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefined) NonAggregatedIndices() *filterCndBuilderIndicesUserDefinedNonAggregatedIndices {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndices{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefined) PaginationIndices() *filterCndBuilderIndicesUserDefinedPaginationIndices {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndices{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Eq(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Neq(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Gt(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Gte(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Lt(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Lte(value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) In(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) NotIn(values [][]*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Contains(value *MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) ContainsAnyOf(values []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) ContainsAll(values []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_PreAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) Name() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) ResourceTypes() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) PartitionLabelSets() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) FilterAndGroupLabelSets() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndices) SupportedAggregations() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().ResourceTypes().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) Name() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) MetricKeys() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) ResourceKeys() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSets) ClosingStatus() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesPartitionLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().PartitionLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) Name() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) MetricKeys() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ResourceKeys() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSets) ClosingStatus() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesFilterAndGroupLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().FilterAndGroupLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Eq(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Neq(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Gt(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Gte(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Lt(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Lte(value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) In(values [][]*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) NotIn(values [][]*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Contains(value *MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) ContainsAnyOf(values []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) ContainsAll(values []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_AggregationsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) Name() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) PerSeriesAligners() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) CrossSeriesReducers() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) ClosingStatus() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregations) StorageAligners() *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners {
+	return &filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Eq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Neq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Gt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Gte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Lt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Lte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) In(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) NotIn(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) Contains(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) ContainsAnyOf(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) ContainsAll(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsPerSeriesAligners) compare(op gotenfilter.CompareOperator, value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().PerSeriesAligners().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Eq(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Neq(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Gt(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Gte(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Lt(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Lte(value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) In(values [][]common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) NotIn(values [][]common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) Contains(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) ContainsAnyOf(values []common.Aggregation_Reducer) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) ContainsAll(values []common.Aggregation_Reducer) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsCrossSeriesReducers) compare(op gotenfilter.CompareOperator, value []common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().CrossSeriesReducers().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) Eq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) Neq(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) Gt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) Gte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) Lt(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) Lte(value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) In(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) NotIn(values [][]common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) Contains(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) ContainsAnyOf(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) ContainsAll(values []common.Aggregation_Aligner) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPreAggregatedIndicesSupportedAggregationsStorageAligners) compare(op gotenfilter.CompareOperator, value []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PreAggregatedIndices().SupportedAggregations().StorageAligners().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Eq(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Neq(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Gt(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Gte(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Lt(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Lte(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) In(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) NotIn(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Contains(value *MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) ContainsAnyOf(values []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) ContainsAll(values []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) Name() *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) ResourceTypes() *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndices) PartitionLabelSets() *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().ResourceTypes().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) Name() *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) MetricKeys() *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) ResourceKeys() *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSets) ClosingStatus() *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedNonAggregatedIndicesPartitionLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().NonAggregatedIndices().PartitionLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Eq(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Neq(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Gt(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Gte(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Lt(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Lte(value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) In(values [][]*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) NotIn(values [][]*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Contains(value *MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) ContainsAnyOf(values []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) ContainsAll(values []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_PaginationIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Name() *filterCndBuilderIndicesUserDefinedPaginationIndicesName {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) ResourceTypes() *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) PartitionLabelSets() *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Views() *filterCndBuilderIndicesUserDefinedPaginationIndicesViews {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesViews{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndices) Functions() *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().ResourceTypes().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) Name() *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) MetricKeys() *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) ResourceKeys() *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSets) ClosingStatus() *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesPartitionLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().PartitionLabelSets().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesViews struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Eq(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Neq(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Gt(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Gte(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Lt(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Lte(value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) In(values [][]*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) NotIn(values [][]*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Contains(value *MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) ContainsAnyOf(values []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) ContainsAll(values []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_PaginationView) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) Name() *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) FilterableMetricKeys() *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) FilterableResourceKeys() *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) PaginatedMetricKeys() *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) PaginatedResourceKeys() *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViews) ClosingStatus() *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableMetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsFilterableResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().FilterableResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedMetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsPaginatedResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().PaginatedResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesViewsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Views().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Eq(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Neq(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Gt(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Gte(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Lt(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Lte(value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) In(values [][]*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) NotIn(values [][]*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Contains(value *MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) ContainsAnyOf(values []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) ContainsAll(values []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_SortingFunction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Name() *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Aligner() *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Reducer() *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) ClosingStatus() *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctions) Sorting() *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting {
+	return &filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting{builder: b.builder}
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) Eq(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) Neq(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) Gt(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) Gte(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) Lt(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) Lte(value common.Aggregation_Aligner) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) In(values []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Aligner().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) NotIn(values []common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Aligner().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Aligner().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Aligner().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsAligner) compare(op gotenfilter.CompareOperator, value common.Aggregation_Aligner) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Aligner().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) Eq(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) Neq(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) Gt(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) Gte(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) Lt(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) Lte(value common.Aggregation_Reducer) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) In(values []common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Reducer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) NotIn(values []common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Reducer().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Reducer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Reducer().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsReducer) compare(op gotenfilter.CompareOperator, value common.Aggregation_Reducer) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Reducer().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().ClosingStatus().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) Eq(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) Neq(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) Gt(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) Gte(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) Lt(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) Lte(value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) In(values []MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Sorting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) NotIn(values []MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Sorting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Sorting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Sorting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesUserDefinedPaginationIndicesFunctionsSorting) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_SortingFunction_Direction) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().UserDefined().PaginationIndices().Functions().Sorting().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesLegacyMigrated struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Eq(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Neq(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Gt(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Gte(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Lt(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Lte(value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) In(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) NotIn(values [][]*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Contains(value *MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) ContainsAnyOf(values []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) ContainsAll(values []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_NonAggregatedIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) Name() *filterCndBuilderIndicesLegacyMigratedName {
+	return &filterCndBuilderIndicesLegacyMigratedName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) ResourceTypes() *filterCndBuilderIndicesLegacyMigratedResourceTypes {
+	return &filterCndBuilderIndicesLegacyMigratedResourceTypes{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesLegacyMigrated) PartitionLabelSets() *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets {
+	return &filterCndBuilderIndicesLegacyMigratedPartitionLabelSets{builder: b.builder}
+}
+
+type filterCndBuilderIndicesLegacyMigratedName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesLegacyMigratedResourceTypes struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedResourceTypes) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().ResourceTypes().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesLegacyMigratedPartitionLabelSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Eq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Neq(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Gt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Gte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Lt(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Lte(value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) In(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) NotIn(values [][]*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Contains(value *MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) ContainsAnyOf(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) ContainsAll(values []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_Indices_LabelsGroup) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) Name() *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName {
+	return &filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) MetricKeys() *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys {
+	return &filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) ResourceKeys() *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys {
+	return &filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys{builder: b.builder}
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSets) ClosingStatus() *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus {
+	return &filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus{builder: b.builder}
+}
+
+type filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsMetricKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().MetricKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsResourceKeys) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ResourceKeys().WithValue(value),
+	})
+}
+
+type filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) Eq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) Neq(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) Gt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) Gte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) Lt(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) Lte(value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) In(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) NotIn(values []MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ClosingStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ClosingStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIndicesLegacyMigratedPartitionLabelSetsClosingStatus) compare(op gotenfilter.CompareOperator, value MetricDescriptor_Indices_CloseStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().Indices().LegacyMigrated().PartitionLabelSets().ClosingStatus().WithValue(value),
 	})
 }
 
@@ -5127,5 +13820,1223 @@ func (b *filterCndBuilderStorageConfigStoreRawPoints) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().StorageConfig().StoreRawPoints().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndices) Eq(value *MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndices) Neq(value *MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndices) Gt(value *MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndices) Gte(value *MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndices) Lt(value *MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndices) Lte(value *MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndices) In(values []*MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndices) NotIn(values []*MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndices) compare(op gotenfilter.CompareOperator, value *MetricDescriptor_BinaryIndices) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndices) ByResources() *filterCndBuilderBinaryIndicesByResources {
+	return &filterCndBuilderBinaryIndicesByResources{builder: b.builder}
+}
+
+type filterCndBuilderBinaryIndicesByResources struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) Eq(value []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) Neq(value []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) Gt(value []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) Gte(value []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) Lt(value []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) Lte(value []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) In(values [][]*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) NotIn(values [][]*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) Contains(value *MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) ContainsAnyOf(values []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) ContainsAll(values []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_BinaryIndices_ByResourceType) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) ResourceType() *filterCndBuilderBinaryIndicesByResourcesResourceType {
+	return &filterCndBuilderBinaryIndicesByResourcesResourceType{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) AggsEncoder() *filterCndBuilderBinaryIndicesByResourcesAggsEncoder {
+	return &filterCndBuilderBinaryIndicesByResourcesAggsEncoder{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) PreAggregatedIndices() *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices {
+	return &filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) PaginatingIndices() *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices {
+	return &filterCndBuilderBinaryIndicesByResourcesPaginatingIndices{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) NonAggregatedIndices() *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices {
+	return &filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResources) NameParts() *filterCndBuilderBinaryIndicesByResourcesNameParts {
+	return &filterCndBuilderBinaryIndicesByResourcesNameParts{builder: b.builder}
+}
+
+type filterCndBuilderBinaryIndicesByResourcesResourceType struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().ResourceType().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().ResourceType().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().ResourceType().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().ResourceType().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesResourceType) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().ResourceType().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesAggsEncoder struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) Eq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) Neq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) Gt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) Gte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) Lt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) Lte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) In(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) NotIn(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) Contains(value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) ContainsAnyOf(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) ContainsAll(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesAggsEncoder) compare(op gotenfilter.CompareOperator, value [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().AggsEncoder().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) Eq(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) Neq(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) Gt(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) Gte(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) Lt(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) Lte(value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) In(values [][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) NotIn(values [][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) Contains(value *MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) ContainsAnyOf(values []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) ContainsAll(values []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_BinaryIndices_PreAggregatedIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) KeyData() *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData {
+	return &filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) WritingAligners() *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners {
+	return &filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndices) ClosedAligners() *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners {
+	return &filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners{builder: b.builder}
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) Eq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) Neq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) Gt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) Gte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) Lt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) Lte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) In(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().KeyData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) NotIn(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().KeyData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().KeyData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().KeyData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesKeyData) compare(op gotenfilter.CompareOperator, value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().KeyData().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) Eq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) Neq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) Gt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) Gte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) Lt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) Lte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) In(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) NotIn(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) Contains(value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) ContainsAnyOf(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) ContainsAll(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesWritingAligners) compare(op gotenfilter.CompareOperator, value [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().WritingAligners().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) Eq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) Neq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) Gt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) Gte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) Lt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) Lte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) In(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) NotIn(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) Contains(value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) ContainsAnyOf(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) ContainsAll(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPreAggregatedIndicesClosedAligners) compare(op gotenfilter.CompareOperator, value [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PreAggregatedIndices().ClosedAligners().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPaginatingIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) Eq(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) Neq(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) Gt(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) Gte(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) Lt(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) Lte(value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) In(values [][]*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) NotIn(values [][]*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) Contains(value *MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) ContainsAnyOf(values []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) ContainsAll(values []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) compare(op gotenfilter.CompareOperator, value []*MetricDescriptor_BinaryIndices_PaginatingIndex) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) KeyData() *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData {
+	return &filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) WritingFunctions() *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions {
+	return &filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndices) ClosedFunctions() *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions {
+	return &filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions{builder: b.builder}
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) Eq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) Neq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) Gt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) Gte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) Lt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) Lte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) In(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().KeyData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) NotIn(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().KeyData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().KeyData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().KeyData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesKeyData) compare(op gotenfilter.CompareOperator, value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().KeyData().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) Eq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) Neq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) Gt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) Gte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) Lt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) Lte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) In(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) NotIn(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) Contains(value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) ContainsAnyOf(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) ContainsAll(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesWritingFunctions) compare(op gotenfilter.CompareOperator, value [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().WritingFunctions().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) Eq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) Neq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) Gt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) Gte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) Lt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) Lte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) In(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) NotIn(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) Contains(value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) ContainsAnyOf(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) ContainsAll(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesPaginatingIndicesClosedFunctions) compare(op gotenfilter.CompareOperator, value [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().PaginatingIndices().ClosedFunctions().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) Eq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) Neq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) Gt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) Gte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) Lt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) Lte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) In(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) NotIn(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) Contains(value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) ContainsAnyOf(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) ContainsAll(values [][]byte) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNonAggregatedIndices) compare(op gotenfilter.CompareOperator, value [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NonAggregatedIndices().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesByResourcesNameParts struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().FieldPath(),
+		Value:     NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts()
+	itemValues := make([]MetricDescriptor_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().WithValue(value),
 	})
 }

@@ -54,6 +54,12 @@ func (obj *AlertingPolicy) GotenValidate() error {
 			return gotenvalidate.NewValidationError("AlertingPolicy", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("AlertingPolicy", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if subobj, ok := interface{}(obj.Documentation).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("AlertingPolicy", "documentation", obj.Documentation, "nested object validation failed", err)

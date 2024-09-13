@@ -72,6 +72,9 @@ func (DistributionFieldPathBuilder) Metadata() DistributionPathSelectorMetadata 
 func (DistributionFieldPathBuilder) DisplayName() DistributionPathSelectorDisplayName {
 	return DistributionPathSelectorDisplayName{}
 }
+func (DistributionFieldPathBuilder) Description() DistributionPathSelectorDescription {
+	return DistributionPathSelectorDescription{}
+}
 func (DistributionFieldPathBuilder) Spec() DistributionPathSelectorSpec {
 	return DistributionPathSelectorSpec{}
 }
@@ -765,6 +768,20 @@ func (s DistributionPathSelectorDisplayName) WithValue(value string) *Distributi
 }
 
 func (s DistributionPathSelectorDisplayName) WithArrayOfValues(values []string) *Distribution_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldTerminalPathArrayOfValues)
+}
+
+type DistributionPathSelectorDescription struct{}
+
+func (DistributionPathSelectorDescription) FieldPath() *Distribution_FieldTerminalPath {
+	return &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorDescription}
+}
+
+func (s DistributionPathSelectorDescription) WithValue(value string) *Distribution_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldTerminalPathValue)
+}
+
+func (s DistributionPathSelectorDescription) WithArrayOfValues(values []string) *Distribution_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldTerminalPathArrayOfValues)
 }
 

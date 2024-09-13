@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetAlert][ntt.monitoring.v3.GetAlert]
+// A request message of the GetAlert method.
 type GetAlertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,7 +163,7 @@ func (m *GetAlertRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetAlerts][ntt.monitoring.v3.BatchGetAlerts]
+// A request message of the BatchGetAlerts method.
 type BatchGetAlertsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -270,7 +270,7 @@ func (m *BatchGetAlertsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetAlertsResponse
+// A response message of the BatchGetAlerts method.
 type BatchGetAlertsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -359,7 +359,7 @@ func (m *BatchGetAlertsResponse) SetMissing(fv []*alert.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListAlerts][ntt.monitoring.v3.ListAlerts]
+// A request message of the ListAlerts method.
 type ListAlertsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -371,7 +371,7 @@ type ListAlertsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListAlertsResponse.next_page_token][ntt.monitoring.v3.ListAlertsResponse.next_page_token]
+	// ListAlertsResponse.next_page_token.
 	PageToken *alert.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -559,18 +559,20 @@ func (m *ListAlertsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListAlerts][ntt.monitoring.v3.ListAlerts]
+// A response message of the ListAlerts method.
 type ListAlertsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Alerts
 	Alerts []*alert.Alert `protobuf:"bytes,1,rep,name=alerts,proto3" json:"alerts,omitempty" firestore:"alerts"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListAlertsRequest.page_token][ntt.monitoring.v3.ListAlertsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListAlertsRequest.page_token.
 	PrevPageToken *alert.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListAlertsRequest.page_token][ntt.monitoring.v3.ListAlertsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListAlertsRequest.page_token.
 	NextPageToken *alert.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -702,7 +704,7 @@ func (m *ListAlertsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchAlert][ntt.monitoring.v3.WatchAlert]
+// A request message of the WatchAlert method.
 type WatchAlertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -809,7 +811,7 @@ func (m *WatchAlertRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchAlertResponse
+// A response message of the WatchAlert method.
 type WatchAlertResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -881,7 +883,7 @@ func (m *WatchAlertResponse) SetChange(fv *alert.AlertChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchAlerts][ntt.monitoring.v3.WatchAlerts]
+// A request message of the WatchAlerts method.
 type WatchAlertsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1138,7 +1140,7 @@ func (m *WatchAlertsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchAlertsResponse
+// A response message of the WatchAlerts method.
 type WatchAlertsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1341,7 +1343,7 @@ func (m *WatchAlertsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateAlert][ntt.monitoring.v3.CreateAlert]
+// A request message of the CreateAlert method.
 type CreateAlertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1430,7 +1432,7 @@ func (m *CreateAlertRequest) SetAlert(fv *alert.Alert) {
 	m.Alert = fv
 }
 
-// Request message for method [UpdateAlert][ntt.monitoring.v3.UpdateAlert]
+// A request message of the UpdateAlert method.
 type UpdateAlertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1560,7 +1562,7 @@ func (m *UpdateAlertRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteAlert][ntt.monitoring.v3.DeleteAlert]
+// A request message of the DeleteAlert method.
 type DeleteAlertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

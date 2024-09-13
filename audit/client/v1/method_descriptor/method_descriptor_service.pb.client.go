@@ -14,6 +14,7 @@ import (
 // proto imports
 import (
 	method_descriptor "github.com/cloudwan/edgelq-sdk/audit/resources/v1/method_descriptor"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -26,6 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &method_descriptor.MethodDescriptor{}
+	_ = &emptypb.Empty{}
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -54,6 +56,7 @@ type MethodDescriptorServiceClient interface {
 	WatchMethodDescriptors(ctx context.Context, in *WatchMethodDescriptorsRequest, opts ...grpc.CallOption) (WatchMethodDescriptorsClientStream, error)
 	CreateMethodDescriptor(ctx context.Context, in *CreateMethodDescriptorRequest, opts ...grpc.CallOption) (*method_descriptor.MethodDescriptor, error)
 	UpdateMethodDescriptor(ctx context.Context, in *UpdateMethodDescriptorRequest, opts ...grpc.CallOption) (*method_descriptor.MethodDescriptor, error)
+	DeleteMethodDescriptor(ctx context.Context, in *DeleteMethodDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type client struct {
@@ -177,6 +180,15 @@ func (c *client) CreateMethodDescriptor(ctx context.Context, in *CreateMethodDes
 func (c *client) UpdateMethodDescriptor(ctx context.Context, in *UpdateMethodDescriptorRequest, opts ...grpc.CallOption) (*method_descriptor.MethodDescriptor, error) {
 	out := new(method_descriptor.MethodDescriptor)
 	err := c.cc.Invoke(ctx, "/ntt.audit.v1.MethodDescriptorService/UpdateMethodDescriptor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) DeleteMethodDescriptor(ctx context.Context, in *DeleteMethodDescriptorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/ntt.audit.v1.MethodDescriptorService/DeleteMethodDescriptor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

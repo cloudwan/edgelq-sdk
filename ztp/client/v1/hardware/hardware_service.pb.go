@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetHardware][ntt.ztp.v1.GetHardware]
+// A request message of the GetHardware method.
 type GetHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,7 +163,7 @@ func (m *GetHardwareRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetHardwares][ntt.ztp.v1.BatchGetHardwares]
+// A request message of the BatchGetHardwares method.
 type BatchGetHardwaresRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -270,7 +270,7 @@ func (m *BatchGetHardwaresRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetHardwaresResponse
+// A response message of the BatchGetHardwares method.
 type BatchGetHardwaresResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -359,7 +359,7 @@ func (m *BatchGetHardwaresResponse) SetMissing(fv []*hardware.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListHardwares][ntt.ztp.v1.ListHardwares]
+// A request message of the ListHardwares method.
 type ListHardwaresRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -371,7 +371,7 @@ type ListHardwaresRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListHardwaresResponse.next_page_token][ntt.ztp.v1.ListHardwaresResponse.next_page_token]
+	// ListHardwaresResponse.next_page_token.
 	PageToken *hardware.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -559,18 +559,20 @@ func (m *ListHardwaresRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListHardwares][ntt.ztp.v1.ListHardwares]
+// A response message of the ListHardwares method.
 type ListHardwaresResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Hardwares
 	Hardwares []*hardware.Hardware `protobuf:"bytes,1,rep,name=hardwares,proto3" json:"hardwares,omitempty" firestore:"hardwares"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListHardwaresRequest.page_token][ntt.ztp.v1.ListHardwaresRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListHardwaresRequest.page_token.
 	PrevPageToken *hardware.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListHardwaresRequest.page_token][ntt.ztp.v1.ListHardwaresRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListHardwaresRequest.page_token.
 	NextPageToken *hardware.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -702,7 +704,7 @@ func (m *ListHardwaresResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchHardware][ntt.ztp.v1.WatchHardware]
+// A request message of the WatchHardware method.
 type WatchHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -809,7 +811,7 @@ func (m *WatchHardwareRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchHardwareResponse
+// A response message of the WatchHardware method.
 type WatchHardwareResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -881,7 +883,7 @@ func (m *WatchHardwareResponse) SetChange(fv *hardware.HardwareChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchHardwares][ntt.ztp.v1.WatchHardwares]
+// A request message of the WatchHardwares method.
 type WatchHardwaresRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1138,7 +1140,7 @@ func (m *WatchHardwaresRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchHardwaresResponse
+// A response message of the WatchHardwares method.
 type WatchHardwaresResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1341,7 +1343,7 @@ func (m *WatchHardwaresResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateHardware][ntt.ztp.v1.CreateHardware]
+// A request message of the CreateHardware method.
 type CreateHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1430,7 +1432,7 @@ func (m *CreateHardwareRequest) SetHardware(fv *hardware.Hardware) {
 	m.Hardware = fv
 }
 
-// Request message for method [UpdateHardware][ntt.ztp.v1.UpdateHardware]
+// A request message of the UpdateHardware method.
 type UpdateHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1560,7 +1562,7 @@ func (m *UpdateHardwareRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteHardware][ntt.ztp.v1.DeleteHardware]
+// A request message of the DeleteHardware method.
 type DeleteHardwareRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

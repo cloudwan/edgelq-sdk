@@ -52,8 +52,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetMethodDescriptor][ntt.audit.v1alpha2.GetMethodDescriptor]
+// A request message of the GetMethodDescriptor method.
 type GetMethodDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -160,8 +159,7 @@ func (m *GetMethodDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetMethodDescriptors][ntt.audit.v1alpha2.BatchGetMethodDescriptors]
+// A request message of the BatchGetMethodDescriptors method.
 type BatchGetMethodDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -268,7 +266,7 @@ func (m *BatchGetMethodDescriptorsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetMethodDescriptorsResponse
+// A response message of the BatchGetMethodDescriptors method.
 type BatchGetMethodDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -357,8 +355,7 @@ func (m *BatchGetMethodDescriptorsResponse) SetMissing(fv []*method_descriptor.N
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListMethodDescriptors][ntt.audit.v1alpha2.ListMethodDescriptors]
+// A request message of the ListMethodDescriptors method.
 type ListMethodDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -368,7 +365,7 @@ type ListMethodDescriptorsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListMethodDescriptorsResponse.next_page_token][ntt.audit.v1alpha2.ListMethodDescriptorsResponse.next_page_token]
+	// ListMethodDescriptorsResponse.next_page_token.
 	PageToken *method_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -542,19 +539,20 @@ func (m *ListMethodDescriptorsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListMethodDescriptors][ntt.audit.v1alpha2.ListMethodDescriptors]
+// A response message of the ListMethodDescriptors method.
 type ListMethodDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of MethodDescriptors
 	MethodDescriptors []*method_descriptor.MethodDescriptor `protobuf:"bytes,1,rep,name=method_descriptors,json=methodDescriptors,proto3" json:"method_descriptors,omitempty" firestore:"methodDescriptors"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListMethodDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListMethodDescriptorsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListMethodDescriptorsRequest.page_token.
 	PrevPageToken *method_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListMethodDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListMethodDescriptorsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListMethodDescriptorsRequest.page_token.
 	NextPageToken *method_descriptor.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -687,8 +685,7 @@ func (m *ListMethodDescriptorsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchMethodDescriptor][ntt.audit.v1alpha2.WatchMethodDescriptor]
+// A request message of the WatchMethodDescriptor method.
 type WatchMethodDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -795,7 +792,7 @@ func (m *WatchMethodDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchMethodDescriptorResponse
+// A response message of the WatchMethodDescriptor method.
 type WatchMethodDescriptorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -867,8 +864,7 @@ func (m *WatchMethodDescriptorResponse) SetChange(fv *method_descriptor.MethodDe
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchMethodDescriptors][ntt.audit.v1alpha2.WatchMethodDescriptors]
+// A request message of the WatchMethodDescriptors method.
 type WatchMethodDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1109,7 +1105,7 @@ func (m *WatchMethodDescriptorsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchMethodDescriptorsResponse
+// A response message of the WatchMethodDescriptors method.
 type WatchMethodDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1312,8 +1308,7 @@ func (m *WatchMethodDescriptorsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateMethodDescriptor][ntt.audit.v1alpha2.CreateMethodDescriptor]
+// A request message of the CreateMethodDescriptor method.
 type CreateMethodDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1386,8 +1381,7 @@ func (m *CreateMethodDescriptorRequest) SetMethodDescriptor(fv *method_descripto
 	m.MethodDescriptor = fv
 }
 
-// Request message for method
-// [UpdateMethodDescriptor][ntt.audit.v1alpha2.UpdateMethodDescriptor]
+// A request message of the UpdateMethodDescriptor method.
 type UpdateMethodDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

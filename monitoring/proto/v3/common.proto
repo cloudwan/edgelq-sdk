@@ -586,6 +586,18 @@ message Aggregation {
   }
 }
 
+message Pagination {
+  string view = 1;
+
+  string function = 2;
+
+  google.protobuf.Duration alignment_period = 3;
+
+  int32 limit = 4;
+
+  int32 offset = 5;
+}
+
 // A specific metric, identified by specifying values for all of the
 // labels of a [`MetricDescriptor`][google.api.MetricDescriptor].
 message Metric {

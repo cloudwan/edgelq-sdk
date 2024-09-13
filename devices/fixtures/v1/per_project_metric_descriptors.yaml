@@ -1,0 +1,701 @@
+kind: "monitoring.edgelq.com/MetricDescriptor"
+version: "v4"
+resources:
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/connected
+  type: devices.edgelq.com/device/connected
+  displayName: Device connected
+  metricKind: GAUGE
+  valueType: INT64
+  unit: "1"
+  labels:
+  promotedLabelKeySets:
+    - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/uptime
+  type: devices.edgelq.com/device/uptime
+  displayName: Uptime
+  metricKind: GAUGE
+  valueType: INT64
+  unit: "1"
+  labels:
+  promotedLabelKeySets:
+    - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/memory/total
+  type: devices.edgelq.com/device/memory/total
+  displayName: Memory total (deprecated)
+  metricKind: GAUGE
+  valueType: INT64
+  unit: By
+  labels:
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/memory/used
+  type: devices.edgelq.com/device/memory/used
+  displayName: Memory used (Total - Available)
+  metricKind: GAUGE
+  valueType: INT64
+  unit: By
+  labels:
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/memory/utilization
+  type: devices.edgelq.com/device/memory/utilization
+  displayName: Memory utilization
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "%"
+  labels:
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/memory/stats
+  type: devices.edgelq.com/device/memory/stats
+  displayName: Memory usage statistics (same as the free command)
+  metricKind: GAUGE
+  valueType: INT64
+  unit: By
+  labels:
+  - key: state
+    description: buffered, cached, free, used, shared or available.
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  - labelKeys: [state]
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "project_id-state"
+        metricKeys: [ state ]
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+      - name: "device_id-state"
+        metricKeys: [ state ]
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/cpu/utilization
+  type: devices.edgelq.com/device/cpu/utilization
+  displayName: CPU utilization in percentage
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "%"
+  labels:
+  - key: cpu_number
+    description: CPU Number
+    valueType: STRING
+  - key: state
+    description: CPU state one of user, system, idle, nice, iowait, irq, softirq and steal
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/cpu/load_1m
+  type: devices.edgelq.com/device/cpu/load_1m
+  displayName: Load average 1m
+  metricKind: GAUGE
+  valueType: DOUBLE
+  labels:
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/disk/total
+  type: devices.edgelq.com/device/disk/total
+  displayName: Disk total size in bytes (deprecated)
+  metricKind: GAUGE
+  valueType: INT64
+  unit: By
+  labels:
+  - key: mount_point
+    description: Mount Point
+    valueType: STRING
+  - key: partition_name
+    description: Parition Name
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/disk/used
+  type: devices.edgelq.com/device/disk/used
+  displayName: Disk usage in bytes
+  metricKind: GAUGE
+  valueType: INT64
+  unit: By
+  labels:
+  - key: mount_point
+    description: Mount Point
+    valueType: STRING
+  - key: partition_name
+    description: Parition Name
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/disk/utilization
+  type: devices.edgelq.com/device/disk/utilization
+  displayName: Disk utilization in percentage
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "%"
+  labels:
+  - key: mount_point
+    description: Mount Point
+    valueType: STRING
+  - key: partition_name
+    description: Parition Name
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/sensors
+  type: devices.edgelq.com/device/sensors
+  displayName: Output of lm-sensors (temp, fan, ...) (Deprecated)
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: By
+  labels:
+  - key: chip
+    description: Chip (e.g. acpitz-acpi-0)
+    valueType: STRING
+  - key: feature
+    description: Feature (e.g. temp, fan...)
+    valueType: STRING
+  - key: key
+    description: Key (e.g. temp1_input, temp1_max, ...)
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/hardware/temperature
+  type: devices.edgelq.com/device/hardware/temperature
+  displayName: Device hardware temperature for cpu, gpu, acpi etc
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "celsius"
+  labels:
+  - key: chip
+    description: Chip (CPU, NVIDIA GPU, ETHERNET etc) # Names that dont have a human readable mapping will be like coretemp-isa-0000
+    valueType: STRING
+  - key: sensor_tag
+    description: Name of the sensor (some have readable names like vddgfx/vddnb or just the sensor number as temp1/temp2 or Sensor 1/Sensor 2)
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/hardware/fanspeed
+  type: devices.edgelq.com/device/hardware/fanspeed
+  displayName: Device hardware fan speed readings
+  metricKind: GAUGE
+  valueType: INT64
+  unit: "rpm"
+  labels:
+  - key: sensor_tag
+    description: Name of the sensor (typically just fan1,fan2 etc)
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/hardware/voltage
+  type: devices.edgelq.com/device/hardware/voltage
+  displayName: Device hardware voltage readings (CPU, NVIDIA GPU etc)
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "volt"
+  labels:
+  - key: chip
+    description: Chip (CPU, NVIDIA GPU, ETHERNET etc)
+    valueType: STRING
+  - key: sensor_tag
+    description: Name of the sensor (some have readable names like vddgfx/vddnb or just the sensor number as in0/in1)
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/hardware/power
+  type: devices.edgelq.com/device/hardware/power
+  displayName: Device hardware power usage readings (cpu, gpu etc)
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "watt"
+  labels:
+  - key: chip
+    description: Chip (CPU, NVIDIA GPU, ETHERNET etc)
+    valueType: STRING
+  - key: sensor_tag
+    description: Name of the sensor (some have readable names like vddgfx/vddnb or just the sensor number as power1/power2 etc)
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/modem/rssi
+  type: devices.edgelq.com/device/modem/rssi
+  displayName: Mobile Network RSSI
+  metricKind: GAUGE
+  valueType: DISTRIBUTION
+  unit: dBm
+  labels:
+  - key: access_technology
+    description: Access Technology (LTE etc)
+    valueType: STRING
+  - key: global_cell_id
+    description: Global Cell ID
+    valueType: STRING
+  - key: physical_cell_id
+    description: Physical Cell ID
+    valueType: STRING
+  - key: tracking_area_code
+    description: Tracking Area Code
+    valueType: STRING
+  - key: arfcn
+    description: 5G NR ARFCN/LTE EARFCN
+    valueType: STRING
+  distributionBucketOptions: # (likely range seems to be -110 to 0 ?)
+    linearBuckets:
+      numFiniteBuckets: 130
+      width: 1
+      offset: -120
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/modem/rsrp
+  type: devices.edgelq.com/device/modem/rsrp
+  displayName: Mobile Network RSRP
+  metricKind: GAUGE
+  valueType: DISTRIBUTION
+  unit: dBm
+  labels:
+  - key: access_technology
+    description: Access Technology (LTE etc)
+    valueType: STRING
+  - key: global_cell_id
+    description: Global Cell ID
+    valueType: STRING
+  - key: physical_cell_id
+    description: Physical Cell ID
+    valueType: STRING
+  - key: tracking_area_code
+    description: Tracking Area Code
+    valueType: STRING
+  - key: arfcn
+    description: 5G NR ARFCN/LTE EARFCN
+    valueType: STRING
+  distributionBucketOptions: # (range looks to be -141 to -44)
+    linearBuckets:
+      numFiniteBuckets: 100
+      width: 1
+      offset: -142
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/modem/rsrq
+  type: devices.edgelq.com/device/modem/rsrq
+  displayName: Mobile Network RSRQ
+  metricKind: GAUGE
+  valueType: DISTRIBUTION
+  unit: dB
+  labels:
+  - key: access_technology
+    description: Access Technology (LTE etc)
+    valueType: STRING
+  - key: global_cell_id
+    description: Global Cell ID
+    valueType: STRING
+  - key: physical_cell_id
+    description: Physical Cell ID
+    valueType: STRING
+  - key: tracking_area_code
+    description: Tracking Area Code
+    valueType: STRING
+  - key: arfcn
+    description: 5G NR ARFCN/LTE EARFCN
+    valueType: STRING
+  distributionBucketOptions: # likely range is -19.5 to -3, allow -19.75 to - 2.75
+    linearBuckets:
+      numFiniteBuckets: 68
+      width: 0.25
+      offset: -19.75
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/modem/snr
+  type: devices.edgelq.com/device/modem/snr
+  displayName: Mobile Network SNR
+  metricKind: GAUGE
+  valueType: DISTRIBUTION
+  unit: dB
+  labels:
+  - key: access_technology
+    description: Access Technology (LTE etc)
+    valueType: STRING
+  - key: global_cell_id
+    description: Global Cell ID
+    valueType: STRING
+  - key: physical_cell_id
+    description: Physical Cell ID
+    valueType: STRING
+  - key: tracking_area_code
+    description: Tracking Area Code
+    valueType: STRING
+  - key: arfcn
+    description: 5G NR ARFCN/LTE EARFCN
+    valueType: STRING
+  distributionBucketOptions:
+    linearBuckets:
+      numFiniteBuckets: 80 # range is likely 0 to 40
+      width: 0.5
+      offset: 0
+  promotedLabelKeySets:
+  - labelKeys: []
+  indices:
+    legacyMigrated:
+    - name: Legacy:devices.edgelq.com/device
+      resourceTypes: [ devices.edgelq.com/device ]
+      partitionLabelSets:
+      - name: "project_id-"
+        resourceKeys: [ project_id ]
+      - name: "device_id-"
+        resourceKeys: [ device_id ]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/modem/rsrp-per-antenna
+  type: devices.edgelq.com/device/modem/rsrp-per-antenna
+  displayName: Mobile Network RSRP Per Antenna
+  metricKind: GAUGE
+  valueType: DISTRIBUTION
+  unit: dBm
+  labels:
+  - key: access_technology
+    description: Access Technology (LTE etc)
+    valueType: STRING
+  - key: antenna_number
+    description: Antenna Number
+    valueType: STRING
+  distributionBucketOptions: # (range looks to be -141 to -44)
+    linearBuckets:
+      numFiniteBuckets: 100
+      width: 1
+      offset: -142
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "rsrpperantenna-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          metricKeys: [ ]
+          resourceKeys: [device_id]
+        # Set ProjectScope to closed when the scale increases in prod/when we have the pagination by value
+        - name: "ProjectScope"
+          metricKeys: [ ]
+          resourceKeys: [ ]
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/modem/rsrq-per-antenna
+  type: devices.edgelq.com/device/modem/rsrq-per-antenna
+  displayName: Mobile Network RSRQ Per Antenna
+  metricKind: GAUGE
+  valueType: DISTRIBUTION
+  unit: dB
+  labels:
+  - key: access_technology
+    description: Access Technology (LTE etc)
+    valueType: STRING
+  - key: antenna_number
+    description: Antenna Number
+    valueType: STRING
+  distributionBucketOptions: # likely range is -19.5 to -3, allow -19.75 to - 2.75
+    linearBuckets:
+      numFiniteBuckets: 68
+      width: 0.25
+      offset: -19.75
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "rsrqperantenna-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          metricKeys: [ ]
+          resourceKeys: [device_id]
+        # Set ProjectScope to closed when the scale increases in prod/when we have the pagination by value
+        - name: "ProjectScope"
+          metricKeys: [ ]
+          resourceKeys: [ ]

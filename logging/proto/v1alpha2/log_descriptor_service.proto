@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "LogDescriptorServiceProto";
 option java_package = "com.ntt.logging.pb.v1alpha2";
 
-// Request message for method
-// [GetLogDescriptor][ntt.logging.v1alpha2.GetLogDescriptor]
+// A request message of the GetLogDescriptor method.
 message GetLogDescriptorRequest {
   // Name of ntt.logging.v1alpha2.LogDescriptor
   string name = 1;
@@ -32,8 +31,7 @@ message GetLogDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetLogDescriptors][ntt.logging.v1alpha2.BatchGetLogDescriptors]
+// A request message of the BatchGetLogDescriptors method.
 message BatchGetLogDescriptorsRequest {
   // Names of LogDescriptors
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetLogDescriptorsRequest {
   reserved 1;
 }
 
-// BatchGetLogDescriptorsResponse
+// A response message of the BatchGetLogDescriptors method.
 message BatchGetLogDescriptorsResponse {
   // found LogDescriptors
   repeated LogDescriptor log_descriptors = 1;
@@ -58,8 +56,7 @@ message BatchGetLogDescriptorsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListLogDescriptors][ntt.logging.v1alpha2.ListLogDescriptors]
+// A request message of the ListLogDescriptors method.
 message ListLogDescriptorsRequest {
   // Parent name of ntt.logging.v1alpha2.LogDescriptor
   string parent = 1;
@@ -70,7 +67,7 @@ message ListLogDescriptorsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListLogDescriptorsResponse.next_page_token][ntt.logging.v1alpha2.ListLogDescriptorsResponse.next_page_token]
+  // ListLogDescriptorsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListLogDescriptorsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListLogDescriptors][ntt.logging.v1alpha2.ListLogDescriptors]
+// A response message of the ListLogDescriptors method.
 message ListLogDescriptorsResponse {
   // The list of LogDescriptors
   repeated LogDescriptor log_descriptors = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListLogDescriptorsRequest.page_token][ntt.logging.v1alpha2.ListLogDescriptorsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListLogDescriptorsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListLogDescriptorsRequest.page_token][ntt.logging.v1alpha2.ListLogDescriptorsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListLogDescriptorsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +125,7 @@ message ListLogDescriptorsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchLogDescriptor][ntt.logging.v1alpha2.WatchLogDescriptor]
+// A request message of the WatchLogDescriptor method.
 message WatchLogDescriptorRequest {
   // Name of ntt.logging.v1alpha2.LogDescriptor
   string name = 1;
@@ -142,11 +139,10 @@ message WatchLogDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// WatchLogDescriptorResponse
+// A response message of the WatchLogDescriptor method.
 message WatchLogDescriptorResponse { LogDescriptorChange change = 1; }
 
-// Request message for method
-// [WatchLogDescriptors][ntt.logging.v1alpha2.WatchLogDescriptors]
+// A request message of the WatchLogDescriptors method.
 message WatchLogDescriptorsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -206,7 +202,7 @@ message WatchLogDescriptorsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchLogDescriptorsResponse
+// A response message of the WatchLogDescriptors method.
 message WatchLogDescriptorsResponse {
   // Changes of LogDescriptors
   repeated LogDescriptorChange log_descriptor_changes = 2;
@@ -272,8 +268,7 @@ message WatchLogDescriptorsResponse {
   }
 }
 
-// Request message for method
-// [CreateLogDescriptor][ntt.logging.v1alpha2.CreateLogDescriptor]
+// A request message of the CreateLogDescriptor method.
 message CreateLogDescriptorRequest {
   // Parent name of ntt.logging.v1alpha2.LogDescriptor
   string parent = 1;
@@ -282,8 +277,7 @@ message CreateLogDescriptorRequest {
   LogDescriptor log_descriptor = 2;
 }
 
-// Request message for method
-// [UpdateLogDescriptor][ntt.logging.v1alpha2.UpdateLogDescriptor]
+// A request message of the UpdateLogDescriptor method.
 message UpdateLogDescriptorRequest {
   // LogDescriptor resource body
   LogDescriptor log_descriptor = 2;
@@ -318,8 +312,7 @@ message UpdateLogDescriptorRequest {
   }
 }
 
-// Request message for method
-// [DeleteLogDescriptor][ntt.logging.v1alpha2.DeleteLogDescriptor]
+// A request message of the DeleteLogDescriptor method.
 message DeleteLogDescriptorRequest {
   // Name of ntt.logging.v1alpha2.LogDescriptor
   string name = 1;

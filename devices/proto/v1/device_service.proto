@@ -18,7 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "DeviceServiceProto";
 option java_package = "com.ntt.devices.pb.v1";
 
-// Request message for method [GetDevice][ntt.devices.v1.GetDevice]
+// A request message of the GetDevice method.
 message GetDeviceRequest {
   // Name of ntt.devices.v1.Device
   string name = 1;
@@ -32,7 +32,7 @@ message GetDeviceRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method [BatchGetDevices][ntt.devices.v1.BatchGetDevices]
+// A request message of the BatchGetDevices method.
 message BatchGetDevicesRequest {
   // Names of Devices
   repeated string names = 2;
@@ -48,7 +48,7 @@ message BatchGetDevicesRequest {
   reserved 1;
 }
 
-// BatchGetDevicesResponse
+// A response message of the BatchGetDevices method.
 message BatchGetDevicesResponse {
   // found Devices
   repeated Device devices = 1;
@@ -57,7 +57,7 @@ message BatchGetDevicesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListDevices][ntt.devices.v1.ListDevices]
+// A request message of the ListDevices method.
 message ListDevicesRequest {
   // Parent name of ntt.devices.v1.Device
   string parent = 1;
@@ -68,7 +68,7 @@ message ListDevicesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListDevicesResponse.next_page_token][ntt.devices.v1.ListDevicesResponse.next_page_token]
+  // ListDevicesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -99,17 +99,19 @@ message ListDevicesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListDevices][ntt.devices.v1.ListDevices]
+// A response message of the ListDevices method.
 message ListDevicesResponse {
   // The list of Devices
   repeated Device devices = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListDevicesRequest.page_token][ntt.devices.v1.ListDevicesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListDevicesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListDevicesRequest.page_token][ntt.devices.v1.ListDevicesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListDevicesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -123,7 +125,7 @@ message ListDevicesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchDevice][ntt.devices.v1.WatchDevice]
+// A request message of the WatchDevice method.
 message WatchDeviceRequest {
   // Name of ntt.devices.v1.Device
   string name = 1;
@@ -137,10 +139,10 @@ message WatchDeviceRequest {
   goten.types.View view = 4;
 }
 
-// WatchDeviceResponse
+// A response message of the WatchDevice method.
 message WatchDeviceResponse { DeviceChange change = 1; }
 
-// Request message for method [WatchDevices][ntt.devices.v1.WatchDevices]
+// A request message of the WatchDevices method.
 message WatchDevicesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -200,7 +202,7 @@ message WatchDevicesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchDevicesResponse
+// A response message of the WatchDevices method.
 message WatchDevicesResponse {
   // Changes of Devices
   repeated DeviceChange device_changes = 2;
@@ -266,7 +268,7 @@ message WatchDevicesResponse {
   }
 }
 
-// Request message for method [CreateDevice][ntt.devices.v1.CreateDevice]
+// A request message of the CreateDevice method.
 message CreateDeviceRequest {
   // Parent name of ntt.devices.v1.Device
   string parent = 1;
@@ -275,7 +277,7 @@ message CreateDeviceRequest {
   Device device = 2;
 }
 
-// Request message for method [UpdateDevice][ntt.devices.v1.UpdateDevice]
+// A request message of the UpdateDevice method.
 message UpdateDeviceRequest {
   // Device resource body
   Device device = 2;
@@ -310,7 +312,7 @@ message UpdateDeviceRequest {
   }
 }
 
-// Request message for method [DeleteDevice][ntt.devices.v1.DeleteDevice]
+// A request message of the DeleteDevice method.
 message DeleteDeviceRequest {
   // Name of ntt.devices.v1.Device
   string name = 1;

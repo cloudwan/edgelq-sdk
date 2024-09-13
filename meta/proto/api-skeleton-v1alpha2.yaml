@@ -1,0 +1,40 @@
+name: meta.edgelq.com
+proto:
+  package:
+    name: ntt.meta
+    currentVersion: v1alpha2
+    goPackage: github.com/cloudwan/edgelq/meta
+    protoImportPathPrefix: edgelq/meta/proto
+  service:
+    name: Meta
+    defaultHost: meta.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+resources:
+- name: Region
+  optOuts:
+    basicActions:
+    - CreateRegion
+    - UpdateRegion
+    - DeleteRegion
+- name: Deployment
+  optOuts:
+    basicActions:
+    - CreateDeployment
+    - UpdateDeployment
+    - DeleteDeployment
+  parents:
+  - Region
+- name: Service
+  optOuts:
+    basicActions:
+    - CreateService
+    - UpdateService
+    - DeleteService
+- name: Resource
+  parents:
+  - Service
+  optOuts:
+    basicActions:
+    - CreateResource
+    - UpdateResource
+    - DeleteResource

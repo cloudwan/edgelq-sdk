@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "ResourceServiceProto";
 option java_package = "com.ntt.meta.pb.v1alpha2";
 
-// Request message for method [GetResource][ntt.meta.v1alpha2.GetResource]
+// A request message of the GetResource method.
 message GetResourceRequest {
   // Name of ntt.meta.v1alpha2.Resource
   string name = 1;
@@ -31,8 +31,7 @@ message GetResourceRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetResources][ntt.meta.v1alpha2.BatchGetResources]
+// A request message of the BatchGetResources method.
 message BatchGetResourcesRequest {
   // Names of Resources
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetResourcesRequest {
   reserved 1;
 }
 
-// BatchGetResourcesResponse
+// A response message of the BatchGetResources method.
 message BatchGetResourcesResponse {
   // found Resources
   repeated Resource resources = 1;
@@ -57,7 +56,7 @@ message BatchGetResourcesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListResources][ntt.meta.v1alpha2.ListResources]
+// A request message of the ListResources method.
 message ListResourcesRequest {
   // Parent name of ntt.meta.v1alpha2.Resource
   string parent = 1;
@@ -68,7 +67,7 @@ message ListResourcesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListResourcesResponse.next_page_token][ntt.meta.v1alpha2.ListResourcesResponse.next_page_token]
+  // ListResourcesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -99,17 +98,19 @@ message ListResourcesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListResources][ntt.meta.v1alpha2.ListResources]
+// A response message of the ListResources method.
 message ListResourcesResponse {
   // The list of Resources
   repeated Resource resources = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListResourcesRequest.page_token][ntt.meta.v1alpha2.ListResourcesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListResourcesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListResourcesRequest.page_token][ntt.meta.v1alpha2.ListResourcesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListResourcesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -123,7 +124,7 @@ message ListResourcesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchResource][ntt.meta.v1alpha2.WatchResource]
+// A request message of the WatchResource method.
 message WatchResourceRequest {
   // Name of ntt.meta.v1alpha2.Resource
   string name = 1;
@@ -137,10 +138,10 @@ message WatchResourceRequest {
   goten.types.View view = 4;
 }
 
-// WatchResourceResponse
+// A response message of the WatchResource method.
 message WatchResourceResponse { ResourceChange change = 1; }
 
-// Request message for method [WatchResources][ntt.meta.v1alpha2.WatchResources]
+// A request message of the WatchResources method.
 message WatchResourcesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -200,7 +201,7 @@ message WatchResourcesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchResourcesResponse
+// A response message of the WatchResources method.
 message WatchResourcesResponse {
   // Changes of Resources
   repeated ResourceChange resource_changes = 2;

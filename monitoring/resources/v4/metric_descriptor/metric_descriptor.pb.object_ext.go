@@ -160,12 +160,32 @@ func (o *MetricDescriptor) MakeDiffFieldMask(other *MetricDescriptor) *MetricDes
 		}
 	}
 	{
+		subMask := o.GetIndices().MakeDiffFieldMask(other.GetIndices())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorIndices})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorIndices, subPath: subpath})
+			}
+		}
+	}
+	{
 		subMask := o.GetStorageConfig().MakeDiffFieldMask(other.GetStorageConfig())
 		if subMask.IsFull() {
 			res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorStorageConfig})
 		} else {
 			for _, subpath := range subMask.Paths {
 				res.Paths = append(res.Paths, &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorStorageConfig, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetBinaryIndices().MakeDiffFieldMask(other.GetBinaryIndices())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorBinaryIndices})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorBinaryIndices, subPath: subpath})
 			}
 		}
 	}
@@ -213,7 +233,9 @@ func (o *MetricDescriptor) Clone() *MetricDescriptor {
 		result.PromotedLabelKeySets[i] = sourceValue.Clone()
 	}
 	result.IndexSpec = o.IndexSpec.Clone()
+	result.Indices = o.Indices.Clone()
 	result.StorageConfig = o.StorageConfig.Clone()
+	result.BinaryIndices = o.BinaryIndices.Clone()
 	return result
 }
 
@@ -315,11 +337,23 @@ func (o *MetricDescriptor) Merge(source *MetricDescriptor) {
 		}
 		o.IndexSpec.Merge(source.GetIndexSpec())
 	}
+	if source.GetIndices() != nil {
+		if o.Indices == nil {
+			o.Indices = new(MetricDescriptor_Indices)
+		}
+		o.Indices.Merge(source.GetIndices())
+	}
 	if source.GetStorageConfig() != nil {
 		if o.StorageConfig == nil {
 			o.StorageConfig = new(MetricDescriptor_StorageConfig)
 		}
 		o.StorageConfig.Merge(source.GetStorageConfig())
+	}
+	if source.GetBinaryIndices() != nil {
+		if o.BinaryIndices == nil {
+			o.BinaryIndices = new(MetricDescriptor_BinaryIndices)
+		}
+		o.BinaryIndices.Merge(source.GetBinaryIndices())
 	}
 }
 
@@ -456,6 +490,119 @@ func (o *MetricDescriptor_IndexSpec) MergeRaw(source gotenobject.GotenObjectExt)
 	o.Merge(source.(*MetricDescriptor_IndexSpec))
 }
 
+func (o *MetricDescriptor_Indices) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices) MakeFullFieldMask() *MetricDescriptor_Indices_FieldMask {
+	return FullMetricDescriptor_Indices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices) MakeDiffFieldMask(other *MetricDescriptor_Indices) *MetricDescriptor_Indices_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_FieldMask{}
+	{
+		subMask := o.GetBuiltIn().MakeDiffFieldMask(other.GetBuiltIn())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetUserDefined().MakeDiffFieldMask(other.GetUserDefined())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorUserDefined})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorUserDefined, subPath: subpath})
+			}
+		}
+	}
+
+	if len(o.GetLegacyMigrated()) == len(other.GetLegacyMigrated()) {
+		for i, lValue := range o.GetLegacyMigrated() {
+			rValue := other.GetLegacyMigrated()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices))
+}
+
+func (o *MetricDescriptor_Indices) Clone() *MetricDescriptor_Indices {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices{}
+	result.BuiltIn = o.BuiltIn.Clone()
+	result.UserDefined = o.UserDefined.Clone()
+	result.LegacyMigrated = make([]*MetricDescriptor_Indices_NonAggregatedIndices, len(o.LegacyMigrated))
+	for i, sourceValue := range o.LegacyMigrated {
+		result.LegacyMigrated[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MetricDescriptor_Indices) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices) Merge(source *MetricDescriptor_Indices) {
+	if source.GetBuiltIn() != nil {
+		if o.BuiltIn == nil {
+			o.BuiltIn = new(MetricDescriptor_Indices_IndexGroups)
+		}
+		o.BuiltIn.Merge(source.GetBuiltIn())
+	}
+	if source.GetUserDefined() != nil {
+		if o.UserDefined == nil {
+			o.UserDefined = new(MetricDescriptor_Indices_IndexGroups)
+		}
+		o.UserDefined.Merge(source.GetUserDefined())
+	}
+	for _, sourceValue := range source.GetLegacyMigrated() {
+		exists := false
+		for _, currentValue := range o.LegacyMigrated {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_NonAggregatedIndices
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_NonAggregatedIndices)
+				newDstElement.Merge(sourceValue)
+			}
+			o.LegacyMigrated = append(o.LegacyMigrated, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_Indices) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices))
+}
+
 func (o *MetricDescriptor_StorageConfig) GotenObjectExt() {}
 
 func (o *MetricDescriptor_StorageConfig) MakeFullFieldMask() *MetricDescriptor_StorageConfig_FieldMask {
@@ -506,6 +653,85 @@ func (o *MetricDescriptor_StorageConfig) MergeRaw(source gotenobject.GotenObject
 	o.Merge(source.(*MetricDescriptor_StorageConfig))
 }
 
+func (o *MetricDescriptor_BinaryIndices) GotenObjectExt() {}
+
+func (o *MetricDescriptor_BinaryIndices) MakeFullFieldMask() *MetricDescriptor_BinaryIndices_FieldMask {
+	return FullMetricDescriptor_BinaryIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_BinaryIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices) MakeDiffFieldMask(other *MetricDescriptor_BinaryIndices) *MetricDescriptor_BinaryIndices_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_BinaryIndices_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_BinaryIndices_FieldMask()
+	}
+
+	res := &MetricDescriptor_BinaryIndices_FieldMask{}
+
+	if len(o.GetByResources()) == len(other.GetByResources()) {
+		for i, lValue := range o.GetByResources() {
+			rValue := other.GetByResources()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_BinaryIndices) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_BinaryIndices))
+}
+
+func (o *MetricDescriptor_BinaryIndices) Clone() *MetricDescriptor_BinaryIndices {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_BinaryIndices{}
+	result.ByResources = make([]*MetricDescriptor_BinaryIndices_ByResourceType, len(o.ByResources))
+	for i, sourceValue := range o.ByResources {
+		result.ByResources[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MetricDescriptor_BinaryIndices) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_BinaryIndices) Merge(source *MetricDescriptor_BinaryIndices) {
+	for _, sourceValue := range source.GetByResources() {
+		exists := false
+		for _, currentValue := range o.ByResources {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_BinaryIndices_ByResourceType
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_BinaryIndices_ByResourceType)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ByResources = append(o.ByResources, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_BinaryIndices) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_BinaryIndices))
+}
+
 func (o *MetricDescriptor_IndexSpec_Index) GotenObjectExt() {}
 
 func (o *MetricDescriptor_IndexSpec_Index) MakeFullFieldMask() *MetricDescriptor_IndexSpec_Index_FieldMask {
@@ -537,9 +763,6 @@ func (o *MetricDescriptor_IndexSpec_Index) MakeDiffFieldMask(other *MetricDescri
 	} else {
 		res.Paths = append(res.Paths, &MetricDescriptorIndexSpecIndex_FieldTerminalPath{selector: MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels})
 	}
-	if o.GetWriteOnly() != other.GetWriteOnly() {
-		res.Paths = append(res.Paths, &MetricDescriptorIndexSpecIndex_FieldTerminalPath{selector: MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly})
-	}
 	return res
 }
 
@@ -556,7 +779,6 @@ func (o *MetricDescriptor_IndexSpec_Index) Clone() *MetricDescriptor_IndexSpec_I
 	for i, sourceValue := range o.PromotedLabels {
 		result.PromotedLabels[i] = sourceValue
 	}
-	result.WriteOnly = o.WriteOnly
 	return result
 }
 
@@ -580,7 +802,6 @@ func (o *MetricDescriptor_IndexSpec_Index) Merge(source *MetricDescriptor_IndexS
 		}
 	}
 
-	o.WriteOnly = source.GetWriteOnly()
 }
 
 func (o *MetricDescriptor_IndexSpec_Index) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -689,4 +910,1593 @@ func (o *MetricDescriptor_IndexSpec_PerMonitoredResource) Merge(source *MetricDe
 
 func (o *MetricDescriptor_IndexSpec_PerMonitoredResource) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*MetricDescriptor_IndexSpec_PerMonitoredResource))
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) MakeFullFieldMask() *MetricDescriptor_Indices_LabelsGroup_FieldMask {
+	return FullMetricDescriptor_Indices_LabelsGroup_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_LabelsGroup_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) MakeDiffFieldMask(other *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_Indices_LabelsGroup_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_LabelsGroup_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName})
+	}
+
+	if len(o.GetMetricKeys()) == len(other.GetMetricKeys()) {
+		for i, lValue := range o.GetMetricKeys() {
+			rValue := other.GetMetricKeys()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys})
+	}
+
+	if len(o.GetResourceKeys()) == len(other.GetResourceKeys()) {
+		for i, lValue := range o.GetResourceKeys() {
+			rValue := other.GetResourceKeys()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys})
+	}
+	if o.GetClosingStatus() != other.GetClosingStatus() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) Clone() *MetricDescriptor_Indices_LabelsGroup {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_LabelsGroup{}
+	result.Name = o.Name
+	result.MetricKeys = make([]string, len(o.MetricKeys))
+	for i, sourceValue := range o.MetricKeys {
+		result.MetricKeys[i] = sourceValue
+	}
+	result.ResourceKeys = make([]string, len(o.ResourceKeys))
+	for i, sourceValue := range o.ResourceKeys {
+		result.ResourceKeys[i] = sourceValue
+	}
+	result.ClosingStatus = o.ClosingStatus
+	return result
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) Merge(source *MetricDescriptor_Indices_LabelsGroup) {
+	o.Name = source.GetName()
+	for _, sourceValue := range source.GetMetricKeys() {
+		exists := false
+		for _, currentValue := range o.MetricKeys {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.MetricKeys = append(o.MetricKeys, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetResourceKeys() {
+		exists := false
+		for _, currentValue := range o.ResourceKeys {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.ResourceKeys = append(o.ResourceKeys, newDstElement)
+		}
+	}
+
+	o.ClosingStatus = source.GetClosingStatus()
+}
+
+func (o *MetricDescriptor_Indices_LabelsGroup) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_PaginationView) MakeFullFieldMask() *MetricDescriptor_Indices_PaginationView_FieldMask {
+	return FullMetricDescriptor_Indices_PaginationView_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_PaginationView_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) MakeDiffFieldMask(other *MetricDescriptor_Indices_PaginationView) *MetricDescriptor_Indices_PaginationView_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_PaginationView_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_PaginationView_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_PaginationView_FieldMask{}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorName})
+	}
+
+	if len(o.GetFilterableMetricKeys()) == len(other.GetFilterableMetricKeys()) {
+		for i, lValue := range o.GetFilterableMetricKeys() {
+			rValue := other.GetFilterableMetricKeys()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys})
+	}
+
+	if len(o.GetFilterableResourceKeys()) == len(other.GetFilterableResourceKeys()) {
+		for i, lValue := range o.GetFilterableResourceKeys() {
+			rValue := other.GetFilterableResourceKeys()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys})
+	}
+
+	if len(o.GetPaginatedMetricKeys()) == len(other.GetPaginatedMetricKeys()) {
+		for i, lValue := range o.GetPaginatedMetricKeys() {
+			rValue := other.GetPaginatedMetricKeys()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys})
+	}
+
+	if len(o.GetPaginatedResourceKeys()) == len(other.GetPaginatedResourceKeys()) {
+		for i, lValue := range o.GetPaginatedResourceKeys() {
+			rValue := other.GetPaginatedResourceKeys()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys})
+	}
+	if o.GetClosingStatus() != other.GetClosingStatus() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_PaginationView))
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) Clone() *MetricDescriptor_Indices_PaginationView {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_PaginationView{}
+	result.Name = o.Name
+	result.FilterableMetricKeys = make([]string, len(o.FilterableMetricKeys))
+	for i, sourceValue := range o.FilterableMetricKeys {
+		result.FilterableMetricKeys[i] = sourceValue
+	}
+	result.FilterableResourceKeys = make([]string, len(o.FilterableResourceKeys))
+	for i, sourceValue := range o.FilterableResourceKeys {
+		result.FilterableResourceKeys[i] = sourceValue
+	}
+	result.PaginatedMetricKeys = make([]string, len(o.PaginatedMetricKeys))
+	for i, sourceValue := range o.PaginatedMetricKeys {
+		result.PaginatedMetricKeys[i] = sourceValue
+	}
+	result.PaginatedResourceKeys = make([]string, len(o.PaginatedResourceKeys))
+	for i, sourceValue := range o.PaginatedResourceKeys {
+		result.PaginatedResourceKeys[i] = sourceValue
+	}
+	result.ClosingStatus = o.ClosingStatus
+	return result
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) Merge(source *MetricDescriptor_Indices_PaginationView) {
+	o.Name = source.GetName()
+	for _, sourceValue := range source.GetFilterableMetricKeys() {
+		exists := false
+		for _, currentValue := range o.FilterableMetricKeys {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.FilterableMetricKeys = append(o.FilterableMetricKeys, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetFilterableResourceKeys() {
+		exists := false
+		for _, currentValue := range o.FilterableResourceKeys {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.FilterableResourceKeys = append(o.FilterableResourceKeys, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPaginatedMetricKeys() {
+		exists := false
+		for _, currentValue := range o.PaginatedMetricKeys {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.PaginatedMetricKeys = append(o.PaginatedMetricKeys, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPaginatedResourceKeys() {
+		exists := false
+		for _, currentValue := range o.PaginatedResourceKeys {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.PaginatedResourceKeys = append(o.PaginatedResourceKeys, newDstElement)
+		}
+	}
+
+	o.ClosingStatus = source.GetClosingStatus()
+}
+
+func (o *MetricDescriptor_Indices_PaginationView) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_PaginationView))
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) MakeFullFieldMask() *MetricDescriptor_Indices_AggregationsGroup_FieldMask {
+	return FullMetricDescriptor_Indices_AggregationsGroup_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_AggregationsGroup_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) MakeDiffFieldMask(other *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_Indices_AggregationsGroup_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_AggregationsGroup_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_AggregationsGroup_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_AggregationsGroup_FieldMask{}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName})
+	}
+
+	if len(o.GetPerSeriesAligners()) == len(other.GetPerSeriesAligners()) {
+		for i, lValue := range o.GetPerSeriesAligners() {
+			rValue := other.GetPerSeriesAligners()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners})
+	}
+
+	if len(o.GetCrossSeriesReducers()) == len(other.GetCrossSeriesReducers()) {
+		for i, lValue := range o.GetCrossSeriesReducers() {
+			rValue := other.GetCrossSeriesReducers()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers})
+	}
+	if o.GetClosingStatus() != other.GetClosingStatus() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus})
+	}
+
+	if len(o.GetStorageAligners()) == len(other.GetStorageAligners()) {
+		for i, lValue := range o.GetStorageAligners() {
+			rValue := other.GetStorageAligners()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) Clone() *MetricDescriptor_Indices_AggregationsGroup {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_AggregationsGroup{}
+	result.Name = o.Name
+	result.PerSeriesAligners = make([]common.Aggregation_Aligner, len(o.PerSeriesAligners))
+	for i, sourceValue := range o.PerSeriesAligners {
+		result.PerSeriesAligners[i] = sourceValue
+	}
+	result.CrossSeriesReducers = make([]common.Aggregation_Reducer, len(o.CrossSeriesReducers))
+	for i, sourceValue := range o.CrossSeriesReducers {
+		result.CrossSeriesReducers[i] = sourceValue
+	}
+	result.ClosingStatus = o.ClosingStatus
+	result.StorageAligners = make([]common.Aggregation_Aligner, len(o.StorageAligners))
+	for i, sourceValue := range o.StorageAligners {
+		result.StorageAligners[i] = sourceValue
+	}
+	return result
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) Merge(source *MetricDescriptor_Indices_AggregationsGroup) {
+	o.Name = source.GetName()
+	for _, sourceValue := range source.GetPerSeriesAligners() {
+		exists := false
+		for _, currentValue := range o.PerSeriesAligners {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement common.Aggregation_Aligner
+			newDstElement = sourceValue
+			o.PerSeriesAligners = append(o.PerSeriesAligners, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetCrossSeriesReducers() {
+		exists := false
+		for _, currentValue := range o.CrossSeriesReducers {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement common.Aggregation_Reducer
+			newDstElement = sourceValue
+			o.CrossSeriesReducers = append(o.CrossSeriesReducers, newDstElement)
+		}
+	}
+
+	o.ClosingStatus = source.GetClosingStatus()
+	for _, sourceValue := range source.GetStorageAligners() {
+		exists := false
+		for _, currentValue := range o.StorageAligners {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement common.Aggregation_Aligner
+			newDstElement = sourceValue
+			o.StorageAligners = append(o.StorageAligners, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_Indices_AggregationsGroup) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_SortingFunction) MakeFullFieldMask() *MetricDescriptor_Indices_SortingFunction_FieldMask {
+	return FullMetricDescriptor_Indices_SortingFunction_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_SortingFunction_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) MakeDiffFieldMask(other *MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_Indices_SortingFunction_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_SortingFunction_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_SortingFunction_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_SortingFunction_FieldMask{}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorName})
+	}
+	if o.GetAligner() != other.GetAligner() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner})
+	}
+	if o.GetReducer() != other.GetReducer() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer})
+	}
+	if o.GetClosingStatus() != other.GetClosingStatus() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus})
+	}
+	if o.GetSorting() != other.GetSorting() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) Clone() *MetricDescriptor_Indices_SortingFunction {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_SortingFunction{}
+	result.Name = o.Name
+	result.Aligner = o.Aligner
+	result.Reducer = o.Reducer
+	result.ClosingStatus = o.ClosingStatus
+	result.Sorting = o.Sorting
+	return result
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) Merge(source *MetricDescriptor_Indices_SortingFunction) {
+	o.Name = source.GetName()
+	o.Aligner = source.GetAligner()
+	o.Reducer = source.GetReducer()
+	o.ClosingStatus = source.GetClosingStatus()
+	o.Sorting = source.GetSorting()
+}
+
+func (o *MetricDescriptor_Indices_SortingFunction) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) MakeFullFieldMask() *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask {
+	return FullMetricDescriptor_Indices_PreAggregatedIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_PreAggregatedIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) MakeDiffFieldMask(other *MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_PreAggregatedIndices_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName})
+	}
+
+	if len(o.GetResourceTypes()) == len(other.GetResourceTypes()) {
+		for i, lValue := range o.GetResourceTypes() {
+			rValue := other.GetResourceTypes()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes})
+	}
+
+	if len(o.GetPartitionLabelSets()) == len(other.GetPartitionLabelSets()) {
+		for i, lValue := range o.GetPartitionLabelSets() {
+			rValue := other.GetPartitionLabelSets()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets})
+	}
+
+	if len(o.GetFilterAndGroupLabelSets()) == len(other.GetFilterAndGroupLabelSets()) {
+		for i, lValue := range o.GetFilterAndGroupLabelSets() {
+			rValue := other.GetFilterAndGroupLabelSets()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets})
+	}
+
+	if len(o.GetSupportedAggregations()) == len(other.GetSupportedAggregations()) {
+		for i, lValue := range o.GetSupportedAggregations() {
+			rValue := other.GetSupportedAggregations()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) Clone() *MetricDescriptor_Indices_PreAggregatedIndices {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_PreAggregatedIndices{}
+	result.Name = o.Name
+	result.ResourceTypes = make([]string, len(o.ResourceTypes))
+	for i, sourceValue := range o.ResourceTypes {
+		result.ResourceTypes[i] = sourceValue
+	}
+	result.PartitionLabelSets = make([]*MetricDescriptor_Indices_LabelsGroup, len(o.PartitionLabelSets))
+	for i, sourceValue := range o.PartitionLabelSets {
+		result.PartitionLabelSets[i] = sourceValue.Clone()
+	}
+	result.FilterAndGroupLabelSets = make([]*MetricDescriptor_Indices_LabelsGroup, len(o.FilterAndGroupLabelSets))
+	for i, sourceValue := range o.FilterAndGroupLabelSets {
+		result.FilterAndGroupLabelSets[i] = sourceValue.Clone()
+	}
+	result.SupportedAggregations = make([]*MetricDescriptor_Indices_AggregationsGroup, len(o.SupportedAggregations))
+	for i, sourceValue := range o.SupportedAggregations {
+		result.SupportedAggregations[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) Merge(source *MetricDescriptor_Indices_PreAggregatedIndices) {
+	o.Name = source.GetName()
+	for _, sourceValue := range source.GetResourceTypes() {
+		exists := false
+		for _, currentValue := range o.ResourceTypes {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.ResourceTypes = append(o.ResourceTypes, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPartitionLabelSets() {
+		exists := false
+		for _, currentValue := range o.PartitionLabelSets {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_LabelsGroup
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_LabelsGroup)
+				newDstElement.Merge(sourceValue)
+			}
+			o.PartitionLabelSets = append(o.PartitionLabelSets, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetFilterAndGroupLabelSets() {
+		exists := false
+		for _, currentValue := range o.FilterAndGroupLabelSets {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_LabelsGroup
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_LabelsGroup)
+				newDstElement.Merge(sourceValue)
+			}
+			o.FilterAndGroupLabelSets = append(o.FilterAndGroupLabelSets, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetSupportedAggregations() {
+		exists := false
+		for _, currentValue := range o.SupportedAggregations {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_AggregationsGroup
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_AggregationsGroup)
+				newDstElement.Merge(sourceValue)
+			}
+			o.SupportedAggregations = append(o.SupportedAggregations, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_Indices_PreAggregatedIndices) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) MakeFullFieldMask() *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask {
+	return FullMetricDescriptor_Indices_NonAggregatedIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_NonAggregatedIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) MakeDiffFieldMask(other *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_NonAggregatedIndices_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName})
+	}
+
+	if len(o.GetResourceTypes()) == len(other.GetResourceTypes()) {
+		for i, lValue := range o.GetResourceTypes() {
+			rValue := other.GetResourceTypes()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes})
+	}
+
+	if len(o.GetPartitionLabelSets()) == len(other.GetPartitionLabelSets()) {
+		for i, lValue := range o.GetPartitionLabelSets() {
+			rValue := other.GetPartitionLabelSets()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) Clone() *MetricDescriptor_Indices_NonAggregatedIndices {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_NonAggregatedIndices{}
+	result.Name = o.Name
+	result.ResourceTypes = make([]string, len(o.ResourceTypes))
+	for i, sourceValue := range o.ResourceTypes {
+		result.ResourceTypes[i] = sourceValue
+	}
+	result.PartitionLabelSets = make([]*MetricDescriptor_Indices_LabelsGroup, len(o.PartitionLabelSets))
+	for i, sourceValue := range o.PartitionLabelSets {
+		result.PartitionLabelSets[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) Merge(source *MetricDescriptor_Indices_NonAggregatedIndices) {
+	o.Name = source.GetName()
+	for _, sourceValue := range source.GetResourceTypes() {
+		exists := false
+		for _, currentValue := range o.ResourceTypes {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.ResourceTypes = append(o.ResourceTypes, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPartitionLabelSets() {
+		exists := false
+		for _, currentValue := range o.PartitionLabelSets {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_LabelsGroup
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_LabelsGroup)
+				newDstElement.Merge(sourceValue)
+			}
+			o.PartitionLabelSets = append(o.PartitionLabelSets, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_Indices_NonAggregatedIndices) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) MakeFullFieldMask() *MetricDescriptor_Indices_PaginationIndices_FieldMask {
+	return FullMetricDescriptor_Indices_PaginationIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_PaginationIndices_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) MakeDiffFieldMask(other *MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_Indices_PaginationIndices_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_PaginationIndices_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_PaginationIndices_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_PaginationIndices_FieldMask{}
+	if o.GetName() != other.GetName() {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName})
+	}
+
+	if len(o.GetResourceTypes()) == len(other.GetResourceTypes()) {
+		for i, lValue := range o.GetResourceTypes() {
+			rValue := other.GetResourceTypes()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes})
+	}
+
+	if len(o.GetPartitionLabelSets()) == len(other.GetPartitionLabelSets()) {
+		for i, lValue := range o.GetPartitionLabelSets() {
+			rValue := other.GetPartitionLabelSets()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets})
+	}
+
+	if len(o.GetViews()) == len(other.GetViews()) {
+		for i, lValue := range o.GetViews() {
+			rValue := other.GetViews()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews})
+	}
+
+	if len(o.GetFunctions()) == len(other.GetFunctions()) {
+		for i, lValue := range o.GetFunctions() {
+			rValue := other.GetFunctions()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) Clone() *MetricDescriptor_Indices_PaginationIndices {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_PaginationIndices{}
+	result.Name = o.Name
+	result.ResourceTypes = make([]string, len(o.ResourceTypes))
+	for i, sourceValue := range o.ResourceTypes {
+		result.ResourceTypes[i] = sourceValue
+	}
+	result.PartitionLabelSets = make([]*MetricDescriptor_Indices_LabelsGroup, len(o.PartitionLabelSets))
+	for i, sourceValue := range o.PartitionLabelSets {
+		result.PartitionLabelSets[i] = sourceValue.Clone()
+	}
+	result.Views = make([]*MetricDescriptor_Indices_PaginationView, len(o.Views))
+	for i, sourceValue := range o.Views {
+		result.Views[i] = sourceValue.Clone()
+	}
+	result.Functions = make([]*MetricDescriptor_Indices_SortingFunction, len(o.Functions))
+	for i, sourceValue := range o.Functions {
+		result.Functions[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) Merge(source *MetricDescriptor_Indices_PaginationIndices) {
+	o.Name = source.GetName()
+	for _, sourceValue := range source.GetResourceTypes() {
+		exists := false
+		for _, currentValue := range o.ResourceTypes {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.ResourceTypes = append(o.ResourceTypes, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPartitionLabelSets() {
+		exists := false
+		for _, currentValue := range o.PartitionLabelSets {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_LabelsGroup
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_LabelsGroup)
+				newDstElement.Merge(sourceValue)
+			}
+			o.PartitionLabelSets = append(o.PartitionLabelSets, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetViews() {
+		exists := false
+		for _, currentValue := range o.Views {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_PaginationView
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_PaginationView)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Views = append(o.Views, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetFunctions() {
+		exists := false
+		for _, currentValue := range o.Functions {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_SortingFunction
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_SortingFunction)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Functions = append(o.Functions, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_Indices_PaginationIndices) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) GotenObjectExt() {}
+
+func (o *MetricDescriptor_Indices_IndexGroups) MakeFullFieldMask() *MetricDescriptor_Indices_IndexGroups_FieldMask {
+	return FullMetricDescriptor_Indices_IndexGroups_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_Indices_IndexGroups_FieldMask()
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) MakeDiffFieldMask(other *MetricDescriptor_Indices_IndexGroups) *MetricDescriptor_Indices_IndexGroups_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_Indices_IndexGroups_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_Indices_IndexGroups_FieldMask()
+	}
+
+	res := &MetricDescriptor_Indices_IndexGroups_FieldMask{}
+
+	if len(o.GetPreAggregatedIndices()) == len(other.GetPreAggregatedIndices()) {
+		for i, lValue := range o.GetPreAggregatedIndices() {
+			rValue := other.GetPreAggregatedIndices()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices})
+	}
+
+	if len(o.GetNonAggregatedIndices()) == len(other.GetNonAggregatedIndices()) {
+		for i, lValue := range o.GetNonAggregatedIndices() {
+			rValue := other.GetNonAggregatedIndices()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices})
+	}
+
+	if len(o.GetPaginationIndices()) == len(other.GetPaginationIndices()) {
+		for i, lValue := range o.GetPaginationIndices() {
+			rValue := other.GetPaginationIndices()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) Clone() *MetricDescriptor_Indices_IndexGroups {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_Indices_IndexGroups{}
+	result.PreAggregatedIndices = make([]*MetricDescriptor_Indices_PreAggregatedIndices, len(o.PreAggregatedIndices))
+	for i, sourceValue := range o.PreAggregatedIndices {
+		result.PreAggregatedIndices[i] = sourceValue.Clone()
+	}
+	result.NonAggregatedIndices = make([]*MetricDescriptor_Indices_NonAggregatedIndices, len(o.NonAggregatedIndices))
+	for i, sourceValue := range o.NonAggregatedIndices {
+		result.NonAggregatedIndices[i] = sourceValue.Clone()
+	}
+	result.PaginationIndices = make([]*MetricDescriptor_Indices_PaginationIndices, len(o.PaginationIndices))
+	for i, sourceValue := range o.PaginationIndices {
+		result.PaginationIndices[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) Merge(source *MetricDescriptor_Indices_IndexGroups) {
+	for _, sourceValue := range source.GetPreAggregatedIndices() {
+		exists := false
+		for _, currentValue := range o.PreAggregatedIndices {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_PreAggregatedIndices
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_PreAggregatedIndices)
+				newDstElement.Merge(sourceValue)
+			}
+			o.PreAggregatedIndices = append(o.PreAggregatedIndices, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetNonAggregatedIndices() {
+		exists := false
+		for _, currentValue := range o.NonAggregatedIndices {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_NonAggregatedIndices
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_NonAggregatedIndices)
+				newDstElement.Merge(sourceValue)
+			}
+			o.NonAggregatedIndices = append(o.NonAggregatedIndices, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPaginationIndices() {
+		exists := false
+		for _, currentValue := range o.PaginationIndices {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_Indices_PaginationIndices
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_Indices_PaginationIndices)
+				newDstElement.Merge(sourceValue)
+			}
+			o.PaginationIndices = append(o.PaginationIndices, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_Indices_IndexGroups) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) GotenObjectExt() {}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) MakeFullFieldMask() *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask {
+	return FullMetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) MakeDiffFieldMask(other *MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask()
+	}
+
+	res := &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{}
+	if string(o.GetKeyData()) != string(other.GetKeyData()) {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData})
+	}
+
+	if len(o.GetWritingAligners()) == len(other.GetWritingAligners()) {
+		for i, lValue := range o.GetWritingAligners() {
+			rValue := other.GetWritingAligners()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners})
+	}
+
+	if len(o.GetClosedAligners()) == len(other.GetClosedAligners()) {
+		for i, lValue := range o.GetClosedAligners() {
+			rValue := other.GetClosedAligners()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) Clone() *MetricDescriptor_BinaryIndices_PreAggregatedIndex {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_BinaryIndices_PreAggregatedIndex{}
+	result.KeyData = make([]byte, len(o.KeyData))
+	for i, bt := range o.KeyData {
+		result.KeyData[i] = bt
+	}
+	result.WritingAligners = make([][]byte, len(o.WritingAligners))
+	for i, sourceValue := range o.WritingAligners {
+		result.WritingAligners[i] = sourceValue
+	}
+	result.ClosedAligners = make([][]byte, len(o.ClosedAligners))
+	for i, sourceValue := range o.ClosedAligners {
+		result.ClosedAligners[i] = sourceValue
+	}
+	return result
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) Merge(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) {
+	o.KeyData = make([]byte, len(source.GetKeyData()))
+	for i, bt := range source.GetKeyData() {
+		o.KeyData[i] = bt
+	}
+	for _, sourceValue := range source.GetWritingAligners() {
+		exists := false
+		for _, currentValue := range o.WritingAligners {
+			if string(currentValue) == string(sourceValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement []byte
+			newDstElement = sourceValue
+			o.WritingAligners = append(o.WritingAligners, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetClosedAligners() {
+		exists := false
+		for _, currentValue := range o.ClosedAligners {
+			if string(currentValue) == string(sourceValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement []byte
+			newDstElement = sourceValue
+			o.ClosedAligners = append(o.ClosedAligners, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_BinaryIndices_PreAggregatedIndex) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) GotenObjectExt() {}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) MakeFullFieldMask() *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask {
+	return FullMetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) MakeDiffFieldMask(other *MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask()
+	}
+
+	res := &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{}
+	if string(o.GetKeyData()) != string(other.GetKeyData()) {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData})
+	}
+
+	if len(o.GetWritingFunctions()) == len(other.GetWritingFunctions()) {
+		for i, lValue := range o.GetWritingFunctions() {
+			rValue := other.GetWritingFunctions()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions})
+	}
+
+	if len(o.GetClosedFunctions()) == len(other.GetClosedFunctions()) {
+		for i, lValue := range o.GetClosedFunctions() {
+			rValue := other.GetClosedFunctions()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) Clone() *MetricDescriptor_BinaryIndices_PaginatingIndex {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_BinaryIndices_PaginatingIndex{}
+	result.KeyData = make([]byte, len(o.KeyData))
+	for i, bt := range o.KeyData {
+		result.KeyData[i] = bt
+	}
+	result.WritingFunctions = make([][]byte, len(o.WritingFunctions))
+	for i, sourceValue := range o.WritingFunctions {
+		result.WritingFunctions[i] = sourceValue
+	}
+	result.ClosedFunctions = make([][]byte, len(o.ClosedFunctions))
+	for i, sourceValue := range o.ClosedFunctions {
+		result.ClosedFunctions[i] = sourceValue
+	}
+	return result
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) Merge(source *MetricDescriptor_BinaryIndices_PaginatingIndex) {
+	o.KeyData = make([]byte, len(source.GetKeyData()))
+	for i, bt := range source.GetKeyData() {
+		o.KeyData[i] = bt
+	}
+	for _, sourceValue := range source.GetWritingFunctions() {
+		exists := false
+		for _, currentValue := range o.WritingFunctions {
+			if string(currentValue) == string(sourceValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement []byte
+			newDstElement = sourceValue
+			o.WritingFunctions = append(o.WritingFunctions, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetClosedFunctions() {
+		exists := false
+		for _, currentValue := range o.ClosedFunctions {
+			if string(currentValue) == string(sourceValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement []byte
+			newDstElement = sourceValue
+			o.ClosedFunctions = append(o.ClosedFunctions, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_BinaryIndices_PaginatingIndex) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) GotenObjectExt() {}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) MakeFullFieldMask() *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask {
+	return FullMetricDescriptor_BinaryIndices_ByResourceType_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullMetricDescriptor_BinaryIndices_ByResourceType_FieldMask()
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) MakeDiffFieldMask(other *MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask {
+	if o == nil && other == nil {
+		return &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullMetricDescriptor_BinaryIndices_ByResourceType_FieldMask()
+	}
+
+	res := &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{}
+	if o.GetResourceType() != other.GetResourceType() {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType})
+	}
+
+	if len(o.GetAggsEncoder()) == len(other.GetAggsEncoder()) {
+		for i, lValue := range o.GetAggsEncoder() {
+			rValue := other.GetAggsEncoder()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder})
+	}
+
+	if len(o.GetPreAggregatedIndices()) == len(other.GetPreAggregatedIndices()) {
+		for i, lValue := range o.GetPreAggregatedIndices() {
+			rValue := other.GetPreAggregatedIndices()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices})
+	}
+
+	if len(o.GetPaginatingIndices()) == len(other.GetPaginatingIndices()) {
+		for i, lValue := range o.GetPaginatingIndices() {
+			rValue := other.GetPaginatingIndices()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices})
+	}
+
+	if len(o.GetNonAggregatedIndices()) == len(other.GetNonAggregatedIndices()) {
+		for i, lValue := range o.GetNonAggregatedIndices() {
+			rValue := other.GetNonAggregatedIndices()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices})
+	}
+
+	if len(o.GetNameParts()) == len(other.GetNameParts()) {
+		for i, lValue := range o.GetNameParts() {
+			rValue := other.GetNameParts()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts})
+	}
+	return res
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) Clone() *MetricDescriptor_BinaryIndices_ByResourceType {
+	if o == nil {
+		return nil
+	}
+	result := &MetricDescriptor_BinaryIndices_ByResourceType{}
+	result.ResourceType = o.ResourceType
+	result.AggsEncoder = make([][]byte, len(o.AggsEncoder))
+	for i, sourceValue := range o.AggsEncoder {
+		result.AggsEncoder[i] = sourceValue
+	}
+	result.PreAggregatedIndices = make([]*MetricDescriptor_BinaryIndices_PreAggregatedIndex, len(o.PreAggregatedIndices))
+	for i, sourceValue := range o.PreAggregatedIndices {
+		result.PreAggregatedIndices[i] = sourceValue.Clone()
+	}
+	result.PaginatingIndices = make([]*MetricDescriptor_BinaryIndices_PaginatingIndex, len(o.PaginatingIndices))
+	for i, sourceValue := range o.PaginatingIndices {
+		result.PaginatingIndices[i] = sourceValue.Clone()
+	}
+	result.NonAggregatedIndices = make([][]byte, len(o.NonAggregatedIndices))
+	for i, sourceValue := range o.NonAggregatedIndices {
+		result.NonAggregatedIndices[i] = sourceValue
+	}
+	result.NameParts = make([]string, len(o.NameParts))
+	for i, sourceValue := range o.NameParts {
+		result.NameParts[i] = sourceValue
+	}
+	return result
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) Merge(source *MetricDescriptor_BinaryIndices_ByResourceType) {
+	o.ResourceType = source.GetResourceType()
+	for _, sourceValue := range source.GetAggsEncoder() {
+		exists := false
+		for _, currentValue := range o.AggsEncoder {
+			if string(currentValue) == string(sourceValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement []byte
+			newDstElement = sourceValue
+			o.AggsEncoder = append(o.AggsEncoder, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPreAggregatedIndices() {
+		exists := false
+		for _, currentValue := range o.PreAggregatedIndices {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_BinaryIndices_PreAggregatedIndex
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+				newDstElement.Merge(sourceValue)
+			}
+			o.PreAggregatedIndices = append(o.PreAggregatedIndices, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetPaginatingIndices() {
+		exists := false
+		for _, currentValue := range o.PaginatingIndices {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *MetricDescriptor_BinaryIndices_PaginatingIndex
+			if sourceValue != nil {
+				newDstElement = new(MetricDescriptor_BinaryIndices_PaginatingIndex)
+				newDstElement.Merge(sourceValue)
+			}
+			o.PaginatingIndices = append(o.PaginatingIndices, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetNonAggregatedIndices() {
+		exists := false
+		for _, currentValue := range o.NonAggregatedIndices {
+			if string(currentValue) == string(sourceValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement []byte
+			newDstElement = sourceValue
+			o.NonAggregatedIndices = append(o.NonAggregatedIndices, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetNameParts() {
+		exists := false
+		for _, currentValue := range o.NameParts {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.NameParts = append(o.NameParts, newDstElement)
+		}
+	}
+
+}
+
+func (o *MetricDescriptor_BinaryIndices_ByResourceType) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
 }

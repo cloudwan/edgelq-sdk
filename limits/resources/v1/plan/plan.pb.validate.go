@@ -58,6 +58,12 @@ func (obj *Plan) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Plan", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("Plan", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
 	for idx, elem := range obj.ResourceLimits {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {

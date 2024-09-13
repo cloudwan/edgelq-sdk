@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetRole][ntt.iam.v1alpha2.GetRole]
+// A request message of the GetRole method.
 type GetRoleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,7 +161,7 @@ func (m *GetRoleRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetRoles][ntt.iam.v1alpha2.BatchGetRoles]
+// A request message of the BatchGetRoles method.
 type BatchGetRolesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -268,7 +268,7 @@ func (m *BatchGetRolesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetRolesResponse
+// A response message of the BatchGetRoles method.
 type BatchGetRolesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -357,7 +357,7 @@ func (m *BatchGetRolesResponse) SetMissing(fv []*role.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListRoles][ntt.iam.v1alpha2.ListRoles]
+// A request message of the ListRoles method.
 type ListRolesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -367,7 +367,7 @@ type ListRolesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListRolesResponse.next_page_token][ntt.iam.v1alpha2.ListRolesResponse.next_page_token]
+	// ListRolesResponse.next_page_token.
 	PageToken *role.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -541,18 +541,20 @@ func (m *ListRolesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListRoles][ntt.iam.v1alpha2.ListRoles]
+// A response message of the ListRoles method.
 type ListRolesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Roles
 	Roles []*role.Role `protobuf:"bytes,1,rep,name=roles,proto3" json:"roles,omitempty" firestore:"roles"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListRolesRequest.page_token][ntt.iam.v1alpha2.ListRolesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListRolesRequest.page_token.
 	PrevPageToken *role.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListRolesRequest.page_token][ntt.iam.v1alpha2.ListRolesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListRolesRequest.page_token.
 	NextPageToken *role.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -684,7 +686,7 @@ func (m *ListRolesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchRole][ntt.iam.v1alpha2.WatchRole]
+// A request message of the WatchRole method.
 type WatchRoleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -791,7 +793,7 @@ func (m *WatchRoleRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchRoleResponse
+// A response message of the WatchRole method.
 type WatchRoleResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -863,7 +865,7 @@ func (m *WatchRoleResponse) SetChange(fv *role.RoleChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchRoles][ntt.iam.v1alpha2.WatchRoles]
+// A request message of the WatchRoles method.
 type WatchRolesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1104,7 +1106,7 @@ func (m *WatchRolesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchRolesResponse
+// A response message of the WatchRoles method.
 type WatchRolesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1307,7 +1309,7 @@ func (m *WatchRolesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateRole][ntt.iam.v1alpha2.CreateRole]
+// A request message of the CreateRole method.
 type CreateRoleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1380,7 +1382,7 @@ func (m *CreateRoleRequest) SetRole(fv *role.Role) {
 	m.Role = fv
 }
 
-// Request message for method [UpdateRole][ntt.iam.v1alpha2.UpdateRole]
+// A request message of the UpdateRole method.
 type UpdateRoleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1510,7 +1512,7 @@ func (m *UpdateRoleRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteRole][ntt.iam.v1alpha2.DeleteRole]
+// A request message of the DeleteRole method.
 type DeleteRoleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

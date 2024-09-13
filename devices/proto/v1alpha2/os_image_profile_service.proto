@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "OsImageProfileServiceProto";
 option java_package = "com.ntt.devices.pb.v1alpha2";
 
-// Request message for method
-// [GetOsImageProfile][ntt.devices.v1alpha2.GetOsImageProfile]
+// A request message of the GetOsImageProfile method.
 message GetOsImageProfileRequest {
   // Name of ntt.devices.v1alpha2.OsImageProfile
   string name = 1;
@@ -32,8 +31,7 @@ message GetOsImageProfileRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetOsImageProfiles][ntt.devices.v1alpha2.BatchGetOsImageProfiles]
+// A request message of the BatchGetOsImageProfiles method.
 message BatchGetOsImageProfilesRequest {
   // Names of OsImageProfiles
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetOsImageProfilesRequest {
   reserved 1;
 }
 
-// BatchGetOsImageProfilesResponse
+// A response message of the BatchGetOsImageProfiles method.
 message BatchGetOsImageProfilesResponse {
   // found OsImageProfiles
   repeated OsImageProfile os_image_profiles = 1;
@@ -58,8 +56,7 @@ message BatchGetOsImageProfilesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListOsImageProfiles][ntt.devices.v1alpha2.ListOsImageProfiles]
+// A request message of the ListOsImageProfiles method.
 message ListOsImageProfilesRequest {
   // Parent name of ntt.devices.v1alpha2.OsImageProfile
   string parent = 1;
@@ -70,7 +67,7 @@ message ListOsImageProfilesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListOsImageProfilesResponse.next_page_token][ntt.devices.v1alpha2.ListOsImageProfilesResponse.next_page_token]
+  // ListOsImageProfilesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListOsImageProfilesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListOsImageProfiles][ntt.devices.v1alpha2.ListOsImageProfiles]
+// A response message of the ListOsImageProfiles method.
 message ListOsImageProfilesResponse {
   // The list of OsImageProfiles
   repeated OsImageProfile os_image_profiles = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListOsImageProfilesRequest.page_token][ntt.devices.v1alpha2.ListOsImageProfilesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListOsImageProfilesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListOsImageProfilesRequest.page_token][ntt.devices.v1alpha2.ListOsImageProfilesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListOsImageProfilesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +125,7 @@ message ListOsImageProfilesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchOsImageProfile][ntt.devices.v1alpha2.WatchOsImageProfile]
+// A request message of the WatchOsImageProfile method.
 message WatchOsImageProfileRequest {
   // Name of ntt.devices.v1alpha2.OsImageProfile
   string name = 1;
@@ -142,11 +139,10 @@ message WatchOsImageProfileRequest {
   goten.types.View view = 4;
 }
 
-// WatchOsImageProfileResponse
+// A response message of the WatchOsImageProfile method.
 message WatchOsImageProfileResponse { OsImageProfileChange change = 1; }
 
-// Request message for method
-// [WatchOsImageProfiles][ntt.devices.v1alpha2.WatchOsImageProfiles]
+// A request message of the WatchOsImageProfiles method.
 message WatchOsImageProfilesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -206,7 +202,7 @@ message WatchOsImageProfilesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchOsImageProfilesResponse
+// A response message of the WatchOsImageProfiles method.
 message WatchOsImageProfilesResponse {
   // Changes of OsImageProfiles
   repeated OsImageProfileChange os_image_profile_changes = 2;
@@ -272,8 +268,7 @@ message WatchOsImageProfilesResponse {
   }
 }
 
-// Request message for method
-// [CreateOsImageProfile][ntt.devices.v1alpha2.CreateOsImageProfile]
+// A request message of the CreateOsImageProfile method.
 message CreateOsImageProfileRequest {
   // Parent name of ntt.devices.v1alpha2.OsImageProfile
   string parent = 1;
@@ -282,8 +277,7 @@ message CreateOsImageProfileRequest {
   OsImageProfile os_image_profile = 2;
 }
 
-// Request message for method
-// [UpdateOsImageProfile][ntt.devices.v1alpha2.UpdateOsImageProfile]
+// A request message of the UpdateOsImageProfile method.
 message UpdateOsImageProfileRequest {
   // OsImageProfile resource body
   OsImageProfile os_image_profile = 2;
@@ -318,8 +312,7 @@ message UpdateOsImageProfileRequest {
   }
 }
 
-// Request message for method
-// [DeleteOsImageProfile][ntt.devices.v1alpha2.DeleteOsImageProfile]
+// A request message of the DeleteOsImageProfile method.
 message DeleteOsImageProfileRequest {
   // Name of ntt.devices.v1alpha2.OsImageProfile
   string name = 1;

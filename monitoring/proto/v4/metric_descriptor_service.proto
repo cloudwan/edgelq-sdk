@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "MetricDescriptorServiceProto";
 option java_package = "com.ntt.monitoring.pb.v4";
 
-// Request message for method
-// [BatchGetMetricDescriptors][ntt.monitoring.v4.BatchGetMetricDescriptors]
+// A request message of the BatchGetMetricDescriptors method.
 message BatchGetMetricDescriptorsRequest {
   // Names of MetricDescriptors
   repeated string names = 2;
@@ -35,7 +34,7 @@ message BatchGetMetricDescriptorsRequest {
   reserved 1;
 }
 
-// BatchGetMetricDescriptorsResponse
+// A response message of the BatchGetMetricDescriptors method.
 message BatchGetMetricDescriptorsResponse {
   // found MetricDescriptors
   repeated MetricDescriptor metric_descriptors = 1;
@@ -44,8 +43,7 @@ message BatchGetMetricDescriptorsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [WatchMetricDescriptor][ntt.monitoring.v4.WatchMetricDescriptor]
+// A request message of the WatchMetricDescriptor method.
 message WatchMetricDescriptorRequest {
   // Name of ntt.monitoring.v4.MetricDescriptor
   string name = 1;
@@ -59,11 +57,10 @@ message WatchMetricDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// WatchMetricDescriptorResponse
+// A response message of the WatchMetricDescriptor method.
 message WatchMetricDescriptorResponse { MetricDescriptorChange change = 1; }
 
-// Request message for method
-// [WatchMetricDescriptors][ntt.monitoring.v4.WatchMetricDescriptors]
+// A request message of the WatchMetricDescriptors method.
 message WatchMetricDescriptorsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -123,7 +120,7 @@ message WatchMetricDescriptorsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchMetricDescriptorsResponse
+// A response message of the WatchMetricDescriptors method.
 message WatchMetricDescriptorsResponse {
   // Changes of MetricDescriptors
   repeated MetricDescriptorChange metric_descriptor_changes = 2;

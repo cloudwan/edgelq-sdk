@@ -52,6 +52,12 @@ func (obj *Permission) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Permission", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("Permission", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

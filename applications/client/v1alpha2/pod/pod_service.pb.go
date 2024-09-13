@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetPod][ntt.applications.v1alpha2.GetPod]
+// A request message of the GetPod method.
 type GetPodRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,8 +163,7 @@ func (m *GetPodRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetPods][ntt.applications.v1alpha2.BatchGetPods]
+// A request message of the BatchGetPods method.
 type BatchGetPodsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +270,7 @@ func (m *BatchGetPodsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetPodsResponse
+// A response message of the BatchGetPods method.
 type BatchGetPodsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -360,7 +359,7 @@ func (m *BatchGetPodsResponse) SetMissing(fv []*pod.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListPods][ntt.applications.v1alpha2.ListPods]
+// A request message of the ListPods method.
 type ListPodsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -372,7 +371,7 @@ type ListPodsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListPodsResponse.next_page_token][ntt.applications.v1alpha2.ListPodsResponse.next_page_token]
+	// ListPodsResponse.next_page_token.
 	PageToken *pod.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -560,18 +559,20 @@ func (m *ListPodsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListPods][ntt.applications.v1alpha2.ListPods]
+// A response message of the ListPods method.
 type ListPodsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Pods
 	Pods []*pod.Pod `protobuf:"bytes,1,rep,name=pods,proto3" json:"pods,omitempty" firestore:"pods"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListPodsRequest.page_token][ntt.applications.v1alpha2.ListPodsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListPodsRequest.page_token.
 	PrevPageToken *pod.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListPodsRequest.page_token][ntt.applications.v1alpha2.ListPodsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListPodsRequest.page_token.
 	NextPageToken *pod.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -703,7 +704,7 @@ func (m *ListPodsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchPod][ntt.applications.v1alpha2.WatchPod]
+// A request message of the WatchPod method.
 type WatchPodRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -810,7 +811,7 @@ func (m *WatchPodRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchPodResponse
+// A response message of the WatchPod method.
 type WatchPodResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -882,7 +883,7 @@ func (m *WatchPodResponse) SetChange(fv *pod.PodChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchPods][ntt.applications.v1alpha2.WatchPods]
+// A request message of the WatchPods method.
 type WatchPodsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1139,7 +1140,7 @@ func (m *WatchPodsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchPodsResponse
+// A response message of the WatchPods method.
 type WatchPodsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1342,7 +1343,7 @@ func (m *WatchPodsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreatePod][ntt.applications.v1alpha2.CreatePod]
+// A request message of the CreatePod method.
 type CreatePodRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1431,7 +1432,7 @@ func (m *CreatePodRequest) SetPod(fv *pod.Pod) {
 	m.Pod = fv
 }
 
-// Request message for method [UpdatePod][ntt.applications.v1alpha2.UpdatePod]
+// A request message of the UpdatePod method.
 type UpdatePodRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1561,7 +1562,7 @@ func (m *UpdatePodRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeletePod][ntt.applications.v1alpha2.DeletePod]
+// A request message of the DeletePod method.
 type DeletePodRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

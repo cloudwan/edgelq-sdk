@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [BatchGetMonitoredResourceDescriptors][ntt.monitoring.v4.BatchGetMonitoredResourceDescriptors]
+// A request message of the BatchGetMonitoredResourceDescriptors method.
 type BatchGetMonitoredResourceDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,7 +163,7 @@ func (m *BatchGetMonitoredResourceDescriptorsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetMonitoredResourceDescriptorsResponse
+// A response message of the BatchGetMonitoredResourceDescriptors method.
 type BatchGetMonitoredResourceDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -253,8 +252,7 @@ func (m *BatchGetMonitoredResourceDescriptorsResponse) SetMissing(fv []*monitore
 	m.Missing = fv
 }
 
-// Request message for method
-// [WatchMonitoredResourceDescriptor][ntt.monitoring.v4.WatchMonitoredResourceDescriptor]
+// A request message of the WatchMonitoredResourceDescriptor method.
 type WatchMonitoredResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,7 +359,7 @@ func (m *WatchMonitoredResourceDescriptorRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchMonitoredResourceDescriptorResponse
+// A response message of the WatchMonitoredResourceDescriptor method.
 type WatchMonitoredResourceDescriptorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -433,8 +431,7 @@ func (m *WatchMonitoredResourceDescriptorResponse) SetChange(fv *monitored_resou
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchMonitoredResourceDescriptors][ntt.monitoring.v4.WatchMonitoredResourceDescriptors]
+// A request message of the WatchMonitoredResourceDescriptors method.
 type WatchMonitoredResourceDescriptorsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -692,7 +689,7 @@ func (m *WatchMonitoredResourceDescriptorsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchMonitoredResourceDescriptorsResponse
+// A response message of the WatchMonitoredResourceDescriptors method.
 type WatchMonitoredResourceDescriptorsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -895,8 +892,7 @@ func (m *WatchMonitoredResourceDescriptorsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateMonitoredResourceDescriptor][ntt.monitoring.v4.CreateMonitoredResourceDescriptor]
+// A request message of the CreateMonitoredResourceDescriptor method.
 type CreateMonitoredResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -985,8 +981,7 @@ func (m *CreateMonitoredResourceDescriptorRequest) SetMonitoredResourceDescripto
 	m.MonitoredResourceDescriptor = fv
 }
 
-// Request message for method
-// [UpdateMonitoredResourceDescriptor][ntt.monitoring.v4.UpdateMonitoredResourceDescriptor]
+// A request message of the UpdateMonitoredResourceDescriptor method.
 type UpdateMonitoredResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1116,8 +1111,7 @@ func (m *UpdateMonitoredResourceDescriptorRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteMonitoredResourceDescriptor][ntt.monitoring.v4.DeleteMonitoredResourceDescriptor]
+// A request message of the DeleteMonitoredResourceDescriptor method.
 type DeleteMonitoredResourceDescriptorRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

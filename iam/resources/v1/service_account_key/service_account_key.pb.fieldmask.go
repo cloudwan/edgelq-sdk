@@ -56,6 +56,7 @@ func FullServiceAccountKey_FieldMask() *ServiceAccountKey_FieldMask {
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorPublicKeyData})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorPrivateKeyData})
 	res.Paths = append(res.Paths, &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorApiKey})
@@ -105,7 +106,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ServiceAccountKey_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -135,7 +136,7 @@ func (fieldMask *ServiceAccountKey_FieldMask) Reset() {
 
 func (fieldMask *ServiceAccountKey_FieldMask) Subtract(other *ServiceAccountKey_FieldMask) *ServiceAccountKey_FieldMask {
 	result := &ServiceAccountKey_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[ServiceAccountKey_FieldPathSelector]gotenobject.FieldMask{
 		ServiceAccountKey_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -346,6 +347,8 @@ func (fieldMask *ServiceAccountKey_FieldMask) Project(source *ServiceAccountKey)
 				wholeMetadataAccepted = true
 			case ServiceAccountKey_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case ServiceAccountKey_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 				result.PublicKeyData = source.PublicKeyData
 			case ServiceAccountKey_FieldPathSelectorPrivateKeyData:

@@ -1,0 +1,36 @@
+kind: "logging.edgelq.com/LogDescriptor"
+version: "v1"
+resources:
+- name: projects/<project>/logDescriptors/devices.edgelq.com/syslog
+  displayName: Device syslog
+  description: Device syslog of crucial services
+  labels:
+  - key: unit
+    description: systemd unit
+  - key: device_id
+    description: device ID
+  - key: region_id
+    description: region ID
+  - key: project_id
+    description: project ID
+  - key: pod_name
+    description: pod name
+  - key: container_name
+    description: container name
+  - key: container_id
+    description: container id
+  - key: application_name
+    description: name of application
+  promotedLabelKeySets:
+  - labelKeys: ["unit"]
+  - labelKeys: ["device_id"]
+  - labelKeys: ["pod_name"]
+  - labelKeys: ["container_name"]
+  - labelKeys: ["unit", "device_id"]
+  - labelKeys: ["pod_name", "application_name"]
+  - labelKeys: ["device_id", "pod_name", "application_name"]
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com

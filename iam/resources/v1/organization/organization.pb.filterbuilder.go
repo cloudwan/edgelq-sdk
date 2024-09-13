@@ -216,6 +216,10 @@ func (b *filterCndBuilder) Title() *filterCndBuilderTitle {
 	return &filterCndBuilderTitle{builder: b.builder}
 }
 
+func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
+	return &filterCndBuilderDescription{builder: b.builder}
+}
+
 func (b *filterCndBuilder) ParentOrganization() *filterCndBuilderParentOrganization {
 	return &filterCndBuilderParentOrganization{builder: b.builder}
 }
@@ -2392,6 +2396,65 @@ func (b *filterCndBuilderTitle) compare(op gotenfilter.CompareOperator, value st
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().Title().WithValue(value),
+	})
+}
+
+type filterCndBuilderDescription struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDescription) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDescription) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDescription) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDescription) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDescription) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDescription) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDescription) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Organization_FieldPathArrayOfValues: NewOrganizationFieldPathBuilder().Description().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewOrganizationFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewOrganizationFieldPathBuilder().Description().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDescription) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Organization_FieldPathValue: NewOrganizationFieldPathBuilder().Description().WithValue(value),
 	})
 }
 

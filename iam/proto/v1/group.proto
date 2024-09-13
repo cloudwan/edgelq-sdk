@@ -36,6 +36,9 @@ message Group {
   // Display Name
   string display_name = 2;
 
+  // Optional. Description of the Group
+  string description = 6;
+
   // Unique email address for this [Group]. Generated based on its
   // [name][ntt.iam.v1alpha2.Group.name] with following rules:
   //

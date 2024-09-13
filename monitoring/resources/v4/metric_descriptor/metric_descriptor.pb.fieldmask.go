@@ -71,7 +71,9 @@ func FullMetricDescriptor_FieldMask() *MetricDescriptor_FieldMask {
 	res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorDistributionBucketOptions})
 	res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets})
 	res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorIndexSpec})
+	res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorIndices})
 	res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorStorageConfig})
+	res.Paths = append(res.Paths, &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorBinaryIndices})
 	return res
 }
 
@@ -115,7 +117,7 @@ func (fieldMask *MetricDescriptor_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 15)
+	presentSelectors := make([]bool, 17)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*MetricDescriptor_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -145,7 +147,7 @@ func (fieldMask *MetricDescriptor_FieldMask) Reset() {
 
 func (fieldMask *MetricDescriptor_FieldMask) Subtract(other *MetricDescriptor_FieldMask) *MetricDescriptor_FieldMask {
 	result := &MetricDescriptor_FieldMask{}
-	removedSelectors := make([]bool, 15)
+	removedSelectors := make([]bool, 17)
 	otherSubMasks := map[MetricDescriptor_FieldPathSelector]gotenobject.FieldMask{
 		MetricDescriptor_FieldPathSelectorMetadata:                  &meta.Meta_FieldMask{},
 		MetricDescriptor_FieldPathSelectorLabels:                    &common.LabelDescriptor_FieldMask{},
@@ -153,7 +155,9 @@ func (fieldMask *MetricDescriptor_FieldMask) Subtract(other *MetricDescriptor_Fi
 		MetricDescriptor_FieldPathSelectorDistributionBucketOptions: &common.Distribution_BucketOptions_FieldMask{},
 		MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:      &common.LabelKeySet_FieldMask{},
 		MetricDescriptor_FieldPathSelectorIndexSpec:                 &MetricDescriptor_IndexSpec_FieldMask{},
+		MetricDescriptor_FieldPathSelectorIndices:                   &MetricDescriptor_Indices_FieldMask{},
 		MetricDescriptor_FieldPathSelectorStorageConfig:             &MetricDescriptor_StorageConfig_FieldMask{},
+		MetricDescriptor_FieldPathSelectorBinaryIndices:             &MetricDescriptor_BinaryIndices_FieldMask{},
 	}
 	mySubMasks := map[MetricDescriptor_FieldPathSelector]gotenobject.FieldMask{
 		MetricDescriptor_FieldPathSelectorMetadata:                  &meta.Meta_FieldMask{},
@@ -162,7 +166,9 @@ func (fieldMask *MetricDescriptor_FieldMask) Subtract(other *MetricDescriptor_Fi
 		MetricDescriptor_FieldPathSelectorDistributionBucketOptions: &common.Distribution_BucketOptions_FieldMask{},
 		MetricDescriptor_FieldPathSelectorPromotedLabelKeySets:      &common.LabelKeySet_FieldMask{},
 		MetricDescriptor_FieldPathSelectorIndexSpec:                 &MetricDescriptor_IndexSpec_FieldMask{},
+		MetricDescriptor_FieldPathSelectorIndices:                   &MetricDescriptor_Indices_FieldMask{},
 		MetricDescriptor_FieldPathSelectorStorageConfig:             &MetricDescriptor_StorageConfig_FieldMask{},
+		MetricDescriptor_FieldPathSelectorBinaryIndices:             &MetricDescriptor_BinaryIndices_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -190,8 +196,12 @@ func (fieldMask *MetricDescriptor_FieldMask) Subtract(other *MetricDescriptor_Fi
 						mySubMasks[MetricDescriptor_FieldPathSelectorPromotedLabelKeySets] = common.FullLabelKeySet_FieldMask()
 					case MetricDescriptor_FieldPathSelectorIndexSpec:
 						mySubMasks[MetricDescriptor_FieldPathSelectorIndexSpec] = FullMetricDescriptor_IndexSpec_FieldMask()
+					case MetricDescriptor_FieldPathSelectorIndices:
+						mySubMasks[MetricDescriptor_FieldPathSelectorIndices] = FullMetricDescriptor_Indices_FieldMask()
 					case MetricDescriptor_FieldPathSelectorStorageConfig:
 						mySubMasks[MetricDescriptor_FieldPathSelectorStorageConfig] = FullMetricDescriptor_StorageConfig_FieldMask()
+					case MetricDescriptor_FieldPathSelectorBinaryIndices:
+						mySubMasks[MetricDescriptor_FieldPathSelectorBinaryIndices] = FullMetricDescriptor_BinaryIndices_FieldMask()
 					}
 				} else if tp, ok := path.(*MetricDescriptor_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -224,6 +234,7 @@ func (fieldMask *MetricDescriptor_FieldMask) FilterInputFields() *MetricDescript
 	result := &MetricDescriptor_FieldMask{}
 	for _, path := range fieldMask.Paths {
 		switch path.Selector() {
+		case MetricDescriptor_FieldPathSelectorBinaryIndices:
 		case MetricDescriptor_FieldPathSelectorMetadata:
 			if _, ok := path.(*MetricDescriptor_FieldTerminalPath); ok {
 				for _, subpath := range meta.FullMeta_FieldMask().FilterInputFields().Paths {
@@ -374,8 +385,12 @@ func (fieldMask *MetricDescriptor_FieldMask) Project(source *MetricDescriptor) *
 	wholePromotedLabelKeySetsAccepted := false
 	indexSpecMask := &MetricDescriptor_IndexSpec_FieldMask{}
 	wholeIndexSpecAccepted := false
+	indicesMask := &MetricDescriptor_Indices_FieldMask{}
+	wholeIndicesAccepted := false
 	storageConfigMask := &MetricDescriptor_StorageConfig_FieldMask{}
 	wholeStorageConfigAccepted := false
+	binaryIndicesMask := &MetricDescriptor_BinaryIndices_FieldMask{}
+	wholeBinaryIndicesAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -415,9 +430,15 @@ func (fieldMask *MetricDescriptor_FieldMask) Project(source *MetricDescriptor) *
 			case MetricDescriptor_FieldPathSelectorIndexSpec:
 				result.IndexSpec = source.IndexSpec
 				wholeIndexSpecAccepted = true
+			case MetricDescriptor_FieldPathSelectorIndices:
+				result.Indices = source.Indices
+				wholeIndicesAccepted = true
 			case MetricDescriptor_FieldPathSelectorStorageConfig:
 				result.StorageConfig = source.StorageConfig
 				wholeStorageConfigAccepted = true
+			case MetricDescriptor_FieldPathSelectorBinaryIndices:
+				result.BinaryIndices = source.BinaryIndices
+				wholeBinaryIndicesAccepted = true
 			}
 		case *MetricDescriptor_FieldSubPath:
 			switch tp.selector {
@@ -433,8 +454,12 @@ func (fieldMask *MetricDescriptor_FieldMask) Project(source *MetricDescriptor) *
 				promotedLabelKeySetsMask.AppendPath(tp.subPath.(common.LabelKeySet_FieldPath))
 			case MetricDescriptor_FieldPathSelectorIndexSpec:
 				indexSpecMask.AppendPath(tp.subPath.(MetricDescriptorIndexSpec_FieldPath))
+			case MetricDescriptor_FieldPathSelectorIndices:
+				indicesMask.AppendPath(tp.subPath.(MetricDescriptorIndices_FieldPath))
 			case MetricDescriptor_FieldPathSelectorStorageConfig:
 				storageConfigMask.AppendPath(tp.subPath.(MetricDescriptorStorageConfig_FieldPath))
+			case MetricDescriptor_FieldPathSelectorBinaryIndices:
+				binaryIndicesMask.AppendPath(tp.subPath.(MetricDescriptorBinaryIndices_FieldPath))
 			}
 		}
 	}
@@ -460,8 +485,14 @@ func (fieldMask *MetricDescriptor_FieldMask) Project(source *MetricDescriptor) *
 	if wholeIndexSpecAccepted == false && len(indexSpecMask.Paths) > 0 {
 		result.IndexSpec = indexSpecMask.Project(source.GetIndexSpec())
 	}
+	if wholeIndicesAccepted == false && len(indicesMask.Paths) > 0 {
+		result.Indices = indicesMask.Project(source.GetIndices())
+	}
 	if wholeStorageConfigAccepted == false && len(storageConfigMask.Paths) > 0 {
 		result.StorageConfig = storageConfigMask.Project(source.GetStorageConfig())
+	}
+	if wholeBinaryIndicesAccepted == false && len(binaryIndicesMask.Paths) > 0 {
+		result.BinaryIndices = binaryIndicesMask.Project(source.GetBinaryIndices())
 	}
 	return result
 }
@@ -1022,6 +1053,328 @@ func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type MetricDescriptor_Indices_FieldMask struct {
+	Paths []MetricDescriptorIndices_FieldPath
+}
+
+func FullMetricDescriptor_Indices_FieldMask() *MetricDescriptor_Indices_FieldMask {
+	res := &MetricDescriptor_Indices_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn})
+	res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorUserDefined})
+	res.Paths = append(res.Paths, &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndices_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndices_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndices_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) Subtract(other *MetricDescriptor_Indices_FieldMask) *MetricDescriptor_Indices_FieldMask {
+	result := &MetricDescriptor_Indices_FieldMask{}
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[MetricDescriptorIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndices_FieldPathSelectorBuiltIn:        &MetricDescriptor_Indices_IndexGroups_FieldMask{},
+		MetricDescriptorIndices_FieldPathSelectorUserDefined:    &MetricDescriptor_Indices_IndexGroups_FieldMask{},
+		MetricDescriptorIndices_FieldPathSelectorLegacyMigrated: &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{},
+	}
+	mySubMasks := map[MetricDescriptorIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndices_FieldPathSelectorBuiltIn:        &MetricDescriptor_Indices_IndexGroups_FieldMask{},
+		MetricDescriptorIndices_FieldPathSelectorUserDefined:    &MetricDescriptor_Indices_IndexGroups_FieldMask{},
+		MetricDescriptorIndices_FieldPathSelectorLegacyMigrated: &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndices_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *MetricDescriptorIndices_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*MetricDescriptorIndices_FieldTerminalPath); ok {
+					switch tp.selector {
+					case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+						mySubMasks[MetricDescriptorIndices_FieldPathSelectorBuiltIn] = FullMetricDescriptor_Indices_IndexGroups_FieldMask()
+					case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+						mySubMasks[MetricDescriptorIndices_FieldPathSelectorUserDefined] = FullMetricDescriptor_Indices_IndexGroups_FieldMask()
+					case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+						mySubMasks[MetricDescriptorIndices_FieldPathSelectorLegacyMigrated] = FullMetricDescriptor_Indices_NonAggregatedIndices_FieldMask()
+					}
+				} else if tp, ok := path.(*MetricDescriptorIndices_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &MetricDescriptorIndices_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_FieldMask) FilterInputFields() *MetricDescriptor_Indices_FieldMask {
+	result := &MetricDescriptor_Indices_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndices_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndices_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) AppendPath(path MetricDescriptorIndices_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndices_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) GetPaths() []MetricDescriptorIndices_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndices_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) Set(target, source *MetricDescriptor_Indices) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices), source.(*MetricDescriptor_Indices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) Project(source *MetricDescriptor_Indices) *MetricDescriptor_Indices {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices{}
+	builtInMask := &MetricDescriptor_Indices_IndexGroups_FieldMask{}
+	wholeBuiltInAccepted := false
+	userDefinedMask := &MetricDescriptor_Indices_IndexGroups_FieldMask{}
+	wholeUserDefinedAccepted := false
+	legacyMigratedMask := &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{}
+	wholeLegacyMigratedAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndices_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+				result.BuiltIn = source.BuiltIn
+				wholeBuiltInAccepted = true
+			case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+				result.UserDefined = source.UserDefined
+				wholeUserDefinedAccepted = true
+			case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+				result.LegacyMigrated = source.LegacyMigrated
+				wholeLegacyMigratedAccepted = true
+			}
+		case *MetricDescriptorIndices_FieldSubPath:
+			switch tp.selector {
+			case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+				builtInMask.AppendPath(tp.subPath.(MetricDescriptorIndicesIndexGroups_FieldPath))
+			case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+				userDefinedMask.AppendPath(tp.subPath.(MetricDescriptorIndicesIndexGroups_FieldPath))
+			case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+				legacyMigratedMask.AppendPath(tp.subPath.(MetricDescriptorIndicesNonAggregatedIndices_FieldPath))
+			}
+		}
+	}
+	if wholeBuiltInAccepted == false && len(builtInMask.Paths) > 0 {
+		result.BuiltIn = builtInMask.Project(source.GetBuiltIn())
+	}
+	if wholeUserDefinedAccepted == false && len(userDefinedMask.Paths) > 0 {
+		result.UserDefined = userDefinedMask.Project(source.GetUserDefined())
+	}
+	if wholeLegacyMigratedAccepted == false && len(legacyMigratedMask.Paths) > 0 {
+		for _, sourceItem := range source.GetLegacyMigrated() {
+			result.LegacyMigrated = append(result.LegacyMigrated, legacyMigratedMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type MetricDescriptor_StorageConfig_FieldMask struct {
 	Paths []MetricDescriptorStorageConfig_FieldPath
 }
@@ -1275,6 +1628,298 @@ func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
+type MetricDescriptor_BinaryIndices_FieldMask struct {
+	Paths []MetricDescriptorBinaryIndices_FieldPath
+}
+
+func FullMetricDescriptor_BinaryIndices_FieldMask() *MetricDescriptor_BinaryIndices_FieldMask {
+	res := &MetricDescriptor_BinaryIndices_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorBinaryIndices_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorBinaryIndices_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorBinaryIndices_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Subtract(other *MetricDescriptor_BinaryIndices_FieldMask) *MetricDescriptor_BinaryIndices_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_FieldMask{}
+	removedSelectors := make([]bool, 1)
+	otherSubMasks := map[MetricDescriptorBinaryIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorBinaryIndices_FieldPathSelectorByResources: &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{},
+	}
+	mySubMasks := map[MetricDescriptorBinaryIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorBinaryIndices_FieldPathSelectorByResources: &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorBinaryIndices_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *MetricDescriptorBinaryIndices_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*MetricDescriptorBinaryIndices_FieldTerminalPath); ok {
+					switch tp.selector {
+					case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+						mySubMasks[MetricDescriptorBinaryIndices_FieldPathSelectorByResources] = FullMetricDescriptor_BinaryIndices_ByResourceType_FieldMask()
+					}
+				} else if tp, ok := path.(*MetricDescriptorBinaryIndices_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &MetricDescriptorBinaryIndices_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_BinaryIndices_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) FilterInputFields() *MetricDescriptor_BinaryIndices_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorBinaryIndices_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorBinaryIndices_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_BinaryIndices_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_BinaryIndices_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) AppendPath(path MetricDescriptorBinaryIndices_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorBinaryIndices_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) GetPaths() []MetricDescriptorBinaryIndices_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorBinaryIndices_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Set(target, source *MetricDescriptor_BinaryIndices) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_BinaryIndices), source.(*MetricDescriptor_BinaryIndices))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Project(source *MetricDescriptor_BinaryIndices) *MetricDescriptor_BinaryIndices {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_BinaryIndices{}
+	byResourcesMask := &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{}
+	wholeByResourcesAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorBinaryIndices_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+				result.ByResources = source.ByResources
+				wholeByResourcesAccepted = true
+			}
+		case *MetricDescriptorBinaryIndices_FieldSubPath:
+			switch tp.selector {
+			case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+				byResourcesMask.AppendPath(tp.subPath.(MetricDescriptorBinaryIndicesByResourceType_FieldPath))
+			}
+		}
+	}
+	if wholeByResourcesAccepted == false && len(byResourcesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetByResources() {
+			result.ByResources = append(result.ByResources, byResourcesMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_BinaryIndices))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
 type MetricDescriptor_IndexSpec_Index_FieldMask struct {
 	Paths []MetricDescriptorIndexSpecIndex_FieldPath
 }
@@ -1282,7 +1927,6 @@ type MetricDescriptor_IndexSpec_Index_FieldMask struct {
 func FullMetricDescriptor_IndexSpec_Index_FieldMask() *MetricDescriptor_IndexSpec_Index_FieldMask {
 	res := &MetricDescriptor_IndexSpec_Index_FieldMask{}
 	res.Paths = append(res.Paths, &MetricDescriptorIndexSpecIndex_FieldTerminalPath{selector: MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels})
-	res.Paths = append(res.Paths, &MetricDescriptorIndexSpecIndex_FieldTerminalPath{selector: MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly})
 	return res
 }
 
@@ -1326,7 +1970,7 @@ func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 1)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*MetricDescriptorIndexSpecIndex_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1356,7 +2000,7 @@ func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) Reset() {
 
 func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) Subtract(other *MetricDescriptor_IndexSpec_Index_FieldMask) *MetricDescriptor_IndexSpec_Index_FieldMask {
 	result := &MetricDescriptor_IndexSpec_Index_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 1)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1512,8 +2156,6 @@ func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) Project(source *Met
 			switch tp.selector {
 			case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 				result.PromotedLabels = source.PromotedLabels
-			case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-				result.WriteOnly = source.WriteOnly
 			}
 		}
 	}
@@ -1820,6 +2462,3193 @@ func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) Proj
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_LabelsGroup_FieldMask struct {
+	Paths []MetricDescriptorIndicesLabelsGroup_FieldPath
+}
+
+func FullMetricDescriptor_Indices_LabelsGroup_FieldMask() *MetricDescriptor_Indices_LabelsGroup_FieldMask {
+	res := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 4)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesLabelsGroup_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesLabelsGroup_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) Subtract(other *MetricDescriptor_Indices_LabelsGroup_FieldMask) *MetricDescriptor_Indices_LabelsGroup_FieldMask {
+	result := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	removedSelectors := make([]bool, 4)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_LabelsGroup_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) FilterInputFields() *MetricDescriptor_Indices_LabelsGroup_FieldMask {
+	result := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesLabelsGroup_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_LabelsGroup_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_LabelsGroup_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) AppendPath(path MetricDescriptorIndicesLabelsGroup_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesLabelsGroup_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) GetPaths() []MetricDescriptorIndicesLabelsGroup_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) Set(target, source *MetricDescriptor_Indices_LabelsGroup) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_LabelsGroup), source.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) Project(source *MetricDescriptor_Indices_LabelsGroup) *MetricDescriptor_Indices_LabelsGroup {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_LabelsGroup{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+				result.Name = source.Name
+			case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+				result.MetricKeys = source.MetricKeys
+			case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+				result.ResourceKeys = source.ResourceKeys
+			case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+				result.ClosingStatus = source.ClosingStatus
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_PaginationView_FieldMask struct {
+	Paths []MetricDescriptorIndicesPaginationView_FieldPath
+}
+
+func FullMetricDescriptor_Indices_PaginationView_FieldMask() *MetricDescriptor_Indices_PaginationView_FieldMask {
+	res := &MetricDescriptor_Indices_PaginationView_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesPaginationView_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesPaginationView_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) Subtract(other *MetricDescriptor_Indices_PaginationView_FieldMask) *MetricDescriptor_Indices_PaginationView_FieldMask {
+	result := &MetricDescriptor_Indices_PaginationView_FieldMask{}
+	removedSelectors := make([]bool, 6)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesPaginationView_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_PaginationView_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) FilterInputFields() *MetricDescriptor_Indices_PaginationView_FieldMask {
+	result := &MetricDescriptor_Indices_PaginationView_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesPaginationView_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_PaginationView_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_PaginationView_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) AppendPath(path MetricDescriptorIndicesPaginationView_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesPaginationView_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) GetPaths() []MetricDescriptorIndicesPaginationView_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) Set(target, source *MetricDescriptor_Indices_PaginationView) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_PaginationView), source.(*MetricDescriptor_Indices_PaginationView))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) Project(source *MetricDescriptor_Indices_PaginationView) *MetricDescriptor_Indices_PaginationView {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_PaginationView{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesPaginationView_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+				result.Name = source.Name
+			case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+				result.FilterableMetricKeys = source.FilterableMetricKeys
+			case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+				result.FilterableResourceKeys = source.FilterableResourceKeys
+			case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+				result.PaginatedMetricKeys = source.PaginatedMetricKeys
+			case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+				result.PaginatedResourceKeys = source.PaginatedResourceKeys
+			case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+				result.ClosingStatus = source.ClosingStatus
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_PaginationView))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_AggregationsGroup_FieldMask struct {
+	Paths []MetricDescriptorIndicesAggregationsGroup_FieldPath
+}
+
+func FullMetricDescriptor_Indices_AggregationsGroup_FieldMask() *MetricDescriptor_Indices_AggregationsGroup_FieldMask {
+	res := &MetricDescriptor_Indices_AggregationsGroup_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) Subtract(other *MetricDescriptor_Indices_AggregationsGroup_FieldMask) *MetricDescriptor_Indices_AggregationsGroup_FieldMask {
+	result := &MetricDescriptor_Indices_AggregationsGroup_FieldMask{}
+	removedSelectors := make([]bool, 5)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_AggregationsGroup_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) FilterInputFields() *MetricDescriptor_Indices_AggregationsGroup_FieldMask {
+	result := &MetricDescriptor_Indices_AggregationsGroup_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesAggregationsGroup_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_AggregationsGroup_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_AggregationsGroup_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) AppendPath(path MetricDescriptorIndicesAggregationsGroup_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesAggregationsGroup_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) GetPaths() []MetricDescriptorIndicesAggregationsGroup_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) Set(target, source *MetricDescriptor_Indices_AggregationsGroup) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_AggregationsGroup), source.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) Project(source *MetricDescriptor_Indices_AggregationsGroup) *MetricDescriptor_Indices_AggregationsGroup {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_AggregationsGroup{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+				result.Name = source.Name
+			case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+				result.PerSeriesAligners = source.PerSeriesAligners
+			case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+				result.CrossSeriesReducers = source.CrossSeriesReducers
+			case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+				result.ClosingStatus = source.ClosingStatus
+			case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+				result.StorageAligners = source.StorageAligners
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_SortingFunction_FieldMask struct {
+	Paths []MetricDescriptorIndicesSortingFunction_FieldPath
+}
+
+func FullMetricDescriptor_Indices_SortingFunction_FieldMask() *MetricDescriptor_Indices_SortingFunction_FieldMask {
+	res := &MetricDescriptor_Indices_SortingFunction_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesSortingFunction_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesSortingFunction_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) Subtract(other *MetricDescriptor_Indices_SortingFunction_FieldMask) *MetricDescriptor_Indices_SortingFunction_FieldMask {
+	result := &MetricDescriptor_Indices_SortingFunction_FieldMask{}
+	removedSelectors := make([]bool, 5)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesSortingFunction_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_SortingFunction_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) FilterInputFields() *MetricDescriptor_Indices_SortingFunction_FieldMask {
+	result := &MetricDescriptor_Indices_SortingFunction_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesSortingFunction_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_SortingFunction_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_SortingFunction_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) AppendPath(path MetricDescriptorIndicesSortingFunction_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesSortingFunction_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) GetPaths() []MetricDescriptorIndicesSortingFunction_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) Set(target, source *MetricDescriptor_Indices_SortingFunction) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_SortingFunction), source.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) Project(source *MetricDescriptor_Indices_SortingFunction) *MetricDescriptor_Indices_SortingFunction {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_SortingFunction{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesSortingFunction_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+				result.Name = source.Name
+			case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+				result.Aligner = source.Aligner
+			case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+				result.Reducer = source.Reducer
+			case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+				result.ClosingStatus = source.ClosingStatus
+			case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+				result.Sorting = source.Sorting
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_PreAggregatedIndices_FieldMask struct {
+	Paths []MetricDescriptorIndicesPreAggregatedIndices_FieldPath
+}
+
+func FullMetricDescriptor_Indices_PreAggregatedIndices_FieldMask() *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask {
+	res := &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) Subtract(other *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask {
+	result := &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{}
+	removedSelectors := make([]bool, 5)
+	otherSubMasks := map[MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:      &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+		MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets: &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+		MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:   &MetricDescriptor_Indices_AggregationsGroup_FieldMask{},
+	}
+	mySubMasks := map[MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:      &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+		MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets: &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+		MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:   &MetricDescriptor_Indices_AggregationsGroup_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath); ok {
+					switch tp.selector {
+					case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+						mySubMasks[MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets] = FullMetricDescriptor_Indices_LabelsGroup_FieldMask()
+					case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+						mySubMasks[MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets] = FullMetricDescriptor_Indices_LabelsGroup_FieldMask()
+					case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+						mySubMasks[MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations] = FullMetricDescriptor_Indices_AggregationsGroup_FieldMask()
+					}
+				} else if tp, ok := path.(*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_PreAggregatedIndices_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) FilterInputFields() *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask {
+	result := &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesPreAggregatedIndices_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) AppendPath(path MetricDescriptorIndicesPreAggregatedIndices_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesPreAggregatedIndices_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) GetPaths() []MetricDescriptorIndicesPreAggregatedIndices_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) Set(target, source *MetricDescriptor_Indices_PreAggregatedIndices) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_PreAggregatedIndices), source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) Project(source *MetricDescriptor_Indices_PreAggregatedIndices) *MetricDescriptor_Indices_PreAggregatedIndices {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_PreAggregatedIndices{}
+	partitionLabelSetsMask := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	wholePartitionLabelSetsAccepted := false
+	filterAndGroupLabelSetsMask := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	wholeFilterAndGroupLabelSetsAccepted := false
+	supportedAggregationsMask := &MetricDescriptor_Indices_AggregationsGroup_FieldMask{}
+	wholeSupportedAggregationsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+				result.Name = source.Name
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+				result.ResourceTypes = source.ResourceTypes
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+				result.PartitionLabelSets = source.PartitionLabelSets
+				wholePartitionLabelSetsAccepted = true
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+				result.FilterAndGroupLabelSets = source.FilterAndGroupLabelSets
+				wholeFilterAndGroupLabelSetsAccepted = true
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+				result.SupportedAggregations = source.SupportedAggregations
+				wholeSupportedAggregationsAccepted = true
+			}
+		case *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+				partitionLabelSetsMask.AppendPath(tp.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath))
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+				filterAndGroupLabelSetsMask.AppendPath(tp.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath))
+			case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+				supportedAggregationsMask.AppendPath(tp.subPath.(MetricDescriptorIndicesAggregationsGroup_FieldPath))
+			}
+		}
+	}
+	if wholePartitionLabelSetsAccepted == false && len(partitionLabelSetsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetPartitionLabelSets() {
+			result.PartitionLabelSets = append(result.PartitionLabelSets, partitionLabelSetsMask.Project(sourceItem))
+		}
+	}
+	if wholeFilterAndGroupLabelSetsAccepted == false && len(filterAndGroupLabelSetsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetFilterAndGroupLabelSets() {
+			result.FilterAndGroupLabelSets = append(result.FilterAndGroupLabelSets, filterAndGroupLabelSetsMask.Project(sourceItem))
+		}
+	}
+	if wholeSupportedAggregationsAccepted == false && len(supportedAggregationsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetSupportedAggregations() {
+			result.SupportedAggregations = append(result.SupportedAggregations, supportedAggregationsMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_NonAggregatedIndices_FieldMask struct {
+	Paths []MetricDescriptorIndicesNonAggregatedIndices_FieldPath
+}
+
+func FullMetricDescriptor_Indices_NonAggregatedIndices_FieldMask() *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask {
+	res := &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) Subtract(other *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask {
+	result := &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{}
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets: &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+	}
+	mySubMasks := map[MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets: &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath); ok {
+					switch tp.selector {
+					case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+						mySubMasks[MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets] = FullMetricDescriptor_Indices_LabelsGroup_FieldMask()
+					}
+				} else if tp, ok := path.(*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_NonAggregatedIndices_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) FilterInputFields() *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask {
+	result := &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesNonAggregatedIndices_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) AppendPath(path MetricDescriptorIndicesNonAggregatedIndices_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesNonAggregatedIndices_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) GetPaths() []MetricDescriptorIndicesNonAggregatedIndices_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) Set(target, source *MetricDescriptor_Indices_NonAggregatedIndices) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_NonAggregatedIndices), source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) Project(source *MetricDescriptor_Indices_NonAggregatedIndices) *MetricDescriptor_Indices_NonAggregatedIndices {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_NonAggregatedIndices{}
+	partitionLabelSetsMask := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	wholePartitionLabelSetsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+				result.Name = source.Name
+			case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+				result.ResourceTypes = source.ResourceTypes
+			case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+				result.PartitionLabelSets = source.PartitionLabelSets
+				wholePartitionLabelSetsAccepted = true
+			}
+		case *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+				partitionLabelSetsMask.AppendPath(tp.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath))
+			}
+		}
+	}
+	if wholePartitionLabelSetsAccepted == false && len(partitionLabelSetsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetPartitionLabelSets() {
+			result.PartitionLabelSets = append(result.PartitionLabelSets, partitionLabelSetsMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_PaginationIndices_FieldMask struct {
+	Paths []MetricDescriptorIndicesPaginationIndices_FieldPath
+}
+
+func FullMetricDescriptor_Indices_PaginationIndices_FieldMask() *MetricDescriptor_Indices_PaginationIndices_FieldMask {
+	res := &MetricDescriptor_Indices_PaginationIndices_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 5)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesPaginationIndices_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) Subtract(other *MetricDescriptor_Indices_PaginationIndices_FieldMask) *MetricDescriptor_Indices_PaginationIndices_FieldMask {
+	result := &MetricDescriptor_Indices_PaginationIndices_FieldMask{}
+	removedSelectors := make([]bool, 5)
+	otherSubMasks := map[MetricDescriptorIndicesPaginationIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets: &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+		MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:              &MetricDescriptor_Indices_PaginationView_FieldMask{},
+		MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:          &MetricDescriptor_Indices_SortingFunction_FieldMask{},
+	}
+	mySubMasks := map[MetricDescriptorIndicesPaginationIndices_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets: &MetricDescriptor_Indices_LabelsGroup_FieldMask{},
+		MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:              &MetricDescriptor_Indices_PaginationView_FieldMask{},
+		MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:          &MetricDescriptor_Indices_SortingFunction_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *MetricDescriptorIndicesPaginationIndices_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*MetricDescriptorIndicesPaginationIndices_FieldTerminalPath); ok {
+					switch tp.selector {
+					case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+						mySubMasks[MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets] = FullMetricDescriptor_Indices_LabelsGroup_FieldMask()
+					case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+						mySubMasks[MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews] = FullMetricDescriptor_Indices_PaginationView_FieldMask()
+					case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+						mySubMasks[MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions] = FullMetricDescriptor_Indices_SortingFunction_FieldMask()
+					}
+				} else if tp, ok := path.(*MetricDescriptorIndicesPaginationIndices_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &MetricDescriptorIndicesPaginationIndices_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_PaginationIndices_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) FilterInputFields() *MetricDescriptor_Indices_PaginationIndices_FieldMask {
+	result := &MetricDescriptor_Indices_PaginationIndices_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesPaginationIndices_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_PaginationIndices_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_PaginationIndices_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) AppendPath(path MetricDescriptorIndicesPaginationIndices_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesPaginationIndices_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) GetPaths() []MetricDescriptorIndicesPaginationIndices_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) Set(target, source *MetricDescriptor_Indices_PaginationIndices) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_PaginationIndices), source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) Project(source *MetricDescriptor_Indices_PaginationIndices) *MetricDescriptor_Indices_PaginationIndices {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_PaginationIndices{}
+	partitionLabelSetsMask := &MetricDescriptor_Indices_LabelsGroup_FieldMask{}
+	wholePartitionLabelSetsAccepted := false
+	viewsMask := &MetricDescriptor_Indices_PaginationView_FieldMask{}
+	wholeViewsAccepted := false
+	functionsMask := &MetricDescriptor_Indices_SortingFunction_FieldMask{}
+	wholeFunctionsAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+				result.Name = source.Name
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+				result.ResourceTypes = source.ResourceTypes
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+				result.PartitionLabelSets = source.PartitionLabelSets
+				wholePartitionLabelSetsAccepted = true
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+				result.Views = source.Views
+				wholeViewsAccepted = true
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+				result.Functions = source.Functions
+				wholeFunctionsAccepted = true
+			}
+		case *MetricDescriptorIndicesPaginationIndices_FieldSubPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+				partitionLabelSetsMask.AppendPath(tp.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath))
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+				viewsMask.AppendPath(tp.subPath.(MetricDescriptorIndicesPaginationView_FieldPath))
+			case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+				functionsMask.AppendPath(tp.subPath.(MetricDescriptorIndicesSortingFunction_FieldPath))
+			}
+		}
+	}
+	if wholePartitionLabelSetsAccepted == false && len(partitionLabelSetsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetPartitionLabelSets() {
+			result.PartitionLabelSets = append(result.PartitionLabelSets, partitionLabelSetsMask.Project(sourceItem))
+		}
+	}
+	if wholeViewsAccepted == false && len(viewsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetViews() {
+			result.Views = append(result.Views, viewsMask.Project(sourceItem))
+		}
+	}
+	if wholeFunctionsAccepted == false && len(functionsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetFunctions() {
+			result.Functions = append(result.Functions, functionsMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_Indices_IndexGroups_FieldMask struct {
+	Paths []MetricDescriptorIndicesIndexGroups_FieldPath
+}
+
+func FullMetricDescriptor_Indices_IndexGroups_FieldMask() *MetricDescriptor_Indices_IndexGroups_FieldMask {
+	res := &MetricDescriptor_Indices_IndexGroups_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices})
+	res.Paths = append(res.Paths, &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorIndicesIndexGroups_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorIndicesIndexGroups_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) Subtract(other *MetricDescriptor_Indices_IndexGroups_FieldMask) *MetricDescriptor_Indices_IndexGroups_FieldMask {
+	result := &MetricDescriptor_Indices_IndexGroups_FieldMask{}
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[MetricDescriptorIndicesIndexGroups_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices: &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{},
+		MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices: &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{},
+		MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:    &MetricDescriptor_Indices_PaginationIndices_FieldMask{},
+	}
+	mySubMasks := map[MetricDescriptorIndicesIndexGroups_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices: &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{},
+		MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices: &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{},
+		MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:    &MetricDescriptor_Indices_PaginationIndices_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorIndicesIndexGroups_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *MetricDescriptorIndicesIndexGroups_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*MetricDescriptorIndicesIndexGroups_FieldTerminalPath); ok {
+					switch tp.selector {
+					case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+						mySubMasks[MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices] = FullMetricDescriptor_Indices_PreAggregatedIndices_FieldMask()
+					case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+						mySubMasks[MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices] = FullMetricDescriptor_Indices_NonAggregatedIndices_FieldMask()
+					case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+						mySubMasks[MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices] = FullMetricDescriptor_Indices_PaginationIndices_FieldMask()
+					}
+				} else if tp, ok := path.(*MetricDescriptorIndicesIndexGroups_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &MetricDescriptorIndicesIndexGroups_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_Indices_IndexGroups_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) FilterInputFields() *MetricDescriptor_Indices_IndexGroups_FieldMask {
+	result := &MetricDescriptor_Indices_IndexGroups_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorIndicesIndexGroups_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_Indices_IndexGroups_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_Indices_IndexGroups_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) AppendPath(path MetricDescriptorIndicesIndexGroups_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorIndicesIndexGroups_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) GetPaths() []MetricDescriptorIndicesIndexGroups_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) Set(target, source *MetricDescriptor_Indices_IndexGroups) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_Indices_IndexGroups), source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) Project(source *MetricDescriptor_Indices_IndexGroups) *MetricDescriptor_Indices_IndexGroups {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_Indices_IndexGroups{}
+	preAggregatedIndicesMask := &MetricDescriptor_Indices_PreAggregatedIndices_FieldMask{}
+	wholePreAggregatedIndicesAccepted := false
+	nonAggregatedIndicesMask := &MetricDescriptor_Indices_NonAggregatedIndices_FieldMask{}
+	wholeNonAggregatedIndicesAccepted := false
+	paginationIndicesMask := &MetricDescriptor_Indices_PaginationIndices_FieldMask{}
+	wholePaginationIndicesAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorIndicesIndexGroups_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+				result.PreAggregatedIndices = source.PreAggregatedIndices
+				wholePreAggregatedIndicesAccepted = true
+			case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+				result.NonAggregatedIndices = source.NonAggregatedIndices
+				wholeNonAggregatedIndicesAccepted = true
+			case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+				result.PaginationIndices = source.PaginationIndices
+				wholePaginationIndicesAccepted = true
+			}
+		case *MetricDescriptorIndicesIndexGroups_FieldSubPath:
+			switch tp.selector {
+			case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+				preAggregatedIndicesMask.AppendPath(tp.subPath.(MetricDescriptorIndicesPreAggregatedIndices_FieldPath))
+			case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+				nonAggregatedIndicesMask.AppendPath(tp.subPath.(MetricDescriptorIndicesNonAggregatedIndices_FieldPath))
+			case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+				paginationIndicesMask.AppendPath(tp.subPath.(MetricDescriptorIndicesPaginationIndices_FieldPath))
+			}
+		}
+	}
+	if wholePreAggregatedIndicesAccepted == false && len(preAggregatedIndicesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetPreAggregatedIndices() {
+			result.PreAggregatedIndices = append(result.PreAggregatedIndices, preAggregatedIndicesMask.Project(sourceItem))
+		}
+	}
+	if wholeNonAggregatedIndicesAccepted == false && len(nonAggregatedIndicesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetNonAggregatedIndices() {
+			result.NonAggregatedIndices = append(result.NonAggregatedIndices, nonAggregatedIndicesMask.Project(sourceItem))
+		}
+	}
+	if wholePaginationIndicesAccepted == false && len(paginationIndicesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetPaginationIndices() {
+			result.PaginationIndices = append(result.PaginationIndices, paginationIndicesMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask struct {
+	Paths []MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath
+}
+
+func FullMetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask() *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask {
+	res := &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) Subtract(other *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{}
+	removedSelectors := make([]bool, 3)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) FilterInputFields() *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) AppendPath(path MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) GetPaths() []MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) Set(target, source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex), source.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) Project(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) *MetricDescriptor_BinaryIndices_PreAggregatedIndex {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_BinaryIndices_PreAggregatedIndex{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+				result.KeyData = source.KeyData
+			case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+				result.WritingAligners = source.WritingAligners
+			case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+				result.ClosedAligners = source.ClosedAligners
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask struct {
+	Paths []MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath
+}
+
+func FullMetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask() *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask {
+	res := &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Subtract(other *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{}
+	removedSelectors := make([]bool, 3)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) FilterInputFields() *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) AppendPath(path MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) GetPaths() []MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Set(target, source *MetricDescriptor_BinaryIndices_PaginatingIndex) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_BinaryIndices_PaginatingIndex), source.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Project(source *MetricDescriptor_BinaryIndices_PaginatingIndex) *MetricDescriptor_BinaryIndices_PaginatingIndex {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_BinaryIndices_PaginatingIndex{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+				result.KeyData = source.KeyData
+			case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+				result.WritingFunctions = source.WritingFunctions
+			case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+				result.ClosedFunctions = source.ClosedFunctions
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type MetricDescriptor_BinaryIndices_ByResourceType_FieldMask struct {
+	Paths []MetricDescriptorBinaryIndicesByResourceType_FieldPath
+}
+
+func FullMetricDescriptor_BinaryIndices_ByResourceType_FieldMask() *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask {
+	res := &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{}
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts})
+	return res
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 6)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(raw)
+	})
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) ProtoMessage() {}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) Subtract(other *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{}
+	removedSelectors := make([]bool, 6)
+	otherSubMasks := map[MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices: &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{},
+		MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:    &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{},
+	}
+	mySubMasks := map[MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector]gotenobject.FieldMask{
+		MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices: &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{},
+		MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:    &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath); ok {
+					switch tp.selector {
+					case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+						mySubMasks[MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices] = FullMetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask()
+					case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+						mySubMasks[MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices] = FullMetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask()
+					}
+				} else if tp, ok := path.(*MetricDescriptorBinaryIndicesByResourceType_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*MetricDescriptor_BinaryIndices_ByResourceType_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) FilterInputFields() *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask {
+	result := &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]MetricDescriptorBinaryIndicesByResourceType_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) AppendPath(path MetricDescriptorBinaryIndicesByResourceType_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(MetricDescriptorBinaryIndicesByResourceType_FieldPath))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) GetPaths() []MetricDescriptorBinaryIndicesByResourceType_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) Set(target, source *MetricDescriptor_BinaryIndices_ByResourceType) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*MetricDescriptor_BinaryIndices_ByResourceType), source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) Project(source *MetricDescriptor_BinaryIndices_ByResourceType) *MetricDescriptor_BinaryIndices_ByResourceType {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &MetricDescriptor_BinaryIndices_ByResourceType{}
+	preAggregatedIndicesMask := &MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask{}
+	wholePreAggregatedIndicesAccepted := false
+	paginatingIndicesMask := &MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask{}
+	wholePaginatingIndicesAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath:
+			switch tp.selector {
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+				result.ResourceType = source.ResourceType
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+				result.AggsEncoder = source.AggsEncoder
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+				result.PreAggregatedIndices = source.PreAggregatedIndices
+				wholePreAggregatedIndicesAccepted = true
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+				result.PaginatingIndices = source.PaginatingIndices
+				wholePaginatingIndicesAccepted = true
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+				result.NonAggregatedIndices = source.NonAggregatedIndices
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+				result.NameParts = source.NameParts
+			}
+		case *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath:
+			switch tp.selector {
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+				preAggregatedIndicesMask.AppendPath(tp.subPath.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath))
+			case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+				paginatingIndicesMask.AppendPath(tp.subPath.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath))
+			}
+		}
+	}
+	if wholePreAggregatedIndicesAccepted == false && len(preAggregatedIndicesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetPreAggregatedIndices() {
+			result.PreAggregatedIndices = append(result.PreAggregatedIndices, preAggregatedIndicesMask.Project(sourceItem))
+		}
+	}
+	if wholePaginatingIndicesAccepted == false && len(paginatingIndicesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetPaginatingIndices() {
+			result.PaginatingIndices = append(result.PaginatingIndices, paginatingIndicesMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

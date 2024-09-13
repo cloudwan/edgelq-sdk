@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetSecret][ntt.secrets.v1.GetSecret]
+// A request message of the GetSecret method.
 type GetSecretRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,7 +163,7 @@ func (m *GetSecretRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method [BatchGetSecrets][ntt.secrets.v1.BatchGetSecrets]
+// A request message of the BatchGetSecrets method.
 type BatchGetSecretsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -270,7 +270,7 @@ func (m *BatchGetSecretsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetSecretsResponse
+// A response message of the BatchGetSecrets method.
 type BatchGetSecretsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -359,7 +359,7 @@ func (m *BatchGetSecretsResponse) SetMissing(fv []*secret.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListSecrets][ntt.secrets.v1.ListSecrets]
+// A request message of the ListSecrets method.
 type ListSecretsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -371,7 +371,7 @@ type ListSecretsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListSecretsResponse.next_page_token][ntt.secrets.v1.ListSecretsResponse.next_page_token]
+	// ListSecretsResponse.next_page_token.
 	PageToken *secret.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -559,18 +559,20 @@ func (m *ListSecretsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListSecrets][ntt.secrets.v1.ListSecrets]
+// A response message of the ListSecrets method.
 type ListSecretsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Secrets
 	Secrets []*secret.Secret `protobuf:"bytes,1,rep,name=secrets,proto3" json:"secrets,omitempty" firestore:"secrets"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListSecretsRequest.page_token][ntt.secrets.v1.ListSecretsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListSecretsRequest.page_token.
 	PrevPageToken *secret.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListSecretsRequest.page_token][ntt.secrets.v1.ListSecretsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListSecretsRequest.page_token.
 	NextPageToken *secret.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -702,7 +704,7 @@ func (m *ListSecretsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchSecret][ntt.secrets.v1.WatchSecret]
+// A request message of the WatchSecret method.
 type WatchSecretRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -809,7 +811,7 @@ func (m *WatchSecretRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchSecretResponse
+// A response message of the WatchSecret method.
 type WatchSecretResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -881,7 +883,7 @@ func (m *WatchSecretResponse) SetChange(fv *secret.SecretChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchSecrets][ntt.secrets.v1.WatchSecrets]
+// A request message of the WatchSecrets method.
 type WatchSecretsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1138,7 +1140,7 @@ func (m *WatchSecretsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchSecretsResponse
+// A response message of the WatchSecrets method.
 type WatchSecretsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1341,7 +1343,7 @@ func (m *WatchSecretsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateSecret][ntt.secrets.v1.CreateSecret]
+// A request message of the CreateSecret method.
 type CreateSecretRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1430,7 +1432,7 @@ func (m *CreateSecretRequest) SetSecret(fv *secret.Secret) {
 	m.Secret = fv
 }
 
-// Request message for method [UpdateSecret][ntt.secrets.v1.UpdateSecret]
+// A request message of the UpdateSecret method.
 type UpdateSecretRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1560,7 +1562,7 @@ func (m *UpdateSecretRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteSecret][ntt.secrets.v1.DeleteSecret]
+// A request message of the DeleteSecret method.
 type DeleteSecretRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

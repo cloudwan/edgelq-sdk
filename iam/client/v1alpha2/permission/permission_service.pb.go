@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetPermission][ntt.iam.v1alpha2.GetPermission]
+// A request message of the GetPermission method.
 type GetPermissionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,8 +161,7 @@ func (m *GetPermissionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetPermissions][ntt.iam.v1alpha2.BatchGetPermissions]
+// A request message of the BatchGetPermissions method.
 type BatchGetPermissionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -269,7 +268,7 @@ func (m *BatchGetPermissionsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetPermissionsResponse
+// A response message of the BatchGetPermissions method.
 type BatchGetPermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -358,8 +357,7 @@ func (m *BatchGetPermissionsResponse) SetMissing(fv []*permission.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListPermissions][ntt.iam.v1alpha2.ListPermissions]
+// A request message of the ListPermissions method.
 type ListPermissionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -369,7 +367,7 @@ type ListPermissionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListPermissionsResponse.next_page_token][ntt.iam.v1alpha2.ListPermissionsResponse.next_page_token]
+	// ListPermissionsResponse.next_page_token.
 	PageToken *permission.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -543,19 +541,20 @@ func (m *ListPermissionsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListPermissions][ntt.iam.v1alpha2.ListPermissions]
+// A response message of the ListPermissions method.
 type ListPermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Permissions
 	Permissions []*permission.Permission `protobuf:"bytes,1,rep,name=permissions,proto3" json:"permissions,omitempty" firestore:"permissions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListPermissionsRequest.page_token][ntt.iam.v1alpha2.ListPermissionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListPermissionsRequest.page_token.
 	PrevPageToken *permission.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListPermissionsRequest.page_token][ntt.iam.v1alpha2.ListPermissionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListPermissionsRequest.page_token.
 	NextPageToken *permission.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -687,8 +686,7 @@ func (m *ListPermissionsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchPermission][ntt.iam.v1alpha2.WatchPermission]
+// A request message of the WatchPermission method.
 type WatchPermissionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -795,7 +793,7 @@ func (m *WatchPermissionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchPermissionResponse
+// A response message of the WatchPermission method.
 type WatchPermissionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -867,8 +865,7 @@ func (m *WatchPermissionResponse) SetChange(fv *permission.PermissionChange) {
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchPermissions][ntt.iam.v1alpha2.WatchPermissions]
+// A request message of the WatchPermissions method.
 type WatchPermissionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1109,7 +1106,7 @@ func (m *WatchPermissionsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchPermissionsResponse
+// A response message of the WatchPermissions method.
 type WatchPermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1312,8 +1309,7 @@ func (m *WatchPermissionsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreatePermission][ntt.iam.v1alpha2.CreatePermission]
+// A request message of the CreatePermission method.
 type CreatePermissionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1386,8 +1382,7 @@ func (m *CreatePermissionRequest) SetPermission(fv *permission.Permission) {
 	m.Permission = fv
 }
 
-// Request message for method
-// [UpdatePermission][ntt.iam.v1alpha2.UpdatePermission]
+// A request message of the UpdatePermission method.
 type UpdatePermissionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1517,8 +1512,7 @@ func (m *UpdatePermissionRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeletePermission][ntt.iam.v1alpha2.DeletePermission]
+// A request message of the DeletePermission method.
 type DeletePermissionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

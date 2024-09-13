@@ -1,0 +1,85 @@
+kind: "iam.edgelq.com/Role"
+version: "v1alpha2"
+resources:
+# The special role to mark a service account special
+# TODO) Currently it has just full access to device/apps related operations
+# but eventually those will be dropped and replaced with NodeAuthrization.
+- name: roles/devices-device-agent
+  displayName: Devices Agent
+  includedPermissions:
+  - permissions/devices.devices.attach@spec.serviceAccount!iam.serviceAccounts
+  - permissions/devices.devices.batchGet
+  - permissions/devices.devices.get
+  - permissions/devices.devices.list
+  - permissions/devices.devices.update
+  - permissions/devices.devices.watch
+  - permissions/devices.devices.listenForConnections
+  - permissions/devices.devices.openConnectionChannelSocket
+  - permissions/devices.projects.list
+  - permissions/devices.provisioningApprovalRequests.attach@spec.serviceAccount!iam.serviceAccounts
+  - permissions/devices.provisioningApprovalRequests.batchGet
+  - permissions/devices.provisioningApprovalRequests.get
+  - permissions/devices.provisioningApprovalRequests.list
+  - permissions/devices.provisioningApprovalRequests.provisionDeviceForApprovedRequest
+  - permissions/devices.provisioningApprovalRequests.watch
+  - permissions/devices.provisioningApprovalRequests.delete
+  - permissions/devices.provisioningPolicies.attach@spec.serviceAccount!iam.serviceAccounts
+  - permissions/devices.provisioningPolicies.attach@spec.template.spec.serviceAccount!iam.serviceAccounts
+  - permissions/devices.provisioningPolicies.batchGet
+  - permissions/devices.provisioningPolicies.get
+  - permissions/devices.provisioningPolicies.list
+  - permissions/devices.provisioningPolicies.provisionDeviceViaPolicy
+  - permissions/devices.provisioningPolicies.requestProvisioningApproval
+  - permissions/devices.provisioningPolicies.watch
+
+  # For attestation
+  - permissions/devices.devices.attach@spec.attestationConfig.attestationDomain!iam.attestationDomains
+  - permissions/iam.attestationDomains.verify
+  - permissions/iam.attestationDomains.get
+
+  # From applications
+  - permissions/applications.pods.attach@distribution!applications.distributions
+  - permissions/applications.pods.attach@spec.node!devices.devices
+  - permissions/applications.pods.attach@spec.imagePullSecrets.name!secrets.secrets
+  - permissions/applications.pods.create
+  - permissions/applications.pods.delete
+  - permissions/applications.pods.get
+  - permissions/applications.pods.list
+  - permissions/applications.pods.update
+  - permissions/applications.pods.watch
+  - permissions/applications.configMaps.get
+  - permissions/applications.configMaps.watch
+
+  # For metrics
+  - permissions/monitoring.timeSeries.create
+
+  # For iam
+  - permissions/iam.serviceAccounts.get
+  - permissions/iam.serviceAccounts.watch
+
+  - permissions/iam.serviceAccountKeys.get
+  - permissions/iam.serviceAccountKeys.watch
+
+  # For logging
+  - permissions/logging.logs.create
+
+  - permissions/proxies.projects.listen
+  - permissions/proxies.projects.accept
+
+  - permissions/secrets.secrets.get
+  - permissions/secrets.secrets.sensitiveData
+
+- name: roles/devices-device-provisioner
+  displayName: Device provisioner
+  includedPermissions:
+  - permissions/devices.provisioningPolicies.batchGet
+  - permissions/devices.provisioningPolicies.get
+  - permissions/devices.provisioningPolicies.list
+  - permissions/devices.provisioningPolicies.provisionDeviceViaPolicy
+  - permissions/devices.provisioningPolicies.requestProvisioningApproval
+  - permissions/devices.provisioningPolicies.watch
+  - permissions/devices.provisioningApprovalRequests.batchGet
+  - permissions/devices.provisioningApprovalRequests.get
+  - permissions/devices.provisioningApprovalRequests.list
+  - permissions/devices.provisioningApprovalRequests.update
+  - permissions/devices.provisioningApprovalRequests.watch

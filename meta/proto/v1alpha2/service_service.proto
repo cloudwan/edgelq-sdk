@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "ServiceServiceProto";
 option java_package = "com.ntt.meta.pb.v1alpha2";
 
-// Request message for method [GetService][ntt.meta.v1alpha2.GetService]
+// A request message of the GetService method.
 message GetServiceRequest {
   // Name of ntt.meta.v1alpha2.Service
   string name = 1;
@@ -31,8 +31,7 @@ message GetServiceRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetServices][ntt.meta.v1alpha2.BatchGetServices]
+// A request message of the BatchGetServices method.
 message BatchGetServicesRequest {
   // Names of Services
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetServicesRequest {
   reserved 1;
 }
 
-// BatchGetServicesResponse
+// A response message of the BatchGetServices method.
 message BatchGetServicesResponse {
   // found Services
   repeated Service services = 1;
@@ -57,7 +56,7 @@ message BatchGetServicesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListServices][ntt.meta.v1alpha2.ListServices]
+// A request message of the ListServices method.
 message ListServicesRequest {
   // Requested page size. Server may return fewer Services than requested.
   // If unspecified, server will pick an appropriate default.
@@ -65,7 +64,7 @@ message ListServicesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListServicesResponse.next_page_token][ntt.meta.v1alpha2.ListServicesResponse.next_page_token]
+  // ListServicesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -96,17 +95,19 @@ message ListServicesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListServices][ntt.meta.v1alpha2.ListServices]
+// A response message of the ListServices method.
 message ListServicesResponse {
   // The list of Services
   repeated Service services = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListServicesRequest.page_token][ntt.meta.v1alpha2.ListServicesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListServicesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListServicesRequest.page_token][ntt.meta.v1alpha2.ListServicesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListServicesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -120,7 +121,7 @@ message ListServicesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchService][ntt.meta.v1alpha2.WatchService]
+// A request message of the WatchService method.
 message WatchServiceRequest {
   // Name of ntt.meta.v1alpha2.Service
   string name = 1;
@@ -134,10 +135,10 @@ message WatchServiceRequest {
   goten.types.View view = 4;
 }
 
-// WatchServiceResponse
+// A response message of the WatchService method.
 message WatchServiceResponse { ServiceChange change = 1; }
 
-// Request message for method [WatchServices][ntt.meta.v1alpha2.WatchServices]
+// A request message of the WatchServices method.
 message WatchServicesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -194,7 +195,7 @@ message WatchServicesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchServicesResponse
+// A response message of the WatchServices method.
 message WatchServicesResponse {
   // Changes of Services
   repeated ServiceChange service_changes = 2;

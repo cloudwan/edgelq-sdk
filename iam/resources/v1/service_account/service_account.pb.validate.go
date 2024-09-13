@@ -52,6 +52,18 @@ func (obj *ServiceAccount) GotenValidate() error {
 			return gotenvalidate.NewValidationError("ServiceAccount", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("ServiceAccount", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("ServiceAccount", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

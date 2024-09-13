@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "AttestationDomainServiceProto";
 option java_package = "com.ntt.iam.pb.v1alpha2";
 
-// Request message for method
-// [GetAttestationDomain][ntt.iam.v1alpha2.GetAttestationDomain]
+// A request message of the GetAttestationDomain method.
 message GetAttestationDomainRequest {
   // Name of ntt.iam.v1alpha2.AttestationDomain
   string name = 1;
@@ -32,8 +31,7 @@ message GetAttestationDomainRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetAttestationDomains][ntt.iam.v1alpha2.BatchGetAttestationDomains]
+// A request message of the BatchGetAttestationDomains method.
 message BatchGetAttestationDomainsRequest {
   // Names of AttestationDomains
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetAttestationDomainsRequest {
   reserved 1;
 }
 
-// BatchGetAttestationDomainsResponse
+// A response message of the BatchGetAttestationDomains method.
 message BatchGetAttestationDomainsResponse {
   // found AttestationDomains
   repeated AttestationDomain attestation_domains = 1;
@@ -58,8 +56,7 @@ message BatchGetAttestationDomainsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListAttestationDomains][ntt.iam.v1alpha2.ListAttestationDomains]
+// A request message of the ListAttestationDomains method.
 message ListAttestationDomainsRequest {
   // Parent name of ntt.iam.v1alpha2.AttestationDomain
   string parent = 1;
@@ -70,7 +67,7 @@ message ListAttestationDomainsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListAttestationDomainsResponse.next_page_token][ntt.iam.v1alpha2.ListAttestationDomainsResponse.next_page_token]
+  // ListAttestationDomainsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -101,18 +98,19 @@ message ListAttestationDomainsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListAttestationDomains][ntt.iam.v1alpha2.ListAttestationDomains]
+// A response message of the ListAttestationDomains method.
 message ListAttestationDomainsResponse {
   // The list of AttestationDomains
   repeated AttestationDomain attestation_domains = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListAttestationDomainsRequest.page_token][ntt.iam.v1alpha2.ListAttestationDomainsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListAttestationDomainsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListAttestationDomainsRequest.page_token][ntt.iam.v1alpha2.ListAttestationDomainsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListAttestationDomainsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -127,8 +125,7 @@ message ListAttestationDomainsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchAttestationDomain][ntt.iam.v1alpha2.WatchAttestationDomain]
+// A request message of the WatchAttestationDomain method.
 message WatchAttestationDomainRequest {
   // Name of ntt.iam.v1alpha2.AttestationDomain
   string name = 1;
@@ -142,11 +139,10 @@ message WatchAttestationDomainRequest {
   goten.types.View view = 4;
 }
 
-// WatchAttestationDomainResponse
+// A response message of the WatchAttestationDomain method.
 message WatchAttestationDomainResponse { AttestationDomainChange change = 1; }
 
-// Request message for method
-// [WatchAttestationDomains][ntt.iam.v1alpha2.WatchAttestationDomains]
+// A request message of the WatchAttestationDomains method.
 message WatchAttestationDomainsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -207,7 +203,7 @@ message WatchAttestationDomainsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchAttestationDomainsResponse
+// A response message of the WatchAttestationDomains method.
 message WatchAttestationDomainsResponse {
   // Changes of AttestationDomains
   repeated AttestationDomainChange attestation_domain_changes = 2;
@@ -273,8 +269,7 @@ message WatchAttestationDomainsResponse {
   }
 }
 
-// Request message for method
-// [CreateAttestationDomain][ntt.iam.v1alpha2.CreateAttestationDomain]
+// A request message of the CreateAttestationDomain method.
 message CreateAttestationDomainRequest {
   // Parent name of ntt.iam.v1alpha2.AttestationDomain
   string parent = 1;
@@ -283,8 +278,7 @@ message CreateAttestationDomainRequest {
   AttestationDomain attestation_domain = 2;
 }
 
-// Request message for method
-// [UpdateAttestationDomain][ntt.iam.v1alpha2.UpdateAttestationDomain]
+// A request message of the UpdateAttestationDomain method.
 message UpdateAttestationDomainRequest {
   // AttestationDomain resource body
   AttestationDomain attestation_domain = 2;
@@ -319,8 +313,7 @@ message UpdateAttestationDomainRequest {
   }
 }
 
-// Request message for method
-// [DeleteAttestationDomain][ntt.iam.v1alpha2.DeleteAttestationDomain]
+// A request message of the DeleteAttestationDomain method.
 message DeleteAttestationDomainRequest {
   // Name of ntt.iam.v1alpha2.AttestationDomain
   string name = 1;

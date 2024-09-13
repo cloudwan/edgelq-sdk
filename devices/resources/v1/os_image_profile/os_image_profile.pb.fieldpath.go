@@ -75,15 +75,16 @@ const (
 	OsImageProfile_FieldPathSelectorName                 OsImageProfile_FieldPathSelector = 0
 	OsImageProfile_FieldPathSelectorMetadata             OsImageProfile_FieldPathSelector = 1
 	OsImageProfile_FieldPathSelectorDisplayName          OsImageProfile_FieldPathSelector = 2
-	OsImageProfile_FieldPathSelectorDeviceType           OsImageProfile_FieldPathSelector = 3
-	OsImageProfile_FieldPathSelectorInstallAiAccelerator OsImageProfile_FieldPathSelector = 4
-	OsImageProfile_FieldPathSelectorEncryption           OsImageProfile_FieldPathSelector = 5
-	OsImageProfile_FieldPathSelectorDiskMapping          OsImageProfile_FieldPathSelector = 6
-	OsImageProfile_FieldPathSelectorNetworkAgent         OsImageProfile_FieldPathSelector = 7
-	OsImageProfile_FieldPathSelectorNtp                  OsImageProfile_FieldPathSelector = 8
-	OsImageProfile_FieldPathSelectorHttpProxy            OsImageProfile_FieldPathSelector = 9
-	OsImageProfile_FieldPathSelectorHttpsProxy           OsImageProfile_FieldPathSelector = 10
-	OsImageProfile_FieldPathSelectorNoProxy              OsImageProfile_FieldPathSelector = 11
+	OsImageProfile_FieldPathSelectorDescription          OsImageProfile_FieldPathSelector = 3
+	OsImageProfile_FieldPathSelectorDeviceType           OsImageProfile_FieldPathSelector = 4
+	OsImageProfile_FieldPathSelectorInstallAiAccelerator OsImageProfile_FieldPathSelector = 5
+	OsImageProfile_FieldPathSelectorEncryption           OsImageProfile_FieldPathSelector = 6
+	OsImageProfile_FieldPathSelectorDiskMapping          OsImageProfile_FieldPathSelector = 7
+	OsImageProfile_FieldPathSelectorNetworkAgent         OsImageProfile_FieldPathSelector = 8
+	OsImageProfile_FieldPathSelectorNtp                  OsImageProfile_FieldPathSelector = 9
+	OsImageProfile_FieldPathSelectorHttpProxy            OsImageProfile_FieldPathSelector = 10
+	OsImageProfile_FieldPathSelectorHttpsProxy           OsImageProfile_FieldPathSelector = 11
+	OsImageProfile_FieldPathSelectorNoProxy              OsImageProfile_FieldPathSelector = 12
 )
 
 func (s OsImageProfile_FieldPathSelector) String() string {
@@ -94,6 +95,8 @@ func (s OsImageProfile_FieldPathSelector) String() string {
 		return "metadata"
 	case OsImageProfile_FieldPathSelectorDisplayName:
 		return "display_name"
+	case OsImageProfile_FieldPathSelectorDescription:
+		return "description"
 	case OsImageProfile_FieldPathSelectorDeviceType:
 		return "device_type"
 	case OsImageProfile_FieldPathSelectorInstallAiAccelerator:
@@ -129,6 +132,8 @@ func BuildOsImageProfile_FieldPath(fp gotenobject.RawFieldPath) (OsImageProfile_
 			return &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDescription}, nil
 		case "device_type", "deviceType", "device-type":
 			return &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDeviceType}, nil
 		case "install_ai_accelerator", "installAiAccelerator", "install-ai-accelerator":
@@ -211,6 +216,8 @@ func (fp *OsImageProfile_FieldTerminalPath) Get(source *OsImageProfile) (values 
 			}
 		case OsImageProfile_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case OsImageProfile_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case OsImageProfile_FieldPathSelectorDeviceType:
 			if source.DeviceType != nil {
 				values = append(values, source.DeviceType)
@@ -253,6 +260,8 @@ func (fp *OsImageProfile_FieldTerminalPath) GetSingle(source *OsImageProfile) (i
 		return res, res != nil
 	case OsImageProfile_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case OsImageProfile_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case OsImageProfile_FieldPathSelectorDeviceType:
 		res := source.GetDeviceType()
 		return res, res != nil
@@ -290,6 +299,8 @@ func (fp *OsImageProfile_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case OsImageProfile_FieldPathSelectorDisplayName:
 		return ""
+	case OsImageProfile_FieldPathSelectorDescription:
+		return ""
 	case OsImageProfile_FieldPathSelectorDeviceType:
 		return (*device_type.Reference)(nil)
 	case OsImageProfile_FieldPathSelectorInstallAiAccelerator:
@@ -322,6 +333,8 @@ func (fp *OsImageProfile_FieldTerminalPath) ClearValue(item *OsImageProfile) {
 			item.Metadata = nil
 		case OsImageProfile_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case OsImageProfile_FieldPathSelectorDescription:
+			item.Description = ""
 		case OsImageProfile_FieldPathSelectorDeviceType:
 			item.DeviceType = nil
 		case OsImageProfile_FieldPathSelectorInstallAiAccelerator:
@@ -354,6 +367,7 @@ func (fp *OsImageProfile_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *OsImageProfile_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == OsImageProfile_FieldPathSelectorName ||
 		fp.selector == OsImageProfile_FieldPathSelectorDisplayName ||
+		fp.selector == OsImageProfile_FieldPathSelectorDescription ||
 		fp.selector == OsImageProfile_FieldPathSelectorDeviceType ||
 		fp.selector == OsImageProfile_FieldPathSelectorInstallAiAccelerator ||
 		fp.selector == OsImageProfile_FieldPathSelectorEncryption ||
@@ -376,6 +390,8 @@ func (fp *OsImageProfile_FieldTerminalPath) WithIValue(value interface{}) OsImag
 	case OsImageProfile_FieldPathSelectorMetadata:
 		return &OsImageProfile_FieldTerminalPathValue{OsImageProfile_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case OsImageProfile_FieldPathSelectorDisplayName:
+		return &OsImageProfile_FieldTerminalPathValue{OsImageProfile_FieldTerminalPath: *fp, value: value.(string)}
+	case OsImageProfile_FieldPathSelectorDescription:
 		return &OsImageProfile_FieldTerminalPathValue{OsImageProfile_FieldTerminalPath: *fp, value: value.(string)}
 	case OsImageProfile_FieldPathSelectorDeviceType:
 		return &OsImageProfile_FieldTerminalPathValue{OsImageProfile_FieldTerminalPath: *fp, value: value.(*device_type.Reference)}
@@ -412,6 +428,8 @@ func (fp *OsImageProfile_FieldTerminalPath) WithIArrayOfValues(values interface{
 	case OsImageProfile_FieldPathSelectorMetadata:
 		return &OsImageProfile_FieldTerminalPathArrayOfValues{OsImageProfile_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case OsImageProfile_FieldPathSelectorDisplayName:
+		return &OsImageProfile_FieldTerminalPathArrayOfValues{OsImageProfile_FieldTerminalPath: *fp, values: values.([]string)}
+	case OsImageProfile_FieldPathSelectorDescription:
 		return &OsImageProfile_FieldTerminalPathArrayOfValues{OsImageProfile_FieldTerminalPath: *fp, values: values.([]string)}
 	case OsImageProfile_FieldPathSelectorDeviceType:
 		return &OsImageProfile_FieldTerminalPathArrayOfValues{OsImageProfile_FieldTerminalPath: *fp, values: values.([]*device_type.Reference)}
@@ -615,6 +633,10 @@ func (fpv *OsImageProfile_FieldTerminalPathValue) AsDisplayNameValue() (string, 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *OsImageProfile_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *OsImageProfile_FieldTerminalPathValue) AsDeviceTypeValue() (*device_type.Reference, bool) {
 	res, ok := fpv.value.(*device_type.Reference)
 	return res, ok
@@ -664,6 +686,8 @@ func (fpv *OsImageProfile_FieldTerminalPathValue) SetTo(target **OsImageProfile)
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case OsImageProfile_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case OsImageProfile_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case OsImageProfile_FieldPathSelectorDeviceType:
 		(*target).DeviceType = fpv.value.(*device_type.Reference)
 	case OsImageProfile_FieldPathSelectorInstallAiAccelerator:
@@ -719,6 +743,16 @@ func (fpv *OsImageProfile_FieldTerminalPathValue) CompareWith(source *OsImagePro
 	case OsImageProfile_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case OsImageProfile_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1015,6 +1049,10 @@ func (fpaov *OsImageProfile_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case OsImageProfile_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case OsImageProfile_FieldPathSelectorDeviceType:
 		for _, v := range fpaov.values.([]*device_type.Reference) {
 			values = append(values, v)
@@ -1063,6 +1101,10 @@ func (fpaov *OsImageProfile_FieldTerminalPathArrayOfValues) AsMetadataArrayOfVal
 	return res, ok
 }
 func (fpaov *OsImageProfile_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *OsImageProfile_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

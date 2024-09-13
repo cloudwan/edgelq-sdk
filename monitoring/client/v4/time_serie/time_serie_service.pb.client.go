@@ -51,6 +51,7 @@ type TimeSerieServiceClient interface {
 	QueryProjectTimeSeriesStats(ctx context.Context, in *QueryProjectTimeSeriesStatsRequest, opts ...grpc.CallOption) (*QueryProjectTimeSeriesStatsResponse, error)
 	QueryServiceTimeSeriesStats(ctx context.Context, in *QueryServiceTimeSeriesStatsRequest, opts ...grpc.CallOption) (*QueryServiceTimeSeriesStatsResponse, error)
 	CreateTimeSeries(ctx context.Context, in *CreateTimeSeriesRequest, opts ...grpc.CallOption) (*CreateTimeSeriesResponse, error)
+	WatchTimeSeries(ctx context.Context, in *WatchTimeSeriesRequest, opts ...grpc.CallOption) (WatchTimeSeriesClientStream, error)
 }
 
 type client struct {
@@ -95,4 +96,41 @@ func (c *client) CreateTimeSeries(ctx context.Context, in *CreateTimeSeriesReque
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *client) WatchTimeSeries(ctx context.Context, in *WatchTimeSeriesRequest, opts ...grpc.CallOption) (WatchTimeSeriesClientStream, error) {
+	stream, err := c.cc.NewStream(ctx,
+		&grpc.StreamDesc{
+			StreamName:    "WatchTimeSeries",
+			ServerStreams: true,
+		},
+		"/ntt.monitoring.v4.TimeSerieService/WatchTimeSeries", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &watchTimeSeriesWatchTimeSeriesClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type WatchTimeSeriesClientStream interface {
+	Recv() (*WatchTimeSeriesResponse, error)
+	grpc.ClientStream
+}
+
+type watchTimeSeriesWatchTimeSeriesClient struct {
+	grpc.ClientStream
+}
+
+func (x *watchTimeSeriesWatchTimeSeriesClient) Recv() (*WatchTimeSeriesResponse, error) {
+	m := new(WatchTimeSeriesResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }

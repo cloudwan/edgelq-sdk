@@ -60,7 +60,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetRoleBinding][ntt.iam.v1.GetRoleBinding]
+// A request message of the GetRoleBinding method.
 type GetRoleBindingRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -167,8 +167,7 @@ func (m *GetRoleBindingRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetRoleBindings][ntt.iam.v1.BatchGetRoleBindings]
+// A request message of the BatchGetRoleBindings method.
 type BatchGetRoleBindingsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -275,7 +274,7 @@ func (m *BatchGetRoleBindingsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetRoleBindingsResponse
+// A response message of the BatchGetRoleBindings method.
 type BatchGetRoleBindingsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -364,7 +363,7 @@ func (m *BatchGetRoleBindingsResponse) SetMissing(fv []*role_binding.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListRoleBindings][ntt.iam.v1.ListRoleBindings]
+// A request message of the ListRoleBindings method.
 type ListRoleBindingsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -376,7 +375,7 @@ type ListRoleBindingsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListRoleBindingsResponse.next_page_token][ntt.iam.v1.ListRoleBindingsResponse.next_page_token]
+	// ListRoleBindingsResponse.next_page_token.
 	PageToken *role_binding.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -564,18 +563,20 @@ func (m *ListRoleBindingsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListRoleBindings][ntt.iam.v1.ListRoleBindings]
+// A response message of the ListRoleBindings method.
 type ListRoleBindingsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of RoleBindings
 	RoleBindings []*role_binding.RoleBinding `protobuf:"bytes,1,rep,name=role_bindings,json=roleBindings,proto3" json:"role_bindings,omitempty" firestore:"roleBindings"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListRoleBindingsRequest.page_token][ntt.iam.v1.ListRoleBindingsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListRoleBindingsRequest.page_token.
 	PrevPageToken *role_binding.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListRoleBindingsRequest.page_token][ntt.iam.v1.ListRoleBindingsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListRoleBindingsRequest.page_token.
 	NextPageToken *role_binding.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,7 +708,7 @@ func (m *ListRoleBindingsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchRoleBinding][ntt.iam.v1.WatchRoleBinding]
+// A request message of the WatchRoleBinding method.
 type WatchRoleBindingRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -814,7 +815,7 @@ func (m *WatchRoleBindingRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchRoleBindingResponse
+// A response message of the WatchRoleBinding method.
 type WatchRoleBindingResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -886,7 +887,7 @@ func (m *WatchRoleBindingResponse) SetChange(fv *role_binding.RoleBindingChange)
 	m.Change = fv
 }
 
-// Request message for method [WatchRoleBindings][ntt.iam.v1.WatchRoleBindings]
+// A request message of the WatchRoleBindings method.
 type WatchRoleBindingsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1143,7 +1144,7 @@ func (m *WatchRoleBindingsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchRoleBindingsResponse
+// A response message of the WatchRoleBindings method.
 type WatchRoleBindingsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1346,7 +1347,7 @@ func (m *WatchRoleBindingsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [CreateRoleBinding][ntt.iam.v1.CreateRoleBinding]
+// A request message of the CreateRoleBinding method.
 type CreateRoleBindingRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1435,7 +1436,7 @@ func (m *CreateRoleBindingRequest) SetRoleBinding(fv *role_binding.RoleBinding) 
 	m.RoleBinding = fv
 }
 
-// Request message for method [UpdateRoleBinding][ntt.iam.v1.UpdateRoleBinding]
+// A request message of the UpdateRoleBinding method.
 type UpdateRoleBindingRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1565,7 +1566,7 @@ func (m *UpdateRoleBindingRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method [DeleteRoleBinding][ntt.iam.v1.DeleteRoleBinding]
+// A request message of the DeleteRoleBinding method.
 type DeleteRoleBindingRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

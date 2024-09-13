@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "ProvisioningPolicyServiceProto";
 option java_package = "com.ntt.devices.pb.v1";
 
-// Request message for method
-// [GetProvisioningPolicy][ntt.devices.v1.GetProvisioningPolicy]
+// A request message of the GetProvisioningPolicy method.
 message GetProvisioningPolicyRequest {
   // Name of ntt.devices.v1.ProvisioningPolicy
   string name = 1;
@@ -33,8 +32,7 @@ message GetProvisioningPolicyRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetProvisioningPolicies][ntt.devices.v1.BatchGetProvisioningPolicies]
+// A request message of the BatchGetProvisioningPolicies method.
 message BatchGetProvisioningPoliciesRequest {
   // Names of ProvisioningPolicies
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetProvisioningPoliciesRequest {
   reserved 1;
 }
 
-// BatchGetProvisioningPoliciesResponse
+// A response message of the BatchGetProvisioningPolicies method.
 message BatchGetProvisioningPoliciesResponse {
   // found ProvisioningPolicies
   repeated ProvisioningPolicy provisioning_policies = 1;
@@ -59,8 +57,7 @@ message BatchGetProvisioningPoliciesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListProvisioningPolicies][ntt.devices.v1.ListProvisioningPolicies]
+// A request message of the ListProvisioningPolicies method.
 message ListProvisioningPoliciesRequest {
   // Parent name of ntt.devices.v1.ProvisioningPolicy
   string parent = 1;
@@ -71,7 +68,7 @@ message ListProvisioningPoliciesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListProvisioningPoliciesResponse.next_page_token][ntt.devices.v1.ListProvisioningPoliciesResponse.next_page_token]
+  // ListProvisioningPoliciesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListProvisioningPoliciesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListProvisioningPolicies][ntt.devices.v1.ListProvisioningPolicies]
+// A response message of the ListProvisioningPolicies method.
 message ListProvisioningPoliciesResponse {
   // The list of ProvisioningPolicies
   repeated ProvisioningPolicy provisioning_policies = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListProvisioningPoliciesRequest.page_token][ntt.devices.v1.ListProvisioningPoliciesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListProvisioningPoliciesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListProvisioningPoliciesRequest.page_token][ntt.devices.v1.ListProvisioningPoliciesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListProvisioningPoliciesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListProvisioningPoliciesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchProvisioningPolicy][ntt.devices.v1.WatchProvisioningPolicy]
+// A request message of the WatchProvisioningPolicy method.
 message WatchProvisioningPolicyRequest {
   // Name of ntt.devices.v1.ProvisioningPolicy
   string name = 1;
@@ -143,11 +140,10 @@ message WatchProvisioningPolicyRequest {
   goten.types.View view = 4;
 }
 
-// WatchProvisioningPolicyResponse
+// A response message of the WatchProvisioningPolicy method.
 message WatchProvisioningPolicyResponse { ProvisioningPolicyChange change = 1; }
 
-// Request message for method
-// [WatchProvisioningPolicies][ntt.devices.v1.WatchProvisioningPolicies]
+// A request message of the WatchProvisioningPolicies method.
 message WatchProvisioningPoliciesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -208,7 +204,7 @@ message WatchProvisioningPoliciesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchProvisioningPoliciesResponse
+// A response message of the WatchProvisioningPolicies method.
 message WatchProvisioningPoliciesResponse {
   // Changes of ProvisioningPolicies
   repeated ProvisioningPolicyChange provisioning_policy_changes = 2;
@@ -274,8 +270,7 @@ message WatchProvisioningPoliciesResponse {
   }
 }
 
-// Request message for method
-// [CreateProvisioningPolicy][ntt.devices.v1.CreateProvisioningPolicy]
+// A request message of the CreateProvisioningPolicy method.
 message CreateProvisioningPolicyRequest {
   // Parent name of ntt.devices.v1.ProvisioningPolicy
   string parent = 1;
@@ -284,8 +279,7 @@ message CreateProvisioningPolicyRequest {
   ProvisioningPolicy provisioning_policy = 2;
 }
 
-// Request message for method
-// [UpdateProvisioningPolicy][ntt.devices.v1.UpdateProvisioningPolicy]
+// A request message of the UpdateProvisioningPolicy method.
 message UpdateProvisioningPolicyRequest {
   // ProvisioningPolicy resource body
   ProvisioningPolicy provisioning_policy = 2;
@@ -320,8 +314,7 @@ message UpdateProvisioningPolicyRequest {
   }
 }
 
-// Request message for method
-// [DeleteProvisioningPolicy][ntt.devices.v1.DeleteProvisioningPolicy]
+// A request message of the DeleteProvisioningPolicy method.
 message DeleteProvisioningPolicyRequest {
   // Name of ntt.devices.v1.ProvisioningPolicy
   string name = 1;

@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "PodServiceProto";
 option java_package = "com.ntt.applications.pb.v1alpha2";
 
-// Request message for method [GetPod][ntt.applications.v1alpha2.GetPod]
+// A request message of the GetPod method.
 message GetPodRequest {
   // Name of ntt.applications.v1alpha2.Pod
   string name = 1;
@@ -31,8 +31,7 @@ message GetPodRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetPods][ntt.applications.v1alpha2.BatchGetPods]
+// A request message of the BatchGetPods method.
 message BatchGetPodsRequest {
   // Names of Pods
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetPodsRequest {
   reserved 1;
 }
 
-// BatchGetPodsResponse
+// A response message of the BatchGetPods method.
 message BatchGetPodsResponse {
   // found Pods
   repeated Pod pods = 1;
@@ -57,7 +56,7 @@ message BatchGetPodsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListPods][ntt.applications.v1alpha2.ListPods]
+// A request message of the ListPods method.
 message ListPodsRequest {
   // Parent name of ntt.applications.v1alpha2.Pod
   string parent = 1;
@@ -68,7 +67,7 @@ message ListPodsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListPodsResponse.next_page_token][ntt.applications.v1alpha2.ListPodsResponse.next_page_token]
+  // ListPodsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -99,17 +98,19 @@ message ListPodsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListPods][ntt.applications.v1alpha2.ListPods]
+// A response message of the ListPods method.
 message ListPodsResponse {
   // The list of Pods
   repeated Pod pods = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListPodsRequest.page_token][ntt.applications.v1alpha2.ListPodsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListPodsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListPodsRequest.page_token][ntt.applications.v1alpha2.ListPodsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListPodsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -123,7 +124,7 @@ message ListPodsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchPod][ntt.applications.v1alpha2.WatchPod]
+// A request message of the WatchPod method.
 message WatchPodRequest {
   // Name of ntt.applications.v1alpha2.Pod
   string name = 1;
@@ -137,10 +138,10 @@ message WatchPodRequest {
   goten.types.View view = 4;
 }
 
-// WatchPodResponse
+// A response message of the WatchPod method.
 message WatchPodResponse { PodChange change = 1; }
 
-// Request message for method [WatchPods][ntt.applications.v1alpha2.WatchPods]
+// A request message of the WatchPods method.
 message WatchPodsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -200,7 +201,7 @@ message WatchPodsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchPodsResponse
+// A response message of the WatchPods method.
 message WatchPodsResponse {
   // Changes of Pods
   repeated PodChange pod_changes = 2;
@@ -266,7 +267,7 @@ message WatchPodsResponse {
   }
 }
 
-// Request message for method [CreatePod][ntt.applications.v1alpha2.CreatePod]
+// A request message of the CreatePod method.
 message CreatePodRequest {
   // Parent name of ntt.applications.v1alpha2.Pod
   string parent = 1;
@@ -275,7 +276,7 @@ message CreatePodRequest {
   Pod pod = 2;
 }
 
-// Request message for method [UpdatePod][ntt.applications.v1alpha2.UpdatePod]
+// A request message of the UpdatePod method.
 message UpdatePodRequest {
   // Pod resource body
   Pod pod = 2;
@@ -310,7 +311,7 @@ message UpdatePodRequest {
   }
 }
 
-// Request message for method [DeletePod][ntt.applications.v1alpha2.DeletePod]
+// A request message of the DeletePod method.
 message DeletePodRequest {
   // Name of ntt.applications.v1alpha2.Pod
   string name = 1;

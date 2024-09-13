@@ -58,6 +58,12 @@ func (obj *AlertingCondition) GotenValidate() error {
 			return gotenvalidate.NewValidationError("AlertingCondition", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("AlertingCondition", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if obj.Spec == nil {
 		return gotenvalidate.NewValidationError("AlertingCondition", "spec", obj.Spec, "field is required", nil)
 	}

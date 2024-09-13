@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetCustomizedImage][ntt.devices.v1alpha2.GetCustomizedImage]
+// A request message of the GetCustomizedImage method.
 type GetCustomizedImageRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetCustomizedImageRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetCustomizedImages][ntt.devices.v1alpha2.BatchGetCustomizedImages]
+// A request message of the BatchGetCustomizedImages method.
 type BatchGetCustomizedImagesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetCustomizedImagesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetCustomizedImagesResponse
+// A response message of the BatchGetCustomizedImages method.
 type BatchGetCustomizedImagesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetCustomizedImagesResponse) SetMissing(fv []*customized_image.Nam
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListCustomizedImages][ntt.devices.v1alpha2.ListCustomizedImages]
+// A request message of the ListCustomizedImages method.
 type ListCustomizedImagesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListCustomizedImagesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListCustomizedImagesResponse.next_page_token][ntt.devices.v1alpha2.ListCustomizedImagesResponse.next_page_token]
+	// ListCustomizedImagesResponse.next_page_token.
 	PageToken *customized_image.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListCustomizedImagesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListCustomizedImages][ntt.devices.v1alpha2.ListCustomizedImages]
+// A response message of the ListCustomizedImages method.
 type ListCustomizedImagesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of CustomizedImages
 	CustomizedImages []*customized_image.CustomizedImage `protobuf:"bytes,1,rep,name=customized_images,json=customizedImages,proto3" json:"customized_images,omitempty" firestore:"customizedImages"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListCustomizedImagesRequest.page_token][ntt.devices.v1alpha2.ListCustomizedImagesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListCustomizedImagesRequest.page_token.
 	PrevPageToken *customized_image.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListCustomizedImagesRequest.page_token][ntt.devices.v1alpha2.ListCustomizedImagesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListCustomizedImagesRequest.page_token.
 	NextPageToken *customized_image.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListCustomizedImagesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchCustomizedImage][ntt.devices.v1alpha2.WatchCustomizedImage]
+// A request message of the WatchCustomizedImage method.
 type WatchCustomizedImageRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchCustomizedImageRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchCustomizedImageResponse
+// A response message of the WatchCustomizedImage method.
 type WatchCustomizedImageResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchCustomizedImageResponse) SetChange(fv *customized_image.Customized
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchCustomizedImages][ntt.devices.v1alpha2.WatchCustomizedImages]
+// A request message of the WatchCustomizedImages method.
 type WatchCustomizedImagesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1145,7 +1141,7 @@ func (m *WatchCustomizedImagesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchCustomizedImagesResponse
+// A response message of the WatchCustomizedImages method.
 type WatchCustomizedImagesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1348,8 +1344,7 @@ func (m *WatchCustomizedImagesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateCustomizedImage][ntt.devices.v1alpha2.CreateCustomizedImage]
+// A request message of the CreateCustomizedImage method.
 type CreateCustomizedImageRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1438,8 +1433,7 @@ func (m *CreateCustomizedImageRequest) SetCustomizedImage(fv *customized_image.C
 	m.CustomizedImage = fv
 }
 
-// Request message for method
-// [UpdateCustomizedImage][ntt.devices.v1alpha2.UpdateCustomizedImage]
+// A request message of the UpdateCustomizedImage method.
 type UpdateCustomizedImageRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1569,8 +1563,7 @@ func (m *UpdateCustomizedImageRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteCustomizedImage][ntt.devices.v1alpha2.DeleteCustomizedImage]
+// A request message of the DeleteCustomizedImage method.
 type DeleteCustomizedImageRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

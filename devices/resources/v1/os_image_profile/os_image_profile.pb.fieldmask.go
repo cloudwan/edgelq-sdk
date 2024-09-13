@@ -56,6 +56,7 @@ func FullOsImageProfile_FieldMask() *OsImageProfile_FieldMask {
 	res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorDeviceType})
 	res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorInstallAiAccelerator})
 	res.Paths = append(res.Paths, &OsImageProfile_FieldTerminalPath{selector: OsImageProfile_FieldPathSelectorEncryption})
@@ -108,7 +109,7 @@ func (fieldMask *OsImageProfile_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 12)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*OsImageProfile_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -138,7 +139,7 @@ func (fieldMask *OsImageProfile_FieldMask) Reset() {
 
 func (fieldMask *OsImageProfile_FieldMask) Subtract(other *OsImageProfile_FieldMask) *OsImageProfile_FieldMask {
 	result := &OsImageProfile_FieldMask{}
-	removedSelectors := make([]bool, 12)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[OsImageProfile_FieldPathSelector]gotenobject.FieldMask{
 		OsImageProfile_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -345,6 +346,8 @@ func (fieldMask *OsImageProfile_FieldMask) Project(source *OsImageProfile) *OsIm
 				wholeMetadataAccepted = true
 			case OsImageProfile_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case OsImageProfile_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case OsImageProfile_FieldPathSelectorDeviceType:
 				result.DeviceType = source.DeviceType
 			case OsImageProfile_FieldPathSelectorInstallAiAccelerator:

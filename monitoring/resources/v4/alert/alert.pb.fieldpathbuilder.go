@@ -817,6 +817,10 @@ func (AlertPathSelectorInfoTimeSerie) MonitoredResource() AlertPathSelectorInfoT
 	return AlertPathSelectorInfoTimeSerieMonitoredResource{}
 }
 
+func (AlertPathSelectorInfoTimeSerie) Data() AlertPathSelectorInfoTimeSerieData {
+	return AlertPathSelectorInfoTimeSerieData{}
+}
+
 type AlertPathSelectorInfoTimeSerieKey struct{}
 
 func (AlertPathSelectorInfoTimeSerieKey) FieldPath() *Alert_FieldSubPath {
@@ -1045,6 +1049,27 @@ func (s AlertPathSelectorInfoTimeSerieMonitoredResourceReducedLabels) WithArrayO
 }
 
 func (s AlertPathSelectorInfoTimeSerieMonitoredResourceReducedLabels) WithItemValue(value string) *Alert_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Alert_FieldSubPathArrayItemValue)
+}
+
+type AlertPathSelectorInfoTimeSerieData struct{}
+
+func (AlertPathSelectorInfoTimeSerieData) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorInfo,
+		subPath:  NewAlertInfoFieldPathBuilder().TimeSerie().Data().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorInfoTimeSerieData) WithValue(value []string) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorInfoTimeSerieData) WithArrayOfValues(values [][]string) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+func (s AlertPathSelectorInfoTimeSerieData) WithItemValue(value string) *Alert_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Alert_FieldSubPathArrayItemValue)
 }
 
@@ -1403,6 +1428,10 @@ func (Alert_InfoPathSelectorTimeSerie) MonitoredResource() Alert_InfoPathSelecto
 	return Alert_InfoPathSelectorTimeSerieMonitoredResource{}
 }
 
+func (Alert_InfoPathSelectorTimeSerie) Data() Alert_InfoPathSelectorTimeSerieData {
+	return Alert_InfoPathSelectorTimeSerieData{}
+}
+
 type Alert_InfoPathSelectorTimeSerieKey struct{}
 
 func (Alert_InfoPathSelectorTimeSerieKey) FieldPath() *AlertInfo_FieldSubPath {
@@ -1631,6 +1660,27 @@ func (s Alert_InfoPathSelectorTimeSerieMonitoredResourceReducedLabels) WithArray
 }
 
 func (s Alert_InfoPathSelectorTimeSerieMonitoredResourceReducedLabels) WithItemValue(value string) *AlertInfo_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertInfo_FieldSubPathArrayItemValue)
+}
+
+type Alert_InfoPathSelectorTimeSerieData struct{}
+
+func (Alert_InfoPathSelectorTimeSerieData) FieldPath() *AlertInfo_FieldSubPath {
+	return &AlertInfo_FieldSubPath{
+		selector: AlertInfo_FieldPathSelectorTimeSerie,
+		subPath:  NewAlertInfoTimeSerieFieldPathBuilder().Data().FieldPath(),
+	}
+}
+
+func (s Alert_InfoPathSelectorTimeSerieData) WithValue(value []string) *AlertInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertInfo_FieldSubPathValue)
+}
+
+func (s Alert_InfoPathSelectorTimeSerieData) WithArrayOfValues(values [][]string) *AlertInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertInfo_FieldSubPathArrayOfValues)
+}
+
+func (s Alert_InfoPathSelectorTimeSerieData) WithItemValue(value string) *AlertInfo_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertInfo_FieldSubPathArrayItemValue)
 }
 
@@ -1926,6 +1976,9 @@ func (AlertInfoTimeSerieFieldPathBuilder) Metric() Alert_Info_TimeSeriePathSelec
 func (AlertInfoTimeSerieFieldPathBuilder) MonitoredResource() Alert_Info_TimeSeriePathSelectorMonitoredResource {
 	return Alert_Info_TimeSeriePathSelectorMonitoredResource{}
 }
+func (AlertInfoTimeSerieFieldPathBuilder) Data() Alert_Info_TimeSeriePathSelectorData {
+	return Alert_Info_TimeSeriePathSelectorData{}
+}
 
 type Alert_Info_TimeSeriePathSelectorKey struct{}
 
@@ -2179,6 +2232,24 @@ func (s Alert_Info_TimeSeriePathSelectorMonitoredResourceReducedLabels) WithArra
 
 func (s Alert_Info_TimeSeriePathSelectorMonitoredResourceReducedLabels) WithItemValue(value string) *AlertInfoTimeSerie_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertInfoTimeSerie_FieldSubPathArrayItemValue)
+}
+
+type Alert_Info_TimeSeriePathSelectorData struct{}
+
+func (Alert_Info_TimeSeriePathSelectorData) FieldPath() *AlertInfoTimeSerie_FieldTerminalPath {
+	return &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorData}
+}
+
+func (s Alert_Info_TimeSeriePathSelectorData) WithValue(value []string) *AlertInfoTimeSerie_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertInfoTimeSerie_FieldTerminalPathValue)
+}
+
+func (s Alert_Info_TimeSeriePathSelectorData) WithArrayOfValues(values [][]string) *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertInfoTimeSerie_FieldTerminalPathArrayOfValues)
+}
+
+func (s Alert_Info_TimeSeriePathSelectorData) WithItemValue(value string) *AlertInfoTimeSerie_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*AlertInfoTimeSerie_FieldTerminalPathArrayItemValue)
 }
 
 type AlertInfoObservedValuesFieldPathBuilder struct{}

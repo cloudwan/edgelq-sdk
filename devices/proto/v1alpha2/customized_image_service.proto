@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "CustomizedImageServiceProto";
 option java_package = "com.ntt.devices.pb.v1alpha2";
 
-// Request message for method
-// [GetCustomizedImage][ntt.devices.v1alpha2.GetCustomizedImage]
+// A request message of the GetCustomizedImage method.
 message GetCustomizedImageRequest {
   // Name of ntt.devices.v1alpha2.CustomizedImage
   string name = 1;
@@ -33,8 +32,7 @@ message GetCustomizedImageRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetCustomizedImages][ntt.devices.v1alpha2.BatchGetCustomizedImages]
+// A request message of the BatchGetCustomizedImages method.
 message BatchGetCustomizedImagesRequest {
   // Names of CustomizedImages
   repeated string names = 2;
@@ -50,7 +48,7 @@ message BatchGetCustomizedImagesRequest {
   reserved 1;
 }
 
-// BatchGetCustomizedImagesResponse
+// A response message of the BatchGetCustomizedImages method.
 message BatchGetCustomizedImagesResponse {
   // found CustomizedImages
   repeated CustomizedImage customized_images = 1;
@@ -59,8 +57,7 @@ message BatchGetCustomizedImagesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListCustomizedImages][ntt.devices.v1alpha2.ListCustomizedImages]
+// A request message of the ListCustomizedImages method.
 message ListCustomizedImagesRequest {
   // Parent name of ntt.devices.v1alpha2.CustomizedImage
   string parent = 1;
@@ -71,7 +68,7 @@ message ListCustomizedImagesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListCustomizedImagesResponse.next_page_token][ntt.devices.v1alpha2.ListCustomizedImagesResponse.next_page_token]
+  // ListCustomizedImagesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -102,18 +99,19 @@ message ListCustomizedImagesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListCustomizedImages][ntt.devices.v1alpha2.ListCustomizedImages]
+// A response message of the ListCustomizedImages method.
 message ListCustomizedImagesResponse {
   // The list of CustomizedImages
   repeated CustomizedImage customized_images = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListCustomizedImagesRequest.page_token][ntt.devices.v1alpha2.ListCustomizedImagesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListCustomizedImagesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListCustomizedImagesRequest.page_token][ntt.devices.v1alpha2.ListCustomizedImagesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListCustomizedImagesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -128,8 +126,7 @@ message ListCustomizedImagesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchCustomizedImage][ntt.devices.v1alpha2.WatchCustomizedImage]
+// A request message of the WatchCustomizedImage method.
 message WatchCustomizedImageRequest {
   // Name of ntt.devices.v1alpha2.CustomizedImage
   string name = 1;
@@ -143,11 +140,10 @@ message WatchCustomizedImageRequest {
   goten.types.View view = 4;
 }
 
-// WatchCustomizedImageResponse
+// A response message of the WatchCustomizedImage method.
 message WatchCustomizedImageResponse { CustomizedImageChange change = 1; }
 
-// Request message for method
-// [WatchCustomizedImages][ntt.devices.v1alpha2.WatchCustomizedImages]
+// A request message of the WatchCustomizedImages method.
 message WatchCustomizedImagesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -207,7 +203,7 @@ message WatchCustomizedImagesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchCustomizedImagesResponse
+// A response message of the WatchCustomizedImages method.
 message WatchCustomizedImagesResponse {
   // Changes of CustomizedImages
   repeated CustomizedImageChange customized_image_changes = 2;
@@ -273,8 +269,7 @@ message WatchCustomizedImagesResponse {
   }
 }
 
-// Request message for method
-// [CreateCustomizedImage][ntt.devices.v1alpha2.CreateCustomizedImage]
+// A request message of the CreateCustomizedImage method.
 message CreateCustomizedImageRequest {
   // Parent name of ntt.devices.v1alpha2.CustomizedImage
   string parent = 1;
@@ -283,8 +278,7 @@ message CreateCustomizedImageRequest {
   CustomizedImage customized_image = 2;
 }
 
-// Request message for method
-// [UpdateCustomizedImage][ntt.devices.v1alpha2.UpdateCustomizedImage]
+// A request message of the UpdateCustomizedImage method.
 message UpdateCustomizedImageRequest {
   // CustomizedImage resource body
   CustomizedImage customized_image = 2;
@@ -319,8 +313,7 @@ message UpdateCustomizedImageRequest {
   }
 }
 
-// Request message for method
-// [DeleteCustomizedImage][ntt.devices.v1alpha2.DeleteCustomizedImage]
+// A request message of the DeleteCustomizedImage method.
 message DeleteCustomizedImageRequest {
   // Name of ntt.devices.v1alpha2.CustomizedImage
   string name = 1;

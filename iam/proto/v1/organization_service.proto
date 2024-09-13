@@ -18,7 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "OrganizationServiceProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// Request message for method [GetOrganization][ntt.iam.v1.GetOrganization]
+// A request message of the GetOrganization method.
 message GetOrganizationRequest {
   // Name of ntt.iam.v1.Organization
   string name = 1;
@@ -32,8 +32,7 @@ message GetOrganizationRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetOrganizations][ntt.iam.v1.BatchGetOrganizations]
+// A request message of the BatchGetOrganizations method.
 message BatchGetOrganizationsRequest {
   // Names of Organizations
   repeated string names = 2;
@@ -49,7 +48,7 @@ message BatchGetOrganizationsRequest {
   reserved 1;
 }
 
-// BatchGetOrganizationsResponse
+// A response message of the BatchGetOrganizations method.
 message BatchGetOrganizationsResponse {
   // found Organizations
   repeated Organization organizations = 1;
@@ -58,7 +57,7 @@ message BatchGetOrganizationsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListOrganizations][ntt.iam.v1.ListOrganizations]
+// A request message of the ListOrganizations method.
 message ListOrganizationsRequest {
   // Requested page size. Server may return fewer Organizations than requested.
   // If unspecified, server will pick an appropriate default.
@@ -66,7 +65,7 @@ message ListOrganizationsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListOrganizationsResponse.next_page_token][ntt.iam.v1.ListOrganizationsResponse.next_page_token]
+  // ListOrganizationsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -97,17 +96,19 @@ message ListOrganizationsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListOrganizations][ntt.iam.v1.ListOrganizations]
+// A response message of the ListOrganizations method.
 message ListOrganizationsResponse {
   // The list of Organizations
   repeated Organization organizations = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListOrganizationsRequest.page_token][ntt.iam.v1.ListOrganizationsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListOrganizationsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListOrganizationsRequest.page_token][ntt.iam.v1.ListOrganizationsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListOrganizationsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -121,7 +122,7 @@ message ListOrganizationsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchOrganization][ntt.iam.v1.WatchOrganization]
+// A request message of the WatchOrganization method.
 message WatchOrganizationRequest {
   // Name of ntt.iam.v1.Organization
   string name = 1;
@@ -135,11 +136,10 @@ message WatchOrganizationRequest {
   goten.types.View view = 4;
 }
 
-// WatchOrganizationResponse
+// A response message of the WatchOrganization method.
 message WatchOrganizationResponse { OrganizationChange change = 1; }
 
-// Request message for method
-// [WatchOrganizations][ntt.iam.v1.WatchOrganizations]
+// A request message of the WatchOrganizations method.
 message WatchOrganizationsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -196,7 +196,7 @@ message WatchOrganizationsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchOrganizationsResponse
+// A response message of the WatchOrganizations method.
 message WatchOrganizationsResponse {
   // Changes of Organizations
   repeated OrganizationChange organization_changes = 2;
@@ -262,15 +262,13 @@ message WatchOrganizationsResponse {
   }
 }
 
-// Request message for method
-// [CreateOrganization][ntt.iam.v1.CreateOrganization]
+// A request message of the CreateOrganization method.
 message CreateOrganizationRequest {
   // Organization resource body
   Organization organization = 2;
 }
 
-// Request message for method
-// [UpdateOrganization][ntt.iam.v1.UpdateOrganization]
+// A request message of the UpdateOrganization method.
 message UpdateOrganizationRequest {
   // Organization resource body
   Organization organization = 2;
@@ -305,8 +303,7 @@ message UpdateOrganizationRequest {
   }
 }
 
-// Request message for method
-// [DeleteOrganization][ntt.iam.v1.DeleteOrganization]
+// A request message of the DeleteOrganization method.
 message DeleteOrganizationRequest {
   // Name of ntt.iam.v1.Organization
   string name = 1;

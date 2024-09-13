@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetTpmAttestationCert][ntt.devices.v1.GetTpmAttestationCert]
+// A request message of the GetTpmAttestationCert method.
 type GetTpmAttestationCertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetTpmAttestationCertRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetTpmAttestationCerts][ntt.devices.v1.BatchGetTpmAttestationCerts]
+// A request message of the BatchGetTpmAttestationCerts method.
 type BatchGetTpmAttestationCertsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetTpmAttestationCertsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetTpmAttestationCertsResponse
+// A response message of the BatchGetTpmAttestationCerts method.
 type BatchGetTpmAttestationCertsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetTpmAttestationCertsResponse) SetMissing(fv []*tpm_attestation_c
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListTpmAttestationCerts][ntt.devices.v1.ListTpmAttestationCerts]
+// A request message of the ListTpmAttestationCerts method.
 type ListTpmAttestationCertsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListTpmAttestationCertsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListTpmAttestationCertsResponse.next_page_token][ntt.devices.v1.ListTpmAttestationCertsResponse.next_page_token]
+	// ListTpmAttestationCertsResponse.next_page_token.
 	PageToken *tpm_attestation_cert.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListTpmAttestationCertsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListTpmAttestationCerts][ntt.devices.v1.ListTpmAttestationCerts]
+// A response message of the ListTpmAttestationCerts method.
 type ListTpmAttestationCertsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of TpmAttestationCerts
 	TpmAttestationCerts []*tpm_attestation_cert.TpmAttestationCert `protobuf:"bytes,1,rep,name=tpm_attestation_certs,json=tpmAttestationCerts,proto3" json:"tpm_attestation_certs,omitempty" firestore:"tpmAttestationCerts"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListTpmAttestationCertsRequest.page_token][ntt.devices.v1.ListTpmAttestationCertsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListTpmAttestationCertsRequest.page_token.
 	PrevPageToken *tpm_attestation_cert.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListTpmAttestationCertsRequest.page_token][ntt.devices.v1.ListTpmAttestationCertsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListTpmAttestationCertsRequest.page_token.
 	NextPageToken *tpm_attestation_cert.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListTpmAttestationCertsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchTpmAttestationCert][ntt.devices.v1.WatchTpmAttestationCert]
+// A request message of the WatchTpmAttestationCert method.
 type WatchTpmAttestationCertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchTpmAttestationCertRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchTpmAttestationCertResponse
+// A response message of the WatchTpmAttestationCert method.
 type WatchTpmAttestationCertResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchTpmAttestationCertResponse) SetChange(fv *tpm_attestation_cert.Tpm
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchTpmAttestationCerts][ntt.devices.v1.WatchTpmAttestationCerts]
+// A request message of the WatchTpmAttestationCerts method.
 type WatchTpmAttestationCertsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchTpmAttestationCertsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchTpmAttestationCertsResponse
+// A response message of the WatchTpmAttestationCerts method.
 type WatchTpmAttestationCertsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchTpmAttestationCertsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateTpmAttestationCert][ntt.devices.v1.CreateTpmAttestationCert]
+// A request message of the CreateTpmAttestationCert method.
 type CreateTpmAttestationCertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateTpmAttestationCertRequest) SetTpmAttestationCert(fv *tpm_attestat
 	m.TpmAttestationCert = fv
 }
 
-// Request message for method
-// [UpdateTpmAttestationCert][ntt.devices.v1.UpdateTpmAttestationCert]
+// A request message of the UpdateTpmAttestationCert method.
 type UpdateTpmAttestationCertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateTpmAttestationCertRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteTpmAttestationCert][ntt.devices.v1.DeleteTpmAttestationCert]
+// A request message of the DeleteTpmAttestationCert method.
 type DeleteTpmAttestationCertRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

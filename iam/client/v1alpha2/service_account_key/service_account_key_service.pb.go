@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetServiceAccountKey][ntt.iam.v1alpha2.GetServiceAccountKey]
+// A request message of the GetServiceAccountKey method.
 type GetServiceAccountKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetServiceAccountKeyRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetServiceAccountKeys][ntt.iam.v1alpha2.BatchGetServiceAccountKeys]
+// A request message of the BatchGetServiceAccountKeys method.
 type BatchGetServiceAccountKeysRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetServiceAccountKeysRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetServiceAccountKeysResponse
+// A response message of the BatchGetServiceAccountKeys method.
 type BatchGetServiceAccountKeysResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetServiceAccountKeysResponse) SetMissing(fv []*service_account_ke
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListServiceAccountKeys][ntt.iam.v1alpha2.ListServiceAccountKeys]
+// A request message of the ListServiceAccountKeys method.
 type ListServiceAccountKeysRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListServiceAccountKeysRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListServiceAccountKeysResponse.next_page_token][ntt.iam.v1alpha2.ListServiceAccountKeysResponse.next_page_token]
+	// ListServiceAccountKeysResponse.next_page_token.
 	PageToken *service_account_key.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListServiceAccountKeysRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListServiceAccountKeys][ntt.iam.v1alpha2.ListServiceAccountKeys]
+// A response message of the ListServiceAccountKeys method.
 type ListServiceAccountKeysResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of ServiceAccountKeys
 	ServiceAccountKeys []*service_account_key.ServiceAccountKey `protobuf:"bytes,1,rep,name=service_account_keys,json=serviceAccountKeys,proto3" json:"service_account_keys,omitempty" firestore:"serviceAccountKeys"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListServiceAccountKeysRequest.page_token][ntt.iam.v1alpha2.ListServiceAccountKeysRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListServiceAccountKeysRequest.page_token.
 	PrevPageToken *service_account_key.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListServiceAccountKeysRequest.page_token][ntt.iam.v1alpha2.ListServiceAccountKeysRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListServiceAccountKeysRequest.page_token.
 	NextPageToken *service_account_key.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListServiceAccountKeysResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchServiceAccountKey][ntt.iam.v1alpha2.WatchServiceAccountKey]
+// A request message of the WatchServiceAccountKey method.
 type WatchServiceAccountKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchServiceAccountKeyRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchServiceAccountKeyResponse
+// A response message of the WatchServiceAccountKey method.
 type WatchServiceAccountKeyResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchServiceAccountKeyResponse) SetChange(fv *service_account_key.Servi
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchServiceAccountKeys][ntt.iam.v1alpha2.WatchServiceAccountKeys]
+// A request message of the WatchServiceAccountKeys method.
 type WatchServiceAccountKeysRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchServiceAccountKeysRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchServiceAccountKeysResponse
+// A response message of the WatchServiceAccountKeys method.
 type WatchServiceAccountKeysResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchServiceAccountKeysResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateServiceAccountKey][ntt.iam.v1alpha2.CreateServiceAccountKey]
+// A request message of the CreateServiceAccountKey method.
 type CreateServiceAccountKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateServiceAccountKeyRequest) SetServiceAccountKey(fv *service_accoun
 	m.ServiceAccountKey = fv
 }
 
-// Request message for method
-// [UpdateServiceAccountKey][ntt.iam.v1alpha2.UpdateServiceAccountKey]
+// A request message of the UpdateServiceAccountKey method.
 type UpdateServiceAccountKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateServiceAccountKeyRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteServiceAccountKey][ntt.iam.v1alpha2.DeleteServiceAccountKey]
+// A request message of the DeleteServiceAccountKey method.
 type DeleteServiceAccountKeyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

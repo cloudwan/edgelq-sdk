@@ -58,7 +58,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetLimitPool][ntt.limits.v1.GetLimitPool]
+// A request message of the GetLimitPool method.
 type GetLimitPoolRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -165,8 +165,7 @@ func (m *GetLimitPoolRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetLimitPools][ntt.limits.v1.BatchGetLimitPools]
+// A request message of the BatchGetLimitPools method.
 type BatchGetLimitPoolsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -273,7 +272,7 @@ func (m *BatchGetLimitPoolsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetLimitPoolsResponse
+// A response message of the BatchGetLimitPools method.
 type BatchGetLimitPoolsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -362,7 +361,7 @@ func (m *BatchGetLimitPoolsResponse) SetMissing(fv []*limit_pool.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListLimitPools][ntt.limits.v1.ListLimitPools]
+// A request message of the ListLimitPools method.
 type ListLimitPoolsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +373,7 @@ type ListLimitPoolsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListLimitPoolsResponse.next_page_token][ntt.limits.v1.ListLimitPoolsResponse.next_page_token]
+	// ListLimitPoolsResponse.next_page_token.
 	PageToken *limit_pool.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,18 +561,20 @@ func (m *ListLimitPoolsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListLimitPools][ntt.limits.v1.ListLimitPools]
+// A response message of the ListLimitPools method.
 type ListLimitPoolsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of LimitPools
 	LimitPools []*limit_pool.LimitPool `protobuf:"bytes,1,rep,name=limit_pools,json=limitPools,proto3" json:"limit_pools,omitempty" firestore:"limitPools"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListLimitPoolsRequest.page_token][ntt.limits.v1.ListLimitPoolsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListLimitPoolsRequest.page_token.
 	PrevPageToken *limit_pool.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListLimitPoolsRequest.page_token][ntt.limits.v1.ListLimitPoolsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListLimitPoolsRequest.page_token.
 	NextPageToken *limit_pool.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -705,7 +706,7 @@ func (m *ListLimitPoolsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchLimitPool][ntt.limits.v1.WatchLimitPool]
+// A request message of the WatchLimitPool method.
 type WatchLimitPoolRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -812,7 +813,7 @@ func (m *WatchLimitPoolRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchLimitPoolResponse
+// A response message of the WatchLimitPool method.
 type WatchLimitPoolResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -884,7 +885,7 @@ func (m *WatchLimitPoolResponse) SetChange(fv *limit_pool.LimitPoolChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchLimitPools][ntt.limits.v1.WatchLimitPools]
+// A request message of the WatchLimitPools method.
 type WatchLimitPoolsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1141,7 +1142,7 @@ func (m *WatchLimitPoolsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchLimitPoolsResponse
+// A response message of the WatchLimitPools method.
 type WatchLimitPoolsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1344,7 +1345,7 @@ func (m *WatchLimitPoolsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [UpdateLimitPool][ntt.limits.v1.UpdateLimitPool]
+// A request message of the UpdateLimitPool method.
 type UpdateLimitPoolRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1454,7 +1455,7 @@ func (m *UpdateLimitPoolRequest) SetCas(fv *UpdateLimitPoolRequest_CAS) {
 	m.Cas = fv
 }
 
-// Request message for method [DeleteLimitPool][ntt.limits.v1.DeleteLimitPool]
+// A request message of the DeleteLimitPool method.
 type DeleteLimitPoolRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

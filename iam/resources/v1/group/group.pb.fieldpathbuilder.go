@@ -40,6 +40,9 @@ func (GroupFieldPathBuilder) Metadata() GroupPathSelectorMetadata {
 func (GroupFieldPathBuilder) DisplayName() GroupPathSelectorDisplayName {
 	return GroupPathSelectorDisplayName{}
 }
+func (GroupFieldPathBuilder) Description() GroupPathSelectorDescription {
+	return GroupPathSelectorDescription{}
+}
 func (GroupFieldPathBuilder) Email() GroupPathSelectorEmail {
 	return GroupPathSelectorEmail{}
 }
@@ -730,6 +733,20 @@ func (s GroupPathSelectorDisplayName) WithValue(value string) *Group_FieldTermin
 }
 
 func (s GroupPathSelectorDisplayName) WithArrayOfValues(values []string) *Group_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Group_FieldTerminalPathArrayOfValues)
+}
+
+type GroupPathSelectorDescription struct{}
+
+func (GroupPathSelectorDescription) FieldPath() *Group_FieldTerminalPath {
+	return &Group_FieldTerminalPath{selector: Group_FieldPathSelectorDescription}
+}
+
+func (s GroupPathSelectorDescription) WithValue(value string) *Group_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Group_FieldTerminalPathValue)
+}
+
+func (s GroupPathSelectorDescription) WithArrayOfValues(values []string) *Group_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Group_FieldTerminalPathArrayOfValues)
 }
 

@@ -35,6 +35,7 @@ var (
 	queryProjectTimeSeriesStatsDescriptor *QueryProjectTimeSeriesStatsDescriptor
 	queryServiceTimeSeriesStatsDescriptor *QueryServiceTimeSeriesStatsDescriptor
 	createTimeSeriesDescriptor            *CreateTimeSeriesDescriptor
+	watchTimeSeriesDescriptor             *WatchTimeSeriesDescriptor
 )
 
 type ListTimeSeriesDescriptor struct{}
@@ -557,6 +558,136 @@ func GetCreateTimeSeriesDescriptor() *CreateTimeSeriesDescriptor {
 	return createTimeSeriesDescriptor
 }
 
+type WatchTimeSeriesDescriptor struct{}
+
+type WatchTimeSeriesDescriptorClientMsgHandle struct{}
+
+type WatchTimeSeriesDescriptorServerMsgHandle struct{}
+
+func (d *WatchTimeSeriesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &WatchTimeSeriesRequest{}
+}
+
+func (d *WatchTimeSeriesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &WatchTimeSeriesResponse{}
+}
+
+func (d *WatchTimeSeriesDescriptor) IsUnary() bool {
+	return false
+}
+
+func (d *WatchTimeSeriesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *WatchTimeSeriesDescriptor) IsServerStream() bool {
+	return true
+}
+
+func (d *WatchTimeSeriesDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *WatchTimeSeriesDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *WatchTimeSeriesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *WatchTimeSeriesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *WatchTimeSeriesDescriptor) GetVerb() string {
+	return "watch"
+}
+
+func (d *WatchTimeSeriesDescriptor) GetMethodName() string {
+	return "WatchTimeSeries"
+}
+
+func (d *WatchTimeSeriesDescriptor) GetFullMethodName() string {
+	return "/ntt.monitoring.v4.TimeSerieService/WatchTimeSeries"
+}
+
+func (d *WatchTimeSeriesDescriptor) GetProtoPkgName() string {
+	return "ntt.monitoring.v4"
+}
+
+func (d *WatchTimeSeriesDescriptor) GetApiName() string {
+	return "TimeSerieService"
+}
+
+func (d *WatchTimeSeriesDescriptor) GetServiceDomain() string {
+	return "monitoring.edgelq.com"
+}
+
+func (d *WatchTimeSeriesDescriptor) GetServiceVersion() string {
+	return "v4"
+}
+
+func (d *WatchTimeSeriesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return timeSerieServiceDescriptor
+}
+
+func (d *WatchTimeSeriesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return time_serie.GetDescriptor()
+}
+
+func (d *WatchTimeSeriesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &WatchTimeSeriesDescriptorClientMsgHandle{}
+}
+
+func (d *WatchTimeSeriesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &WatchTimeSeriesDescriptorServerMsgHandle{}
+}
+
+func (h *WatchTimeSeriesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	return nil
+}
+
+func (h *WatchTimeSeriesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	return nil
+}
+
+func GetWatchTimeSeriesDescriptor() *WatchTimeSeriesDescriptor {
+	return watchTimeSeriesDescriptor
+}
+
 type TimeSerieServiceDescriptor struct{}
 
 func (d *TimeSerieServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -565,6 +696,7 @@ func (d *TimeSerieServiceDescriptor) AllMethodDescriptors() []gotenclient.Method
 		queryProjectTimeSeriesStatsDescriptor,
 		queryServiceTimeSeriesStatsDescriptor,
 		createTimeSeriesDescriptor,
+		watchTimeSeriesDescriptor,
 	}
 }
 
@@ -598,11 +730,13 @@ func initDescriptors() {
 	queryProjectTimeSeriesStatsDescriptor = &QueryProjectTimeSeriesStatsDescriptor{}
 	queryServiceTimeSeriesStatsDescriptor = &QueryServiceTimeSeriesStatsDescriptor{}
 	createTimeSeriesDescriptor = &CreateTimeSeriesDescriptor{}
+	watchTimeSeriesDescriptor = &WatchTimeSeriesDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(timeSerieServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listTimeSeriesDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(queryProjectTimeSeriesStatsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(queryServiceTimeSeriesStatsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createTimeSeriesDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(watchTimeSeriesDescriptor)
 }
 
 func init() {

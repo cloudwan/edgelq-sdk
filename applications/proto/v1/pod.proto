@@ -35,6 +35,9 @@ message Pod {
   // Display name of Pod
   string display_name = 2;
 
+  // Optional. Description of the Pod.
+  string description = 7;
+
   PodSpec spec = 4;
 
   // Optional managing distribution.

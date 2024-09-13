@@ -256,6 +256,9 @@ func getParentAndFilter(fullFilter *limit.Filter) (*limit.Filter, *limit.ParentN
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return limit.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

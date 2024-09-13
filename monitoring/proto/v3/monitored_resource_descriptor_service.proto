@@ -18,8 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "MonitoredResourceDescriptorServiceProto";
 option java_package = "com.ntt.monitoring.pb.v3";
 
-// Request message for method
-// [BatchGetMonitoredResourceDescriptors][ntt.monitoring.v3.BatchGetMonitoredResourceDescriptors]
+// A request message of the BatchGetMonitoredResourceDescriptors method.
 message BatchGetMonitoredResourceDescriptorsRequest {
   // Names of MonitoredResourceDescriptors
   repeated string names = 2;
@@ -35,7 +34,7 @@ message BatchGetMonitoredResourceDescriptorsRequest {
   reserved 1;
 }
 
-// BatchGetMonitoredResourceDescriptorsResponse
+// A response message of the BatchGetMonitoredResourceDescriptors method.
 message BatchGetMonitoredResourceDescriptorsResponse {
   // found MonitoredResourceDescriptors
   repeated MonitoredResourceDescriptor monitored_resource_descriptors = 1;
@@ -44,8 +43,7 @@ message BatchGetMonitoredResourceDescriptorsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [WatchMonitoredResourceDescriptor][ntt.monitoring.v3.WatchMonitoredResourceDescriptor]
+// A request message of the WatchMonitoredResourceDescriptor method.
 message WatchMonitoredResourceDescriptorRequest {
   // Name of ntt.monitoring.v3.MonitoredResourceDescriptor
   string name = 1;
@@ -59,13 +57,12 @@ message WatchMonitoredResourceDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// WatchMonitoredResourceDescriptorResponse
+// A response message of the WatchMonitoredResourceDescriptor method.
 message WatchMonitoredResourceDescriptorResponse {
   MonitoredResourceDescriptorChange change = 1;
 }
 
-// Request message for method
-// [WatchMonitoredResourceDescriptors][ntt.monitoring.v3.WatchMonitoredResourceDescriptors]
+// A request message of the WatchMonitoredResourceDescriptors method.
 message WatchMonitoredResourceDescriptorsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -123,7 +120,7 @@ message WatchMonitoredResourceDescriptorsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchMonitoredResourceDescriptorsResponse
+// A response message of the WatchMonitoredResourceDescriptors method.
 message WatchMonitoredResourceDescriptorsResponse {
   // Changes of MonitoredResourceDescriptors
   repeated MonitoredResourceDescriptorChange
@@ -190,15 +187,13 @@ message WatchMonitoredResourceDescriptorsResponse {
   }
 }
 
-// Request message for method
-// [CreateMonitoredResourceDescriptor][ntt.monitoring.v3.CreateMonitoredResourceDescriptor]
+// A request message of the CreateMonitoredResourceDescriptor method.
 message CreateMonitoredResourceDescriptorRequest {
   // MonitoredResourceDescriptor resource body
   MonitoredResourceDescriptor monitored_resource_descriptor = 2;
 }
 
-// Request message for method
-// [UpdateMonitoredResourceDescriptor][ntt.monitoring.v3.UpdateMonitoredResourceDescriptor]
+// A request message of the UpdateMonitoredResourceDescriptor method.
 message UpdateMonitoredResourceDescriptorRequest {
   // MonitoredResourceDescriptor resource body
   MonitoredResourceDescriptor monitored_resource_descriptor = 2;
@@ -233,8 +228,7 @@ message UpdateMonitoredResourceDescriptorRequest {
   }
 }
 
-// Request message for method
-// [DeleteMonitoredResourceDescriptor][ntt.monitoring.v3.DeleteMonitoredResourceDescriptor]
+// A request message of the DeleteMonitoredResourceDescriptor method.
 message DeleteMonitoredResourceDescriptorRequest {
   // Name of ntt.monitoring.v3.MonitoredResourceDescriptor
   string name = 1;

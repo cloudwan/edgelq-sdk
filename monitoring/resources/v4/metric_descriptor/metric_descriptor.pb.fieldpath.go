@@ -90,7 +90,9 @@ const (
 	MetricDescriptor_FieldPathSelectorDistributionBucketOptions MetricDescriptor_FieldPathSelector = 11
 	MetricDescriptor_FieldPathSelectorPromotedLabelKeySets      MetricDescriptor_FieldPathSelector = 12
 	MetricDescriptor_FieldPathSelectorIndexSpec                 MetricDescriptor_FieldPathSelector = 13
-	MetricDescriptor_FieldPathSelectorStorageConfig             MetricDescriptor_FieldPathSelector = 14
+	MetricDescriptor_FieldPathSelectorIndices                   MetricDescriptor_FieldPathSelector = 14
+	MetricDescriptor_FieldPathSelectorStorageConfig             MetricDescriptor_FieldPathSelector = 15
+	MetricDescriptor_FieldPathSelectorBinaryIndices             MetricDescriptor_FieldPathSelector = 16
 )
 
 func (s MetricDescriptor_FieldPathSelector) String() string {
@@ -123,8 +125,12 @@ func (s MetricDescriptor_FieldPathSelector) String() string {
 		return "promoted_label_key_sets"
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return "index_spec"
+	case MetricDescriptor_FieldPathSelectorIndices:
+		return "indices"
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		return "storage_config"
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		return "binary_indices"
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", s))
 	}
@@ -164,8 +170,12 @@ func BuildMetricDescriptor_FieldPath(fp gotenobject.RawFieldPath) (MetricDescrip
 			return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorPromotedLabelKeySets}, nil
 		case "index_spec", "indexSpec", "index-spec":
 			return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorIndexSpec}, nil
+		case "indices":
+			return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorIndices}, nil
 		case "storage_config", "storageConfig", "storage-config":
 			return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorStorageConfig}, nil
+		case "binary_indices", "binaryIndices", "binary-indices":
+			return &MetricDescriptor_FieldTerminalPath{selector: MetricDescriptor_FieldPathSelectorBinaryIndices}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -205,11 +215,23 @@ func BuildMetricDescriptor_FieldPath(fp gotenobject.RawFieldPath) (MetricDescrip
 			} else {
 				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorIndexSpec, subPath: subpath}, nil
 			}
+		case "indices":
+			if subpath, err := BuildMetricDescriptorIndices_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorIndices, subPath: subpath}, nil
+			}
 		case "storage_config", "storageConfig", "storage-config":
 			if subpath, err := BuildMetricDescriptorStorageConfig_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorStorageConfig, subPath: subpath}, nil
+			}
+		case "binary_indices", "binaryIndices", "binary-indices":
+			if subpath, err := BuildMetricDescriptorBinaryIndices_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptor_FieldSubPath{selector: MetricDescriptor_FieldPathSelectorBinaryIndices, subPath: subpath}, nil
 			}
 		}
 	}
@@ -300,9 +322,17 @@ func (fp *MetricDescriptor_FieldTerminalPath) Get(source *MetricDescriptor) (val
 			if source.IndexSpec != nil {
 				values = append(values, source.IndexSpec)
 			}
+		case MetricDescriptor_FieldPathSelectorIndices:
+			if source.Indices != nil {
+				values = append(values, source.Indices)
+			}
 		case MetricDescriptor_FieldPathSelectorStorageConfig:
 			if source.StorageConfig != nil {
 				values = append(values, source.StorageConfig)
+			}
+		case MetricDescriptor_FieldPathSelectorBinaryIndices:
+			if source.BinaryIndices != nil {
+				values = append(values, source.BinaryIndices)
 			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fp.selector))
@@ -354,8 +384,14 @@ func (fp *MetricDescriptor_FieldTerminalPath) GetSingle(source *MetricDescriptor
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		res := source.GetIndexSpec()
 		return res, res != nil
+	case MetricDescriptor_FieldPathSelectorIndices:
+		res := source.GetIndices()
+		return res, res != nil
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		res := source.GetStorageConfig()
+		return res, res != nil
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		res := source.GetBinaryIndices()
 		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fp.selector))
@@ -397,8 +433,12 @@ func (fp *MetricDescriptor_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*common.LabelKeySet)(nil)
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return (*MetricDescriptor_IndexSpec)(nil)
+	case MetricDescriptor_FieldPathSelectorIndices:
+		return (*MetricDescriptor_Indices)(nil)
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		return (*MetricDescriptor_StorageConfig)(nil)
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		return (*MetricDescriptor_BinaryIndices)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fp.selector))
 	}
@@ -435,8 +475,12 @@ func (fp *MetricDescriptor_FieldTerminalPath) ClearValue(item *MetricDescriptor)
 			item.PromotedLabelKeySets = nil
 		case MetricDescriptor_FieldPathSelectorIndexSpec:
 			item.IndexSpec = nil
+		case MetricDescriptor_FieldPathSelectorIndices:
+			item.Indices = nil
 		case MetricDescriptor_FieldPathSelectorStorageConfig:
 			item.StorageConfig = nil
+		case MetricDescriptor_FieldPathSelectorBinaryIndices:
+			item.BinaryIndices = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fp.selector))
 		}
@@ -493,8 +537,12 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIValue(value interface{}) Metr
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.([]*common.LabelKeySet)}
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_IndexSpec)}
+	case MetricDescriptor_FieldPathSelectorIndices:
+		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices)}
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_StorageConfig)}
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		return &MetricDescriptor_FieldTerminalPathValue{MetricDescriptor_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_BinaryIndices)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fp.selector))
 	}
@@ -535,8 +583,12 @@ func (fp *MetricDescriptor_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([][]*common.LabelKeySet)}
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_IndexSpec)}
+	case MetricDescriptor_FieldPathSelectorIndices:
+		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_Indices)}
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_StorageConfig)}
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		return &MetricDescriptor_FieldTerminalPathArrayOfValues{MetricDescriptor_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_BinaryIndices)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fp.selector))
 	}
@@ -598,8 +650,16 @@ func (fps *MetricDescriptor_FieldSubPath) AsIndexSpecSubPath() (MetricDescriptor
 	res, ok := fps.subPath.(MetricDescriptorIndexSpec_FieldPath)
 	return res, ok
 }
+func (fps *MetricDescriptor_FieldSubPath) AsIndicesSubPath() (MetricDescriptorIndices_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndices_FieldPath)
+	return res, ok
+}
 func (fps *MetricDescriptor_FieldSubPath) AsStorageConfigSubPath() (MetricDescriptorStorageConfig_FieldPath, bool) {
 	res, ok := fps.subPath.(MetricDescriptorStorageConfig_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptor_FieldSubPath) AsBinaryIndicesSubPath() (MetricDescriptorBinaryIndices_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorBinaryIndices_FieldPath)
 	return res, ok
 }
 
@@ -632,8 +692,12 @@ func (fps *MetricDescriptor_FieldSubPath) Get(source *MetricDescriptor) (values 
 		}
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		values = append(values, fps.subPath.GetRaw(source.GetIndexSpec())...)
+	case MetricDescriptor_FieldPathSelectorIndices:
+		values = append(values, fps.subPath.GetRaw(source.GetIndices())...)
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		values = append(values, fps.subPath.GetRaw(source.GetStorageConfig())...)
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		values = append(values, fps.subPath.GetRaw(source.GetBinaryIndices())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fps.selector))
 	}
@@ -677,11 +741,21 @@ func (fps *MetricDescriptor_FieldSubPath) GetSingle(source *MetricDescriptor) (i
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetIndexSpec())
+	case MetricDescriptor_FieldPathSelectorIndices:
+		if source.GetIndices() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetIndices())
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		if source.GetStorageConfig() == nil {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetStorageConfig())
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		if source.GetBinaryIndices() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetBinaryIndices())
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fps.selector))
 	}
@@ -715,8 +789,12 @@ func (fps *MetricDescriptor_FieldSubPath) ClearValue(item *MetricDescriptor) {
 			}
 		case MetricDescriptor_FieldPathSelectorIndexSpec:
 			fps.subPath.ClearValueRaw(item.IndexSpec)
+		case MetricDescriptor_FieldPathSelectorIndices:
+			fps.subPath.ClearValueRaw(item.Indices)
 		case MetricDescriptor_FieldPathSelectorStorageConfig:
 			fps.subPath.ClearValueRaw(item.StorageConfig)
+		case MetricDescriptor_FieldPathSelectorBinaryIndices:
+			fps.subPath.ClearValueRaw(item.BinaryIndices)
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fps.selector))
 		}
@@ -857,8 +935,16 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) AsIndexSpecValue() (*MetricD
 	res, ok := fpv.value.(*MetricDescriptor_IndexSpec)
 	return res, ok
 }
+func (fpv *MetricDescriptor_FieldTerminalPathValue) AsIndicesValue() (*MetricDescriptor_Indices, bool) {
+	res, ok := fpv.value.(*MetricDescriptor_Indices)
+	return res, ok
+}
 func (fpv *MetricDescriptor_FieldTerminalPathValue) AsStorageConfigValue() (*MetricDescriptor_StorageConfig, bool) {
 	res, ok := fpv.value.(*MetricDescriptor_StorageConfig)
+	return res, ok
+}
+func (fpv *MetricDescriptor_FieldTerminalPathValue) AsBinaryIndicesValue() (*MetricDescriptor_BinaryIndices, bool) {
+	res, ok := fpv.value.(*MetricDescriptor_BinaryIndices)
 	return res, ok
 }
 
@@ -896,8 +982,12 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) SetTo(target **MetricDescrip
 		(*target).PromotedLabelKeySets = fpv.value.([]*common.LabelKeySet)
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		(*target).IndexSpec = fpv.value.(*MetricDescriptor_IndexSpec)
+	case MetricDescriptor_FieldPathSelectorIndices:
+		(*target).Indices = fpv.value.(*MetricDescriptor_Indices)
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		(*target).StorageConfig = fpv.value.(*MetricDescriptor_StorageConfig)
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		(*target).BinaryIndices = fpv.value.(*MetricDescriptor_BinaryIndices)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fpv.selector))
 	}
@@ -1004,7 +1094,11 @@ func (fpv *MetricDescriptor_FieldTerminalPathValue) CompareWith(source *MetricDe
 		return 0, false
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return 0, false
+	case MetricDescriptor_FieldPathSelectorIndices:
+		return 0, false
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
+		return 0, false
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fpv.selector))
@@ -1046,8 +1140,16 @@ func (fpvs *MetricDescriptor_FieldSubPathValue) AsIndexSpecPathValue() (MetricDe
 	res, ok := fpvs.subPathValue.(MetricDescriptorIndexSpec_FieldPathValue)
 	return res, ok
 }
+func (fpvs *MetricDescriptor_FieldSubPathValue) AsIndicesPathValue() (MetricDescriptorIndices_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndices_FieldPathValue)
+	return res, ok
+}
 func (fpvs *MetricDescriptor_FieldSubPathValue) AsStorageConfigPathValue() (MetricDescriptorStorageConfig_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(MetricDescriptorStorageConfig_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptor_FieldSubPathValue) AsBinaryIndicesPathValue() (MetricDescriptorBinaryIndices_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorBinaryIndices_FieldPathValue)
 	return res, ok
 }
 
@@ -1068,8 +1170,12 @@ func (fpvs *MetricDescriptor_FieldSubPathValue) SetTo(target **MetricDescriptor)
 		panic("FieldPath setter is unsupported for array subpaths")
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		fpvs.subPathValue.(MetricDescriptorIndexSpec_FieldPathValue).SetTo(&(*target).IndexSpec)
+	case MetricDescriptor_FieldPathSelectorIndices:
+		fpvs.subPathValue.(MetricDescriptorIndices_FieldPathValue).SetTo(&(*target).Indices)
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		fpvs.subPathValue.(MetricDescriptorStorageConfig_FieldPathValue).SetTo(&(*target).StorageConfig)
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		fpvs.subPathValue.(MetricDescriptorBinaryIndices_FieldPathValue).SetTo(&(*target).BinaryIndices)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fpvs.Selector()))
 	}
@@ -1098,8 +1204,12 @@ func (fpvs *MetricDescriptor_FieldSubPathValue) CompareWith(source *MetricDescri
 		return 0, false // repeated field
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return fpvs.subPathValue.(MetricDescriptorIndexSpec_FieldPathValue).CompareWith(source.GetIndexSpec())
+	case MetricDescriptor_FieldPathSelectorIndices:
+		return fpvs.subPathValue.(MetricDescriptorIndices_FieldPathValue).CompareWith(source.GetIndices())
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		return fpvs.subPathValue.(MetricDescriptorStorageConfig_FieldPathValue).CompareWith(source.GetStorageConfig())
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		return fpvs.subPathValue.(MetricDescriptorBinaryIndices_FieldPathValue).CompareWith(source.GetBinaryIndices())
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fpvs.Selector()))
 	}
@@ -1218,8 +1328,16 @@ func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsIndexSpecPathItemVa
 	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndexSpec_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsIndicesPathItemValue() (MetricDescriptorIndices_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndices_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsStorageConfigPathItemValue() (MetricDescriptorStorageConfig_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(MetricDescriptorStorageConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) AsBinaryIndicesPathItemValue() (MetricDescriptorBinaryIndices_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorBinaryIndices_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -1238,8 +1356,12 @@ func (fpaivs *MetricDescriptor_FieldSubPathArrayItemValue) ContainsValue(source 
 		return false // repeated/map field
 	case MetricDescriptor_FieldPathSelectorIndexSpec:
 		return fpaivs.subPathItemValue.(MetricDescriptorIndexSpec_FieldPathArrayItemValue).ContainsValue(source.GetIndexSpec())
+	case MetricDescriptor_FieldPathSelectorIndices:
+		return fpaivs.subPathItemValue.(MetricDescriptorIndices_FieldPathArrayItemValue).ContainsValue(source.GetIndices())
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		return fpaivs.subPathItemValue.(MetricDescriptorStorageConfig_FieldPathArrayItemValue).ContainsValue(source.GetStorageConfig())
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		return fpaivs.subPathItemValue.(MetricDescriptorBinaryIndices_FieldPathArrayItemValue).ContainsValue(source.GetBinaryIndices())
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor: %d", fpaivs.Selector()))
 	}
@@ -1336,8 +1458,16 @@ func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]*MetricDescriptor_IndexSpec) {
 			values = append(values, v)
 		}
+	case MetricDescriptor_FieldPathSelectorIndices:
+		for _, v := range fpaov.values.([]*MetricDescriptor_Indices) {
+			values = append(values, v)
+		}
 	case MetricDescriptor_FieldPathSelectorStorageConfig:
 		for _, v := range fpaov.values.([]*MetricDescriptor_StorageConfig) {
+			values = append(values, v)
+		}
+	case MetricDescriptor_FieldPathSelectorBinaryIndices:
+		for _, v := range fpaov.values.([]*MetricDescriptor_BinaryIndices) {
 			values = append(values, v)
 		}
 	}
@@ -1399,8 +1529,16 @@ func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsIndexSpecArrayOf
 	res, ok := fpaov.values.([]*MetricDescriptor_IndexSpec)
 	return res, ok
 }
+func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsIndicesArrayOfValues() ([]*MetricDescriptor_Indices, bool) {
+	res, ok := fpaov.values.([]*MetricDescriptor_Indices)
+	return res, ok
+}
 func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsStorageConfigArrayOfValues() ([]*MetricDescriptor_StorageConfig, bool) {
 	res, ok := fpaov.values.([]*MetricDescriptor_StorageConfig)
+	return res, ok
+}
+func (fpaov *MetricDescriptor_FieldTerminalPathArrayOfValues) AsBinaryIndicesArrayOfValues() ([]*MetricDescriptor_BinaryIndices, bool) {
+	res, ok := fpaov.values.([]*MetricDescriptor_BinaryIndices)
 	return res, ok
 }
 
@@ -1438,8 +1576,16 @@ func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsIndexSpecPathArrayOf
 	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndexSpec_FieldPathArrayOfValues)
 	return res, ok
 }
+func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsIndicesPathArrayOfValues() (MetricDescriptorIndices_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndices_FieldPathArrayOfValues)
+	return res, ok
+}
 func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsStorageConfigPathArrayOfValues() (MetricDescriptorStorageConfig_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorStorageConfig_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptor_FieldSubPathArrayOfValues) AsBinaryIndicesPathArrayOfValues() (MetricDescriptorBinaryIndices_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorBinaryIndices_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -2414,6 +2560,742 @@ func (fpsaov *MetricDescriptorIndexSpec_FieldSubPathArrayOfValues) AsPerResource
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndices_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndices_FieldPathSelector
+	Get(source *MetricDescriptor_Indices) []interface{}
+	GetSingle(source *MetricDescriptor_Indices) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices)
+
+	// Those methods build corresponding MetricDescriptorIndices_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndices_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndices_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndices_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndices_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndices_FieldPathSelectorBuiltIn        MetricDescriptorIndices_FieldPathSelector = 0
+	MetricDescriptorIndices_FieldPathSelectorUserDefined    MetricDescriptorIndices_FieldPathSelector = 1
+	MetricDescriptorIndices_FieldPathSelectorLegacyMigrated MetricDescriptorIndices_FieldPathSelector = 2
+)
+
+func (s MetricDescriptorIndices_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		return "built_in"
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		return "user_defined"
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return "legacy_migrated"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndices_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndices_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "built_in", "builtIn", "built-in":
+			return &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn}, nil
+		case "user_defined", "userDefined", "user-defined":
+			return &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorUserDefined}, nil
+		case "legacy_migrated", "legacyMigrated", "legacy-migrated":
+			return &MetricDescriptorIndices_FieldTerminalPath{selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "built_in", "builtIn", "built-in":
+			if subpath, err := BuildMetricDescriptorIndicesIndexGroups_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorBuiltIn, subPath: subpath}, nil
+			}
+		case "user_defined", "userDefined", "user-defined":
+			if subpath, err := BuildMetricDescriptorIndicesIndexGroups_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorUserDefined, subPath: subpath}, nil
+			}
+		case "legacy_migrated", "legacyMigrated", "legacy-migrated":
+			if subpath, err := BuildMetricDescriptorIndicesNonAggregatedIndices_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndices_FieldSubPath{selector: MetricDescriptorIndices_FieldPathSelectorLegacyMigrated, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices", fp)
+}
+
+func ParseMetricDescriptorIndices_FieldPath(rawField string) (MetricDescriptorIndices_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndices_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndices_FieldPath(rawField string) MetricDescriptorIndices_FieldPath {
+	fp, err := ParseMetricDescriptorIndices_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndices_FieldTerminalPath struct {
+	selector MetricDescriptorIndices_FieldPathSelector
+}
+
+var _ MetricDescriptorIndices_FieldPath = (*MetricDescriptorIndices_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) Selector() MetricDescriptorIndices_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndices_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndices_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices
+func (fp *MetricDescriptorIndices_FieldTerminalPath) Get(source *MetricDescriptor_Indices) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+			if source.BuiltIn != nil {
+				values = append(values, source.BuiltIn)
+			}
+		case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+			if source.UserDefined != nil {
+				values = append(values, source.UserDefined)
+			}
+		case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+			for _, value := range source.GetLegacyMigrated() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices
+func (fp *MetricDescriptorIndices_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		res := source.GetBuiltIn()
+		return res, res != nil
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		res := source.GetUserDefined()
+		return res, res != nil
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		res := source.GetLegacyMigrated()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndices_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		return (*MetricDescriptor_Indices_IndexGroups)(nil)
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		return (*MetricDescriptor_Indices_IndexGroups)(nil)
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return ([]*MetricDescriptor_Indices_NonAggregatedIndices)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+			item.BuiltIn = nil
+		case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+			item.UserDefined = nil
+		case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+			item.LegacyMigrated = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndices_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndices_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		return &MetricDescriptorIndices_FieldTerminalPathValue{MetricDescriptorIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_IndexGroups)}
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		return &MetricDescriptorIndices_FieldTerminalPathValue{MetricDescriptorIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_IndexGroups)}
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return &MetricDescriptorIndices_FieldTerminalPathValue{MetricDescriptorIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_NonAggregatedIndices)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndices_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndices_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		return &MetricDescriptorIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndices_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_Indices_IndexGroups)}
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		return &MetricDescriptorIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndices_FieldTerminalPath: *fp, values: values.([]*MetricDescriptor_Indices_IndexGroups)}
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return &MetricDescriptorIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_NonAggregatedIndices)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndices_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return &MetricDescriptorIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_NonAggregatedIndices)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndices_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type MetricDescriptorIndices_FieldSubPath struct {
+	selector MetricDescriptorIndices_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ MetricDescriptorIndices_FieldPath = (*MetricDescriptorIndices_FieldSubPath)(nil)
+
+func (fps *MetricDescriptorIndices_FieldSubPath) Selector() MetricDescriptorIndices_FieldPathSelector {
+	return fps.selector
+}
+func (fps *MetricDescriptorIndices_FieldSubPath) AsBuiltInSubPath() (MetricDescriptorIndicesIndexGroups_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesIndexGroups_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndices_FieldSubPath) AsUserDefinedSubPath() (MetricDescriptorIndicesIndexGroups_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesIndexGroups_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndices_FieldSubPath) AsLegacyMigratedSubPath() (MetricDescriptorIndicesNonAggregatedIndices_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesNonAggregatedIndices_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *MetricDescriptorIndices_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *MetricDescriptorIndices_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source MetricDescriptor_Indices
+func (fps *MetricDescriptorIndices_FieldSubPath) Get(source *MetricDescriptor_Indices) (values []interface{}) {
+	switch fps.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		values = append(values, fps.subPath.GetRaw(source.GetBuiltIn())...)
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		values = append(values, fps.subPath.GetRaw(source.GetUserDefined())...)
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		for _, item := range source.GetLegacyMigrated() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*MetricDescriptor_Indices))
+}
+
+// GetSingle returns value of selected field from source MetricDescriptor_Indices
+func (fps *MetricDescriptorIndices_FieldSubPath) GetSingle(source *MetricDescriptor_Indices) (interface{}, bool) {
+	switch fps.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		if source.GetBuiltIn() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetBuiltIn())
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		if source.GetUserDefined() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetUserDefined())
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		if len(source.GetLegacyMigrated()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetLegacyMigrated()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fps.selector))
+	}
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*MetricDescriptor_Indices))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *MetricDescriptorIndices_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) ClearValue(item *MetricDescriptor_Indices) {
+	if item != nil {
+		switch fps.selector {
+		case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+			fps.subPath.ClearValueRaw(item.BuiltIn)
+		case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+			fps.subPath.ClearValueRaw(item.UserDefined)
+		case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+			for _, subItem := range item.LegacyMigrated {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*MetricDescriptor_Indices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *MetricDescriptorIndices_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MetricDescriptorIndices_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) WithIValue(value interface{}) MetricDescriptorIndices_FieldPathValue {
+	return &MetricDescriptorIndices_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndices_FieldPathArrayOfValues {
+	return &MetricDescriptorIndices_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndices_FieldPathArrayItemValue {
+	return &MetricDescriptorIndices_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *MetricDescriptorIndices_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndices_FieldPathValue allows storing values for Indices fields according to their type
+type MetricDescriptorIndices_FieldPathValue interface {
+	MetricDescriptorIndices_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices)
+	CompareWith(*MetricDescriptor_Indices) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndices_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndices_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Indices field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndices_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndices_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndices_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndices_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndices_FieldTerminalPathValue struct {
+	MetricDescriptorIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndices_FieldPathValue = (*MetricDescriptorIndices_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Indices' as interface{}
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) AsBuiltInValue() (*MetricDescriptor_Indices_IndexGroups, bool) {
+	res, ok := fpv.value.(*MetricDescriptor_Indices_IndexGroups)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) AsUserDefinedValue() (*MetricDescriptor_Indices_IndexGroups, bool) {
+	res, ok := fpv.value.(*MetricDescriptor_Indices_IndexGroups)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) AsLegacyMigratedValue() ([]*MetricDescriptor_Indices_NonAggregatedIndices, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_NonAggregatedIndices)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Indices
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		(*target).BuiltIn = fpv.value.(*MetricDescriptor_Indices_IndexGroups)
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		(*target).UserDefined = fpv.value.(*MetricDescriptor_Indices_IndexGroups)
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		(*target).LegacyMigrated = fpv.value.([]*MetricDescriptor_Indices_NonAggregatedIndices)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndices_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices'.
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		return 0, false
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		return 0, false
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndices_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices))
+}
+
+type MetricDescriptorIndices_FieldSubPathValue struct {
+	MetricDescriptorIndices_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ MetricDescriptorIndices_FieldPathValue = (*MetricDescriptorIndices_FieldSubPathValue)(nil)
+
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) AsBuiltInPathValue() (MetricDescriptorIndicesIndexGroups_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesIndexGroups_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) AsUserDefinedPathValue() (MetricDescriptorIndicesIndexGroups_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesIndexGroups_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) AsLegacyMigratedPathValue() (MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) SetTo(target **MetricDescriptor_Indices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices)
+	}
+	switch fpvs.Selector() {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		fpvs.subPathValue.(MetricDescriptorIndicesIndexGroups_FieldPathValue).SetTo(&(*target).BuiltIn)
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		fpvs.subPathValue.(MetricDescriptorIndicesIndexGroups_FieldPathValue).SetTo(&(*target).UserDefined)
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) CompareWith(source *MetricDescriptor_Indices) (int, bool) {
+	switch fpvs.Selector() {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		return fpvs.subPathValue.(MetricDescriptorIndicesIndexGroups_FieldPathValue).CompareWith(source.GetBuiltIn())
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		return fpvs.subPathValue.(MetricDescriptorIndicesIndexGroups_FieldPathValue).CompareWith(source.GetUserDefined())
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndices_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*MetricDescriptor_Indices))
+}
+
+// MetricDescriptorIndices_FieldPathArrayItemValue allows storing single item in Path-specific values for Indices according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndices_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndices_FieldPath
+	ContainsValue(*MetricDescriptor_Indices) bool
+}
+
+// ParseMetricDescriptorIndices_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndices_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndices_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Indices field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndices_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndices_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndices_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndices_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndices_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndices_FieldPathArrayItemValue = (*MetricDescriptorIndices_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices as interface{}
+func (fpaiv *MetricDescriptorIndices_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndices_FieldTerminalPathArrayItemValue) AsLegacyMigratedItemValue() (*MetricDescriptor_Indices_NonAggregatedIndices, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_NonAggregatedIndices)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndices_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndices_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Indices'
+func (fpaiv *MetricDescriptorIndices_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices) bool {
+	slice := fpaiv.MetricDescriptorIndices_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type MetricDescriptorIndices_FieldSubPathArrayItemValue struct {
+	MetricDescriptorIndices_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *MetricDescriptorIndices_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *MetricDescriptorIndices_FieldSubPathArrayItemValue) AsBuiltInPathItemValue() (MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndices_FieldSubPathArrayItemValue) AsUserDefinedPathItemValue() (MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndices_FieldSubPathArrayItemValue) AsLegacyMigratedPathItemValue() (MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Indices'
+func (fpaivs *MetricDescriptorIndices_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices) bool {
+	switch fpaivs.Selector() {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		return fpaivs.subPathItemValue.(MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue).ContainsValue(source.GetBuiltIn())
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		return fpaivs.subPathItemValue.(MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue).ContainsValue(source.GetUserDefined())
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices: %d", fpaivs.Selector()))
+	}
+}
+
+// MetricDescriptorIndices_FieldPathArrayOfValues allows storing slice of values for Indices fields according to their type
+type MetricDescriptorIndices_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndices_FieldPath
+}
+
+func ParseMetricDescriptorIndices_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndices_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Indices field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndices_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndices_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndices_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndices_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndices_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndices_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndices_FieldPathArrayOfValues = (*MetricDescriptorIndices_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndices_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndices_FieldPathSelectorBuiltIn:
+		for _, v := range fpaov.values.([]*MetricDescriptor_Indices_IndexGroups) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndices_FieldPathSelectorUserDefined:
+		for _, v := range fpaov.values.([]*MetricDescriptor_Indices_IndexGroups) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndices_FieldPathSelectorLegacyMigrated:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_NonAggregatedIndices) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndices_FieldTerminalPathArrayOfValues) AsBuiltInArrayOfValues() ([]*MetricDescriptor_Indices_IndexGroups, bool) {
+	res, ok := fpaov.values.([]*MetricDescriptor_Indices_IndexGroups)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndices_FieldTerminalPathArrayOfValues) AsUserDefinedArrayOfValues() ([]*MetricDescriptor_Indices_IndexGroups, bool) {
+	res, ok := fpaov.values.([]*MetricDescriptor_Indices_IndexGroups)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndices_FieldTerminalPathArrayOfValues) AsLegacyMigratedArrayOfValues() ([][]*MetricDescriptor_Indices_NonAggregatedIndices, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_NonAggregatedIndices)
+	return res, ok
+}
+
+type MetricDescriptorIndices_FieldSubPathArrayOfValues struct {
+	MetricDescriptorIndices_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ MetricDescriptorIndices_FieldPathArrayOfValues = (*MetricDescriptorIndices_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *MetricDescriptorIndices_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *MetricDescriptorIndices_FieldSubPathArrayOfValues) AsBuiltInPathArrayOfValues() (MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndices_FieldSubPathArrayOfValues) AsUserDefinedPathArrayOfValues() (MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndices_FieldSubPathArrayOfValues) AsLegacyMigratedPathArrayOfValues() (MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type MetricDescriptorStorageConfig_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() MetricDescriptorStorageConfig_FieldPathSelector
@@ -2793,6 +3675,596 @@ func (fpaov *MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues) AsSto
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorBinaryIndices_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorBinaryIndices_FieldPathSelector
+	Get(source *MetricDescriptor_BinaryIndices) []interface{}
+	GetSingle(source *MetricDescriptor_BinaryIndices) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_BinaryIndices)
+
+	// Those methods build corresponding MetricDescriptorBinaryIndices_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorBinaryIndices_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndices_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndices_FieldPathArrayItemValue
+}
+
+type MetricDescriptorBinaryIndices_FieldPathSelector int32
+
+const (
+	MetricDescriptorBinaryIndices_FieldPathSelectorByResources MetricDescriptorBinaryIndices_FieldPathSelector = 0
+)
+
+func (s MetricDescriptorBinaryIndices_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return "by_resources"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", s))
+	}
+}
+
+func BuildMetricDescriptorBinaryIndices_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorBinaryIndices_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_BinaryIndices")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "by_resources", "byResources", "by-resources":
+			return &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "by_resources", "byResources", "by-resources":
+			if subpath, err := BuildMetricDescriptorBinaryIndicesByResourceType_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorBinaryIndices_FieldSubPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_BinaryIndices", fp)
+}
+
+func ParseMetricDescriptorBinaryIndices_FieldPath(rawField string) (MetricDescriptorBinaryIndices_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorBinaryIndices_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorBinaryIndices_FieldPath(rawField string) MetricDescriptorBinaryIndices_FieldPath {
+	fp, err := ParseMetricDescriptorBinaryIndices_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorBinaryIndices_FieldTerminalPath struct {
+	selector MetricDescriptorBinaryIndices_FieldPathSelector
+}
+
+var _ MetricDescriptorBinaryIndices_FieldPath = (*MetricDescriptorBinaryIndices_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) Selector() MetricDescriptorBinaryIndices_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_BinaryIndices
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) Get(source *MetricDescriptor_BinaryIndices) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+			for _, value := range source.GetByResources() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_BinaryIndices))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_BinaryIndices
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) GetSingle(source *MetricDescriptor_BinaryIndices) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		res := source.GetByResources()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_BinaryIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return ([]*MetricDescriptor_BinaryIndices_ByResourceType)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) ClearValue(item *MetricDescriptor_BinaryIndices) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+			item.ByResources = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_BinaryIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorBinaryIndices_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return &MetricDescriptorBinaryIndices_FieldTerminalPathValue{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_BinaryIndices_ByResourceType)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndices_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return &MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_BinaryIndices_ByResourceType)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndices_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return &MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_BinaryIndices_ByResourceType)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type MetricDescriptorBinaryIndices_FieldSubPath struct {
+	selector MetricDescriptorBinaryIndices_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ MetricDescriptorBinaryIndices_FieldPath = (*MetricDescriptorBinaryIndices_FieldSubPath)(nil)
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) Selector() MetricDescriptorBinaryIndices_FieldPathSelector {
+	return fps.selector
+}
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) AsByResourcesSubPath() (MetricDescriptorBinaryIndicesByResourceType_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorBinaryIndicesByResourceType_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source MetricDescriptor_BinaryIndices
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) Get(source *MetricDescriptor_BinaryIndices) (values []interface{}) {
+	switch fps.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		for _, item := range source.GetByResources() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*MetricDescriptor_BinaryIndices))
+}
+
+// GetSingle returns value of selected field from source MetricDescriptor_BinaryIndices
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) GetSingle(source *MetricDescriptor_BinaryIndices) (interface{}, bool) {
+	switch fps.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		if len(source.GetByResources()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetByResources()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fps.selector))
+	}
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*MetricDescriptor_BinaryIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) ClearValue(item *MetricDescriptor_BinaryIndices) {
+	if item != nil {
+		switch fps.selector {
+		case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+			for _, subItem := range item.ByResources {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*MetricDescriptor_BinaryIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MetricDescriptorBinaryIndices_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) WithIValue(value interface{}) MetricDescriptorBinaryIndices_FieldPathValue {
+	return &MetricDescriptorBinaryIndices_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndices_FieldPathArrayOfValues {
+	return &MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndices_FieldPathArrayItemValue {
+	return &MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *MetricDescriptorBinaryIndices_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorBinaryIndices_FieldPathValue allows storing values for BinaryIndices fields according to their type
+type MetricDescriptorBinaryIndices_FieldPathValue interface {
+	MetricDescriptorBinaryIndices_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_BinaryIndices)
+	CompareWith(*MetricDescriptor_BinaryIndices) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorBinaryIndices_FieldPathValue(pathStr, valueStr string) (MetricDescriptorBinaryIndices_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BinaryIndices field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorBinaryIndices_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndices_FieldPathValue(pathStr, valueStr string) MetricDescriptorBinaryIndices_FieldPathValue {
+	fpv, err := ParseMetricDescriptorBinaryIndices_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorBinaryIndices_FieldTerminalPathValue struct {
+	MetricDescriptorBinaryIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndices_FieldPathValue = (*MetricDescriptorBinaryIndices_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'BinaryIndices' as interface{}
+func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) AsByResourcesValue() ([]*MetricDescriptor_BinaryIndices_ByResourceType, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_BinaryIndices_ByResourceType)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object BinaryIndices
+func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) SetTo(target **MetricDescriptor_BinaryIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_BinaryIndices)
+	}
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		(*target).ByResources = fpv.value.([]*MetricDescriptor_BinaryIndices_ByResourceType)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_BinaryIndices)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorBinaryIndices_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_BinaryIndices'.
+func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_BinaryIndices) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_BinaryIndices))
+}
+
+type MetricDescriptorBinaryIndices_FieldSubPathValue struct {
+	MetricDescriptorBinaryIndices_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ MetricDescriptorBinaryIndices_FieldPathValue = (*MetricDescriptorBinaryIndices_FieldSubPathValue)(nil)
+
+func (fpvs *MetricDescriptorBinaryIndices_FieldSubPathValue) AsByResourcesPathValue() (MetricDescriptorBinaryIndicesByResourceType_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorBinaryIndicesByResourceType_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *MetricDescriptorBinaryIndices_FieldSubPathValue) SetTo(target **MetricDescriptor_BinaryIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_BinaryIndices)
+	}
+	switch fpvs.Selector() {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorBinaryIndices_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_BinaryIndices)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *MetricDescriptorBinaryIndices_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *MetricDescriptorBinaryIndices_FieldSubPathValue) CompareWith(source *MetricDescriptor_BinaryIndices) (int, bool) {
+	switch fpvs.Selector() {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorBinaryIndices_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*MetricDescriptor_BinaryIndices))
+}
+
+// MetricDescriptorBinaryIndices_FieldPathArrayItemValue allows storing single item in Path-specific values for BinaryIndices according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorBinaryIndices_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorBinaryIndices_FieldPath
+	ContainsValue(*MetricDescriptor_BinaryIndices) bool
+}
+
+// ParseMetricDescriptorBinaryIndices_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorBinaryIndices_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorBinaryIndices_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BinaryIndices field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorBinaryIndices_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndices_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorBinaryIndices_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorBinaryIndices_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorBinaryIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndices_FieldPathArrayItemValue = (*MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_BinaryIndices as interface{}
+func (fpaiv *MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue) AsByResourcesItemValue() (*MetricDescriptor_BinaryIndices_ByResourceType, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_BinaryIndices_ByResourceType)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_BinaryIndices) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_BinaryIndices))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'BinaryIndices'
+func (fpaiv *MetricDescriptorBinaryIndices_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_BinaryIndices) bool {
+	slice := fpaiv.MetricDescriptorBinaryIndices_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue struct {
+	MetricDescriptorBinaryIndices_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue) AsByResourcesPathItemValue() (MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'BinaryIndices'
+func (fpaivs *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor_BinaryIndices) bool {
+	switch fpaivs.Selector() {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fpaivs.Selector()))
+	}
+}
+
+// MetricDescriptorBinaryIndices_FieldPathArrayOfValues allows storing slice of values for BinaryIndices fields according to their type
+type MetricDescriptorBinaryIndices_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorBinaryIndices_FieldPath
+}
+
+func ParseMetricDescriptorBinaryIndices_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorBinaryIndices_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorBinaryIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing BinaryIndices field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorBinaryIndices_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorBinaryIndices_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorBinaryIndices_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorBinaryIndices_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorBinaryIndices_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorBinaryIndices_FieldPathArrayOfValues = (*MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_BinaryIndices_ByResourceType) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues) AsByResourcesArrayOfValues() ([][]*MetricDescriptor_BinaryIndices_ByResourceType, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_BinaryIndices_ByResourceType)
+	return res, ok
+}
+
+type MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues struct {
+	MetricDescriptorBinaryIndices_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ MetricDescriptorBinaryIndices_FieldPathArrayOfValues = (*MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *MetricDescriptorBinaryIndices_FieldSubPathArrayOfValues) AsByResourcesPathArrayOfValues() (MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
 type MetricDescriptorIndexSpecIndex_FieldPath interface {
 	gotenobject.FieldPath
 	Selector() MetricDescriptorIndexSpecIndex_FieldPathSelector
@@ -2811,15 +4283,12 @@ type MetricDescriptorIndexSpecIndex_FieldPathSelector int32
 
 const (
 	MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels MetricDescriptorIndexSpecIndex_FieldPathSelector = 0
-	MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly      MetricDescriptorIndexSpecIndex_FieldPathSelector = 1
 )
 
 func (s MetricDescriptorIndexSpecIndex_FieldPathSelector) String() string {
 	switch s {
 	case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 		return "promoted_labels"
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		return "write_only"
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", s))
 	}
@@ -2833,8 +4302,6 @@ func BuildMetricDescriptorIndexSpecIndex_FieldPath(fp gotenobject.RawFieldPath) 
 		switch fp[0] {
 		case "promoted_labels", "promotedLabels", "promoted-labels":
 			return &MetricDescriptorIndexSpecIndex_FieldTerminalPath{selector: MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels}, nil
-		case "write_only", "writeOnly", "write-only":
-			return &MetricDescriptorIndexSpecIndex_FieldTerminalPath{selector: MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_IndexSpec_Index", fp)
@@ -2884,8 +4351,6 @@ func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) Get(source *MetricDe
 			for _, value := range source.GetPromotedLabels() {
 				values = append(values, value)
 			}
-		case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-			values = append(values, source.WriteOnly)
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fp.selector))
 		}
@@ -2903,8 +4368,6 @@ func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) GetSingle(source *Me
 	case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 		res := source.GetPromotedLabels()
 		return res, res != nil
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		return source.GetWriteOnly(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fp.selector))
 	}
@@ -2919,8 +4382,6 @@ func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) GetDefault() interfa
 	switch fp.selector {
 	case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 		return ([]string)(nil)
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fp.selector))
 	}
@@ -2931,8 +4392,6 @@ func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) ClearValue(item *Met
 		switch fp.selector {
 		case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 			item.PromotedLabels = nil
-		case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-			item.WriteOnly = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fp.selector))
 		}
@@ -2945,8 +4404,7 @@ func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) ClearValueRaw(item p
 
 // IsLeaf - whether field path is holds simple value
 func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels ||
-		fp.selector == MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly
+	return fp.selector == MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels
 }
 
 func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2957,8 +4415,6 @@ func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) WithIValue(value int
 	switch fp.selector {
 	case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 		return &MetricDescriptorIndexSpecIndex_FieldTerminalPathValue{MetricDescriptorIndexSpecIndex_FieldTerminalPath: *fp, value: value.([]string)}
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		return &MetricDescriptorIndexSpecIndex_FieldTerminalPathValue{MetricDescriptorIndexSpecIndex_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fp.selector))
 	}
@@ -2973,8 +4429,6 @@ func (fp *MetricDescriptorIndexSpecIndex_FieldTerminalPath) WithIArrayOfValues(v
 	switch fp.selector {
 	case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 		return &MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayOfValues{MetricDescriptorIndexSpecIndex_FieldTerminalPath: *fp, values: values.([][]string)}
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		return &MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayOfValues{MetricDescriptorIndexSpecIndex_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fp.selector))
 	}
@@ -3041,10 +4495,6 @@ func (fpv *MetricDescriptorIndexSpecIndex_FieldTerminalPathValue) AsPromotedLabe
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
-func (fpv *MetricDescriptorIndexSpecIndex_FieldTerminalPathValue) AsWriteOnlyValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
-	return res, ok
-}
 
 // SetTo stores value for selected field for object Index
 func (fpv *MetricDescriptorIndexSpecIndex_FieldTerminalPathValue) SetTo(target **MetricDescriptor_IndexSpec_Index) {
@@ -3054,8 +4504,6 @@ func (fpv *MetricDescriptorIndexSpecIndex_FieldTerminalPathValue) SetTo(target *
 	switch fpv.selector {
 	case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 		(*target).PromotedLabels = fpv.value.([]string)
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		(*target).WriteOnly = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fpv.selector))
 	}
@@ -3071,16 +4519,6 @@ func (fpv *MetricDescriptorIndexSpecIndex_FieldTerminalPathValue) CompareWith(so
 	switch fpv.selector {
 	case MetricDescriptorIndexSpecIndex_FieldPathSelectorPromotedLabels:
 		return 0, false
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetWriteOnly()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_IndexSpec_Index: %d", fpv.selector))
 	}
@@ -3197,19 +4635,11 @@ func (fpaov *MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([][]string) {
 			values = append(values, v)
 		}
-	case MetricDescriptorIndexSpecIndex_FieldPathSelectorWriteOnly:
-		for _, v := range fpaov.values.([]bool) {
-			values = append(values, v)
-		}
 	}
 	return
 }
 func (fpaov *MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayOfValues) AsPromotedLabelsArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
-	return res, ok
-}
-func (fpaov *MetricDescriptorIndexSpecIndex_FieldTerminalPathArrayOfValues) AsWriteOnlyArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 
@@ -3853,5 +5283,7071 @@ func (fpsaov *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPathArrayOfV
 }
 func (fpsaov *MetricDescriptorIndexSpecPerMonitoredResource_FieldSubPathArrayOfValues) AsIndicesPathArrayOfValues() (MetricDescriptorIndexSpecIndex_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndexSpecIndex_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesLabelsGroup_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesLabelsGroup_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_LabelsGroup) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_LabelsGroup) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_LabelsGroup)
+
+	// Those methods build corresponding MetricDescriptorIndicesLabelsGroup_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesLabelsGroup_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesLabelsGroup_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName          MetricDescriptorIndicesLabelsGroup_FieldPathSelector = 0
+	MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys    MetricDescriptorIndicesLabelsGroup_FieldPathSelector = 1
+	MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys  MetricDescriptorIndicesLabelsGroup_FieldPathSelector = 2
+	MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus MetricDescriptorIndicesLabelsGroup_FieldPathSelector = 3
+)
+
+func (s MetricDescriptorIndicesLabelsGroup_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		return "name"
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		return "metric_keys"
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		return "resource_keys"
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		return "closing_status"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesLabelsGroup_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesLabelsGroup_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_LabelsGroup")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName}, nil
+		case "metric_keys", "metricKeys", "metric-keys":
+			return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys}, nil
+		case "resource_keys", "resourceKeys", "resource-keys":
+			return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys}, nil
+		case "closing_status", "closingStatus", "closing-status":
+			return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_LabelsGroup", fp)
+}
+
+func ParseMetricDescriptorIndicesLabelsGroup_FieldPath(rawField string) (MetricDescriptorIndicesLabelsGroup_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesLabelsGroup_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesLabelsGroup_FieldPath(rawField string) MetricDescriptorIndicesLabelsGroup_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesLabelsGroup_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesLabelsGroup_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesLabelsGroup_FieldPath = (*MetricDescriptorIndicesLabelsGroup_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) Selector() MetricDescriptorIndicesLabelsGroup_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_LabelsGroup
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) Get(source *MetricDescriptor_Indices_LabelsGroup) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+			for _, value := range source.GetMetricKeys() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+			for _, value := range source.GetResourceKeys() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+			values = append(values, source.ClosingStatus)
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_LabelsGroup
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_LabelsGroup) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		res := source.GetMetricKeys()
+		return res, res != nil
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		res := source.GetResourceKeys()
+		return res, res != nil
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		return source.GetClosingStatus(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		return ""
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		return MetricDescriptor_Indices_UNDEFINED
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_LabelsGroup) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+			item.Name = ""
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+			item.MetricKeys = nil
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+			item.ResourceKeys = nil
+		case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+			item.ClosingStatus = MetricDescriptor_Indices_UNDEFINED
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName ||
+		fp.selector == MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys ||
+		fp.selector == MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys ||
+		fp.selector == MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesLabelsGroup_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, value: value.(MetricDescriptor_Indices_CloseStatus)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, values: values.([]MetricDescriptor_Indices_CloseStatus)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		return &MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesLabelsGroup_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesLabelsGroup_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesLabelsGroup_FieldPathValue allows storing values for LabelsGroup fields according to their type
+type MetricDescriptorIndicesLabelsGroup_FieldPathValue interface {
+	MetricDescriptorIndicesLabelsGroup_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_LabelsGroup)
+	CompareWith(*MetricDescriptor_Indices_LabelsGroup) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesLabelsGroup_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesLabelsGroup_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing LabelsGroup field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesLabelsGroup_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesLabelsGroup_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesLabelsGroup_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesLabelsGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesLabelsGroup_FieldPathValue = (*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'LabelsGroup' as interface{}
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) AsMetricKeysValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) AsResourceKeysValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) AsClosingStatusValue() (MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object LabelsGroup
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_LabelsGroup) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_LabelsGroup)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		(*target).MetricKeys = fpv.value.([]string)
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		(*target).ResourceKeys = fpv.value.([]string)
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		(*target).ClosingStatus = fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_LabelsGroup)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_LabelsGroup'.
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_LabelsGroup) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		return 0, false
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		return 0, false
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		leftValue := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+		rightValue := source.GetClosingStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_LabelsGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+// MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue allows storing single item in Path-specific values for LabelsGroup according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesLabelsGroup_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_LabelsGroup) bool
+}
+
+// ParseMetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing LabelsGroup field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesLabelsGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue = (*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_LabelsGroup as interface{}
+func (fpaiv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue) AsMetricKeysItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue) AsResourceKeysItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_LabelsGroup) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_LabelsGroup))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'LabelsGroup'
+func (fpaiv *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_LabelsGroup) bool {
+	slice := fpaiv.MetricDescriptorIndicesLabelsGroup_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues allows storing slice of values for LabelsGroup fields according to their type
+type MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesLabelsGroup_FieldPath
+}
+
+func ParseMetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing LabelsGroup field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesLabelsGroup_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues = (*MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorMetricKeys:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorResourceKeys:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesLabelsGroup_FieldPathSelectorClosingStatus:
+		for _, v := range fpaov.values.([]MetricDescriptor_Indices_CloseStatus) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues) AsMetricKeysArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues) AsResourceKeysArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesLabelsGroup_FieldTerminalPathArrayOfValues) AsClosingStatusArrayOfValues() ([]MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpaov.values.([]MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesPaginationView_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesPaginationView_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_PaginationView) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_PaginationView) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_PaginationView)
+
+	// Those methods build corresponding MetricDescriptorIndicesPaginationView_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesPaginationView_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesPaginationView_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesPaginationView_FieldPathSelectorName                   MetricDescriptorIndicesPaginationView_FieldPathSelector = 0
+	MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys   MetricDescriptorIndicesPaginationView_FieldPathSelector = 1
+	MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys MetricDescriptorIndicesPaginationView_FieldPathSelector = 2
+	MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys    MetricDescriptorIndicesPaginationView_FieldPathSelector = 3
+	MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys  MetricDescriptorIndicesPaginationView_FieldPathSelector = 4
+	MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus          MetricDescriptorIndicesPaginationView_FieldPathSelector = 5
+)
+
+func (s MetricDescriptorIndicesPaginationView_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		return "name"
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		return "filterable_metric_keys"
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		return "filterable_resource_keys"
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		return "paginated_metric_keys"
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		return "paginated_resource_keys"
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		return "closing_status"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesPaginationView_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesPaginationView_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_PaginationView")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorName}, nil
+		case "filterable_metric_keys", "filterableMetricKeys", "filterable-metric-keys":
+			return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys}, nil
+		case "filterable_resource_keys", "filterableResourceKeys", "filterable-resource-keys":
+			return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys}, nil
+		case "paginated_metric_keys", "paginatedMetricKeys", "paginated-metric-keys":
+			return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys}, nil
+		case "paginated_resource_keys", "paginatedResourceKeys", "paginated-resource-keys":
+			return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys}, nil
+		case "closing_status", "closingStatus", "closing-status":
+			return &MetricDescriptorIndicesPaginationView_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_PaginationView", fp)
+}
+
+func ParseMetricDescriptorIndicesPaginationView_FieldPath(rawField string) (MetricDescriptorIndicesPaginationView_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesPaginationView_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesPaginationView_FieldPath(rawField string) MetricDescriptorIndicesPaginationView_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesPaginationView_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesPaginationView_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesPaginationView_FieldPath = (*MetricDescriptorIndicesPaginationView_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) Selector() MetricDescriptorIndicesPaginationView_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_PaginationView
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) Get(source *MetricDescriptor_Indices_PaginationView) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+			for _, value := range source.GetFilterableMetricKeys() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+			for _, value := range source.GetFilterableResourceKeys() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+			for _, value := range source.GetPaginatedMetricKeys() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+			for _, value := range source.GetPaginatedResourceKeys() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+			values = append(values, source.ClosingStatus)
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_PaginationView))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_PaginationView
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_PaginationView) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		res := source.GetFilterableMetricKeys()
+		return res, res != nil
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		res := source.GetFilterableResourceKeys()
+		return res, res != nil
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		res := source.GetPaginatedMetricKeys()
+		return res, res != nil
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		res := source.GetPaginatedResourceKeys()
+		return res, res != nil
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		return source.GetClosingStatus(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_PaginationView))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		return ""
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		return MetricDescriptor_Indices_UNDEFINED
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_PaginationView) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+			item.Name = ""
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+			item.FilterableMetricKeys = nil
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+			item.FilterableResourceKeys = nil
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+			item.PaginatedMetricKeys = nil
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+			item.PaginatedResourceKeys = nil
+		case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+			item.ClosingStatus = MetricDescriptor_Indices_UNDEFINED
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_PaginationView))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorIndicesPaginationView_FieldPathSelectorName ||
+		fp.selector == MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys ||
+		fp.selector == MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys ||
+		fp.selector == MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys ||
+		fp.selector == MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys ||
+		fp.selector == MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesPaginationView_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.(MetricDescriptor_Indices_CloseStatus)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, values: values.([]MetricDescriptor_Indices_CloseStatus)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		return &MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationView_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationView_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesPaginationView_FieldPathValue allows storing values for PaginationView fields according to their type
+type MetricDescriptorIndicesPaginationView_FieldPathValue interface {
+	MetricDescriptorIndicesPaginationView_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_PaginationView)
+	CompareWith(*MetricDescriptor_Indices_PaginationView) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesPaginationView_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesPaginationView_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginationView field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesPaginationView_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesPaginationView_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesPaginationView_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesPaginationView_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesPaginationView_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesPaginationView_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesPaginationView_FieldPathValue = (*MetricDescriptorIndicesPaginationView_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'PaginationView' as interface{}
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) AsFilterableMetricKeysValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) AsFilterableResourceKeysValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) AsPaginatedMetricKeysValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) AsPaginatedResourceKeysValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) AsClosingStatusValue() (MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object PaginationView
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_PaginationView) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_PaginationView)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		(*target).FilterableMetricKeys = fpv.value.([]string)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		(*target).FilterableResourceKeys = fpv.value.([]string)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		(*target).PaginatedMetricKeys = fpv.value.([]string)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		(*target).PaginatedResourceKeys = fpv.value.([]string)
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		(*target).ClosingStatus = fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_PaginationView)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesPaginationView_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_PaginationView'.
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_PaginationView) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		return 0, false
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		return 0, false
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		return 0, false
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		return 0, false
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		leftValue := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+		rightValue := source.GetClosingStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationView: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesPaginationView_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_PaginationView))
+}
+
+// MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue allows storing single item in Path-specific values for PaginationView according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesPaginationView_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_PaginationView) bool
+}
+
+// ParseMetricDescriptorIndicesPaginationView_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesPaginationView_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginationView field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesPaginationView_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesPaginationView_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesPaginationView_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue = (*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_PaginationView as interface{}
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) AsFilterableMetricKeysItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) AsFilterableResourceKeysItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) AsPaginatedMetricKeysItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) AsPaginatedResourceKeysItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_PaginationView) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_PaginationView))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PaginationView'
+func (fpaiv *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_PaginationView) bool {
+	slice := fpaiv.MetricDescriptorIndicesPaginationView_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues allows storing slice of values for PaginationView fields according to their type
+type MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesPaginationView_FieldPath
+}
+
+func ParseMetricDescriptorIndicesPaginationView_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginationView field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesPaginationView_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesPaginationView_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesPaginationView_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues = (*MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableMetricKeys:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorFilterableResourceKeys:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedMetricKeys:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorPaginatedResourceKeys:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationView_FieldPathSelectorClosingStatus:
+		for _, v := range fpaov.values.([]MetricDescriptor_Indices_CloseStatus) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues) AsFilterableMetricKeysArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues) AsFilterableResourceKeysArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues) AsPaginatedMetricKeysArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues) AsPaginatedResourceKeysArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationView_FieldTerminalPathArrayOfValues) AsClosingStatusArrayOfValues() ([]MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpaov.values.([]MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesAggregationsGroup_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesAggregationsGroup_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_AggregationsGroup) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_AggregationsGroup) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_AggregationsGroup)
+
+	// Those methods build corresponding MetricDescriptorIndicesAggregationsGroup_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesAggregationsGroup_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesAggregationsGroup_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName                MetricDescriptorIndicesAggregationsGroup_FieldPathSelector = 0
+	MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners   MetricDescriptorIndicesAggregationsGroup_FieldPathSelector = 1
+	MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers MetricDescriptorIndicesAggregationsGroup_FieldPathSelector = 2
+	MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus       MetricDescriptorIndicesAggregationsGroup_FieldPathSelector = 3
+	MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners     MetricDescriptorIndicesAggregationsGroup_FieldPathSelector = 4
+)
+
+func (s MetricDescriptorIndicesAggregationsGroup_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		return "name"
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		return "per_series_aligners"
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		return "cross_series_reducers"
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		return "closing_status"
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		return "storage_aligners"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesAggregationsGroup_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesAggregationsGroup_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_AggregationsGroup")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName}, nil
+		case "per_series_aligners", "perSeriesAligners", "per-series-aligners":
+			return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners}, nil
+		case "cross_series_reducers", "crossSeriesReducers", "cross-series-reducers":
+			return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers}, nil
+		case "closing_status", "closingStatus", "closing-status":
+			return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus}, nil
+		case "storage_aligners", "storageAligners", "storage-aligners":
+			return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath{selector: MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_AggregationsGroup", fp)
+}
+
+func ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(rawField string) (MetricDescriptorIndicesAggregationsGroup_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesAggregationsGroup_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesAggregationsGroup_FieldPath(rawField string) MetricDescriptorIndicesAggregationsGroup_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesAggregationsGroup_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesAggregationsGroup_FieldPath = (*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) Selector() MetricDescriptorIndicesAggregationsGroup_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_AggregationsGroup
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) Get(source *MetricDescriptor_Indices_AggregationsGroup) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+			for _, value := range source.GetPerSeriesAligners() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+			for _, value := range source.GetCrossSeriesReducers() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+			values = append(values, source.ClosingStatus)
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+			for _, value := range source.GetStorageAligners() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_AggregationsGroup
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_AggregationsGroup) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		res := source.GetPerSeriesAligners()
+		return res, res != nil
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		res := source.GetCrossSeriesReducers()
+		return res, res != nil
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		return source.GetClosingStatus(), source != nil
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		res := source.GetStorageAligners()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		return ""
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		return ([]common.Aggregation_Aligner)(nil)
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		return ([]common.Aggregation_Reducer)(nil)
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		return MetricDescriptor_Indices_UNDEFINED
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		return ([]common.Aggregation_Aligner)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_AggregationsGroup) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+			item.Name = ""
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+			item.PerSeriesAligners = nil
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+			item.CrossSeriesReducers = nil
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+			item.ClosingStatus = MetricDescriptor_Indices_UNDEFINED
+		case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+			item.StorageAligners = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName ||
+		fp.selector == MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners ||
+		fp.selector == MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers ||
+		fp.selector == MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus ||
+		fp.selector == MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesAggregationsGroup_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.([]common.Aggregation_Aligner)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.([]common.Aggregation_Reducer)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.(MetricDescriptor_Indices_CloseStatus)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.([]common.Aggregation_Aligner)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, values: values.([][]common.Aggregation_Aligner)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, values: values.([][]common.Aggregation_Reducer)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, values: values.([]MetricDescriptor_Indices_CloseStatus)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, values: values.([][]common.Aggregation_Aligner)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.(common.Aggregation_Aligner)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.(common.Aggregation_Reducer)}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		return &MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath: *fp, value: value.(common.Aggregation_Aligner)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesAggregationsGroup_FieldPathValue allows storing values for AggregationsGroup fields according to their type
+type MetricDescriptorIndicesAggregationsGroup_FieldPathValue interface {
+	MetricDescriptorIndicesAggregationsGroup_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_AggregationsGroup)
+	CompareWith(*MetricDescriptor_Indices_AggregationsGroup) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesAggregationsGroup_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesAggregationsGroup_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AggregationsGroup field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesAggregationsGroup_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesAggregationsGroup_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesAggregationsGroup_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesAggregationsGroup_FieldPathValue = (*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'AggregationsGroup' as interface{}
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) AsPerSeriesAlignersValue() ([]common.Aggregation_Aligner, bool) {
+	res, ok := fpv.value.([]common.Aggregation_Aligner)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) AsCrossSeriesReducersValue() ([]common.Aggregation_Reducer, bool) {
+	res, ok := fpv.value.([]common.Aggregation_Reducer)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) AsClosingStatusValue() (MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) AsStorageAlignersValue() ([]common.Aggregation_Aligner, bool) {
+	res, ok := fpv.value.([]common.Aggregation_Aligner)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object AggregationsGroup
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_AggregationsGroup) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_AggregationsGroup)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		(*target).PerSeriesAligners = fpv.value.([]common.Aggregation_Aligner)
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		(*target).CrossSeriesReducers = fpv.value.([]common.Aggregation_Reducer)
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		(*target).ClosingStatus = fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		(*target).StorageAligners = fpv.value.([]common.Aggregation_Aligner)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_AggregationsGroup)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_AggregationsGroup'.
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_AggregationsGroup) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		return 0, false
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		return 0, false
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		leftValue := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+		rightValue := source.GetClosingStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_AggregationsGroup: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+// MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue allows storing single item in Path-specific values for AggregationsGroup according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesAggregationsGroup_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_AggregationsGroup) bool
+}
+
+// ParseMetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AggregationsGroup field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue = (*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_AggregationsGroup as interface{}
+func (fpaiv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue) AsPerSeriesAlignersItemValue() (common.Aggregation_Aligner, bool) {
+	res, ok := fpaiv.value.(common.Aggregation_Aligner)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue) AsCrossSeriesReducersItemValue() (common.Aggregation_Reducer, bool) {
+	res, ok := fpaiv.value.(common.Aggregation_Reducer)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue) AsStorageAlignersItemValue() (common.Aggregation_Aligner, bool) {
+	res, ok := fpaiv.value.(common.Aggregation_Aligner)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_AggregationsGroup) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_AggregationsGroup))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'AggregationsGroup'
+func (fpaiv *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_AggregationsGroup) bool {
+	slice := fpaiv.MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues allows storing slice of values for AggregationsGroup fields according to their type
+type MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesAggregationsGroup_FieldPath
+}
+
+func ParseMetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AggregationsGroup field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesAggregationsGroup_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues = (*MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorPerSeriesAligners:
+		for _, v := range fpaov.values.([][]common.Aggregation_Aligner) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorCrossSeriesReducers:
+		for _, v := range fpaov.values.([][]common.Aggregation_Reducer) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorClosingStatus:
+		for _, v := range fpaov.values.([]MetricDescriptor_Indices_CloseStatus) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesAggregationsGroup_FieldPathSelectorStorageAligners:
+		for _, v := range fpaov.values.([][]common.Aggregation_Aligner) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues) AsPerSeriesAlignersArrayOfValues() ([][]common.Aggregation_Aligner, bool) {
+	res, ok := fpaov.values.([][]common.Aggregation_Aligner)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues) AsCrossSeriesReducersArrayOfValues() ([][]common.Aggregation_Reducer, bool) {
+	res, ok := fpaov.values.([][]common.Aggregation_Reducer)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues) AsClosingStatusArrayOfValues() ([]MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpaov.values.([]MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesAggregationsGroup_FieldTerminalPathArrayOfValues) AsStorageAlignersArrayOfValues() ([][]common.Aggregation_Aligner, bool) {
+	res, ok := fpaov.values.([][]common.Aggregation_Aligner)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesSortingFunction_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesSortingFunction_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_SortingFunction) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_SortingFunction) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_SortingFunction)
+
+	// Those methods build corresponding MetricDescriptorIndicesSortingFunction_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesSortingFunction_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesSortingFunction_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesSortingFunction_FieldPathSelectorName          MetricDescriptorIndicesSortingFunction_FieldPathSelector = 0
+	MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner       MetricDescriptorIndicesSortingFunction_FieldPathSelector = 1
+	MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer       MetricDescriptorIndicesSortingFunction_FieldPathSelector = 2
+	MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus MetricDescriptorIndicesSortingFunction_FieldPathSelector = 3
+	MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting       MetricDescriptorIndicesSortingFunction_FieldPathSelector = 4
+)
+
+func (s MetricDescriptorIndicesSortingFunction_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		return "name"
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		return "aligner"
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		return "reducer"
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		return "closing_status"
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		return "sorting"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesSortingFunction_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesSortingFunction_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_SortingFunction")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorName}, nil
+		case "aligner":
+			return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner}, nil
+		case "reducer":
+			return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer}, nil
+		case "closing_status", "closingStatus", "closing-status":
+			return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus}, nil
+		case "sorting":
+			return &MetricDescriptorIndicesSortingFunction_FieldTerminalPath{selector: MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_SortingFunction", fp)
+}
+
+func ParseMetricDescriptorIndicesSortingFunction_FieldPath(rawField string) (MetricDescriptorIndicesSortingFunction_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesSortingFunction_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesSortingFunction_FieldPath(rawField string) MetricDescriptorIndicesSortingFunction_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesSortingFunction_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesSortingFunction_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesSortingFunction_FieldPath = (*MetricDescriptorIndicesSortingFunction_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) Selector() MetricDescriptorIndicesSortingFunction_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_SortingFunction
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) Get(source *MetricDescriptor_Indices_SortingFunction) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+			values = append(values, source.Aligner)
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+			values = append(values, source.Reducer)
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+			values = append(values, source.ClosingStatus)
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+			values = append(values, source.Sorting)
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_SortingFunction
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_SortingFunction) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		return source.GetAligner(), source != nil
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		return source.GetReducer(), source != nil
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		return source.GetClosingStatus(), source != nil
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		return source.GetSorting(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		return ""
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		return common.Aggregation_ALIGN_NONE
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		return common.Aggregation_REDUCE_NONE
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		return MetricDescriptor_Indices_UNDEFINED
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		return MetricDescriptor_Indices_SortingFunction_UNDEFINED
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_SortingFunction) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+			item.Name = ""
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+			item.Aligner = common.Aggregation_ALIGN_NONE
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+			item.Reducer = common.Aggregation_REDUCE_NONE
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+			item.ClosingStatus = MetricDescriptor_Indices_UNDEFINED
+		case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+			item.Sorting = MetricDescriptor_Indices_SortingFunction_UNDEFINED
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorIndicesSortingFunction_FieldPathSelectorName ||
+		fp.selector == MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner ||
+		fp.selector == MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer ||
+		fp.selector == MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus ||
+		fp.selector == MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesSortingFunction_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, value: value.(common.Aggregation_Aligner)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, value: value.(common.Aggregation_Reducer)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, value: value.(MetricDescriptor_Indices_CloseStatus)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, value: value.(MetricDescriptor_Indices_SortingFunction_Direction)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, values: values.([]common.Aggregation_Aligner)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, values: values.([]common.Aggregation_Reducer)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, values: values.([]MetricDescriptor_Indices_CloseStatus)}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		return &MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesSortingFunction_FieldTerminalPath: *fp, values: values.([]MetricDescriptor_Indices_SortingFunction_Direction)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesSortingFunction_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesSortingFunction_FieldPathValue allows storing values for SortingFunction fields according to their type
+type MetricDescriptorIndicesSortingFunction_FieldPathValue interface {
+	MetricDescriptorIndicesSortingFunction_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_SortingFunction)
+	CompareWith(*MetricDescriptor_Indices_SortingFunction) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesSortingFunction_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesSortingFunction_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SortingFunction field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesSortingFunction_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesSortingFunction_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesSortingFunction_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesSortingFunction_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesSortingFunction_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesSortingFunction_FieldPathValue = (*MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'SortingFunction' as interface{}
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) AsAlignerValue() (common.Aggregation_Aligner, bool) {
+	res, ok := fpv.value.(common.Aggregation_Aligner)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) AsReducerValue() (common.Aggregation_Reducer, bool) {
+	res, ok := fpv.value.(common.Aggregation_Reducer)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) AsClosingStatusValue() (MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) AsSortingValue() (MetricDescriptor_Indices_SortingFunction_Direction, bool) {
+	res, ok := fpv.value.(MetricDescriptor_Indices_SortingFunction_Direction)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object SortingFunction
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_SortingFunction) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_SortingFunction)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		(*target).Aligner = fpv.value.(common.Aggregation_Aligner)
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		(*target).Reducer = fpv.value.(common.Aggregation_Reducer)
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		(*target).ClosingStatus = fpv.value.(MetricDescriptor_Indices_CloseStatus)
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		(*target).Sorting = fpv.value.(MetricDescriptor_Indices_SortingFunction_Direction)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_SortingFunction)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_SortingFunction'.
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_SortingFunction) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		leftValue := fpv.value.(common.Aggregation_Aligner)
+		rightValue := source.GetAligner()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		leftValue := fpv.value.(common.Aggregation_Reducer)
+		rightValue := source.GetReducer()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		leftValue := fpv.value.(MetricDescriptor_Indices_CloseStatus)
+		rightValue := source.GetClosingStatus()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		leftValue := fpv.value.(MetricDescriptor_Indices_SortingFunction_Direction)
+		rightValue := source.GetSorting()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_SortingFunction: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+// MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue allows storing single item in Path-specific values for SortingFunction according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesSortingFunction_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_SortingFunction) bool
+}
+
+// ParseMetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SortingFunction field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesSortingFunction_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue = (*MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_SortingFunction as interface{}
+func (fpaiv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_SortingFunction) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_SortingFunction))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'SortingFunction'
+func (fpaiv *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_SortingFunction) bool {
+	slice := fpaiv.MetricDescriptorIndicesSortingFunction_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues allows storing slice of values for SortingFunction fields according to their type
+type MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesSortingFunction_FieldPath
+}
+
+func ParseMetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing SortingFunction field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesSortingFunction_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues = (*MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorAligner:
+		for _, v := range fpaov.values.([]common.Aggregation_Aligner) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorReducer:
+		for _, v := range fpaov.values.([]common.Aggregation_Reducer) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorClosingStatus:
+		for _, v := range fpaov.values.([]MetricDescriptor_Indices_CloseStatus) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesSortingFunction_FieldPathSelectorSorting:
+		for _, v := range fpaov.values.([]MetricDescriptor_Indices_SortingFunction_Direction) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues) AsAlignerArrayOfValues() ([]common.Aggregation_Aligner, bool) {
+	res, ok := fpaov.values.([]common.Aggregation_Aligner)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues) AsReducerArrayOfValues() ([]common.Aggregation_Reducer, bool) {
+	res, ok := fpaov.values.([]common.Aggregation_Reducer)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues) AsClosingStatusArrayOfValues() ([]MetricDescriptor_Indices_CloseStatus, bool) {
+	res, ok := fpaov.values.([]MetricDescriptor_Indices_CloseStatus)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesSortingFunction_FieldTerminalPathArrayOfValues) AsSortingArrayOfValues() ([]MetricDescriptor_Indices_SortingFunction_Direction, bool) {
+	res, ok := fpaov.values.([]MetricDescriptor_Indices_SortingFunction_Direction)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesPreAggregatedIndices_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_PreAggregatedIndices) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_PreAggregatedIndices) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_PreAggregatedIndices)
+
+	// Those methods build corresponding MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName                    MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector = 0
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes           MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector = 1
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets      MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector = 2
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector = 3
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations   MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector = 4
+)
+
+func (s MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		return "name"
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		return "resource_types"
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return "partition_label_sets"
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return "filter_and_group_label_sets"
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return "supported_aggregations"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesPreAggregatedIndices_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesPreAggregatedIndices_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_PreAggregatedIndices")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName}, nil
+		case "resource_types", "resourceTypes", "resource-types":
+			return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes}, nil
+		case "partition_label_sets", "partitionLabelSets", "partition-label-sets":
+			return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets}, nil
+		case "filter_and_group_label_sets", "filterAndGroupLabelSets", "filter-and-group-label-sets":
+			return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets}, nil
+		case "supported_aggregations", "supportedAggregations", "supported-aggregations":
+			return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "partition_label_sets", "partitionLabelSets", "partition-label-sets":
+			if subpath, err := BuildMetricDescriptorIndicesLabelsGroup_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets, subPath: subpath}, nil
+			}
+		case "filter_and_group_label_sets", "filterAndGroupLabelSets", "filter-and-group-label-sets":
+			if subpath, err := BuildMetricDescriptorIndicesLabelsGroup_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets, subPath: subpath}, nil
+			}
+		case "supported_aggregations", "supportedAggregations", "supported-aggregations":
+			if subpath, err := BuildMetricDescriptorIndicesAggregationsGroup_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_PreAggregatedIndices", fp)
+}
+
+func ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(rawField string) (MetricDescriptorIndicesPreAggregatedIndices_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesPreAggregatedIndices_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(rawField string) MetricDescriptorIndicesPreAggregatedIndices_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesPreAggregatedIndices_FieldPath = (*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) Selector() MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_PreAggregatedIndices
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) Get(source *MetricDescriptor_Indices_PreAggregatedIndices) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+			for _, value := range source.GetResourceTypes() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+			for _, value := range source.GetPartitionLabelSets() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+			for _, value := range source.GetFilterAndGroupLabelSets() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+			for _, value := range source.GetSupportedAggregations() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_PreAggregatedIndices
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_PreAggregatedIndices) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		res := source.GetResourceTypes()
+		return res, res != nil
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		res := source.GetPartitionLabelSets()
+		return res, res != nil
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		res := source.GetFilterAndGroupLabelSets()
+		return res, res != nil
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		res := source.GetSupportedAggregations()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		return ""
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return ([]*MetricDescriptor_Indices_LabelsGroup)(nil)
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return ([]*MetricDescriptor_Indices_LabelsGroup)(nil)
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return ([]*MetricDescriptor_Indices_AggregationsGroup)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_PreAggregatedIndices) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+			item.Name = ""
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+			item.ResourceTypes = nil
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+			item.PartitionLabelSets = nil
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+			item.FilterAndGroupLabelSets = nil
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+			item.SupportedAggregations = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName ||
+		fp.selector == MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_AggregationsGroup)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_AggregationsGroup)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return &MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_AggregationsGroup)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath struct {
+	selector MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ MetricDescriptorIndicesPreAggregatedIndices_FieldPath = (*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath)(nil)
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) Selector() MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelector {
+	return fps.selector
+}
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) AsPartitionLabelSetsSubPath() (MetricDescriptorIndicesLabelsGroup_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) AsFilterAndGroupLabelSetsSubPath() (MetricDescriptorIndicesLabelsGroup_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) AsSupportedAggregationsSubPath() (MetricDescriptorIndicesAggregationsGroup_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesAggregationsGroup_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source MetricDescriptor_Indices_PreAggregatedIndices
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) Get(source *MetricDescriptor_Indices_PreAggregatedIndices) (values []interface{}) {
+	switch fps.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		for _, item := range source.GetPartitionLabelSets() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		for _, item := range source.GetFilterAndGroupLabelSets() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		for _, item := range source.GetSupportedAggregations() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// GetSingle returns value of selected field from source MetricDescriptor_Indices_PreAggregatedIndices
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) GetSingle(source *MetricDescriptor_Indices_PreAggregatedIndices) (interface{}, bool) {
+	switch fps.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		if len(source.GetPartitionLabelSets()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPartitionLabelSets()[0])
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		if len(source.GetFilterAndGroupLabelSets()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetFilterAndGroupLabelSets()[0])
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		if len(source.GetSupportedAggregations()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetSupportedAggregations()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fps.selector))
+	}
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) ClearValue(item *MetricDescriptor_Indices_PreAggregatedIndices) {
+	if item != nil {
+		switch fps.selector {
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+			for _, subItem := range item.PartitionLabelSets {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+			for _, subItem := range item.FilterAndGroupLabelSets {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+			for _, subItem := range item.SupportedAggregations {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) WithIValue(value interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue {
+	return &MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue allows storing values for PreAggregatedIndices fields according to their type
+type MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue interface {
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_PreAggregatedIndices)
+	CompareWith(*MetricDescriptor_Indices_PreAggregatedIndices) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PreAggregatedIndices field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue = (*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'PreAggregatedIndices' as interface{}
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) AsResourceTypesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) AsPartitionLabelSetsValue() ([]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) AsFilterAndGroupLabelSetsValue() ([]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) AsSupportedAggregationsValue() ([]*MetricDescriptor_Indices_AggregationsGroup, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_AggregationsGroup)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object PreAggregatedIndices
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_PreAggregatedIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_PreAggregatedIndices)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		(*target).ResourceTypes = fpv.value.([]string)
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		(*target).PartitionLabelSets = fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		(*target).FilterAndGroupLabelSets = fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		(*target).SupportedAggregations = fpv.value.([]*MetricDescriptor_Indices_AggregationsGroup)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_PreAggregatedIndices)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_PreAggregatedIndices'.
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_PreAggregatedIndices) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		return 0, false
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return 0, false
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return 0, false
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue struct {
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue = (*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue)(nil)
+
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) AsPartitionLabelSetsPathValue() (MetricDescriptorIndicesLabelsGroup_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesLabelsGroup_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) AsFilterAndGroupLabelSetsPathValue() (MetricDescriptorIndicesLabelsGroup_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesLabelsGroup_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) AsSupportedAggregationsPathValue() (MetricDescriptorIndicesAggregationsGroup_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesAggregationsGroup_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) SetTo(target **MetricDescriptor_Indices_PreAggregatedIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_PreAggregatedIndices)
+	}
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_PreAggregatedIndices)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) CompareWith(source *MetricDescriptor_Indices_PreAggregatedIndices) (int, bool) {
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return 0, false // repeated field
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return 0, false // repeated field
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue allows storing single item in Path-specific values for PreAggregatedIndices according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_PreAggregatedIndices) bool
+}
+
+// ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PreAggregatedIndices field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue = (*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_PreAggregatedIndices as interface{}
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) AsResourceTypesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) AsPartitionLabelSetsItemValue() (*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) AsFilterAndGroupLabelSetsItemValue() (*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) AsSupportedAggregationsItemValue() (*MetricDescriptor_Indices_AggregationsGroup, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_AggregationsGroup)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_PreAggregatedIndices) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_PreAggregatedIndices))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PreAggregatedIndices'
+func (fpaiv *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_PreAggregatedIndices) bool {
+	slice := fpaiv.MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue struct {
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue) AsPartitionLabelSetsPathItemValue() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue) AsFilterAndGroupLabelSetsPathItemValue() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue) AsSupportedAggregationsPathItemValue() (MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesAggregationsGroup_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PreAggregatedIndices'
+func (fpaivs *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_PreAggregatedIndices) bool {
+	switch fpaivs.Selector() {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return false // repeated/map field
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		return false // repeated/map field
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PreAggregatedIndices: %d", fpaivs.Selector()))
+	}
+}
+
+// MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues allows storing slice of values for PreAggregatedIndices fields according to their type
+type MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPath
+}
+
+func ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PreAggregatedIndices field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues = (*MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorResourceTypes:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorFilterAndGroupLabelSets:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPreAggregatedIndices_FieldPathSelectorSupportedAggregations:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_AggregationsGroup) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues) AsResourceTypesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues) AsPartitionLabelSetsArrayOfValues() ([][]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues) AsFilterAndGroupLabelSetsArrayOfValues() ([][]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPreAggregatedIndices_FieldTerminalPathArrayOfValues) AsSupportedAggregationsArrayOfValues() ([][]*MetricDescriptor_Indices_AggregationsGroup, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_AggregationsGroup)
+	return res, ok
+}
+
+type MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues struct {
+	MetricDescriptorIndicesPreAggregatedIndices_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues = (*MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues) AsPartitionLabelSetsPathArrayOfValues() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues) AsFilterAndGroupLabelSetsPathArrayOfValues() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndicesPreAggregatedIndices_FieldSubPathArrayOfValues) AsSupportedAggregationsPathArrayOfValues() (MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesAggregationsGroup_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesNonAggregatedIndices_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_NonAggregatedIndices) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_NonAggregatedIndices) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_NonAggregatedIndices)
+
+	// Those methods build corresponding MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName               MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector = 0
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes      MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector = 1
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector = 2
+)
+
+func (s MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		return "name"
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		return "resource_types"
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return "partition_label_sets"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesNonAggregatedIndices_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesNonAggregatedIndices_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_NonAggregatedIndices")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName}, nil
+		case "resource_types", "resourceTypes", "resource-types":
+			return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes}, nil
+		case "partition_label_sets", "partitionLabelSets", "partition-label-sets":
+			return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "partition_label_sets", "partitionLabelSets", "partition-label-sets":
+			if subpath, err := BuildMetricDescriptorIndicesLabelsGroup_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath{selector: MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_NonAggregatedIndices", fp)
+}
+
+func ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(rawField string) (MetricDescriptorIndicesNonAggregatedIndices_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesNonAggregatedIndices_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(rawField string) MetricDescriptorIndicesNonAggregatedIndices_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesNonAggregatedIndices_FieldPath = (*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) Selector() MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_NonAggregatedIndices
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) Get(source *MetricDescriptor_Indices_NonAggregatedIndices) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+			for _, value := range source.GetResourceTypes() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+			for _, value := range source.GetPartitionLabelSets() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_NonAggregatedIndices
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_NonAggregatedIndices) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		res := source.GetResourceTypes()
+		return res, res != nil
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		res := source.GetPartitionLabelSets()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		return ""
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return ([]*MetricDescriptor_Indices_LabelsGroup)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_NonAggregatedIndices) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+			item.Name = ""
+		case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+			item.ResourceTypes = nil
+		case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+			item.PartitionLabelSets = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName ||
+		fp.selector == MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_LabelsGroup)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_LabelsGroup)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_LabelsGroup)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath struct {
+	selector MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ MetricDescriptorIndicesNonAggregatedIndices_FieldPath = (*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath)(nil)
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) Selector() MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelector {
+	return fps.selector
+}
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) AsPartitionLabelSetsSubPath() (MetricDescriptorIndicesLabelsGroup_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source MetricDescriptor_Indices_NonAggregatedIndices
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) Get(source *MetricDescriptor_Indices_NonAggregatedIndices) (values []interface{}) {
+	switch fps.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		for _, item := range source.GetPartitionLabelSets() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// GetSingle returns value of selected field from source MetricDescriptor_Indices_NonAggregatedIndices
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) GetSingle(source *MetricDescriptor_Indices_NonAggregatedIndices) (interface{}, bool) {
+	switch fps.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		if len(source.GetPartitionLabelSets()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPartitionLabelSets()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fps.selector))
+	}
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) ClearValue(item *MetricDescriptor_Indices_NonAggregatedIndices) {
+	if item != nil {
+		switch fps.selector {
+		case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+			for _, subItem := range item.PartitionLabelSets {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) WithIValue(value interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue {
+	return &MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue allows storing values for NonAggregatedIndices fields according to their type
+type MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue interface {
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_NonAggregatedIndices)
+	CompareWith(*MetricDescriptor_Indices_NonAggregatedIndices) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NonAggregatedIndices field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue = (*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'NonAggregatedIndices' as interface{}
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) AsResourceTypesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) AsPartitionLabelSetsValue() ([]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object NonAggregatedIndices
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_NonAggregatedIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_NonAggregatedIndices)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		(*target).ResourceTypes = fpv.value.([]string)
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		(*target).PartitionLabelSets = fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_NonAggregatedIndices)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_NonAggregatedIndices'.
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_NonAggregatedIndices) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		return 0, false
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue struct {
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue = (*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue)(nil)
+
+func (fpvs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue) AsPartitionLabelSetsPathValue() (MetricDescriptorIndicesLabelsGroup_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesLabelsGroup_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue) SetTo(target **MetricDescriptor_Indices_NonAggregatedIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_NonAggregatedIndices)
+	}
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_NonAggregatedIndices)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue) CompareWith(source *MetricDescriptor_Indices_NonAggregatedIndices) (int, bool) {
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue allows storing single item in Path-specific values for NonAggregatedIndices according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_NonAggregatedIndices) bool
+}
+
+// ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NonAggregatedIndices field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue = (*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_NonAggregatedIndices as interface{}
+func (fpaiv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue) AsResourceTypesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue) AsPartitionLabelSetsItemValue() (*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_NonAggregatedIndices) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_NonAggregatedIndices))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NonAggregatedIndices'
+func (fpaiv *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_NonAggregatedIndices) bool {
+	slice := fpaiv.MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue struct {
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue) AsPartitionLabelSetsPathItemValue() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NonAggregatedIndices'
+func (fpaivs *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_NonAggregatedIndices) bool {
+	switch fpaivs.Selector() {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_NonAggregatedIndices: %d", fpaivs.Selector()))
+	}
+}
+
+// MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues allows storing slice of values for NonAggregatedIndices fields according to their type
+type MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPath
+}
+
+func ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NonAggregatedIndices field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues = (*MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorResourceTypes:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesNonAggregatedIndices_FieldPathSelectorPartitionLabelSets:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues) AsResourceTypesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesNonAggregatedIndices_FieldTerminalPathArrayOfValues) AsPartitionLabelSetsArrayOfValues() ([][]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+
+type MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues struct {
+	MetricDescriptorIndicesNonAggregatedIndices_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues = (*MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *MetricDescriptorIndicesNonAggregatedIndices_FieldSubPathArrayOfValues) AsPartitionLabelSetsPathArrayOfValues() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesPaginationIndices_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesPaginationIndices_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_PaginationIndices) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_PaginationIndices) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_PaginationIndices)
+
+	// Those methods build corresponding MetricDescriptorIndicesPaginationIndices_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName               MetricDescriptorIndicesPaginationIndices_FieldPathSelector = 0
+	MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes      MetricDescriptorIndicesPaginationIndices_FieldPathSelector = 1
+	MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets MetricDescriptorIndicesPaginationIndices_FieldPathSelector = 2
+	MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews              MetricDescriptorIndicesPaginationIndices_FieldPathSelector = 3
+	MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions          MetricDescriptorIndicesPaginationIndices_FieldPathSelector = 4
+)
+
+func (s MetricDescriptorIndicesPaginationIndices_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		return "name"
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		return "resource_types"
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return "partition_label_sets"
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return "views"
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return "functions"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesPaginationIndices_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesPaginationIndices_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_PaginationIndices")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "name":
+			return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName}, nil
+		case "resource_types", "resourceTypes", "resource-types":
+			return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes}, nil
+		case "partition_label_sets", "partitionLabelSets", "partition-label-sets":
+			return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets}, nil
+		case "views":
+			return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews}, nil
+		case "functions":
+			return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "partition_label_sets", "partitionLabelSets", "partition-label-sets":
+			if subpath, err := BuildMetricDescriptorIndicesLabelsGroup_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets, subPath: subpath}, nil
+			}
+		case "views":
+			if subpath, err := BuildMetricDescriptorIndicesPaginationView_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews, subPath: subpath}, nil
+			}
+		case "functions":
+			if subpath, err := BuildMetricDescriptorIndicesSortingFunction_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesPaginationIndices_FieldSubPath{selector: MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_PaginationIndices", fp)
+}
+
+func ParseMetricDescriptorIndicesPaginationIndices_FieldPath(rawField string) (MetricDescriptorIndicesPaginationIndices_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesPaginationIndices_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesPaginationIndices_FieldPath(rawField string) MetricDescriptorIndicesPaginationIndices_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesPaginationIndices_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesPaginationIndices_FieldPath = (*MetricDescriptorIndicesPaginationIndices_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) Selector() MetricDescriptorIndicesPaginationIndices_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_PaginationIndices
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) Get(source *MetricDescriptor_Indices_PaginationIndices) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+			values = append(values, source.Name)
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+			for _, value := range source.GetResourceTypes() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+			for _, value := range source.GetPartitionLabelSets() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+			for _, value := range source.GetViews() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+			for _, value := range source.GetFunctions() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_PaginationIndices
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_PaginationIndices) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		return source.GetName(), source != nil
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		res := source.GetResourceTypes()
+		return res, res != nil
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		res := source.GetPartitionLabelSets()
+		return res, res != nil
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		res := source.GetViews()
+		return res, res != nil
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		res := source.GetFunctions()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		return ""
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		return ([]string)(nil)
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return ([]*MetricDescriptor_Indices_LabelsGroup)(nil)
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return ([]*MetricDescriptor_Indices_PaginationView)(nil)
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return ([]*MetricDescriptor_Indices_SortingFunction)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_PaginationIndices) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+			item.Name = ""
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+			item.ResourceTypes = nil
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+			item.PartitionLabelSets = nil
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+			item.Views = nil
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+			item.Functions = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName ||
+		fp.selector == MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.([]string)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_PaginationView)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_SortingFunction)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, values: values.([][]string)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_PaginationView)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_SortingFunction)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_LabelsGroup)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_PaginationView)}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return &MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesPaginationIndices_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_SortingFunction)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesPaginationIndices_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldSubPath struct {
+	selector MetricDescriptorIndicesPaginationIndices_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ MetricDescriptorIndicesPaginationIndices_FieldPath = (*MetricDescriptorIndicesPaginationIndices_FieldSubPath)(nil)
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) Selector() MetricDescriptorIndicesPaginationIndices_FieldPathSelector {
+	return fps.selector
+}
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) AsPartitionLabelSetsSubPath() (MetricDescriptorIndicesLabelsGroup_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesLabelsGroup_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) AsViewsSubPath() (MetricDescriptorIndicesPaginationView_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesPaginationView_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) AsFunctionsSubPath() (MetricDescriptorIndicesSortingFunction_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesSortingFunction_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source MetricDescriptor_Indices_PaginationIndices
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) Get(source *MetricDescriptor_Indices_PaginationIndices) (values []interface{}) {
+	switch fps.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		for _, item := range source.GetPartitionLabelSets() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		for _, item := range source.GetViews() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		for _, item := range source.GetFunctions() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// GetSingle returns value of selected field from source MetricDescriptor_Indices_PaginationIndices
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) GetSingle(source *MetricDescriptor_Indices_PaginationIndices) (interface{}, bool) {
+	switch fps.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		if len(source.GetPartitionLabelSets()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPartitionLabelSets()[0])
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		if len(source.GetViews()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetViews()[0])
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		if len(source.GetFunctions()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetFunctions()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fps.selector))
+	}
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) ClearValue(item *MetricDescriptor_Indices_PaginationIndices) {
+	if item != nil {
+		switch fps.selector {
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+			for _, subItem := range item.PartitionLabelSets {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+			for _, subItem := range item.Views {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+			for _, subItem := range item.Functions {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MetricDescriptorIndicesPaginationIndices_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) WithIValue(value interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue {
+	return &MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesPaginationIndices_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesPaginationIndices_FieldPathValue allows storing values for PaginationIndices fields according to their type
+type MetricDescriptorIndicesPaginationIndices_FieldPathValue interface {
+	MetricDescriptorIndicesPaginationIndices_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_PaginationIndices)
+	CompareWith(*MetricDescriptor_Indices_PaginationIndices) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesPaginationIndices_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesPaginationIndices_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginationIndices field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesPaginationIndices_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesPaginationIndices_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesPaginationIndices_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesPaginationIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesPaginationIndices_FieldPathValue = (*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'PaginationIndices' as interface{}
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) AsNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) AsResourceTypesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) AsPartitionLabelSetsValue() ([]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) AsViewsValue() ([]*MetricDescriptor_Indices_PaginationView, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_PaginationView)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) AsFunctionsValue() ([]*MetricDescriptor_Indices_SortingFunction, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_SortingFunction)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object PaginationIndices
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_PaginationIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_PaginationIndices)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		(*target).Name = fpv.value.(string)
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		(*target).ResourceTypes = fpv.value.([]string)
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		(*target).PartitionLabelSets = fpv.value.([]*MetricDescriptor_Indices_LabelsGroup)
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		(*target).Views = fpv.value.([]*MetricDescriptor_Indices_PaginationView)
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		(*target).Functions = fpv.value.([]*MetricDescriptor_Indices_SortingFunction)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_PaginationIndices)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_PaginationIndices'.
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_PaginationIndices) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		return 0, false
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return 0, false
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return 0, false
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldSubPathValue struct {
+	MetricDescriptorIndicesPaginationIndices_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ MetricDescriptorIndicesPaginationIndices_FieldPathValue = (*MetricDescriptorIndicesPaginationIndices_FieldSubPathValue)(nil)
+
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) AsPartitionLabelSetsPathValue() (MetricDescriptorIndicesLabelsGroup_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesLabelsGroup_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) AsViewsPathValue() (MetricDescriptorIndicesPaginationView_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesPaginationView_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) AsFunctionsPathValue() (MetricDescriptorIndicesSortingFunction_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesSortingFunction_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) SetTo(target **MetricDescriptor_Indices_PaginationIndices) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_PaginationIndices)
+	}
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_PaginationIndices)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) CompareWith(source *MetricDescriptor_Indices_PaginationIndices) (int, bool) {
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return 0, false // repeated field
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return 0, false // repeated field
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesPaginationIndices_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue allows storing single item in Path-specific values for PaginationIndices according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesPaginationIndices_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_PaginationIndices) bool
+}
+
+// ParseMetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginationIndices field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesPaginationIndices_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue = (*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_PaginationIndices as interface{}
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) AsResourceTypesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) AsPartitionLabelSetsItemValue() (*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) AsViewsItemValue() (*MetricDescriptor_Indices_PaginationView, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_PaginationView)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) AsFunctionsItemValue() (*MetricDescriptor_Indices_SortingFunction, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_SortingFunction)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_PaginationIndices) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_PaginationIndices))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PaginationIndices'
+func (fpaiv *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_PaginationIndices) bool {
+	slice := fpaiv.MetricDescriptorIndicesPaginationIndices_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue struct {
+	MetricDescriptorIndicesPaginationIndices_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue) AsPartitionLabelSetsPathItemValue() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue) AsViewsPathItemValue() (MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesPaginationView_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue) AsFunctionsPathItemValue() (MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesSortingFunction_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PaginationIndices'
+func (fpaivs *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_PaginationIndices) bool {
+	switch fpaivs.Selector() {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		return false // repeated/map field
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		return false // repeated/map field
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_PaginationIndices: %d", fpaivs.Selector()))
+	}
+}
+
+// MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues allows storing slice of values for PaginationIndices fields according to their type
+type MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesPaginationIndices_FieldPath
+}
+
+func ParseMetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginationIndices field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesPaginationIndices_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues = (*MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorResourceTypes:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorPartitionLabelSets:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorViews:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_PaginationView) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesPaginationIndices_FieldPathSelectorFunctions:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_SortingFunction) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues) AsResourceTypesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues) AsPartitionLabelSetsArrayOfValues() ([][]*MetricDescriptor_Indices_LabelsGroup, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_LabelsGroup)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues) AsViewsArrayOfValues() ([][]*MetricDescriptor_Indices_PaginationView, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_PaginationView)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesPaginationIndices_FieldTerminalPathArrayOfValues) AsFunctionsArrayOfValues() ([][]*MetricDescriptor_Indices_SortingFunction, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_SortingFunction)
+	return res, ok
+}
+
+type MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues struct {
+	MetricDescriptorIndicesPaginationIndices_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues = (*MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues) AsPartitionLabelSetsPathArrayOfValues() (MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesLabelsGroup_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues) AsViewsPathArrayOfValues() (MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesPaginationView_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndicesPaginationIndices_FieldSubPathArrayOfValues) AsFunctionsPathArrayOfValues() (MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesSortingFunction_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorIndicesIndexGroups_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorIndicesIndexGroups_FieldPathSelector
+	Get(source *MetricDescriptor_Indices_IndexGroups) []interface{}
+	GetSingle(source *MetricDescriptor_Indices_IndexGroups) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_Indices_IndexGroups)
+
+	// Those methods build corresponding MetricDescriptorIndicesIndexGroups_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorIndicesIndexGroups_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldPathSelector int32
+
+const (
+	MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices MetricDescriptorIndicesIndexGroups_FieldPathSelector = 0
+	MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices MetricDescriptorIndicesIndexGroups_FieldPathSelector = 1
+	MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices    MetricDescriptorIndicesIndexGroups_FieldPathSelector = 2
+)
+
+func (s MetricDescriptorIndicesIndexGroups_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return "pre_aggregated_indices"
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return "non_aggregated_indices"
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return "pagination_indices"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", s))
+	}
+}
+
+func BuildMetricDescriptorIndicesIndexGroups_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorIndicesIndexGroups_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_Indices_IndexGroups")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "pre_aggregated_indices", "preAggregatedIndices", "pre-aggregated-indices":
+			return &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices}, nil
+		case "non_aggregated_indices", "nonAggregatedIndices", "non-aggregated-indices":
+			return &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices}, nil
+		case "pagination_indices", "paginationIndices", "pagination-indices":
+			return &MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "pre_aggregated_indices", "preAggregatedIndices", "pre-aggregated-indices":
+			if subpath, err := BuildMetricDescriptorIndicesPreAggregatedIndices_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesIndexGroups_FieldSubPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices, subPath: subpath}, nil
+			}
+		case "non_aggregated_indices", "nonAggregatedIndices", "non-aggregated-indices":
+			if subpath, err := BuildMetricDescriptorIndicesNonAggregatedIndices_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesIndexGroups_FieldSubPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices, subPath: subpath}, nil
+			}
+		case "pagination_indices", "paginationIndices", "pagination-indices":
+			if subpath, err := BuildMetricDescriptorIndicesPaginationIndices_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorIndicesIndexGroups_FieldSubPath{selector: MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_Indices_IndexGroups", fp)
+}
+
+func ParseMetricDescriptorIndicesIndexGroups_FieldPath(rawField string) (MetricDescriptorIndicesIndexGroups_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorIndicesIndexGroups_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorIndicesIndexGroups_FieldPath(rawField string) MetricDescriptorIndicesIndexGroups_FieldPath {
+	fp, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldTerminalPath struct {
+	selector MetricDescriptorIndicesIndexGroups_FieldPathSelector
+}
+
+var _ MetricDescriptorIndicesIndexGroups_FieldPath = (*MetricDescriptorIndicesIndexGroups_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) Selector() MetricDescriptorIndicesIndexGroups_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_Indices_IndexGroups
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) Get(source *MetricDescriptor_Indices_IndexGroups) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+			for _, value := range source.GetPreAggregatedIndices() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+			for _, value := range source.GetNonAggregatedIndices() {
+				values = append(values, value)
+			}
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+			for _, value := range source.GetPaginationIndices() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_Indices_IndexGroups
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) GetSingle(source *MetricDescriptor_Indices_IndexGroups) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		res := source.GetPreAggregatedIndices()
+		return res, res != nil
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		res := source.GetNonAggregatedIndices()
+		return res, res != nil
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		res := source.GetPaginationIndices()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return ([]*MetricDescriptor_Indices_PreAggregatedIndices)(nil)
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return ([]*MetricDescriptor_Indices_NonAggregatedIndices)(nil)
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return ([]*MetricDescriptor_Indices_PaginationIndices)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) ClearValue(item *MetricDescriptor_Indices_IndexGroups) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+			item.PreAggregatedIndices = nil
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+			item.NonAggregatedIndices = nil
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+			item.PaginationIndices = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) IsLeaf() bool {
+	return false
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorIndicesIndexGroups_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_PreAggregatedIndices)}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_NonAggregatedIndices)}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_Indices_PaginationIndices)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_PreAggregatedIndices)}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_NonAggregatedIndices)}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_Indices_PaginationIndices)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_PreAggregatedIndices)}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_NonAggregatedIndices)}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return &MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue{MetricDescriptorIndicesIndexGroups_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_Indices_PaginationIndices)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorIndicesIndexGroups_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldSubPath struct {
+	selector MetricDescriptorIndicesIndexGroups_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ MetricDescriptorIndicesIndexGroups_FieldPath = (*MetricDescriptorIndicesIndexGroups_FieldSubPath)(nil)
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) Selector() MetricDescriptorIndicesIndexGroups_FieldPathSelector {
+	return fps.selector
+}
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) AsPreAggregatedIndicesSubPath() (MetricDescriptorIndicesPreAggregatedIndices_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesPreAggregatedIndices_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) AsNonAggregatedIndicesSubPath() (MetricDescriptorIndicesNonAggregatedIndices_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesNonAggregatedIndices_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) AsPaginationIndicesSubPath() (MetricDescriptorIndicesPaginationIndices_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorIndicesPaginationIndices_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source MetricDescriptor_Indices_IndexGroups
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) Get(source *MetricDescriptor_Indices_IndexGroups) (values []interface{}) {
+	switch fps.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		for _, item := range source.GetPreAggregatedIndices() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		for _, item := range source.GetNonAggregatedIndices() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		for _, item := range source.GetPaginationIndices() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// GetSingle returns value of selected field from source MetricDescriptor_Indices_IndexGroups
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) GetSingle(source *MetricDescriptor_Indices_IndexGroups) (interface{}, bool) {
+	switch fps.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		if len(source.GetPreAggregatedIndices()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPreAggregatedIndices()[0])
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		if len(source.GetNonAggregatedIndices()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetNonAggregatedIndices()[0])
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		if len(source.GetPaginationIndices()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPaginationIndices()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fps.selector))
+	}
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) ClearValue(item *MetricDescriptor_Indices_IndexGroups) {
+	if item != nil {
+		switch fps.selector {
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+			for _, subItem := range item.PreAggregatedIndices {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+			for _, subItem := range item.NonAggregatedIndices {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+			for _, subItem := range item.PaginationIndices {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MetricDescriptorIndicesIndexGroups_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) WithIValue(value interface{}) MetricDescriptorIndicesIndexGroups_FieldPathValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) WithIArrayOfValues(values interface{}) MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) WithIArrayItemValue(value interface{}) MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue {
+	return &MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *MetricDescriptorIndicesIndexGroups_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorIndicesIndexGroups_FieldPathValue allows storing values for IndexGroups fields according to their type
+type MetricDescriptorIndicesIndexGroups_FieldPathValue interface {
+	MetricDescriptorIndicesIndexGroups_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_Indices_IndexGroups)
+	CompareWith(*MetricDescriptor_Indices_IndexGroups) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorIndicesIndexGroups_FieldPathValue(pathStr, valueStr string) (MetricDescriptorIndicesIndexGroups_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IndexGroups field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorIndicesIndexGroups_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorIndicesIndexGroups_FieldPathValue(pathStr, valueStr string) MetricDescriptorIndicesIndexGroups_FieldPathValue {
+	fpv, err := ParseMetricDescriptorIndicesIndexGroups_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue struct {
+	MetricDescriptorIndicesIndexGroups_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesIndexGroups_FieldPathValue = (*MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'IndexGroups' as interface{}
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) AsPreAggregatedIndicesValue() ([]*MetricDescriptor_Indices_PreAggregatedIndices, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_PreAggregatedIndices)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) AsNonAggregatedIndicesValue() ([]*MetricDescriptor_Indices_NonAggregatedIndices, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_NonAggregatedIndices)
+	return res, ok
+}
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) AsPaginationIndicesValue() ([]*MetricDescriptor_Indices_PaginationIndices, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_Indices_PaginationIndices)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object IndexGroups
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) SetTo(target **MetricDescriptor_Indices_IndexGroups) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_IndexGroups)
+	}
+	switch fpv.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		(*target).PreAggregatedIndices = fpv.value.([]*MetricDescriptor_Indices_PreAggregatedIndices)
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		(*target).NonAggregatedIndices = fpv.value.([]*MetricDescriptor_Indices_NonAggregatedIndices)
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		(*target).PaginationIndices = fpv.value.([]*MetricDescriptor_Indices_PaginationIndices)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_IndexGroups)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_Indices_IndexGroups'.
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_Indices_IndexGroups) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return 0, false
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return 0, false
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldSubPathValue struct {
+	MetricDescriptorIndicesIndexGroups_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ MetricDescriptorIndicesIndexGroups_FieldPathValue = (*MetricDescriptorIndicesIndexGroups_FieldSubPathValue)(nil)
+
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) AsPreAggregatedIndicesPathValue() (MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesPreAggregatedIndices_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) AsNonAggregatedIndicesPathValue() (MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) AsPaginationIndicesPathValue() (MetricDescriptorIndicesPaginationIndices_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorIndicesPaginationIndices_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) SetTo(target **MetricDescriptor_Indices_IndexGroups) {
+	if *target == nil {
+		*target = new(MetricDescriptor_Indices_IndexGroups)
+	}
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_Indices_IndexGroups)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) CompareWith(source *MetricDescriptor_Indices_IndexGroups) (int, bool) {
+	switch fpvs.Selector() {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return 0, false // repeated field
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return 0, false // repeated field
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorIndicesIndexGroups_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue allows storing single item in Path-specific values for IndexGroups according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorIndicesIndexGroups_FieldPath
+	ContainsValue(*MetricDescriptor_Indices_IndexGroups) bool
+}
+
+// ParseMetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IndexGroups field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorIndicesIndexGroups_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorIndicesIndexGroups_FieldPathArrayItemValue = (*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_Indices_IndexGroups as interface{}
+func (fpaiv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue) AsPreAggregatedIndicesItemValue() (*MetricDescriptor_Indices_PreAggregatedIndices, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_PreAggregatedIndices)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue) AsNonAggregatedIndicesItemValue() (*MetricDescriptor_Indices_NonAggregatedIndices, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_NonAggregatedIndices)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue) AsPaginationIndicesItemValue() (*MetricDescriptor_Indices_PaginationIndices, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_Indices_PaginationIndices)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_Indices_IndexGroups) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_Indices_IndexGroups))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'IndexGroups'
+func (fpaiv *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_IndexGroups) bool {
+	slice := fpaiv.MetricDescriptorIndicesIndexGroups_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue struct {
+	MetricDescriptorIndicesIndexGroups_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue) AsPreAggregatedIndicesPathItemValue() (MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue) AsNonAggregatedIndicesPathItemValue() (MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue) AsPaginationIndicesPathItemValue() (MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorIndicesPaginationIndices_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'IndexGroups'
+func (fpaivs *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor_Indices_IndexGroups) bool {
+	switch fpaivs.Selector() {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		return false // repeated/map field
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		return false // repeated/map field
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_Indices_IndexGroups: %d", fpaivs.Selector()))
+	}
+}
+
+// MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues allows storing slice of values for IndexGroups fields according to their type
+type MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorIndicesIndexGroups_FieldPath
+}
+
+func ParseMetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IndexGroups field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorIndicesIndexGroups_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues = (*MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPreAggregatedIndices:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_PreAggregatedIndices) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorNonAggregatedIndices:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_NonAggregatedIndices) {
+			values = append(values, v)
+		}
+	case MetricDescriptorIndicesIndexGroups_FieldPathSelectorPaginationIndices:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_Indices_PaginationIndices) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues) AsPreAggregatedIndicesArrayOfValues() ([][]*MetricDescriptor_Indices_PreAggregatedIndices, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_PreAggregatedIndices)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues) AsNonAggregatedIndicesArrayOfValues() ([][]*MetricDescriptor_Indices_NonAggregatedIndices, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_NonAggregatedIndices)
+	return res, ok
+}
+func (fpaov *MetricDescriptorIndicesIndexGroups_FieldTerminalPathArrayOfValues) AsPaginationIndicesArrayOfValues() ([][]*MetricDescriptor_Indices_PaginationIndices, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_Indices_PaginationIndices)
+	return res, ok
+}
+
+type MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues struct {
+	MetricDescriptorIndicesIndexGroups_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ MetricDescriptorIndicesIndexGroups_FieldPathArrayOfValues = (*MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues) AsPreAggregatedIndicesPathArrayOfValues() (MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesPreAggregatedIndices_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues) AsNonAggregatedIndicesPathArrayOfValues() (MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesNonAggregatedIndices_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorIndicesIndexGroups_FieldSubPathArrayOfValues) AsPaginationIndicesPathArrayOfValues() (MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorIndicesPaginationIndices_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector
+	Get(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) []interface{}
+	GetSingle(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+
+	// Those methods build corresponding MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue
+}
+
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector int32
+
+const (
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData         MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector = 0
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector = 1
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners  MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector = 2
+)
+
+func (s MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		return "key_data"
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		return "writing_aligners"
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		return "closed_aligners"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", s))
+	}
+}
+
+func BuildMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_BinaryIndices_PreAggregatedIndex")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "key_data", "keyData", "key-data":
+			return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData}, nil
+		case "writing_aligners", "writingAligners", "writing-aligners":
+			return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners}, nil
+		case "closed_aligners", "closedAligners", "closed-aligners":
+			return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_BinaryIndices_PreAggregatedIndex", fp)
+}
+
+func ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(rawField string) (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(rawField string) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath {
+	fp, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath struct {
+	selector MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector
+}
+
+var _ MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath = (*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) Selector() MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_BinaryIndices_PreAggregatedIndex
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) Get(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+			values = append(values, source.KeyData)
+		case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+			for _, value := range source.GetWritingAligners() {
+				values = append(values, value)
+			}
+		case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+			for _, value := range source.GetClosedAligners() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_BinaryIndices_PreAggregatedIndex
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) GetSingle(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		res := source.GetKeyData()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		res := source.GetWritingAligners()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		res := source.GetClosedAligners()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		return ([]byte)(nil)
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		return ([][]byte)(nil)
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		return ([][]byte)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) ClearValue(item *MetricDescriptor_BinaryIndices_PreAggregatedIndex) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+			item.KeyData = nil
+		case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+			item.WritingAligners = nil
+		case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+			item.ClosedAligners = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData ||
+		fp.selector == MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners ||
+		fp.selector == MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, value: value.([]byte)}
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, value: value.([][]byte)}
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, value: value.([][]byte)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, values: values.([][]byte)}
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, values: values.([][][]byte)}
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, values: values.([][][]byte)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, value: value.([]byte)}
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		return &MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath: *fp, value: value.([]byte)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue allows storing values for PreAggregatedIndex fields according to their type
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue interface {
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+	CompareWith(*MetricDescriptor_BinaryIndices_PreAggregatedIndex) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue(pathStr, valueStr string) (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PreAggregatedIndex field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue(pathStr, valueStr string) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue {
+	fpv, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue struct {
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue = (*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'PreAggregatedIndex' as interface{}
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) AsKeyDataValue() ([]byte, bool) {
+	res, ok := fpv.value.([]byte)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) AsWritingAlignersValue() ([][]byte, bool) {
+	res, ok := fpv.value.([][]byte)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) AsClosedAlignersValue() ([][]byte, bool) {
+	res, ok := fpv.value.([][]byte)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object PreAggregatedIndex
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) SetTo(target **MetricDescriptor_BinaryIndices_PreAggregatedIndex) {
+	if *target == nil {
+		*target = new(MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+	}
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		(*target).KeyData = fpv.value.([]byte)
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		(*target).WritingAligners = fpv.value.([][]byte)
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		(*target).ClosedAligners = fpv.value.([][]byte)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_BinaryIndices_PreAggregatedIndex'.
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		return 0, false
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		return 0, false
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PreAggregatedIndex: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+// MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue allows storing single item in Path-specific values for PreAggregatedIndex according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath
+	ContainsValue(*MetricDescriptor_BinaryIndices_PreAggregatedIndex) bool
+}
+
+// ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PreAggregatedIndex field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue = (*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_BinaryIndices_PreAggregatedIndex as interface{}
+func (fpaiv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue) AsWritingAlignersItemValue() ([]byte, bool) {
+	res, ok := fpaiv.value.([]byte)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue) AsClosedAlignersItemValue() ([]byte, bool) {
+	res, ok := fpaiv.value.([]byte)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PreAggregatedIndex'
+func (fpaiv *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_BinaryIndices_PreAggregatedIndex) bool {
+	slice := fpaiv.MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues allows storing slice of values for PreAggregatedIndex fields according to their type
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath
+}
+
+func ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PreAggregatedIndex field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues = (*MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorKeyData:
+		for _, v := range fpaov.values.([][]byte) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorWritingAligners:
+		for _, v := range fpaov.values.([][][]byte) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathSelectorClosedAligners:
+		for _, v := range fpaov.values.([][][]byte) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues) AsKeyDataArrayOfValues() ([][]byte, bool) {
+	res, ok := fpaov.values.([][]byte)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues) AsWritingAlignersArrayOfValues() ([][][]byte, bool) {
+	res, ok := fpaov.values.([][][]byte)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldTerminalPathArrayOfValues) AsClosedAlignersArrayOfValues() ([][][]byte, bool) {
+	res, ok := fpaov.values.([][][]byte)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector
+	Get(source *MetricDescriptor_BinaryIndices_PaginatingIndex) []interface{}
+	GetSingle(source *MetricDescriptor_BinaryIndices_PaginatingIndex) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_BinaryIndices_PaginatingIndex)
+
+	// Those methods build corresponding MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue
+}
+
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector int32
+
+const (
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData          MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector = 0
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector = 1
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions  MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector = 2
+)
+
+func (s MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		return "key_data"
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		return "writing_functions"
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		return "closed_functions"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", s))
+	}
+}
+
+func BuildMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_BinaryIndices_PaginatingIndex")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "key_data", "keyData", "key-data":
+			return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData}, nil
+		case "writing_functions", "writingFunctions", "writing-functions":
+			return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions}, nil
+		case "closed_functions", "closedFunctions", "closed-functions":
+			return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_BinaryIndices_PaginatingIndex", fp)
+}
+
+func ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(rawField string) (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(rawField string) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath {
+	fp, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath struct {
+	selector MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector
+}
+
+var _ MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath = (*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) Selector() MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_BinaryIndices_PaginatingIndex
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) Get(source *MetricDescriptor_BinaryIndices_PaginatingIndex) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+			values = append(values, source.KeyData)
+		case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+			for _, value := range source.GetWritingFunctions() {
+				values = append(values, value)
+			}
+		case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+			for _, value := range source.GetClosedFunctions() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_BinaryIndices_PaginatingIndex
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) GetSingle(source *MetricDescriptor_BinaryIndices_PaginatingIndex) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		res := source.GetKeyData()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		res := source.GetWritingFunctions()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		res := source.GetClosedFunctions()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		return ([]byte)(nil)
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		return ([][]byte)(nil)
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		return ([][]byte)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) ClearValue(item *MetricDescriptor_BinaryIndices_PaginatingIndex) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+			item.KeyData = nil
+		case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+			item.WritingFunctions = nil
+		case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+			item.ClosedFunctions = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData ||
+		fp.selector == MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions ||
+		fp.selector == MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, value: value.([]byte)}
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, value: value.([][]byte)}
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, value: value.([][]byte)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, values: values.([][]byte)}
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, values: values.([][][]byte)}
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, values: values.([][][]byte)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, value: value.([]byte)}
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		return &MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath: *fp, value: value.([]byte)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue allows storing values for PaginatingIndex fields according to their type
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue interface {
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_BinaryIndices_PaginatingIndex)
+	CompareWith(*MetricDescriptor_BinaryIndices_PaginatingIndex) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue(pathStr, valueStr string) (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginatingIndex field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue(pathStr, valueStr string) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue {
+	fpv, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue struct {
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue = (*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'PaginatingIndex' as interface{}
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) AsKeyDataValue() ([]byte, bool) {
+	res, ok := fpv.value.([]byte)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) AsWritingFunctionsValue() ([][]byte, bool) {
+	res, ok := fpv.value.([][]byte)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) AsClosedFunctionsValue() ([][]byte, bool) {
+	res, ok := fpv.value.([][]byte)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object PaginatingIndex
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) SetTo(target **MetricDescriptor_BinaryIndices_PaginatingIndex) {
+	if *target == nil {
+		*target = new(MetricDescriptor_BinaryIndices_PaginatingIndex)
+	}
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		(*target).KeyData = fpv.value.([]byte)
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		(*target).WritingFunctions = fpv.value.([][]byte)
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		(*target).ClosedFunctions = fpv.value.([][]byte)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_BinaryIndices_PaginatingIndex)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_BinaryIndices_PaginatingIndex'.
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_BinaryIndices_PaginatingIndex) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		return 0, false
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		return 0, false
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_PaginatingIndex: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+// MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue allows storing single item in Path-specific values for PaginatingIndex according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath
+	ContainsValue(*MetricDescriptor_BinaryIndices_PaginatingIndex) bool
+}
+
+// ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginatingIndex field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue = (*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_BinaryIndices_PaginatingIndex as interface{}
+func (fpaiv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue) AsWritingFunctionsItemValue() ([]byte, bool) {
+	res, ok := fpaiv.value.([]byte)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue) AsClosedFunctionsItemValue() ([]byte, bool) {
+	res, ok := fpaiv.value.([]byte)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_BinaryIndices_PaginatingIndex) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_BinaryIndices_PaginatingIndex))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PaginatingIndex'
+func (fpaiv *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_BinaryIndices_PaginatingIndex) bool {
+	slice := fpaiv.MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues allows storing slice of values for PaginatingIndex fields according to their type
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath
+}
+
+func ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PaginatingIndex field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues = (*MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorKeyData:
+		for _, v := range fpaov.values.([][]byte) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorWritingFunctions:
+		for _, v := range fpaov.values.([][][]byte) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathSelectorClosedFunctions:
+		for _, v := range fpaov.values.([][][]byte) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues) AsKeyDataArrayOfValues() ([][]byte, bool) {
+	res, ok := fpaov.values.([][]byte)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues) AsWritingFunctionsArrayOfValues() ([][][]byte, bool) {
+	res, ok := fpaov.values.([][][]byte)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesPaginatingIndex_FieldTerminalPathArrayOfValues) AsClosedFunctionsArrayOfValues() ([][][]byte, bool) {
+	res, ok := fpaov.values.([][][]byte)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type MetricDescriptorBinaryIndicesByResourceType_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector
+	Get(source *MetricDescriptor_BinaryIndices_ByResourceType) []interface{}
+	GetSingle(source *MetricDescriptor_BinaryIndices_ByResourceType) (interface{}, bool)
+	ClearValue(item *MetricDescriptor_BinaryIndices_ByResourceType)
+
+	// Those methods build corresponding MetricDescriptorBinaryIndicesByResourceType_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathValue
+	WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector int32
+
+const (
+	MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType         MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector = 0
+	MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder          MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector = 1
+	MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector = 2
+	MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices    MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector = 3
+	MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector = 4
+	MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts            MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector = 5
+)
+
+func (s MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector) String() string {
+	switch s {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		return "resource_type"
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		return "aggs_encoder"
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return "pre_aggregated_indices"
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return "paginating_indices"
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		return "non_aggregated_indices"
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		return "name_parts"
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", s))
+	}
+}
+
+func BuildMetricDescriptorBinaryIndicesByResourceType_FieldPath(fp gotenobject.RawFieldPath) (MetricDescriptorBinaryIndicesByResourceType_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object MetricDescriptor_BinaryIndices_ByResourceType")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "resource_type", "resourceType", "resource-type":
+			return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType}, nil
+		case "aggs_encoder", "aggsEncoder", "aggs-encoder":
+			return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder}, nil
+		case "pre_aggregated_indices", "preAggregatedIndices", "pre-aggregated-indices":
+			return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices}, nil
+		case "paginating_indices", "paginatingIndices", "paginating-indices":
+			return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices}, nil
+		case "non_aggregated_indices", "nonAggregatedIndices", "non-aggregated-indices":
+			return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices}, nil
+		case "name_parts", "nameParts", "name-parts":
+			return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "pre_aggregated_indices", "preAggregatedIndices", "pre-aggregated-indices":
+			if subpath, err := BuildMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices, subPath: subpath}, nil
+			}
+		case "paginating_indices", "paginatingIndices", "paginating-indices":
+			if subpath, err := BuildMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPath{selector: MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_BinaryIndices_ByResourceType", fp)
+}
+
+func ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(rawField string) (MetricDescriptorBinaryIndicesByResourceType_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildMetricDescriptorBinaryIndicesByResourceType_FieldPath(fp)
+}
+
+func MustParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(rawField string) MetricDescriptorBinaryIndicesByResourceType_FieldPath {
+	fp, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath struct {
+	selector MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector
+}
+
+var _ MetricDescriptorBinaryIndicesByResourceType_FieldPath = (*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath)(nil)
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) Selector() MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source MetricDescriptor_BinaryIndices_ByResourceType
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) Get(source *MetricDescriptor_BinaryIndices_ByResourceType) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+			values = append(values, source.ResourceType)
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+			for _, value := range source.GetAggsEncoder() {
+				values = append(values, value)
+			}
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+			for _, value := range source.GetPreAggregatedIndices() {
+				values = append(values, value)
+			}
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+			for _, value := range source.GetPaginatingIndices() {
+				values = append(values, value)
+			}
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+			for _, value := range source.GetNonAggregatedIndices() {
+				values = append(values, value)
+			}
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+			for _, value := range source.GetNameParts() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// GetSingle returns value pointed by specific field of from source MetricDescriptor_BinaryIndices_ByResourceType
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) GetSingle(source *MetricDescriptor_BinaryIndices_ByResourceType) (interface{}, bool) {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		return source.GetResourceType(), source != nil
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		res := source.GetAggsEncoder()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		res := source.GetPreAggregatedIndices()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		res := source.GetPaginatingIndices()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		res := source.GetNonAggregatedIndices()
+		return res, res != nil
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		res := source.GetNameParts()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		return ""
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		return ([][]byte)(nil)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return ([]*MetricDescriptor_BinaryIndices_PreAggregatedIndex)(nil)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return ([]*MetricDescriptor_BinaryIndices_PaginatingIndex)(nil)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		return ([][]byte)(nil)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) ClearValue(item *MetricDescriptor_BinaryIndices_ByResourceType) {
+	if item != nil {
+		switch fp.selector {
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+			item.ResourceType = ""
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+			item.AggsEncoder = nil
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+			item.PreAggregatedIndices = nil
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+			item.PaginatingIndices = nil
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+			item.NonAggregatedIndices = nil
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+			item.NameParts = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType ||
+		fp.selector == MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder ||
+		fp.selector == MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices ||
+		fp.selector == MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) WithIValue(value interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.(string)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.([][]byte)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_BinaryIndices_PreAggregatedIndex)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_BinaryIndices_PaginatingIndex)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.([][]byte)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues {
+	fpaov := &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, values: values.([]string)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, values: values.([][][]byte)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_BinaryIndices_PaginatingIndex)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, values: values.([][][]byte)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue {
+	switch fp.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.([]byte)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.(*MetricDescriptor_BinaryIndices_PaginatingIndex)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.([]byte)}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		return &MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue{MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fp.selector))
+	}
+}
+
+func (fp *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldSubPath struct {
+	selector MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ MetricDescriptorBinaryIndicesByResourceType_FieldPath = (*MetricDescriptorBinaryIndicesByResourceType_FieldSubPath)(nil)
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) Selector() MetricDescriptorBinaryIndicesByResourceType_FieldPathSelector {
+	return fps.selector
+}
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) AsPreAggregatedIndicesSubPath() (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath)
+	return res, ok
+}
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) AsPaginatingIndicesSubPath() (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath, bool) {
+	res, ok := fps.subPath.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source MetricDescriptor_BinaryIndices_ByResourceType
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) Get(source *MetricDescriptor_BinaryIndices_ByResourceType) (values []interface{}) {
+	switch fps.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		for _, item := range source.GetPreAggregatedIndices() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		for _, item := range source.GetPaginatingIndices() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// GetSingle returns value of selected field from source MetricDescriptor_BinaryIndices_ByResourceType
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) GetSingle(source *MetricDescriptor_BinaryIndices_ByResourceType) (interface{}, bool) {
+	switch fps.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		if len(source.GetPreAggregatedIndices()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPreAggregatedIndices()[0])
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		if len(source.GetPaginatingIndices()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetPaginatingIndices()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fps.selector))
+	}
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) ClearValue(item *MetricDescriptor_BinaryIndices_ByResourceType) {
+	if item != nil {
+		switch fps.selector {
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+			for _, subItem := range item.PreAggregatedIndices {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+			for _, subItem := range item.PaginatingIndices {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) WithIValue(value interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathValue {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) WithIArrayOfValues(values interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) WithIArrayItemValue(value interface{}) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue {
+	return &MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *MetricDescriptorBinaryIndicesByResourceType_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// MetricDescriptorBinaryIndicesByResourceType_FieldPathValue allows storing values for ByResourceType fields according to their type
+type MetricDescriptorBinaryIndicesByResourceType_FieldPathValue interface {
+	MetricDescriptorBinaryIndicesByResourceType_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **MetricDescriptor_BinaryIndices_ByResourceType)
+	CompareWith(*MetricDescriptor_BinaryIndices_ByResourceType) (cmp int, comparable bool)
+}
+
+func ParseMetricDescriptorBinaryIndicesByResourceType_FieldPathValue(pathStr, valueStr string) (MetricDescriptorBinaryIndicesByResourceType_FieldPathValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ByResourceType field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(MetricDescriptorBinaryIndicesByResourceType_FieldPathValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesByResourceType_FieldPathValue(pathStr, valueStr string) MetricDescriptorBinaryIndicesByResourceType_FieldPathValue {
+	fpv, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue struct {
+	MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesByResourceType_FieldPathValue = (*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ByResourceType' as interface{}
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) AsResourceTypeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) AsAggsEncoderValue() ([][]byte, bool) {
+	res, ok := fpv.value.([][]byte)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) AsPreAggregatedIndicesValue() ([]*MetricDescriptor_BinaryIndices_PreAggregatedIndex, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) AsPaginatingIndicesValue() ([]*MetricDescriptor_BinaryIndices_PaginatingIndex, bool) {
+	res, ok := fpv.value.([]*MetricDescriptor_BinaryIndices_PaginatingIndex)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) AsNonAggregatedIndicesValue() ([][]byte, bool) {
+	res, ok := fpv.value.([][]byte)
+	return res, ok
+}
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) AsNamePartsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ByResourceType
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) SetTo(target **MetricDescriptor_BinaryIndices_ByResourceType) {
+	if *target == nil {
+		*target = new(MetricDescriptor_BinaryIndices_ByResourceType)
+	}
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		(*target).ResourceType = fpv.value.(string)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		(*target).AggsEncoder = fpv.value.([][]byte)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		(*target).PreAggregatedIndices = fpv.value.([]*MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		(*target).PaginatingIndices = fpv.value.([]*MetricDescriptor_BinaryIndices_PaginatingIndex)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		(*target).NonAggregatedIndices = fpv.value.([][]byte)
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		(*target).NameParts = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_BinaryIndices_ByResourceType)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue' with the value under path in 'MetricDescriptor_BinaryIndices_ByResourceType'.
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) CompareWith(source *MetricDescriptor_BinaryIndices_ByResourceType) (int, bool) {
+	switch fpv.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetResourceType()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		return 0, false
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return 0, false
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return 0, false
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		return 0, false
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fpv.selector))
+	}
+}
+
+func (fpv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue struct {
+	MetricDescriptorBinaryIndicesByResourceType_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ MetricDescriptorBinaryIndicesByResourceType_FieldPathValue = (*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue)(nil)
+
+func (fpvs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue) AsPreAggregatedIndicesPathValue() (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathValue)
+	return res, ok
+}
+func (fpvs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue) AsPaginatingIndicesPathValue() (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue) SetTo(target **MetricDescriptor_BinaryIndices_ByResourceType) {
+	if *target == nil {
+		*target = new(MetricDescriptor_BinaryIndices_ByResourceType)
+	}
+	switch fpvs.Selector() {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*MetricDescriptor_BinaryIndices_ByResourceType)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue) CompareWith(source *MetricDescriptor_BinaryIndices_ByResourceType) (int, bool) {
+	switch fpvs.Selector() {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return 0, false // repeated field
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue allows storing single item in Path-specific values for ByResourceType according to their type
+// Present only for array (repeated) types.
+type MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	MetricDescriptorBinaryIndicesByResourceType_FieldPath
+	ContainsValue(*MetricDescriptor_BinaryIndices_ByResourceType) bool
+}
+
+// ParseMetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseMetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue(pathStr, valueStr string) (MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ByResourceType field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue(pathStr, valueStr string) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue {
+	fpaiv, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue struct {
+	MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath
+	value interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayItemValue = (*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object MetricDescriptor_BinaryIndices_ByResourceType as interface{}
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) AsAggsEncoderItemValue() ([]byte, bool) {
+	res, ok := fpaiv.value.([]byte)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) AsPreAggregatedIndicesItemValue() (*MetricDescriptor_BinaryIndices_PreAggregatedIndex, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) AsPaginatingIndicesItemValue() (*MetricDescriptor_BinaryIndices_PaginatingIndex, bool) {
+	res, ok := fpaiv.value.(*MetricDescriptor_BinaryIndices_PaginatingIndex)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) AsNonAggregatedIndicesItemValue() ([]byte, bool) {
+	res, ok := fpaiv.value.([]byte)
+	return res, ok
+}
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) AsNamePartsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) GetSingle(source *MetricDescriptor_BinaryIndices_ByResourceType) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*MetricDescriptor_BinaryIndices_ByResourceType))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ByResourceType'
+func (fpaiv *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayItemValue) ContainsValue(source *MetricDescriptor_BinaryIndices_ByResourceType) bool {
+	slice := fpaiv.MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue struct {
+	MetricDescriptorBinaryIndicesByResourceType_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue) AsPreAggregatedIndicesPathItemValue() (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue) AsPaginatingIndicesPathItemValue() (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ByResourceType'
+func (fpaivs *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayItemValue) ContainsValue(source *MetricDescriptor_BinaryIndices_ByResourceType) bool {
+	switch fpaivs.Selector() {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		return false // repeated/map field
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices_ByResourceType: %d", fpaivs.Selector()))
+	}
+}
+
+// MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues allows storing slice of values for ByResourceType fields according to their type
+type MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	MetricDescriptorBinaryIndicesByResourceType_FieldPath
+}
+
+func ParseMetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues(pathStr, valuesStr string) (MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues, error) {
+	fp, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ByResourceType field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues), nil
+}
+
+func MustParseMetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues(pathStr, valuesStr string) MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues {
+	fpaov, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues struct {
+	MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPath
+	values interface{}
+}
+
+var _ MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues = (*MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorResourceType:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorAggsEncoder:
+		for _, v := range fpaov.values.([][][]byte) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPreAggregatedIndices:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorPaginatingIndices:
+		for _, v := range fpaov.values.([][]*MetricDescriptor_BinaryIndices_PaginatingIndex) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNonAggregatedIndices:
+		for _, v := range fpaov.values.([][][]byte) {
+			values = append(values, v)
+		}
+	case MetricDescriptorBinaryIndicesByResourceType_FieldPathSelectorNameParts:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues) AsResourceTypeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues) AsAggsEncoderArrayOfValues() ([][][]byte, bool) {
+	res, ok := fpaov.values.([][][]byte)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues) AsPreAggregatedIndicesArrayOfValues() ([][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_BinaryIndices_PreAggregatedIndex)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues) AsPaginatingIndicesArrayOfValues() ([][]*MetricDescriptor_BinaryIndices_PaginatingIndex, bool) {
+	res, ok := fpaov.values.([][]*MetricDescriptor_BinaryIndices_PaginatingIndex)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues) AsNonAggregatedIndicesArrayOfValues() ([][][]byte, bool) {
+	res, ok := fpaov.values.([][][]byte)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndicesByResourceType_FieldTerminalPathArrayOfValues) AsNamePartsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+type MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues struct {
+	MetricDescriptorBinaryIndicesByResourceType_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ MetricDescriptorBinaryIndicesByResourceType_FieldPathArrayOfValues = (*MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues) AsPreAggregatedIndicesPathArrayOfValues() (MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *MetricDescriptorBinaryIndicesByResourceType_FieldSubPathArrayOfValues) AsPaginatingIndicesPathArrayOfValues() (MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(MetricDescriptorBinaryIndicesPaginatingIndex_FieldPathArrayOfValues)
 	return res, ok
 }

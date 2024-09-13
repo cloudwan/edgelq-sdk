@@ -60,8 +60,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetPlanAssignment][ntt.limits.v1.GetPlanAssignment]
+// A request message of the GetPlanAssignment method.
 type GetPlanAssignmentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -168,8 +167,7 @@ func (m *GetPlanAssignmentRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetPlanAssignments][ntt.limits.v1.BatchGetPlanAssignments]
+// A request message of the BatchGetPlanAssignments method.
 type BatchGetPlanAssignmentsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -276,7 +274,7 @@ func (m *BatchGetPlanAssignmentsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetPlanAssignmentsResponse
+// A response message of the BatchGetPlanAssignments method.
 type BatchGetPlanAssignmentsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -365,8 +363,7 @@ func (m *BatchGetPlanAssignmentsResponse) SetMissing(fv []*plan_assignment.Name)
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListPlanAssignments][ntt.limits.v1.ListPlanAssignments]
+// A request message of the ListPlanAssignments method.
 type ListPlanAssignmentsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -378,7 +375,7 @@ type ListPlanAssignmentsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListPlanAssignmentsResponse.next_page_token][ntt.limits.v1.ListPlanAssignmentsResponse.next_page_token]
+	// ListPlanAssignmentsResponse.next_page_token.
 	PageToken *plan_assignment.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -566,19 +563,20 @@ func (m *ListPlanAssignmentsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListPlanAssignments][ntt.limits.v1.ListPlanAssignments]
+// A response message of the ListPlanAssignments method.
 type ListPlanAssignmentsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of PlanAssignments
 	PlanAssignments []*plan_assignment.PlanAssignment `protobuf:"bytes,1,rep,name=plan_assignments,json=planAssignments,proto3" json:"plan_assignments,omitempty" firestore:"planAssignments"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListPlanAssignmentsRequest.page_token][ntt.limits.v1.ListPlanAssignmentsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListPlanAssignmentsRequest.page_token.
 	PrevPageToken *plan_assignment.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListPlanAssignmentsRequest.page_token][ntt.limits.v1.ListPlanAssignmentsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListPlanAssignmentsRequest.page_token.
 	NextPageToken *plan_assignment.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -711,8 +709,7 @@ func (m *ListPlanAssignmentsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchPlanAssignment][ntt.limits.v1.WatchPlanAssignment]
+// A request message of the WatchPlanAssignment method.
 type WatchPlanAssignmentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -819,7 +816,7 @@ func (m *WatchPlanAssignmentRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchPlanAssignmentResponse
+// A response message of the WatchPlanAssignment method.
 type WatchPlanAssignmentResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -891,8 +888,7 @@ func (m *WatchPlanAssignmentResponse) SetChange(fv *plan_assignment.PlanAssignme
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchPlanAssignments][ntt.limits.v1.WatchPlanAssignments]
+// A request message of the WatchPlanAssignments method.
 type WatchPlanAssignmentsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1149,7 +1145,7 @@ func (m *WatchPlanAssignmentsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchPlanAssignmentsResponse
+// A response message of the WatchPlanAssignments method.
 type WatchPlanAssignmentsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1352,8 +1348,7 @@ func (m *WatchPlanAssignmentsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreatePlanAssignment][ntt.limits.v1.CreatePlanAssignment]
+// A request message of the CreatePlanAssignment method.
 type CreatePlanAssignmentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1442,8 +1437,7 @@ func (m *CreatePlanAssignmentRequest) SetPlanAssignment(fv *plan_assignment.Plan
 	m.PlanAssignment = fv
 }
 
-// Request message for method
-// [UpdatePlanAssignment][ntt.limits.v1.UpdatePlanAssignment]
+// A request message of the UpdatePlanAssignment method.
 type UpdatePlanAssignmentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1573,8 +1567,7 @@ func (m *UpdatePlanAssignmentRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeletePlanAssignment][ntt.limits.v1.DeletePlanAssignment]
+// A request message of the DeletePlanAssignment method.
 type DeletePlanAssignmentRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

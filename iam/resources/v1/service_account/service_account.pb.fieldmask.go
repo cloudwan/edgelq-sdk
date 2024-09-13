@@ -54,6 +54,7 @@ func FullServiceAccount_FieldMask() *ServiceAccount_FieldMask {
 	res.Paths = append(res.Paths, &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorDisplayName})
+	res.Paths = append(res.Paths, &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorEmail})
 	return res
 }
@@ -98,7 +99,7 @@ func (fieldMask *ServiceAccount_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ServiceAccount_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -128,7 +129,7 @@ func (fieldMask *ServiceAccount_FieldMask) Reset() {
 
 func (fieldMask *ServiceAccount_FieldMask) Subtract(other *ServiceAccount_FieldMask) *ServiceAccount_FieldMask {
 	result := &ServiceAccount_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[ServiceAccount_FieldPathSelector]gotenobject.FieldMask{
 		ServiceAccount_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -336,6 +337,8 @@ func (fieldMask *ServiceAccount_FieldMask) Project(source *ServiceAccount) *Serv
 				wholeMetadataAccepted = true
 			case ServiceAccount_FieldPathSelectorDisplayName:
 				result.DisplayName = source.DisplayName
+			case ServiceAccount_FieldPathSelectorDescription:
+				result.Description = source.Description
 			case ServiceAccount_FieldPathSelectorEmail:
 				result.Email = source.Email
 			}

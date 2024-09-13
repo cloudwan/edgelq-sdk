@@ -1,0 +1,368 @@
+name: iam.edgelq.com
+proto:
+  package:
+    name: ntt.iam
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/iam
+    protoImportPathPrefix: edgelq/iam/proto
+  service:
+    name: IAM
+    defaultHost: iam.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+imports:
+- meta.goten.com
+
+resources:
+- name: Permission
+  parents:
+  - meta.goten.com/Service
+  idPattern : "[\\w@!\\\\.|-]{4,256}"
+
+- name: Role
+  parents:
+  - meta.goten.com/Service
+  - Project
+  - Organization
+  idPattern : "[a-zA-Z0-9-]{1,128}"
+
+- name: Organization
+  actions:
+  - name: ListMyOrganizations
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "organizations" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  multiRegion:
+    isPolicyHolder: true
+
+- name: OrganizationInvitation
+  parents:
+  - Organization
+  actions:
+  - name: AcceptOrganizationInvitation
+    verb: accept
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: DeclineOrganizationInvitation
+    verb: decline
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: ListMyOrganizationInvitations
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "organization_invitations" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+- name: Project
+  actions:
+  - name: ListMyProjects
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "projects" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  multiRegion:
+    isPolicyHolder: true
+
+- name: ProjectInvitation
+  parents:
+  - Project
+  actions:
+  - name: AcceptProjectInvitation
+    verb: accept
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: DeclineProjectInvitation
+    verb: decline
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: ListMyProjectInvitations
+    verb: listMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "project_invitations" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: ResendProjectInvitation
+    verb: resend
+    opResourceInfo:
+      responsePaths:
+        resourceBody: [ "project_invitation" ]
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+- name: Group
+  parents:
+  - Project
+  - Organization
+  - meta.goten.com/Service
+  - ""
+
+- name: GroupMember
+  parents:
+  - Group
+
+- name: ServiceAccount
+  scopeAttributes:
+  - Region
+  parents:
+  - Project
+
+- name: ServiceAccountKey
+  parents:
+  - ServiceAccount
+
+- name: RoleBinding
+  parents:
+  - Project
+  - Organization
+  - meta.goten.com/Service
+  - ""
+  idPattern : "[\\w.|-]{1,128}"
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+
+- name: Condition
+  parents:
+  - Project
+  - Organization
+  - meta.goten.com/Service
+  - ""
+  idPattern : "[a-z][a-z0-9\\\\-]{0,72}[a-z0-9]"
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+
+- name: AttestationDomain
+  plural: AttestationDomains
+  parents:
+  - Project
+
+- name: User
+  idPattern : "[\\w.@|_-]{1,128}"
+  actions:
+  - name: GetUserByEmail
+    verb: getByEmail
+    opResourceInfo:
+      skipResourceInRequest: true
+    skipResponseMsgGen: true
+    responseName: User
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: BatchGetUsersByEmail
+    verb: batchGetByEmail
+    opResourceInfo:
+      isPlural: true
+      skipResourceInRequest: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+
+  - name: GetMySettings
+    verb: getMySettings
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+      skipResourceInRequest: true
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: SetMySettings
+    verb: setMySettings
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+      skipResourceInRequest: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+
+  - name: RefreshUserFromIdToken
+    verb: refreshUserFromIdToken
+    opResourceInfo:
+      isCollection: true
+      skipResourceInRequest: true
+    multiRegionRouting:
+      executeOnOwningRegion: true
+    withStoreHandle:
+      transaction: MANUAL
+
+  - name: ResendVerificationEmail
+    verb: resendVerificationEmail
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: MANUAL
+
+  - name: IsUserVerified
+    verb: isUserVerified
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: MANUAL
+
+  - name: ResetMFAIfRecoveryKeyUsed
+    verb: resetMFAIfRecoveryKeyUsed
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+  - name: SetUsersNameInAuth0
+    verb: setUsersNameInAuth0
+    opResourceInfo:
+      isCollection: true
+      isPlural: false
+    skipResponseMsgGen: true
+    responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+- name: MemberAssignment
+  optOuts:
+    basicActions:
+    - CreateMemberAssignment
+  idPattern: ".{1,512}"
+  scopeAttributes:
+  - Region
+  multiRegion:
+    syncType: ALWAYS_GLOBALLY
+
+apis:
+- name: Authorization
+  actions:
+  # Special principal actions used by any service to authenticate incoming
+  # requests. These actions protect from unauthorized access - service can
+  # see only principals who are using those services.
+  - name: GetPrincipal
+    verb: getPrincipal
+    withStoreHandle:
+      transaction: MANUAL
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  - name: WatchPrincipalUpdates
+    verb: watchPrincipalUpdates
+    streamingResponse: true
+    withStoreHandle:
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  # Special actions that can be used by any user to check their own authorization level.
+  - name: CheckMyRoleBindings
+    verb: checkMy
+    opResourceInfo:
+      name: RoleBinding
+      isCollection: true
+      isPlural: true
+    grpcTranscoding:
+      httpBodyField: "*"
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+
+- name: Attestation
+  actions:
+  - name: Verify
+    verb: verify
+    streamingRequest: true
+    streamingResponse: true
+    opResourceInfo:
+      name: AttestationDomain
+      requestPaths:
+        resourceName: [ "ask_for_challenge.attestation_domain" ]
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+
+- name: ServiceProjectsManagement
+  actions:
+  - name: ListMyServiceProjects
+    verb: listMyServiceProjects
+    opResourceInfo:
+      name: Project
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "projects" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+  - name: SetupServiceProject
+    verb: setupServiceProject
+    opResourceInfo:
+      name: Project
+      isCollection: true
+    skipResponseMsgGen: true
+    responseName: Project
+    withStoreHandle:
+      transaction: SNAPSHOT
+    multiRegionRouting:
+      executeOnOwningRegion: true
+  - name: ReserveServiceName
+    verb: reserveServiceName
+    opResourceInfo:
+      name: Project
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: DeleteServiceReservation
+    verb: deleteServiceReservation
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    opResourceInfo:
+      name: Project
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: ListServiceReservations
+    verb: listServiceReservations
+    opResourceInfo:
+      name: Project
+    withStoreHandle:
+      transaction: MANUAL
+  - name: ListProjectServices
+    verb: listProjectServices
+    opResourceInfo:
+      name: Project
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+  # It is like CreateServiceAccount, but with several other updates.
+  - name: AddRegionalAdminAccountForServices
+    verb: addRegionalAdminAccountForServices
+    opResourceInfo:
+      name: ServiceAccount
+      isCollection: true
+    withStoreHandle:
+      transaction: SNAPSHOT

@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetDistribution][ntt.applications.v1.GetDistribution]
+// A request message of the GetDistribution method.
 type GetDistributionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetDistributionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetDistributions][ntt.applications.v1.BatchGetDistributions]
+// A request message of the BatchGetDistributions method.
 type BatchGetDistributionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetDistributionsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetDistributionsResponse
+// A response message of the BatchGetDistributions method.
 type BatchGetDistributionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetDistributionsResponse) SetMissing(fv []*distribution.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListDistributions][ntt.applications.v1.ListDistributions]
+// A request message of the ListDistributions method.
 type ListDistributionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListDistributionsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListDistributionsResponse.next_page_token][ntt.applications.v1.ListDistributionsResponse.next_page_token]
+	// ListDistributionsResponse.next_page_token.
 	PageToken *distribution.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListDistributionsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListDistributions][ntt.applications.v1.ListDistributions]
+// A response message of the ListDistributions method.
 type ListDistributionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Distributions
 	Distributions []*distribution.Distribution `protobuf:"bytes,1,rep,name=distributions,proto3" json:"distributions,omitempty" firestore:"distributions"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListDistributionsRequest.page_token][ntt.applications.v1.ListDistributionsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListDistributionsRequest.page_token.
 	PrevPageToken *distribution.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListDistributionsRequest.page_token][ntt.applications.v1.ListDistributionsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListDistributionsRequest.page_token.
 	NextPageToken *distribution.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -706,8 +704,7 @@ func (m *ListDistributionsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchDistribution][ntt.applications.v1.WatchDistribution]
+// A request message of the WatchDistribution method.
 type WatchDistributionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -814,7 +811,7 @@ func (m *WatchDistributionRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchDistributionResponse
+// A response message of the WatchDistribution method.
 type WatchDistributionResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -886,8 +883,7 @@ func (m *WatchDistributionResponse) SetChange(fv *distribution.DistributionChang
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchDistributions][ntt.applications.v1.WatchDistributions]
+// A request message of the WatchDistributions method.
 type WatchDistributionsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1144,7 +1140,7 @@ func (m *WatchDistributionsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchDistributionsResponse
+// A response message of the WatchDistributions method.
 type WatchDistributionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1347,8 +1343,7 @@ func (m *WatchDistributionsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateDistribution][ntt.applications.v1.CreateDistribution]
+// A request message of the CreateDistribution method.
 type CreateDistributionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1437,8 +1432,7 @@ func (m *CreateDistributionRequest) SetDistribution(fv *distribution.Distributio
 	m.Distribution = fv
 }
 
-// Request message for method
-// [UpdateDistribution][ntt.applications.v1.UpdateDistribution]
+// A request message of the UpdateDistribution method.
 type UpdateDistributionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1568,8 +1562,7 @@ func (m *UpdateDistributionRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteDistribution][ntt.applications.v1.DeleteDistribution]
+// A request message of the DeleteDistribution method.
 type DeleteDistributionRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

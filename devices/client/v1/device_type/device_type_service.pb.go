@@ -54,7 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetDeviceType][ntt.devices.v1.GetDeviceType]
+// A request message of the GetDeviceType method.
 type GetDeviceTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -161,8 +161,7 @@ func (m *GetDeviceTypeRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetDeviceTypes][ntt.devices.v1.BatchGetDeviceTypes]
+// A request message of the BatchGetDeviceTypes method.
 type BatchGetDeviceTypesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -269,7 +268,7 @@ func (m *BatchGetDeviceTypesRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetDeviceTypesResponse
+// A response message of the BatchGetDeviceTypes method.
 type BatchGetDeviceTypesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -358,7 +357,7 @@ func (m *BatchGetDeviceTypesResponse) SetMissing(fv []*device_type.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListDeviceTypes][ntt.devices.v1.ListDeviceTypes]
+// A request message of the ListDeviceTypes method.
 type ListDeviceTypesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -368,7 +367,7 @@ type ListDeviceTypesRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListDeviceTypesResponse.next_page_token][ntt.devices.v1.ListDeviceTypesResponse.next_page_token]
+	// ListDeviceTypesResponse.next_page_token.
 	PageToken *device_type.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -542,18 +541,20 @@ func (m *ListDeviceTypesRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListDeviceTypes][ntt.devices.v1.ListDeviceTypes]
+// A response message of the ListDeviceTypes method.
 type ListDeviceTypesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of DeviceTypes
 	DeviceTypes []*device_type.DeviceType `protobuf:"bytes,1,rep,name=device_types,json=deviceTypes,proto3" json:"device_types,omitempty" firestore:"deviceTypes"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListDeviceTypesRequest.page_token][ntt.devices.v1.ListDeviceTypesRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListDeviceTypesRequest.page_token.
 	PrevPageToken *device_type.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListDeviceTypesRequest.page_token][ntt.devices.v1.ListDeviceTypesRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListDeviceTypesRequest.page_token.
 	NextPageToken *device_type.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -685,7 +686,7 @@ func (m *ListDeviceTypesResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchDeviceType][ntt.devices.v1.WatchDeviceType]
+// A request message of the WatchDeviceType method.
 type WatchDeviceTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -792,7 +793,7 @@ func (m *WatchDeviceTypeRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchDeviceTypeResponse
+// A response message of the WatchDeviceType method.
 type WatchDeviceTypeResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -864,8 +865,7 @@ func (m *WatchDeviceTypeResponse) SetChange(fv *device_type.DeviceTypeChange) {
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchDeviceTypes][ntt.devices.v1.WatchDeviceTypes]
+// A request message of the WatchDeviceTypes method.
 type WatchDeviceTypesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1106,7 +1106,7 @@ func (m *WatchDeviceTypesRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchDeviceTypesResponse
+// A response message of the WatchDeviceTypes method.
 type WatchDeviceTypesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1309,8 +1309,7 @@ func (m *WatchDeviceTypesResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateDeviceType][ntt.devices.v1.CreateDeviceType]
+// A request message of the CreateDeviceType method.
 type CreateDeviceTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1383,8 +1382,7 @@ func (m *CreateDeviceTypeRequest) SetDeviceType(fv *device_type.DeviceType) {
 	m.DeviceType = fv
 }
 
-// Request message for method
-// [UpdateDeviceType][ntt.devices.v1.UpdateDeviceType]
+// A request message of the UpdateDeviceType method.
 type UpdateDeviceTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1514,8 +1512,7 @@ func (m *UpdateDeviceTypeRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteDeviceType][ntt.devices.v1.DeleteDeviceType]
+// A request message of the DeleteDeviceType method.
 type DeleteDeviceTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

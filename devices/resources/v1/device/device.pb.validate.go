@@ -70,6 +70,18 @@ func (obj *Device) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Device", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("Device", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("Device", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if subobj, ok := interface{}(obj.Spec).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Device", "spec", obj.Spec, "nested object validation failed", err)
@@ -598,10 +610,10 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) GotenValidat
 	if obj == nil {
 		return nil
 	}
-	for idx, elem := range obj.Memory {
+	for idx, elem := range obj.MemoryBanks {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("MemoryInfo", "memory", obj.Memory[idx], "nested object validation failed", err)
+				return gotenvalidate.NewValidationError("MemoryInfo", "memoryBanks", obj.MemoryBanks[idx], "nested object validation failed", err)
 			}
 		}
 	}
@@ -745,23 +757,7 @@ func (obj *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard) GotenVa
 	}
 	return nil
 }
-func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	for idx, elem := range obj.MemoryBanks {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("Memory", "memoryBanks", obj.MemoryBanks[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) GotenValidate() error {
+func (obj *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

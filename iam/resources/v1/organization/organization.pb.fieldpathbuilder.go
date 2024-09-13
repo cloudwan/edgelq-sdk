@@ -36,6 +36,9 @@ func (OrganizationFieldPathBuilder) Metadata() OrganizationPathSelectorMetadata 
 func (OrganizationFieldPathBuilder) Title() OrganizationPathSelectorTitle {
 	return OrganizationPathSelectorTitle{}
 }
+func (OrganizationFieldPathBuilder) Description() OrganizationPathSelectorDescription {
+	return OrganizationPathSelectorDescription{}
+}
 func (OrganizationFieldPathBuilder) ParentOrganization() OrganizationPathSelectorParentOrganization {
 	return OrganizationPathSelectorParentOrganization{}
 }
@@ -750,6 +753,20 @@ func (s OrganizationPathSelectorTitle) WithValue(value string) *Organization_Fie
 }
 
 func (s OrganizationPathSelectorTitle) WithArrayOfValues(values []string) *Organization_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldTerminalPathArrayOfValues)
+}
+
+type OrganizationPathSelectorDescription struct{}
+
+func (OrganizationPathSelectorDescription) FieldPath() *Organization_FieldTerminalPath {
+	return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorDescription}
+}
+
+func (s OrganizationPathSelectorDescription) WithValue(value string) *Organization_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Organization_FieldTerminalPathValue)
+}
+
+func (s OrganizationPathSelectorDescription) WithArrayOfValues(values []string) *Organization_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Organization_FieldTerminalPathArrayOfValues)
 }
 

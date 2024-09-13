@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetServiceAccount][ntt.iam.v1.GetServiceAccount]
+// A request message of the GetServiceAccount method.
 type GetServiceAccountRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,8 +163,7 @@ func (m *GetServiceAccountRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetServiceAccounts][ntt.iam.v1.BatchGetServiceAccounts]
+// A request message of the BatchGetServiceAccounts method.
 type BatchGetServiceAccountsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +270,7 @@ func (m *BatchGetServiceAccountsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetServiceAccountsResponse
+// A response message of the BatchGetServiceAccounts method.
 type BatchGetServiceAccountsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -360,8 +359,7 @@ func (m *BatchGetServiceAccountsResponse) SetMissing(fv []*service_account.Name)
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListServiceAccounts][ntt.iam.v1.ListServiceAccounts]
+// A request message of the ListServiceAccounts method.
 type ListServiceAccountsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -373,7 +371,7 @@ type ListServiceAccountsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListServiceAccountsResponse.next_page_token][ntt.iam.v1.ListServiceAccountsResponse.next_page_token]
+	// ListServiceAccountsResponse.next_page_token.
 	PageToken *service_account.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -561,19 +559,20 @@ func (m *ListServiceAccountsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListServiceAccounts][ntt.iam.v1.ListServiceAccounts]
+// A response message of the ListServiceAccounts method.
 type ListServiceAccountsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of ServiceAccounts
 	ServiceAccounts []*service_account.ServiceAccount `protobuf:"bytes,1,rep,name=service_accounts,json=serviceAccounts,proto3" json:"service_accounts,omitempty" firestore:"serviceAccounts"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListServiceAccountsRequest.page_token][ntt.iam.v1.ListServiceAccountsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListServiceAccountsRequest.page_token.
 	PrevPageToken *service_account.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListServiceAccountsRequest.page_token][ntt.iam.v1.ListServiceAccountsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListServiceAccountsRequest.page_token.
 	NextPageToken *service_account.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -706,8 +705,7 @@ func (m *ListServiceAccountsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchServiceAccount][ntt.iam.v1.WatchServiceAccount]
+// A request message of the WatchServiceAccount method.
 type WatchServiceAccountRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -814,7 +812,7 @@ func (m *WatchServiceAccountRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchServiceAccountResponse
+// A response message of the WatchServiceAccount method.
 type WatchServiceAccountResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -886,8 +884,7 @@ func (m *WatchServiceAccountResponse) SetChange(fv *service_account.ServiceAccou
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchServiceAccounts][ntt.iam.v1.WatchServiceAccounts]
+// A request message of the WatchServiceAccounts method.
 type WatchServiceAccountsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1144,7 +1141,7 @@ func (m *WatchServiceAccountsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchServiceAccountsResponse
+// A response message of the WatchServiceAccounts method.
 type WatchServiceAccountsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1347,8 +1344,7 @@ func (m *WatchServiceAccountsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateServiceAccount][ntt.iam.v1.CreateServiceAccount]
+// A request message of the CreateServiceAccount method.
 type CreateServiceAccountRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1437,8 +1433,7 @@ func (m *CreateServiceAccountRequest) SetServiceAccount(fv *service_account.Serv
 	m.ServiceAccount = fv
 }
 
-// Request message for method
-// [UpdateServiceAccount][ntt.iam.v1.UpdateServiceAccount]
+// A request message of the UpdateServiceAccount method.
 type UpdateServiceAccountRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1568,8 +1563,7 @@ func (m *UpdateServiceAccountRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteServiceAccount][ntt.iam.v1.DeleteServiceAccount]
+// A request message of the DeleteServiceAccount method.
 type DeleteServiceAccountRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "AuditedResourceDescriptorServiceProto";
 option java_package = "com.ntt.audit.pb.v1alpha2";
 
-// Request message for method
-// [GetAuditedResourceDescriptor][ntt.audit.v1alpha2.GetAuditedResourceDescriptor]
+// A request message of the GetAuditedResourceDescriptor method.
 message GetAuditedResourceDescriptorRequest {
   // Name of ntt.audit.v1alpha2.AuditedResourceDescriptor
   string name = 1;
@@ -32,8 +31,7 @@ message GetAuditedResourceDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetAuditedResourceDescriptors][ntt.audit.v1alpha2.BatchGetAuditedResourceDescriptors]
+// A request message of the BatchGetAuditedResourceDescriptors method.
 message BatchGetAuditedResourceDescriptorsRequest {
   // Names of AuditedResourceDescriptors
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetAuditedResourceDescriptorsRequest {
   reserved 1;
 }
 
-// BatchGetAuditedResourceDescriptorsResponse
+// A response message of the BatchGetAuditedResourceDescriptors method.
 message BatchGetAuditedResourceDescriptorsResponse {
   // found AuditedResourceDescriptors
   repeated AuditedResourceDescriptor audited_resource_descriptors = 1;
@@ -58,8 +56,7 @@ message BatchGetAuditedResourceDescriptorsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]
+// A request message of the ListAuditedResourceDescriptors method.
 message ListAuditedResourceDescriptorsRequest {
   // Requested page size. Server may return fewer AuditedResourceDescriptors
   // than requested. If unspecified, server will pick an appropriate default.
@@ -67,7 +64,7 @@ message ListAuditedResourceDescriptorsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListAuditedResourceDescriptorsResponse.next_page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsResponse.next_page_token]
+  // ListAuditedResourceDescriptorsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -98,18 +95,19 @@ message ListAuditedResourceDescriptorsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListAuditedResourceDescriptors][ntt.audit.v1alpha2.ListAuditedResourceDescriptors]
+// A response message of the ListAuditedResourceDescriptors method.
 message ListAuditedResourceDescriptorsResponse {
   // The list of AuditedResourceDescriptors
   repeated AuditedResourceDescriptor audited_resource_descriptors = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListAuditedResourceDescriptorsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListAuditedResourceDescriptorsRequest.page_token][ntt.audit.v1alpha2.ListAuditedResourceDescriptorsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListAuditedResourceDescriptorsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -124,8 +122,7 @@ message ListAuditedResourceDescriptorsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchAuditedResourceDescriptor][ntt.audit.v1alpha2.WatchAuditedResourceDescriptor]
+// A request message of the WatchAuditedResourceDescriptor method.
 message WatchAuditedResourceDescriptorRequest {
   // Name of ntt.audit.v1alpha2.AuditedResourceDescriptor
   string name = 1;
@@ -139,13 +136,12 @@ message WatchAuditedResourceDescriptorRequest {
   goten.types.View view = 4;
 }
 
-// WatchAuditedResourceDescriptorResponse
+// A response message of the WatchAuditedResourceDescriptor method.
 message WatchAuditedResourceDescriptorResponse {
   AuditedResourceDescriptorChange change = 1;
 }
 
-// Request message for method
-// [WatchAuditedResourceDescriptors][ntt.audit.v1alpha2.WatchAuditedResourceDescriptors]
+// A request message of the WatchAuditedResourceDescriptors method.
 message WatchAuditedResourceDescriptorsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -203,7 +199,7 @@ message WatchAuditedResourceDescriptorsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchAuditedResourceDescriptorsResponse
+// A response message of the WatchAuditedResourceDescriptors method.
 message WatchAuditedResourceDescriptorsResponse {
   // Changes of AuditedResourceDescriptors
   repeated AuditedResourceDescriptorChange audited_resource_descriptor_changes =
@@ -270,15 +266,13 @@ message WatchAuditedResourceDescriptorsResponse {
   }
 }
 
-// Request message for method
-// [CreateAuditedResourceDescriptor][ntt.audit.v1alpha2.CreateAuditedResourceDescriptor]
+// A request message of the CreateAuditedResourceDescriptor method.
 message CreateAuditedResourceDescriptorRequest {
   // AuditedResourceDescriptor resource body
   AuditedResourceDescriptor audited_resource_descriptor = 2;
 }
 
-// Request message for method
-// [UpdateAuditedResourceDescriptor][ntt.audit.v1alpha2.UpdateAuditedResourceDescriptor]
+// A request message of the UpdateAuditedResourceDescriptor method.
 message UpdateAuditedResourceDescriptorRequest {
   // AuditedResourceDescriptor resource body
   AuditedResourceDescriptor audited_resource_descriptor = 2;

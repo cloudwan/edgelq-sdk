@@ -18,7 +18,7 @@ option java_multiple_files = false;
 option java_outer_classname = "UserServiceProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// Request message for method [GetUser][ntt.iam.v1.GetUser]
+// A request message of the GetUser method.
 message GetUserRequest {
   // Name of ntt.iam.v1.User
   string name = 1;
@@ -32,7 +32,7 @@ message GetUserRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method [BatchGetUsers][ntt.iam.v1.BatchGetUsers]
+// A request message of the BatchGetUsers method.
 message BatchGetUsersRequest {
   // Names of Users
   repeated string names = 2;
@@ -48,7 +48,7 @@ message BatchGetUsersRequest {
   reserved 1;
 }
 
-// BatchGetUsersResponse
+// A response message of the BatchGetUsers method.
 message BatchGetUsersResponse {
   // found Users
   repeated User users = 1;
@@ -57,7 +57,7 @@ message BatchGetUsersResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListUsers][ntt.iam.v1.ListUsers]
+// A request message of the ListUsers method.
 message ListUsersRequest {
   // Requested page size. Server may return fewer Users than requested.
   // If unspecified, server will pick an appropriate default.
@@ -65,7 +65,7 @@ message ListUsersRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListUsersResponse.next_page_token][ntt.iam.v1.ListUsersResponse.next_page_token]
+  // ListUsersResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -96,17 +96,19 @@ message ListUsersRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListUsers][ntt.iam.v1.ListUsers]
+// A response message of the ListUsers method.
 message ListUsersResponse {
   // The list of Users
   repeated User users = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListUsersRequest.page_token][ntt.iam.v1.ListUsersRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListUsersRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListUsersRequest.page_token][ntt.iam.v1.ListUsersRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListUsersRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -120,7 +122,7 @@ message ListUsersResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchUser][ntt.iam.v1.WatchUser]
+// A request message of the WatchUser method.
 message WatchUserRequest {
   // Name of ntt.iam.v1.User
   string name = 1;
@@ -134,10 +136,10 @@ message WatchUserRequest {
   goten.types.View view = 4;
 }
 
-// WatchUserResponse
+// A response message of the WatchUser method.
 message WatchUserResponse { UserChange change = 1; }
 
-// Request message for method [WatchUsers][ntt.iam.v1.WatchUsers]
+// A request message of the WatchUsers method.
 message WatchUsersRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -194,7 +196,7 @@ message WatchUsersRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchUsersResponse
+// A response message of the WatchUsers method.
 message WatchUsersResponse {
   // Changes of Users
   repeated UserChange user_changes = 2;
@@ -260,13 +262,13 @@ message WatchUsersResponse {
   }
 }
 
-// Request message for method [CreateUser][ntt.iam.v1.CreateUser]
+// A request message of the CreateUser method.
 message CreateUserRequest {
   // User resource body
   User user = 2;
 }
 
-// Request message for method [UpdateUser][ntt.iam.v1.UpdateUser]
+// A request message of the UpdateUser method.
 message UpdateUserRequest {
   // User resource body
   User user = 2;
@@ -301,7 +303,7 @@ message UpdateUserRequest {
   }
 }
 
-// Request message for method [DeleteUser][ntt.iam.v1.DeleteUser]
+// A request message of the DeleteUser method.
 message DeleteUserRequest {
   // Name of ntt.iam.v1.User
   string name = 1;

@@ -90,10 +90,11 @@ type Device_FieldPathSelector int32
 const (
 	Device_FieldPathSelectorName              Device_FieldPathSelector = 0
 	Device_FieldPathSelectorMetadata          Device_FieldPathSelector = 1
-	Device_FieldPathSelectorSpec              Device_FieldPathSelector = 2
-	Device_FieldPathSelectorStatus            Device_FieldPathSelector = 3
-	Device_FieldPathSelectorPublicListingSpec Device_FieldPathSelector = 4
-	Device_FieldPathSelectorDisplayName       Device_FieldPathSelector = 5
+	Device_FieldPathSelectorDisplayName       Device_FieldPathSelector = 2
+	Device_FieldPathSelectorDescription       Device_FieldPathSelector = 3
+	Device_FieldPathSelectorSpec              Device_FieldPathSelector = 4
+	Device_FieldPathSelectorStatus            Device_FieldPathSelector = 5
+	Device_FieldPathSelectorPublicListingSpec Device_FieldPathSelector = 6
 )
 
 func (s Device_FieldPathSelector) String() string {
@@ -102,14 +103,16 @@ func (s Device_FieldPathSelector) String() string {
 		return "name"
 	case Device_FieldPathSelectorMetadata:
 		return "metadata"
+	case Device_FieldPathSelectorDisplayName:
+		return "display_name"
+	case Device_FieldPathSelectorDescription:
+		return "description"
 	case Device_FieldPathSelectorSpec:
 		return "spec"
 	case Device_FieldPathSelectorStatus:
 		return "status"
 	case Device_FieldPathSelectorPublicListingSpec:
 		return "public_listing_spec"
-	case Device_FieldPathSelectorDisplayName:
-		return "display_name"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", s))
 	}
@@ -125,14 +128,16 @@ func BuildDevice_FieldPath(fp gotenobject.RawFieldPath) (Device_FieldPath, error
 			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorName}, nil
 		case "metadata":
 			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorMetadata}, nil
+		case "display_name", "displayName", "display-name":
+			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDescription}, nil
 		case "spec":
 			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorSpec}, nil
 		case "status":
 			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorStatus}, nil
 		case "public_listing_spec", "publicListingSpec", "public-listing-spec":
 			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorPublicListingSpec}, nil
-		case "display_name", "displayName", "display-name":
-			return &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -213,6 +218,10 @@ func (fp *Device_FieldTerminalPath) Get(source *Device) (values []interface{}) {
 			if source.Metadata != nil {
 				values = append(values, source.Metadata)
 			}
+		case Device_FieldPathSelectorDisplayName:
+			values = append(values, source.DisplayName)
+		case Device_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case Device_FieldPathSelectorSpec:
 			if source.Spec != nil {
 				values = append(values, source.Spec)
@@ -225,8 +234,6 @@ func (fp *Device_FieldTerminalPath) Get(source *Device) (values []interface{}) {
 			if source.PublicListingSpec != nil {
 				values = append(values, source.PublicListingSpec)
 			}
-		case Device_FieldPathSelectorDisplayName:
-			values = append(values, source.DisplayName)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device: %d", fp.selector))
 		}
@@ -247,6 +254,10 @@ func (fp *Device_FieldTerminalPath) GetSingle(source *Device) (interface{}, bool
 	case Device_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
 		return res, res != nil
+	case Device_FieldPathSelectorDisplayName:
+		return source.GetDisplayName(), source != nil
+	case Device_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case Device_FieldPathSelectorSpec:
 		res := source.GetSpec()
 		return res, res != nil
@@ -256,8 +267,6 @@ func (fp *Device_FieldTerminalPath) GetSingle(source *Device) (interface{}, bool
 	case Device_FieldPathSelectorPublicListingSpec:
 		res := source.GetPublicListingSpec()
 		return res, res != nil
-	case Device_FieldPathSelectorDisplayName:
-		return source.GetDisplayName(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", fp.selector))
 	}
@@ -274,14 +283,16 @@ func (fp *Device_FieldTerminalPath) GetDefault() interface{} {
 		return (*Name)(nil)
 	case Device_FieldPathSelectorMetadata:
 		return (*meta.Meta)(nil)
+	case Device_FieldPathSelectorDisplayName:
+		return ""
+	case Device_FieldPathSelectorDescription:
+		return ""
 	case Device_FieldPathSelectorSpec:
 		return (*Device_Spec)(nil)
 	case Device_FieldPathSelectorStatus:
 		return (*Device_Status)(nil)
 	case Device_FieldPathSelectorPublicListingSpec:
 		return (*Device_PublicListingSpec)(nil)
-	case Device_FieldPathSelectorDisplayName:
-		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", fp.selector))
 	}
@@ -294,14 +305,16 @@ func (fp *Device_FieldTerminalPath) ClearValue(item *Device) {
 			item.Name = nil
 		case Device_FieldPathSelectorMetadata:
 			item.Metadata = nil
+		case Device_FieldPathSelectorDisplayName:
+			item.DisplayName = ""
+		case Device_FieldPathSelectorDescription:
+			item.Description = ""
 		case Device_FieldPathSelectorSpec:
 			item.Spec = nil
 		case Device_FieldPathSelectorStatus:
 			item.Status = nil
 		case Device_FieldPathSelectorPublicListingSpec:
 			item.PublicListingSpec = nil
-		case Device_FieldPathSelectorDisplayName:
-			item.DisplayName = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device: %d", fp.selector))
 		}
@@ -315,7 +328,8 @@ func (fp *Device_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *Device_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Device_FieldPathSelectorName ||
-		fp.selector == Device_FieldPathSelectorDisplayName
+		fp.selector == Device_FieldPathSelectorDisplayName ||
+		fp.selector == Device_FieldPathSelectorDescription
 }
 
 func (fp *Device_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -328,14 +342,16 @@ func (fp *Device_FieldTerminalPath) WithIValue(value interface{}) Device_FieldPa
 		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*Name)}
 	case Device_FieldPathSelectorMetadata:
 		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
+	case Device_FieldPathSelectorDisplayName:
+		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(string)}
+	case Device_FieldPathSelectorDescription:
+		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(string)}
 	case Device_FieldPathSelectorSpec:
 		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*Device_Spec)}
 	case Device_FieldPathSelectorStatus:
 		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*Device_Status)}
 	case Device_FieldPathSelectorPublicListingSpec:
 		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(*Device_PublicListingSpec)}
-	case Device_FieldPathSelectorDisplayName:
-		return &Device_FieldTerminalPathValue{Device_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", fp.selector))
 	}
@@ -352,14 +368,16 @@ func (fp *Device_FieldTerminalPath) WithIArrayOfValues(values interface{}) Devic
 		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case Device_FieldPathSelectorMetadata:
 		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
+	case Device_FieldPathSelectorDisplayName:
+		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]string)}
+	case Device_FieldPathSelectorDescription:
+		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]string)}
 	case Device_FieldPathSelectorSpec:
 		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*Device_Spec)}
 	case Device_FieldPathSelectorStatus:
 		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*Device_Status)}
 	case Device_FieldPathSelectorPublicListingSpec:
 		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]*Device_PublicListingSpec)}
-	case Device_FieldPathSelectorDisplayName:
-		return &Device_FieldTerminalPathArrayOfValues{Device_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", fp.selector))
 	}
@@ -579,6 +597,14 @@ func (fpv *Device_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
 	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
+func (fpv *Device_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Device_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Device_FieldTerminalPathValue) AsSpecValue() (*Device_Spec, bool) {
 	res, ok := fpv.value.(*Device_Spec)
 	return res, ok
@@ -589,10 +615,6 @@ func (fpv *Device_FieldTerminalPathValue) AsStatusValue() (*Device_Status, bool)
 }
 func (fpv *Device_FieldTerminalPathValue) AsPublicListingSpecValue() (*Device_PublicListingSpec, bool) {
 	res, ok := fpv.value.(*Device_PublicListingSpec)
-	return res, ok
-}
-func (fpv *Device_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
-	res, ok := fpv.value.(string)
 	return res, ok
 }
 
@@ -606,14 +628,16 @@ func (fpv *Device_FieldTerminalPathValue) SetTo(target **Device) {
 		(*target).Name = fpv.value.(*Name)
 	case Device_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*meta.Meta)
+	case Device_FieldPathSelectorDisplayName:
+		(*target).DisplayName = fpv.value.(string)
+	case Device_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case Device_FieldPathSelectorSpec:
 		(*target).Spec = fpv.value.(*Device_Spec)
 	case Device_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*Device_Status)
 	case Device_FieldPathSelectorPublicListingSpec:
 		(*target).PublicListingSpec = fpv.value.(*Device_PublicListingSpec)
-	case Device_FieldPathSelectorDisplayName:
-		(*target).DisplayName = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", fpv.selector))
 	}
@@ -648,12 +672,6 @@ func (fpv *Device_FieldTerminalPathValue) CompareWith(source *Device) (int, bool
 		}
 	case Device_FieldPathSelectorMetadata:
 		return 0, false
-	case Device_FieldPathSelectorSpec:
-		return 0, false
-	case Device_FieldPathSelectorStatus:
-		return 0, false
-	case Device_FieldPathSelectorPublicListingSpec:
-		return 0, false
 	case Device_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
@@ -664,6 +682,22 @@ func (fpv *Device_FieldTerminalPathValue) CompareWith(source *Device) (int, bool
 		} else {
 			return 1, true
 		}
+	case Device_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Device_FieldPathSelectorSpec:
+		return 0, false
+	case Device_FieldPathSelectorStatus:
+		return 0, false
+	case Device_FieldPathSelectorPublicListingSpec:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device: %d", fpv.selector))
 	}
@@ -892,6 +926,14 @@ func (fpaov *Device_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
+	case Device_FieldPathSelectorDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Device_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Device_FieldPathSelectorSpec:
 		for _, v := range fpaov.values.([]*Device_Spec) {
 			values = append(values, v)
@@ -902,10 +944,6 @@ func (fpaov *Device_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 		}
 	case Device_FieldPathSelectorPublicListingSpec:
 		for _, v := range fpaov.values.([]*Device_PublicListingSpec) {
-			values = append(values, v)
-		}
-	case Device_FieldPathSelectorDisplayName:
-		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
 	}
@@ -919,6 +957,14 @@ func (fpaov *Device_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([
 	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
+func (fpaov *Device_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Device_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
 func (fpaov *Device_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*Device_Spec, bool) {
 	res, ok := fpaov.values.([]*Device_Spec)
 	return res, ok
@@ -929,10 +975,6 @@ func (fpaov *Device_FieldTerminalPathArrayOfValues) AsStatusArrayOfValues() ([]*
 }
 func (fpaov *Device_FieldTerminalPathArrayOfValues) AsPublicListingSpecArrayOfValues() ([]*Device_PublicListingSpec, bool) {
 	res, ok := fpaov.values.([]*Device_PublicListingSpec)
-	return res, ok
-}
-func (fpaov *Device_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 
@@ -22161,13 +22203,19 @@ type DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath interface {
 type DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector int32
 
 const (
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector = 0
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector = 0
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes   DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector = 1
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector = 2
 )
 
 func (s DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector) String() string {
 	switch s {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		return "memory"
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		return "description"
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		return "size_bytes"
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		return "memory_banks"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", s))
 	}
@@ -22179,16 +22227,20 @@ func BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath(fp goten
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "memory":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory}, nil
+		case "description":
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription}, nil
+		case "size_bytes", "sizeBytes", "size-bytes":
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes}, nil
+		case "memory_banks", "memoryBanks", "memory-banks":
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks}, nil
 		}
 	} else {
 		switch fp[0] {
-		case "memory":
-			if subpath, err := BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(fp[1:]); err != nil {
+		case "memory_banks", "memoryBanks", "memory-banks":
+			if subpath, err := BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
-				return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory, subPath: subpath}, nil
+				return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks, subPath: subpath}, nil
 			}
 		}
 	}
@@ -22235,8 +22287,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-			for _, value := range source.GetMemory() {
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+			values = append(values, source.Description)
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+			values = append(values, source.SizeBytes)
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+			for _, value := range source.GetMemoryBanks() {
 				values = append(values, value)
 			}
 		default:
@@ -22253,8 +22309,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 // GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) (interface{}, bool) {
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		res := source.GetMemory()
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		return source.GetSizeBytes(), source != nil
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		res := source.GetMemoryBanks()
 		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fp.selector))
@@ -22268,8 +22328,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 // GetDefault returns a default value of the field type
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		return ([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)(nil)
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		return ""
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		return int64(0)
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		return ([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fp.selector))
 	}
@@ -22278,8 +22342,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) {
 	if item != nil {
 		switch fp.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-			item.Memory = nil
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+			item.Description = ""
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+			item.SizeBytes = int64(0)
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+			item.MemoryBanks = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fp.selector))
 		}
@@ -22292,7 +22360,8 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 
 // IsLeaf - whether field path is holds simple value
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes
 }
 
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -22301,8 +22370,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue {
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, value: value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, value: value.(int64)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, value: value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fp.selector))
 	}
@@ -22315,8 +22388,12 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayOfValues {
 	fpaov := &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, values: values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, values: values.([]int64)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, values: values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fp.selector))
 	}
@@ -22329,8 +22406,8 @@ func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath)
 
 func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayItemValue {
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fp.selector))
 	}
@@ -22350,8 +22427,8 @@ var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath = (*DeviceSt
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelector {
 	return fps.selector
 }
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) AsMemorySubPath() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath, bool) {
-	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath)
+func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) AsMemoryBanksSubPath() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath)
 	return res, ok
 }
 
@@ -22368,8 +22445,8 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) JSO
 // Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) (values []interface{}) {
 	switch fps.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		for _, item := range source.GetMemory() {
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		for _, item := range source.GetMemoryBanks() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	default:
@@ -22385,11 +22462,11 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) Get
 // GetSingle returns value of selected field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) (interface{}, bool) {
 	switch fps.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		if len(source.GetMemory()) == 0 {
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		if len(source.GetMemoryBanks()) == 0 {
 			return nil, false
 		}
-		return fps.subPath.GetSingleRaw(source.GetMemory()[0])
+		return fps.subPath.GetSingleRaw(source.GetMemoryBanks()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fps.selector))
 	}
@@ -22407,8 +22484,8 @@ func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) Get
 func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) {
 	if item != nil {
 		switch fps.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-			for _, subItem := range item.Memory {
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+			for _, subItem := range item.MemoryBanks {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		default:
@@ -22495,8 +22572,16 @@ var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue = (*Dev
 func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue) AsMemoryValue() ([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory, bool) {
-	res, ok := fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue) AsSizeBytesValue() (int64, bool) {
+	res, ok := fpv.value.(int64)
+	return res, ok
+}
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue) AsMemoryBanksValue() ([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank, bool) {
+	res, ok := fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 	return res, ok
 }
 
@@ -22506,8 +22591,12 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath
 		*target = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)
 	}
 	switch fpv.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		(*target).Memory = fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		(*target).SizeBytes = fpv.value.(int64)
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		(*target).MemoryBanks = fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fpv.selector))
 	}
@@ -22521,7 +22610,27 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath
 // CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_MemoryInfo'.
 func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) (int, bool) {
 	switch fpv.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		leftValue := fpv.value.(int64)
+		rightValue := source.GetSizeBytes()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fpv.selector))
@@ -22539,8 +22648,8 @@ type DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue struc
 
 var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue)(nil)
 
-func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue) AsMemoryPathValue() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue)
+func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue) AsMemoryBanksPathValue() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue)
 	return res, ok
 }
 
@@ -22549,7 +22658,7 @@ func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValu
 		*target = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo)
 	}
 	switch fpvs.Selector() {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fpvs.Selector()))
@@ -22567,7 +22676,7 @@ func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValu
 
 func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) (int, bool) {
 	switch fpvs.Selector() {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
 		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fpvs.Selector()))
@@ -22618,8 +22727,8 @@ var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayItemValu
 func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue) AsMemoryItemValue() (*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory, bool) {
-	res, ok := fpaiv.value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayItemValue) AsMemoryBanksItemValue() (*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank, bool) {
+	res, ok := fpaiv.value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 	return res, ok
 }
 
@@ -22655,15 +22764,15 @@ type DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemVa
 func (fpaivs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue) AsMemoryPathItemValue() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue)
+func (fpaivs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue) AsMemoryBanksPathItemValue() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue)
 	return res, ok
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'MemoryInfo'
 func (fpaivs *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) bool {
 	switch fpaivs.Selector() {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
 		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo: %d", fpaivs.Selector()))
@@ -22705,15 +22814,31 @@ var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayOfValues
 
 func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory:
-		for _, v := range fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) {
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes:
+		for _, v := range fpaov.values.([]int64) {
+			values = append(values, v)
+		}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks:
+		for _, v := range fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues) AsMemoryArrayOfValues() ([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory, bool) {
-	res, ok := fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues) AsSizeBytesArrayOfValues() ([]int64, bool) {
+	res, ok := fpaov.values.([]int64)
+	return res, ok
+}
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPathArrayOfValues) AsMemoryBanksArrayOfValues() ([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank, bool) {
+	res, ok := fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 	return res, ok
 }
 
@@ -22727,8 +22852,8 @@ var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathArrayOfValues
 func (fpsaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues) AsMemoryPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues)
+func (fpsaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldSubPathArrayOfValues) AsMemoryBanksPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -29699,997 +29824,324 @@ func (fpsaov *DeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldSubPa
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath interface {
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector
-	Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) []interface{}
-	GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (interface{}, bool)
-	ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
+	Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector
+	Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) []interface{}
+	GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) (interface{}, bool)
+	ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 
-	// Those methods build corresponding DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue
+	// Those methods build corresponding DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue
-	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue
+	WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue
 }
 
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector int32
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector int32
 
 const (
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector = 0
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes   DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector = 1
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector = 2
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 0
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct     DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 1
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor      DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 2
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial      DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 3
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot        DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 4
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes   DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 5
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 6
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits   DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector = 7
 )
 
-func (s DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector) String() string {
+func (s DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector) String() string {
 	switch s {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 		return "description"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		return "size_bytes"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return "memory_banks"
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", s))
-	}
-}
-
-func BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "description":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription}, nil
-		case "size_bytes", "sizeBytes", "size-bytes":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes}, nil
-		case "memory_banks", "memoryBanks", "memory-banks":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "memory_banks", "memoryBanks", "memory-banks":
-			if subpath, err := BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks, subPath: subpath}, nil
-			}
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory", fp)
-}
-
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(rawField string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(fp)
-}
-
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(rawField string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath struct {
-	selector DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector
-}
-
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath)(nil)
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-			values = append(values, source.Description)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-			values = append(values, source.SizeBytes)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-			for _, value := range source.GetMemoryBanks() {
-				values = append(values, value)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (interface{}, bool) {
-	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-		return source.GetDescription(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		return source.GetSizeBytes(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		res := source.GetMemoryBanks()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fp.selector))
-	}
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-		return ""
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		return int64(0)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return ([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fp.selector))
-	}
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) {
-	if item != nil {
-		switch fp.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-			item.Description = ""
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-			item.SizeBytes = int64(0)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-			item.MemoryBanks = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue {
-	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp, value: value.(string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp, value: value.(int64)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp, value: value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fp.selector))
-	}
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues {
-	fpaov := &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp, values: values.([]string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp, values: values.([]int64)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp, values: values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue {
-	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath: *fp, value: value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fp.selector))
-	}
-}
-
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath struct {
-	selector DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath)(nil)
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelector {
-	return fps.selector
-}
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) AsMemoryBanksSubPath() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath, bool) {
-	res, ok := fps.subPath.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (values []interface{}) {
-	switch fps.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		for _, item := range source.GetMemoryBanks() {
-			values = append(values, fps.subPath.GetRaw(item)...)
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// GetSingle returns value of selected field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (interface{}, bool) {
-	switch fps.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		if len(source.GetMemoryBanks()) == 0 {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetMemoryBanks()[0])
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fps.selector))
-	}
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) {
-	if item != nil {
-		switch fps.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-			for _, subItem := range item.MemoryBanks {
-				fps.subPath.ClearValueRaw(subItem)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue {
-	return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue allows storing values for Memory fields according to their type
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue interface {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
-	CompareWith(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (cmp int, comparable bool)
-}
-
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue, error) {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Memory field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue), nil
-}
-
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue {
-	fpv, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath
-	value interface{}
-}
-
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Memory' as interface{}
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) AsSizeBytesValue() (int64, bool) {
-	res, ok := fpv.value.(int64)
-	return res, ok
-}
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) AsMemoryBanksValue() ([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank, bool) {
-	res, ok := fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Memory
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) {
-	if *target == nil {
-		*target = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
-	}
-	switch fpv.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-		(*target).Description = fpv.value.(string)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		(*target).SizeBytes = fpv.value.(int64)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		(*target).MemoryBanks = fpv.value.([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fpv.selector))
-	}
-}
-
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory'.
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (int, bool) {
-	switch fpv.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetDescription()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		leftValue := fpv.value.(int64)
-		rightValue := source.GetSizeBytes()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return 0, false
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fpv.selector))
-	}
-}
-
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue)(nil)
-
-func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue) AsMemoryBanksPathValue() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) {
-	if *target == nil {
-		*target = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
-	}
-	switch fpvs.Selector() {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		panic("FieldPath setter is unsupported for array subpaths")
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (int, bool) {
-	switch fpvs.Selector() {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return 0, false // repeated field
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue allows storing single item in Path-specific values for Memory according to their type
-// Present only for array (repeated) types.
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath
-	ContainsValue(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) bool
-}
-
-// ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue, error) {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Memory field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue), nil
-}
-
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue {
-	fpaiv, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath
-	value interface{}
-}
-
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory as interface{}
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue) AsMemoryBanksItemValue() (*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank, bool) {
-	res, ok := fpaiv.value.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
-	return res, ok
-}
-
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Memory'
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) bool {
-	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayItemValue struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayItemValue) AsMemoryBanksPathItemValue() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Memory'
-func (fpaivs *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) bool {
-	switch fpaivs.Selector() {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		return false // repeated/map field
-	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory: %d", fpaivs.Selector()))
-	}
-}
-
-// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues allows storing slice of values for Memory fields according to their type
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath
-}
-
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues, error) {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Memory field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues), nil
-}
-
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues {
-	fpaov, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath
-	values interface{}
-}
-
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes:
-		for _, v := range fpaov.values.([]int64) {
-			values = append(values, v)
-		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks:
-		for _, v := range fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues) AsSizeBytesArrayOfValues() ([]int64, bool) {
-	res, ok := fpaov.values.([]int64)
-	return res, ok
-}
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPathArrayOfValues) AsMemoryBanksArrayOfValues() ([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank, bool) {
-	res, ok := fpaov.values.([][]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
-	return res, ok
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldSubPathArrayOfValues) AsMemoryBanksPathArrayOfValues() (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector
-	Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) []interface{}
-	GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) (interface{}, bool)
-	ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
-
-	// Those methods build corresponding DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue
-	WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue
-}
-
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector int32
-
-const (
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 0
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct     DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 1
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor      DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 2
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial      DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 3
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot        DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 4
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes   DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 5
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 6
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits   DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector = 7
-)
-
-func (s DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector) String() string {
-	switch s {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
-		return "description"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 		return "product"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 		return "vendor"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 		return "serial"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 		return "slot"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 		return "size_bytes"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 		return "frequency_hz"
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 		return "width_bits"
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", s))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", s))
 	}
 }
 
-func BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath, error) {
+func BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(fp gotenobject.RawFieldPath) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
 		case "description":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription}, nil
 		case "product":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct}, nil
 		case "vendor":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor}, nil
 		case "serial":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial}, nil
 		case "slot":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot}, nil
 		case "size_bytes", "sizeBytes", "size-bytes":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes}, nil
 		case "frequency_hz", "frequencyHz", "frequency-hz":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz}, nil
 		case "width_bits", "widthBits", "width-bits":
-			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits}, nil
+			return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits}, nil
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank", fp)
 }
 
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(rawField string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath, error) {
+func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(rawField string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(fp)
+	return BuildDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(fp)
 }
 
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(rawField string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(rawField)
+func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(rawField string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath struct {
-	selector DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath struct {
+	selector DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector
 }
 
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath)(nil)
+var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath)(nil)
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelector {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) Selector() DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) String() string {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) JSONString() string {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) (values []interface{}) {
+// Get returns all values pointed by specific field from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) Get(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 			values = append(values, source.Description)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 			values = append(values, source.Product)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 			values = append(values, source.Vendor)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 			values = append(values, source.Serial)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 			values = append(values, source.Slot)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 			values = append(values, source.SizeBytes)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 			values = append(values, source.FrequencyHz)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 			values = append(values, source.WidthBits)
 		default:
-			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
-// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) (interface{}, bool) {
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 		return source.GetDescription(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 		return source.GetProduct(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 		return source.GetVendor(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 		return source.GetSerial(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 		return source.GetSlot(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 		return source.GetSizeBytes(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 		return source.GetFrequencyHz(), source != nil
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 		return source.GetWidthBits(), source != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fp.selector))
 	}
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) GetDefault() interface{} {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 		return ""
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 		return ""
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 		return ""
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 		return ""
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 		return ""
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 		return int64(0)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 		return int64(0)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 		return int32(0)
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fp.selector))
 	}
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) ClearValue(item *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) {
 	if item != nil {
 		switch fp.selector {
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 			item.Description = ""
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 			item.Product = ""
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 			item.Vendor = ""
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 			item.Serial = ""
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 			item.Slot = ""
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 			item.SizeBytes = int64(0)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 			item.FrequencyHz = int64(0)
-		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+		case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 			item.WidthBits = int32(0)
 		default:
-			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz ||
-		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz ||
+		fp.selector == DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) WithIValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue {
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(int64)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(int64)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, value: value.(int32)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(int64)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(int64)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fp.selector))
 	}
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues {
-	fpaov := &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp}
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues {
+	fpaov := &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]int64)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]int64)}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
-		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath: *fp, values: values.([]int32)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]string)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]int64)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]int64)}
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
+		return &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues{DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue {
 	switch fp.selector {
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fp.selector))
 	}
 }
 
-func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue allows storing values for MemoryBank fields according to their type
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue interface {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath
+// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue allows storing values for MemoryBank fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue interface {
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
-	CompareWith(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) (cmp int, comparable bool)
+	SetTo(target **Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
+	CompareWith(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) (cmp int, comparable bool)
 }
 
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue, error) {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(pathStr)
+func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -30697,97 +30149,97 @@ func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_Fi
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing MemoryBank field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue), nil
+	return fpv.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue), nil
 }
 
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue {
-	fpv, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue(pathStr, valueStr)
+func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue {
+	fpv, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue struct {
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath
 	value interface{}
 }
 
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue)(nil)
+var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue)(nil)
 
 // GetRawValue returns raw value stored under selected path for 'MemoryBank' as interface{}
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) GetRawValue() interface{} {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsProductValue() (string, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsProductValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsVendorValue() (string, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsVendorValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsSerialValue() (string, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsSerialValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsSlotValue() (string, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsSlotValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsSizeBytesValue() (int64, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsSizeBytesValue() (int64, bool) {
 	res, ok := fpv.value.(int64)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsFrequencyHzValue() (int64, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsFrequencyHzValue() (int64, bool) {
 	res, ok := fpv.value.(int64)
 	return res, ok
 }
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) AsWidthBitsValue() (int32, bool) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) AsWidthBitsValue() (int32, bool) {
 	res, ok := fpv.value.(int32)
 	return res, ok
 }
 
 // SetTo stores value for selected field for object MemoryBank
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) {
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) SetTo(target **Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) {
 	if *target == nil {
-		*target = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
+		*target = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 	}
 	switch fpv.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 		(*target).Description = fpv.value.(string)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 		(*target).Product = fpv.value.(string)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 		(*target).Vendor = fpv.value.(string)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 		(*target).Serial = fpv.value.(string)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 		(*target).Slot = fpv.value.(string)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 		(*target).SizeBytes = fpv.value.(int64)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 		(*target).FrequencyHz = fpv.value.(int64)
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 		(*target).WidthBits = fpv.value.(int32)
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fpv.selector))
 	}
 }
 
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank'.
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) (int, bool) {
+// CompareWith compares value in the 'DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue' with the value under path in 'Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank'.
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) CompareWith(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) (int, bool) {
 	switch fpv.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
@@ -30797,7 +30249,7 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 		} else {
 			return 1, true
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetProduct()
 		if (leftValue) == (rightValue) {
@@ -30807,7 +30259,7 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 		} else {
 			return 1, true
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetVendor()
 		if (leftValue) == (rightValue) {
@@ -30817,7 +30269,7 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 		} else {
 			return 1, true
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetSerial()
 		if (leftValue) == (rightValue) {
@@ -30827,7 +30279,7 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 		} else {
 			return 1, true
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetSlot()
 		if (leftValue) == (rightValue) {
@@ -30837,7 +30289,7 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 		} else {
 			return 1, true
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 		leftValue := fpv.value.(int64)
 		rightValue := source.GetSizeBytes()
 		if (leftValue) == (rightValue) {
@@ -30847,7 +30299,7 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 		} else {
 			return 1, true
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 		leftValue := fpv.value.(int64)
 		rightValue := source.GetFrequencyHz()
 		if (leftValue) == (rightValue) {
@@ -30857,7 +30309,7 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 		} else {
 			return 1, true
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 		leftValue := fpv.value.(int32)
 		rightValue := source.GetWidthBits()
 		if (leftValue) == (rightValue) {
@@ -30868,25 +30320,25 @@ func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_F
 			return 1, true
 		}
 	default:
-		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank: %d", fpv.selector))
 	}
 }
 
-func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (fpv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
-// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue allows storing single item in Path-specific values for MemoryBank according to their type
+// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue allows storing single item in Path-specific values for MemoryBank according to their type
 // Present only for array (repeated) types.
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue interface {
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath
-	ContainsValue(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) bool
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath
+	ContainsValue(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) bool
 }
 
-// ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue, error) {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(pathStr)
+// ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -30894,40 +30346,40 @@ func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_Fi
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing MemoryBank field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue), nil
+	return fpaiv.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue), nil
 }
 
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue {
-	fpaiv, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue(pathStr, valueStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayItemValue struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayItemValue struct {
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath
 	value interface{}
 }
 
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayItemValue)(nil)
+var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayItemValue = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank as interface{}
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank as interface{}
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
 
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) (interface{}, bool) {
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
 // Contains returns a boolean indicating if value that is being held is present in given 'MemoryBank'
-func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) bool {
-	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath.Get(source)
+func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) bool {
+	slice := fpaiv.DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -30940,14 +30392,14 @@ func (fpaiv *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank
 	return false
 }
 
-// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues allows storing slice of values for MemoryBank fields according to their type
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues interface {
+// DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues allows storing slice of values for MemoryBank fields according to their type
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath
 }
 
-func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues, error) {
-	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPath(pathStr)
+func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
@@ -30955,90 +30407,90 @@ func ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_Fi
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "error parsing MemoryBank field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues), nil
+	return fpaov.(DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues), nil
 }
 
-func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues {
-	fpaov, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues struct {
-	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath
+type DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues struct {
+	DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath
 	values interface{}
 }
 
-var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues)(nil)
+var _ DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathArrayOfValues = (*DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes:
 		for _, v := range fpaov.values.([]int64) {
 			values = append(values, v)
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz:
 		for _, v := range fpaov.values.([]int64) {
 			values = append(values, v)
 		}
-	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits:
+	case DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits:
 		for _, v := range fpaov.values.([]int32) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsProductArrayOfValues() ([]string, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsProductArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsVendorArrayOfValues() ([]string, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsVendorArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsSerialArrayOfValues() ([]string, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsSerialArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsSlotArrayOfValues() ([]string, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsSlotArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsSizeBytesArrayOfValues() ([]int64, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsSizeBytesArrayOfValues() ([]int64, bool) {
 	res, ok := fpaov.values.([]int64)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsFrequencyHzArrayOfValues() ([]int64, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsFrequencyHzArrayOfValues() ([]int64, bool) {
 	res, ok := fpaov.values.([]int64)
 	return res, ok
 }
-func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPathArrayOfValues) AsWidthBitsArrayOfValues() ([]int32, bool) {
+func (fpaov *DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPathArrayOfValues) AsWidthBitsArrayOfValues() ([]int32, bool) {
 	res, ok := fpaov.values.([]int32)
 	return res, ok
 }

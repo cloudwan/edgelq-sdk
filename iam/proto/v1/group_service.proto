@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "GroupServiceProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// Request message for method [GetGroup][ntt.iam.v1.GetGroup]
+// A request message of the GetGroup method.
 message GetGroupRequest {
   // Name of ntt.iam.v1.Group
   string name = 1;
@@ -31,7 +31,7 @@ message GetGroupRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method [BatchGetGroups][ntt.iam.v1.BatchGetGroups]
+// A request message of the BatchGetGroups method.
 message BatchGetGroupsRequest {
   // Names of Groups
   repeated string names = 2;
@@ -47,7 +47,7 @@ message BatchGetGroupsRequest {
   reserved 1;
 }
 
-// BatchGetGroupsResponse
+// A response message of the BatchGetGroups method.
 message BatchGetGroupsResponse {
   // found Groups
   repeated Group groups = 1;
@@ -56,7 +56,7 @@ message BatchGetGroupsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListGroups][ntt.iam.v1.ListGroups]
+// A request message of the ListGroups method.
 message ListGroupsRequest {
   // Parent name of ntt.iam.v1.Group
   string parent = 1;
@@ -67,7 +67,7 @@ message ListGroupsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListGroupsResponse.next_page_token][ntt.iam.v1.ListGroupsResponse.next_page_token]
+  // ListGroupsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -98,17 +98,19 @@ message ListGroupsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListGroups][ntt.iam.v1.ListGroups]
+// A response message of the ListGroups method.
 message ListGroupsResponse {
   // The list of Groups
   repeated Group groups = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListGroupsRequest.page_token][ntt.iam.v1.ListGroupsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListGroupsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListGroupsRequest.page_token][ntt.iam.v1.ListGroupsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListGroupsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -122,7 +124,7 @@ message ListGroupsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchGroup][ntt.iam.v1.WatchGroup]
+// A request message of the WatchGroup method.
 message WatchGroupRequest {
   // Name of ntt.iam.v1.Group
   string name = 1;
@@ -136,10 +138,10 @@ message WatchGroupRequest {
   goten.types.View view = 4;
 }
 
-// WatchGroupResponse
+// A response message of the WatchGroup method.
 message WatchGroupResponse { GroupChange change = 1; }
 
-// Request message for method [WatchGroups][ntt.iam.v1.WatchGroups]
+// A request message of the WatchGroups method.
 message WatchGroupsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -199,7 +201,7 @@ message WatchGroupsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchGroupsResponse
+// A response message of the WatchGroups method.
 message WatchGroupsResponse {
   // Changes of Groups
   repeated GroupChange group_changes = 2;
@@ -265,7 +267,7 @@ message WatchGroupsResponse {
   }
 }
 
-// Request message for method [CreateGroup][ntt.iam.v1.CreateGroup]
+// A request message of the CreateGroup method.
 message CreateGroupRequest {
   // Parent name of ntt.iam.v1.Group
   string parent = 1;
@@ -274,7 +276,7 @@ message CreateGroupRequest {
   Group group = 2;
 }
 
-// Request message for method [UpdateGroup][ntt.iam.v1.UpdateGroup]
+// A request message of the UpdateGroup method.
 message UpdateGroupRequest {
   // Group resource body
   Group group = 2;
@@ -309,7 +311,7 @@ message UpdateGroupRequest {
   }
 }
 
-// Request message for method [DeleteGroup][ntt.iam.v1.DeleteGroup]
+// A request message of the DeleteGroup method.
 message DeleteGroupRequest {
   // Name of ntt.iam.v1.Group
   string name = 1;

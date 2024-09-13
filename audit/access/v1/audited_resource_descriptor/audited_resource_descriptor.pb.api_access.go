@@ -236,7 +236,14 @@ func (a *apiAuditedResourceDescriptorAccess) SaveAuditedResourceDescriptor(ctx c
 }
 
 func (a *apiAuditedResourceDescriptorAccess) DeleteAuditedResourceDescriptor(ctx context.Context, ref *audited_resource_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
-	return fmt.Errorf("Delete operation on AuditedResourceDescriptor is prohibited")
+	if !ref.IsFullyQualified() {
+		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
+	}
+	request := &audited_resource_descriptor_client.DeleteAuditedResourceDescriptorRequest{
+		Name: &ref.Name,
+	}
+	_, err := a.client.DeleteAuditedResourceDescriptor(ctx, request)
+	return err
 }
 func getParentAndFilter(fullFilter *audited_resource_descriptor.Filter) (*audited_resource_descriptor.Filter, *audited_resource_descriptor.ParentName) {
 	var withParentExtraction func(cnd audited_resource_descriptor.FilterCondition) audited_resource_descriptor.FilterCondition
@@ -254,6 +261,9 @@ func getParentAndFilter(fullFilter *audited_resource_descriptor.Filter) (*audite
 				}
 				if len(withoutParentCnds) == 0 {
 					return nil
+				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
 				}
 				return audited_resource_descriptor.AndFilterConditions(withoutParentCnds...)
 			} else {

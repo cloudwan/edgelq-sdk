@@ -1,0 +1,23 @@
+# Global is special default resource type - often used by custom-metrics
+kind: "monitoring.edgelq.com/MonitoredResourceDescriptor"
+version: "v4"
+resources:
+- name: services/applications.edgelq.com/monitoredResourceDescriptors/pod
+  type: applications.edgelq.com/pod
+  displayName: Pod
+  labels:
+  - key: project_id
+    description: NTT Project ID
+    valueType: STRING
+  - key: device_id
+    description: Device ID
+    valueType: STRING
+  - key: pod_id
+    description: Pod ID
+    valueType: STRING
+  - key: region_id
+    description: Region ID
+    valueType: STRING
+  promotedLabelKeySets:
+  - labelKeys: [device_id]
+  - labelKeys: [pod_id]

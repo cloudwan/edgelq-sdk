@@ -33,6 +33,9 @@ message ConfigMap {
   // Display name of ConfigMap
   string display_name = 2;
 
+  // Optional. Description of the ConfigMap.
+  string description = 6;
+
   // Data contains the configuration data.
   // Each key must consist of alphanumeric characters, '-', '_' or '.'.
   // Values with non-UTF-8 byte sequences must use the BinaryData field.

@@ -262,6 +262,9 @@ func getParentAndFilter(fullFilter *plan.Filter) (*plan.Filter, *plan.ParentName
 				if len(withoutParentCnds) == 0 {
 					return nil
 				}
+				if len(withoutParentCnds) == 1 {
+					return withoutParentCnds[0]
+				}
 				return plan.AndFilterConditions(withoutParentCnds...)
 			} else {
 				return tCnd

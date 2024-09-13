@@ -236,6 +236,39 @@ func (obj *Aggregation) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *Pagination) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if obj.View == "" {
+		return gotenvalidate.NewValidationError("Pagination", "view", obj.View, "field is required", nil)
+	}
+	if obj.Function == "" {
+		return gotenvalidate.NewValidationError("Pagination", "function", obj.Function, "field is required", nil)
+	}
+	if obj.AlignmentPeriod != nil && obj.AlignmentPeriod.CheckValid() != nil {
+		err := obj.AlignmentPeriod.CheckValid()
+		return gotenvalidate.NewValidationError("Pagination", "alignmentPeriod", obj.AlignmentPeriod, "could not validate duration", err)
+	} else {
+		d := obj.AlignmentPeriod.AsDuration()
+
+		if obj.AlignmentPeriod != nil {
+			if d != time.Duration(0) && d != time.Duration(60000000000) && d != time.Duration(180000000000) && d != time.Duration(300000000000) && d != time.Duration(900000000000) && d != time.Duration(1800000000000) && d != time.Duration(3600000000000) && d != time.Duration(10800000000000) && d != time.Duration(21600000000000) && d != time.Duration(43200000000000) && d != time.Duration(86400000000000) && d != time.Duration(604800000000000) && d != time.Duration(2419200000000000) {
+				return gotenvalidate.NewValidationError("Pagination", "alignmentPeriod", d, "field must be equal to exactly one of the following values: 0s, 1m0s, 3m0s, 5m0s, 15m0s, 30m0s, 1h0m0s, 3h0m0s, 6h0m0s, 12h0m0s, 24h0m0s, 168h0m0s, 672h0m0s", nil)
+			}
+		}
+	}
+	if !(obj.Limit >= 0 && obj.Limit <= 100) {
+		return gotenvalidate.NewValidationError("Pagination", "limit", obj.Limit, "field must be in range [0, 100]", nil)
+	}
+	if !(obj.Offset >= 0) {
+		return gotenvalidate.NewValidationError("Pagination", "offset", obj.Offset, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *Metric) GotenValidate() error {
 	if obj == nil {
 		return nil

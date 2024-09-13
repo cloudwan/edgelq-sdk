@@ -54,8 +54,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetOrganization][ntt.iam.v1alpha2.GetOrganization]
+// A request message of the GetOrganization method.
 type GetOrganizationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -162,8 +161,7 @@ func (m *GetOrganizationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetOrganizations][ntt.iam.v1alpha2.BatchGetOrganizations]
+// A request message of the BatchGetOrganizations method.
 type BatchGetOrganizationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -270,7 +268,7 @@ func (m *BatchGetOrganizationsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetOrganizationsResponse
+// A response message of the BatchGetOrganizations method.
 type BatchGetOrganizationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -359,8 +357,7 @@ func (m *BatchGetOrganizationsResponse) SetMissing(fv []*organization.Name) {
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListOrganizations][ntt.iam.v1alpha2.ListOrganizations]
+// A request message of the ListOrganizations method.
 type ListOrganizationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -370,7 +367,7 @@ type ListOrganizationsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListOrganizationsResponse.next_page_token][ntt.iam.v1alpha2.ListOrganizationsResponse.next_page_token]
+	// ListOrganizationsResponse.next_page_token.
 	PageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -544,19 +541,20 @@ func (m *ListOrganizationsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListOrganizations][ntt.iam.v1alpha2.ListOrganizations]
+// A response message of the ListOrganizations method.
 type ListOrganizationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Organizations
 	Organizations []*organization.Organization `protobuf:"bytes,1,rep,name=organizations,proto3" json:"organizations,omitempty" firestore:"organizations"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListOrganizationsRequest.page_token.
 	PrevPageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListOrganizationsRequest.page_token.
 	NextPageToken *organization.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -688,8 +686,7 @@ func (m *ListOrganizationsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchOrganization][ntt.iam.v1alpha2.WatchOrganization]
+// A request message of the WatchOrganization method.
 type WatchOrganizationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -796,7 +793,7 @@ func (m *WatchOrganizationRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchOrganizationResponse
+// A response message of the WatchOrganization method.
 type WatchOrganizationResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -868,8 +865,7 @@ func (m *WatchOrganizationResponse) SetChange(fv *organization.OrganizationChang
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchOrganizations][ntt.iam.v1alpha2.WatchOrganizations]
+// A request message of the WatchOrganizations method.
 type WatchOrganizationsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1110,7 +1106,7 @@ func (m *WatchOrganizationsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchOrganizationsResponse
+// A response message of the WatchOrganizations method.
 type WatchOrganizationsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1313,8 +1309,7 @@ func (m *WatchOrganizationsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateOrganization][ntt.iam.v1alpha2.CreateOrganization]
+// A request message of the CreateOrganization method.
 type CreateOrganizationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1387,8 +1382,7 @@ func (m *CreateOrganizationRequest) SetOrganization(fv *organization.Organizatio
 	m.Organization = fv
 }
 
-// Request message for method
-// [UpdateOrganization][ntt.iam.v1alpha2.UpdateOrganization]
+// A request message of the UpdateOrganization method.
 type UpdateOrganizationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1518,8 +1512,7 @@ func (m *UpdateOrganizationRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteOrganization][ntt.iam.v1alpha2.DeleteOrganization]
+// A request message of the DeleteOrganization method.
 type DeleteOrganizationRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -5,6 +5,7 @@ package ntt.monitoring.v4;
 import "edgelq-sdk/common/api/launch_stage.proto";
 import "edgelq-sdk/monitoring/proto/v4/common.proto";
 import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
 import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor;metric_descriptor";
@@ -45,8 +46,8 @@ message MetricDescriptor {
   string type = 8;
 
   // associated resource_types (also used to infer defaults)
-  // examples, devices.edgelq.com/Device, watchdog.edgelq.com/Agent
-  // if not set, defaults to "global" resource type.
+  // examples, devices.edgelq.com/Device, watchdog.edgelq.com/Agent.
+  // DEPRECATED, use "indices".
   repeated string resource_types = 34;
 
   // The set of labels that can be used to describe a specific
@@ -152,15 +153,35 @@ message MetricDescriptor {
   // underlying backend enabling query optimizations. Metric promoted label sets
   // are combined with MonitoredResource promoted label sets and result in
   // PromotedKeySet.
+  // DEPRECATED, use "indices" instead.
   repeated LabelKeySet promoted_label_key_sets = 32;
 
-  // Indexing allows tweaking storage usage by tweaking amount of "duplicate"
-  // data with different promotion criteria. It's important consideration for
-  // balancing time series query performance and storage cost.
+  // DEPRECATED: use "indices". This field must not be used
+  // if client migrated to ResourceBindings. Whenever index_spec is set, it will
+  // override resource_descriptor_bindings. This is for migration purpose,
+  // future indices must be managed by ResourceBindings.
   IndexSpec index_spec = 36;
+
+  // Defines indexing rules for underlying backend enabling query optimizations.
+  // It's important consideration for balancing time series query performance
+  // and storage cost.
+  // Number of non-disabled indices per resource type is 64. Indices are
+  // generated from index families. Final index is a combination of metric &
+  // resource promoted label set, and pre-aggregation spec (if any). For
+  // example, index family with 2 promoted sets for resource, 3 promoted sets
+  // for metric, 2 pre-aggregations would create 12 indices. If no
+  // pre-aggregations were defined, it would be 6 indices. Metric and resource
+  // label sets must never be empty: At least one empty label set must be
+  // present.
+  Indices indices = 37;
 
   // Storage settings
   StorageConfig storage_config = 33;
+
+  // Generated indices data in binary format, for internal use.
+  // They are compiled when MetricDescriptor is saved and used by monitoring
+  // server, db-controller or controller when necessary.
+  BinaryIndices binary_indices = 38;
 
   // Additional annotations that can be used to guide the usage of a metric.
   message MetricDescriptorMetadata {
@@ -168,6 +189,7 @@ message MetricDescriptor {
     ntt.api.LaunchStage launch_stage = 1;
   }
 
+  // DEPRECATED, use Indices
   message IndexSpec {
     // PerResource index
     repeated PerMonitoredResource per_resource = 1;
@@ -177,8 +199,7 @@ message MetricDescriptor {
       // since resource and metric labels are mixed. Full path is required.
       repeated string promoted_labels = 2;
 
-      // whether this index is write-only and not usable for querying
-      bool write_only = 3;
+      reserved 3;
     }
 
     message PerMonitoredResource {
@@ -189,10 +210,272 @@ message MetricDescriptor {
     }
   }
 
+  // ResourceBindings binds MetricDescriptor with selected
+  // MonitoredResourceDescriptors and provides indices for TimeSeries storage.
+  message Indices {
+    // Indices coming by default from application, typically populated by
+    // fixtures controller
+    IndexGroups built_in = 1;
+
+    // User defined additional indices.
+    IndexGroups user_defined = 2;
+
+    // Automatically migrated from older specs. It should not be modified by
+    // users, it can only be archived once new indices are populated (update
+    // closingStatus fields to CLOSED).
+    repeated NonAggregatedIndices legacy_migrated = 3;
+
+    // LabelsGroup represents set of labels in resource and metric.
+    // It forms part of the index generators (non and pre aggregated).
+    message LabelsGroup {
+      // Identifier of the group, used as part of index name and during
+      // update validations.
+      string name = 1;
+
+      // List of metric keys in the group.
+      repeated string metric_keys = 2;
+
+      // List of resource keys in the group.
+      repeated string resource_keys = 3;
+
+      // Closing status should be set when indices used by this group is no
+      // longer desirable.
+      CloseStatus closing_status = 4;
+    }
+
+    // PaginationView is used by PaginationIndices. It indicates which labels
+    // in metric/resource descriptor are kept for filter purpose, and which
+    // are "ranked" by.
+    message PaginationView {
+      // Identifier of the group, used as part of index name and during
+      // update validations.
+      string name = 1;
+
+      // List of metric keys that can optionally be used in filter.
+      repeated string filterable_metric_keys = 2;
+
+      // List of resource keys that can optionally be used in filter.
+      repeated string filterable_resource_keys = 3;
+
+      // List of metric keys that will be part of "paginated" key (for ranking
+      // purpose). Provided labels cannot be used for filtering.
+      repeated string paginated_metric_keys = 4;
+
+      // List of resource keys that will be part of "paginated" key (for ranking
+      // purpose). Provided labels cannot be used for filtering.
+      repeated string paginated_resource_keys = 5;
+
+      // Closing status should be set when indices used by this group is no
+      // longer desirable.
+      CloseStatus closing_status = 6;
+    }
+
+    // AggregationsGroup groups aggregations required for pre-aggregated
+    // indices.
+    message AggregationsGroup {
+      // Name of the group (identifier). Used for validating updates.
+      string name = 1;
+
+      // List of potential values for perSeriesAligner parameter.
+      // It must be specified.
+      repeated Aggregation.Aligner per_series_aligners = 2;
+
+      // List of potential values for crossSeriesReducer parameter.
+      // It can be left empty if we want to support large amount of values.
+      repeated Aggregation.Reducer cross_series_reducers = 3;
+
+      // Closing status, if this group is no longer desired.
+      CloseStatus closing_status = 4;
+
+      // This field is automatically computed and cannot be set by users.
+      // It displays list of aligners used by underlying storage. May not
+      // exactly match to requested aligners.
+      // TODO: Support output_only annotation for sub-array items
+      repeated Aggregation.Aligner storage_aligners = 5;
+    }
+
+    // SortingFunction is a function used for paginable indices.
+    message SortingFunction {
+      // name of the aligner-reducer function
+      string name = 1;
+
+      // Aligner function
+      Aggregation.Aligner aligner = 2;
+
+      // Reducer function, merging values within paginable label set.
+      // Resulting value type must be either INT or DOUBLE,
+      // DISTRIBUTION is not supported.
+      Aggregation.Reducer reducer = 3;
+
+      // Closing status of this aligner reducer function.
+      CloseStatus closing_status = 4;
+
+      Direction sorting = 5;
+
+      enum Direction {
+        UNDEFINED = 0;
+
+        ASCENDING = 1;
+
+        DESCENDING = 2;
+      }
+    }
+
+    // PreAggregatedIndices is a generator of pre-aggregated indices.
+    // One pre-aggregated index is generated per combination of
+    // resource type, partition label set, filter/group label set,
+    // and unique storage aligner (computed from supported aggregations).
+    message PreAggregatedIndices {
+      // Name of the group
+      string name = 1;
+
+      // All resource types in the group
+      repeated string resource_types = 2;
+
+      // All partition label sets. Each is generating index per
+      // mentioned resource type, filter/group label set and
+      // aligner.
+      // Index, to be used, requires specifying all labels mentioned
+      // in partition.
+      repeated LabelsGroup partition_label_sets = 3;
+
+      // All label sets containing labels that can be used
+      // in filter/groupBy fields (other than partition).
+      // Index, to be used, must not contain any label
+      // in filter/groupBy not present in the filter/group labels set.
+      repeated LabelsGroup filter_and_group_label_sets = 4;
+
+      // List of all aggregations required by users.
+      repeated AggregationsGroup supported_aggregations = 5;
+    }
+
+    // NonAggregatedIndices is a generator of non-aggregated indices.
+    // One non-aggregated index is generated per combination of
+    // resource type by partition label set.
+    message NonAggregatedIndices {
+      // Name of the whole group.
+      string name = 1;
+
+      // Resource types in this group.
+      repeated string resource_types = 2;
+
+      // All partition label sets. Each is generating index per
+      // mentioned resource type.
+      // Index, to be used, requires specifying all labels mentioned
+      // in partition.
+      repeated LabelsGroup partition_label_sets = 3;
+    }
+
+    // PaginationIndices are special pre-aggregated indices.
+    // To access this index, it is necessary to include in the filter
+    // some partition label set. Paginable labels MUST not be used in filter,
+    // and have no effect in groupBy (always included).
+    message PaginationIndices {
+      // Name of the whole group.
+      string name = 1;
+
+      // Resource types in this group.
+      repeated string resource_types = 2;
+
+      // All partition label sets. Each is generating index per
+      // mentioned resource type.
+      // Index, to be used, requires specifying all labels mentioned
+      // in partition.
+      // Each partition set is matched with each view when generating final
+      // views.
+      repeated LabelsGroup partition_label_sets = 3;
+
+      // All views describing label sets.
+      repeated PaginationView views = 5;
+
+      // List of functions applied to every partition/views in the group.
+      repeated SortingFunction functions = 6;
+    }
+
+    // Grouped indices
+    message IndexGroups {
+      // Pre-aggregated index sets.
+      repeated PreAggregatedIndices pre_aggregated_indices = 1;
+
+      // Non-aggregated index sets.
+      repeated NonAggregatedIndices non_aggregated_indices = 2;
+
+      // Pagination indices.
+      repeated PaginationIndices pagination_indices = 3;
+    }
+
+    // CloseStatus indicates if index group part is closed.
+    // When part of the index closes, all indices it is part of are closed.
+    // Older data is still available for reading until group is completely
+    // removed.
+    enum CloseStatus {
+      // Index is active for read and write
+      UNDEFINED = 0;
+
+      // index is closed for reading from time when it was suspended.
+      // Data prior to suspension is available for reads.
+      // Writes are executed normally. SUSPENDED status can be lifted and
+      // index will behave like nothing ever happened. Reading will be possible
+      // for any time range from creation time.
+      SUSPENDED = 1;
+
+      // Index is no longer writing, but data prior to the closed status is
+      // available for reads. This helps to maintain older indices still
+      // available for reading, even if newer better indices were created.
+      CLOSED = 2;
+    }
+  }
+
   // Backend storage config
   message StorageConfig {
     // whether to store raw points
     bool store_raw_points = 1;
+  }
+
+  message BinaryIndices {
+    repeated ByResourceType by_resources = 1;
+
+    message PreAggregatedIndex {
+      bytes key_data = 1;
+
+      repeated bytes writing_aligners = 2;
+
+      repeated bytes closed_aligners = 3;
+    }
+
+    message PaginatingIndex {
+      bytes key_data = 1;
+
+      repeated bytes writing_functions = 2;
+
+      repeated bytes closed_functions = 3;
+    }
+
+    message ByResourceType {
+      // resource.type in string version, but integer is also
+      // encoded in every other item for convenience.
+      string resource_type = 1;
+
+      // List of aggregation encoders, used by streaming job
+      // when computing pre-aggregated values. Last item contains
+      // most recent version of aggregation. Previous entries
+      // will be closed after some time and removed.
+      repeated bytes aggs_encoder = 2;
+
+      // List of pre-aggregated indices with per-storage-aligner information.
+      // These type of indices are more complex due to presence of aligners
+      // with their own liveness status.
+      repeated PreAggregatedIndex pre_aggregated_indices = 3;
+
+      repeated PaginatingIndex paginating_indices = 6;
+
+      // Non aggregated indices. Bytes contain identifier with all promoted
+      // keys and name part positions.
+      repeated bytes non_aggregated_indices = 4;
+
+      // index name parts
+      repeated string name_parts = 5;
+    }
   }
 
   // The kind of measurement. It describes how the data is reported.
@@ -229,14 +512,7 @@ message MetricDescriptor {
     // The value is a double precision floating point number.
     DOUBLE = 3;
 
-    // The value is a text string.
-    // This value type can be used only if the metric kind is `GAUGE`.
-    STRING = 4;
-
     // The value is a [`Distribution`][google.api.Distribution].
     DISTRIBUTION = 5;
-
-    // The value is money.
-    MONEY = 6;
   }
 }

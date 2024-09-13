@@ -87,6 +87,12 @@ func (o *Device) MakeDiffFieldMask(other *Device) *Device_FieldMask {
 			}
 		}
 	}
+	if o.GetDisplayName() != other.GetDisplayName() {
+		res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName})
+	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDescription})
+	}
 	{
 		subMask := o.GetSpec().MakeDiffFieldMask(other.GetSpec())
 		if subMask.IsFull() {
@@ -117,9 +123,6 @@ func (o *Device) MakeDiffFieldMask(other *Device) *Device_FieldMask {
 			}
 		}
 	}
-	if o.GetDisplayName() != other.GetDisplayName() {
-		res.Paths = append(res.Paths, &Device_FieldTerminalPath{selector: Device_FieldPathSelectorDisplayName})
-	}
 	return res
 }
 
@@ -143,10 +146,11 @@ func (o *Device) Clone() *Device {
 		}
 	}
 	result.Metadata = o.Metadata.Clone()
+	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.Spec = o.Spec.Clone()
 	result.Status = o.Status.Clone()
 	result.PublicListingSpec = o.PublicListingSpec.Clone()
-	result.DisplayName = o.DisplayName
 	return result
 }
 
@@ -173,6 +177,8 @@ func (o *Device) Merge(source *Device) {
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
+	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	if source.GetSpec() != nil {
 		if o.Spec == nil {
 			o.Spec = new(Device_Spec)
@@ -191,7 +197,6 @@ func (o *Device) Merge(source *Device) {
 		}
 		o.PublicListingSpec.Merge(source.GetPublicListingSpec())
 	}
-	o.DisplayName = source.GetDisplayName()
 }
 
 func (o *Device) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -3511,17 +3516,23 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) MakeDiffFieldM
 	}
 
 	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask{}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorDescription})
+	}
+	if o.GetSizeBytes() != other.GetSizeBytes() {
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorSizeBytes})
+	}
 
-	if len(o.GetMemory()) == len(other.GetMemory()) {
-		for i, lValue := range o.GetMemory() {
-			rValue := other.GetMemory()[i]
+	if len(o.GetMemoryBanks()) == len(other.GetMemoryBanks()) {
+		for i, lValue := range o.GetMemoryBanks() {
+			rValue := other.GetMemoryBanks()[i]
 			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory})
+				res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks})
 				break
 			}
 		}
 	} else {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemory})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPathSelectorMemoryBanks})
 	}
 	return res
 }
@@ -3535,9 +3546,11 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) Clone() *Devic
 		return nil
 	}
 	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo{}
-	result.Memory = make([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory, len(o.Memory))
-	for i, sourceValue := range o.Memory {
-		result.Memory[i] = sourceValue.Clone()
+	result.Description = o.Description
+	result.SizeBytes = o.SizeBytes
+	result.MemoryBanks = make([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank, len(o.MemoryBanks))
+	for i, sourceValue := range o.MemoryBanks {
+		result.MemoryBanks[i] = sourceValue.Clone()
 	}
 	return result
 }
@@ -3547,21 +3560,23 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) CloneRaw() got
 }
 
 func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) Merge(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) {
-	for _, sourceValue := range source.GetMemory() {
+	o.Description = source.GetDescription()
+	o.SizeBytes = source.GetSizeBytes()
+	for _, sourceValue := range source.GetMemoryBanks() {
 		exists := false
-		for _, currentValue := range o.Memory {
+		for _, currentValue := range o.MemoryBanks {
 			if proto.Equal(sourceValue, currentValue) {
 				exists = true
 				break
 			}
 		}
 		if !exists {
-			var newDstElement *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory
+			var newDstElement *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank
 			if sourceValue != nil {
-				newDstElement = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory)
+				newDstElement = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank)
 				newDstElement.Merge(sourceValue)
 			}
-			o.Memory = append(o.Memory, newDstElement)
+			o.MemoryBanks = append(o.MemoryBanks, newDstElement)
 		}
 	}
 
@@ -4459,151 +4474,61 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard) MergeRaw(
 	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard))
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) GotenObjectExt() {}
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) GotenObjectExt() {}
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask {
-	return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask()
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask()
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask()
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask()
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) MakeDiffFieldMask(other *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask {
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) MakeDiffFieldMask(other *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask {
 	if o == nil && other == nil {
-		return &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{}
+		return &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask()
+		return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask()
 	}
 
-	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_FieldMask{}
+	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask{}
 	if o.GetDescription() != other.GetDescription() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorDescription})
-	}
-	if o.GetSizeBytes() != other.GetSizeBytes() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorSizeBytes})
-	}
-
-	if len(o.GetMemoryBanks()) == len(other.GetMemoryBanks()) {
-		for i, lValue := range o.GetMemoryBanks() {
-			rValue := other.GetMemoryBanks()[i]
-			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemory_FieldPathSelectorMemoryBanks})
-	}
-	return res
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) Clone() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory {
-	if o == nil {
-		return nil
-	}
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory{}
-	result.Description = o.Description
-	result.SizeBytes = o.SizeBytes
-	result.MemoryBanks = make([]*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank, len(o.MemoryBanks))
-	for i, sourceValue := range o.MemoryBanks {
-		result.MemoryBanks[i] = sourceValue.Clone()
-	}
-	return result
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) Merge(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) {
-	o.Description = source.GetDescription()
-	o.SizeBytes = source.GetSizeBytes()
-	for _, sourceValue := range source.GetMemoryBanks() {
-		exists := false
-		for _, currentValue := range o.MemoryBanks {
-			if proto.Equal(sourceValue, currentValue) {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank
-			if sourceValue != nil {
-				newDstElement = new(Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank)
-				newDstElement.Merge(sourceValue)
-			}
-			o.MemoryBanks = append(o.MemoryBanks, newDstElement)
-		}
-	}
-
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory))
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) GotenObjectExt() {
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) MakeFullFieldMask() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask {
-	return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask()
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask()
-}
-
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) MakeDiffFieldMask(other *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask {
-	if o == nil && other == nil {
-		return &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullDevice_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask()
-	}
-
-	res := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank_FieldMask{}
-	if o.GetDescription() != other.GetDescription() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorDescription})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorDescription})
 	}
 	if o.GetProduct() != other.GetProduct() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorProduct})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorProduct})
 	}
 	if o.GetVendor() != other.GetVendor() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorVendor})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorVendor})
 	}
 	if o.GetSerial() != other.GetSerial() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSerial})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSerial})
 	}
 	if o.GetSlot() != other.GetSlot() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSlot})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSlot})
 	}
 	if o.GetSizeBytes() != other.GetSizeBytes() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorSizeBytes})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorSizeBytes})
 	}
 	if o.GetFrequencyHz() != other.GetFrequencyHz() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorFrequencyHz})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorFrequencyHz})
 	}
 	if o.GetWidthBits() != other.GetWidthBits() {
-		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryMemoryBank_FieldPathSelectorWidthBits})
+		res.Paths = append(res.Paths, &DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldTerminalPath{selector: DeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPathSelectorWidthBits})
 	}
 	return res
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) Clone() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank {
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) Clone() *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank {
 	if o == nil {
 		return nil
 	}
-	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank{}
+	result := &Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank{}
 	result.Description = o.Description
 	result.Product = o.Product
 	result.Vendor = o.Vendor
@@ -4615,11 +4540,11 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBa
 	return result
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) CloneRaw() gotenobject.GotenObjectExt {
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) Merge(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) {
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) Merge(source *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) {
 	o.Description = source.GetDescription()
 	o.Product = source.GetProduct()
 	o.Vendor = source.GetVendor()
@@ -4630,8 +4555,8 @@ func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBa
 	o.WidthBits = source.GetWidthBits()
 }
 
-func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_Memory_MemoryBank))
+func (o *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank))
 }
 
 func (o *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) GotenObjectExt() {}

@@ -52,6 +52,12 @@ func (obj *EdgelqInstance) GotenValidate() error {
 			return gotenvalidate.NewValidationError("EdgelqInstance", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.DisplayName)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("EdgelqInstance", "displayName", obj.DisplayName, "field must contain at most 256 characters", nil)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

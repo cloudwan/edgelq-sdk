@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "DeploymentServiceProto";
 option java_package = "com.ntt.meta.pb.v1alpha2";
 
-// Request message for method [GetDeployment][ntt.meta.v1alpha2.GetDeployment]
+// A request message of the GetDeployment method.
 message GetDeploymentRequest {
   // Name of ntt.meta.v1alpha2.Deployment
   string name = 1;
@@ -31,8 +31,7 @@ message GetDeploymentRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetDeployments][ntt.meta.v1alpha2.BatchGetDeployments]
+// A request message of the BatchGetDeployments method.
 message BatchGetDeploymentsRequest {
   // Names of Deployments
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetDeploymentsRequest {
   reserved 1;
 }
 
-// BatchGetDeploymentsResponse
+// A response message of the BatchGetDeployments method.
 message BatchGetDeploymentsResponse {
   // found Deployments
   repeated Deployment deployments = 1;
@@ -57,8 +56,7 @@ message BatchGetDeploymentsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListDeployments][ntt.meta.v1alpha2.ListDeployments]
+// A request message of the ListDeployments method.
 message ListDeploymentsRequest {
   // Parent name of ntt.meta.v1alpha2.Deployment
   string parent = 1;
@@ -69,7 +67,7 @@ message ListDeploymentsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListDeploymentsResponse.next_page_token][ntt.meta.v1alpha2.ListDeploymentsResponse.next_page_token]
+  // ListDeploymentsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -100,18 +98,19 @@ message ListDeploymentsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListDeployments][ntt.meta.v1alpha2.ListDeployments]
+// A response message of the ListDeployments method.
 message ListDeploymentsResponse {
   // The list of Deployments
   repeated Deployment deployments = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListDeploymentsRequest.page_token][ntt.meta.v1alpha2.ListDeploymentsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListDeploymentsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListDeploymentsRequest.page_token][ntt.meta.v1alpha2.ListDeploymentsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListDeploymentsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -125,8 +124,7 @@ message ListDeploymentsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchDeployment][ntt.meta.v1alpha2.WatchDeployment]
+// A request message of the WatchDeployment method.
 message WatchDeploymentRequest {
   // Name of ntt.meta.v1alpha2.Deployment
   string name = 1;
@@ -140,11 +138,10 @@ message WatchDeploymentRequest {
   goten.types.View view = 4;
 }
 
-// WatchDeploymentResponse
+// A response message of the WatchDeployment method.
 message WatchDeploymentResponse { DeploymentChange change = 1; }
 
-// Request message for method
-// [WatchDeployments][ntt.meta.v1alpha2.WatchDeployments]
+// A request message of the WatchDeployments method.
 message WatchDeploymentsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -204,7 +201,7 @@ message WatchDeploymentsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchDeploymentsResponse
+// A response message of the WatchDeployments method.
 message WatchDeploymentsResponse {
   // Changes of Deployments
   repeated DeploymentChange deployment_changes = 2;

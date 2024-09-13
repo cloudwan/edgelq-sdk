@@ -3000,10 +3000,6 @@ func (b *filterCndBuilderPromotedLabelKeySets) LabelKeys() *filterCndBuilderProm
 	return &filterCndBuilderPromotedLabelKeySetsLabelKeys{builder: b.builder}
 }
 
-func (b *filterCndBuilderPromotedLabelKeySets) WriteOnly() *filterCndBuilderPromotedLabelKeySetsWriteOnly {
-	return &filterCndBuilderPromotedLabelKeySetsWriteOnly{builder: b.builder}
-}
-
 type filterCndBuilderPromotedLabelKeySetsLabelKeys struct {
 	builder *FilterBuilder
 }
@@ -3094,64 +3090,5 @@ func (b *filterCndBuilderPromotedLabelKeySetsLabelKeys) compare(op gotenfilter.C
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator: op,
 		MonitoredResourceDescriptor_FieldPathValue: NewMonitoredResourceDescriptorFieldPathBuilder().PromotedLabelKeySets().LabelKeys().WithValue(value),
-	})
-}
-
-type filterCndBuilderPromotedLabelKeySetsWriteOnly struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		MonitoredResourceDescriptor_FieldPathArrayOfValues: NewMonitoredResourceDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		MonitoredResourceDescriptor_FieldPathArrayOfValues: NewMonitoredResourceDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewMonitoredResourceDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewMonitoredResourceDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderPromotedLabelKeySetsWriteOnly) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator: op,
-		MonitoredResourceDescriptor_FieldPathValue: NewMonitoredResourceDescriptorFieldPathBuilder().PromotedLabelKeySets().WriteOnly().WithValue(value),
 	})
 }

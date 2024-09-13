@@ -76,6 +76,9 @@ func (o *Group) MakeDiffFieldMask(other *Group) *Group_FieldMask {
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorDisplayName})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorDescription})
+	}
 	if o.GetEmail() != other.GetEmail() {
 		res.Paths = append(res.Paths, &Group_FieldTerminalPath{selector: Group_FieldPathSelectorEmail})
 	}
@@ -103,6 +106,7 @@ func (o *Group) Clone() *Group {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.Email = o.Email
 	return result
 }
@@ -131,6 +135,7 @@ func (o *Group) Merge(source *Group) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	o.Email = source.GetEmail()
 }
 

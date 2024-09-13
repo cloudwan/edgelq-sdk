@@ -56,8 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [GetNotificationChannel][ntt.monitoring.v3.GetNotificationChannel]
+// A request message of the GetNotificationChannel method.
 type GetNotificationChannelRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -164,8 +163,7 @@ func (m *GetNotificationChannelRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetNotificationChannels][ntt.monitoring.v3.BatchGetNotificationChannels]
+// A request message of the BatchGetNotificationChannels method.
 type BatchGetNotificationChannelsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -272,7 +270,7 @@ func (m *BatchGetNotificationChannelsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetNotificationChannelsResponse
+// A response message of the BatchGetNotificationChannels method.
 type BatchGetNotificationChannelsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -361,8 +359,7 @@ func (m *BatchGetNotificationChannelsResponse) SetMissing(fv []*notification_cha
 	m.Missing = fv
 }
 
-// Request message for method
-// [ListNotificationChannels][ntt.monitoring.v3.ListNotificationChannels]
+// A request message of the ListNotificationChannels method.
 type ListNotificationChannelsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -374,7 +371,7 @@ type ListNotificationChannelsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListNotificationChannelsResponse.next_page_token][ntt.monitoring.v3.ListNotificationChannelsResponse.next_page_token]
+	// ListNotificationChannelsResponse.next_page_token.
 	PageToken *notification_channel.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -562,19 +559,20 @@ func (m *ListNotificationChannelsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method
-// [ListNotificationChannels][ntt.monitoring.v3.ListNotificationChannels]
+// A response message of the ListNotificationChannels method.
 type ListNotificationChannelsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of NotificationChannels
 	NotificationChannels []*notification_channel.NotificationChannel `protobuf:"bytes,1,rep,name=notification_channels,json=notificationChannels,proto3" json:"notification_channels,omitempty" firestore:"notificationChannels"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListNotificationChannelsRequest.page_token][ntt.monitoring.v3.ListNotificationChannelsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListNotificationChannelsRequest.page_token.
 	PrevPageToken *notification_channel.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListNotificationChannelsRequest.page_token][ntt.monitoring.v3.ListNotificationChannelsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListNotificationChannelsRequest.page_token.
 	NextPageToken *notification_channel.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -707,8 +705,7 @@ func (m *ListNotificationChannelsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method
-// [WatchNotificationChannel][ntt.monitoring.v3.WatchNotificationChannel]
+// A request message of the WatchNotificationChannel method.
 type WatchNotificationChannelRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -815,7 +812,7 @@ func (m *WatchNotificationChannelRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchNotificationChannelResponse
+// A response message of the WatchNotificationChannel method.
 type WatchNotificationChannelResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -887,8 +884,7 @@ func (m *WatchNotificationChannelResponse) SetChange(fv *notification_channel.No
 	m.Change = fv
 }
 
-// Request message for method
-// [WatchNotificationChannels][ntt.monitoring.v3.WatchNotificationChannels]
+// A request message of the WatchNotificationChannels method.
 type WatchNotificationChannelsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1146,7 +1142,7 @@ func (m *WatchNotificationChannelsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchNotificationChannelsResponse
+// A response message of the WatchNotificationChannels method.
 type WatchNotificationChannelsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1349,8 +1345,7 @@ func (m *WatchNotificationChannelsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method
-// [CreateNotificationChannel][ntt.monitoring.v3.CreateNotificationChannel]
+// A request message of the CreateNotificationChannel method.
 type CreateNotificationChannelRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1439,8 +1434,7 @@ func (m *CreateNotificationChannelRequest) SetNotificationChannel(fv *notificati
 	m.NotificationChannel = fv
 }
 
-// Request message for method
-// [UpdateNotificationChannel][ntt.monitoring.v3.UpdateNotificationChannel]
+// A request message of the UpdateNotificationChannel method.
 type UpdateNotificationChannelRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1570,8 +1564,7 @@ func (m *UpdateNotificationChannelRequest) SetAllowMissing(fv bool) {
 	m.AllowMissing = fv
 }
 
-// Request message for method
-// [DeleteNotificationChannel][ntt.monitoring.v3.DeleteNotificationChannel]
+// A request message of the DeleteNotificationChannel method.
 type DeleteNotificationChannelRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

@@ -138,9 +138,6 @@ func (o *LabelKeySet) MakeDiffFieldMask(other *LabelKeySet) *LabelKeySet_FieldMa
 	} else {
 		res.Paths = append(res.Paths, &LabelKeySet_FieldTerminalPath{selector: LabelKeySet_FieldPathSelectorLabelKeys})
 	}
-	if o.GetWriteOnly() != other.GetWriteOnly() {
-		res.Paths = append(res.Paths, &LabelKeySet_FieldTerminalPath{selector: LabelKeySet_FieldPathSelectorWriteOnly})
-	}
 	return res
 }
 
@@ -157,7 +154,6 @@ func (o *LabelKeySet) Clone() *LabelKeySet {
 	for i, sourceValue := range o.LabelKeys {
 		result.LabelKeys[i] = sourceValue
 	}
-	result.WriteOnly = o.WriteOnly
 	return result
 }
 
@@ -181,7 +177,6 @@ func (o *LabelKeySet) Merge(source *LabelKeySet) {
 		}
 	}
 
-	o.WriteOnly = source.GetWriteOnly()
 }
 
 func (o *LabelKeySet) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -1199,6 +1194,81 @@ func (o *Aggregation) Merge(source *Aggregation) {
 
 func (o *Aggregation) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Aggregation))
+}
+
+func (o *Pagination) GotenObjectExt() {}
+
+func (o *Pagination) MakeFullFieldMask() *Pagination_FieldMask {
+	return FullPagination_FieldMask()
+}
+
+func (o *Pagination) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPagination_FieldMask()
+}
+
+func (o *Pagination) MakeDiffFieldMask(other *Pagination) *Pagination_FieldMask {
+	if o == nil && other == nil {
+		return &Pagination_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullPagination_FieldMask()
+	}
+
+	res := &Pagination_FieldMask{}
+	if o.GetView() != other.GetView() {
+		res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorView})
+	}
+	if o.GetFunction() != other.GetFunction() {
+		res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorFunction})
+	}
+	if !proto.Equal(o.GetAlignmentPeriod(), other.GetAlignmentPeriod()) {
+		res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorAlignmentPeriod})
+	}
+	if o.GetLimit() != other.GetLimit() {
+		res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorLimit})
+	}
+	if o.GetOffset() != other.GetOffset() {
+		res.Paths = append(res.Paths, &Pagination_FieldTerminalPath{selector: Pagination_FieldPathSelectorOffset})
+	}
+	return res
+}
+
+func (o *Pagination) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Pagination))
+}
+
+func (o *Pagination) Clone() *Pagination {
+	if o == nil {
+		return nil
+	}
+	result := &Pagination{}
+	result.View = o.View
+	result.Function = o.Function
+	result.AlignmentPeriod = proto.Clone(o.AlignmentPeriod).(*durationpb.Duration)
+	result.Limit = o.Limit
+	result.Offset = o.Offset
+	return result
+}
+
+func (o *Pagination) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Pagination) Merge(source *Pagination) {
+	o.View = source.GetView()
+	o.Function = source.GetFunction()
+	if source.GetAlignmentPeriod() != nil {
+		if o.AlignmentPeriod == nil {
+			o.AlignmentPeriod = new(durationpb.Duration)
+		}
+		proto.Merge(o.AlignmentPeriod, source.GetAlignmentPeriod())
+	}
+	o.Limit = source.GetLimit()
+	o.Offset = source.GetOffset()
+}
+
+func (o *Pagination) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Pagination))
 }
 
 func (o *Metric) GotenObjectExt() {}

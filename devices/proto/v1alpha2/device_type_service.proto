@@ -17,8 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "DeviceTypeServiceProto";
 option java_package = "com.ntt.devices.pb.v1alpha2";
 
-// Request message for method
-// [GetDeviceType][ntt.devices.v1alpha2.GetDeviceType]
+// A request message of the GetDeviceType method.
 message GetDeviceTypeRequest {
   // Name of ntt.devices.v1alpha2.DeviceType
   string name = 1;
@@ -32,8 +31,7 @@ message GetDeviceTypeRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetDeviceTypes][ntt.devices.v1alpha2.BatchGetDeviceTypes]
+// A request message of the BatchGetDeviceTypes method.
 message BatchGetDeviceTypesRequest {
   // Names of DeviceTypes
   repeated string names = 2;
@@ -49,7 +47,7 @@ message BatchGetDeviceTypesRequest {
   reserved 1;
 }
 
-// BatchGetDeviceTypesResponse
+// A response message of the BatchGetDeviceTypes method.
 message BatchGetDeviceTypesResponse {
   // found DeviceTypes
   repeated DeviceType device_types = 1;
@@ -58,8 +56,7 @@ message BatchGetDeviceTypesResponse {
   repeated string missing = 2;
 }
 
-// Request message for method
-// [ListDeviceTypes][ntt.devices.v1alpha2.ListDeviceTypes]
+// A request message of the ListDeviceTypes method.
 message ListDeviceTypesRequest {
   // Requested page size. Server may return fewer DeviceTypes than requested.
   // If unspecified, server will pick an appropriate default.
@@ -67,7 +64,7 @@ message ListDeviceTypesRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListDeviceTypesResponse.next_page_token][ntt.devices.v1alpha2.ListDeviceTypesResponse.next_page_token]
+  // ListDeviceTypesResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -98,18 +95,19 @@ message ListDeviceTypesRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method
-// [ListDeviceTypes][ntt.devices.v1alpha2.ListDeviceTypes]
+// A response message of the ListDeviceTypes method.
 message ListDeviceTypesResponse {
   // The list of DeviceTypes
   repeated DeviceType device_types = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListDeviceTypesRequest.page_token][ntt.devices.v1alpha2.ListDeviceTypesRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListDeviceTypesRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListDeviceTypesRequest.page_token][ntt.devices.v1alpha2.ListDeviceTypesRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListDeviceTypesRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -123,8 +121,7 @@ message ListDeviceTypesResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method
-// [WatchDeviceType][ntt.devices.v1alpha2.WatchDeviceType]
+// A request message of the WatchDeviceType method.
 message WatchDeviceTypeRequest {
   // Name of ntt.devices.v1alpha2.DeviceType
   string name = 1;
@@ -138,11 +135,10 @@ message WatchDeviceTypeRequest {
   goten.types.View view = 4;
 }
 
-// WatchDeviceTypeResponse
+// A response message of the WatchDeviceType method.
 message WatchDeviceTypeResponse { DeviceTypeChange change = 1; }
 
-// Request message for method
-// [WatchDeviceTypes][ntt.devices.v1alpha2.WatchDeviceTypes]
+// A request message of the WatchDeviceTypes method.
 message WatchDeviceTypesRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -199,7 +195,7 @@ message WatchDeviceTypesRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchDeviceTypesResponse
+// A response message of the WatchDeviceTypes method.
 message WatchDeviceTypesResponse {
   // Changes of DeviceTypes
   repeated DeviceTypeChange device_type_changes = 2;
@@ -265,15 +261,13 @@ message WatchDeviceTypesResponse {
   }
 }
 
-// Request message for method
-// [CreateDeviceType][ntt.devices.v1alpha2.CreateDeviceType]
+// A request message of the CreateDeviceType method.
 message CreateDeviceTypeRequest {
   // DeviceType resource body
   DeviceType device_type = 2;
 }
 
-// Request message for method
-// [UpdateDeviceType][ntt.devices.v1alpha2.UpdateDeviceType]
+// A request message of the UpdateDeviceType method.
 message UpdateDeviceTypeRequest {
   // DeviceType resource body
   DeviceType device_type = 2;
@@ -308,8 +302,7 @@ message UpdateDeviceTypeRequest {
   }
 }
 
-// Request message for method
-// [DeleteDeviceType][ntt.devices.v1alpha2.DeleteDeviceType]
+// A request message of the DeleteDeviceType method.
 message DeleteDeviceTypeRequest {
   // Name of ntt.devices.v1alpha2.DeviceType
   string name = 1;

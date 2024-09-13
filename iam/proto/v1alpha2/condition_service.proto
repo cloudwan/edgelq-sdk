@@ -17,7 +17,7 @@ option java_multiple_files = false;
 option java_outer_classname = "ConditionServiceProto";
 option java_package = "com.ntt.iam.pb.v1alpha2";
 
-// Request message for method [GetCondition][ntt.iam.v1alpha2.GetCondition]
+// A request message of the GetCondition method.
 message GetConditionRequest {
   // Name of ntt.iam.v1alpha2.Condition
   string name = 1;
@@ -31,8 +31,7 @@ message GetConditionRequest {
   goten.types.View view = 4;
 }
 
-// Request message for method
-// [BatchGetConditions][ntt.iam.v1alpha2.BatchGetConditions]
+// A request message of the BatchGetConditions method.
 message BatchGetConditionsRequest {
   // Names of Conditions
   repeated string names = 2;
@@ -48,7 +47,7 @@ message BatchGetConditionsRequest {
   reserved 1;
 }
 
-// BatchGetConditionsResponse
+// A response message of the BatchGetConditions method.
 message BatchGetConditionsResponse {
   // found Conditions
   repeated Condition conditions = 1;
@@ -57,7 +56,7 @@ message BatchGetConditionsResponse {
   repeated string missing = 2;
 }
 
-// Request message for method [ListConditions][ntt.iam.v1alpha2.ListConditions]
+// A request message of the ListConditions method.
 message ListConditionsRequest {
   // Parent name of ntt.iam.v1alpha2.Condition
   string parent = 1;
@@ -68,7 +67,7 @@ message ListConditionsRequest {
 
   // A token identifying a page of results the server should return.
   // Typically, this is the value of
-  // [ListConditionsResponse.next_page_token][ntt.iam.v1alpha2.ListConditionsResponse.next_page_token]
+  // ListConditionsResponse.next_page_token.
   string page_token = 3;
 
   // Order By -
@@ -99,17 +98,19 @@ message ListConditionsRequest {
   bool include_paging_info = 8;
 }
 
-// Request message for method [ListConditions][ntt.iam.v1alpha2.ListConditions]
+// A response message of the ListConditions method.
 message ListConditionsResponse {
   // The list of Conditions
   repeated Condition conditions = 1;
 
-  // A token to retrieve previous page of results. Pass this value in the
-  // [ListConditionsRequest.page_token][ntt.iam.v1alpha2.ListConditionsRequest.page_token]
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListConditionsRequest.page_token.
   string prev_page_token = 3;
 
-  // A token to retrieve next page of results. Pass this value in the
-  // [ListConditionsRequest.page_token][ntt.iam.v1alpha2.ListConditionsRequest.page_token]
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListConditionsRequest.page_token.
   string next_page_token = 4;
 
   // Current offset from the first page or 0 if no page tokens were given,
@@ -123,7 +124,7 @@ message ListConditionsResponse {
   int32 total_results_count = 6;
 }
 
-// Request message for method [WatchCondition][ntt.iam.v1alpha2.WatchCondition]
+// A request message of the WatchCondition method.
 message WatchConditionRequest {
   // Name of ntt.iam.v1alpha2.Condition
   string name = 1;
@@ -137,11 +138,10 @@ message WatchConditionRequest {
   goten.types.View view = 4;
 }
 
-// WatchConditionResponse
+// A response message of the WatchCondition method.
 message WatchConditionResponse { ConditionChange change = 1; }
 
-// Request message for method
-// [WatchConditions][ntt.iam.v1alpha2.WatchConditions]
+// A request message of the WatchConditions method.
 message WatchConditionsRequest {
   // Type of a watch. Identifies how server stream data to a client, which
   // fields in a request are allowed and which fields in response are relevant.
@@ -201,7 +201,7 @@ message WatchConditionsRequest {
   int32 max_chunk_size = 11;
 }
 
-// WatchConditionsResponse
+// A response message of the WatchConditions method.
 message WatchConditionsResponse {
   // Changes of Conditions
   repeated ConditionChange condition_changes = 2;
@@ -267,8 +267,7 @@ message WatchConditionsResponse {
   }
 }
 
-// Request message for method
-// [CreateCondition][ntt.iam.v1alpha2.CreateCondition]
+// A request message of the CreateCondition method.
 message CreateConditionRequest {
   // Parent name of ntt.iam.v1alpha2.Condition
   string parent = 1;
@@ -277,8 +276,7 @@ message CreateConditionRequest {
   Condition condition = 2;
 }
 
-// Request message for method
-// [UpdateCondition][ntt.iam.v1alpha2.UpdateCondition]
+// A request message of the UpdateCondition method.
 message UpdateConditionRequest {
   // Condition resource body
   Condition condition = 2;
@@ -313,8 +311,7 @@ message UpdateConditionRequest {
   }
 }
 
-// Request message for method
-// [DeleteCondition][ntt.iam.v1alpha2.DeleteCondition]
+// A request message of the DeleteCondition method.
 message DeleteConditionRequest {
   // Name of ntt.iam.v1alpha2.Condition
   string name = 1;

@@ -56,7 +56,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [GetLimit][ntt.limits.v1alpha2.GetLimit]
+// A request message of the GetLimit method.
 type GetLimitRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -163,8 +163,7 @@ func (m *GetLimitRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// Request message for method
-// [BatchGetLimits][ntt.limits.v1alpha2.BatchGetLimits]
+// A request message of the BatchGetLimits method.
 type BatchGetLimitsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -271,7 +270,7 @@ func (m *BatchGetLimitsRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// BatchGetLimitsResponse
+// A response message of the BatchGetLimits method.
 type BatchGetLimitsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -360,7 +359,7 @@ func (m *BatchGetLimitsResponse) SetMissing(fv []*limit.Name) {
 	m.Missing = fv
 }
 
-// Request message for method [ListLimits][ntt.limits.v1alpha2.ListLimits]
+// A request message of the ListLimits method.
 type ListLimitsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -372,7 +371,7 @@ type ListLimitsRequest struct {
 	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
-	// [ListLimitsResponse.next_page_token][ntt.limits.v1alpha2.ListLimitsResponse.next_page_token]
+	// ListLimitsResponse.next_page_token.
 	PageToken *limit.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
@@ -560,18 +559,20 @@ func (m *ListLimitsRequest) SetIncludePagingInfo(fv bool) {
 	m.IncludePagingInfo = fv
 }
 
-// Request message for method [ListLimits][ntt.limits.v1alpha2.ListLimits]
+// A response message of the ListLimits method.
 type ListLimitsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Limits
 	Limits []*limit.Limit `protobuf:"bytes,1,rep,name=limits,proto3" json:"limits,omitempty" firestore:"limits"`
-	// A token to retrieve previous page of results. Pass this value in the
-	// [ListLimitsRequest.page_token][ntt.limits.v1alpha2.ListLimitsRequest.page_token]
+	// A token to retrieve previous page of results.
+	//
+	// Pass this value in the ListLimitsRequest.page_token.
 	PrevPageToken *limit.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
-	// A token to retrieve next page of results. Pass this value in the
-	// [ListLimitsRequest.page_token][ntt.limits.v1alpha2.ListLimitsRequest.page_token]
+	// A token to retrieve next page of results.
+	//
+	// Pass this value in the ListLimitsRequest.page_token.
 	NextPageToken *limit.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
@@ -703,7 +704,7 @@ func (m *ListLimitsResponse) SetTotalResultsCount(fv int32) {
 	m.TotalResultsCount = fv
 }
 
-// Request message for method [WatchLimit][ntt.limits.v1alpha2.WatchLimit]
+// A request message of the WatchLimit method.
 type WatchLimitRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -810,7 +811,7 @@ func (m *WatchLimitRequest) SetView(fv view.View) {
 	m.View = fv
 }
 
-// WatchLimitResponse
+// A response message of the WatchLimit method.
 type WatchLimitResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -882,7 +883,7 @@ func (m *WatchLimitResponse) SetChange(fv *limit.LimitChange) {
 	m.Change = fv
 }
 
-// Request message for method [WatchLimits][ntt.limits.v1alpha2.WatchLimits]
+// A request message of the WatchLimits method.
 type WatchLimitsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1139,7 +1140,7 @@ func (m *WatchLimitsRequest) SetMaxChunkSize(fv int32) {
 	m.MaxChunkSize = fv
 }
 
-// WatchLimitsResponse
+// A response message of the WatchLimits method.
 type WatchLimitsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1342,7 +1343,7 @@ func (m *WatchLimitsResponse) SetIsHardReset(fv bool) {
 	m.IsHardReset = fv
 }
 
-// Request message for method [UpdateLimit][ntt.limits.v1alpha2.UpdateLimit]
+// A request message of the UpdateLimit method.
 type UpdateLimitRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -1452,7 +1453,7 @@ func (m *UpdateLimitRequest) SetCas(fv *UpdateLimitRequest_CAS) {
 	m.Cas = fv
 }
 
-// Request message for method [DeleteLimit][ntt.limits.v1alpha2.DeleteLimit]
+// A request message of the DeleteLimit method.
 type DeleteLimitRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

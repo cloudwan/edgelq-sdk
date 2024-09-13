@@ -75,12 +75,13 @@ const (
 	ServiceAccountKey_FieldPathSelectorName           ServiceAccountKey_FieldPathSelector = 0
 	ServiceAccountKey_FieldPathSelectorMetadata       ServiceAccountKey_FieldPathSelector = 1
 	ServiceAccountKey_FieldPathSelectorDisplayName    ServiceAccountKey_FieldPathSelector = 2
-	ServiceAccountKey_FieldPathSelectorPublicKeyData  ServiceAccountKey_FieldPathSelector = 3
-	ServiceAccountKey_FieldPathSelectorPrivateKeyData ServiceAccountKey_FieldPathSelector = 4
-	ServiceAccountKey_FieldPathSelectorApiKey         ServiceAccountKey_FieldPathSelector = 5
-	ServiceAccountKey_FieldPathSelectorAlgorithm      ServiceAccountKey_FieldPathSelector = 6
-	ServiceAccountKey_FieldPathSelectorValidNotBefore ServiceAccountKey_FieldPathSelector = 7
-	ServiceAccountKey_FieldPathSelectorValidNotAfter  ServiceAccountKey_FieldPathSelector = 8
+	ServiceAccountKey_FieldPathSelectorDescription    ServiceAccountKey_FieldPathSelector = 3
+	ServiceAccountKey_FieldPathSelectorPublicKeyData  ServiceAccountKey_FieldPathSelector = 4
+	ServiceAccountKey_FieldPathSelectorPrivateKeyData ServiceAccountKey_FieldPathSelector = 5
+	ServiceAccountKey_FieldPathSelectorApiKey         ServiceAccountKey_FieldPathSelector = 6
+	ServiceAccountKey_FieldPathSelectorAlgorithm      ServiceAccountKey_FieldPathSelector = 7
+	ServiceAccountKey_FieldPathSelectorValidNotBefore ServiceAccountKey_FieldPathSelector = 8
+	ServiceAccountKey_FieldPathSelectorValidNotAfter  ServiceAccountKey_FieldPathSelector = 9
 )
 
 func (s ServiceAccountKey_FieldPathSelector) String() string {
@@ -91,6 +92,8 @@ func (s ServiceAccountKey_FieldPathSelector) String() string {
 		return "metadata"
 	case ServiceAccountKey_FieldPathSelectorDisplayName:
 		return "display_name"
+	case ServiceAccountKey_FieldPathSelectorDescription:
+		return "description"
 	case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 		return "public_key_data"
 	case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
@@ -120,6 +123,8 @@ func BuildServiceAccountKey_FieldPath(fp gotenobject.RawFieldPath) (ServiceAccou
 			return &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorDescription}, nil
 		case "public_key_data", "publicKeyData", "public-key-data":
 			return &ServiceAccountKey_FieldTerminalPath{selector: ServiceAccountKey_FieldPathSelectorPublicKeyData}, nil
 		case "private_key_data", "privateKeyData", "private-key-data":
@@ -196,6 +201,8 @@ func (fp *ServiceAccountKey_FieldTerminalPath) Get(source *ServiceAccountKey) (v
 			}
 		case ServiceAccountKey_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case ServiceAccountKey_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 			values = append(values, source.PublicKeyData)
 		case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
@@ -234,6 +241,8 @@ func (fp *ServiceAccountKey_FieldTerminalPath) GetSingle(source *ServiceAccountK
 		return res, res != nil
 	case ServiceAccountKey_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case ServiceAccountKey_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 		return source.GetPublicKeyData(), source != nil
 	case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
@@ -266,6 +275,8 @@ func (fp *ServiceAccountKey_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case ServiceAccountKey_FieldPathSelectorDisplayName:
 		return ""
+	case ServiceAccountKey_FieldPathSelectorDescription:
+		return ""
 	case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 		return ""
 	case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
@@ -292,6 +303,8 @@ func (fp *ServiceAccountKey_FieldTerminalPath) ClearValue(item *ServiceAccountKe
 			item.Metadata = nil
 		case ServiceAccountKey_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case ServiceAccountKey_FieldPathSelectorDescription:
+			item.Description = ""
 		case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 			item.PublicKeyData = ""
 		case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
@@ -318,6 +331,7 @@ func (fp *ServiceAccountKey_FieldTerminalPath) ClearValueRaw(item proto.Message)
 func (fp *ServiceAccountKey_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ServiceAccountKey_FieldPathSelectorName ||
 		fp.selector == ServiceAccountKey_FieldPathSelectorDisplayName ||
+		fp.selector == ServiceAccountKey_FieldPathSelectorDescription ||
 		fp.selector == ServiceAccountKey_FieldPathSelectorPublicKeyData ||
 		fp.selector == ServiceAccountKey_FieldPathSelectorPrivateKeyData ||
 		fp.selector == ServiceAccountKey_FieldPathSelectorApiKey ||
@@ -337,6 +351,8 @@ func (fp *ServiceAccountKey_FieldTerminalPath) WithIValue(value interface{}) Ser
 	case ServiceAccountKey_FieldPathSelectorMetadata:
 		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case ServiceAccountKey_FieldPathSelectorDisplayName:
+		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(string)}
+	case ServiceAccountKey_FieldPathSelectorDescription:
 		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(string)}
 	case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 		return &ServiceAccountKey_FieldTerminalPathValue{ServiceAccountKey_FieldTerminalPath: *fp, value: value.(string)}
@@ -367,6 +383,8 @@ func (fp *ServiceAccountKey_FieldTerminalPath) WithIArrayOfValues(values interfa
 	case ServiceAccountKey_FieldPathSelectorMetadata:
 		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case ServiceAccountKey_FieldPathSelectorDisplayName:
+		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]string)}
+	case ServiceAccountKey_FieldPathSelectorDescription:
 		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]string)}
 	case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 		return &ServiceAccountKey_FieldTerminalPathArrayOfValues{ServiceAccountKey_FieldTerminalPath: *fp, values: values.([]string)}
@@ -564,6 +582,10 @@ func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsDisplayNameValue() (strin
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *ServiceAccountKey_FieldTerminalPathValue) AsPublicKeyDataValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -601,6 +623,8 @@ func (fpv *ServiceAccountKey_FieldTerminalPathValue) SetTo(target **ServiceAccou
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case ServiceAccountKey_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case ServiceAccountKey_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 		(*target).PublicKeyData = fpv.value.(string)
 	case ServiceAccountKey_FieldPathSelectorPrivateKeyData:
@@ -650,6 +674,16 @@ func (fpv *ServiceAccountKey_FieldTerminalPathValue) CompareWith(source *Service
 	case ServiceAccountKey_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ServiceAccountKey_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -925,6 +959,10 @@ func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) GetRawValues() (v
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case ServiceAccountKey_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case ServiceAccountKey_FieldPathSelectorPublicKeyData:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -961,6 +999,10 @@ func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsMetadataArrayOf
 	return res, ok
 }
 func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ServiceAccountKey_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

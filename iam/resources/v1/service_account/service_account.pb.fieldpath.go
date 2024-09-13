@@ -73,7 +73,8 @@ const (
 	ServiceAccount_FieldPathSelectorName        ServiceAccount_FieldPathSelector = 0
 	ServiceAccount_FieldPathSelectorMetadata    ServiceAccount_FieldPathSelector = 1
 	ServiceAccount_FieldPathSelectorDisplayName ServiceAccount_FieldPathSelector = 2
-	ServiceAccount_FieldPathSelectorEmail       ServiceAccount_FieldPathSelector = 3
+	ServiceAccount_FieldPathSelectorDescription ServiceAccount_FieldPathSelector = 3
+	ServiceAccount_FieldPathSelectorEmail       ServiceAccount_FieldPathSelector = 4
 )
 
 func (s ServiceAccount_FieldPathSelector) String() string {
@@ -84,6 +85,8 @@ func (s ServiceAccount_FieldPathSelector) String() string {
 		return "metadata"
 	case ServiceAccount_FieldPathSelectorDisplayName:
 		return "display_name"
+	case ServiceAccount_FieldPathSelectorDescription:
+		return "description"
 	case ServiceAccount_FieldPathSelectorEmail:
 		return "email"
 	default:
@@ -103,6 +106,8 @@ func BuildServiceAccount_FieldPath(fp gotenobject.RawFieldPath) (ServiceAccount_
 			return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorMetadata}, nil
 		case "display_name", "displayName", "display-name":
 			return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorDescription}, nil
 		case "email":
 			return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorEmail}, nil
 		}
@@ -169,6 +174,8 @@ func (fp *ServiceAccount_FieldTerminalPath) Get(source *ServiceAccount) (values 
 			}
 		case ServiceAccount_FieldPathSelectorDisplayName:
 			values = append(values, source.DisplayName)
+		case ServiceAccount_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case ServiceAccount_FieldPathSelectorEmail:
 			values = append(values, source.Email)
 		default:
@@ -193,6 +200,8 @@ func (fp *ServiceAccount_FieldTerminalPath) GetSingle(source *ServiceAccount) (i
 		return res, res != nil
 	case ServiceAccount_FieldPathSelectorDisplayName:
 		return source.GetDisplayName(), source != nil
+	case ServiceAccount_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case ServiceAccount_FieldPathSelectorEmail:
 		return source.GetEmail(), source != nil
 	default:
@@ -213,6 +222,8 @@ func (fp *ServiceAccount_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case ServiceAccount_FieldPathSelectorDisplayName:
 		return ""
+	case ServiceAccount_FieldPathSelectorDescription:
+		return ""
 	case ServiceAccount_FieldPathSelectorEmail:
 		return ""
 	default:
@@ -229,6 +240,8 @@ func (fp *ServiceAccount_FieldTerminalPath) ClearValue(item *ServiceAccount) {
 			item.Metadata = nil
 		case ServiceAccount_FieldPathSelectorDisplayName:
 			item.DisplayName = ""
+		case ServiceAccount_FieldPathSelectorDescription:
+			item.Description = ""
 		case ServiceAccount_FieldPathSelectorEmail:
 			item.Email = ""
 		default:
@@ -245,6 +258,7 @@ func (fp *ServiceAccount_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *ServiceAccount_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ServiceAccount_FieldPathSelectorName ||
 		fp.selector == ServiceAccount_FieldPathSelectorDisplayName ||
+		fp.selector == ServiceAccount_FieldPathSelectorDescription ||
 		fp.selector == ServiceAccount_FieldPathSelectorEmail
 }
 
@@ -259,6 +273,8 @@ func (fp *ServiceAccount_FieldTerminalPath) WithIValue(value interface{}) Servic
 	case ServiceAccount_FieldPathSelectorMetadata:
 		return &ServiceAccount_FieldTerminalPathValue{ServiceAccount_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case ServiceAccount_FieldPathSelectorDisplayName:
+		return &ServiceAccount_FieldTerminalPathValue{ServiceAccount_FieldTerminalPath: *fp, value: value.(string)}
+	case ServiceAccount_FieldPathSelectorDescription:
 		return &ServiceAccount_FieldTerminalPathValue{ServiceAccount_FieldTerminalPath: *fp, value: value.(string)}
 	case ServiceAccount_FieldPathSelectorEmail:
 		return &ServiceAccount_FieldTerminalPathValue{ServiceAccount_FieldTerminalPath: *fp, value: value.(string)}
@@ -279,6 +295,8 @@ func (fp *ServiceAccount_FieldTerminalPath) WithIArrayOfValues(values interface{
 	case ServiceAccount_FieldPathSelectorMetadata:
 		return &ServiceAccount_FieldTerminalPathArrayOfValues{ServiceAccount_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case ServiceAccount_FieldPathSelectorDisplayName:
+		return &ServiceAccount_FieldTerminalPathArrayOfValues{ServiceAccount_FieldTerminalPath: *fp, values: values.([]string)}
+	case ServiceAccount_FieldPathSelectorDescription:
 		return &ServiceAccount_FieldTerminalPathArrayOfValues{ServiceAccount_FieldTerminalPath: *fp, values: values.([]string)}
 	case ServiceAccount_FieldPathSelectorEmail:
 		return &ServiceAccount_FieldTerminalPathArrayOfValues{ServiceAccount_FieldTerminalPath: *fp, values: values.([]string)}
@@ -466,6 +484,10 @@ func (fpv *ServiceAccount_FieldTerminalPathValue) AsDisplayNameValue() (string, 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *ServiceAccount_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *ServiceAccount_FieldTerminalPathValue) AsEmailValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -483,6 +505,8 @@ func (fpv *ServiceAccount_FieldTerminalPathValue) SetTo(target **ServiceAccount)
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case ServiceAccount_FieldPathSelectorDisplayName:
 		(*target).DisplayName = fpv.value.(string)
+	case ServiceAccount_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case ServiceAccount_FieldPathSelectorEmail:
 		(*target).Email = fpv.value.(string)
 	default:
@@ -522,6 +546,16 @@ func (fpv *ServiceAccount_FieldTerminalPathValue) CompareWith(source *ServiceAcc
 	case ServiceAccount_FieldPathSelectorDisplayName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ServiceAccount_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -729,6 +763,10 @@ func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case ServiceAccount_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case ServiceAccount_FieldPathSelectorEmail:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -745,6 +783,10 @@ func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) AsMetadataArrayOfVal
 	return res, ok
 }
 func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

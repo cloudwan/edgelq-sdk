@@ -70,10 +70,12 @@ type Secret_FieldPath interface {
 type Secret_FieldPathSelector int32
 
 const (
-	Secret_FieldPathSelectorName     Secret_FieldPathSelector = 0
-	Secret_FieldPathSelectorMetadata Secret_FieldPathSelector = 1
-	Secret_FieldPathSelectorEncData  Secret_FieldPathSelector = 2
-	Secret_FieldPathSelectorData     Secret_FieldPathSelector = 3
+	Secret_FieldPathSelectorName        Secret_FieldPathSelector = 0
+	Secret_FieldPathSelectorMetadata    Secret_FieldPathSelector = 1
+	Secret_FieldPathSelectorDisplayName Secret_FieldPathSelector = 2
+	Secret_FieldPathSelectorDescription Secret_FieldPathSelector = 3
+	Secret_FieldPathSelectorEncData     Secret_FieldPathSelector = 4
+	Secret_FieldPathSelectorData        Secret_FieldPathSelector = 5
 )
 
 func (s Secret_FieldPathSelector) String() string {
@@ -82,6 +84,10 @@ func (s Secret_FieldPathSelector) String() string {
 		return "name"
 	case Secret_FieldPathSelectorMetadata:
 		return "metadata"
+	case Secret_FieldPathSelectorDisplayName:
+		return "display_name"
+	case Secret_FieldPathSelectorDescription:
+		return "description"
 	case Secret_FieldPathSelectorEncData:
 		return "enc_data"
 	case Secret_FieldPathSelectorData:
@@ -101,6 +107,10 @@ func BuildSecret_FieldPath(fp gotenobject.RawFieldPath) (Secret_FieldPath, error
 			return &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorName}, nil
 		case "metadata":
 			return &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorMetadata}, nil
+		case "display_name", "displayName", "display-name":
+			return &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDisplayName}, nil
+		case "description":
+			return &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorDescription}, nil
 		case "enc_data", "encData", "enc-data":
 			return &Secret_FieldTerminalPath{selector: Secret_FieldPathSelectorEncData}, nil
 		case "data":
@@ -172,6 +182,10 @@ func (fp *Secret_FieldTerminalPath) Get(source *Secret) (values []interface{}) {
 			if source.Metadata != nil {
 				values = append(values, source.Metadata)
 			}
+		case Secret_FieldPathSelectorDisplayName:
+			values = append(values, source.DisplayName)
+		case Secret_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case Secret_FieldPathSelectorEncData:
 			values = append(values, source.EncData)
 		case Secret_FieldPathSelectorData:
@@ -196,6 +210,10 @@ func (fp *Secret_FieldTerminalPath) GetSingle(source *Secret) (interface{}, bool
 	case Secret_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
 		return res, res != nil
+	case Secret_FieldPathSelectorDisplayName:
+		return source.GetDisplayName(), source != nil
+	case Secret_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case Secret_FieldPathSelectorEncData:
 		res := source.GetEncData()
 		return res, res != nil
@@ -218,6 +236,10 @@ func (fp *Secret_FieldTerminalPath) GetDefault() interface{} {
 		return (*Name)(nil)
 	case Secret_FieldPathSelectorMetadata:
 		return (*meta.Meta)(nil)
+	case Secret_FieldPathSelectorDisplayName:
+		return ""
+	case Secret_FieldPathSelectorDescription:
+		return ""
 	case Secret_FieldPathSelectorEncData:
 		return ([]byte)(nil)
 	case Secret_FieldPathSelectorData:
@@ -234,6 +256,10 @@ func (fp *Secret_FieldTerminalPath) ClearValue(item *Secret) {
 			item.Name = nil
 		case Secret_FieldPathSelectorMetadata:
 			item.Metadata = nil
+		case Secret_FieldPathSelectorDisplayName:
+			item.DisplayName = ""
+		case Secret_FieldPathSelectorDescription:
+			item.Description = ""
 		case Secret_FieldPathSelectorEncData:
 			item.EncData = nil
 		case Secret_FieldPathSelectorData:
@@ -251,6 +277,8 @@ func (fp *Secret_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *Secret_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Secret_FieldPathSelectorName ||
+		fp.selector == Secret_FieldPathSelectorDisplayName ||
+		fp.selector == Secret_FieldPathSelectorDescription ||
 		fp.selector == Secret_FieldPathSelectorEncData ||
 		fp.selector == Secret_FieldPathSelectorData
 }
@@ -265,6 +293,10 @@ func (fp *Secret_FieldTerminalPath) WithIValue(value interface{}) Secret_FieldPa
 		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.(*Name)}
 	case Secret_FieldPathSelectorMetadata:
 		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
+	case Secret_FieldPathSelectorDisplayName:
+		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.(string)}
+	case Secret_FieldPathSelectorDescription:
+		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.(string)}
 	case Secret_FieldPathSelectorEncData:
 		return &Secret_FieldTerminalPathValue{Secret_FieldTerminalPath: *fp, value: value.([]byte)}
 	case Secret_FieldPathSelectorData:
@@ -285,6 +317,10 @@ func (fp *Secret_FieldTerminalPath) WithIArrayOfValues(values interface{}) Secre
 		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case Secret_FieldPathSelectorMetadata:
 		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
+	case Secret_FieldPathSelectorDisplayName:
+		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([]string)}
+	case Secret_FieldPathSelectorDescription:
+		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([]string)}
 	case Secret_FieldPathSelectorEncData:
 		return &Secret_FieldTerminalPathArrayOfValues{Secret_FieldTerminalPath: *fp, values: values.([][]byte)}
 	case Secret_FieldPathSelectorData:
@@ -601,6 +637,14 @@ func (fpv *Secret_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, bool) {
 	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
+func (fpv *Secret_FieldTerminalPathValue) AsDisplayNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Secret_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Secret_FieldTerminalPathValue) AsEncDataValue() ([]byte, bool) {
 	res, ok := fpv.value.([]byte)
 	return res, ok
@@ -620,6 +664,10 @@ func (fpv *Secret_FieldTerminalPathValue) SetTo(target **Secret) {
 		(*target).Name = fpv.value.(*Name)
 	case Secret_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*meta.Meta)
+	case Secret_FieldPathSelectorDisplayName:
+		(*target).DisplayName = fpv.value.(string)
+	case Secret_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case Secret_FieldPathSelectorEncData:
 		(*target).EncData = fpv.value.([]byte)
 	case Secret_FieldPathSelectorData:
@@ -658,6 +706,26 @@ func (fpv *Secret_FieldTerminalPathValue) CompareWith(source *Secret) (int, bool
 		}
 	case Secret_FieldPathSelectorMetadata:
 		return 0, false
+	case Secret_FieldPathSelectorDisplayName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDisplayName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Secret_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	case Secret_FieldPathSelectorEncData:
 		return 0, false
 	case Secret_FieldPathSelectorData:
@@ -907,6 +975,14 @@ func (fpaov *Secret_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
+	case Secret_FieldPathSelectorDisplayName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Secret_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Secret_FieldPathSelectorEncData:
 		for _, v := range fpaov.values.([][]byte) {
 			values = append(values, v)
@@ -924,6 +1000,14 @@ func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]*Na
 }
 func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValues() ([]*meta.Meta, bool) {
 	res, ok := fpaov.values.([]*meta.Meta)
+	return res, ok
+}
+func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsDisplayNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 func (fpaov *Secret_FieldTerminalPathArrayOfValues) AsEncDataArrayOfValues() ([][]byte, bool) {

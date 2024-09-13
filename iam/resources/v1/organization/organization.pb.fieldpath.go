@@ -77,15 +77,16 @@ const (
 	Organization_FieldPathSelectorName               Organization_FieldPathSelector = 0
 	Organization_FieldPathSelectorMetadata           Organization_FieldPathSelector = 1
 	Organization_FieldPathSelectorTitle              Organization_FieldPathSelector = 2
-	Organization_FieldPathSelectorParentOrganization Organization_FieldPathSelector = 3
-	Organization_FieldPathSelectorMultiRegionPolicy  Organization_FieldPathSelector = 4
-	Organization_FieldPathSelectorAllowedServices    Organization_FieldPathSelector = 5
-	Organization_FieldPathSelectorBusinessTier       Organization_FieldPathSelector = 6
-	Organization_FieldPathSelectorServiceTiers       Organization_FieldPathSelector = 7
-	Organization_FieldPathSelectorRootOrganization   Organization_FieldPathSelector = 8
-	Organization_FieldPathSelectorAncestryPath       Organization_FieldPathSelector = 9
-	Organization_FieldPathSelectorServiceErrors      Organization_FieldPathSelector = 10
-	Organization_FieldPathSelectorServicesGeneration Organization_FieldPathSelector = 11
+	Organization_FieldPathSelectorDescription        Organization_FieldPathSelector = 3
+	Organization_FieldPathSelectorParentOrganization Organization_FieldPathSelector = 4
+	Organization_FieldPathSelectorMultiRegionPolicy  Organization_FieldPathSelector = 5
+	Organization_FieldPathSelectorAllowedServices    Organization_FieldPathSelector = 6
+	Organization_FieldPathSelectorBusinessTier       Organization_FieldPathSelector = 7
+	Organization_FieldPathSelectorServiceTiers       Organization_FieldPathSelector = 8
+	Organization_FieldPathSelectorRootOrganization   Organization_FieldPathSelector = 9
+	Organization_FieldPathSelectorAncestryPath       Organization_FieldPathSelector = 10
+	Organization_FieldPathSelectorServiceErrors      Organization_FieldPathSelector = 11
+	Organization_FieldPathSelectorServicesGeneration Organization_FieldPathSelector = 12
 )
 
 func (s Organization_FieldPathSelector) String() string {
@@ -96,6 +97,8 @@ func (s Organization_FieldPathSelector) String() string {
 		return "metadata"
 	case Organization_FieldPathSelectorTitle:
 		return "title"
+	case Organization_FieldPathSelectorDescription:
+		return "description"
 	case Organization_FieldPathSelectorParentOrganization:
 		return "parent_organization"
 	case Organization_FieldPathSelectorMultiRegionPolicy:
@@ -131,6 +134,8 @@ func BuildOrganization_FieldPath(fp gotenobject.RawFieldPath) (Organization_Fiel
 			return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorMetadata}, nil
 		case "title":
 			return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorTitle}, nil
+		case "description":
+			return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorDescription}, nil
 		case "parent_organization", "parentOrganization", "parent-organization":
 			return &Organization_FieldTerminalPath{selector: Organization_FieldPathSelectorParentOrganization}, nil
 		case "multi_region_policy", "multiRegionPolicy", "multi-region-policy":
@@ -230,6 +235,8 @@ func (fp *Organization_FieldTerminalPath) Get(source *Organization) (values []in
 			}
 		case Organization_FieldPathSelectorTitle:
 			values = append(values, source.Title)
+		case Organization_FieldPathSelectorDescription:
+			values = append(values, source.Description)
 		case Organization_FieldPathSelectorParentOrganization:
 			if source.ParentOrganization != nil {
 				values = append(values, source.ParentOrganization)
@@ -284,6 +291,8 @@ func (fp *Organization_FieldTerminalPath) GetSingle(source *Organization) (inter
 		return res, res != nil
 	case Organization_FieldPathSelectorTitle:
 		return source.GetTitle(), source != nil
+	case Organization_FieldPathSelectorDescription:
+		return source.GetDescription(), source != nil
 	case Organization_FieldPathSelectorParentOrganization:
 		res := source.GetParentOrganization()
 		return res, res != nil
@@ -327,6 +336,8 @@ func (fp *Organization_FieldTerminalPath) GetDefault() interface{} {
 		return (*meta.Meta)(nil)
 	case Organization_FieldPathSelectorTitle:
 		return ""
+	case Organization_FieldPathSelectorDescription:
+		return ""
 	case Organization_FieldPathSelectorParentOrganization:
 		return (*Reference)(nil)
 	case Organization_FieldPathSelectorMultiRegionPolicy:
@@ -359,6 +370,8 @@ func (fp *Organization_FieldTerminalPath) ClearValue(item *Organization) {
 			item.Metadata = nil
 		case Organization_FieldPathSelectorTitle:
 			item.Title = ""
+		case Organization_FieldPathSelectorDescription:
+			item.Description = ""
 		case Organization_FieldPathSelectorParentOrganization:
 			item.ParentOrganization = nil
 		case Organization_FieldPathSelectorMultiRegionPolicy:
@@ -391,6 +404,7 @@ func (fp *Organization_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 func (fp *Organization_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Organization_FieldPathSelectorName ||
 		fp.selector == Organization_FieldPathSelectorTitle ||
+		fp.selector == Organization_FieldPathSelectorDescription ||
 		fp.selector == Organization_FieldPathSelectorParentOrganization ||
 		fp.selector == Organization_FieldPathSelectorAllowedServices ||
 		fp.selector == Organization_FieldPathSelectorBusinessTier ||
@@ -410,6 +424,8 @@ func (fp *Organization_FieldTerminalPath) WithIValue(value interface{}) Organiza
 	case Organization_FieldPathSelectorMetadata:
 		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
 	case Organization_FieldPathSelectorTitle:
+		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.(string)}
+	case Organization_FieldPathSelectorDescription:
 		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.(string)}
 	case Organization_FieldPathSelectorParentOrganization:
 		return &Organization_FieldTerminalPathValue{Organization_FieldTerminalPath: *fp, value: value.(*Reference)}
@@ -446,6 +462,8 @@ func (fp *Organization_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case Organization_FieldPathSelectorMetadata:
 		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
 	case Organization_FieldPathSelectorTitle:
+		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([]string)}
+	case Organization_FieldPathSelectorDescription:
 		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([]string)}
 	case Organization_FieldPathSelectorParentOrganization:
 		return &Organization_FieldTerminalPathArrayOfValues{Organization_FieldTerminalPath: *fp, values: values.([]*Reference)}
@@ -817,6 +835,10 @@ func (fpv *Organization_FieldTerminalPathValue) AsTitleValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Organization_FieldTerminalPathValue) AsDescriptionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Organization_FieldTerminalPathValue) AsParentOrganizationValue() (*Reference, bool) {
 	res, ok := fpv.value.(*Reference)
 	return res, ok
@@ -866,6 +888,8 @@ func (fpv *Organization_FieldTerminalPathValue) SetTo(target **Organization) {
 		(*target).Metadata = fpv.value.(*meta.Meta)
 	case Organization_FieldPathSelectorTitle:
 		(*target).Title = fpv.value.(string)
+	case Organization_FieldPathSelectorDescription:
+		(*target).Description = fpv.value.(string)
 	case Organization_FieldPathSelectorParentOrganization:
 		(*target).ParentOrganization = fpv.value.(*Reference)
 	case Organization_FieldPathSelectorMultiRegionPolicy:
@@ -921,6 +945,16 @@ func (fpv *Organization_FieldTerminalPathValue) CompareWith(source *Organization
 	case Organization_FieldPathSelectorTitle:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetTitle()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Organization_FieldPathSelectorDescription:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDescription()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1277,6 +1311,10 @@ func (fpaov *Organization_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Organization_FieldPathSelectorDescription:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Organization_FieldPathSelectorParentOrganization:
 		for _, v := range fpaov.values.([]*Reference) {
 			values = append(values, v)
@@ -1325,6 +1363,10 @@ func (fpaov *Organization_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValue
 	return res, ok
 }
 func (fpaov *Organization_FieldTerminalPathArrayOfValues) AsTitleArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Organization_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

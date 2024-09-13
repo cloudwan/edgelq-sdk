@@ -74,6 +74,9 @@ func (o *Distribution) MakeDiffFieldMask(other *Distribution) *Distribution_Fiel
 	if o.GetDisplayName() != other.GetDisplayName() {
 		res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorDisplayName})
 	}
+	if o.GetDescription() != other.GetDescription() {
+		res.Paths = append(res.Paths, &Distribution_FieldTerminalPath{selector: Distribution_FieldPathSelectorDescription})
+	}
 	{
 		subMask := o.GetSpec().MakeDiffFieldMask(other.GetSpec())
 		if subMask.IsFull() {
@@ -118,6 +121,7 @@ func (o *Distribution) Clone() *Distribution {
 	}
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
+	result.Description = o.Description
 	result.Spec = o.Spec.Clone()
 	result.Status = o.Status.Clone()
 	return result
@@ -147,6 +151,7 @@ func (o *Distribution) Merge(source *Distribution) {
 		o.Metadata.Merge(source.GetMetadata())
 	}
 	o.DisplayName = source.GetDisplayName()
+	o.Description = source.GetDescription()
 	if source.GetSpec() != nil {
 		if o.Spec == nil {
 			o.Spec = new(Distribution_Spec)
