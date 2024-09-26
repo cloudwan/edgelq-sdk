@@ -202,8 +202,8 @@ func (obj *AlertingCondition_Spec_TimeSeries_CombineThreshold) GotenValidate() e
 	if obj == nil {
 		return nil
 	}
-	if obj.Combine != 0 {
-		return gotenvalidate.NewValidationError("CombineThreshold", "combine", obj.Combine, "field must be equal to exactly one of the following values: 0", nil)
+	if obj.MainMetricType == "" {
+		return gotenvalidate.NewValidationError("CombineThreshold", "mainMetricType", obj.MainMetricType, "field is required", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

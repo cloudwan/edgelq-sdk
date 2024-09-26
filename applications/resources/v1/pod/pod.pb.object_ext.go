@@ -236,6 +236,9 @@ func (o *Pod_Status) MakeDiffFieldMask(other *Pod_Status) *Pod_Status_FieldMask 
 	if o.GetError() != other.GetError() {
 		res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorError})
 	}
+	if o.GetFailureCount() != other.GetFailureCount() {
+		res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorFailureCount})
+	}
 	return res
 }
 
@@ -254,6 +257,7 @@ func (o *Pod_Status) Clone() *Pod_Status {
 		result.ContainerStatuses[i] = sourceValue.Clone()
 	}
 	result.Error = o.Error
+	result.FailureCount = o.FailureCount
 	return result
 }
 
@@ -282,6 +286,7 @@ func (o *Pod_Status) Merge(source *Pod_Status) {
 	}
 
 	o.Error = source.GetError()
+	o.FailureCount = source.GetFailureCount()
 }
 
 func (o *Pod_Status) MergeRaw(source gotenobject.GotenObjectExt) {

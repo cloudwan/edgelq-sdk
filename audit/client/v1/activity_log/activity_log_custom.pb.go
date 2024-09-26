@@ -54,13 +54,15 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method [ListActivityLogs][ntt.audit.v1.ListActivityLogs]
-// Returns activities for specified time range and within specified filter.
+// A request message of the [ListActivityLogs](#listactivitylogs-method) method.
+//
+// It returns activities for specified time range and within specified filter.
 // Activity logs are stored only in region which executed them and never
 // duplicated. Because of that its important to pay attention to region IDs in a
 // request object.
 //
 // Basic supported filters are:
+//
 // * --filter 'service.name=[SERVICE_NAME]' (what is happening in this service)
 // * --filter 'service.name=[SERVICE_NAME] and method.type=[METHOD_NAME]' (what
 // is happening for this API call)
@@ -71,34 +73,39 @@ const (
 // * --filter 'service.name=[SERVICE_NAME] and
 // resource.name=[FULL_RESOURCE_NAME]' (can I see activities on this resource?)
 //
-// Its also possible to filter logs by their region of activity - by using field
-// service.region_id in a filter field. Its important to note that logs may be
+// Its also possible to filter logs by their region of activity, by using field
+// service.region_id in a filter field. It's important to note that logs may be
 // present in multiple locations, if request was routed somewhere else or split
-// & merged across many regions. Those activity logs may have different activity
-// log names, but they will share same values in fields request_id and
-// request_routing.
+// and merged across many regions. Those activity logs may have different
+// activity log names, but they will share same values in fields request_id
+// and request_routing.
 //
 // Be aware, that server will append scope filter condition (and scope=...) to
 // the filter. Scope(s) will be extracted from fields parents in
-// ListActivityLogsRequest object. Note you can query for multiple at once, both
-// projects and organizations.
+// ListActivityLogsRequest object. Note you can query for multiple at once,
+// both projects and organizations.
 //
 // For all of the above filters you can replace filter condition compare (=)
 // with IN operator. You can therefore query for multiple services, methods or
 // users at once. Above filters are also preferred as we have optimization for
 // them.
 //
-// Activity logs can be filtered by custom labels (field labels in ActivityLog).
-// Labels are defined per each API method - so you must specify service.name and
-// method.type conditions to be able to query by labels.
+// Activity logs can be filtered by custom labels (field labels in
+// ActivityLog).  Labels are defined per each API method, so you must specify
+// service.name and method.type conditions to be able to query by labels.
 //
-// For example, suppose you have a CreateVM method, which creates resource "VM".
-// Suppose there is a field "group" within resource body, which is reference to
-// other resource. If you want to make a query like "who was creating VMs for
-// that group", then you need to create label "group" inside resource body. Then
-// you will be able to make a query with following filter condition:
-// *--filter 'service.name=vms.domain.com and method.type=CreateVM and
-// labels.group=mySpecialVMGroup'*.
+// For example, suppose you have a CreateVM method, which creates resource
+// "VM".  Suppose there is a field "group" within resource body, which is
+// reference to other resource.  If you want to make a query like "who was
+// creating VMs for that group", then you need to create label "group" inside
+// resource body.  Then you will be able to make a query with following
+// filter condition:
+//
+// ```
+// --filter 'service.name="vms.domain.com" and \
+//           method.type=CreateVM and \
+//           labels.group=mySpecialVMGroup'
+// ```
 //
 // Be aware, that Create/Update requests, which have resource object in their
 // own bodies, will automatically inherit resource labels. So, basically you
@@ -109,68 +116,96 @@ const (
 // Examples of usage (with cuttle - we are interested only in one region and
 // scope):
 //
-// * Checks connections to all devices within ssh-demo project starting from 8th
-// of September 12 UTC time
+// * Checks connections to all devices within ssh-demo project starting
+//   from 8th of September 12 UTC time
 //
-// $ cuttle audit query activity-log --parents 'project/ssh-demo'
-//   --filter 'service.name="devices.edgelq.com" and
-//   method.type="ConnectToDevice" and service.regionId="us-west"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/ssh-demo' \
+//     --filter 'service.name="devices.edgelq.com" and \
+//               method.type="ConnectToDevice" and \
+//               service.regionId="us-west"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 //
-// *Checks connections to device demo-device within ssh-demo project starting
-// from 8th of September 12 UTC time
+// * Checks connections to device demo-device within ssh-demo project
+//   starting from 8th of September 12 UTC time
 //
-// $ cuttle audit query activity-log --parents 'project/ssh-demo'
-//   --filter 'service.name="devices.edgelq.com" and
-//   method.type="ConnectToDevice" and service.regionId="us-west" and
-//     resource.name="projects/ssh-demo/devices/demo-device"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/ssh-demo' \
+//     --filter 'service.name="devices.edgelq.com" and \
+//               method.type="ConnectToDevice" and \
+//               service.regionId="us-west" and \
+//               resource.name="projects/ssh-demo/devices/demo-device"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 //
-// * Checks what is happening within whole iam service for project demo starting
-// from 8th of September 12 UTC time
+// * Checks what is happening within whole iam service for project demo
+//   starting from 8th of September 12 UTC time
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter 'service.name="iam.edgelq.com" and service.regionId="us-west"'
-//   --filter 'service.name="iam.edgelq.com"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'service.name="iam.edgelq.com"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 //
 // * Checks activities within one hour for whole iam service for selected
 // methods
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter 'service.name="iam.edgelq.com" and method.type IN
-//   ["CreateRoleBinding", "UpdateRoleBinding", "DeleteRoleBinding"]
-//   and service.regionId="us-west"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z",
-//   "endTime":"2020-09-08T13:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'service.name="iam.edgelq.com" and \
+//               method.type IN ["CreateRoleBinding", "UpdateRoleBinding", \
+//               "DeleteRoleBinding"] and \
+//               service.regionId="us-west"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z",
+//                  "endTime":"2020-09-08T13:00:00Z"}' \
+//     -o json
+//   ```
 //
 // * Checks modification of RoleBinding
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter 'service.name="iam.edgelq.com" and method.type="UpdateRoleBinding"
-//   and labels.resource_name="projects/x/roleBindings/myRB"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'service.name="iam.edgelq.com" and \
+//               method.type="UpdateRoleBinding" and \
+//               labels.resource_name="projects/x/roleBindings/myRB"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 //
 // * Checks what was happening with some device
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter 'service.name="devices.edgelq.com" and
-//   resource.name="projects/x/devices/myDevice" and service.regionId="us-west"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'service.name="devices.edgelq.com" and \
+//               resource.name="projects/x/devices/myDevice" and \
+//               service.regionId="us-west"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 //
 // * Checks activities made by specific user (we need their email)
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter 'authentication.principal="user:we.know.who@domain.com" and
-//   service.regionId="us-west"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'authentication.principal="user:we.know.who@domain.com" and \
+//               service.regionId="us-west"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 //
 // * Checks activities made by specific service account (we need it's email)
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter
-//   'authentication.principal="serviceAccount:myServiceAccount@domain.com" and
-//   service.regionId="us-west"'
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'authentication.principal="serviceAccount:sa@domain.com" and \
+//               service.regionId="us-west"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 type ListActivityLogsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -318,7 +353,8 @@ func (m *ListActivityLogsRequest) SetPageToken(fv string) {
 	m.PageToken = fv
 }
 
-// Response message for method [ListActivityLogs][ntt.audit.v1.ListActivityLogs]
+// A response message of the [ListActivityLogs](#listactivitylogs-method)
+// method.
 type ListActivityLogsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -435,8 +471,8 @@ func (m *ListActivityLogsResponse) SetExecutionErrors(fv []*rpc.Status) {
 	m.ExecutionErrors = fv
 }
 
-// Request message for method
-// [CreateActivityLogs][ntt.audit.v1.CreateActivityLogs]
+// A request message of the [CreateActivityLogs](#createactivitylogs-method)
+// method.
 type CreateActivityLogsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -510,8 +546,8 @@ func (m *CreateActivityLogsRequest) SetActivityLogs(fv []*activity_log.ActivityL
 	m.ActivityLogs = fv
 }
 
-// Response message for method
-// [CreateActivityLogs][ntt.audit.v1.CreateActivityLogs]
+// A response message of the [CreateActivityLogs](#createactivitylogs-method)
+// nmethod.
 type CreateActivityLogsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

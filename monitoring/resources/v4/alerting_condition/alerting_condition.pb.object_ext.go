@@ -501,6 +501,18 @@ func (o *AlertingCondition_Spec_TimeSeries_Query) MakeDiffFieldMask(other *Alert
 			}
 		}
 	}
+
+	if len(o.GetPerMetricAggregations()) == len(other.GetPerMetricAggregations()) {
+		for i, lValue := range o.GetPerMetricAggregations() {
+			rValue := other.GetPerMetricAggregations()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations})
+	}
 	return res
 }
 
@@ -525,6 +537,10 @@ func (o *AlertingCondition_Spec_TimeSeries_Query) Clone() *AlertingCondition_Spe
 	}
 	result.Selector = o.Selector.Clone()
 	result.Aggregation = o.Aggregation.Clone()
+	result.PerMetricAggregations = map[string]*common.Aggregation{}
+	for key, sourceValue := range o.PerMetricAggregations {
+		result.PerMetricAggregations[key] = sourceValue.Clone()
+	}
 	return result
 }
 
@@ -556,6 +572,19 @@ func (o *AlertingCondition_Spec_TimeSeries_Query) Merge(source *AlertingConditio
 			o.Aggregation = new(common.Aggregation)
 		}
 		o.Aggregation.Merge(source.GetAggregation())
+	}
+	if source.GetPerMetricAggregations() != nil {
+		if o.PerMetricAggregations == nil {
+			o.PerMetricAggregations = make(map[string]*common.Aggregation, len(source.GetPerMetricAggregations()))
+		}
+		for key, sourceValue := range source.GetPerMetricAggregations() {
+			if sourceValue != nil {
+				if o.PerMetricAggregations[key] == nil {
+					o.PerMetricAggregations[key] = new(common.Aggregation)
+				}
+				o.PerMetricAggregations[key].Merge(sourceValue)
+			}
+		}
 	}
 }
 
@@ -649,8 +678,20 @@ func (o *AlertingCondition_Spec_TimeSeries_CombineThreshold) MakeDiffFieldMask(o
 	} else {
 		res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric})
 	}
-	if o.GetCombine() != other.GetCombine() {
-		res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine})
+	if o.GetMainMetricType() != other.GetMainMetricType() {
+		res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType})
+	}
+
+	if len(o.GetPerMetricTypeKv()) == len(other.GetPerMetricTypeKv()) {
+		for i, lValue := range o.GetPerMetricTypeKv() {
+			rValue := other.GetPerMetricTypeKv()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv})
 	}
 	return res
 }
@@ -668,7 +709,11 @@ func (o *AlertingCondition_Spec_TimeSeries_CombineThreshold) Clone() *AlertingCo
 	for key, sourceValue := range o.PerMetric {
 		result.PerMetric[key] = sourceValue.Clone()
 	}
-	result.Combine = o.Combine
+	result.MainMetricType = o.MainMetricType
+	result.PerMetricTypeKv = map[string][]byte{}
+	for key, sourceValue := range o.PerMetricTypeKv {
+		result.PerMetricTypeKv[key] = sourceValue
+	}
 	return result
 }
 
@@ -690,7 +735,15 @@ func (o *AlertingCondition_Spec_TimeSeries_CombineThreshold) Merge(source *Alert
 			}
 		}
 	}
-	o.Combine = source.GetCombine()
+	o.MainMetricType = source.GetMainMetricType()
+	if source.GetPerMetricTypeKv() != nil {
+		if o.PerMetricTypeKv == nil {
+			o.PerMetricTypeKv = make(map[string][]byte, len(source.GetPerMetricTypeKv()))
+		}
+		for key, sourceValue := range source.GetPerMetricTypeKv() {
+			o.PerMetricTypeKv[key] = sourceValue
+		}
+	}
 }
 
 func (o *AlertingCondition_Spec_TimeSeries_CombineThreshold) MergeRaw(source gotenobject.GotenObjectExt) {

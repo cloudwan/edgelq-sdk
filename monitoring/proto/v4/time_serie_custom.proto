@@ -570,12 +570,30 @@ message QueryServiceTimeSeriesStatsResponse {
 }
 
 message WatchTimeSeriesRequest {
+  // The project on which to execute the request. The format is
+  // "projects/{project_id}", or
+  // "projects/{project_id}/regions/{region_id}/buckets/{bucket_id}"
   string parent = 1;
 
+  // A monitoring filter that specifies which time
+  // series should be returned.  The filter must specify a single metric type,
+  // and can additionally specify metric labels and other information. For
+  // example:
+  //
+  //     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
+  //         metric.label.instance_name = "my-instance-name"
   string filter = 2;
 
+  // Instructs how to transform individual time series (aligner) and combine
+  // them together (reducer, group by fields).
   Aggregation aggregation = 3;
 
+  // Amount of past data to fetch when new time series key appears (not present
+  // in current session). For example: If client lost previous watch session for
+  // 15 minutes, they can set this field value to 15 minutes duration + 1 extra
+  // AlignmentPeriod value just in case. Initial time series in response will
+  // contain extra past data. Once specific TimeSeries key was already observed,
+  // further values will be coming only from realtime watch.
   google.protobuf.Duration snapshot_interval_to_fetch = 4;
 }
 

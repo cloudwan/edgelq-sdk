@@ -2659,6 +2659,10 @@ func (b *filterCndBuilderSpecTimeSeriesQuery) Aggregation() *filterCndBuilderSpe
 	return &filterCndBuilderSpecTimeSeriesQueryAggregation{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTimeSeriesQuery) PerMetricAggregations() *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations {
+	return &filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations{builder: b.builder}
+}
+
 type filterCndBuilderSpecTimeSeriesQueryFilter struct {
 	builder *FilterBuilder
 }
@@ -3696,6 +3700,129 @@ func (b *filterCndBuilderSpecTimeSeriesQueryAggregationGroupByFields) compare(op
 	})
 }
 
+type filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Eq(value map[string]*common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Neq(value map[string]*common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Gt(value map[string]*common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Gte(value map[string]*common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Lt(value map[string]*common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Lte(value map[string]*common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) In(values []map[string]*common.Aggregation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) NotIn(values []map[string]*common.Aggregation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) compare(op gotenfilter.CompareOperator, value map[string]*common.Aggregation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) WithKey(key string) *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations {
+	return &mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Eq(value *common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Neq(value *common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Gt(value *common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Gte(value *common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Lt(value *common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) Lte(value *common.Aggregation) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) In(values []*common.Aggregation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) NotIn(values []*common.Aggregation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesQueryPerMetricAggregations) compare(op gotenfilter.CompareOperator, value *common.Aggregation) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Query().PerMetricAggregations().WithKey(b.key).WithValue(value),
+	})
+}
+
 type filterCndBuilderSpecTimeSeriesThreshold struct {
 	builder *FilterBuilder
 }
@@ -3944,8 +4071,12 @@ func (b *filterCndBuilderSpecTimeSeriesCombineThreshold) PerMetric() *filterCndB
 	return &filterCndBuilderSpecTimeSeriesCombineThresholdPerMetric{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThreshold) Combine() *filterCndBuilderSpecTimeSeriesCombineThresholdCombine {
-	return &filterCndBuilderSpecTimeSeriesCombineThresholdCombine{builder: b.builder}
+func (b *filterCndBuilderSpecTimeSeriesCombineThreshold) MainMetricType() *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType {
+	return &filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThreshold) PerMetricTypeKv() *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv {
+	return &filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv{builder: b.builder}
 }
 
 type filterCndBuilderSpecTimeSeriesCombineThresholdPerMetric struct {
@@ -4071,62 +4202,185 @@ func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetric) compare(op 
 	})
 }
 
-type filterCndBuilderSpecTimeSeriesCombineThresholdCombine struct {
+type filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) Eq(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) Eq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) Neq(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) Neq(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) Gt(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) Gt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) Gte(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) Gte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) Lt(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) Lt(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) Lte(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) Lte(value string) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) In(values []AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) In(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().Combine().WithArrayOfValues(values),
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().MainMetricType().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) NotIn(values []AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) NotIn(values []string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().Combine().WithArrayOfValues(values),
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().MainMetricType().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().Combine().FieldPath(),
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().MainMetricType().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().Combine().FieldPath(),
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().MainMetricType().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecTimeSeriesCombineThresholdCombine) compare(op gotenfilter.CompareOperator, value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *FilterBuilder {
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdMainMetricType) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
-		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().Combine().WithValue(value),
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().MainMetricType().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Eq(value map[string][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Neq(value map[string][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Gt(value map[string][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Gte(value map[string][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Lt(value map[string][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Lte(value map[string][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) In(values []map[string][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) NotIn(values []map[string][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) compare(op gotenfilter.CompareOperator, value map[string][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) WithKey(key string) *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv {
+	return &mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Eq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Neq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Gt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Gte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Lt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) Lte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) In(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) NotIn(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTimeSeriesCombineThresholdPerMetricTypeKv) compare(op gotenfilter.CompareOperator, value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().CombineThreshold().PerMetricTypeKv().WithKey(b.key).WithValue(value),
 	})
 }
 

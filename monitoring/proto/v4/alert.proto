@@ -41,7 +41,9 @@ message Alert {
   State state = 5;
 
   message Info {
-    // TimeSerie labels that violated condition
+    // TimeSerie labels that violated condition. If Alert is for
+    // AlertingCondition using combine threshold, metric.type will be equal to
+    // primary metric indicated.
     TimeSerie time_serie = 1;
 
     // observed time series values during alert creation
@@ -85,12 +87,5 @@ message Alert {
 
     // Alert has ended and any needed notifications are processed
     bool lifecycle_completed = 10;
-
-    // oneof:
-    message Threshold { double observed_value = 1; }
-
-    message CombineThreshold {
-      message PerMetric { map<string, double> observed_values = 2; }
-    }
   }
 }

@@ -327,12 +327,6 @@ func (obj *MonitoredResourceSelector) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if len(obj.Types) < 1 {
-		return gotenvalidate.NewValidationError("MonitoredResourceSelector", "types", obj.Types, "field must have at least 1 items", nil)
-	}
-	if len(obj.Types) > 1 {
-		return gotenvalidate.NewValidationError("MonitoredResourceSelector", "types", obj.Types, "field must have at most 1 items", nil)
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -341,9 +335,6 @@ func (obj *MonitoredResourceSelector) GotenValidate() error {
 func (obj *MetricSelector) GotenValidate() error {
 	if obj == nil {
 		return nil
-	}
-	if len(obj.Types) < 1 {
-		return gotenvalidate.NewValidationError("MetricSelector", "types", obj.Types, "field must have at least 1 items", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

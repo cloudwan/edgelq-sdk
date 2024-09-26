@@ -865,6 +865,10 @@ func (AlertingConditionPathSelectorSpecTimeSeriesQuery) Aggregation() AlertingCo
 	return AlertingConditionPathSelectorSpecTimeSeriesQueryAggregation{}
 }
 
+func (AlertingConditionPathSelectorSpecTimeSeriesQuery) PerMetricAggregations() AlertingConditionPathSelectorSpecTimeSeriesQueryPerMetricAggregations {
+	return AlertingConditionPathSelectorSpecTimeSeriesQueryPerMetricAggregations{}
+}
+
 type AlertingConditionPathSelectorSpecTimeSeriesQueryFilter struct{}
 
 func (AlertingConditionPathSelectorSpecTimeSeriesQueryFilter) FieldPath() *AlertingCondition_FieldSubPath {
@@ -1184,6 +1188,46 @@ func (s AlertingConditionPathSelectorSpecTimeSeriesQueryAggregationGroupByFields
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingCondition_FieldSubPathArrayItemValue)
 }
 
+type AlertingConditionPathSelectorSpecTimeSeriesQueryPerMetricAggregations struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQueryPerMetricAggregations) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().PerMetricAggregations().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQueryPerMetricAggregations) WithValue(value map[string]*common.Aggregation) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesQueryPerMetricAggregations) WithArrayOfValues(values []map[string]*common.Aggregation) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesQueryPerMetricAggregations) WithKey(key string) AlertingConditionMapPathSelectorSpecTimeSeriesQueryPerMetricAggregations {
+	return AlertingConditionMapPathSelectorSpecTimeSeriesQueryPerMetricAggregations{key: key}
+}
+
+type AlertingConditionMapPathSelectorSpecTimeSeriesQueryPerMetricAggregations struct {
+	key string
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQueryPerMetricAggregations) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().Query().PerMetricAggregations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQueryPerMetricAggregations) WithValue(value *common.Aggregation) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesQueryPerMetricAggregations) WithArrayOfValues(values []*common.Aggregation) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
 type AlertingConditionPathSelectorSpecTimeSeriesThreshold struct{}
 
 func (AlertingConditionPathSelectorSpecTimeSeriesThreshold) FieldPath() *AlertingCondition_FieldSubPath {
@@ -1264,8 +1308,12 @@ func (AlertingConditionPathSelectorSpecTimeSeriesCombineThreshold) PerMetric() A
 	return AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetric{}
 }
 
-func (AlertingConditionPathSelectorSpecTimeSeriesCombineThreshold) Combine() AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdCombine {
-	return AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdCombine{}
+func (AlertingConditionPathSelectorSpecTimeSeriesCombineThreshold) MainMetricType() AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdMainMetricType {
+	return AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdMainMetricType{}
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesCombineThreshold) PerMetricTypeKv() AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv {
+	return AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv{}
 }
 
 type AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetric struct{}
@@ -1308,20 +1356,60 @@ func (s AlertingConditionMapPathSelectorSpecTimeSeriesCombineThresholdPerMetric)
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
 }
 
-type AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdCombine struct{}
+type AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdMainMetricType struct{}
 
-func (AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdCombine) FieldPath() *AlertingCondition_FieldSubPath {
+func (AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdMainMetricType) FieldPath() *AlertingCondition_FieldSubPath {
 	return &AlertingCondition_FieldSubPath{
 		selector: AlertingCondition_FieldPathSelectorSpec,
-		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().CombineThreshold().Combine().FieldPath(),
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().CombineThreshold().MainMetricType().FieldPath(),
 	}
 }
 
-func (s AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdCombine) WithValue(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingCondition_FieldSubPathValue {
+func (s AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdMainMetricType) WithValue(value string) *AlertingCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
 }
 
-func (s AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdCombine) WithArrayOfValues(values []AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingCondition_FieldSubPathArrayOfValues {
+func (s AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdMainMetricType) WithArrayOfValues(values []string) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+type AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv struct{}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().CombineThreshold().PerMetricTypeKv().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv) WithValue(value map[string][]byte) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv) WithArrayOfValues(values []map[string][]byte) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+func (AlertingConditionPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv) WithKey(key string) AlertingConditionMapPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv {
+	return AlertingConditionMapPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv{key: key}
+}
+
+type AlertingConditionMapPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv struct {
+	key string
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorSpec,
+		subPath:  NewAlertingConditionSpecFieldPathBuilder().TimeSeries().CombineThreshold().PerMetricTypeKv().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv) WithValue(value []byte) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionMapPathSelectorSpecTimeSeriesCombineThresholdPerMetricTypeKv) WithArrayOfValues(values [][]byte) *AlertingCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1516,6 +1604,10 @@ func (AlertingCondition_SpecPathSelectorTimeSeriesQuery) Selector() AlertingCond
 
 func (AlertingCondition_SpecPathSelectorTimeSeriesQuery) Aggregation() AlertingCondition_SpecPathSelectorTimeSeriesQueryAggregation {
 	return AlertingCondition_SpecPathSelectorTimeSeriesQueryAggregation{}
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQuery) PerMetricAggregations() AlertingCondition_SpecPathSelectorTimeSeriesQueryPerMetricAggregations {
+	return AlertingCondition_SpecPathSelectorTimeSeriesQueryPerMetricAggregations{}
 }
 
 type AlertingCondition_SpecPathSelectorTimeSeriesQueryFilter struct{}
@@ -1837,6 +1929,46 @@ func (s AlertingCondition_SpecPathSelectorTimeSeriesQueryAggregationGroupByField
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpec_FieldSubPathArrayItemValue)
 }
 
+type AlertingCondition_SpecPathSelectorTimeSeriesQueryPerMetricAggregations struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQueryPerMetricAggregations) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().PerMetricAggregations().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQueryPerMetricAggregations) WithValue(value map[string]*common.Aggregation) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesQueryPerMetricAggregations) WithArrayOfValues(values []map[string]*common.Aggregation) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesQueryPerMetricAggregations) WithKey(key string) AlertingCondition_SpecMapPathSelectorTimeSeriesQueryPerMetricAggregations {
+	return AlertingCondition_SpecMapPathSelectorTimeSeriesQueryPerMetricAggregations{key: key}
+}
+
+type AlertingCondition_SpecMapPathSelectorTimeSeriesQueryPerMetricAggregations struct {
+	key string
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQueryPerMetricAggregations) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().Query().PerMetricAggregations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQueryPerMetricAggregations) WithValue(value *common.Aggregation) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesQueryPerMetricAggregations) WithArrayOfValues(values []*common.Aggregation) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
 type AlertingCondition_SpecPathSelectorTimeSeriesThreshold struct{}
 
 func (AlertingCondition_SpecPathSelectorTimeSeriesThreshold) FieldPath() *AlertingConditionSpec_FieldSubPath {
@@ -1917,8 +2049,12 @@ func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThreshold) PerMetric() 
 	return AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetric{}
 }
 
-func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThreshold) Combine() AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdCombine {
-	return AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdCombine{}
+func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThreshold) MainMetricType() AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdMainMetricType {
+	return AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdMainMetricType{}
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThreshold) PerMetricTypeKv() AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv {
+	return AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv{}
 }
 
 type AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetric struct{}
@@ -1961,20 +2097,60 @@ func (s AlertingCondition_SpecMapPathSelectorTimeSeriesCombineThresholdPerMetric
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
 }
 
-type AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdCombine struct{}
+type AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdMainMetricType struct{}
 
-func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdCombine) FieldPath() *AlertingConditionSpec_FieldSubPath {
+func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdMainMetricType) FieldPath() *AlertingConditionSpec_FieldSubPath {
 	return &AlertingConditionSpec_FieldSubPath{
 		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
-		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().CombineThreshold().Combine().FieldPath(),
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().CombineThreshold().MainMetricType().FieldPath(),
 	}
 }
 
-func (s AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdCombine) WithValue(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingConditionSpec_FieldSubPathValue {
+func (s AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdMainMetricType) WithValue(value string) *AlertingConditionSpec_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
 }
 
-func (s AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdCombine) WithArrayOfValues(values []AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+func (s AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdMainMetricType) WithArrayOfValues(values []string) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+type AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv struct{}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().CombineThreshold().PerMetricTypeKv().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv) WithValue(value map[string][]byte) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv) WithArrayOfValues(values []map[string][]byte) *AlertingConditionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_SpecPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv) WithKey(key string) AlertingCondition_SpecMapPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv {
+	return AlertingCondition_SpecMapPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv{key: key}
+}
+
+type AlertingCondition_SpecMapPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv struct {
+	key string
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv) FieldPath() *AlertingConditionSpec_FieldSubPath {
+	return &AlertingConditionSpec_FieldSubPath{
+		selector: AlertingConditionSpec_FieldPathSelectorTimeSeries,
+		subPath:  NewAlertingConditionSpecTimeSeriesFieldPathBuilder().CombineThreshold().PerMetricTypeKv().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv) WithValue(value []byte) *AlertingConditionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
+}
+
+func (s AlertingCondition_SpecMapPathSelectorTimeSeriesCombineThresholdPerMetricTypeKv) WithArrayOfValues(values [][]byte) *AlertingConditionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -2127,6 +2303,10 @@ func (AlertingCondition_Spec_TimeSeriesPathSelectorQuery) Selector() AlertingCon
 
 func (AlertingCondition_Spec_TimeSeriesPathSelectorQuery) Aggregation() AlertingCondition_Spec_TimeSeriesPathSelectorQueryAggregation {
 	return AlertingCondition_Spec_TimeSeriesPathSelectorQueryAggregation{}
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQuery) PerMetricAggregations() AlertingCondition_Spec_TimeSeriesPathSelectorQueryPerMetricAggregations {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorQueryPerMetricAggregations{}
 }
 
 type AlertingCondition_Spec_TimeSeriesPathSelectorQueryFilter struct{}
@@ -2448,6 +2628,46 @@ func (s AlertingCondition_Spec_TimeSeriesPathSelectorQueryAggregationGroupByFiel
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayItemValue)
 }
 
+type AlertingCondition_Spec_TimeSeriesPathSelectorQueryPerMetricAggregations struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQueryPerMetricAggregations) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().PerMetricAggregations().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQueryPerMetricAggregations) WithValue(value map[string]*common.Aggregation) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorQueryPerMetricAggregations) WithArrayOfValues(values []map[string]*common.Aggregation) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorQueryPerMetricAggregations) WithKey(key string) AlertingCondition_Spec_TimeSeriesMapPathSelectorQueryPerMetricAggregations {
+	return AlertingCondition_Spec_TimeSeriesMapPathSelectorQueryPerMetricAggregations{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeriesMapPathSelectorQueryPerMetricAggregations struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQueryPerMetricAggregations) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery,
+		subPath:  NewAlertingConditionSpecTimeSeriesQueryFieldPathBuilder().PerMetricAggregations().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQueryPerMetricAggregations) WithValue(value *common.Aggregation) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorQueryPerMetricAggregations) WithArrayOfValues(values []*common.Aggregation) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
 type AlertingCondition_Spec_TimeSeriesPathSelectorThreshold struct{}
 
 func (AlertingCondition_Spec_TimeSeriesPathSelectorThreshold) FieldPath() *AlertingConditionSpecTimeSeries_FieldTerminalPath {
@@ -2554,8 +2774,12 @@ func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThreshold) PerMetric()
 	return AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetric{}
 }
 
-func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThreshold) Combine() AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdCombine {
-	return AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdCombine{}
+func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThreshold) MainMetricType() AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdMainMetricType {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdMainMetricType{}
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThreshold) PerMetricTypeKv() AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetricTypeKv {
+	return AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetricTypeKv{}
 }
 
 type AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetric struct{}
@@ -2598,20 +2822,60 @@ func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorCombineThresholdPerMetri
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
 }
 
-type AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdCombine struct{}
+type AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdMainMetricType struct{}
 
-func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdCombine) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdMainMetricType) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
 	return &AlertingConditionSpecTimeSeries_FieldSubPath{
 		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold,
-		subPath:  NewAlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder().Combine().FieldPath(),
+		subPath:  NewAlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder().MainMetricType().FieldPath(),
 	}
 }
 
-func (s AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdCombine) WithValue(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdMainMetricType) WithValue(value string) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
 }
 
-func (s AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdCombine) WithArrayOfValues(values []AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdMainMetricType) WithArrayOfValues(values []string) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+type AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetricTypeKv struct{}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetricTypeKv) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold,
+		subPath:  NewAlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder().PerMetricTypeKv().FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetricTypeKv) WithValue(value map[string][]byte) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetricTypeKv) WithArrayOfValues(values []map[string][]byte) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeriesPathSelectorCombineThresholdPerMetricTypeKv) WithKey(key string) AlertingCondition_Spec_TimeSeriesMapPathSelectorCombineThresholdPerMetricTypeKv {
+	return AlertingCondition_Spec_TimeSeriesMapPathSelectorCombineThresholdPerMetricTypeKv{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeriesMapPathSelectorCombineThresholdPerMetricTypeKv struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorCombineThresholdPerMetricTypeKv) FieldPath() *AlertingConditionSpecTimeSeries_FieldSubPath {
+	return &AlertingConditionSpecTimeSeries_FieldSubPath{
+		selector: AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold,
+		subPath:  NewAlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder().PerMetricTypeKv().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorCombineThresholdPerMetricTypeKv) WithValue(value []byte) *AlertingConditionSpecTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeries_FieldSubPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeriesMapPathSelectorCombineThresholdPerMetricTypeKv) WithArrayOfValues(values [][]byte) *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues)
 }
 
@@ -2665,6 +2929,9 @@ func (AlertingConditionSpecTimeSeriesQueryFieldPathBuilder) Selector() AlertingC
 }
 func (AlertingConditionSpecTimeSeriesQueryFieldPathBuilder) Aggregation() AlertingCondition_Spec_TimeSeries_QueryPathSelectorAggregation {
 	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorAggregation{}
+}
+func (AlertingConditionSpecTimeSeriesQueryFieldPathBuilder) PerMetricAggregations() AlertingCondition_Spec_TimeSeries_QueryPathSelectorPerMetricAggregations {
+	return AlertingCondition_Spec_TimeSeries_QueryPathSelectorPerMetricAggregations{}
 }
 
 type AlertingCondition_Spec_TimeSeries_QueryPathSelectorFilter struct{}
@@ -3009,6 +3276,40 @@ func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorAggregationGroupByFie
 	return s.FieldPath().WithIArrayItemValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldSubPathArrayItemValue)
 }
 
+type AlertingCondition_Spec_TimeSeries_QueryPathSelectorPerMetricAggregations struct{}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorPerMetricAggregations) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorPerMetricAggregations) WithValue(value map[string]*common.Aggregation) *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryPathSelectorPerMetricAggregations) WithArrayOfValues(values []map[string]*common.Aggregation) *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeries_QueryPathSelectorPerMetricAggregations) WithKey(key string) AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorPerMetricAggregations {
+	return AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorPerMetricAggregations{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorPerMetricAggregations struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorPerMetricAggregations) FieldPath() *AlertingConditionSpecTimeSeriesQuery_FieldPathMap {
+	return &AlertingConditionSpecTimeSeriesQuery_FieldPathMap{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations, key: s.key}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorPerMetricAggregations) WithValue(value *common.Aggregation) *AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_QueryMapPathSelectorPerMetricAggregations) WithArrayOfValues(values []*common.Aggregation) *AlertingConditionSpecTimeSeriesQuery_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesQuery_FieldPathMapArrayOfValues)
+}
+
 type AlertingConditionSpecTimeSeriesThresholdFieldPathBuilder struct{}
 
 func NewAlertingConditionSpecTimeSeriesThresholdFieldPathBuilder() AlertingConditionSpecTimeSeriesThresholdFieldPathBuilder {
@@ -3057,8 +3358,11 @@ func NewAlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder() Alerti
 func (AlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder) PerMetric() AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetric {
 	return AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetric{}
 }
-func (AlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder) Combine() AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorCombine {
-	return AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorCombine{}
+func (AlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder) MainMetricType() AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorMainMetricType {
+	return AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorMainMetricType{}
+}
+func (AlertingConditionSpecTimeSeriesCombineThresholdFieldPathBuilder) PerMetricTypeKv() AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetricTypeKv {
+	return AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetricTypeKv{}
 }
 
 type AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetric struct{}
@@ -3095,16 +3399,50 @@ func (s AlertingCondition_Spec_TimeSeries_CombineThresholdMapPathSelectorPerMetr
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayOfValues)
 }
 
-type AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorCombine struct{}
+type AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorMainMetricType struct{}
 
-func (AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorCombine) FieldPath() *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath {
-	return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine}
+func (AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorMainMetricType) FieldPath() *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath {
+	return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType}
 }
 
-func (s AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorCombine) WithValue(value AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue {
+func (s AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorMainMetricType) WithValue(value string) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue)
 }
 
-func (s AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorCombine) WithArrayOfValues(values []AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues {
+func (s AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorMainMetricType) WithArrayOfValues(values []string) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues)
+}
+
+type AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetricTypeKv struct{}
+
+func (AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetricTypeKv) FieldPath() *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath {
+	return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetricTypeKv) WithValue(value map[string][]byte) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetricTypeKv) WithArrayOfValues(values []map[string][]byte) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues)
+}
+
+func (AlertingCondition_Spec_TimeSeries_CombineThresholdPathSelectorPerMetricTypeKv) WithKey(key string) AlertingCondition_Spec_TimeSeries_CombineThresholdMapPathSelectorPerMetricTypeKv {
+	return AlertingCondition_Spec_TimeSeries_CombineThresholdMapPathSelectorPerMetricTypeKv{key: key}
+}
+
+type AlertingCondition_Spec_TimeSeries_CombineThresholdMapPathSelectorPerMetricTypeKv struct {
+	key string
+}
+
+func (s AlertingCondition_Spec_TimeSeries_CombineThresholdMapPathSelectorPerMetricTypeKv) FieldPath() *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap {
+	return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv, key: s.key}
+}
+
+func (s AlertingCondition_Spec_TimeSeries_CombineThresholdMapPathSelectorPerMetricTypeKv) WithValue(value []byte) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue)
+}
+
+func (s AlertingCondition_Spec_TimeSeries_CombineThresholdMapPathSelectorPerMetricTypeKv) WithArrayOfValues(values [][]byte) *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayOfValues)
 }

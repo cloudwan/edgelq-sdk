@@ -50,22 +50,24 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// Request message for method
-// [ListResourceChangeLogs][ntt.audit.v1.ListResourceChangeLogs]
+// A request message of the
+// [ListResourceChangeLogs](#listresourcechangelogs-method) method.
 //
-// Returns resource changes for specified time range, region, scope and filter.
-// Note that resource change logs are Resource oriented - primary object is
-// resource here. Audit monitors resources that have non-custom store.
+// It returns resource changes for specified time range, region, scope and
+// filter.  Note that resource change logs are Resource oriented, primary
+// object is resource here. Audit monitors resources that have non-custom
+// store.
 //
 // Note that filter field is mandatory and minimal filters are:
-// * --filter 'service.name=[SERVICE_NAME] and resource.type=[RESOURCE_NAME]'
-// (what is happening for this resource type)
-// * --filter 'request_id=[REQUEST_ID]' (which resources were changed by this
-// request_id?)
 //
-// Be aware that server will append scope filter condition (and scope IN ...) to
-// an any of the above filters. All scopes are extracted from parents field in
-// ListResourceChangeLogsRequest body. This ensures that users can view only
+// * --filter 'service.name=[SERVICE_NAME] and resource.type=[RESOURCE_NAME]'
+//   (what is happening for this resource type)
+// * --filter 'request_id=[REQUEST_ID]' (which resources were changed by this
+//   request_id?)
+//
+// Be aware that server will append scope filter condition (and scope IN ...)
+// to an any of the above filters. All scopes are extracted from parents field
+// in ListResourceChangeLogsRequest body. This ensures that users can view only
 // scopes he/she is allowed to.
 //
 // For all of the above filters you can replace filter condition compare (=)
@@ -80,32 +82,48 @@ const (
 // "group" field, which is a reference to some other resource. If you create
 // label "group" in VM resource spec (in proto model) you can make a following
 // query:
-// *--filter 'service.name=vms.domain.com and resource.type=VM and
-// resource.post.labels.group=projects/P/vmgroups/myGroup'*.
 //
-// Examples of usage (with cuttle - we are interested only in one region and
+// ```
+// --filter 'service.name=vms.domain.com and \
+//           resource.type=VM and \
+//           resource.post.labels.group=projects/P/vmgroups/myGroup'
+// ```
+//
+// Examples of usage (with cuttle, we are interested only in one region and
 // scope):
+//
 // * Checks activities within one hour for role binding resources
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z",
-//   "endTime":"2020-09-08T13:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'service.name="iam.edgelq.com" and \
+//               resource.type="RoleBinding"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z",
+//     "endTime":"2020-09-08T13:00:00Z"}' \ -o json
+//   ```
 //
 // * Checks modification of specific RoleBinding
 //
-// $ cuttle audit query activity-log --parents 'project/demo'
-//   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding" and
-//   resource.name="projects/x/roleBindings/myRB"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query activity-log --parents 'projects/demo' \
+//     --filter 'service.name="iam.edgelq.com" and \
+//               resource.type="RoleBinding" and \
+//               resource.name="projects/x/roleBindings/myRB"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 //
-// * Checks changes on resource RoleBinding made by specific user (we need their
-// email)
+// * Checks changes on resource RoleBinding made by specific user
+//   (we need their email)
 //
-// $ cuttle audit query resource-change-log --parents 'project/demo'
-//   --filter 'service.name="IAM.edgelq.com" and resource.type="RoleBinding" and
-//   authentication.principal="user:we.know.who@domain.com"'
-//   --interval '{"startTime":"2020-09-08T12:00:00Z"}' -o json
+//   ```bash
+//   cuttle audit query resource-change-log --parents 'projects/demo' \
+//     --filter 'service.name="iam.edgelq.com" and \
+//               resource.type="RoleBinding" and \
+//               authentication.principal="user:we.know.who@domain.com"' \
+//     --interval '{"startTime":"2020-09-08T12:00:00Z"}' \
+//     -o json
+//   ```
 type ListResourceChangeLogsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -252,8 +270,8 @@ func (m *ListResourceChangeLogsRequest) SetPageToken(fv string) {
 	m.PageToken = fv
 }
 
-// Response message for method
-// [ListResourceChangeLogs][ntt.audit.v1.ListResourceChangeLogs]
+// A response message of the
+// [ListResourceChangeLogs](#listresourcechangelogs-method) method.
 //
 // Creates resource change log.
 //
@@ -377,8 +395,9 @@ func (m *ListResourceChangeLogsResponse) SetExecutionErrors(fv []*rpc.Status) {
 	m.ExecutionErrors = fv
 }
 
-// Request message for method
-// [CreatePreCommittedResourceChangeLogs][ntt.audit.v1.CreatePreCommittedResourceChangeLogs]
+// A request message of the
+// [CreatePreCommittedResourceChangeLogs](#createprecommittedresourcechangelogs-method)
+// method.
 type CreatePreCommittedResourceChangeLogsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -531,8 +550,9 @@ func (m *CreatePreCommittedResourceChangeLogsRequest) SetChanges(fv []*resource_
 	m.Changes = fv
 }
 
-// Response message for method
-// [CreatePreCommittedResourceChangeLogs][ntt.audit.v1.CreatePreCommittedResourceChangeLogs]
+// A response message of the
+// [CreatePreCommittedResourceChangeLogs](#createprecommittedresourcechangelogs-method)
+// method.
 type CreatePreCommittedResourceChangeLogsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -605,8 +625,9 @@ func (m *CreatePreCommittedResourceChangeLogsResponse) SetLogKeys(fv [][]byte) {
 	m.LogKeys = fv
 }
 
-// Request message for method
-// [SetResourceChangeLogsCommitState][ntt.audit.v1.SetResourceChangeLogsCommitState]
+// A request message of the
+// [SetResourceChangeLogsCommitState](#setresourcechangelogscommitstate-method)
+// method.
 type SetResourceChangeLogsCommitStateRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -729,8 +750,9 @@ func (m *SetResourceChangeLogsCommitStateRequest) SetTxResult(fv resource_change
 	m.TxResult = fv
 }
 
-// Response message for method
-// [SetResourceChangeLogsCommitState][ntt.audit.v1.SetResourceChangeLogsCommitState]
+// A response message of the
+// [SetResourceChangeLogsCommitState](#setresourcechangelogscommitstate-method)
+// method.
 type SetResourceChangeLogsCommitStateResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache

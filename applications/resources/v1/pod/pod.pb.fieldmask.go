@@ -410,6 +410,7 @@ func FullPod_Status_FieldMask() *Pod_Status_FieldMask {
 	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorPhase})
 	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorContainerStatuses})
 	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorError})
+	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorFailureCount})
 	return res
 }
 
@@ -453,7 +454,7 @@ func (fieldMask *Pod_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*PodStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -483,7 +484,7 @@ func (fieldMask *Pod_Status_FieldMask) Reset() {
 
 func (fieldMask *Pod_Status_FieldMask) Subtract(other *Pod_Status_FieldMask) *Pod_Status_FieldMask {
 	result := &Pod_Status_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[PodStatus_FieldPathSelector]gotenobject.FieldMask{
 		PodStatus_FieldPathSelectorContainerStatuses: &Pod_Status_Container_FieldMask{},
 	}
@@ -672,6 +673,8 @@ func (fieldMask *Pod_Status_FieldMask) Project(source *Pod_Status) *Pod_Status {
 				wholeContainerStatusesAccepted = true
 			case PodStatus_FieldPathSelectorError:
 				result.Error = source.Error
+			case PodStatus_FieldPathSelectorFailureCount:
+				result.FailureCount = source.FailureCount
 			}
 		case *PodStatus_FieldSubPath:
 			switch tp.selector {

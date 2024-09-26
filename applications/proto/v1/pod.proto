@@ -53,8 +53,12 @@ message Pod {
     // container_statuses lists individual status of the containers.
     repeated Container container_statuses = 2;
 
-    // Error message if Status.Phase is FAILED.
+    // Error message if Status.Phase is one of the failure phases.
     string error = 3;
+
+    // Some of the Pod UP errors are retried and the failure count
+    // is reported here
+    int32 failure_count = 4;
 
     // Container defines status of a Container.
     message Container {
@@ -139,11 +143,26 @@ message Pod {
       SUCCEEDED = 3;
 
       // PhaseFailed is used when the Pod encountered an issue and some or all
-      // of the container are not running.
+      // of the container are not running. This Phase happens after the
+      // containers are initially created successfully
       FAILED = 4;
 
       // PhaseUnknown is used when the assigned node doesn't respond anymore
       UNKNOWN = 5;
+
+      // IMAGE_DOWNLOAD_FAILED is the state when docker image pull fails.
+      IMAGE_DOWNLOAD_FAILED = 6;
+
+      // INIT_FAILED is the state when validation fails or pod initialization
+      // fails because of some system error. Typically caused by yaml syntax
+      // errors or system errors on device such as disk full etc
+      INIT_FAILED = 7;
+
+      // POD_CREATE_FAILED is the state when pod UP fails.
+      // In this case, the compose file is a valid yaml.
+      // The failure could be wrong or could be caused by docker errors or
+      // keyword errors
+      POD_CREATE_FAILED = 8;
     }
   }
 }

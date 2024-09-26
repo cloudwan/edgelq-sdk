@@ -55,7 +55,13 @@ message AlertingCondition {
 
       // Either specify single threshold or combine threshold, which allows to
       // pair each metric value to their specific thresholds,
-      // e.g. distinguish mean (loss, latency, jitter) in single query
+      // e.g. distinguish mean (loss, latency, jitter) in single query.
+      // If combine threshold is used, alert will be triggered only when all
+      // thresholds are violated. Example use case:
+      // * Trigger alert when CPU utilization > ... and uptime > ... (so we dont
+      // alert during startup unnecessarily).
+      // Time series sharing same fields except metric.type are merged
+      // (originally determined by aggregation.groupByFields).
       Threshold threshold = 2;
 
       CombineThreshold combine_threshold = 3;
@@ -74,8 +80,16 @@ message AlertingCondition {
         // This allows filtering AlertingConditions by filter conditions.
         TimeSeriesSelector selector = 2;
 
-        // Time Series aggregation
+        // Time Series aggregation. In case of combine threshold, it is used
+        // by "main" metric.type, and additional metric types if overrides are
+        // not specified.
         Aggregation aggregation = 3;
+
+        // If metric.type uses CombineThreshold and multiple metrics, it can
+        // provide extra per metric aggregation override. This cannot be
+        // specified for "main" metric.type. But be aware, AP and GroupByFields
+        // must be exactly same as in "aggregation" field.
+        map<string, Aggregation> per_metric_aggregations = 4;
       }
 
       message Threshold {
@@ -105,17 +119,16 @@ message AlertingCondition {
         // threshold
         map<string, Threshold> per_metric = 1;
 
-        // Combine describes how sub-conditions for each metric concerning
-        // single resource label set (determined by aggregation.groupByFields)
-        // must compose in order to trigger an alert.
-        // TODO: add support for AND
-        CombineOperator combine = 2;
+        // Primary metric.type for this condition.
+        // Although Alerts generated across multiple metric.type are possible,
+        // Alert instance has single "info.time_serie.metric.type" field path
+        // value.
+        string main_metric_type = 3;
 
-        enum CombineOperator {
-          OR = 0;
+        // Internal per metric identifiers in binary key
+        map<string, bytes> per_metric_type_kv = 4;
 
-          AND = 1;
-        }
+        reserved 2;
       }
     }
 

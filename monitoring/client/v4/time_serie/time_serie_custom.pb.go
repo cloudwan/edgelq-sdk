@@ -2467,12 +2467,30 @@ func (m *QueryServiceTimeSeriesStatsResponse) SetExecutionErrors(fv []*rpc.Statu
 }
 
 type WatchTimeSeriesRequest struct {
-	state                   protoimpl.MessageState
-	sizeCache               protoimpl.SizeCache
-	unknownFields           protoimpl.UnknownFields
-	Parent                  string               `protobuf:"bytes,1,opt,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
-	Filter                  *time_serie.Filter   `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
-	Aggregation             *common.Aggregation  `protobuf:"bytes,3,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// The project on which to execute the request. The format is
+	// "projects/{project_id}", or
+	// "projects/{project_id}/regions/{region_id}/buckets/{bucket_id}"
+	Parent string `protobuf:"bytes,1,opt,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	// A monitoring filter that specifies which time
+	// series should be returned.  The filter must specify a single metric type,
+	// and can additionally specify metric labels and other information. For
+	// example:
+	//
+	//     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
+	//         metric.label.instance_name = "my-instance-name"
+	Filter *time_serie.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	// Instructs how to transform individual time series (aligner) and combine
+	// them together (reducer, group by fields).
+	Aggregation *common.Aggregation `protobuf:"bytes,3,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	// Amount of past data to fetch when new time series key appears (not present
+	// in current session). For example: If client lost previous watch session for
+	// 15 minutes, they can set this field value to 15 minutes duration + 1 extra
+	// AlignmentPeriod value just in case. Initial time series in response will
+	// contain extra past data. Once specific TimeSeries key was already observed,
+	// further values will be coming only from realtime watch.
 	SnapshotIntervalToFetch *durationpb.Duration `protobuf:"bytes,4,opt,name=snapshot_interval_to_fetch,json=snapshotIntervalToFetch,proto3" json:"snapshot_interval_to_fetch,omitempty" firestore:"snapshotIntervalToFetch"`
 }
 

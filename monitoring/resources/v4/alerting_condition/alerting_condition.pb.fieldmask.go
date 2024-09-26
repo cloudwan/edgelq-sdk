@@ -1146,6 +1146,19 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) FilterInputFields(
 					result.Paths = append(result.Paths, &AlertingConditionSpecTimeSeries_FieldSubPath{selector: AlertingConditionSpecTimeSeries_FieldPathSelectorQuery, subPath: allowedPath})
 				}
 			}
+		case AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold:
+			if _, ok := path.(*AlertingConditionSpecTimeSeries_FieldTerminalPath); ok {
+				for _, subpath := range FullAlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask().FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingConditionSpecTimeSeries_FieldSubPath{selector: path.Selector(), subPath: subpath})
+				}
+			} else if sub, ok := path.(*AlertingConditionSpecTimeSeries_FieldSubPath); ok {
+				selectedMask := &AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask{
+					Paths: []AlertingConditionSpecTimeSeriesCombineThreshold_FieldPath{sub.subPath.(AlertingConditionSpecTimeSeriesCombineThreshold_FieldPath)},
+				}
+				for _, allowedPath := range selectedMask.FilterInputFields().Paths {
+					result.Paths = append(result.Paths, &AlertingConditionSpecTimeSeries_FieldSubPath{selector: AlertingConditionSpecTimeSeries_FieldPathSelectorCombineThreshold, subPath: allowedPath})
+				}
+			}
 		default:
 			result.Paths = append(result.Paths, path)
 		}
@@ -1590,6 +1603,7 @@ func FullAlertingCondition_Spec_TimeSeries_Query_FieldMask() *AlertingCondition_
 	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorFilter})
 	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector})
 	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation})
+	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations})
 	return res
 }
 
@@ -1633,7 +1647,7 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) IsFull() boo
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1663,7 +1677,7 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Reset() {
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Subtract(other *AlertingCondition_Spec_TimeSeries_Query_FieldMask) *AlertingCondition_Spec_TimeSeries_Query_FieldMask {
 	result := &AlertingCondition_Spec_TimeSeries_Query_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[AlertingConditionSpecTimeSeriesQuery_FieldPathSelector]gotenobject.FieldMask{
 		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector:    &common.TimeSeriesSelector_FieldMask{},
 		AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation: &common.Aggregation_FieldMask{},
@@ -1852,6 +1866,8 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 	wholeSelectorAccepted := false
 	aggregationMask := &common.Aggregation_FieldMask{}
 	wholeAggregationAccepted := false
+	var perMetricAggregationsMapKeys []string
+	wholePerMetricAggregationsAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1865,6 +1881,9 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 				result.Aggregation = source.Aggregation
 				wholeAggregationAccepted = true
+			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+				result.PerMetricAggregations = source.PerMetricAggregations
+				wholePerMetricAggregationsAccepted = true
 			}
 		case *AlertingConditionSpecTimeSeriesQuery_FieldSubPath:
 			switch tp.selector {
@@ -1873,6 +1892,11 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 				aggregationMask.AppendPath(tp.subPath.(common.Aggregation_FieldPath))
 			}
+		case *AlertingConditionSpecTimeSeriesQuery_FieldPathMap:
+			switch tp.selector {
+			case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+				perMetricAggregationsMapKeys = append(perMetricAggregationsMapKeys, tp.key)
+			}
 		}
 	}
 	if wholeSelectorAccepted == false && len(selectorMask.Paths) > 0 {
@@ -1880,6 +1904,14 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_Query_FieldMask) Project(sour
 	}
 	if wholeAggregationAccepted == false && len(aggregationMask.Paths) > 0 {
 		result.Aggregation = aggregationMask.Project(source.GetAggregation())
+	}
+	if wholePerMetricAggregationsAccepted == false && len(perMetricAggregationsMapKeys) > 0 && source.GetPerMetricAggregations() != nil {
+		copiedMap := map[string]*common.Aggregation{}
+		sourceMap := source.GetPerMetricAggregations()
+		for _, key := range perMetricAggregationsMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.PerMetricAggregations = copiedMap
 	}
 	return result
 }
@@ -2158,7 +2190,8 @@ type AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask struct {
 func FullAlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask() *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask {
 	res := &AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask{}
 	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric})
-	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine})
+	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType})
+	res.Paths = append(res.Paths, &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv})
 	return res
 }
 
@@ -2202,7 +2235,7 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) I
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2232,7 +2265,7 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) R
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) Subtract(other *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask {
 	result := &AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -2259,7 +2292,13 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) S
 // FilterInputFields generates copy of field paths with output_only field paths removed
 func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) FilterInputFields() *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask {
 	result := &AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
+	for _, path := range fieldMask.Paths {
+		switch path.Selector() {
+		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		default:
+			result.Paths = append(result.Paths, path)
+		}
+	}
 	return result
 }
 
@@ -2383,6 +2422,8 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) P
 	result := &AlertingCondition_Spec_TimeSeries_CombineThreshold{}
 	var perMetricMapKeys []string
 	wholePerMetricAccepted := false
+	var perMetricTypeKvMapKeys []string
+	wholePerMetricTypeKvAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -2391,13 +2432,18 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) P
 			case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 				result.PerMetric = source.PerMetric
 				wholePerMetricAccepted = true
-			case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-				result.Combine = source.Combine
+			case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+				result.MainMetricType = source.MainMetricType
+			case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+				result.PerMetricTypeKv = source.PerMetricTypeKv
+				wholePerMetricTypeKvAccepted = true
 			}
 		case *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap:
 			switch tp.selector {
 			case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 				perMetricMapKeys = append(perMetricMapKeys, tp.key)
+			case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+				perMetricTypeKvMapKeys = append(perMetricTypeKvMapKeys, tp.key)
 			}
 		}
 	}
@@ -2408,6 +2454,14 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_CombineThreshold_FieldMask) P
 			copiedMap[key] = sourceMap[key]
 		}
 		result.PerMetric = copiedMap
+	}
+	if wholePerMetricTypeKvAccepted == false && len(perMetricTypeKvMapKeys) > 0 && source.GetPerMetricTypeKv() != nil {
+		copiedMap := map[string][]byte{}
+		sourceMap := source.GetPerMetricTypeKv()
+		for _, key := range perMetricTypeKvMapKeys {
+			copiedMap[key] = sourceMap[key]
+		}
+		result.PerMetricTypeKv = copiedMap
 	}
 	return result
 }

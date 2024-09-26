@@ -3129,9 +3129,10 @@ type AlertingConditionSpecTimeSeriesQuery_FieldPath interface {
 type AlertingConditionSpecTimeSeriesQuery_FieldPathSelector int32
 
 const (
-	AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorFilter      AlertingConditionSpecTimeSeriesQuery_FieldPathSelector = 0
-	AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector    AlertingConditionSpecTimeSeriesQuery_FieldPathSelector = 1
-	AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation AlertingConditionSpecTimeSeriesQuery_FieldPathSelector = 2
+	AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorFilter                AlertingConditionSpecTimeSeriesQuery_FieldPathSelector = 0
+	AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector              AlertingConditionSpecTimeSeriesQuery_FieldPathSelector = 1
+	AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation           AlertingConditionSpecTimeSeriesQuery_FieldPathSelector = 2
+	AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations AlertingConditionSpecTimeSeriesQuery_FieldPathSelector = 3
 )
 
 func (s AlertingConditionSpecTimeSeriesQuery_FieldPathSelector) String() string {
@@ -3142,6 +3143,8 @@ func (s AlertingConditionSpecTimeSeriesQuery_FieldPathSelector) String() string 
 		return "selector"
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 		return "aggregation"
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return "per_metric_aggregations"
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", s))
 	}
@@ -3159,6 +3162,8 @@ func BuildAlertingConditionSpecTimeSeriesQuery_FieldPath(fp gotenobject.RawField
 			return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorSelector}, nil
 		case "aggregation":
 			return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation}, nil
+		case "per_metric_aggregations", "perMetricAggregations", "per-metric-aggregations":
+			return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3174,6 +3179,11 @@ func BuildAlertingConditionSpecTimeSeriesQuery_FieldPath(fp gotenobject.RawField
 			} else {
 				return &AlertingConditionSpecTimeSeriesQuery_FieldSubPath{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation, subPath: subpath}, nil
 			}
+		case "per_metric_aggregations", "perMetricAggregations", "per-metric-aggregations":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object AlertingCondition_Spec_TimeSeries_Query)", fp)
+			}
+			return &AlertingConditionSpecTimeSeriesQuery_FieldPathMap{selector: AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations, key: fp[1]}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object AlertingCondition_Spec_TimeSeries_Query", fp)
@@ -3231,6 +3241,10 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) Get(source *Al
 			if source.Aggregation != nil {
 				values = append(values, source.Aggregation)
 			}
+		case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+			if source.PerMetricAggregations != nil {
+				values = append(values, source.PerMetricAggregations)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 		}
@@ -3254,6 +3268,9 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) GetSingle(sour
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 		res := source.GetAggregation()
 		return res, res != nil
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		res := source.GetPerMetricAggregations()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 	}
@@ -3272,6 +3289,8 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) GetDefault() i
 		return (*common.TimeSeriesSelector)(nil)
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 		return (*common.Aggregation)(nil)
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return (map[string]*common.Aggregation)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 	}
@@ -3286,6 +3305,8 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) ClearValue(ite
 			item.Selector = nil
 		case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 			item.Aggregation = nil
+		case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+			item.PerMetricAggregations = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 		}
@@ -3313,6 +3334,8 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) WithIValue(val
 		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, value: value.(*common.TimeSeriesSelector)}
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, value: value.(*common.Aggregation)}
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, value: value.(map[string]*common.Aggregation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 	}
@@ -3331,6 +3354,8 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) WithIArrayOfVa
 		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, values: values.([]*common.TimeSeriesSelector)}
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, values: values.([]*common.Aggregation)}
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return &AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath: *fp, values: values.([]map[string]*common.Aggregation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fp.selector))
 	}
@@ -3350,6 +3375,138 @@ func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) WithIArrayItem
 
 func (fp *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type AlertingConditionSpecTimeSeriesQuery_FieldPathMap struct {
+	key      string
+	selector AlertingConditionSpecTimeSeriesQuery_FieldPathSelector
+}
+
+var _ AlertingConditionSpecTimeSeriesQuery_FieldPath = (*AlertingConditionSpecTimeSeriesQuery_FieldPathMap)(nil)
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) Selector() AlertingConditionSpecTimeSeriesQuery_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source AlertingCondition_Spec_TimeSeries_Query
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) Get(source *AlertingCondition_Spec_TimeSeries_Query) (values []interface{}) {
+	switch fpm.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		if value, ok := source.GetPerMetricAggregations()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*AlertingCondition_Spec_TimeSeries_Query))
+}
+
+// GetSingle returns value by selected field map key from source AlertingCondition_Spec_TimeSeries_Query
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) GetSingle(source *AlertingCondition_Spec_TimeSeries_Query) (interface{}, bool) {
+	switch fpm.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		res, ok := source.GetPerMetricAggregations()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpm.selector))
+	}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*AlertingCondition_Spec_TimeSeries_Query))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		var v *common.Aggregation
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpm.selector))
+	}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) ClearValue(item *AlertingCondition_Spec_TimeSeries_Query) {
+	if item != nil {
+		switch fpm.selector {
+		case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+			delete(item.PerMetricAggregations, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*AlertingCondition_Spec_TimeSeries_Query))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpm.selector))
+	}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) WithIValue(value interface{}) AlertingConditionSpecTimeSeriesQuery_FieldPathValue {
+	switch fpm.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return &AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue{AlertingConditionSpecTimeSeriesQuery_FieldPathMap: *fpm, value: value.(*common.Aggregation)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpm.selector))
+	}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) WithIArrayOfValues(values interface{}) AlertingConditionSpecTimeSeriesQuery_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return &AlertingConditionSpecTimeSeriesQuery_FieldPathMapArrayOfValues{AlertingConditionSpecTimeSeriesQuery_FieldPathMap: *fpm, values: values.([]*common.Aggregation)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpm.selector))
+	}
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) WithIArrayItemValue(value interface{}) AlertingConditionSpecTimeSeriesQuery_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *AlertingConditionSpecTimeSeriesQuery_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
 }
 
 type AlertingConditionSpecTimeSeriesQuery_FieldSubPath struct {
@@ -3528,6 +3685,10 @@ func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) AsAggreg
 	res, ok := fpv.value.(*common.Aggregation)
 	return res, ok
 }
+func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) AsPerMetricAggregationsValue() (map[string]*common.Aggregation, bool) {
+	res, ok := fpv.value.(map[string]*common.Aggregation)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Query
 func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) SetTo(target **AlertingCondition_Spec_TimeSeries_Query) {
@@ -3541,6 +3702,8 @@ func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) SetTo(ta
 		(*target).Selector = fpv.value.(*common.TimeSeriesSelector)
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 		(*target).Aggregation = fpv.value.(*common.Aggregation)
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		(*target).PerMetricAggregations = fpv.value.(map[string]*common.Aggregation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpv.selector))
 	}
@@ -3560,6 +3723,8 @@ func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) CompareW
 		return 0, false
 	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorAggregation:
 		return 0, false
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpv.selector))
 	}
@@ -3567,6 +3732,57 @@ func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) CompareW
 
 func (fpv *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*AlertingCondition_Spec_TimeSeries_Query))
+}
+
+type AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue struct {
+	AlertingConditionSpecTimeSeriesQuery_FieldPathMap
+	value interface{}
+}
+
+var _ AlertingConditionSpecTimeSeriesQuery_FieldPathValue = (*AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in Query as interface{}
+func (fpmv *AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue) AsPerMetricAggregationsElementValue() (*common.Aggregation, bool) {
+	res, ok := fpmv.value.(*common.Aggregation)
+	return res, ok
+}
+
+// SetTo stores value for selected field in Query
+func (fpmv *AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue) SetTo(target **AlertingCondition_Spec_TimeSeries_Query) {
+	if *target == nil {
+		*target = new(AlertingCondition_Spec_TimeSeries_Query)
+	}
+	switch fpmv.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		if (*target).PerMetricAggregations == nil {
+			(*target).PerMetricAggregations = make(map[string]*common.Aggregation)
+		}
+		(*target).PerMetricAggregations[fpmv.key] = fpmv.value.(*common.Aggregation)
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*AlertingCondition_Spec_TimeSeries_Query)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue' with the value under path in 'AlertingCondition_Spec_TimeSeries_Query'.
+func (fpmv *AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue) CompareWith(source *AlertingCondition_Spec_TimeSeries_Query) (int, bool) {
+	switch fpmv.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_Query: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *AlertingConditionSpecTimeSeriesQuery_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*AlertingCondition_Spec_TimeSeries_Query))
 }
 
 type AlertingConditionSpecTimeSeriesQuery_FieldSubPathValue struct {
@@ -3764,6 +3980,10 @@ func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues
 		for _, v := range fpaov.values.([]*common.Aggregation) {
 			values = append(values, v)
 		}
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		for _, v := range fpaov.values.([]map[string]*common.Aggregation) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3777,6 +3997,31 @@ func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues
 }
 func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues) AsAggregationArrayOfValues() ([]*common.Aggregation, bool) {
 	res, ok := fpaov.values.([]*common.Aggregation)
+	return res, ok
+}
+func (fpaov *AlertingConditionSpecTimeSeriesQuery_FieldTerminalPathArrayOfValues) AsPerMetricAggregationsArrayOfValues() ([]map[string]*common.Aggregation, bool) {
+	res, ok := fpaov.values.([]map[string]*common.Aggregation)
+	return res, ok
+}
+
+type AlertingConditionSpecTimeSeriesQuery_FieldPathMapArrayOfValues struct {
+	AlertingConditionSpecTimeSeriesQuery_FieldPathMap
+	values interface{}
+}
+
+var _ AlertingConditionSpecTimeSeriesQuery_FieldPathArrayOfValues = (*AlertingConditionSpecTimeSeriesQuery_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *AlertingConditionSpecTimeSeriesQuery_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case AlertingConditionSpecTimeSeriesQuery_FieldPathSelectorPerMetricAggregations:
+		for _, v := range fpmaov.values.([]*common.Aggregation) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *AlertingConditionSpecTimeSeriesQuery_FieldPathMapArrayOfValues) AsPerMetricAggregationsArrayOfElementValues() ([]*common.Aggregation, bool) {
+	res, ok := fpmaov.values.([]*common.Aggregation)
 	return res, ok
 }
 
@@ -4239,16 +4484,19 @@ type AlertingConditionSpecTimeSeriesCombineThreshold_FieldPath interface {
 type AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelector int32
 
 const (
-	AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelector = 0
-	AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine   AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelector = 1
+	AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric       AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelector = 0
+	AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType  AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelector = 1
+	AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelector = 2
 )
 
 func (s AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelector) String() string {
 	switch s {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return "per_metric"
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		return "combine"
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		return "main_metric_type"
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return "per_metric_type_kv"
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", s))
 	}
@@ -4262,8 +4510,10 @@ func BuildAlertingConditionSpecTimeSeriesCombineThreshold_FieldPath(fp gotenobje
 		switch fp[0] {
 		case "per_metric", "perMetric", "per-metric":
 			return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric}, nil
-		case "combine":
-			return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine}, nil
+		case "main_metric_type", "mainMetricType", "main-metric-type":
+			return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType}, nil
+		case "per_metric_type_kv", "perMetricTypeKv", "per-metric-type-kv":
+			return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -4272,6 +4522,11 @@ func BuildAlertingConditionSpecTimeSeriesCombineThreshold_FieldPath(fp gotenobje
 				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object AlertingCondition_Spec_TimeSeries_CombineThreshold)", fp)
 			}
 			return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric, key: fp[1]}, nil
+		case "per_metric_type_kv", "perMetricTypeKv", "per-metric-type-kv":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object AlertingCondition_Spec_TimeSeries_CombineThreshold)", fp)
+			}
+			return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap{selector: AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv, key: fp[1]}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object AlertingCondition_Spec_TimeSeries_CombineThreshold", fp)
@@ -4321,8 +4576,12 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) Get
 			if source.PerMetric != nil {
 				values = append(values, source.PerMetric)
 			}
-		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-			values = append(values, source.Combine)
+		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+			values = append(values, source.MainMetricType)
+		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+			if source.PerMetricTypeKv != nil {
+				values = append(values, source.PerMetricTypeKv)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fp.selector))
 		}
@@ -4340,8 +4599,11 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) Get
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		res := source.GetPerMetric()
 		return res, res != nil
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		return source.GetCombine(), source != nil
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		return source.GetMainMetricType(), source != nil
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		res := source.GetPerMetricTypeKv()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fp.selector))
 	}
@@ -4356,8 +4618,10 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) Get
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return (map[string]*AlertingCondition_Spec_TimeSeries_Threshold)(nil)
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		return AlertingCondition_Spec_TimeSeries_CombineThreshold_OR
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		return ""
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return (map[string][]byte)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fp.selector))
 	}
@@ -4368,8 +4632,10 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) Cle
 		switch fp.selector {
 		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 			item.PerMetric = nil
-		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-			item.Combine = AlertingCondition_Spec_TimeSeries_CombineThreshold_OR
+		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+			item.MainMetricType = ""
+		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+			item.PerMetricTypeKv = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fp.selector))
 		}
@@ -4382,7 +4648,8 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) Cle
 
 // IsLeaf - whether field path is holds simple value
 func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine
+	return fp.selector == AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType ||
+		fp.selector == AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv
 }
 
 func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -4393,8 +4660,10 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) Wit
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, value: value.(map[string]*AlertingCondition_Spec_TimeSeries_Threshold)}
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, value: value.(AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator)}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, value: value.(string)}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, value: value.(map[string][]byte)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fp.selector))
 	}
@@ -4409,8 +4678,10 @@ func (fp *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath) Wit
 	switch fp.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, values: values.([]map[string]*AlertingCondition_Spec_TimeSeries_Threshold)}
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, values: values.([]AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator)}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, values: values.([]string)}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues{AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPath: *fp, values: values.([]map[string][]byte)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fp.selector))
 	}
@@ -4465,6 +4736,10 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) Get(sou
 		if value, ok := source.GetPerMetric()[fpm.key]; ok {
 			values = append(values, value)
 		}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		if value, ok := source.GetPerMetricTypeKv()[fpm.key]; ok {
+			values = append(values, value)
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 	}
@@ -4481,6 +4756,9 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) GetSing
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		res, ok := source.GetPerMetric()[fpm.key]
 		return res, ok
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		res, ok := source.GetPerMetricTypeKv()[fpm.key]
+		return res, ok
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 	}
@@ -4496,6 +4774,9 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) GetDefa
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		var v *AlertingCondition_Spec_TimeSeries_Threshold
 		return v
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		var v []byte
+		return v
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 	}
@@ -4506,6 +4787,8 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) ClearVa
 		switch fpm.selector {
 		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 			delete(item.PerMetric, fpm.key)
+		case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+			delete(item.PerMetricTypeKv, fpm.key)
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 		}
@@ -4521,6 +4804,8 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) IsLeaf(
 	switch fpm.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return false
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return true
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 	}
@@ -4534,6 +4819,8 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) WithIVa
 	switch fpm.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue{AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap: *fpm, value: value.(*AlertingCondition_Spec_TimeSeries_Threshold)}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue{AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap: *fpm, value: value.([]byte)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 	}
@@ -4547,6 +4834,8 @@ func (fpm *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap) WithIAr
 	switch fpm.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayOfValues{AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap: *fpm, values: values.([]*AlertingCondition_Spec_TimeSeries_Threshold)}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return &AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayOfValues{AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMap: *fpm, values: values.([][]byte)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpm.selector))
 	}
@@ -4607,8 +4896,12 @@ func (fpv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValu
 	res, ok := fpv.value.(map[string]*AlertingCondition_Spec_TimeSeries_Threshold)
 	return res, ok
 }
-func (fpv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue) AsCombineValue() (AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator, bool) {
-	res, ok := fpv.value.(AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator)
+func (fpv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue) AsMainMetricTypeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValue) AsPerMetricTypeKvValue() (map[string][]byte, bool) {
+	res, ok := fpv.value.(map[string][]byte)
 	return res, ok
 }
 
@@ -4620,8 +4913,10 @@ func (fpv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValu
 	switch fpv.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		(*target).PerMetric = fpv.value.(map[string]*AlertingCondition_Spec_TimeSeries_Threshold)
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		(*target).Combine = fpv.value.(AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator)
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		(*target).MainMetricType = fpv.value.(string)
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		(*target).PerMetricTypeKv = fpv.value.(map[string][]byte)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpv.selector))
 	}
@@ -4637,9 +4932,9 @@ func (fpv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValu
 	switch fpv.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
 		return 0, false
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		leftValue := fpv.value.(AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator)
-		rightValue := source.GetCombine()
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetMainMetricType()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -4647,6 +4942,8 @@ func (fpv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathValu
 		} else {
 			return 1, true
 		}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpv.selector))
 	}
@@ -4671,6 +4968,10 @@ func (fpmv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue) A
 	res, ok := fpmv.value.(*AlertingCondition_Spec_TimeSeries_Threshold)
 	return res, ok
 }
+func (fpmv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue) AsPerMetricTypeKvElementValue() ([]byte, bool) {
+	res, ok := fpmv.value.([]byte)
+	return res, ok
+}
 
 // SetTo stores value for selected field in CombineThreshold
 func (fpmv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue) SetTo(target **AlertingCondition_Spec_TimeSeries_CombineThreshold) {
@@ -4683,6 +4984,11 @@ func (fpmv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue) S
 			(*target).PerMetric = make(map[string]*AlertingCondition_Spec_TimeSeries_Threshold)
 		}
 		(*target).PerMetric[fpmv.key] = fpmv.value.(*AlertingCondition_Spec_TimeSeries_Threshold)
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		if (*target).PerMetricTypeKv == nil {
+			(*target).PerMetricTypeKv = make(map[string][]byte)
+		}
+		(*target).PerMetricTypeKv[fpmv.key] = fpmv.value.([]byte)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpmv.selector))
 	}
@@ -4697,6 +5003,8 @@ func (fpmv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue) S
 func (fpmv *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapValue) CompareWith(source *AlertingCondition_Spec_TimeSeries_CombineThreshold) (int, bool) {
 	switch fpmv.selector {
 	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetric:
+		return 0, false
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_TimeSeries_CombineThreshold: %d", fpmv.selector))
@@ -4810,8 +5118,12 @@ func (fpaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathAr
 		for _, v := range fpaov.values.([]map[string]*AlertingCondition_Spec_TimeSeries_Threshold) {
 			values = append(values, v)
 		}
-	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorCombine:
-		for _, v := range fpaov.values.([]AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator) {
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorMainMetricType:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		for _, v := range fpaov.values.([]map[string][]byte) {
 			values = append(values, v)
 		}
 	}
@@ -4821,8 +5133,12 @@ func (fpaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathAr
 	res, ok := fpaov.values.([]map[string]*AlertingCondition_Spec_TimeSeries_Threshold)
 	return res, ok
 }
-func (fpaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues) AsCombineArrayOfValues() ([]AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator, bool) {
-	res, ok := fpaov.values.([]AlertingCondition_Spec_TimeSeries_CombineThreshold_CombineOperator)
+func (fpaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues) AsMainMetricTypeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldTerminalPathArrayOfValues) AsPerMetricTypeKvArrayOfValues() ([]map[string][]byte, bool) {
+	res, ok := fpaov.values.([]map[string][]byte)
 	return res, ok
 }
 
@@ -4839,10 +5155,18 @@ func (fpmaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayO
 		for _, v := range fpmaov.values.([]*AlertingCondition_Spec_TimeSeries_Threshold) {
 			values = append(values, v)
 		}
+	case AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathSelectorPerMetricTypeKv:
+		for _, v := range fpmaov.values.([][]byte) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpmaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayOfValues) AsPerMetricArrayOfElementValues() ([]*AlertingCondition_Spec_TimeSeries_Threshold, bool) {
 	res, ok := fpmaov.values.([]*AlertingCondition_Spec_TimeSeries_Threshold)
+	return res, ok
+}
+func (fpmaov *AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathMapArrayOfValues) AsPerMetricTypeKvArrayOfElementValues() ([][]byte, bool) {
+	res, ok := fpmaov.values.([][]byte)
 	return res, ok
 }

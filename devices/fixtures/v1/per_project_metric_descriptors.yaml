@@ -8,17 +8,50 @@ resources:
   valueType: INT64
   unit: "1"
   labels:
-  promotedLabelKeySets:
-    - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      preAggregatedIndices:
+      - name: "device-aggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        filterAndGroupLabelSets:
+        - name: "AllReduced"
+        supportedAggregations:
+        - name: "OnlineDevAvgCounts"
+          perSeriesAligners: [ ALIGN_MEAN ]
+          crossSeriesReducers: [ REDUCE_SUM ]
+      paginationIndices:
+      - name: "online-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_MEAN
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -32,17 +65,25 @@ resources:
   valueType: INT64
   unit: "1"
   labels:
-  promotedLabelKeySets:
-    - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -56,17 +97,39 @@ resources:
   valueType: INT64
   unit: By
   labels:
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -80,17 +143,39 @@ resources:
   valueType: INT64
   unit: By
   labels:
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -104,17 +189,39 @@ resources:
   valueType: DOUBLE
   unit: "%"
   labels:
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -131,24 +238,49 @@ resources:
   - key: state
     description: buffered, cached, free, used, shared or available.
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
-  - labelKeys: [state]
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ state ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "project_id-state"
         metricKeys: [ state ]
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-state"
         metricKeys: [ state ]
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -168,17 +300,41 @@ resources:
   - key: state
     description: CPU state one of user, system, idle, nice, iowait, irq, softirq and steal
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ state ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -191,17 +347,39 @@ resources:
   metricKind: GAUGE
   valueType: DOUBLE
   labels:
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -221,17 +399,41 @@ resources:
   - key: partition_name
     description: Parition Name
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ mount_point, partition_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -251,17 +453,41 @@ resources:
   - key: partition_name
     description: Parition Name
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ mount_point, partition_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -281,17 +507,41 @@ resources:
   - key: partition_name
     description: Parition Name
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ mount_point, partition_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -314,17 +564,41 @@ resources:
   - key: key
     description: Key (e.g. temp1_input, temp1_max, ...)
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ chip, feature, key ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -344,17 +618,41 @@ resources:
   - key: sensor_tag
     description: Name of the sensor (some have readable names like vddgfx/vddnb or just the sensor number as temp1/temp2 or Sensor 1/Sensor 2)
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ chip, sensor_tag ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -371,17 +669,41 @@ resources:
   - key: sensor_tag
     description: Name of the sensor (typically just fan1,fan2 etc)
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ sensor_tag ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -401,17 +723,41 @@ resources:
   - key: sensor_tag
     description: Name of the sensor (some have readable names like vddgfx/vddnb or just the sensor number as in0/in1)
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ chip, sensor_tag ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -431,17 +777,41 @@ resources:
   - key: sensor_tag
     description: Name of the sensor (some have readable names like vddgfx/vddnb or just the sensor number as power1/power2 etc)
     valueType: STRING
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ chip, sensor_tag ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -475,17 +845,41 @@ resources:
       numFiniteBuckets: 130
       width: 1
       offset: -120
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "strength-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ access_technology, global_cell_id, physical_cell_id, tracking_area_code, arfcn ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -519,17 +913,41 @@ resources:
       numFiniteBuckets: 100
       width: 1
       offset: -142
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "strength-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ access_technology, global_cell_id, physical_cell_id, tracking_area_code, arfcn ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -563,17 +981,41 @@ resources:
       numFiniteBuckets: 68
       width: 0.25
       offset: -19.75
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "strength-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ access_technology, global_cell_id, physical_cell_id, tracking_area_code, arfcn ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -607,17 +1049,41 @@ resources:
       numFiniteBuckets: 80 # range is likely 0 to 40
       width: 0.5
       offset: 0
-  promotedLabelKeySets:
-  - labelKeys: []
+  promotedLabelKeySets: null
   indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "strength-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ access_technology, global_cell_id, physical_cell_id, tracking_area_code, arfcn ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
     legacyMigrated:
     - name: Legacy:devices.edgelq.com/device
       resourceTypes: [ devices.edgelq.com/device ]
       partitionLabelSets:
       - name: "project_id-"
         resourceKeys: [ project_id ]
+        closingStatus: <legacy_device_indices_closing_status>
       - name: "device_id-"
         resourceKeys: [ device_id ]
+        closingStatus: <legacy_device_indices_closing_status>
   metadata:
     services:
       owningService: devices.edgelq.com
@@ -650,6 +1116,22 @@ resources:
   promotedLabelKeySets: null
   indices:
     builtIn:
+      paginationIndices:
+      - name: "StrengthRanking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ access_technology, antenna_number ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
       nonAggregatedIndices:
       - name: "rsrpperantenna-nonaggregated"
         resourceTypes: [ devices.edgelq.com/device ]
@@ -661,6 +1143,7 @@ resources:
         - name: "ProjectScope"
           metricKeys: [ ]
           resourceKeys: [ ]
+          closingStatus: <legacy_device_indices_closing_status>
 
 - name: projects/<project>/metricDescriptors/devices.edgelq.com/device/modem/rsrq-per-antenna
   type: devices.edgelq.com/device/modem/rsrq-per-antenna
@@ -688,6 +1171,22 @@ resources:
   promotedLabelKeySets: null
   indices:
     builtIn:
+      paginationIndices:
+      - name: "StrengthRanking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ access_technology, antenna_number ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
       nonAggregatedIndices:
       - name: "rsrqperantenna-nonaggregated"
         resourceTypes: [ devices.edgelq.com/device ]
@@ -699,3 +1198,4 @@ resources:
         - name: "ProjectScope"
           metricKeys: [ ]
           resourceKeys: [ ]
+          closingStatus: <legacy_device_indices_closing_status>

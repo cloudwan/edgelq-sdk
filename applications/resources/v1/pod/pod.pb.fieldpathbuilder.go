@@ -2390,6 +2390,10 @@ func (PodPathSelectorStatus) Error() PodPathSelectorStatusError {
 	return PodPathSelectorStatusError{}
 }
 
+func (PodPathSelectorStatus) FailureCount() PodPathSelectorStatusFailureCount {
+	return PodPathSelectorStatusFailureCount{}
+}
+
 type PodPathSelectorStatusPhase struct{}
 
 func (PodPathSelectorStatusPhase) FieldPath() *Pod_FieldSubPath {
@@ -2760,6 +2764,23 @@ func (s PodPathSelectorStatusError) WithArrayOfValues(values []string) *Pod_Fiel
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
+type PodPathSelectorStatusFailureCount struct{}
+
+func (PodPathSelectorStatusFailureCount) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorStatus,
+		subPath:  NewPodStatusFieldPathBuilder().FailureCount().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorStatusFailureCount) WithValue(value int32) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorStatusFailureCount) WithArrayOfValues(values []int32) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
 type PodStatusFieldPathBuilder struct{}
 
 func NewPodStatusFieldPathBuilder() PodStatusFieldPathBuilder {
@@ -2773,6 +2794,9 @@ func (PodStatusFieldPathBuilder) ContainerStatuses() Pod_StatusPathSelectorConta
 }
 func (PodStatusFieldPathBuilder) Error() Pod_StatusPathSelectorError {
 	return Pod_StatusPathSelectorError{}
+}
+func (PodStatusFieldPathBuilder) FailureCount() Pod_StatusPathSelectorFailureCount {
+	return Pod_StatusPathSelectorFailureCount{}
 }
 
 type Pod_StatusPathSelectorPhase struct{}
@@ -3148,6 +3172,20 @@ func (s Pod_StatusPathSelectorError) WithValue(value string) *PodStatus_FieldTer
 }
 
 func (s Pod_StatusPathSelectorError) WithArrayOfValues(values []string) *PodStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldTerminalPathArrayOfValues)
+}
+
+type Pod_StatusPathSelectorFailureCount struct{}
+
+func (Pod_StatusPathSelectorFailureCount) FieldPath() *PodStatus_FieldTerminalPath {
+	return &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorFailureCount}
+}
+
+func (s Pod_StatusPathSelectorFailureCount) WithValue(value int32) *PodStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatus_FieldTerminalPathValue)
+}
+
+func (s Pod_StatusPathSelectorFailureCount) WithArrayOfValues(values []int32) *PodStatus_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldTerminalPathArrayOfValues)
 }
 
