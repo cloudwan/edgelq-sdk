@@ -68,8 +68,8 @@ func (obj *Role) GotenValidate() error {
 	}
 	{
 		rlen := utf8.RuneCountInString(obj.Description)
-		if rlen > 512 {
-			return gotenvalidate.NewValidationError("Role", "description", obj.Description, "field must contain at most 512 characters", nil)
+		if rlen > 1024 {
+			return gotenvalidate.NewValidationError("Role", "description", obj.Description, "field must contain at most 1024 characters", nil)
 		}
 	}
 	if _, ok := Role_Category_name[int32(obj.Category)]; !ok {

@@ -58,8 +58,8 @@ func (obj *LabelDescriptor) GotenValidate() error {
 	}
 	{
 		rlen := utf8.RuneCountInString(obj.Description)
-		if rlen > 256 {
-			return gotenvalidate.NewValidationError("LabelDescriptor", "description", obj.Description, "field must contain at most 256 characters", nil)
+		if rlen > 1024 {
+			return gotenvalidate.NewValidationError("LabelDescriptor", "description", obj.Description, "field must contain at most 1024 characters", nil)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

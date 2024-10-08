@@ -102,6 +102,12 @@ func (obj *SetupServiceProjectRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("SetupServiceProjectRequest", "multiRegionPolicy", obj.MultiRegionPolicy, "nested object validation failed", err)
 		}
 	}
+	{
+		rlen := utf8.RuneCountInString(obj.Description)
+		if rlen > 256 {
+			return gotenvalidate.NewValidationError("SetupServiceProjectRequest", "description", obj.Description, "field must contain at most 256 characters", nil)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
