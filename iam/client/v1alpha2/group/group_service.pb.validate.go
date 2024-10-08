@@ -228,11 +228,6 @@ func (obj *UpdateGroupRequest_CAS) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
-	if subobj, ok := interface{}(obj.ConditionalState).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CAS", "conditionalState", obj.ConditionalState, "nested object validation failed", err)
-		}
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
