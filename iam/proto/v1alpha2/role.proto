@@ -13,10 +13,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Role Resource
 message Role {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Role"
-    pattern : "roles/{role}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Role" pattern:"roles/{role}"  };
 
   // Name of Role
   string name = 1;
@@ -26,8 +23,7 @@ message Role {
 
   // Included Permissions in this Role. Binding this role grants all following
   // Permissions.
-  repeated string included_permissions = 3
-      [ (google.api.resource_reference) = {type : "Permission"} ];
+  repeated string included_permissions = 3 [(google.api.resource_reference) = { type:"Permission"  }];
 
   // Default conditionBinding (optional), cannot be used with required
   // TODO: Deprecated...
@@ -40,8 +36,7 @@ message Role {
   // List of conditions that must be used for this role. Parameters must be
   // defined by client.
   // TODO: Works only if only one element is specified
-  repeated string required_conditions = 7
-      [ (google.api.resource_reference) = {type : "Condition"} ];
+  repeated string required_conditions = 7 [(google.api.resource_reference) = { type:"Condition"  }];
 
   // Metadata
   goten.types.Meta metadata = 4;

@@ -42,9 +42,9 @@ var (
 )
 
 type ServiceAccountKeyAccess interface {
-	GetServiceAccountKey(context.Context, *GetQuery) (*ServiceAccountKey, error)
+	GetServiceAccountKey(context.Context, *GetQuery, ...gotenresource.GetOption) (*ServiceAccountKey, error)
 	BatchGetServiceAccountKeys(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryServiceAccountKeys(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryServiceAccountKeys(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchServiceAccountKey(context.Context, *GetQuery, func(*ServiceAccountKeyChange) error) error
 	WatchServiceAccountKeys(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveServiceAccountKey(context.Context, *ServiceAccountKey, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access ServiceAccountKeyAccess) gotenresource.Access {
 	return &anyCastAccess{ServiceAccountKeyAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asServiceAccountKeyQuery, ok := q.(*GetQuery); ok {
-		return a.GetServiceAccountKey(ctx, asServiceAccountKeyQuery)
+		return a.GetServiceAccountKey(ctx, asServiceAccountKeyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ServiceAccountKey, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asServiceAccountKeyQuery, ok := q.(*ListQuery); ok {
-		return a.QueryServiceAccountKeys(ctx, asServiceAccountKeyQuery)
+		return a.QueryServiceAccountKeys(ctx, asServiceAccountKeyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ServiceAccountKey, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for ServiceAccountKey")
 }
 

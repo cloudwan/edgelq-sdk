@@ -64,7 +64,9 @@ message PodChange {
 
   // Pod has been added or modified in a query view. Version used for stateless
   // watching
-  message Current { Pod pod = 1; }
+  message Current {
+    Pod pod = 1;
+  }
 
   // Removed is returned when Pod is deleted or leaves Query view
   message Removed {

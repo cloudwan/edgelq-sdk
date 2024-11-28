@@ -13,12 +13,7 @@ option java_package = "com.ntt.monitoring.pb.v4";
 
 // Alert Resource
 message Alert {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/Alert"
-    pattern : "projects/{project}/regions/{region}/alertingPolicies/"
-              "{alerting_policy}/alertingConditions/{alerting_condition}/"
-              "alerts/{alert}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/Alert" pattern:"projects/{project}/regions/{region}/alertingPolicies/{alerting_policy}/alertingConditions/{alerting_condition}/alerts/{alert}"  };
 
   // Name of Alert
   // When creating a new instance, this field is optional and if not provided,
@@ -56,7 +51,10 @@ message Alert {
 
       MonitoredResource monitored_resource = 2;
 
+      // Internal data for filtering...
       repeated string data = 3;
+
+      repeated bytes bin_data = 4;
     }
 
     message ObservedValues {

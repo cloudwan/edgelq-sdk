@@ -44,9 +44,9 @@ var (
 )
 
 type LogDescriptorAccess interface {
-	GetLogDescriptor(context.Context, *GetQuery) (*LogDescriptor, error)
+	GetLogDescriptor(context.Context, *GetQuery, ...gotenresource.GetOption) (*LogDescriptor, error)
 	BatchGetLogDescriptors(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryLogDescriptors(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryLogDescriptors(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchLogDescriptor(context.Context, *GetQuery, func(*LogDescriptorChange) error) error
 	WatchLogDescriptors(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveLogDescriptor(context.Context, *LogDescriptor, ...gotenresource.SaveOption) error
@@ -61,25 +61,25 @@ func AsAnyCastAccess(access LogDescriptorAccess) gotenresource.Access {
 	return &anyCastAccess{LogDescriptorAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asLogDescriptorQuery, ok := q.(*GetQuery); ok {
-		return a.GetLogDescriptor(ctx, asLogDescriptorQuery)
+		return a.GetLogDescriptor(ctx, asLogDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected LogDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asLogDescriptorQuery, ok := q.(*ListQuery); ok {
-		return a.QueryLogDescriptors(ctx, asLogDescriptorQuery)
+		return a.QueryLogDescriptors(ctx, asLogDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected LogDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for LogDescriptor")
 }
 

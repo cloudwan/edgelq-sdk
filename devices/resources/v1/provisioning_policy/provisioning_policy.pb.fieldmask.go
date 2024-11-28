@@ -424,6 +424,7 @@ func FullProvisioningPolicy_Spec_FieldMask() *ProvisioningPolicy_Spec_FieldMask 
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorMode})
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorServiceAccount})
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat})
+	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat})
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorLabels})
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorTemplate})
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorIdentityFieldPaths})
@@ -474,7 +475,7 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 11)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ProvisioningPolicySpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -504,7 +505,7 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Reset() {
 
 func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Subtract(other *ProvisioningPolicy_Spec_FieldMask) *ProvisioningPolicy_Spec_FieldMask {
 	result := &ProvisioningPolicy_Spec_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 11)
 	otherSubMasks := map[ProvisioningPolicySpec_FieldPathSelector]gotenobject.FieldMask{
 		ProvisioningPolicySpec_FieldPathSelectorTemplate:    &ProvisioningPolicy_Spec_Template_FieldMask{},
 		ProvisioningPolicySpec_FieldPathSelectorScopeParams: &iam_role.ScopeParam_FieldMask{},
@@ -718,6 +719,8 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Project(source *Provisioning
 				result.ServiceAccount = source.ServiceAccount
 			case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 				result.DeviceNameFormat = source.DeviceNameFormat
+			case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+				result.DeviceDisplayNameFormat = source.DeviceDisplayNameFormat
 			case ProvisioningPolicySpec_FieldPathSelectorLabels:
 				result.Labels = source.Labels
 				wholeLabelsAccepted = true

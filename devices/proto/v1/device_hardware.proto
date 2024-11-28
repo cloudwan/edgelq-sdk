@@ -12,11 +12,7 @@ option java_package = "com.ntt.devices.pb.v1";
 
 // DeviceHardware Resource
 message DeviceHardware {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/DeviceHardware"
-    pattern : "projects/{project}/regions/{region}/deviceHardwares/"
-              "{device_hardware}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/DeviceHardware" pattern:"projects/{project}/regions/{region}/deviceHardwares/{device_hardware}"  };
 
   // Name of DeviceHardware
   // When creating a new instance, this field is optional and if not provided,

@@ -13,12 +13,7 @@ option java_package = "com.ntt.logging.pb.v1alpha2";
 
 // LogDescriptor Resource
 message LogDescriptor {
-  option (google.api.resource) = {
-    type : "logging.edgelq.com/LogDescriptor"
-    pattern : "logDescriptors/{log_descriptor}"
-    pattern : "projects/{project}/logDescriptors/{log_descriptor}"
-    pattern : "organizations/{organization}/logDescriptors/{log_descriptor}"
-  };
+  option (google.api.resource) = { type:"logging.edgelq.com/LogDescriptor" pattern:"logDescriptors/{log_descriptor}" pattern:"projects/{project}/logDescriptors/{log_descriptor}" pattern:"organizations/{organization}/logDescriptors/{log_descriptor}"  };
 
   // Name of LogDescriptor - contains service name followed by name defined
   // by developer, separated by '/' sign. Example name:

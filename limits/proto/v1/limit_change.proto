@@ -64,7 +64,9 @@ message LimitChange {
 
   // Limit has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Limit limit = 1; }
+  message Current {
+    Limit limit = 1;
+  }
 
   // Removed is returned when Limit is deleted or leaves Query view
   message Removed {

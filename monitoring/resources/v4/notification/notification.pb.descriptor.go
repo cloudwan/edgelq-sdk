@@ -85,7 +85,7 @@ func (d *Descriptor) NewListQuery() gotenresource.ListQuery {
 }
 
 func (d *Descriptor) NewSearchQuery() gotenresource.SearchQuery {
-	return &SearchQuery{}
+	return nil
 }
 
 func (d *Descriptor) NewWatchQuery() gotenresource.WatchQuery {
@@ -183,6 +183,10 @@ func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, erro
 }
 
 func (d *Descriptor) SupportsMetadata() bool {
+	return true
+}
+
+func (d *Descriptor) SupportsDbConstraints() bool {
 	return true
 }
 

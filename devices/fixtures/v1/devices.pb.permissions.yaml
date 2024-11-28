@@ -35,6 +35,21 @@ resources:
 - name: services/devices.edgelq.com/permissions/customizedImages.watch
   title: Devices CustomizedImage WatchCustomizedImage
   description: Allows for performing WatchCustomizedImage method on CustomizedImage resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters!attach
+  title: Attach permission for DeviceDistributionCounter
+  description: Allows attaching instance of DeviceDistributionCounter
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.batchGet
+  title: Devices DeviceDistributionCounter BatchGetDeviceDistributionCounters
+  description: Allows for performing BatchGetDeviceDistributionCounters method on DeviceDistributionCounter resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.get
+  title: Devices DeviceDistributionCounter GetDeviceDistributionCounter
+  description: Allows for performing GetDeviceDistributionCounter method on DeviceDistributionCounter resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.list
+  title: Devices DeviceDistributionCounter ListDeviceDistributionCounters
+  description: Allows for performing ListDeviceDistributionCounters method on DeviceDistributionCounter resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.watch
+  title: Devices DeviceDistributionCounter WatchDeviceDistributionCounter
+  description: Allows for performing WatchDeviceDistributionCounter method on DeviceDistributionCounter resource.
 - name: services/devices.edgelq.com/permissions/deviceHardwareRegisterSessions!attach
   title: Attach permission for DeviceHardwareRegisterSession
   description: Allows attaching instance of DeviceHardwareRegisterSession
@@ -308,6 +323,9 @@ resources:
 - name: services/devices.edgelq.com/permissions/provisioningPolicies.watch
   title: Devices ProvisioningPolicy WatchProvisioningPolicy
   description: Allows for performing WatchProvisioningPolicy method on ProvisioningPolicy resource.
+- name: services/devices.edgelq.com/permissions/reportDeviceMetrics
+  title: Devices ReportDeviceMetrics
+  description: Allows for performing ReportDeviceMetrics method.
 - name: services/devices.edgelq.com/permissions/tpmAttestationCerts!attach
   title: Attach permission for TpmAttestationCert
   description: Allows attaching instance of TpmAttestationCert

@@ -22,10 +22,7 @@ service ZtpProvisionHardwareService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ProvisionHardware
-  rpc ProvisionHardware(stream ProvisionHardwareRequest)
-      returns (stream ProvisionHardwareResponse) {
-    option (google.api.http) = {
-      post : "/v1:provisionHardware"
-    };
+  rpc ProvisionHardware ( stream ProvisionHardwareRequest ) returns ( stream ProvisionHardwareResponse ) {
+    option (google.api.http) = { post:"/v1:provisionHardware"  };
   }
 }

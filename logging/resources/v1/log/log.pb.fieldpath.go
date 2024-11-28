@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -92,6 +92,9 @@ const (
 	Log_FieldPathSelectorTime          Log_FieldPathSelector = 7
 	Log_FieldPathSelectorJsonPayload   Log_FieldPathSelector = 8
 	Log_FieldPathSelectorPbPayload     Log_FieldPathSelector = 9
+	Log_FieldPathSelectorStringPayload Log_FieldPathSelector = 10
+	Log_FieldPathSelectorBytesPayload  Log_FieldPathSelector = 11
+	Log_FieldPathSelectorBinKey        Log_FieldPathSelector = 12
 )
 
 func (s Log_FieldPathSelector) String() string {
@@ -116,6 +119,12 @@ func (s Log_FieldPathSelector) String() string {
 		return "json_payload"
 	case Log_FieldPathSelectorPbPayload:
 		return "pb_payload"
+	case Log_FieldPathSelectorStringPayload:
+		return "string_payload"
+	case Log_FieldPathSelectorBytesPayload:
+		return "bytes_payload"
+	case Log_FieldPathSelectorBinKey:
+		return "bin_key"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", s))
 	}
@@ -147,6 +156,12 @@ func BuildLog_FieldPath(fp gotenobject.RawFieldPath) (Log_FieldPath, error) {
 			return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorJsonPayload}, nil
 		case "pb_payload", "pbPayload", "pb-payload":
 			return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorPbPayload}, nil
+		case "string_payload", "stringPayload", "string-payload":
+			return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorStringPayload}, nil
+		case "bytes_payload", "bytesPayload", "bytes-payload":
+			return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBytesPayload}, nil
+		case "bin_key", "binKey", "bin-key":
+			return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBinKey}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -230,6 +245,12 @@ func (fp *Log_FieldTerminalPath) Get(source *Log) (values []interface{}) {
 			if source.PbPayload != nil {
 				values = append(values, source.PbPayload)
 			}
+		case Log_FieldPathSelectorStringPayload:
+			values = append(values, source.StringPayload)
+		case Log_FieldPathSelectorBytesPayload:
+			values = append(values, source.BytesPayload)
+		case Log_FieldPathSelectorBinKey:
+			values = append(values, source.BinKey)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Log: %d", fp.selector))
 		}
@@ -270,6 +291,13 @@ func (fp *Log_FieldTerminalPath) GetSingle(source *Log) (interface{}, bool) {
 	case Log_FieldPathSelectorPbPayload:
 		res := source.GetPbPayload()
 		return res, res != nil
+	case Log_FieldPathSelectorStringPayload:
+		return source.GetStringPayload(), source != nil
+	case Log_FieldPathSelectorBytesPayload:
+		res := source.GetBytesPayload()
+		return res, res != nil
+	case Log_FieldPathSelectorBinKey:
+		return source.GetBinKey(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", fp.selector))
 	}
@@ -302,6 +330,12 @@ func (fp *Log_FieldTerminalPath) GetDefault() interface{} {
 		return (*structpb.Struct)(nil)
 	case Log_FieldPathSelectorPbPayload:
 		return (*anypb.Any)(nil)
+	case Log_FieldPathSelectorStringPayload:
+		return ""
+	case Log_FieldPathSelectorBytesPayload:
+		return ([]byte)(nil)
+	case Log_FieldPathSelectorBinKey:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", fp.selector))
 	}
@@ -330,6 +364,12 @@ func (fp *Log_FieldTerminalPath) ClearValue(item *Log) {
 			item.JsonPayload = nil
 		case Log_FieldPathSelectorPbPayload:
 			item.PbPayload = nil
+		case Log_FieldPathSelectorStringPayload:
+			item.StringPayload = ""
+		case Log_FieldPathSelectorBytesPayload:
+			item.BytesPayload = nil
+		case Log_FieldPathSelectorBinKey:
+			item.BinKey = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for Log: %d", fp.selector))
 		}
@@ -351,7 +391,10 @@ func (fp *Log_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Log_FieldPathSelectorLabels ||
 		fp.selector == Log_FieldPathSelectorTime ||
 		fp.selector == Log_FieldPathSelectorJsonPayload ||
-		fp.selector == Log_FieldPathSelectorPbPayload
+		fp.selector == Log_FieldPathSelectorPbPayload ||
+		fp.selector == Log_FieldPathSelectorStringPayload ||
+		fp.selector == Log_FieldPathSelectorBytesPayload ||
+		fp.selector == Log_FieldPathSelectorBinKey
 }
 
 func (fp *Log_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -380,6 +423,12 @@ func (fp *Log_FieldTerminalPath) WithIValue(value interface{}) Log_FieldPathValu
 		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(*structpb.Struct)}
 	case Log_FieldPathSelectorPbPayload:
 		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(*anypb.Any)}
+	case Log_FieldPathSelectorStringPayload:
+		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(string)}
+	case Log_FieldPathSelectorBytesPayload:
+		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.([]byte)}
+	case Log_FieldPathSelectorBinKey:
+		return &Log_FieldTerminalPathValue{Log_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", fp.selector))
 	}
@@ -412,6 +461,12 @@ func (fp *Log_FieldTerminalPath) WithIArrayOfValues(values interface{}) Log_Fiel
 		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]*structpb.Struct)}
 	case Log_FieldPathSelectorPbPayload:
 		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]*anypb.Any)}
+	case Log_FieldPathSelectorStringPayload:
+		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]string)}
+	case Log_FieldPathSelectorBytesPayload:
+		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([][]byte)}
+	case Log_FieldPathSelectorBinKey:
+		return &Log_FieldTerminalPathArrayOfValues{Log_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", fp.selector))
 	}
@@ -644,6 +699,18 @@ func (fpv *Log_FieldTerminalPathValue) AsPbPayloadValue() (*anypb.Any, bool) {
 	res, ok := fpv.value.(*anypb.Any)
 	return res, ok
 }
+func (fpv *Log_FieldTerminalPathValue) AsStringPayloadValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *Log_FieldTerminalPathValue) AsBytesPayloadValue() ([]byte, bool) {
+	res, ok := fpv.value.([]byte)
+	return res, ok
+}
+func (fpv *Log_FieldTerminalPathValue) AsBinKeyValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Log
 func (fpv *Log_FieldTerminalPathValue) SetTo(target **Log) {
@@ -671,6 +738,12 @@ func (fpv *Log_FieldTerminalPathValue) SetTo(target **Log) {
 		(*target).JsonPayload = fpv.value.(*structpb.Struct)
 	case Log_FieldPathSelectorPbPayload:
 		(*target).PbPayload = fpv.value.(*anypb.Any)
+	case Log_FieldPathSelectorStringPayload:
+		(*target).StringPayload = fpv.value.(string)
+	case Log_FieldPathSelectorBytesPayload:
+		(*target).BytesPayload = fpv.value.([]byte)
+	case Log_FieldPathSelectorBinKey:
+		(*target).BinKey = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", fpv.selector))
 	}
@@ -787,6 +860,28 @@ func (fpv *Log_FieldTerminalPathValue) CompareWith(source *Log) (int, bool) {
 		return 0, false
 	case Log_FieldPathSelectorPbPayload:
 		return 0, false
+	case Log_FieldPathSelectorStringPayload:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetStringPayload()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Log_FieldPathSelectorBytesPayload:
+		return 0, false
+	case Log_FieldPathSelectorBinKey:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetBinKey()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Log: %d", fpv.selector))
 	}
@@ -994,6 +1089,18 @@ func (fpaov *Log_FieldTerminalPathArrayOfValues) GetRawValues() (values []interf
 		for _, v := range fpaov.values.([]*anypb.Any) {
 			values = append(values, v)
 		}
+	case Log_FieldPathSelectorStringPayload:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case Log_FieldPathSelectorBytesPayload:
+		for _, v := range fpaov.values.([][]byte) {
+			values = append(values, v)
+		}
+	case Log_FieldPathSelectorBinKey:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1035,6 +1142,18 @@ func (fpaov *Log_FieldTerminalPathArrayOfValues) AsJsonPayloadArrayOfValues() ([
 }
 func (fpaov *Log_FieldTerminalPathArrayOfValues) AsPbPayloadArrayOfValues() ([]*anypb.Any, bool) {
 	res, ok := fpaov.values.([]*anypb.Any)
+	return res, ok
+}
+func (fpaov *Log_FieldTerminalPathArrayOfValues) AsStringPayloadArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Log_FieldTerminalPathArrayOfValues) AsBytesPayloadArrayOfValues() ([][]byte, bool) {
+	res, ok := fpaov.values.([][]byte)
+	return res, ok
+}
+func (fpaov *Log_FieldTerminalPathArrayOfValues) AsBinKeyArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 

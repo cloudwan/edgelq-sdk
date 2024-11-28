@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiOrganizationAccess(client organization_client.OrganizationServiceClie
 	return &apiOrganizationAccess{client: client}
 }
 
-func (a *apiOrganizationAccess) GetOrganization(ctx context.Context, query *organization.GetQuery) (*organization.Organization, error) {
+func (a *apiOrganizationAccess) GetOrganization(ctx context.Context, query *organization.GetQuery, opts ...gotenresource.GetOption) (*organization.Organization, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiOrganizationAccess) GetOrganization(ctx context.Context, query *orga
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetOrganization(ctx, request)
+	res, err := a.client.GetOrganization(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiOrganizationAccess) GetOrganization(ctx context.Context, query *orga
 
 func (a *apiOrganizationAccess) BatchGetOrganizations(ctx context.Context, refs []*organization.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*organization.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiOrganizationAccess) BatchGetOrganizations(ctx context.Context, refs 
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*organization.Organization_FieldMask)
 	}
-	resp, err := a.client.BatchGetOrganizations(ctx, request)
+	resp, err := a.client.BatchGetOrganizations(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiOrganizationAccess) BatchGetOrganizations(ctx context.Context, refs 
 	return nil
 }
 
-func (a *apiOrganizationAccess) QueryOrganizations(ctx context.Context, query *organization.ListQuery) (*organization.QueryResultSnapshot, error) {
+func (a *apiOrganizationAccess) QueryOrganizations(ctx context.Context, query *organization.ListQuery, opts ...gotenresource.QueryOption) (*organization.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &organization_client.ListOrganizationsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +155,9 @@ func (a *apiOrganizationAccess) WatchOrganization(ctx context.Context, query *or
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchOrganization(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -150,12 +181,16 @@ func (a *apiOrganizationAccess) WatchOrganizations(ctx context.Context, query *o
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchOrganizations(ctx, request)
 	if initErr != nil {
 		return initErr

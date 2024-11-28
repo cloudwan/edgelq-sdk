@@ -12,11 +12,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // OsImageProfile Resource
 message OsImageProfile {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/OsImageProfile"
-    pattern : "projects/{project}/regions/{region}/osImageProfiles/"
-              "{os_image_profile}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/OsImageProfile" pattern:"projects/{project}/regions/{region}/osImageProfiles/{os_image_profile}"  };
 
   // Name of OsImageProfile
   // When creating a new instance, this field is optional and if not provided,

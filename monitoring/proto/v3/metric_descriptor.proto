@@ -16,10 +16,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 // deleting or altering it stops data collection and makes the metric type's
 // existing data unusable.
 message MetricDescriptor {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/MetricDescriptor"
-    pattern : "projects/{project}/metricDescriptors/{metric_descriptor}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/MetricDescriptor" pattern:"projects/{project}/metricDescriptors/{metric_descriptor}"  };
 
   // Metadata
   goten.types.Meta metadata = 35;

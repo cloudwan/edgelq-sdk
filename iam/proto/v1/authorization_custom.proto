@@ -97,7 +97,9 @@ message WatchPrincipalUpdatesResponse {
     }
   }
 
-  message RemovedPrincipal { string principal_key_id = 1; }
+  message RemovedPrincipal {
+    string principal_key_id = 1;
+  }
 }
 
 // Request message for method

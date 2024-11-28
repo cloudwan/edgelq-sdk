@@ -184,13 +184,17 @@ resources:
   - AlertingPolicy
 
 - name: Alert
+  versioning:
+    skipTransformersBasicActions:
+    - CreateAlert
   parents:
   - AlertingCondition
   idPattern: "[a-zA-Z0-9_.:-]{1,128}"
 
 - name: Notification
-  optIns:
-    searchable: true
+  versioning:
+    skipTransformersBasicActions:
+    - CreateNotification
   parents:
   - AlertingPolicy
   idPattern: "[a-zA-Z0-9_.:-]{1,128}"

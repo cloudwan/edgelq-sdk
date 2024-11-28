@@ -32,12 +32,7 @@ option java_package = "com.ntt.audit.pb.v1";
 // You can combine ActivityLog and ResourceChangeLog by making
 // queries with request_id specified in a filter.
 message ActivityLog {
-  option (google.api.resource) = {
-    type : "audit.edgelq.com/ActivityLog"
-    pattern : "projects/{project}/activityLogs/{activity_log}"
-    pattern : "organizations/{organization}/activityLogs/{activity_log}"
-    pattern : "services/{service}/activityLogs/{activity_log}"
-  };
+  option (google.api.resource) = { type:"audit.edgelq.com/ActivityLog" pattern:"projects/{project}/activityLogs/{activity_log}" pattern:"organizations/{organization}/activityLogs/{activity_log}" pattern:"services/{service}/activityLogs/{activity_log}"  };
 
   // Name of ActivityLog. It contains scope + ID of the log.
   // ID is a base64 encoded unique key that identifies tuple:

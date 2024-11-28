@@ -136,7 +136,9 @@ message WatchRegionRequest {
 }
 
 // A response message of the WatchRegion method.
-message WatchRegionResponse { RegionChange change = 1; }
+message WatchRegionResponse {
+  RegionChange change = 1;
+}
 
 // A request message of the WatchRegions method.
 message WatchRegionsRequest {
@@ -267,38 +269,27 @@ service RegionService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetRegion
-  rpc GetRegion(GetRegionRequest) returns (Region) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=regions/*}"
-    };
+  rpc GetRegion ( GetRegionRequest ) returns ( Region ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=regions/*}"  };
   }
 
   // BatchGetRegions
-  rpc BatchGetRegions(BatchGetRegionsRequest)
-      returns (BatchGetRegionsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/regions:batchGet"
-    };
+  rpc BatchGetRegions ( BatchGetRegionsRequest ) returns ( BatchGetRegionsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/regions:batchGet"  };
   }
 
   // ListRegions
-  rpc ListRegions(ListRegionsRequest) returns (ListRegionsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/regions"
-    };
+  rpc ListRegions ( ListRegionsRequest ) returns ( ListRegionsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/regions"  };
   }
 
   // WatchRegion
-  rpc WatchRegion(WatchRegionRequest) returns (stream WatchRegionResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=regions/*}:watch"
-    };
+  rpc WatchRegion ( WatchRegionRequest ) returns ( stream WatchRegionResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=regions/*}:watch"  };
   }
 
   // WatchRegions
-  rpc WatchRegions(WatchRegionsRequest) returns (stream WatchRegionsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/regions:watch"
-    };
+  rpc WatchRegions ( WatchRegionsRequest ) returns ( stream WatchRegionsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/regions:watch"  };
   }
 }

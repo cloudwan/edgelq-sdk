@@ -12,10 +12,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // Permission Resource
 message Permission {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Permission"
-    pattern : "services/{service}/permissions/{permission}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Permission" pattern:"services/{service}/permissions/{permission}"  };
 
   // Name of Permission
   string name = 1;

@@ -14,16 +14,7 @@ option java_package = "com.ntt.logging.pb.v1";
 
 // Log Resource
 message Log {
-  option (google.api.resource) = {
-    type : "logging.edgelq.com/Log"
-    pattern : "projects/{project}/logs/{log}"
-    pattern : "organizations/{organization}/logs/{log}"
-    pattern : "services/{service}/logs/{log}"
-    pattern : "projects/{project}/regions/{region}/buckets/{bucket}/logs/{log}"
-    pattern : "organizations/{organization}/regions/{region}/buckets/{bucket}/"
-              "logs/{log}"
-    pattern : "services/{service}/regions/{region}/buckets/{bucket}/logs/{log}"
-  };
+  option (google.api.resource) = { type:"logging.edgelq.com/Log" pattern:"projects/{project}/logs/{log}" pattern:"organizations/{organization}/logs/{log}" pattern:"services/{service}/logs/{log}" pattern:"projects/{project}/regions/{region}/buckets/{bucket}/logs/{log}" pattern:"organizations/{organization}/regions/{region}/buckets/{bucket}/logs/{log}" pattern:"services/{service}/regions/{region}/buckets/{bucket}/logs/{log}"  };
 
   // Name of Log
   // When creating a new instance, this field is optional and if not provided,
@@ -62,4 +53,19 @@ message Log {
 
   // Log Protobuf payload
   google.protobuf.Any pb_payload = 10;
+
+  // Log string type payload
+  string string_payload = 11;
+
+  // Log bytes type payload
+  bytes bytes_payload = 12;
+
+  // Log bin_key identifies unique Log tuple:
+  // <scope, service, region, version, labels, log_descriptor
+  //
+  // Key is not to be decoded outside of service, but treated as opaque string.
+  // This field is equivalent to ID part of the log name and therefore any one
+  // of them can be used. This is intented for streaming log create to conserve
+  // some bandwidth
+  string bin_key = 101;
 }

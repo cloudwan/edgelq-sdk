@@ -16,10 +16,9 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // Actor is a party performing an action
 message Actor {
-  string user = 1 [ (google.api.resource_reference) = {type : "User"} ];
+  string user = 1 [(google.api.resource_reference) = { type:"User"  }];
 
-  string service_account = 2
-      [ (google.api.resource_reference) = {type : "ServiceAccount"} ];
+  string service_account = 2 [(google.api.resource_reference) = { type:"ServiceAccount"  }];
 }
 
 // Common invitation body. It's used in Project/Organization Invitations
@@ -28,13 +27,13 @@ message Invitation {
   string invitee_email = 3;
 
   // Inviter User
-  Actor inviter_actor = 6 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  Actor inviter_actor = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Denormalized data - TODO: remove it
-  string inviter_full_name = 5 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  string inviter_full_name = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Inviter Email
-  string inviter_email = 10 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  string inviter_email = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Invitation ISO language code. Defaults to "en-us" (American English).
   string language_code = 11;
@@ -51,7 +50,7 @@ message Invitation {
   map<string, string> extras = 12;
 
   // Status of Invitation
-  State state = 9 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  State state = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Invitation FSM States
   enum State {

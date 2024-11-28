@@ -42,9 +42,9 @@ var (
 )
 
 type RoleAccess interface {
-	GetRole(context.Context, *GetQuery) (*Role, error)
+	GetRole(context.Context, *GetQuery, ...gotenresource.GetOption) (*Role, error)
 	BatchGetRoles(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryRoles(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryRoles(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchRole(context.Context, *GetQuery, func(*RoleChange) error) error
 	WatchRoles(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveRole(context.Context, *Role, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access RoleAccess) gotenresource.Access {
 	return &anyCastAccess{RoleAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asRoleQuery, ok := q.(*GetQuery); ok {
-		return a.GetRole(ctx, asRoleQuery)
+		return a.GetRole(ctx, asRoleQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Role, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asRoleQuery, ok := q.(*ListQuery); ok {
-		return a.QueryRoles(ctx, asRoleQuery)
+		return a.QueryRoles(ctx, asRoleQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Role, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Role")
 }
 

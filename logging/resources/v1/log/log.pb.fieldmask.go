@@ -73,6 +73,9 @@ func FullLog_FieldMask() *Log_FieldMask {
 	res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorTime})
 	res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorJsonPayload})
 	res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorPbPayload})
+	res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorStringPayload})
+	res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBytesPayload})
+	res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBinKey})
 	return res
 }
 
@@ -116,7 +119,7 @@ func (fieldMask *Log_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Log_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -146,7 +149,7 @@ func (fieldMask *Log_FieldMask) Reset() {
 
 func (fieldMask *Log_FieldMask) Subtract(other *Log_FieldMask) *Log_FieldMask {
 	result := &Log_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 13)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -323,6 +326,12 @@ func (fieldMask *Log_FieldMask) Project(source *Log) *Log {
 				result.JsonPayload = source.JsonPayload
 			case Log_FieldPathSelectorPbPayload:
 				result.PbPayload = source.PbPayload
+			case Log_FieldPathSelectorStringPayload:
+				result.StringPayload = source.StringPayload
+			case Log_FieldPathSelectorBytesPayload:
+				result.BytesPayload = source.BytesPayload
+			case Log_FieldPathSelectorBinKey:
+				result.BinKey = source.BinKey
 			}
 		case *Log_FieldPathMap:
 			switch tp.selector {

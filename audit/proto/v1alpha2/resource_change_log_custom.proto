@@ -188,4 +188,5 @@ message SetResourceChangeLogsCommitStateRequest {
 
 // Response message for method
 // [SetResourceChangeLogsCommitState][ntt.audit.v1alpha2.SetResourceChangeLogsCommitState]
-message SetResourceChangeLogsCommitStateResponse {}
+message SetResourceChangeLogsCommitStateResponse {
+}

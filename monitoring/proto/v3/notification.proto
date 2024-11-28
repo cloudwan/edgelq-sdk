@@ -13,11 +13,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 
 // Notification Resource
 message Notification {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/Notification"
-    pattern : "projects/{project}/regions/{region}/alertingPolicies/"
-              "{alerting_policy}/notifications/{notification}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/Notification" pattern:"projects/{project}/regions/{region}/alertingPolicies/{alerting_policy}/notifications/{notification}"  };
 
   // Name of Notification
   // When creating a new instance, this field is optional and if not provided,
@@ -79,10 +75,14 @@ message Notification {
         PagerDuty pager_duty = 4;
 
         // Slack
-        message Slack { string ts = 1; }
+        message Slack {
+          string ts = 1;
+        }
 
         // Pager Duty
-        message PagerDuty { string incident_key = 1; }
+        message PagerDuty {
+          string incident_key = 1;
+        }
       }
 
       enum Status {

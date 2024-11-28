@@ -14,11 +14,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // CustomizedImage Resource
 message CustomizedImage {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/CustomizedImage"
-    pattern : "projects/{project}/regions/{region}/customizedImages/"
-              "{customized_image}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/CustomizedImage" pattern:"projects/{project}/regions/{region}/customizedImages/{customized_image}"  };
 
   // Name of CustomizedImage
   // When creating a new instance, this field is optional and if not provided,
@@ -34,9 +30,9 @@ message CustomizedImage {
   Status status = 4;
 
   message Spec {
-    string version = 1 [ (google.api.field_behavior) = REQUIRED ];
+    string version = 1 [(google.api.field_behavior) = REQUIRED];
 
-    string device_type = 2 [ (google.api.field_behavior) = REQUIRED ];
+    string device_type = 2 [(google.api.field_behavior) = REQUIRED];
 
     string provisioning_policy = 3;
 
@@ -63,7 +59,7 @@ message CustomizedImage {
 
   message Status {
     // State of the image.
-    State state = 1 [ (google.api.field_behavior) = REQUIRED ];
+    State state = 1 [(google.api.field_behavior) = REQUIRED];
 
     // Error log when state is ERROR.
     string log = 2;

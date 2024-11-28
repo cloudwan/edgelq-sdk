@@ -44,9 +44,9 @@ var (
 )
 
 type OrganizationAccess interface {
-	GetOrganization(context.Context, *GetQuery) (*Organization, error)
+	GetOrganization(context.Context, *GetQuery, ...gotenresource.GetOption) (*Organization, error)
 	BatchGetOrganizations(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryOrganizations(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryOrganizations(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchOrganization(context.Context, *GetQuery, func(*OrganizationChange) error) error
 	WatchOrganizations(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveOrganization(context.Context, *Organization, ...gotenresource.SaveOption) error
@@ -61,25 +61,25 @@ func AsAnyCastAccess(access OrganizationAccess) gotenresource.Access {
 	return &anyCastAccess{OrganizationAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asOrganizationQuery, ok := q.(*GetQuery); ok {
-		return a.GetOrganization(ctx, asOrganizationQuery)
+		return a.GetOrganization(ctx, asOrganizationQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Organization, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asOrganizationQuery, ok := q.(*ListQuery); ok {
-		return a.QueryOrganizations(ctx, asOrganizationQuery)
+		return a.QueryOrganizations(ctx, asOrganizationQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Organization, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Organization")
 }
 

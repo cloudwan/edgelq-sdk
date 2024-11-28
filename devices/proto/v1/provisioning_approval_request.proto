@@ -12,12 +12,7 @@ option java_package = "com.ntt.devices.pb.v1";
 
 // ProvisioningApprovalRequest Resource
 message ProvisioningApprovalRequest {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/ProvisioningApprovalRequest"
-    pattern : "projects/{project}/regions/{region}/provisioningPolicies/"
-              "{provisioning_policy}/provisioningApprovalRequests/"
-              "{provisioning_approval_request}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/ProvisioningApprovalRequest" pattern:"projects/{project}/regions/{region}/provisioningPolicies/{provisioning_policy}/provisioningApprovalRequests/{provisioning_approval_request}"  };
 
   // Name of ProvisioningApprovalRequest
   // When creating a new instance, this field is optional and if not provided,
@@ -53,5 +48,6 @@ message ProvisioningApprovalRequest {
     }
   }
 
-  message Status {}
+  message Status {
+  }
 }

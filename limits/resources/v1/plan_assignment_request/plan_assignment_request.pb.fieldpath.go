@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -1519,12 +1519,36 @@ func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) GetRaw(source prot
 func (fp *PlanAssignmentRequestRequestType_FieldTerminalPath) GetSingle(source *PlanAssignmentRequest_RequestType) (interface{}, bool) {
 	switch fp.selector {
 	case PlanAssignmentRequestRequestType_FieldPathSelectorAssign:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetAssign(), false
+		}
+		_, oneOfSelected := source.Request.(*PlanAssignmentRequest_RequestType_Assign_)
+		if !oneOfSelected {
+			return source.GetAssign(), false // to return "type" information
+		}
 		res := source.GetAssign()
 		return res, res != nil
 	case PlanAssignmentRequestRequestType_FieldPathSelectorExtend:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetExtend(), false
+		}
+		_, oneOfSelected := source.Request.(*PlanAssignmentRequest_RequestType_Extend_)
+		if !oneOfSelected {
+			return source.GetExtend(), false // to return "type" information
+		}
 		res := source.GetExtend()
 		return res, res != nil
 	case PlanAssignmentRequestRequestType_FieldPathSelectorUnassign:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetUnassign(), false
+		}
+		_, oneOfSelected := source.Request.(*PlanAssignmentRequest_RequestType_Unassign_)
+		if !oneOfSelected {
+			return source.GetUnassign(), false // to return "type" information
+		}
 		res := source.GetUnassign()
 		return res, res != nil
 	default:

@@ -139,7 +139,9 @@ message WatchConfigMapRequest {
 }
 
 // A response message of the WatchConfigMap method.
-message WatchConfigMapResponse { ConfigMapChange change = 1; }
+message WatchConfigMapResponse {
+  ConfigMapChange change = 1;
+}
 
 // A request message of the WatchConfigMaps method.
 message WatchConfigMapsRequest {
@@ -274,6 +276,23 @@ message CreateConfigMapRequest {
 
   // ConfigMap resource body
   ConfigMap config_map = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateConfigMap method.
@@ -297,7 +316,10 @@ message UpdateConfigMapRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -308,6 +330,26 @@ message UpdateConfigMapRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -323,63 +365,42 @@ service ConfigMapService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetConfigMap
-  rpc GetConfigMap(GetConfigMapRequest) returns (ConfigMap) {
-    option (google.api.http) = {
-      get : "/v1/{name=projects/*/regions/*/configMaps/*}"
-    };
+  rpc GetConfigMap ( GetConfigMapRequest ) returns ( ConfigMap ) {
+    option (google.api.http) = { get:"/v1/{name=projects/*/regions/*/configMaps/*}"  };
   }
 
   // BatchGetConfigMaps
-  rpc BatchGetConfigMaps(BatchGetConfigMapsRequest)
-      returns (BatchGetConfigMapsResponse) {
-    option (google.api.http) = {
-      get : "/v1/configMaps:batchGet"
-    };
+  rpc BatchGetConfigMaps ( BatchGetConfigMapsRequest ) returns ( BatchGetConfigMapsResponse ) {
+    option (google.api.http) = { get:"/v1/configMaps:batchGet"  };
   }
 
   // ListConfigMaps
-  rpc ListConfigMaps(ListConfigMapsRequest) returns (ListConfigMapsResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=projects/*/regions/*}/configMaps"
-    };
+  rpc ListConfigMaps ( ListConfigMapsRequest ) returns ( ListConfigMapsResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=projects/*/regions/*}/configMaps"  };
   }
 
   // WatchConfigMap
-  rpc WatchConfigMap(WatchConfigMapRequest)
-      returns (stream WatchConfigMapResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/regions/*/configMaps/*}:watch"
-    };
+  rpc WatchConfigMap ( WatchConfigMapRequest ) returns ( stream WatchConfigMapResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/regions/*/configMaps/*}:watch"  };
   }
 
   // WatchConfigMaps
-  rpc WatchConfigMaps(WatchConfigMapsRequest)
-      returns (stream WatchConfigMapsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*/regions/*}/configMaps:watch"
-    };
+  rpc WatchConfigMaps ( WatchConfigMapsRequest ) returns ( stream WatchConfigMapsResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*/regions/*}/configMaps:watch"  };
   }
 
   // CreateConfigMap
-  rpc CreateConfigMap(CreateConfigMapRequest) returns (ConfigMap) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*/regions/*}/configMaps"
-      body : "config_map"
-    };
+  rpc CreateConfigMap ( CreateConfigMapRequest ) returns ( ConfigMap ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*/regions/*}/configMaps" body:"config_map"  };
   }
 
   // UpdateConfigMap
-  rpc UpdateConfigMap(UpdateConfigMapRequest) returns (ConfigMap) {
-    option (google.api.http) = {
-      put : "/v1/{config_map.name=projects/*/regions/*/configMaps/*}"
-      body : "config_map"
-    };
+  rpc UpdateConfigMap ( UpdateConfigMapRequest ) returns ( ConfigMap ) {
+    option (google.api.http) = { put:"/v1/{config_map.name=projects/*/regions/*/configMaps/*}" body:"config_map"  };
   }
 
   // DeleteConfigMap
-  rpc DeleteConfigMap(DeleteConfigMapRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=projects/*/regions/*/configMaps/*}"
-    };
+  rpc DeleteConfigMap ( DeleteConfigMapRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=projects/*/regions/*/configMaps/*}"  };
   }
 }

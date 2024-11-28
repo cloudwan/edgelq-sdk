@@ -182,6 +182,10 @@ func (d *Descriptor) SupportsMetadata() bool {
 	return true
 }
 
+func (d *Descriptor) SupportsDbConstraints() bool {
+	return true
+}
+
 func initMetricDescriptorDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(

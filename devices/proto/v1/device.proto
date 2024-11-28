@@ -17,10 +17,7 @@ option java_package = "com.ntt.devices.pb.v1";
 
 // Device Resource
 message Device {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/Device"
-    pattern : "projects/{project}/regions/{region}/devices/{device}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/Device" pattern:"projects/{project}/regions/{region}/devices/{device}"  };
 
   // Name of Device
   // When creating a new instance, this field is optional and if not provided,
@@ -171,6 +168,15 @@ message Device {
 
       // Whether the journald log exporter is enabled.
       bool enable_journal_export = 3;
+
+      ContainerLoggingConfig container_logging_config = 4;
+
+      // Configuration to control how container log export is handled
+      // Only enable option is available now
+      message ContainerLoggingConfig {
+        // Enable container log export. Default is disabled
+        bool enable_container_log_export = 1;
+      }
     }
 
     message ProxyConfig {
@@ -667,7 +673,9 @@ message Device {
             string mico_mode = 2;
           }
 
-          message FiveGNr { RegistrationSettings registration_settings = 1; }
+          message FiveGNr {
+            RegistrationSettings registration_settings = 1;
+          }
 
           message Settings {
             string apn = 1;

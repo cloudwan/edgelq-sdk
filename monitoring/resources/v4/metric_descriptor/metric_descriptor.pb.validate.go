@@ -101,8 +101,8 @@ func (obj *MetricDescriptor) GotenValidate() error {
 	}
 	{
 		rlen := utf8.RuneCountInString(obj.Description)
-		if rlen > 256 {
-			return gotenvalidate.NewValidationError("MetricDescriptor", "description", obj.Description, "field must contain at most 256 characters", nil)
+		if rlen > 512 {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "description", obj.Description, "field must contain at most 512 characters", nil)
 		}
 	}
 	{

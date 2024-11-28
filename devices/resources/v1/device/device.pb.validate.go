@@ -229,6 +229,11 @@ func (obj *Device_Spec_LoggingConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
+	if subobj, ok := interface{}(obj.ContainerLoggingConfig).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("LoggingConfig", "containerLoggingConfig", obj.ContainerLoggingConfig, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -269,6 +274,15 @@ func (obj *Device_Spec_USBGuard) GotenValidate() error {
 	return nil
 }
 func (obj *Device_Spec_SSHConfig_AuthKey) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Device_Spec_LoggingConfig_ContainerLoggingConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

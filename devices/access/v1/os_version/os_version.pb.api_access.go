@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiOsVersionAccess(client os_version_client.OsVersionServiceClient) os_v
 	return &apiOsVersionAccess{client: client}
 }
 
-func (a *apiOsVersionAccess) GetOsVersion(ctx context.Context, query *os_version.GetQuery) (*os_version.OsVersion, error) {
+func (a *apiOsVersionAccess) GetOsVersion(ctx context.Context, query *os_version.GetQuery, opts ...gotenresource.GetOption) (*os_version.OsVersion, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiOsVersionAccess) GetOsVersion(ctx context.Context, query *os_version
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetOsVersion(ctx, request)
+	res, err := a.client.GetOsVersion(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiOsVersionAccess) GetOsVersion(ctx context.Context, query *os_version
 
 func (a *apiOsVersionAccess) BatchGetOsVersions(ctx context.Context, refs []*os_version.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*os_version.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiOsVersionAccess) BatchGetOsVersions(ctx context.Context, refs []*os_
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*os_version.OsVersion_FieldMask)
 	}
-	resp, err := a.client.BatchGetOsVersions(ctx, request)
+	resp, err := a.client.BatchGetOsVersions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiOsVersionAccess) BatchGetOsVersions(ctx context.Context, refs []*os_
 	return nil
 }
 
-func (a *apiOsVersionAccess) QueryOsVersions(ctx context.Context, query *os_version.ListQuery) (*os_version.QueryResultSnapshot, error) {
+func (a *apiOsVersionAccess) QueryOsVersions(ctx context.Context, query *os_version.ListQuery, opts ...gotenresource.QueryOption) (*os_version.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &os_version_client.ListOsVersionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +155,9 @@ func (a *apiOsVersionAccess) WatchOsVersion(ctx context.Context, query *os_versi
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchOsVersion(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -150,12 +181,16 @@ func (a *apiOsVersionAccess) WatchOsVersions(ctx context.Context, query *os_vers
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchOsVersions(ctx, request)
 	if initErr != nil {
 		return initErr

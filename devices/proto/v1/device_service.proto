@@ -140,7 +140,9 @@ message WatchDeviceRequest {
 }
 
 // A response message of the WatchDevice method.
-message WatchDeviceResponse { DeviceChange change = 1; }
+message WatchDeviceResponse {
+  DeviceChange change = 1;
+}
 
 // A request message of the WatchDevices method.
 message WatchDevicesRequest {
@@ -275,6 +277,23 @@ message CreateDeviceRequest {
 
   // Device resource body
   Device device = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateDevice method.
@@ -298,7 +317,10 @@ message UpdateDeviceRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -309,6 +331,26 @@ message UpdateDeviceRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -324,86 +366,57 @@ service DeviceService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetDevice
-  rpc GetDevice(GetDeviceRequest) returns (Device) {
-    option (google.api.http) = {
-      get : "/v1/{name=projects/*/regions/*/devices/*}"
-    };
+  rpc GetDevice ( GetDeviceRequest ) returns ( Device ) {
+    option (google.api.http) = { get:"/v1/{name=projects/*/regions/*/devices/*}"  };
   }
 
   // BatchGetDevices
-  rpc BatchGetDevices(BatchGetDevicesRequest)
-      returns (BatchGetDevicesResponse) {
-    option (google.api.http) = {
-      get : "/v1/devices:batchGet"
-    };
+  rpc BatchGetDevices ( BatchGetDevicesRequest ) returns ( BatchGetDevicesResponse ) {
+    option (google.api.http) = { get:"/v1/devices:batchGet"  };
   }
 
   // ListDevices
-  rpc ListDevices(ListDevicesRequest) returns (ListDevicesResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=projects/*/regions/*}/devices"
-    };
+  rpc ListDevices ( ListDevicesRequest ) returns ( ListDevicesResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=projects/*/regions/*}/devices"  };
   }
 
   // WatchDevice
-  rpc WatchDevice(WatchDeviceRequest) returns (stream WatchDeviceResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/regions/*/devices/*}:watch"
-    };
+  rpc WatchDevice ( WatchDeviceRequest ) returns ( stream WatchDeviceResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/regions/*/devices/*}:watch"  };
   }
 
   // WatchDevices
-  rpc WatchDevices(WatchDevicesRequest) returns (stream WatchDevicesResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*/regions/*}/devices:watch"
-    };
+  rpc WatchDevices ( WatchDevicesRequest ) returns ( stream WatchDevicesResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*/regions/*}/devices:watch"  };
   }
 
   // CreateDevice
-  rpc CreateDevice(CreateDeviceRequest) returns (Device) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*/regions/*}/devices"
-      body : "device"
-    };
+  rpc CreateDevice ( CreateDeviceRequest ) returns ( Device ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*/regions/*}/devices" body:"device"  };
   }
 
   // UpdateDevice
-  rpc UpdateDevice(UpdateDeviceRequest) returns (Device) {
-    option (google.api.http) = {
-      put : "/v1/{device.name=projects/*/regions/*/devices/*}"
-      body : "device"
-    };
+  rpc UpdateDevice ( UpdateDeviceRequest ) returns ( Device ) {
+    option (google.api.http) = { put:"/v1/{device.name=projects/*/regions/*/devices/*}" body:"device"  };
   }
 
   // DeleteDevice
-  rpc DeleteDevice(DeleteDeviceRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=projects/*/regions/*/devices/*}"
-    };
+  rpc DeleteDevice ( DeleteDeviceRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=projects/*/regions/*/devices/*}"  };
   }
 
   // ProvisionServiceAccountToDevice
-  rpc ProvisionServiceAccountToDevice(ProvisionServiceAccountToDeviceRequest)
-      returns (ProvisionServiceAccountToDeviceResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/regions/*/devices/"
-             "*}:provisionServiceAccountToDevice"
-    };
+  rpc ProvisionServiceAccountToDevice ( ProvisionServiceAccountToDeviceRequest ) returns ( ProvisionServiceAccountToDeviceResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/regions/*/devices/*}:provisionServiceAccountToDevice"  };
   }
 
   // RemoveServiceAccountFromDevice
-  rpc RemoveServiceAccountFromDevice(RemoveServiceAccountFromDeviceRequest)
-      returns (RemoveServiceAccountFromDeviceResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/regions/*/devices/"
-             "*}:removeServiceAccountFromDevice"
-    };
+  rpc RemoveServiceAccountFromDevice ( RemoveServiceAccountFromDeviceRequest ) returns ( RemoveServiceAccountFromDeviceResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/regions/*/devices/*}:removeServiceAccountFromDevice"  };
   }
 
   // Heartbeat
-  rpc Heartbeat(stream HeartbeatMsg) returns (stream HeartbeatResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/regions/*/devices/*}:heartbeat"
-    };
+  rpc Heartbeat ( stream HeartbeatMsg ) returns ( stream HeartbeatResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/regions/*/devices/*}:heartbeat"  };
   }
 }

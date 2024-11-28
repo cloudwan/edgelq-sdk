@@ -140,7 +140,9 @@ message WatchAlertingConditionRequest {
 }
 
 // A response message of the WatchAlertingCondition method.
-message WatchAlertingConditionResponse { AlertingConditionChange change = 1; }
+message WatchAlertingConditionResponse {
+  AlertingConditionChange change = 1;
+}
 
 // A request message of the WatchAlertingConditions method.
 message WatchAlertingConditionsRequest {
@@ -276,6 +278,23 @@ message CreateAlertingConditionRequest {
 
   // AlertingCondition resource body
   AlertingCondition alerting_condition = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateAlertingCondition method.
@@ -299,7 +318,10 @@ message UpdateAlertingConditionRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -310,6 +332,26 @@ message UpdateAlertingConditionRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -389,84 +431,47 @@ service AlertingConditionService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetAlertingCondition
-  rpc GetAlertingCondition(GetAlertingConditionRequest)
-      returns (AlertingCondition) {
-    option (google.api.http) = {
-      get : "/v4/{name=projects/*/regions/*/alertingPolicies/*/"
-            "alertingConditions/*}"
-    };
+  rpc GetAlertingCondition ( GetAlertingConditionRequest ) returns ( AlertingCondition ) {
+    option (google.api.http) = { get:"/v4/{name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}"  };
   }
 
   // BatchGetAlertingConditions
-  rpc BatchGetAlertingConditions(BatchGetAlertingConditionsRequest)
-      returns (BatchGetAlertingConditionsResponse) {
-    option (google.api.http) = {
-      get : "/v4/alertingConditions:batchGet"
-    };
+  rpc BatchGetAlertingConditions ( BatchGetAlertingConditionsRequest ) returns ( BatchGetAlertingConditionsResponse ) {
+    option (google.api.http) = { get:"/v4/alertingConditions:batchGet"  };
   }
 
   // ListAlertingConditions
-  rpc ListAlertingConditions(ListAlertingConditionsRequest)
-      returns (ListAlertingConditionsResponse) {
-    option (google.api.http) = {
-      get : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/"
-            "alertingConditions"
-    };
+  rpc ListAlertingConditions ( ListAlertingConditionsRequest ) returns ( ListAlertingConditionsResponse ) {
+    option (google.api.http) = { get:"/v4/{parent=projects/*/regions/*/alertingPolicies/*}/alertingConditions"  };
   }
 
   // WatchAlertingCondition
-  rpc WatchAlertingCondition(WatchAlertingConditionRequest)
-      returns (stream WatchAlertingConditionResponse) {
-    option (google.api.http) = {
-      post : "/v4/{name=projects/*/regions/*/alertingPolicies/*/"
-             "alertingConditions/*}:watch"
-    };
+  rpc WatchAlertingCondition ( WatchAlertingConditionRequest ) returns ( stream WatchAlertingConditionResponse ) {
+    option (google.api.http) = { post:"/v4/{name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}:watch"  };
   }
 
   // WatchAlertingConditions
-  rpc WatchAlertingConditions(WatchAlertingConditionsRequest)
-      returns (stream WatchAlertingConditionsResponse) {
-    option (google.api.http) = {
-      post : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/"
-             "alertingConditions:watch"
-    };
+  rpc WatchAlertingConditions ( WatchAlertingConditionsRequest ) returns ( stream WatchAlertingConditionsResponse ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*/regions/*/alertingPolicies/*}/alertingConditions:watch"  };
   }
 
   // CreateAlertingCondition
-  rpc CreateAlertingCondition(CreateAlertingConditionRequest)
-      returns (AlertingCondition) {
-    option (google.api.http) = {
-      post : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/"
-             "alertingConditions"
-      body : "alerting_condition"
-    };
+  rpc CreateAlertingCondition ( CreateAlertingConditionRequest ) returns ( AlertingCondition ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*/regions/*/alertingPolicies/*}/alertingConditions" body:"alerting_condition"  };
   }
 
   // UpdateAlertingCondition
-  rpc UpdateAlertingCondition(UpdateAlertingConditionRequest)
-      returns (AlertingCondition) {
-    option (google.api.http) = {
-      put : "/v4/{alerting_condition.name=projects/*/regions/*/"
-            "alertingPolicies/*/alertingConditions/*}"
-      body : "alerting_condition"
-    };
+  rpc UpdateAlertingCondition ( UpdateAlertingConditionRequest ) returns ( AlertingCondition ) {
+    option (google.api.http) = { put:"/v4/{alerting_condition.name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}" body:"alerting_condition"  };
   }
 
   // DeleteAlertingCondition
-  rpc DeleteAlertingCondition(DeleteAlertingConditionRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v4/{name=projects/*/regions/*/alertingPolicies/*/"
-               "alertingConditions/*}"
-    };
+  rpc DeleteAlertingCondition ( DeleteAlertingConditionRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v4/{name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}"  };
   }
 
   // SearchAlertingConditions
-  rpc SearchAlertingConditions(SearchAlertingConditionsRequest)
-      returns (SearchAlertingConditionsResponse) {
-    option (google.api.http) = {
-      get : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/"
-            "alertingConditions:search"
-    };
+  rpc SearchAlertingConditions ( SearchAlertingConditionsRequest ) returns ( SearchAlertingConditionsResponse ) {
+    option (google.api.http) = { get:"/v4/{parent=projects/*/regions/*/alertingPolicies/*}/alertingConditions:search"  };
   }
 }

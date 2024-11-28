@@ -42,9 +42,9 @@ var (
 )
 
 type ProvisioningApprovalRequestAccess interface {
-	GetProvisioningApprovalRequest(context.Context, *GetQuery) (*ProvisioningApprovalRequest, error)
+	GetProvisioningApprovalRequest(context.Context, *GetQuery, ...gotenresource.GetOption) (*ProvisioningApprovalRequest, error)
 	BatchGetProvisioningApprovalRequests(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryProvisioningApprovalRequests(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryProvisioningApprovalRequests(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchProvisioningApprovalRequest(context.Context, *GetQuery, func(*ProvisioningApprovalRequestChange) error) error
 	WatchProvisioningApprovalRequests(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveProvisioningApprovalRequest(context.Context, *ProvisioningApprovalRequest, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access ProvisioningApprovalRequestAccess) gotenresource.Acc
 	return &anyCastAccess{ProvisioningApprovalRequestAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asProvisioningApprovalRequestQuery, ok := q.(*GetQuery); ok {
-		return a.GetProvisioningApprovalRequest(ctx, asProvisioningApprovalRequestQuery)
+		return a.GetProvisioningApprovalRequest(ctx, asProvisioningApprovalRequestQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ProvisioningApprovalRequest, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asProvisioningApprovalRequestQuery, ok := q.(*ListQuery); ok {
-		return a.QueryProvisioningApprovalRequests(ctx, asProvisioningApprovalRequestQuery)
+		return a.QueryProvisioningApprovalRequests(ctx, asProvisioningApprovalRequestQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ProvisioningApprovalRequest, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for ProvisioningApprovalRequest")
 }
 

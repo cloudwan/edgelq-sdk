@@ -12,11 +12,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 
 // AlertingPolicy Resource
 message AlertingPolicy {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/AlertingPolicy"
-    pattern : "projects/{project}/regions/{region}/alertingPolicies/"
-              "{alerting_policy}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/AlertingPolicy" pattern:"projects/{project}/regions/{region}/alertingPolicies/{alerting_policy}"  };
 
   // Name of AlertingPolicy
   // When creating a new instance, this field is optional and if not provided,

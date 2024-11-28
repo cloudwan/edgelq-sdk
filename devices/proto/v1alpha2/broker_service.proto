@@ -24,29 +24,17 @@ service BrokerService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ListenForConnections
-  rpc ListenForConnections(stream ListenForConnectionsRequest)
-      returns (stream ListenForConnectionsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{register_listener.device=projects/*/regions/*/devices/"
-             "*}:listenForConnections"
-    };
+  rpc ListenForConnections ( stream ListenForConnectionsRequest ) returns ( stream ListenForConnectionsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{register_listener.device=projects/*/regions/*/devices/*}:listenForConnections"  };
   }
 
   // OpenConnectionChannelSocket
-  rpc OpenConnectionChannelSocket(stream OpenConnectionChannelSocketRequest)
-      returns (stream OpenConnectionChannelSocketResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{register_socket.device=projects/*/regions/*/devices/"
-             "*}:openConnectionChannelSocket"
-    };
+  rpc OpenConnectionChannelSocket ( stream OpenConnectionChannelSocketRequest ) returns ( stream OpenConnectionChannelSocketResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{register_socket.device=projects/*/regions/*/devices/*}:openConnectionChannelSocket"  };
   }
 
   // ConnectToDevice
-  rpc ConnectToDevice(stream ConnectToDeviceRequest)
-      returns (stream ConnectToDeviceResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{open_request.device=projects/*/regions/*/devices/"
-             "*}:connectToDevice"
-    };
+  rpc ConnectToDevice ( stream ConnectToDeviceRequest ) returns ( stream ConnectToDeviceResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{open_request.device=projects/*/regions/*/devices/*}:connectToDevice"  };
   }
 }

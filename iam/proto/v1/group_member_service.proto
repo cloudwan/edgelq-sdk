@@ -139,7 +139,9 @@ message WatchGroupMemberRequest {
 }
 
 // A response message of the WatchGroupMember method.
-message WatchGroupMemberResponse { GroupMemberChange change = 1; }
+message WatchGroupMemberResponse {
+  GroupMemberChange change = 1;
+}
 
 // A request message of the WatchGroupMembers method.
 message WatchGroupMembersRequest {
@@ -274,6 +276,23 @@ message CreateGroupMemberRequest {
 
   // GroupMember resource body
   GroupMember group_member = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateGroupMember method.
@@ -297,7 +316,10 @@ message UpdateGroupMemberRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -308,6 +330,26 @@ message UpdateGroupMemberRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -323,128 +365,42 @@ service GroupMemberService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetGroupMember
-  rpc GetGroupMember(GetGroupMemberRequest) returns (GroupMember) {
-    option (google.api.http) = {
-      get : "/v1/{name=groups/*/groupMembers/*}"
-      additional_bindings : <
-        get : "/v1/{name=projects/*/groups/*/groupMembers/*}"
-      >
-      additional_bindings : <
-        get : "/v1/{name=organizations/*/groups/*/groupMembers/*}"
-      >
-      additional_bindings : <
-        get : "/v1/{name=services/*/groups/*/groupMembers/*}"
-      >
-    };
+  rpc GetGroupMember ( GetGroupMemberRequest ) returns ( GroupMember ) {
+    option (google.api.http) = { get:"/v1/{name=groups/*/groupMembers/*}" additional_bindings:<get:"/v1/{name=projects/*/groups/*/groupMembers/*}" > additional_bindings:<get:"/v1/{name=organizations/*/groups/*/groupMembers/*}" > additional_bindings:<get:"/v1/{name=services/*/groups/*/groupMembers/*}" >  };
   }
 
   // BatchGetGroupMembers
-  rpc BatchGetGroupMembers(BatchGetGroupMembersRequest)
-      returns (BatchGetGroupMembersResponse) {
-    option (google.api.http) = {
-      get : "/v1/groupMembers:batchGet"
-    };
+  rpc BatchGetGroupMembers ( BatchGetGroupMembersRequest ) returns ( BatchGetGroupMembersResponse ) {
+    option (google.api.http) = { get:"/v1/groupMembers:batchGet"  };
   }
 
   // ListGroupMembers
-  rpc ListGroupMembers(ListGroupMembersRequest)
-      returns (ListGroupMembersResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=groups/*}/groupMembers"
-      additional_bindings : <
-        get : "/v1/{parent=projects/*/groups/*}/groupMembers"
-      >
-      additional_bindings : <
-        get : "/v1/{parent=organizations/*/groups/*}/groupMembers"
-      >
-      additional_bindings : <
-        get : "/v1/{parent=services/*/groups/*}/groupMembers"
-      >
-    };
+  rpc ListGroupMembers ( ListGroupMembersRequest ) returns ( ListGroupMembersResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=groups/*}/groupMembers" additional_bindings:<get:"/v1/{parent=projects/*/groups/*}/groupMembers" > additional_bindings:<get:"/v1/{parent=organizations/*/groups/*}/groupMembers" > additional_bindings:<get:"/v1/{parent=services/*/groups/*}/groupMembers" >  };
   }
 
   // WatchGroupMember
-  rpc WatchGroupMember(WatchGroupMemberRequest)
-      returns (stream WatchGroupMemberResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=groups/*/groupMembers/*}:watch"
-      additional_bindings : <
-        post : "/v1/{name=projects/*/groups/*/groupMembers/*}:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{name=organizations/*/groups/*/groupMembers/*}:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{name=services/*/groups/*/groupMembers/*}:watch"
-      >
-    };
+  rpc WatchGroupMember ( WatchGroupMemberRequest ) returns ( stream WatchGroupMemberResponse ) {
+    option (google.api.http) = { post:"/v1/{name=groups/*/groupMembers/*}:watch" additional_bindings:<post:"/v1/{name=projects/*/groups/*/groupMembers/*}:watch" > additional_bindings:<post:"/v1/{name=organizations/*/groups/*/groupMembers/*}:watch" > additional_bindings:<post:"/v1/{name=services/*/groups/*/groupMembers/*}:watch" >  };
   }
 
   // WatchGroupMembers
-  rpc WatchGroupMembers(WatchGroupMembersRequest)
-      returns (stream WatchGroupMembersResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=groups/*}/groupMembers:watch"
-      additional_bindings : <
-        post : "/v1/{parent=projects/*/groups/*}/groupMembers:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*/groups/*}/groupMembers:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=services/*/groups/*}/groupMembers:watch"
-      >
-    };
+  rpc WatchGroupMembers ( WatchGroupMembersRequest ) returns ( stream WatchGroupMembersResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=groups/*}/groupMembers:watch" additional_bindings:<post:"/v1/{parent=projects/*/groups/*}/groupMembers:watch" > additional_bindings:<post:"/v1/{parent=organizations/*/groups/*}/groupMembers:watch" > additional_bindings:<post:"/v1/{parent=services/*/groups/*}/groupMembers:watch" >  };
   }
 
   // CreateGroupMember
-  rpc CreateGroupMember(CreateGroupMemberRequest) returns (GroupMember) {
-    option (google.api.http) = {
-      post : "/v1/{parent=groups/*}/groupMembers"
-      body : "group_member"
-      additional_bindings : <
-        post : "/v1/{parent=projects/*/groups/*}/groupMembers"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*/groups/*}/groupMembers"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=services/*/groups/*}/groupMembers"
-      >
-    };
+  rpc CreateGroupMember ( CreateGroupMemberRequest ) returns ( GroupMember ) {
+    option (google.api.http) = { post:"/v1/{parent=groups/*}/groupMembers" body:"group_member" additional_bindings:<post:"/v1/{parent=projects/*/groups/*}/groupMembers" > additional_bindings:<post:"/v1/{parent=organizations/*/groups/*}/groupMembers" > additional_bindings:<post:"/v1/{parent=services/*/groups/*}/groupMembers" >  };
   }
 
   // UpdateGroupMember
-  rpc UpdateGroupMember(UpdateGroupMemberRequest) returns (GroupMember) {
-    option (google.api.http) = {
-      put : "/v1/{group_member.name=groups/*/groupMembers/*}"
-      body : "group_member"
-      additional_bindings : <
-        put : "/v1/{group_member.name=projects/*/groups/*/groupMembers/*}"
-      >
-      additional_bindings : <
-        put : "/v1/{group_member.name=organizations/*/groups/*/groupMembers/*}"
-      >
-      additional_bindings : <
-        put : "/v1/{group_member.name=services/*/groups/*/groupMembers/*}"
-      >
-    };
+  rpc UpdateGroupMember ( UpdateGroupMemberRequest ) returns ( GroupMember ) {
+    option (google.api.http) = { put:"/v1/{group_member.name=groups/*/groupMembers/*}" body:"group_member" additional_bindings:<put:"/v1/{group_member.name=projects/*/groups/*/groupMembers/*}" > additional_bindings:<put:"/v1/{group_member.name=organizations/*/groups/*/groupMembers/*}" > additional_bindings:<put:"/v1/{group_member.name=services/*/groups/*/groupMembers/*}" >  };
   }
 
   // DeleteGroupMember
-  rpc DeleteGroupMember(DeleteGroupMemberRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=groups/*/groupMembers/*}"
-      additional_bindings : <
-        delete : "/v1/{name=projects/*/groups/*/groupMembers/*}"
-      >
-      additional_bindings : <
-        delete : "/v1/{name=organizations/*/groups/*/groupMembers/*}"
-      >
-      additional_bindings : <
-        delete : "/v1/{name=services/*/groups/*/groupMembers/*}"
-      >
-    };
+  rpc DeleteGroupMember ( DeleteGroupMemberRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=groups/*/groupMembers/*}" additional_bindings:<delete:"/v1/{name=projects/*/groups/*/groupMembers/*}" > additional_bindings:<delete:"/v1/{name=organizations/*/groups/*/groupMembers/*}" > additional_bindings:<delete:"/v1/{name=services/*/groups/*/groupMembers/*}" >  };
   }
 }

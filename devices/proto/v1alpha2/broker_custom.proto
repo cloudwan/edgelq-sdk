@@ -40,7 +40,8 @@ message ListenForConnectionsRequest {
     string message = 2;
   }
 
-  message KeepAlive {}
+  message KeepAlive {
+  }
 }
 
 // Response message for method
@@ -66,7 +67,8 @@ message ListenForConnectionsResponse {
     string arg = 3;
   }
 
-  message KeepAlive {}
+  message KeepAlive {
+  }
 }
 
 // Request message for method
@@ -139,7 +141,8 @@ message ConnectToDeviceRequest {
     string arg = 3;
   }
 
-  message KeepAlive {}
+  message KeepAlive {
+  }
 }
 
 // Response message for method
@@ -159,11 +162,14 @@ message ConnectToDeviceResponse {
     Ack ack = 5;
   }
 
-  message OpenResponse {}
+  message OpenResponse {
+  }
 }
 
 // Ack message that contains how much data should have been processed
-message Ack { uint64 processed = 1; }
+message Ack {
+  uint64 processed = 1;
+}
 
 // Services on the device that the client connects to
 message SSHService {
@@ -193,7 +199,9 @@ message SSHService {
   }
 
   message ClientIn {
-    oneof msg { bytes data = 1; }
+    oneof msg {
+      bytes data = 1;
+    }
   }
 }
 

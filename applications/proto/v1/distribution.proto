@@ -13,10 +13,7 @@ option java_package = "com.ntt.applications.pb.v1";
 
 // Distribution Resource
 message Distribution {
-  option (google.api.resource) = {
-    type : "applications.edgelq.com/Distribution"
-    pattern : "projects/{project}/distributions/{distribution}"
-  };
+  option (google.api.resource) = { type:"applications.edgelq.com/Distribution" pattern:"projects/{project}/distributions/{distribution}"  };
 
   // Name of Distribution
   // When creating a new instance, this field is optional and if not provided,
@@ -48,6 +45,9 @@ message Distribution {
     // template defines the probing config to be distributed.
     Template template = 2;
 
+    // Template for distribution name.
+    string pod_display_name_format = 3;
+
     message Template {
       goten.types.Meta metadata = 1;
 
@@ -55,7 +55,8 @@ message Distribution {
     }
   }
 
-  message Status {}
+  message Status {
+  }
 }
 
 // A label selector is a label query over a set of resources. The result of

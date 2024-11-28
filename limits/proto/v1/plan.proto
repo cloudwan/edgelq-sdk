@@ -19,11 +19,7 @@ option java_package = "com.ntt.limits.pb.v1";
 // regions, then project will be allowed to create 1000 pods in each
 // region.
 message Plan {
-  option (google.api.resource) = {
-    type : "limits.edgelq.com/Plan"
-    pattern : "services/{service}/plans/{plan}"
-    pattern : "organizations/{organization}/plans/{plan}"
-  };
+  option (google.api.resource) = { type:"limits.edgelq.com/Plan" pattern:"services/{service}/plans/{plan}" pattern:"organizations/{organization}/plans/{plan}"  };
 
   // Name of Plan
   // When creating a new instance, this field is optional and if not provided,

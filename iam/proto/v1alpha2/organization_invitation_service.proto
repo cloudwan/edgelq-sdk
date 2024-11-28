@@ -279,6 +279,23 @@ message CreateOrganizationInvitationRequest {
 
   // OrganizationInvitation resource body
   OrganizationInvitation organization_invitation = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateOrganizationInvitation method.
@@ -302,7 +319,10 @@ message UpdateOrganizationInvitationRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -313,6 +333,26 @@ message UpdateOrganizationInvitationRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -328,94 +368,57 @@ service OrganizationInvitationService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetOrganizationInvitation
-  rpc GetOrganizationInvitation(GetOrganizationInvitationRequest)
-      returns (OrganizationInvitation) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=organizations/*/organizationInvitations/*}"
-    };
+  rpc GetOrganizationInvitation ( GetOrganizationInvitationRequest ) returns ( OrganizationInvitation ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=organizations/*/organizationInvitations/*}"  };
   }
 
   // BatchGetOrganizationInvitations
-  rpc BatchGetOrganizationInvitations(BatchGetOrganizationInvitationsRequest)
-      returns (BatchGetOrganizationInvitationsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/organizationInvitations:batchGet"
-    };
+  rpc BatchGetOrganizationInvitations ( BatchGetOrganizationInvitationsRequest ) returns ( BatchGetOrganizationInvitationsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/organizationInvitations:batchGet"  };
   }
 
   // ListOrganizationInvitations
-  rpc ListOrganizationInvitations(ListOrganizationInvitationsRequest)
-      returns (ListOrganizationInvitationsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{parent=organizations/*}/organizationInvitations"
-    };
+  rpc ListOrganizationInvitations ( ListOrganizationInvitationsRequest ) returns ( ListOrganizationInvitationsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/{parent=organizations/*}/organizationInvitations"  };
   }
 
   // WatchOrganizationInvitation
-  rpc WatchOrganizationInvitation(WatchOrganizationInvitationRequest)
-      returns (stream WatchOrganizationInvitationResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=organizations/*/organizationInvitations/*}:watch"
-    };
+  rpc WatchOrganizationInvitation ( WatchOrganizationInvitationRequest ) returns ( stream WatchOrganizationInvitationResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=organizations/*/organizationInvitations/*}:watch"  };
   }
 
   // WatchOrganizationInvitations
-  rpc WatchOrganizationInvitations(WatchOrganizationInvitationsRequest)
-      returns (stream WatchOrganizationInvitationsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=organizations/*}/organizationInvitations:watch"
-    };
+  rpc WatchOrganizationInvitations ( WatchOrganizationInvitationsRequest ) returns ( stream WatchOrganizationInvitationsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=organizations/*}/organizationInvitations:watch"  };
   }
 
   // CreateOrganizationInvitation
-  rpc CreateOrganizationInvitation(CreateOrganizationInvitationRequest)
-      returns (OrganizationInvitation) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=organizations/*}/organizationInvitations"
-      body : "organization_invitation"
-    };
+  rpc CreateOrganizationInvitation ( CreateOrganizationInvitationRequest ) returns ( OrganizationInvitation ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=organizations/*}/organizationInvitations" body:"organization_invitation"  };
   }
 
   // UpdateOrganizationInvitation
-  rpc UpdateOrganizationInvitation(UpdateOrganizationInvitationRequest)
-      returns (OrganizationInvitation) {
-    option (google.api.http) = {
-      put : "/v1alpha2/{organization_invitation.name=organizations/*/"
-            "organizationInvitations/*}"
-      body : "organization_invitation"
-    };
+  rpc UpdateOrganizationInvitation ( UpdateOrganizationInvitationRequest ) returns ( OrganizationInvitation ) {
+    option (google.api.http) = { put:"/v1alpha2/{organization_invitation.name=organizations/*/organizationInvitations/*}" body:"organization_invitation"  };
   }
 
   // DeleteOrganizationInvitation
-  rpc DeleteOrganizationInvitation(DeleteOrganizationInvitationRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1alpha2/{name=organizations/*/organizationInvitations/*}"
-    };
+  rpc DeleteOrganizationInvitation ( DeleteOrganizationInvitationRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1alpha2/{name=organizations/*/organizationInvitations/*}"  };
   }
 
   // AcceptOrganizationInvitation
-  rpc AcceptOrganizationInvitation(AcceptOrganizationInvitationRequest)
-      returns (AcceptOrganizationInvitationResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=organizations/*/organizationInvitations/*}:accept"
-    };
+  rpc AcceptOrganizationInvitation ( AcceptOrganizationInvitationRequest ) returns ( AcceptOrganizationInvitationResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=organizations/*/organizationInvitations/*}:accept"  };
   }
 
   // DeclineOrganizationInvitation
-  rpc DeclineOrganizationInvitation(DeclineOrganizationInvitationRequest)
-      returns (DeclineOrganizationInvitationResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=organizations/*/organizationInvitations/"
-             "*}:decline"
-    };
+  rpc DeclineOrganizationInvitation ( DeclineOrganizationInvitationRequest ) returns ( DeclineOrganizationInvitationResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=organizations/*/organizationInvitations/*}:decline"  };
   }
 
   // ListMyOrganizationInvitations
-  rpc ListMyOrganizationInvitations(ListMyOrganizationInvitationsRequest)
-      returns (ListMyOrganizationInvitationsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=organizations/*}/organizationInvitations:listMy"
-    };
+  rpc ListMyOrganizationInvitations ( ListMyOrganizationInvitationsRequest ) returns ( ListMyOrganizationInvitationsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=organizations/*}/organizationInvitations:listMy"  };
   }
 }

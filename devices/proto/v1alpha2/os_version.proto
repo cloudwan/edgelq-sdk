@@ -13,10 +13,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // OsVersion Resource
 message OsVersion {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/OsVersion"
-    pattern : "osVersions/{os_version}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/OsVersion" pattern:"osVersions/{os_version}"  };
 
   // Name of OsVersion
   // When creating a new instance, this field is optional and if not provided,

@@ -13,11 +13,7 @@ option java_package = "com.ntt.audit.pb.v1";
 
 // AuditedResourceDescriptor Resource
 message AuditedResourceDescriptor {
-  option (google.api.resource) = {
-    type : "audit.edgelq.com/AuditedResourceDescriptor"
-    pattern : "services/{service}/auditedResourceDescriptors/"
-              "{audited_resource_descriptor}"
-  };
+  option (google.api.resource) = { type:"audit.edgelq.com/AuditedResourceDescriptor" pattern:"services/{service}/auditedResourceDescriptors/{audited_resource_descriptor}"  };
 
   // Name of AuditedResourceDescriptor
   string name = 1;

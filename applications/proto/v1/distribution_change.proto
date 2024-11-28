@@ -65,7 +65,9 @@ message DistributionChange {
 
   // Distribution has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Distribution distribution = 1; }
+  message Current {
+    Distribution distribution = 1;
+  }
 
   // Removed is returned when Distribution is deleted or leaves Query view
   message Removed {

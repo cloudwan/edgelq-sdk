@@ -141,7 +141,9 @@ message WatchPlanAssignmentRequest {
 }
 
 // A response message of the WatchPlanAssignment method.
-message WatchPlanAssignmentResponse { PlanAssignmentChange change = 1; }
+message WatchPlanAssignmentResponse {
+  PlanAssignmentChange change = 1;
+}
 
 // A request message of the WatchPlanAssignments method.
 message WatchPlanAssignmentsRequest {
@@ -276,6 +278,23 @@ message CreatePlanAssignmentRequest {
 
   // PlanAssignment resource body
   PlanAssignment plan_assignment = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdatePlanAssignment method.
@@ -299,7 +318,10 @@ message UpdatePlanAssignmentRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -310,6 +332,26 @@ message UpdatePlanAssignmentRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -325,117 +367,47 @@ service PlanAssignmentService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetPlanAssignment
-  rpc GetPlanAssignment(GetPlanAssignmentRequest) returns (PlanAssignment) {
-    option (google.api.http) = {
-      get : "/v1/{name=services/*/planAssignments/*}"
-      additional_bindings : <get : "/v1/{name=projects/*/planAssignments/*}">
-      additional_bindings : <
-        get : "/v1/{name=organizations/*/planAssignments/*}"
-      >
-    };
+  rpc GetPlanAssignment ( GetPlanAssignmentRequest ) returns ( PlanAssignment ) {
+    option (google.api.http) = { get:"/v1/{name=services/*/planAssignments/*}" additional_bindings:<get:"/v1/{name=projects/*/planAssignments/*}" > additional_bindings:<get:"/v1/{name=organizations/*/planAssignments/*}" >  };
   }
 
   // BatchGetPlanAssignments
-  rpc BatchGetPlanAssignments(BatchGetPlanAssignmentsRequest)
-      returns (BatchGetPlanAssignmentsResponse) {
-    option (google.api.http) = {
-      get : "/v1/planAssignments:batchGet"
-    };
+  rpc BatchGetPlanAssignments ( BatchGetPlanAssignmentsRequest ) returns ( BatchGetPlanAssignmentsResponse ) {
+    option (google.api.http) = { get:"/v1/planAssignments:batchGet"  };
   }
 
   // ListPlanAssignments
-  rpc ListPlanAssignments(ListPlanAssignmentsRequest)
-      returns (ListPlanAssignmentsResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=services/*}/planAssignments"
-      additional_bindings : <get : "/v1/{parent=projects/*}/planAssignments">
-      additional_bindings : <
-        get : "/v1/{parent=organizations/*}/planAssignments"
-      >
-    };
+  rpc ListPlanAssignments ( ListPlanAssignmentsRequest ) returns ( ListPlanAssignmentsResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=services/*}/planAssignments" additional_bindings:<get:"/v1/{parent=projects/*}/planAssignments" > additional_bindings:<get:"/v1/{parent=organizations/*}/planAssignments" >  };
   }
 
   // WatchPlanAssignment
-  rpc WatchPlanAssignment(WatchPlanAssignmentRequest)
-      returns (stream WatchPlanAssignmentResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=services/*/planAssignments/*}:watch"
-      additional_bindings : <
-        post : "/v1/{name=projects/*/planAssignments/*}:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{name=organizations/*/planAssignments/*}:watch"
-      >
-    };
+  rpc WatchPlanAssignment ( WatchPlanAssignmentRequest ) returns ( stream WatchPlanAssignmentResponse ) {
+    option (google.api.http) = { post:"/v1/{name=services/*/planAssignments/*}:watch" additional_bindings:<post:"/v1/{name=projects/*/planAssignments/*}:watch" > additional_bindings:<post:"/v1/{name=organizations/*/planAssignments/*}:watch" >  };
   }
 
   // WatchPlanAssignments
-  rpc WatchPlanAssignments(WatchPlanAssignmentsRequest)
-      returns (stream WatchPlanAssignmentsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=services/*}/planAssignments:watch"
-      additional_bindings : <
-        post : "/v1/{parent=projects/*}/planAssignments:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*}/planAssignments:watch"
-      >
-    };
+  rpc WatchPlanAssignments ( WatchPlanAssignmentsRequest ) returns ( stream WatchPlanAssignmentsResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=services/*}/planAssignments:watch" additional_bindings:<post:"/v1/{parent=projects/*}/planAssignments:watch" > additional_bindings:<post:"/v1/{parent=organizations/*}/planAssignments:watch" >  };
   }
 
   // CreatePlanAssignment
-  rpc CreatePlanAssignment(CreatePlanAssignmentRequest)
-      returns (PlanAssignment) {
-    option (google.api.http) = {
-      post : "/v1/{parent=services/*}/planAssignments"
-      body : "plan_assignment"
-      additional_bindings : <post : "/v1/{parent=projects/*}/planAssignments">
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*}/planAssignments"
-      >
-    };
+  rpc CreatePlanAssignment ( CreatePlanAssignmentRequest ) returns ( PlanAssignment ) {
+    option (google.api.http) = { post:"/v1/{parent=services/*}/planAssignments" body:"plan_assignment" additional_bindings:<post:"/v1/{parent=projects/*}/planAssignments" > additional_bindings:<post:"/v1/{parent=organizations/*}/planAssignments" >  };
   }
 
   // UpdatePlanAssignment
-  rpc UpdatePlanAssignment(UpdatePlanAssignmentRequest)
-      returns (PlanAssignment) {
-    option (google.api.http) = {
-      put : "/v1/{plan_assignment.name=services/*/planAssignments/*}"
-      body : "plan_assignment"
-      additional_bindings : <
-        put : "/v1/{plan_assignment.name=projects/*/planAssignments/*}"
-      >
-      additional_bindings : <
-        put : "/v1/{plan_assignment.name=organizations/*/planAssignments/*}"
-      >
-    };
+  rpc UpdatePlanAssignment ( UpdatePlanAssignmentRequest ) returns ( PlanAssignment ) {
+    option (google.api.http) = { put:"/v1/{plan_assignment.name=services/*/planAssignments/*}" body:"plan_assignment" additional_bindings:<put:"/v1/{plan_assignment.name=projects/*/planAssignments/*}" > additional_bindings:<put:"/v1/{plan_assignment.name=organizations/*/planAssignments/*}" >  };
   }
 
   // DeletePlanAssignment
-  rpc DeletePlanAssignment(DeletePlanAssignmentRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=services/*/planAssignments/*}"
-      additional_bindings : <delete : "/v1/{name=projects/*/planAssignments/*}">
-      additional_bindings : <
-        delete : "/v1/{name=organizations/*/planAssignments/*}"
-      >
-    };
+  rpc DeletePlanAssignment ( DeletePlanAssignmentRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=services/*/planAssignments/*}" additional_bindings:<delete:"/v1/{name=projects/*/planAssignments/*}" > additional_bindings:<delete:"/v1/{name=organizations/*/planAssignments/*}" >  };
   }
 
   // MigratePlanAssignment
-  rpc MigratePlanAssignment(MigratePlanAssignmentRequest)
-      returns (PlanAssignment) {
-    option (google.api.http) = {
-      put : "/v1/{plan_assignment.name=services/*/planAssignments/*}:migrate"
-      body : "plan_assignment"
-      additional_bindings : <
-        put : "/v1/{plan_assignment.name=projects/*/planAssignments/*}:migrate"
-      >
-      additional_bindings : <
-        put : "/v1/{plan_assignment.name=organizations/*/planAssignments/"
-              "*}:migrate"
-      >
-    };
+  rpc MigratePlanAssignment ( MigratePlanAssignmentRequest ) returns ( PlanAssignment ) {
+    option (google.api.http) = { put:"/v1/{plan_assignment.name=services/*/planAssignments/*}:migrate" body:"plan_assignment" additional_bindings:<put:"/v1/{plan_assignment.name=projects/*/planAssignments/*}:migrate" > additional_bindings:<put:"/v1/{plan_assignment.name=organizations/*/planAssignments/*}:migrate" >  };
   }
 }

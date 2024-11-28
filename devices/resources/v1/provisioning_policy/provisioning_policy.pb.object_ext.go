@@ -206,6 +206,9 @@ func (o *ProvisioningPolicy_Spec) MakeDiffFieldMask(other *ProvisioningPolicy_Sp
 	if o.GetDeviceNameFormat() != other.GetDeviceNameFormat() {
 		res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat})
 	}
+	if o.GetDeviceDisplayNameFormat() != other.GetDeviceDisplayNameFormat() {
+		res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat})
+	}
 
 	if len(o.GetLabels()) == len(other.GetLabels()) {
 		for i, lValue := range o.GetLabels() {
@@ -285,6 +288,7 @@ func (o *ProvisioningPolicy_Spec) Clone() *ProvisioningPolicy_Spec {
 		}
 	}
 	result.DeviceNameFormat = o.DeviceNameFormat
+	result.DeviceDisplayNameFormat = o.DeviceDisplayNameFormat
 	result.Labels = map[string]string{}
 	for key, sourceValue := range o.Labels {
 		result.Labels[key] = sourceValue
@@ -341,6 +345,7 @@ func (o *ProvisioningPolicy_Spec) Merge(source *ProvisioningPolicy_Spec) {
 		o.ServiceAccount = nil
 	}
 	o.DeviceNameFormat = source.GetDeviceNameFormat()
+	o.DeviceDisplayNameFormat = source.GetDeviceDisplayNameFormat()
 	if source.GetLabels() != nil {
 		if o.Labels == nil {
 			o.Labels = make(map[string]string, len(source.GetLabels()))

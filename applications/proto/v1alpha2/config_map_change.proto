@@ -65,7 +65,9 @@ message ConfigMapChange {
 
   // ConfigMap has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { ConfigMap config_map = 1; }
+  message Current {
+    ConfigMap config_map = 1;
+  }
 
   // Removed is returned when ConfigMap is deleted or leaves Query view
   message Removed {

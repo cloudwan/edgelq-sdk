@@ -26,12 +26,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 // [PermissionCheck][ntt.iam.v1alpha2.PermissionCheck] method needs to find
 // *any* RoleBinding granting permission
 message RoleBinding {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/RoleBinding"
-    pattern : "roleBindings/{role_binding}"
-    pattern : "projects/{project}/roleBindings/{role_binding}"
-    pattern : "organizations/{organization}/roleBindings/{role_binding}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/RoleBinding" pattern:"roleBindings/{role_binding}" pattern:"projects/{project}/roleBindings/{role_binding}" pattern:"organizations/{organization}/roleBindings/{role_binding}"  };
 
   // Name of RoleBinding
   // When creating a new instance, this field is optional and if not provided,
@@ -40,7 +35,7 @@ message RoleBinding {
   string name = 1;
 
   // Role
-  string role = 2 [ (google.api.resource_reference) = {type : "Role"} ];
+  string role = 2 [(google.api.resource_reference) = { type:"Role"  }];
 
   // Binding members
   // Format of the string is one of:
@@ -69,8 +64,7 @@ message RoleBinding {
     // Role bindings which have group as member have child for each service
     // account and user in that group. All those role bindings have one common
     // parent pointing at group role binding
-    string parent = 1
-        [ (google.api.resource_reference) = {type : "RoleBinding"} ];
+    string parent = 1 [(google.api.resource_reference) = { type:"RoleBinding"  }];
 
     // Member of the parent role binding
     string member = 2;

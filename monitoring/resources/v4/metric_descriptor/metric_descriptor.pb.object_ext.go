@@ -684,6 +684,9 @@ func (o *MetricDescriptor_BinaryIndices) MakeDiffFieldMask(other *MetricDescript
 	} else {
 		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources})
 	}
+	if o.GetRegion() != other.GetRegion() {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorRegion})
+	}
 	return res
 }
 
@@ -700,6 +703,7 @@ func (o *MetricDescriptor_BinaryIndices) Clone() *MetricDescriptor_BinaryIndices
 	for i, sourceValue := range o.ByResources {
 		result.ByResources[i] = sourceValue.Clone()
 	}
+	result.Region = o.Region
 	return result
 }
 
@@ -726,6 +730,7 @@ func (o *MetricDescriptor_BinaryIndices) Merge(source *MetricDescriptor_BinaryIn
 		}
 	}
 
+	o.Region = source.GetRegion()
 }
 
 func (o *MetricDescriptor_BinaryIndices) MergeRaw(source gotenobject.GotenObjectExt) {

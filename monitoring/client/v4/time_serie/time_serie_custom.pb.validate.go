@@ -27,6 +27,7 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -50,6 +51,7 @@ var (
 	_ = &time_serie.Point{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &timestamppb.Timestamp{}
 	_ = &meta_service.Service{}
 )
 

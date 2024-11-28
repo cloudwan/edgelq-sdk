@@ -187,7 +187,9 @@ message ListenResponse {
     Pong pong = 4;
   }
 
-  message Listening { uint64 session_id = 1; }
+  message Listening {
+    uint64 session_id = 1;
+  }
 
   message OpenChannelResponse {
     // Channel ID
@@ -289,9 +291,11 @@ message AcceptResponse {
   }
 }
 
-message Ping {}
+message Ping {
+}
 
-message Pong {}
+message Pong {
+}
 
 message Data {
   uint64 id = 1;
@@ -301,9 +305,13 @@ message Data {
   bool ack_required = 3;
 }
 
-message Ack { uint64 id = 1; }
+message Ack {
+  uint64 id = 1;
+}
 
-message Close { uint64 id = 1; }
+message Close {
+  uint64 id = 1;
+}
 
 message Error {
   uint64 id = 1;

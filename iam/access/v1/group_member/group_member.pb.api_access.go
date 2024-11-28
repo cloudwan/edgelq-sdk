@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiGroupMemberAccess(client group_member_client.GroupMemberServiceClient
 	return &apiGroupMemberAccess{client: client}
 }
 
-func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_member.GetQuery) (*group_member.GroupMember, error) {
+func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_member.GetQuery, opts ...gotenresource.GetOption) (*group_member.GroupMember, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetGroupMember(ctx, request)
+	res, err := a.client.GetGroupMember(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_
 
 func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []*group_member.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*group_member.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*group_member.GroupMember_FieldMask)
 	}
-	resp, err := a.client.BatchGetGroupMembers(ctx, request)
+	resp, err := a.client.BatchGetGroupMembers(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []
 	return nil
 }
 
-func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *group_member.ListQuery) (*group_member.QueryResultSnapshot, error) {
+func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *group_member.ListQuery, opts ...gotenresource.QueryOption) (*group_member.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &group_member_client.ListGroupMembersRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiGroupMemberAccess) WatchGroupMember(ctx context.Context, query *grou
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroupMember(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiGroupMemberAccess) WatchGroupMembers(ctx context.Context, query *gro
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiGroupMemberAccess) WatchGroupMembers(ctx context.Context, query *gro
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroupMembers(ctx, request)
 	if initErr != nil {
 		return initErr

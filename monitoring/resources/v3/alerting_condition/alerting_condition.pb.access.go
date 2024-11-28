@@ -44,10 +44,10 @@ var (
 )
 
 type AlertingConditionAccess interface {
-	GetAlertingCondition(context.Context, *GetQuery) (*AlertingCondition, error)
+	GetAlertingCondition(context.Context, *GetQuery, ...gotenresource.GetOption) (*AlertingCondition, error)
 	BatchGetAlertingConditions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryAlertingConditions(context.Context, *ListQuery) (*QueryResultSnapshot, error)
-	SearchAlertingConditions(context.Context, *SearchQuery) (*QueryResultSnapshot, error)
+	QueryAlertingConditions(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchAlertingConditions(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchAlertingCondition(context.Context, *GetQuery, func(*AlertingConditionChange) error) error
 	WatchAlertingConditions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAlertingCondition(context.Context, *AlertingCondition, ...gotenresource.SaveOption) error
@@ -62,27 +62,27 @@ func AsAnyCastAccess(access AlertingConditionAccess) gotenresource.Access {
 	return &anyCastAccess{AlertingConditionAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asAlertingConditionQuery, ok := q.(*GetQuery); ok {
-		return a.GetAlertingCondition(ctx, asAlertingConditionQuery)
+		return a.GetAlertingCondition(ctx, asAlertingConditionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AlertingCondition, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAlertingConditionQuery, ok := q.(*ListQuery); ok {
-		return a.QueryAlertingConditions(ctx, asAlertingConditionQuery)
+		return a.QueryAlertingConditions(ctx, asAlertingConditionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AlertingCondition, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAlertingConditionQuery, ok := q.(*SearchQuery); ok {
-		return a.SearchAlertingConditions(ctx, asAlertingConditionQuery)
+		return a.SearchAlertingConditions(ctx, asAlertingConditionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AlertingCondition, got: %s",

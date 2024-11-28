@@ -20,6 +20,7 @@ import (
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -36,6 +37,7 @@ var (
 	_ = &project.Project{}
 	_ = &time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
@@ -53,11 +55,11 @@ func (NotificationFieldPathBuilder) Name() NotificationPathSelectorName {
 func (NotificationFieldPathBuilder) Metadata() NotificationPathSelectorMetadata {
 	return NotificationPathSelectorMetadata{}
 }
-func (NotificationFieldPathBuilder) AlertingPolicy() NotificationPathSelectorAlertingPolicy {
-	return NotificationPathSelectorAlertingPolicy{}
-}
 func (NotificationFieldPathBuilder) Alerts() NotificationPathSelectorAlerts {
 	return NotificationPathSelectorAlerts{}
+}
+func (NotificationFieldPathBuilder) AlertSets() NotificationPathSelectorAlertSets {
+	return NotificationPathSelectorAlertSets{}
 }
 func (NotificationFieldPathBuilder) State() NotificationPathSelectorState {
 	return NotificationPathSelectorState{}
@@ -738,20 +740,6 @@ func (s NotificationPathSelectorMetadataServicesAllowedServices) WithItemValue(v
 	return s.FieldPath().WithIArrayItemValue(value).(*Notification_FieldSubPathArrayItemValue)
 }
 
-type NotificationPathSelectorAlertingPolicy struct{}
-
-func (NotificationPathSelectorAlertingPolicy) FieldPath() *Notification_FieldTerminalPath {
-	return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlertingPolicy}
-}
-
-func (s NotificationPathSelectorAlertingPolicy) WithValue(value *alerting_policy.Name) *Notification_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*Notification_FieldTerminalPathValue)
-}
-
-func (s NotificationPathSelectorAlertingPolicy) WithArrayOfValues(values []*alerting_policy.Name) *Notification_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldTerminalPathArrayOfValues)
-}
-
 type NotificationPathSelectorAlerts struct{}
 
 func (NotificationPathSelectorAlerts) FieldPath() *Notification_FieldTerminalPath {
@@ -768,6 +756,85 @@ func (s NotificationPathSelectorAlerts) WithArrayOfValues(values [][]*alert.Name
 
 func (s NotificationPathSelectorAlerts) WithItemValue(value *alert.Name) *Notification_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Notification_FieldTerminalPathArrayItemValue)
+}
+
+type NotificationPathSelectorAlertSets struct{}
+
+func (NotificationPathSelectorAlertSets) FieldPath() *Notification_FieldTerminalPath {
+	return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlertSets}
+}
+
+func (s NotificationPathSelectorAlertSets) WithValue(value []*Notification_AlertsSet) *Notification_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldTerminalPathValue)
+}
+
+func (s NotificationPathSelectorAlertSets) WithArrayOfValues(values [][]*Notification_AlertsSet) *Notification_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldTerminalPathArrayOfValues)
+}
+
+func (s NotificationPathSelectorAlertSets) WithItemValue(value *Notification_AlertsSet) *Notification_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Notification_FieldTerminalPathArrayItemValue)
+}
+func (NotificationPathSelectorAlertSets) WithSubPath(subPath NotificationAlertsSet_FieldPath) *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{selector: Notification_FieldPathSelectorAlertSets, subPath: subPath}
+}
+
+func (s NotificationPathSelectorAlertSets) WithSubValue(subPathValue NotificationAlertsSet_FieldPathValue) *Notification_FieldSubPathValue {
+	return &Notification_FieldSubPathValue{Notification_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s NotificationPathSelectorAlertSets) WithSubArrayOfValues(subPathArrayOfValues NotificationAlertsSet_FieldPathArrayOfValues) *Notification_FieldSubPathArrayOfValues {
+	return &Notification_FieldSubPathArrayOfValues{Notification_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s NotificationPathSelectorAlertSets) WithSubArrayItemValue(subPathArrayItemValue NotificationAlertsSet_FieldPathArrayItemValue) *Notification_FieldSubPathArrayItemValue {
+	return &Notification_FieldSubPathArrayItemValue{Notification_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (NotificationPathSelectorAlertSets) Condition() NotificationPathSelectorAlertSetsCondition {
+	return NotificationPathSelectorAlertSetsCondition{}
+}
+
+func (NotificationPathSelectorAlertSets) Ids() NotificationPathSelectorAlertSetsIds {
+	return NotificationPathSelectorAlertSetsIds{}
+}
+
+type NotificationPathSelectorAlertSetsCondition struct{}
+
+func (NotificationPathSelectorAlertSetsCondition) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorAlertSets,
+		subPath:  NewNotificationAlertsSetFieldPathBuilder().Condition().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorAlertSetsCondition) WithValue(value *alerting_condition.Name) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorAlertSetsCondition) WithArrayOfValues(values []*alerting_condition.Name) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationPathSelectorAlertSetsIds struct{}
+
+func (NotificationPathSelectorAlertSetsIds) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorAlertSets,
+		subPath:  NewNotificationAlertsSetFieldPathBuilder().Ids().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorAlertSetsIds) WithValue(value []string) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorAlertSetsIds) WithArrayOfValues(values [][]string) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+func (s NotificationPathSelectorAlertSetsIds) WithItemValue(value string) *Notification_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Notification_FieldSubPathArrayItemValue)
 }
 
 type NotificationPathSelectorState struct{}
@@ -1373,6 +1440,50 @@ func (s NotificationPathSelectorStateLifecycleCompleted) WithValue(value bool) *
 
 func (s NotificationPathSelectorStateLifecycleCompleted) WithArrayOfValues(values []bool) *Notification_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationAlertsSetFieldPathBuilder struct{}
+
+func NewNotificationAlertsSetFieldPathBuilder() NotificationAlertsSetFieldPathBuilder {
+	return NotificationAlertsSetFieldPathBuilder{}
+}
+func (NotificationAlertsSetFieldPathBuilder) Condition() Notification_AlertsSetPathSelectorCondition {
+	return Notification_AlertsSetPathSelectorCondition{}
+}
+func (NotificationAlertsSetFieldPathBuilder) Ids() Notification_AlertsSetPathSelectorIds {
+	return Notification_AlertsSetPathSelectorIds{}
+}
+
+type Notification_AlertsSetPathSelectorCondition struct{}
+
+func (Notification_AlertsSetPathSelectorCondition) FieldPath() *NotificationAlertsSet_FieldTerminalPath {
+	return &NotificationAlertsSet_FieldTerminalPath{selector: NotificationAlertsSet_FieldPathSelectorCondition}
+}
+
+func (s Notification_AlertsSetPathSelectorCondition) WithValue(value *alerting_condition.Name) *NotificationAlertsSet_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationAlertsSet_FieldTerminalPathValue)
+}
+
+func (s Notification_AlertsSetPathSelectorCondition) WithArrayOfValues(values []*alerting_condition.Name) *NotificationAlertsSet_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationAlertsSet_FieldTerminalPathArrayOfValues)
+}
+
+type Notification_AlertsSetPathSelectorIds struct{}
+
+func (Notification_AlertsSetPathSelectorIds) FieldPath() *NotificationAlertsSet_FieldTerminalPath {
+	return &NotificationAlertsSet_FieldTerminalPath{selector: NotificationAlertsSet_FieldPathSelectorIds}
+}
+
+func (s Notification_AlertsSetPathSelectorIds) WithValue(value []string) *NotificationAlertsSet_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationAlertsSet_FieldTerminalPathValue)
+}
+
+func (s Notification_AlertsSetPathSelectorIds) WithArrayOfValues(values [][]string) *NotificationAlertsSet_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationAlertsSet_FieldTerminalPathArrayOfValues)
+}
+
+func (s Notification_AlertsSetPathSelectorIds) WithItemValue(value string) *NotificationAlertsSet_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationAlertsSet_FieldTerminalPathArrayItemValue)
 }
 
 type NotificationStateFieldPathBuilder struct{}

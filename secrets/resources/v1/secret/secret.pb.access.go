@@ -40,9 +40,9 @@ var (
 )
 
 type SecretAccess interface {
-	GetSecret(context.Context, *GetQuery) (*Secret, error)
+	GetSecret(context.Context, *GetQuery, ...gotenresource.GetOption) (*Secret, error)
 	BatchGetSecrets(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QuerySecrets(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QuerySecrets(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchSecret(context.Context, *GetQuery, func(*SecretChange) error) error
 	WatchSecrets(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveSecret(context.Context, *Secret, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access SecretAccess) gotenresource.Access {
 	return &anyCastAccess{SecretAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asSecretQuery, ok := q.(*GetQuery); ok {
-		return a.GetSecret(ctx, asSecretQuery)
+		return a.GetSecret(ctx, asSecretQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Secret, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asSecretQuery, ok := q.(*ListQuery); ok {
-		return a.QuerySecrets(ctx, asSecretQuery)
+		return a.QuerySecrets(ctx, asSecretQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Secret, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Secret")
 }
 

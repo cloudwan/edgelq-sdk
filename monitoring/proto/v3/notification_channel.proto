@@ -13,10 +13,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 
 // NotificationChannel Resource
 message NotificationChannel {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/NotificationChannel"
-    pattern : "projects/{project}/notificationChannels/{notification_channel}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/NotificationChannel" pattern:"projects/{project}/notificationChannels/{notification_channel}"  };
 
   // Name of NotificationChannel
   // When creating a new instance, this field is optional and if not provided,

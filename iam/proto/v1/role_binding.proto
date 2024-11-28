@@ -14,13 +14,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // RoleBinding Resource
 message RoleBinding {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/RoleBinding"
-    pattern : "roleBindings/{role_binding}"
-    pattern : "projects/{project}/roleBindings/{role_binding}"
-    pattern : "organizations/{organization}/roleBindings/{role_binding}"
-    pattern : "services/{service}/roleBindings/{role_binding}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/RoleBinding" pattern:"roleBindings/{role_binding}" pattern:"projects/{project}/roleBindings/{role_binding}" pattern:"organizations/{organization}/roleBindings/{role_binding}" pattern:"services/{service}/roleBindings/{role_binding}"  };
 
   // Name of RoleBinding
   string name = 1;

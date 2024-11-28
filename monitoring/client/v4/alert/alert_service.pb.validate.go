@@ -183,23 +183,6 @@ func (obj *WatchAlertsResponse_PageTokenChange) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *CreateAlertRequest) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if obj.Alert == nil {
-		return gotenvalidate.NewValidationError("CreateAlertRequest", "alert", obj.Alert, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Alert).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("CreateAlertRequest", "alert", obj.Alert, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
 func (obj *UpdateAlertRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -217,6 +200,11 @@ func (obj *UpdateAlertRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("UpdateAlertRequest", "cas", obj.Cas, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateAlertRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -225,6 +213,22 @@ func (obj *UpdateAlertRequest) GotenValidate() error {
 func (obj *UpdateAlertRequest_CAS) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdateAlertRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *UpdateAlertRequest_ResponseMask_SkipEntireResponseBody:
+	case *UpdateAlertRequest_ResponseMask_UpdatedFieldsOnly:
+	case *UpdateAlertRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

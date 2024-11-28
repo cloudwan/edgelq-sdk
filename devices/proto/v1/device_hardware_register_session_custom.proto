@@ -38,7 +38,9 @@ message RegisterHardwareRequest {
 
 // Response message for method
 // [RegisterHardware][ntt.devices.v1.RegisterHardware]
-message RegisterHardwareResponse { DeviceHardware hardware = 1; }
+message RegisterHardwareResponse {
+  DeviceHardware hardware = 1;
+}
 
 // Request message for method [HardwareStatus][ntt.devices.v1.HardwareStatus]
 message HardwareStatusRequest {
@@ -60,7 +62,9 @@ message HardwareStatusRequest {
 }
 
 // Response message for method [HardwareStatus][ntt.devices.v1.HardwareStatus]
-message HardwareStatusResponse { repeated DeviceHardware device_hardwares = 1; }
+message HardwareStatusResponse {
+  repeated DeviceHardware device_hardwares = 1;
+}
 
 // Request message for method
 // [GetDeviceHardwareRegisterSessionFromToken][ntt.devices.v1.GetDeviceHardwareRegisterSessionFromToken]

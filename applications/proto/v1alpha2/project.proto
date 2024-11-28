@@ -13,10 +13,7 @@ option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // Project Resource
 message Project {
-  option (google.api.resource) = {
-    type : "applications.edgelq.com/Project"
-    pattern : "projects/{project}"
-  };
+  option (google.api.resource) = { type:"applications.edgelq.com/Project" pattern:"projects/{project}"  };
 
   // Name of Project
   // When creating a new instance, this field is optional and if not provided,

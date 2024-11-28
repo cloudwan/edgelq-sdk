@@ -22,10 +22,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 // provide a `list` method that returns the monitored resource descriptors used
 // by the API.
 message MonitoredResourceDescriptor {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/MonitoredResourceDescriptor"
-    pattern : "monitoredResourceDescriptors/{monitored_resource_descriptor}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/MonitoredResourceDescriptor" pattern:"monitoredResourceDescriptors/{monitored_resource_descriptor}"  };
 
   // Optional. The resource name of the monitored resource descriptor:
   // `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where

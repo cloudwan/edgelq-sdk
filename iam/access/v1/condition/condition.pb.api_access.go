@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiConditionAccess(client condition_client.ConditionServiceClient) condi
 	return &apiConditionAccess{client: client}
 }
 
-func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.GetQuery) (*condition.Condition, error) {
+func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.GetQuery, opts ...gotenresource.GetOption) (*condition.Condition, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetCondition(ctx, request)
+	res, err := a.client.GetCondition(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.
 
 func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*condition.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*condition.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*con
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*condition.Condition_FieldMask)
 	}
-	resp, err := a.client.BatchGetConditions(ctx, request)
+	resp, err := a.client.BatchGetConditions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*con
 	return nil
 }
 
-func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *condition.ListQuery) (*condition.QueryResultSnapshot, error) {
+func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *condition.ListQuery, opts ...gotenresource.QueryOption) (*condition.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &condition_client.ListConditionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiConditionAccess) WatchCondition(ctx context.Context, query *conditio
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchCondition(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiConditionAccess) WatchConditions(ctx context.Context, query *conditi
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiConditionAccess) WatchConditions(ctx context.Context, query *conditi
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchConditions(ctx, request)
 	if initErr != nil {
 		return initErr

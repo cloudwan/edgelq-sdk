@@ -65,7 +65,9 @@ message DeploymentChange {
 
   // Deployment has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Deployment deployment = 1; }
+  message Current {
+    Deployment deployment = 1;
+  }
 
   // Removed is returned when Deployment is deleted or leaves Query view
   message Removed {

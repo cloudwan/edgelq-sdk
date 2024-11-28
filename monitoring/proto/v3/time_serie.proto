@@ -36,10 +36,7 @@ message Point {
 // fully-specified monitored resource and a fully-specified metric.
 // This type is used for both listing and creating time series.
 message TimeSerie {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/TimeSerie"
-    pattern : "projects/{project}/timeSeries/{time_serie}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/TimeSerie" pattern:"projects/{project}/timeSeries/{time_serie}"  };
 
   // TimeSerie key identifies unique TimeSeries tuple:
   // <project, region, metric.type, metric.labels, resource.type,

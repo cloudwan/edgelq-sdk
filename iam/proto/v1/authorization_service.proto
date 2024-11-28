@@ -24,35 +24,17 @@ service AuthorizationService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetPrincipal
-  rpc GetPrincipal(GetPrincipalRequest) returns (GetPrincipalResponse) {
-    option (google.api.http) = {
-      post : "/v1:getPrincipal"
-    };
+  rpc GetPrincipal ( GetPrincipalRequest ) returns ( GetPrincipalResponse ) {
+    option (google.api.http) = { post:"/v1:getPrincipal"  };
   }
 
   // WatchPrincipalUpdates
-  rpc WatchPrincipalUpdates(WatchPrincipalUpdatesRequest)
-      returns (stream WatchPrincipalUpdatesResponse) {
-    option (google.api.http) = {
-      post : "/v1:watchPrincipalUpdates"
-    };
+  rpc WatchPrincipalUpdates ( WatchPrincipalUpdatesRequest ) returns ( stream WatchPrincipalUpdatesResponse ) {
+    option (google.api.http) = { post:"/v1:watchPrincipalUpdates"  };
   }
 
   // CheckMyRoleBindings
-  rpc CheckMyRoleBindings(CheckMyRoleBindingsRequest)
-      returns (CheckMyRoleBindingsResponse) {
-    option (google.api.http) = {
-      post : "/v1/roleBindings:checkMy"
-      body : "*"
-      additional_bindings : <
-        post : "/v1/{parent=projects/*}/roleBindings:checkMy"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*}/roleBindings:checkMy"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=services/*}/roleBindings:checkMy"
-      >
-    };
+  rpc CheckMyRoleBindings ( CheckMyRoleBindingsRequest ) returns ( CheckMyRoleBindingsResponse ) {
+    option (google.api.http) = { post:"/v1/roleBindings:checkMy" body:"*" additional_bindings:<post:"/v1/{parent=projects/*}/roleBindings:checkMy" > additional_bindings:<post:"/v1/{parent=organizations/*}/roleBindings:checkMy" > additional_bindings:<post:"/v1/{parent=services/*}/roleBindings:checkMy" >  };
   }
 }

@@ -64,7 +64,9 @@ message PlanChange {
 
   // Plan has been added or modified in a query view. Version used for stateless
   // watching
-  message Current { Plan plan = 1; }
+  message Current {
+    Plan plan = 1;
+  }
 
   // Removed is returned when Plan is deleted or leaves Query view
   message Removed {

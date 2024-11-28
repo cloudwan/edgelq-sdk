@@ -22,4 +22,6 @@ message ProvisionDeviceForApprovedRequestRequest {
 
 // Response message for method
 // [ProvisionDeviceForApprovedRequest][ntt.devices.v1alpha2.ProvisionDeviceForApprovedRequest]
-message ProvisionDeviceForApprovedRequestResponse { Device device = 1; }
+message ProvisionDeviceForApprovedRequestResponse {
+  Device device = 1;
+}

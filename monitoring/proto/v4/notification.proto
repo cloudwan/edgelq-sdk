@@ -13,11 +13,7 @@ option java_package = "com.ntt.monitoring.pb.v4";
 
 // Notification Resource
 message Notification {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/Notification"
-    pattern : "projects/{project}/regions/{region}/alertingPolicies/"
-              "{alerting_policy}/notifications/{notification}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/Notification" pattern:"projects/{project}/regions/{region}/alertingPolicies/{alerting_policy}/notifications/{notification}"  };
 
   // Name of Notification
   // When creating a new instance, this field is optional and if not provided,
@@ -32,13 +28,22 @@ message Notification {
   // services by higher ones).
   goten.types.Meta metadata = 2;
 
-  // Reference to alerting policy that this notification is for
-  string alerting_policy = 3;
-
   // References to alerts that are part of this notification
+  // TODO: Obsolete and to be retired, in favor of alert_sets
   repeated string alerts = 4;
 
+  // Alerts by notification
+  repeated AlertsSet alert_sets = 5;
+
   State state = 6;
+
+  message AlertsSet {
+    // Condition holding alerts
+    string condition = 1;
+
+    // List of alert IDs.
+    repeated string ids = 2;
+  }
 
   message State {
     bool is_resolved = 1;
@@ -84,10 +89,14 @@ message Notification {
         PagerDuty pager_duty = 4;
 
         // Slack
-        message Slack { string ts = 1; }
+        message Slack {
+          string ts = 1;
+        }
 
         // Pager Duty
-        message PagerDuty { string incident_key = 1; }
+        message PagerDuty {
+          string incident_key = 1;
+        }
       }
 
       enum Status {
@@ -111,4 +120,6 @@ message Notification {
       }
     }
   }
+
+  reserved 3;
 }

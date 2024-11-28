@@ -40,9 +40,9 @@ var (
 )
 
 type MethodDescriptorAccess interface {
-	GetMethodDescriptor(context.Context, *GetQuery) (*MethodDescriptor, error)
+	GetMethodDescriptor(context.Context, *GetQuery, ...gotenresource.GetOption) (*MethodDescriptor, error)
 	BatchGetMethodDescriptors(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryMethodDescriptors(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryMethodDescriptors(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchMethodDescriptor(context.Context, *GetQuery, func(*MethodDescriptorChange) error) error
 	WatchMethodDescriptors(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveMethodDescriptor(context.Context, *MethodDescriptor, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access MethodDescriptorAccess) gotenresource.Access {
 	return &anyCastAccess{MethodDescriptorAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asMethodDescriptorQuery, ok := q.(*GetQuery); ok {
-		return a.GetMethodDescriptor(ctx, asMethodDescriptorQuery)
+		return a.GetMethodDescriptor(ctx, asMethodDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected MethodDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asMethodDescriptorQuery, ok := q.(*ListQuery); ok {
-		return a.QueryMethodDescriptors(ctx, asMethodDescriptorQuery)
+		return a.QueryMethodDescriptors(ctx, asMethodDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected MethodDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for MethodDescriptor")
 }
 

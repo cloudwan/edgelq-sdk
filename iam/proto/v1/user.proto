@@ -13,10 +13,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // User Resource
 message User {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/User"
-    pattern : "users/{user}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/User" pattern:"users/{user}"  };
 
   // Name of User
   // When creating a new instance, this field is optional and if not provided,

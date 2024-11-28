@@ -79,9 +79,6 @@ func (o *Notification) MakeDiffFieldMask(other *Notification) *Notification_Fiel
 			}
 		}
 	}
-	if o.GetAlertingPolicy().String() != other.GetAlertingPolicy().String() {
-		res.Paths = append(res.Paths, &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlertingPolicy})
-	}
 
 	if len(o.GetAlerts()) == len(other.GetAlerts()) {
 		for i, lValue := range o.GetAlerts() {
@@ -93,6 +90,18 @@ func (o *Notification) MakeDiffFieldMask(other *Notification) *Notification_Fiel
 		}
 	} else {
 		res.Paths = append(res.Paths, &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlerts})
+	}
+
+	if len(o.GetAlertSets()) == len(other.GetAlertSets()) {
+		for i, lValue := range o.GetAlertSets() {
+			rValue := other.GetAlertSets()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlertSets})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlertSets})
 	}
 	{
 		subMask := o.GetState().MakeDiffFieldMask(other.GetState())
@@ -127,16 +136,6 @@ func (o *Notification) Clone() *Notification {
 		}
 	}
 	result.Metadata = o.Metadata.Clone()
-	if o.AlertingPolicy == nil {
-		result.AlertingPolicy = nil
-	} else if data, err := o.AlertingPolicy.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.AlertingPolicy = &alerting_policy.Name{}
-		if err := result.AlertingPolicy.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
 	result.Alerts = make([]*alert.Name, len(o.Alerts))
 	for i, sourceValue := range o.Alerts {
 		if sourceValue == nil {
@@ -149,6 +148,10 @@ func (o *Notification) Clone() *Notification {
 				panic(err)
 			}
 		}
+	}
+	result.AlertSets = make([]*Notification_AlertsSet, len(o.AlertSets))
+	for i, sourceValue := range o.AlertSets {
+		result.AlertSets[i] = sourceValue.Clone()
 	}
 	result.State = o.State.Clone()
 	return result
@@ -177,18 +180,6 @@ func (o *Notification) Merge(source *Notification) {
 		}
 		o.Metadata.Merge(source.GetMetadata())
 	}
-	if source.GetAlertingPolicy() != nil {
-		if data, err := source.GetAlertingPolicy().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.AlertingPolicy = &alerting_policy.Name{}
-			if err := o.AlertingPolicy.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.AlertingPolicy = nil
-	}
 	for _, sourceValue := range source.GetAlerts() {
 		exists := false
 		for _, currentValue := range o.Alerts {
@@ -215,6 +206,24 @@ func (o *Notification) Merge(source *Notification) {
 		}
 	}
 
+	for _, sourceValue := range source.GetAlertSets() {
+		exists := false
+		for _, currentValue := range o.AlertSets {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *Notification_AlertsSet
+			if sourceValue != nil {
+				newDstElement = new(Notification_AlertsSet)
+				newDstElement.Merge(sourceValue)
+			}
+			o.AlertSets = append(o.AlertSets, newDstElement)
+		}
+	}
+
 	if source.GetState() != nil {
 		if o.State == nil {
 			o.State = new(Notification_State)
@@ -225,6 +234,107 @@ func (o *Notification) Merge(source *Notification) {
 
 func (o *Notification) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Notification))
+}
+
+func (o *Notification_AlertsSet) GotenObjectExt() {}
+
+func (o *Notification_AlertsSet) MakeFullFieldMask() *Notification_AlertsSet_FieldMask {
+	return FullNotification_AlertsSet_FieldMask()
+}
+
+func (o *Notification_AlertsSet) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotification_AlertsSet_FieldMask()
+}
+
+func (o *Notification_AlertsSet) MakeDiffFieldMask(other *Notification_AlertsSet) *Notification_AlertsSet_FieldMask {
+	if o == nil && other == nil {
+		return &Notification_AlertsSet_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotification_AlertsSet_FieldMask()
+	}
+
+	res := &Notification_AlertsSet_FieldMask{}
+	if o.GetCondition().String() != other.GetCondition().String() {
+		res.Paths = append(res.Paths, &NotificationAlertsSet_FieldTerminalPath{selector: NotificationAlertsSet_FieldPathSelectorCondition})
+	}
+
+	if len(o.GetIds()) == len(other.GetIds()) {
+		for i, lValue := range o.GetIds() {
+			rValue := other.GetIds()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &NotificationAlertsSet_FieldTerminalPath{selector: NotificationAlertsSet_FieldPathSelectorIds})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &NotificationAlertsSet_FieldTerminalPath{selector: NotificationAlertsSet_FieldPathSelectorIds})
+	}
+	return res
+}
+
+func (o *Notification_AlertsSet) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Notification_AlertsSet))
+}
+
+func (o *Notification_AlertsSet) Clone() *Notification_AlertsSet {
+	if o == nil {
+		return nil
+	}
+	result := &Notification_AlertsSet{}
+	if o.Condition == nil {
+		result.Condition = nil
+	} else if data, err := o.Condition.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Condition = &alerting_condition.Name{}
+		if err := result.Condition.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.Ids = make([]string, len(o.Ids))
+	for i, sourceValue := range o.Ids {
+		result.Ids[i] = sourceValue
+	}
+	return result
+}
+
+func (o *Notification_AlertsSet) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Notification_AlertsSet) Merge(source *Notification_AlertsSet) {
+	if source.GetCondition() != nil {
+		if data, err := source.GetCondition().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Condition = &alerting_condition.Name{}
+			if err := o.Condition.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Condition = nil
+	}
+	for _, sourceValue := range source.GetIds() {
+		exists := false
+		for _, currentValue := range o.Ids {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Ids = append(o.Ids, newDstElement)
+		}
+	}
+
+}
+
+func (o *Notification_AlertsSet) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Notification_AlertsSet))
 }
 
 func (o *Notification_State) GotenObjectExt() {}

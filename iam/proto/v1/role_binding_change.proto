@@ -65,7 +65,9 @@ message RoleBindingChange {
 
   // RoleBinding has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { RoleBinding role_binding = 1; }
+  message Current {
+    RoleBinding role_binding = 1;
+  }
 
   // Removed is returned when RoleBinding is deleted or leaves Query view
   message Removed {

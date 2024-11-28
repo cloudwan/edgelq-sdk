@@ -70,7 +70,9 @@ message OrganizationInvitationChange {
 
   // OrganizationInvitation has been added or modified in a query view. Version
   // used for stateless watching
-  message Current { OrganizationInvitation organization_invitation = 1; }
+  message Current {
+    OrganizationInvitation organization_invitation = 1;
+  }
 
   // Removed is returned when OrganizationInvitation is deleted or leaves Query
   // view

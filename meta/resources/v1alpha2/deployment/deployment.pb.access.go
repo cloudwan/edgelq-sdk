@@ -42,9 +42,9 @@ var (
 )
 
 type DeploymentAccess interface {
-	GetDeployment(context.Context, *GetQuery) (*Deployment, error)
+	GetDeployment(context.Context, *GetQuery, ...gotenresource.GetOption) (*Deployment, error)
 	BatchGetDeployments(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryDeployments(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryDeployments(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchDeployment(context.Context, *GetQuery, func(*DeploymentChange) error) error
 	WatchDeployments(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveDeployment(context.Context, *Deployment, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access DeploymentAccess) gotenresource.Access {
 	return &anyCastAccess{DeploymentAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asDeploymentQuery, ok := q.(*GetQuery); ok {
-		return a.GetDeployment(ctx, asDeploymentQuery)
+		return a.GetDeployment(ctx, asDeploymentQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Deployment, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asDeploymentQuery, ok := q.(*ListQuery); ok {
-		return a.QueryDeployments(ctx, asDeploymentQuery)
+		return a.QueryDeployments(ctx, asDeploymentQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Deployment, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Deployment")
 }
 

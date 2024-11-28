@@ -14,11 +14,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 
 // RecoveryStoreShardingInfo Resource
 message RecoveryStoreShardingInfo {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/RecoveryStoreShardingInfo"
-    pattern : "regions/{region}/recoveryStoreShardingInfos/"
-              "{recovery_store_sharding_info}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/RecoveryStoreShardingInfo" pattern:"regions/{region}/recoveryStoreShardingInfos/{recovery_store_sharding_info}"  };
 
   // Name of RecoveryStoreShardingInfo
   // When creating a new instance, this field is optional and if not provided,

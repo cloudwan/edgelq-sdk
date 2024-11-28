@@ -140,7 +140,9 @@ message WatchPhantomTimeSerieRequest {
 }
 
 // A response message of the WatchPhantomTimeSerie method.
-message WatchPhantomTimeSerieResponse { PhantomTimeSerieChange change = 1; }
+message WatchPhantomTimeSerieResponse {
+  PhantomTimeSerieChange change = 1;
+}
 
 // A request message of the WatchPhantomTimeSeries method.
 message WatchPhantomTimeSeriesRequest {
@@ -275,6 +277,23 @@ message CreatePhantomTimeSerieRequest {
 
   // PhantomTimeSerie resource body
   PhantomTimeSerie phantom_time_serie = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdatePhantomTimeSerie method.
@@ -298,7 +317,10 @@ message UpdatePhantomTimeSerieRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -309,6 +331,26 @@ message UpdatePhantomTimeSerieRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -324,69 +366,42 @@ service PhantomTimeSerieService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetPhantomTimeSerie
-  rpc GetPhantomTimeSerie(GetPhantomTimeSerieRequest)
-      returns (PhantomTimeSerie) {
-    option (google.api.http) = {
-      get : "/v3/{name=projects/*/regions/*/phantomTimeSeries/*}"
-    };
+  rpc GetPhantomTimeSerie ( GetPhantomTimeSerieRequest ) returns ( PhantomTimeSerie ) {
+    option (google.api.http) = { get:"/v3/{name=projects/*/regions/*/phantomTimeSeries/*}"  };
   }
 
   // BatchGetPhantomTimeSeries
-  rpc BatchGetPhantomTimeSeries(BatchGetPhantomTimeSeriesRequest)
-      returns (BatchGetPhantomTimeSeriesResponse) {
-    option (google.api.http) = {
-      get : "/v3/phantomTimeSeries:batchGet"
-    };
+  rpc BatchGetPhantomTimeSeries ( BatchGetPhantomTimeSeriesRequest ) returns ( BatchGetPhantomTimeSeriesResponse ) {
+    option (google.api.http) = { get:"/v3/phantomTimeSeries:batchGet"  };
   }
 
   // ListPhantomTimeSeries
-  rpc ListPhantomTimeSeries(ListPhantomTimeSeriesRequest)
-      returns (ListPhantomTimeSeriesResponse) {
-    option (google.api.http) = {
-      get : "/v3/{parent=projects/*/regions/*}/phantomTimeSeries"
-    };
+  rpc ListPhantomTimeSeries ( ListPhantomTimeSeriesRequest ) returns ( ListPhantomTimeSeriesResponse ) {
+    option (google.api.http) = { get:"/v3/{parent=projects/*/regions/*}/phantomTimeSeries"  };
   }
 
   // WatchPhantomTimeSerie
-  rpc WatchPhantomTimeSerie(WatchPhantomTimeSerieRequest)
-      returns (stream WatchPhantomTimeSerieResponse) {
-    option (google.api.http) = {
-      post : "/v3/{name=projects/*/regions/*/phantomTimeSeries/*}:watch"
-    };
+  rpc WatchPhantomTimeSerie ( WatchPhantomTimeSerieRequest ) returns ( stream WatchPhantomTimeSerieResponse ) {
+    option (google.api.http) = { post:"/v3/{name=projects/*/regions/*/phantomTimeSeries/*}:watch"  };
   }
 
   // WatchPhantomTimeSeries
-  rpc WatchPhantomTimeSeries(WatchPhantomTimeSeriesRequest)
-      returns (stream WatchPhantomTimeSeriesResponse) {
-    option (google.api.http) = {
-      post : "/v3/{parent=projects/*/regions/*}/phantomTimeSeries:watch"
-    };
+  rpc WatchPhantomTimeSeries ( WatchPhantomTimeSeriesRequest ) returns ( stream WatchPhantomTimeSeriesResponse ) {
+    option (google.api.http) = { post:"/v3/{parent=projects/*/regions/*}/phantomTimeSeries:watch"  };
   }
 
   // CreatePhantomTimeSerie
-  rpc CreatePhantomTimeSerie(CreatePhantomTimeSerieRequest)
-      returns (PhantomTimeSerie) {
-    option (google.api.http) = {
-      post : "/v3/{parent=projects/*/regions/*}/phantomTimeSeries"
-      body : "phantom_time_serie"
-    };
+  rpc CreatePhantomTimeSerie ( CreatePhantomTimeSerieRequest ) returns ( PhantomTimeSerie ) {
+    option (google.api.http) = { post:"/v3/{parent=projects/*/regions/*}/phantomTimeSeries" body:"phantom_time_serie"  };
   }
 
   // UpdatePhantomTimeSerie
-  rpc UpdatePhantomTimeSerie(UpdatePhantomTimeSerieRequest)
-      returns (PhantomTimeSerie) {
-    option (google.api.http) = {
-      put : "/v3/{phantom_time_serie.name=projects/*/regions/*/"
-            "phantomTimeSeries/*}"
-      body : "phantom_time_serie"
-    };
+  rpc UpdatePhantomTimeSerie ( UpdatePhantomTimeSerieRequest ) returns ( PhantomTimeSerie ) {
+    option (google.api.http) = { put:"/v3/{phantom_time_serie.name=projects/*/regions/*/phantomTimeSeries/*}" body:"phantom_time_serie"  };
   }
 
   // DeletePhantomTimeSerie
-  rpc DeletePhantomTimeSerie(DeletePhantomTimeSerieRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v3/{name=projects/*/regions/*/phantomTimeSeries/*}"
-    };
+  rpc DeletePhantomTimeSerie ( DeletePhantomTimeSerieRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v3/{name=projects/*/regions/*/phantomTimeSeries/*}"  };
   }
 }

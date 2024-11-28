@@ -53,12 +53,12 @@ message Invitation {
   map<string, string> extras = 12;
 
   // Status of Invitation
-  State state = 9 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  State state = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // BindingRole is used to create RoleBinding when invitation is accepted.
   message BindingRole {
     // Role to be granted
-    string role = 1 [ (google.api.resource_reference) = {type : "Role"} ];
+    string role = 1 [(google.api.resource_reference) = { type:"Role"  }];
 
     // List of all applicable condition bindings to be applied when creating
     // RoleBinding.

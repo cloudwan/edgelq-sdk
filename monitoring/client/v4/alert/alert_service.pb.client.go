@@ -54,9 +54,10 @@ type AlertServiceClient interface {
 	ListAlerts(ctx context.Context, in *ListAlertsRequest, opts ...grpc.CallOption) (*ListAlertsResponse, error)
 	WatchAlert(ctx context.Context, in *WatchAlertRequest, opts ...grpc.CallOption) (WatchAlertClientStream, error)
 	WatchAlerts(ctx context.Context, in *WatchAlertsRequest, opts ...grpc.CallOption) (WatchAlertsClientStream, error)
-	CreateAlert(ctx context.Context, in *CreateAlertRequest, opts ...grpc.CallOption) (*alert.Alert, error)
 	UpdateAlert(ctx context.Context, in *UpdateAlertRequest, opts ...grpc.CallOption) (*alert.Alert, error)
 	DeleteAlert(ctx context.Context, in *DeleteAlertRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	BulkCreateAlerts(ctx context.Context, in *BulkCreateAlertsRequest, opts ...grpc.CallOption) (*BulkCreateAlertsResponse, error)
+	BulkUpdateAlerts(ctx context.Context, in *BulkUpdateAlertsRequest, opts ...grpc.CallOption) (*BulkUpdateAlertsResponse, error)
 }
 
 type client struct {
@@ -168,15 +169,6 @@ func (x *watchAlertsWatchAlertsClient) Recv() (*WatchAlertsResponse, error) {
 	return m, nil
 }
 
-func (c *client) CreateAlert(ctx context.Context, in *CreateAlertRequest, opts ...grpc.CallOption) (*alert.Alert, error) {
-	out := new(alert.Alert)
-	err := c.cc.Invoke(ctx, "/ntt.monitoring.v4.AlertService/CreateAlert", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *client) UpdateAlert(ctx context.Context, in *UpdateAlertRequest, opts ...grpc.CallOption) (*alert.Alert, error) {
 	out := new(alert.Alert)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v4.AlertService/UpdateAlert", in, out, opts...)
@@ -189,6 +181,24 @@ func (c *client) UpdateAlert(ctx context.Context, in *UpdateAlertRequest, opts .
 func (c *client) DeleteAlert(ctx context.Context, in *DeleteAlertRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v4.AlertService/DeleteAlert", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) BulkCreateAlerts(ctx context.Context, in *BulkCreateAlertsRequest, opts ...grpc.CallOption) (*BulkCreateAlertsResponse, error) {
+	out := new(BulkCreateAlertsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.monitoring.v4.AlertService/BulkCreateAlerts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) BulkUpdateAlerts(ctx context.Context, in *BulkUpdateAlertsRequest, opts ...grpc.CallOption) (*BulkUpdateAlertsResponse, error) {
+	out := new(BulkUpdateAlertsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.monitoring.v4.AlertService/BulkUpdateAlerts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

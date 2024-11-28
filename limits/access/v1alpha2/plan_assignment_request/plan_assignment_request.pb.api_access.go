@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiPlanAssignmentRequestAccess(client plan_assignment_request_client.Pla
 	return &apiPlanAssignmentRequestAccess{client: client}
 }
 
-func (a *apiPlanAssignmentRequestAccess) GetPlanAssignmentRequest(ctx context.Context, query *plan_assignment_request.GetQuery) (*plan_assignment_request.PlanAssignmentRequest, error) {
+func (a *apiPlanAssignmentRequestAccess) GetPlanAssignmentRequest(ctx context.Context, query *plan_assignment_request.GetQuery, opts ...gotenresource.GetOption) (*plan_assignment_request.PlanAssignmentRequest, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiPlanAssignmentRequestAccess) GetPlanAssignmentRequest(ctx context.Co
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetPlanAssignmentRequest(ctx, request)
+	res, err := a.client.GetPlanAssignmentRequest(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiPlanAssignmentRequestAccess) GetPlanAssignmentRequest(ctx context.Co
 
 func (a *apiPlanAssignmentRequestAccess) BatchGetPlanAssignmentRequests(ctx context.Context, refs []*plan_assignment_request.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*plan_assignment_request.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiPlanAssignmentRequestAccess) BatchGetPlanAssignmentRequests(ctx cont
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*plan_assignment_request.PlanAssignmentRequest_FieldMask)
 	}
-	resp, err := a.client.BatchGetPlanAssignmentRequests(ctx, request)
+	resp, err := a.client.BatchGetPlanAssignmentRequests(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiPlanAssignmentRequestAccess) BatchGetPlanAssignmentRequests(ctx cont
 	return nil
 }
 
-func (a *apiPlanAssignmentRequestAccess) QueryPlanAssignmentRequests(ctx context.Context, query *plan_assignment_request.ListQuery) (*plan_assignment_request.QueryResultSnapshot, error) {
+func (a *apiPlanAssignmentRequestAccess) QueryPlanAssignmentRequests(ctx context.Context, query *plan_assignment_request.ListQuery, opts ...gotenresource.QueryOption) (*plan_assignment_request.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &plan_assignment_request_client.ListPlanAssignmentRequestsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiPlanAssignmentRequestAccess) WatchPlanAssignmentRequest(ctx context.
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPlanAssignmentRequest(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiPlanAssignmentRequestAccess) WatchPlanAssignmentRequests(ctx context
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiPlanAssignmentRequestAccess) WatchPlanAssignmentRequests(ctx context
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPlanAssignmentRequests(ctx, request)
 	if initErr != nil {
 		return initErr

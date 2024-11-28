@@ -58,7 +58,9 @@ message WatchMetricDescriptorRequest {
 }
 
 // A response message of the WatchMetricDescriptor method.
-message WatchMetricDescriptorResponse { MetricDescriptorChange change = 1; }
+message WatchMetricDescriptorResponse {
+  MetricDescriptorChange change = 1;
+}
 
 // A request message of the WatchMetricDescriptors method.
 message WatchMetricDescriptorsRequest {
@@ -192,68 +194,42 @@ service MetricDescriptorService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // BatchGetMetricDescriptors
-  rpc BatchGetMetricDescriptors(BatchGetMetricDescriptorsRequest)
-      returns (BatchGetMetricDescriptorsResponse) {
-    option (google.api.http) = {
-      get : "/v3/metricDescriptors:batchGet"
-    };
+  rpc BatchGetMetricDescriptors ( BatchGetMetricDescriptorsRequest ) returns ( BatchGetMetricDescriptorsResponse ) {
+    option (google.api.http) = { get:"/v3/metricDescriptors:batchGet"  };
   }
 
   // WatchMetricDescriptor
-  rpc WatchMetricDescriptor(WatchMetricDescriptorRequest)
-      returns (stream WatchMetricDescriptorResponse) {
-    option (google.api.http) = {
-      post : "/v3/{name=projects/*/metricDescriptors/*}:watch"
-    };
+  rpc WatchMetricDescriptor ( WatchMetricDescriptorRequest ) returns ( stream WatchMetricDescriptorResponse ) {
+    option (google.api.http) = { post:"/v3/{name=projects/*/metricDescriptors/*}:watch"  };
   }
 
   // WatchMetricDescriptors
-  rpc WatchMetricDescriptors(WatchMetricDescriptorsRequest)
-      returns (stream WatchMetricDescriptorsResponse) {
-    option (google.api.http) = {
-      post : "/v3/{parent=projects/*}/metricDescriptors:watch"
-    };
+  rpc WatchMetricDescriptors ( WatchMetricDescriptorsRequest ) returns ( stream WatchMetricDescriptorsResponse ) {
+    option (google.api.http) = { post:"/v3/{parent=projects/*}/metricDescriptors:watch"  };
   }
 
   // GetMetricDescriptor
-  rpc GetMetricDescriptor(GetMetricDescriptorRequest)
-      returns (MetricDescriptor) {
-    option (google.api.http) = {
-      get : "/v3/{name=projects/*/metricDescriptors/*}"
-    };
+  rpc GetMetricDescriptor ( GetMetricDescriptorRequest ) returns ( MetricDescriptor ) {
+    option (google.api.http) = { get:"/v3/{name=projects/*/metricDescriptors/*}"  };
   }
 
   // CreateMetricDescriptor
-  rpc CreateMetricDescriptor(CreateMetricDescriptorRequest)
-      returns (MetricDescriptor) {
-    option (google.api.http) = {
-      post : "/v3/{parent=projects/*}/metricDescriptors"
-      body : "metric_descriptor"
-    };
+  rpc CreateMetricDescriptor ( CreateMetricDescriptorRequest ) returns ( MetricDescriptor ) {
+    option (google.api.http) = { post:"/v3/{parent=projects/*}/metricDescriptors" body:"metric_descriptor"  };
   }
 
   // UpdateMetricDescriptor
-  rpc UpdateMetricDescriptor(UpdateMetricDescriptorRequest)
-      returns (MetricDescriptor) {
-    option (google.api.http) = {
-      put : "/v3/{metric_descriptor.name=projects/*/metricDescriptors/*}"
-      body : "metric_descriptor"
-    };
+  rpc UpdateMetricDescriptor ( UpdateMetricDescriptorRequest ) returns ( MetricDescriptor ) {
+    option (google.api.http) = { put:"/v3/{metric_descriptor.name=projects/*/metricDescriptors/*}" body:"metric_descriptor"  };
   }
 
   // DeleteMetricDescriptor
-  rpc DeleteMetricDescriptor(DeleteMetricDescriptorRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v3/{name=projects/*/metricDescriptors/*}"
-    };
+  rpc DeleteMetricDescriptor ( DeleteMetricDescriptorRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v3/{name=projects/*/metricDescriptors/*}"  };
   }
 
   // ListMetricDescriptors
-  rpc ListMetricDescriptors(ListMetricDescriptorsRequest)
-      returns (ListMetricDescriptorsResponse) {
-    option (google.api.http) = {
-      get : "/v3/{parent=projects/*}/metricDescriptors"
-    };
+  rpc ListMetricDescriptors ( ListMetricDescriptorsRequest ) returns ( ListMetricDescriptorsResponse ) {
+    option (google.api.http) = { get:"/v3/{parent=projects/*}/metricDescriptors"  };
   }
 }

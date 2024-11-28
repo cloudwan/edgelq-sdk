@@ -59,12 +59,12 @@ message PodSpec {
     repeated EnvVar env = 3;
 
     // image is the URL of the container image.
-    string image = 4 [ (google.api.field_behavior) = REQUIRED ];
+    string image = 4 [(google.api.field_behavior) = REQUIRED];
 
     string image_pull_policy = 5;
 
     // name is the name of the container. Must be unique in the Pod.
-    string name = 6 [ (google.api.field_behavior) = REQUIRED ];
+    string name = 6 [(google.api.field_behavior) = REQUIRED];
 
     ResourceRequirements resources = 7;
 

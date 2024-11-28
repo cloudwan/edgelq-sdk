@@ -70,7 +70,9 @@ message AuditedResourceDescriptorChange {
 
   // AuditedResourceDescriptor has been added or modified in a query view.
   // Version used for stateless watching
-  message Current { AuditedResourceDescriptor audited_resource_descriptor = 1; }
+  message Current {
+    AuditedResourceDescriptor audited_resource_descriptor = 1;
+  }
 
   // Removed is returned when AuditedResourceDescriptor is deleted or leaves
   // Query view

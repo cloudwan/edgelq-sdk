@@ -140,7 +140,9 @@ message WatchAttestationDomainRequest {
 }
 
 // A response message of the WatchAttestationDomain method.
-message WatchAttestationDomainResponse { AttestationDomainChange change = 1; }
+message WatchAttestationDomainResponse {
+  AttestationDomainChange change = 1;
+}
 
 // A request message of the WatchAttestationDomains method.
 message WatchAttestationDomainsRequest {
@@ -276,6 +278,23 @@ message CreateAttestationDomainRequest {
 
   // AttestationDomain resource body
   AttestationDomain attestation_domain = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateAttestationDomain method.
@@ -299,7 +318,10 @@ message UpdateAttestationDomainRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -310,6 +332,26 @@ message UpdateAttestationDomainRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -325,69 +367,42 @@ service AttestationDomainService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetAttestationDomain
-  rpc GetAttestationDomain(GetAttestationDomainRequest)
-      returns (AttestationDomain) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=projects/*/attestationDomains/*}"
-    };
+  rpc GetAttestationDomain ( GetAttestationDomainRequest ) returns ( AttestationDomain ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=projects/*/attestationDomains/*}"  };
   }
 
   // BatchGetAttestationDomains
-  rpc BatchGetAttestationDomains(BatchGetAttestationDomainsRequest)
-      returns (BatchGetAttestationDomainsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/attestationDomains:batchGet"
-    };
+  rpc BatchGetAttestationDomains ( BatchGetAttestationDomainsRequest ) returns ( BatchGetAttestationDomainsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/attestationDomains:batchGet"  };
   }
 
   // ListAttestationDomains
-  rpc ListAttestationDomains(ListAttestationDomainsRequest)
-      returns (ListAttestationDomainsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{parent=projects/*}/attestationDomains"
-    };
+  rpc ListAttestationDomains ( ListAttestationDomainsRequest ) returns ( ListAttestationDomainsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/{parent=projects/*}/attestationDomains"  };
   }
 
   // WatchAttestationDomain
-  rpc WatchAttestationDomain(WatchAttestationDomainRequest)
-      returns (stream WatchAttestationDomainResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/attestationDomains/*}:watch"
-    };
+  rpc WatchAttestationDomain ( WatchAttestationDomainRequest ) returns ( stream WatchAttestationDomainResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=projects/*/attestationDomains/*}:watch"  };
   }
 
   // WatchAttestationDomains
-  rpc WatchAttestationDomains(WatchAttestationDomainsRequest)
-      returns (stream WatchAttestationDomainsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=projects/*}/attestationDomains:watch"
-    };
+  rpc WatchAttestationDomains ( WatchAttestationDomainsRequest ) returns ( stream WatchAttestationDomainsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=projects/*}/attestationDomains:watch"  };
   }
 
   // CreateAttestationDomain
-  rpc CreateAttestationDomain(CreateAttestationDomainRequest)
-      returns (AttestationDomain) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=projects/*}/attestationDomains"
-      body : "attestation_domain"
-    };
+  rpc CreateAttestationDomain ( CreateAttestationDomainRequest ) returns ( AttestationDomain ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=projects/*}/attestationDomains" body:"attestation_domain"  };
   }
 
   // UpdateAttestationDomain
-  rpc UpdateAttestationDomain(UpdateAttestationDomainRequest)
-      returns (AttestationDomain) {
-    option (google.api.http) = {
-      put : "/v1alpha2/{attestation_domain.name=projects/*/attestationDomains/"
-            "*}"
-      body : "attestation_domain"
-    };
+  rpc UpdateAttestationDomain ( UpdateAttestationDomainRequest ) returns ( AttestationDomain ) {
+    option (google.api.http) = { put:"/v1alpha2/{attestation_domain.name=projects/*/attestationDomains/*}" body:"attestation_domain"  };
   }
 
   // DeleteAttestationDomain
-  rpc DeleteAttestationDomain(DeleteAttestationDomainRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1alpha2/{name=projects/*/attestationDomains/*}"
-    };
+  rpc DeleteAttestationDomain ( DeleteAttestationDomainRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1alpha2/{name=projects/*/attestationDomains/*}"  };
   }
 }

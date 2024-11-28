@@ -12,11 +12,7 @@ option java_package = "com.ntt.devices.pb.v1";
 
 // TpmAttestationCert Resource
 message TpmAttestationCert {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/TpmAttestationCert"
-    pattern : "tpmAttestationCerts/{tpm_attestation_cert}"
-    pattern : "projects/{project}/tpmAttestationCerts/{tpm_attestation_cert}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/TpmAttestationCert" pattern:"tpmAttestationCerts/{tpm_attestation_cert}" pattern:"projects/{project}/tpmAttestationCerts/{tpm_attestation_cert}"  };
 
   // Name of TpmAttestationCert
   // When creating a new instance, this field is optional and if not provided,

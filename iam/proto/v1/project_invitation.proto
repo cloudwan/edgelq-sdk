@@ -13,10 +13,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // ProjectInvitation Resource
 message ProjectInvitation {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/ProjectInvitation"
-    pattern : "projects/{project}/projectInvitations/{project_invitation}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/ProjectInvitation" pattern:"projects/{project}/projectInvitations/{project_invitation}"  };
 
   // Name of ProjectInvitation
   // When creating a new instance, this field is optional and if not provided,

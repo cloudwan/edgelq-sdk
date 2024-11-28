@@ -65,7 +65,9 @@ message GroupMemberChange {
 
   // GroupMember has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { GroupMember group_member = 1; }
+  message Current {
+    GroupMember group_member = 1;
+  }
 
   // Removed is returned when GroupMember is deleted or leaves Query view
   message Removed {

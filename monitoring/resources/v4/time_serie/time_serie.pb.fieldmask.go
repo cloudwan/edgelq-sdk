@@ -374,6 +374,7 @@ func FullTimeSerie_FieldMask() *TimeSerie_FieldMask {
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorKey})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorProject})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorRegion})
+	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorUnit})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetric})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorResource})
 	res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetricKind})
@@ -422,7 +423,7 @@ func (fieldMask *TimeSerie_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*TimeSerie_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -452,7 +453,7 @@ func (fieldMask *TimeSerie_FieldMask) Reset() {
 
 func (fieldMask *TimeSerie_FieldMask) Subtract(other *TimeSerie_FieldMask) *TimeSerie_FieldMask {
 	result := &TimeSerie_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[TimeSerie_FieldPathSelector]gotenobject.FieldMask{
 		TimeSerie_FieldPathSelectorMetric:   &common.Metric_FieldMask{},
 		TimeSerie_FieldPathSelectorResource: &common.MonitoredResource_FieldMask{},
@@ -652,6 +653,8 @@ func (fieldMask *TimeSerie_FieldMask) Project(source *TimeSerie) *TimeSerie {
 				result.Project = source.Project
 			case TimeSerie_FieldPathSelectorRegion:
 				result.Region = source.Region
+			case TimeSerie_FieldPathSelectorUnit:
+				result.Unit = source.Unit
 			case TimeSerie_FieldPathSelectorMetric:
 				result.Metric = source.Metric
 				wholeMetricAccepted = true

@@ -206,4 +206,5 @@ message SetResourceChangeLogsCommitStateRequest {
 // A response message of the
 // [SetResourceChangeLogsCommitState](#setresourcechangelogscommitstate-method)
 // method.
-message SetResourceChangeLogsCommitStateResponse {}
+message SetResourceChangeLogsCommitStateResponse {
+}

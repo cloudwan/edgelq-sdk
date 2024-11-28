@@ -52,9 +52,9 @@ var (
 )
 
 type PlanAssignmentRequestAccess interface {
-	GetPlanAssignmentRequest(context.Context, *GetQuery) (*PlanAssignmentRequest, error)
+	GetPlanAssignmentRequest(context.Context, *GetQuery, ...gotenresource.GetOption) (*PlanAssignmentRequest, error)
 	BatchGetPlanAssignmentRequests(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryPlanAssignmentRequests(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryPlanAssignmentRequests(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchPlanAssignmentRequest(context.Context, *GetQuery, func(*PlanAssignmentRequestChange) error) error
 	WatchPlanAssignmentRequests(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SavePlanAssignmentRequest(context.Context, *PlanAssignmentRequest, ...gotenresource.SaveOption) error
@@ -69,25 +69,25 @@ func AsAnyCastAccess(access PlanAssignmentRequestAccess) gotenresource.Access {
 	return &anyCastAccess{PlanAssignmentRequestAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asPlanAssignmentRequestQuery, ok := q.(*GetQuery); ok {
-		return a.GetPlanAssignmentRequest(ctx, asPlanAssignmentRequestQuery)
+		return a.GetPlanAssignmentRequest(ctx, asPlanAssignmentRequestQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected PlanAssignmentRequest, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asPlanAssignmentRequestQuery, ok := q.(*ListQuery); ok {
-		return a.QueryPlanAssignmentRequests(ctx, asPlanAssignmentRequestQuery)
+		return a.QueryPlanAssignmentRequests(ctx, asPlanAssignmentRequestQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected PlanAssignmentRequest, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for PlanAssignmentRequest")
 }
 

@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiLimitPoolAccess(client limit_pool_client.LimitPoolServiceClient) limi
 	return &apiLimitPoolAccess{client: client}
 }
 
-func (a *apiLimitPoolAccess) GetLimitPool(ctx context.Context, query *limit_pool.GetQuery) (*limit_pool.LimitPool, error) {
+func (a *apiLimitPoolAccess) GetLimitPool(ctx context.Context, query *limit_pool.GetQuery, opts ...gotenresource.GetOption) (*limit_pool.LimitPool, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiLimitPoolAccess) GetLimitPool(ctx context.Context, query *limit_pool
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetLimitPool(ctx, request)
+	res, err := a.client.GetLimitPool(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiLimitPoolAccess) GetLimitPool(ctx context.Context, query *limit_pool
 
 func (a *apiLimitPoolAccess) BatchGetLimitPools(ctx context.Context, refs []*limit_pool.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*limit_pool.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiLimitPoolAccess) BatchGetLimitPools(ctx context.Context, refs []*lim
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*limit_pool.LimitPool_FieldMask)
 	}
-	resp, err := a.client.BatchGetLimitPools(ctx, request)
+	resp, err := a.client.BatchGetLimitPools(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiLimitPoolAccess) BatchGetLimitPools(ctx context.Context, refs []*lim
 	return nil
 }
 
-func (a *apiLimitPoolAccess) QueryLimitPools(ctx context.Context, query *limit_pool.ListQuery) (*limit_pool.QueryResultSnapshot, error) {
+func (a *apiLimitPoolAccess) QueryLimitPools(ctx context.Context, query *limit_pool.ListQuery, opts ...gotenresource.QueryOption) (*limit_pool.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &limit_pool_client.ListLimitPoolsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiLimitPoolAccess) WatchLimitPool(ctx context.Context, query *limit_po
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchLimitPool(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiLimitPoolAccess) WatchLimitPools(ctx context.Context, query *limit_p
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiLimitPoolAccess) WatchLimitPools(ctx context.Context, query *limit_p
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchLimitPools(ctx, request)
 	if initErr != nil {
 		return initErr

@@ -140,7 +140,9 @@ message WatchMemberAssignmentRequest {
 }
 
 // A response message of the WatchMemberAssignment method.
-message WatchMemberAssignmentResponse { MemberAssignmentChange change = 1; }
+message WatchMemberAssignmentResponse {
+  MemberAssignmentChange change = 1;
+}
 
 // A request message of the WatchMemberAssignments method.
 message WatchMemberAssignmentsRequest {
@@ -284,6 +286,10 @@ message UpdateMemberAssignmentRequest {
   // Otherwise RPC error Aborted will be returned.
   CAS cas = 4;
 
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 6;
+
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
   message CAS {
@@ -293,6 +299,26 @@ message UpdateMemberAssignmentRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -308,59 +334,37 @@ service MemberAssignmentService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetMemberAssignment
-  rpc GetMemberAssignment(GetMemberAssignmentRequest)
-      returns (MemberAssignment) {
-    option (google.api.http) = {
-      get : "/v1/{name=regions/*/memberAssignments/*}"
-    };
+  rpc GetMemberAssignment ( GetMemberAssignmentRequest ) returns ( MemberAssignment ) {
+    option (google.api.http) = { get:"/v1/{name=regions/*/memberAssignments/*}"  };
   }
 
   // BatchGetMemberAssignments
-  rpc BatchGetMemberAssignments(BatchGetMemberAssignmentsRequest)
-      returns (BatchGetMemberAssignmentsResponse) {
-    option (google.api.http) = {
-      get : "/v1/memberAssignments:batchGet"
-    };
+  rpc BatchGetMemberAssignments ( BatchGetMemberAssignmentsRequest ) returns ( BatchGetMemberAssignmentsResponse ) {
+    option (google.api.http) = { get:"/v1/memberAssignments:batchGet"  };
   }
 
   // ListMemberAssignments
-  rpc ListMemberAssignments(ListMemberAssignmentsRequest)
-      returns (ListMemberAssignmentsResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=regions/*}/memberAssignments"
-    };
+  rpc ListMemberAssignments ( ListMemberAssignmentsRequest ) returns ( ListMemberAssignmentsResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=regions/*}/memberAssignments"  };
   }
 
   // WatchMemberAssignment
-  rpc WatchMemberAssignment(WatchMemberAssignmentRequest)
-      returns (stream WatchMemberAssignmentResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=regions/*/memberAssignments/*}:watch"
-    };
+  rpc WatchMemberAssignment ( WatchMemberAssignmentRequest ) returns ( stream WatchMemberAssignmentResponse ) {
+    option (google.api.http) = { post:"/v1/{name=regions/*/memberAssignments/*}:watch"  };
   }
 
   // WatchMemberAssignments
-  rpc WatchMemberAssignments(WatchMemberAssignmentsRequest)
-      returns (stream WatchMemberAssignmentsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=regions/*}/memberAssignments:watch"
-    };
+  rpc WatchMemberAssignments ( WatchMemberAssignmentsRequest ) returns ( stream WatchMemberAssignmentsResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=regions/*}/memberAssignments:watch"  };
   }
 
   // UpdateMemberAssignment
-  rpc UpdateMemberAssignment(UpdateMemberAssignmentRequest)
-      returns (MemberAssignment) {
-    option (google.api.http) = {
-      put : "/v1/{member_assignment.name=regions/*/memberAssignments/*}"
-      body : "member_assignment"
-    };
+  rpc UpdateMemberAssignment ( UpdateMemberAssignmentRequest ) returns ( MemberAssignment ) {
+    option (google.api.http) = { put:"/v1/{member_assignment.name=regions/*/memberAssignments/*}" body:"member_assignment"  };
   }
 
   // DeleteMemberAssignment
-  rpc DeleteMemberAssignment(DeleteMemberAssignmentRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=regions/*/memberAssignments/*}"
-    };
+  rpc DeleteMemberAssignment ( DeleteMemberAssignmentRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=regions/*/memberAssignments/*}"  };
   }
 }

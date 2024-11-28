@@ -49,6 +49,7 @@ const _ = grpc.SupportPackageIsVersion6
 type LogServiceClient interface {
 	ListLogs(ctx context.Context, in *ListLogsRequest, opts ...grpc.CallOption) (*ListLogsResponse, error)
 	CreateLogs(ctx context.Context, in *CreateLogsRequest, opts ...grpc.CallOption) (*CreateLogsResponse, error)
+	StreamingCreateLogs(ctx context.Context, opts ...grpc.CallOption) (StreamingCreateLogsClientStream, error)
 }
 
 type client struct {
@@ -75,4 +76,41 @@ func (c *client) CreateLogs(ctx context.Context, in *CreateLogsRequest, opts ...
 		return nil, err
 	}
 	return out, nil
+}
+
+func (c *client) StreamingCreateLogs(ctx context.Context, opts ...grpc.CallOption) (StreamingCreateLogsClientStream, error) {
+	stream, err := c.cc.NewStream(ctx,
+		&grpc.StreamDesc{
+			StreamName:    "StreamingCreateLogs",
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		"/ntt.logging.v1.LogService/StreamingCreateLogs", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &streamingCreateLogsStreamingCreateLogsClient{stream}
+	return x, nil
+}
+
+type StreamingCreateLogsClientStream interface {
+	Send(*StreamingCreateLogsRequest) error
+	Recv() (*StreamingCreateLogsResponse, error)
+	grpc.ClientStream
+}
+
+type streamingCreateLogsStreamingCreateLogsClient struct {
+	grpc.ClientStream
+}
+
+func (x *streamingCreateLogsStreamingCreateLogsClient) Send(m *StreamingCreateLogsRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *streamingCreateLogsStreamingCreateLogsClient) Recv() (*StreamingCreateLogsResponse, error) {
+	m := new(StreamingCreateLogsResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }

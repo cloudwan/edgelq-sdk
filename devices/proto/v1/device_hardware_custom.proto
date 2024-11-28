@@ -17,4 +17,5 @@ message DeregisterRequest {
 }
 
 // Response message for method [Deregister][ntt.devices.v1.Deregister]
-message DeregisterResponse {}
+message DeregisterResponse {
+}

@@ -65,7 +65,9 @@ message NotificationChange {
 
   // Notification has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Notification notification = 1; }
+  message Current {
+    Notification notification = 1;
+  }
 
   // Removed is returned when Notification is deleted or leaves Query view
   message Removed {

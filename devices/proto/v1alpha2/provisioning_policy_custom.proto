@@ -35,7 +35,9 @@ message RemoveServiceAccountFromProvisioningPolicyRequest {
 
 // Response message for method
 // [RemoveServiceAccountFromProvisioningPolicy][ntt.devices.v1alpha2.RemoveServiceAccountFromProvisioningPolicy]
-message RemoveServiceAccountFromProvisioningPolicyResponse { bool removed = 1; }
+message RemoveServiceAccountFromProvisioningPolicyResponse {
+  bool removed = 1;
+}
 
 // Request message for method
 // [ProvisionDeviceViaPolicy][ntt.devices.v1alpha2.ProvisionDeviceViaPolicy]

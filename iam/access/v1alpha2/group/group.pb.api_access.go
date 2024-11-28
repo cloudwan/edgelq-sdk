@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiGroupAccess(client group_client.GroupServiceClient) group.GroupAccess
 	return &apiGroupAccess{client: client}
 }
 
-func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery) (*group.Group, error) {
+func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery, opts ...gotenresource.GetOption) (*group.Group, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery) (*
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetGroup(ctx, request)
+	res, err := a.client.GetGroup(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery) (*
 
 func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*group.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Refer
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*group.Group_FieldMask)
 	}
-	resp, err := a.client.BatchGetGroups(ctx, request)
+	resp, err := a.client.BatchGetGroups(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Refer
 	return nil
 }
 
-func (a *apiGroupAccess) QueryGroups(ctx context.Context, query *group.ListQuery) (*group.QueryResultSnapshot, error) {
+func (a *apiGroupAccess) QueryGroups(ctx context.Context, query *group.ListQuery, opts ...gotenresource.QueryOption) (*group.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &group_client.ListGroupsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiGroupAccess) WatchGroup(ctx context.Context, query *group.GetQuery, 
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroup(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiGroupAccess) WatchGroups(ctx context.Context, query *group.WatchQuer
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiGroupAccess) WatchGroups(ctx context.Context, query *group.WatchQuer
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroups(ctx, request)
 	if initErr != nil {
 		return initErr

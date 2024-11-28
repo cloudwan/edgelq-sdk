@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiMetricDescriptorAccess(client metric_descriptor_client.MetricDescript
 	return &apiMetricDescriptorAccess{client: client}
 }
 
-func (a *apiMetricDescriptorAccess) GetMetricDescriptor(ctx context.Context, query *metric_descriptor.GetQuery) (*metric_descriptor.MetricDescriptor, error) {
+func (a *apiMetricDescriptorAccess) GetMetricDescriptor(ctx context.Context, query *metric_descriptor.GetQuery, opts ...gotenresource.GetOption) (*metric_descriptor.MetricDescriptor, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiMetricDescriptorAccess) GetMetricDescriptor(ctx context.Context, que
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetMetricDescriptor(ctx, request)
+	res, err := a.client.GetMetricDescriptor(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiMetricDescriptorAccess) GetMetricDescriptor(ctx context.Context, que
 
 func (a *apiMetricDescriptorAccess) BatchGetMetricDescriptors(ctx context.Context, refs []*metric_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*metric_descriptor.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiMetricDescriptorAccess) BatchGetMetricDescriptors(ctx context.Contex
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*metric_descriptor.MetricDescriptor_FieldMask)
 	}
-	resp, err := a.client.BatchGetMetricDescriptors(ctx, request)
+	resp, err := a.client.BatchGetMetricDescriptors(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiMetricDescriptorAccess) BatchGetMetricDescriptors(ctx context.Contex
 	return nil
 }
 
-func (a *apiMetricDescriptorAccess) QueryMetricDescriptors(ctx context.Context, query *metric_descriptor.ListQuery) (*metric_descriptor.QueryResultSnapshot, error) {
+func (a *apiMetricDescriptorAccess) QueryMetricDescriptors(ctx context.Context, query *metric_descriptor.ListQuery, opts ...gotenresource.QueryOption) (*metric_descriptor.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &metric_descriptor_client.ListMetricDescriptorsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiMetricDescriptorAccess) WatchMetricDescriptor(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchMetricDescriptor(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiMetricDescriptorAccess) WatchMetricDescriptors(ctx context.Context, 
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiMetricDescriptorAccess) WatchMetricDescriptors(ctx context.Context, 
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchMetricDescriptors(ctx, request)
 	if initErr != nil {
 		return initErr

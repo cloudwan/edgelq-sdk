@@ -1558,6 +1558,10 @@ func (DevicePathSelectorSpecLoggingConfig) EnableJournalExport() DevicePathSelec
 	return DevicePathSelectorSpecLoggingConfigEnableJournalExport{}
 }
 
+func (DevicePathSelectorSpecLoggingConfig) ContainerLoggingConfig() DevicePathSelectorSpecLoggingConfigContainerLoggingConfig {
+	return DevicePathSelectorSpecLoggingConfigContainerLoggingConfig{}
+}
+
 type DevicePathSelectorSpecLoggingConfigPriority struct{}
 
 func (DevicePathSelectorSpecLoggingConfigPriority) FieldPath() *Device_FieldSubPath {
@@ -1610,6 +1614,44 @@ func (s DevicePathSelectorSpecLoggingConfigEnableJournalExport) WithValue(value 
 }
 
 func (s DevicePathSelectorSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorSpecLoggingConfigContainerLoggingConfig struct{}
+
+func (DevicePathSelectorSpecLoggingConfigContainerLoggingConfig) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().LoggingConfig().ContainerLoggingConfig().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecLoggingConfigContainerLoggingConfig) WithValue(value *Device_Spec_LoggingConfig_ContainerLoggingConfig) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecLoggingConfigContainerLoggingConfig) WithArrayOfValues(values []*Device_Spec_LoggingConfig_ContainerLoggingConfig) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (DevicePathSelectorSpecLoggingConfigContainerLoggingConfig) EnableContainerLogExport() DevicePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport {
+	return DevicePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport{}
+}
+
+type DevicePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport struct{}
+
+func (DevicePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().LoggingConfig().ContainerLoggingConfig().EnableContainerLogExport().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
@@ -8305,6 +8347,10 @@ func (Device_SpecPathSelectorLoggingConfig) EnableJournalExport() Device_SpecPat
 	return Device_SpecPathSelectorLoggingConfigEnableJournalExport{}
 }
 
+func (Device_SpecPathSelectorLoggingConfig) ContainerLoggingConfig() Device_SpecPathSelectorLoggingConfigContainerLoggingConfig {
+	return Device_SpecPathSelectorLoggingConfigContainerLoggingConfig{}
+}
+
 type Device_SpecPathSelectorLoggingConfigPriority struct{}
 
 func (Device_SpecPathSelectorLoggingConfigPriority) FieldPath() *DeviceSpec_FieldSubPath {
@@ -8357,6 +8403,44 @@ func (s Device_SpecPathSelectorLoggingConfigEnableJournalExport) WithValue(value
 }
 
 func (s Device_SpecPathSelectorLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+type Device_SpecPathSelectorLoggingConfigContainerLoggingConfig struct{}
+
+func (Device_SpecPathSelectorLoggingConfigContainerLoggingConfig) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorLoggingConfig,
+		subPath:  NewDeviceSpecLoggingConfigFieldPathBuilder().ContainerLoggingConfig().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorLoggingConfigContainerLoggingConfig) WithValue(value *Device_Spec_LoggingConfig_ContainerLoggingConfig) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorLoggingConfigContainerLoggingConfig) WithArrayOfValues(values []*Device_Spec_LoggingConfig_ContainerLoggingConfig) *DeviceSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+func (Device_SpecPathSelectorLoggingConfigContainerLoggingConfig) EnableContainerLogExport() Device_SpecPathSelectorLoggingConfigContainerLoggingConfigEnableContainerLogExport {
+	return Device_SpecPathSelectorLoggingConfigContainerLoggingConfigEnableContainerLogExport{}
+}
+
+type Device_SpecPathSelectorLoggingConfigContainerLoggingConfigEnableContainerLogExport struct{}
+
+func (Device_SpecPathSelectorLoggingConfigContainerLoggingConfigEnableContainerLogExport) FieldPath() *DeviceSpec_FieldSubPath {
+	return &DeviceSpec_FieldSubPath{
+		selector: DeviceSpec_FieldPathSelectorLoggingConfig,
+		subPath:  NewDeviceSpecLoggingConfigFieldPathBuilder().ContainerLoggingConfig().EnableContainerLogExport().FieldPath(),
+	}
+}
+
+func (s Device_SpecPathSelectorLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithValue(value bool) *DeviceSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldSubPathValue)
+}
+
+func (s Device_SpecPathSelectorLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithArrayOfValues(values []bool) *DeviceSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
 }
 
@@ -14851,6 +14935,9 @@ func (DeviceSpecLoggingConfigFieldPathBuilder) Units() Device_Spec_LoggingConfig
 func (DeviceSpecLoggingConfigFieldPathBuilder) EnableJournalExport() Device_Spec_LoggingConfigPathSelectorEnableJournalExport {
 	return Device_Spec_LoggingConfigPathSelectorEnableJournalExport{}
 }
+func (DeviceSpecLoggingConfigFieldPathBuilder) ContainerLoggingConfig() Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig {
+	return Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig{}
+}
 
 type Device_Spec_LoggingConfigPathSelectorPriority struct{}
 
@@ -14896,6 +14983,57 @@ func (s Device_Spec_LoggingConfigPathSelectorEnableJournalExport) WithValue(valu
 
 func (s Device_Spec_LoggingConfigPathSelectorEnableJournalExport) WithArrayOfValues(values []bool) *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues)
+}
+
+type Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig struct{}
+
+func (Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) FieldPath() *DeviceSpecLoggingConfig_FieldTerminalPath {
+	return &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig}
+}
+
+func (s Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) WithValue(value *Device_Spec_LoggingConfig_ContainerLoggingConfig) *DeviceSpecLoggingConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecLoggingConfig_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) WithArrayOfValues(values []*Device_Spec_LoggingConfig_ContainerLoggingConfig) *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues)
+}
+
+func (Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) WithSubPath(subPath DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath) *DeviceSpecLoggingConfig_FieldSubPath {
+	return &DeviceSpecLoggingConfig_FieldSubPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig, subPath: subPath}
+}
+
+func (s Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) WithSubValue(subPathValue DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue) *DeviceSpecLoggingConfig_FieldSubPathValue {
+	return &DeviceSpecLoggingConfig_FieldSubPathValue{DeviceSpecLoggingConfig_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) WithSubArrayOfValues(subPathArrayOfValues DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues) *DeviceSpecLoggingConfig_FieldSubPathArrayOfValues {
+	return &DeviceSpecLoggingConfig_FieldSubPathArrayOfValues{DeviceSpecLoggingConfig_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) WithSubArrayItemValue(subPathArrayItemValue DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue) *DeviceSpecLoggingConfig_FieldSubPathArrayItemValue {
+	return &DeviceSpecLoggingConfig_FieldSubPathArrayItemValue{DeviceSpecLoggingConfig_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Device_Spec_LoggingConfigPathSelectorContainerLoggingConfig) EnableContainerLogExport() Device_Spec_LoggingConfigPathSelectorContainerLoggingConfigEnableContainerLogExport {
+	return Device_Spec_LoggingConfigPathSelectorContainerLoggingConfigEnableContainerLogExport{}
+}
+
+type Device_Spec_LoggingConfigPathSelectorContainerLoggingConfigEnableContainerLogExport struct{}
+
+func (Device_Spec_LoggingConfigPathSelectorContainerLoggingConfigEnableContainerLogExport) FieldPath() *DeviceSpecLoggingConfig_FieldSubPath {
+	return &DeviceSpecLoggingConfig_FieldSubPath{
+		selector: DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig,
+		subPath:  NewDeviceSpecLoggingConfigContainerLoggingConfigFieldPathBuilder().EnableContainerLogExport().FieldPath(),
+	}
+}
+
+func (s Device_Spec_LoggingConfigPathSelectorContainerLoggingConfigEnableContainerLogExport) WithValue(value bool) *DeviceSpecLoggingConfig_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecLoggingConfig_FieldSubPathValue)
+}
+
+func (s Device_Spec_LoggingConfigPathSelectorContainerLoggingConfigEnableContainerLogExport) WithArrayOfValues(values []bool) *DeviceSpecLoggingConfig_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecLoggingConfig_FieldSubPathArrayOfValues)
 }
 
 type DeviceSpecProxyConfigFieldPathBuilder struct{}
@@ -15522,6 +15660,29 @@ func (s Device_Spec_SSHConfig_AuthKeyPathSelectorRestrict) WithValue(value bool)
 
 func (s Device_Spec_SSHConfig_AuthKeyPathSelectorRestrict) WithArrayOfValues(values []bool) *DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayOfValues)
+}
+
+type DeviceSpecLoggingConfigContainerLoggingConfigFieldPathBuilder struct{}
+
+func NewDeviceSpecLoggingConfigContainerLoggingConfigFieldPathBuilder() DeviceSpecLoggingConfigContainerLoggingConfigFieldPathBuilder {
+	return DeviceSpecLoggingConfigContainerLoggingConfigFieldPathBuilder{}
+}
+func (DeviceSpecLoggingConfigContainerLoggingConfigFieldPathBuilder) EnableContainerLogExport() Device_Spec_LoggingConfig_ContainerLoggingConfigPathSelectorEnableContainerLogExport {
+	return Device_Spec_LoggingConfig_ContainerLoggingConfigPathSelectorEnableContainerLogExport{}
+}
+
+type Device_Spec_LoggingConfig_ContainerLoggingConfigPathSelectorEnableContainerLogExport struct{}
+
+func (Device_Spec_LoggingConfig_ContainerLoggingConfigPathSelectorEnableContainerLogExport) FieldPath() *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath {
+	return &DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport}
+}
+
+func (s Device_Spec_LoggingConfig_ContainerLoggingConfigPathSelectorEnableContainerLogExport) WithValue(value bool) *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue)
+}
+
+func (s Device_Spec_LoggingConfig_ContainerLoggingConfigPathSelectorEnableContainerLogExport) WithArrayOfValues(values []bool) *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues)
 }
 
 type DeviceSpecUSBGuardPortFieldPathBuilder struct{}

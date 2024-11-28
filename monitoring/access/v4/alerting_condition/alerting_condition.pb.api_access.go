@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiAlertingConditionAccess(client alerting_condition_client.AlertingCond
 	return &apiAlertingConditionAccess{client: client}
 }
 
-func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, query *alerting_condition.GetQuery) (*alerting_condition.AlertingCondition, error) {
+func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, query *alerting_condition.GetQuery, opts ...gotenresource.GetOption) (*alerting_condition.AlertingCondition, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetAlertingCondition(ctx, request)
+	res, err := a.client.GetAlertingCondition(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, q
 
 func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Context, refs []*alerting_condition.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*alerting_condition.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Cont
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*alerting_condition.AlertingCondition_FieldMask)
 	}
-	resp, err := a.client.BatchGetAlertingConditions(ctx, request)
+	resp, err := a.client.BatchGetAlertingConditions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Cont
 	return nil
 }
 
-func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context, query *alerting_condition.ListQuery) (*alerting_condition.QueryResultSnapshot, error) {
+func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context, query *alerting_condition.ListQuery, opts ...gotenresource.QueryOption) (*alerting_condition.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &alerting_condition_client.ListAlertingConditionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -122,7 +150,16 @@ func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context
 	}, nil
 }
 
-func (a *apiAlertingConditionAccess) SearchAlertingConditions(ctx context.Context, query *alerting_condition.SearchQuery) (*alerting_condition.QueryResultSnapshot, error) {
+func (a *apiAlertingConditionAccess) SearchAlertingConditions(ctx context.Context, query *alerting_condition.SearchQuery, opts ...gotenresource.QueryOption) (*alerting_condition.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &alerting_condition_client.SearchAlertingConditionsRequest{
 		Phrase:    query.Phrase,
 		Filter:    query.Filter,
@@ -136,7 +173,7 @@ func (a *apiAlertingConditionAccess) SearchAlertingConditions(ctx context.Contex
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
-	resp, err := a.client.SearchAlertingConditions(ctx, request)
+	resp, err := a.client.SearchAlertingConditions(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -157,6 +194,9 @@ func (a *apiAlertingConditionAccess) WatchAlertingCondition(ctx context.Context,
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlertingCondition(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -180,6 +220,7 @@ func (a *apiAlertingConditionAccess) WatchAlertingConditions(ctx context.Context
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -189,6 +230,9 @@ func (a *apiAlertingConditionAccess) WatchAlertingConditions(ctx context.Context
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlertingConditions(ctx, request)
 	if initErr != nil {
 		return initErr

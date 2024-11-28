@@ -67,7 +67,9 @@ message AttestationDomainChange {
 
   // AttestationDomain has been added or modified in a query view. Version used
   // for stateless watching
-  message Current { AttestationDomain attestation_domain = 1; }
+  message Current {
+    AttestationDomain attestation_domain = 1;
+  }
 
   // Removed is returned when AttestationDomain is deleted or leaves Query view
   message Removed {

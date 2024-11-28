@@ -1635,6 +1635,7 @@ type MetricDescriptor_BinaryIndices_FieldMask struct {
 func FullMetricDescriptor_BinaryIndices_FieldMask() *MetricDescriptor_BinaryIndices_FieldMask {
 	res := &MetricDescriptor_BinaryIndices_FieldMask{}
 	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorRegion})
 	return res
 }
 
@@ -1678,7 +1679,7 @@ func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*MetricDescriptorBinaryIndices_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1708,7 +1709,7 @@ func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Reset() {
 
 func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Subtract(other *MetricDescriptor_BinaryIndices_FieldMask) *MetricDescriptor_BinaryIndices_FieldMask {
 	result := &MetricDescriptor_BinaryIndices_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 2)
 	otherSubMasks := map[MetricDescriptorBinaryIndices_FieldPathSelector]gotenobject.FieldMask{
 		MetricDescriptorBinaryIndices_FieldPathSelectorByResources: &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{},
 	}
@@ -1893,6 +1894,8 @@ func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Project(source *Metri
 			case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 				result.ByResources = source.ByResources
 				wholeByResourcesAccepted = true
+			case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+				result.Region = source.Region
 			}
 		case *MetricDescriptorBinaryIndices_FieldSubPath:
 			switch tp.selector {

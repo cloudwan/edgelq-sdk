@@ -17,10 +17,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // Device Resource
 message Device {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/Device"
-    pattern : "projects/{project}/regions/{region}/devices/{device}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/Device" pattern:"projects/{project}/regions/{region}/devices/{device}"  };
 
   // Name of Device
   // When creating a new instance, this field is optional and if not provided,
@@ -106,21 +103,21 @@ message Device {
 
       message CommonOpts {
         message DHCPOverrides {
-          bool use_dns = 1 [ json_name = "use-dns" ];
+          bool use_dns = 1 [json_name = "use-dns"];
 
-          bool use_ntp = 2 [ json_name = "use-ntp" ];
+          bool use_ntp = 2 [json_name = "use-ntp"];
 
-          bool send_hostname = 3 [ json_name = "send-hostname" ];
+          bool send_hostname = 3 [json_name = "send-hostname"];
 
-          bool use_hostname = 4 [ json_name = "use-hostname" ];
+          bool use_hostname = 4 [json_name = "use-hostname"];
 
-          bool use_mtu = 5 [ json_name = "use-mtu" ];
+          bool use_mtu = 5 [json_name = "use-mtu"];
 
           string hostname = 6;
 
-          bool use_routes = 7 [ json_name = "use-routes" ];
+          bool use_routes = 7 [json_name = "use-routes"];
 
-          int32 route_metric = 9 [ json_name = "route-metric" ];
+          int32 route_metric = 9 [json_name = "route-metric"];
 
           reserved 8;
         }
@@ -138,7 +135,7 @@ message Device {
 
           string via = 3;
 
-          bool on_link = 4 [ json_name = "on-link" ];
+          bool on_link = 4 [json_name = "on-link"];
 
           int32 metric = 5;
 
@@ -160,11 +157,11 @@ message Device {
 
           int32 mark = 5;
 
-          int32 type_of_service = 6 [ json_name = "type-of-service" ];
+          int32 type_of_service = 6 [json_name = "type-of-service"];
         }
 
         message Auth {
-          string key_management = 1 [ json_name = "key-management" ];
+          string key_management = 1 [json_name = "key-management"];
 
           string password = 2;
 
@@ -172,24 +169,24 @@ message Device {
 
           string identity = 4;
 
-          string anonymous_identity = 5 [ json_name = "anonymous-identity" ];
+          string anonymous_identity = 5 [json_name = "anonymous-identity"];
 
-          string ca_certificate = 6 [ json_name = "ca-certificate" ];
+          string ca_certificate = 6 [json_name = "ca-certificate"];
 
-          string client_certificate = 7 [ json_name = "client-certificate" ];
+          string client_certificate = 7 [json_name = "client-certificate"];
 
-          string client_key = 8 [ json_name = "client-key" ];
+          string client_key = 8 [json_name = "client-key"];
 
-          string client_key_password = 9 [ json_name = "client-key-password" ];
+          string client_key_password = 9 [json_name = "client-key-password"];
 
-          string phase2_auth = 10 [ json_name = "phase2-auth" ];
+          string phase2_auth = 10 [json_name = "phase2-auth"];
         }
       }
 
       message EthOpts {
         Match match = 1;
 
-        string set_name = 2 [ json_name = "set-name" ];
+        string set_name = 2 [json_name = "set-name"];
 
         bool wakeonlan = 3;
 
@@ -199,19 +196,17 @@ message Device {
 
         bool dhcp6 = 8;
 
-        bool ipv6_privacy = 9 [ json_name = "ipv6-privacy" ];
+        bool ipv6_privacy = 9 [json_name = "ipv6-privacy"];
 
-        repeated string link_local = 10 [ json_name = "link-local" ];
+        repeated string link_local = 10 [json_name = "link-local"];
 
         bool critical = 11;
 
-        string dhcp_identifier = 12 [ json_name = "dhcp-identifier" ];
+        string dhcp_identifier = 12 [json_name = "dhcp-identifier"];
 
-        CommonOpts.DHCPOverrides dhcp4_overrides = 13
-            [ json_name = "dhcp4-overrides" ];
+        CommonOpts.DHCPOverrides dhcp4_overrides = 13 [json_name = "dhcp4-overrides"];
 
-        CommonOpts.DHCPOverrides dhcp6_overrides = 14
-            [ json_name = "dhcp6-overrides" ];
+        CommonOpts.DHCPOverrides dhcp6_overrides = 14 [json_name = "dhcp6-overrides"];
 
         bool accept_ra = 15;
 
@@ -225,13 +220,11 @@ message Device {
 
         bool optional = 20;
 
-        repeated string optional_addresses = 21
-            [ json_name = "optional-addresses" ];
+        repeated string optional_addresses = 21 [json_name = "optional-addresses"];
 
         repeated CommonOpts.Routes routes = 22;
 
-        CommonOpts.RoutingPolicy routing_policy = 23
-            [ json_name = "routing-policy" ];
+        CommonOpts.RoutingPolicy routing_policy = 23 [json_name = "routing-policy"];
 
         CommonOpts.Auth auth = 24;
 
@@ -255,12 +248,11 @@ message Device {
       message WifiOpts {
         Match match = 1;
 
-        string set_name = 2 [ json_name = "set-name" ];
+        string set_name = 2 [json_name = "set-name"];
 
         bool wakeonlan = 3;
 
-        map<string, AccessPoint> access_points = 5
-            [ json_name = "access-points" ];
+        map<string, AccessPoint> access_points = 5 [json_name = "access-points"];
 
         // This enables WakeOnWLan on supported devices. Not all drivers support
         // all options. May be any combination of any, disconnect, magic_pkt,
@@ -273,7 +265,7 @@ message Device {
         // of additional WiFi channels outside the “world domain”. Takes an ISO
         // / IEC 3166 country code (like GB) or 00 to reset to the “world
         // domain”
-        string regulatory_domain = 29 [ json_name = "regulatory-domain" ];
+        string regulatory_domain = 29 [json_name = "regulatory-domain"];
 
         string renderer = 7;
 
@@ -281,19 +273,17 @@ message Device {
 
         bool dhcp6 = 9;
 
-        bool ipv6_privacy = 10 [ json_name = "ipv6-privacy" ];
+        bool ipv6_privacy = 10 [json_name = "ipv6-privacy"];
 
-        repeated string link_local = 11 [ json_name = "link-local" ];
+        repeated string link_local = 11 [json_name = "link-local"];
 
         bool critical = 12;
 
-        string dhcp_identifier = 13 [ json_name = "dhcp-identifier" ];
+        string dhcp_identifier = 13 [json_name = "dhcp-identifier"];
 
-        CommonOpts.DHCPOverrides dhcp4_overrides = 14
-            [ json_name = "dhcp4-overrides" ];
+        CommonOpts.DHCPOverrides dhcp4_overrides = 14 [json_name = "dhcp4-overrides"];
 
-        CommonOpts.DHCPOverrides dhcp6_overrides = 15
-            [ json_name = "dhcp6-overrides" ];
+        CommonOpts.DHCPOverrides dhcp6_overrides = 15 [json_name = "dhcp6-overrides"];
 
         bool accept_ra = 16;
 
@@ -307,13 +297,11 @@ message Device {
 
         bool optional = 21;
 
-        repeated string optional_addresses = 22
-            [ json_name = "optional-addresses" ];
+        repeated string optional_addresses = 22 [json_name = "optional-addresses"];
 
         repeated CommonOpts.Routes routes = 23;
 
-        CommonOpts.RoutingPolicy routing_policy = 24
-            [ json_name = "routing-policy" ];
+        CommonOpts.RoutingPolicy routing_policy = 24 [json_name = "routing-policy"];
 
         CommonOpts.Auth auth = 25;
 
@@ -365,19 +353,17 @@ message Device {
 
         bool dhcp6 = 7;
 
-        bool ipv6_privacy = 8 [ json_name = "ipv6-privacy" ];
+        bool ipv6_privacy = 8 [json_name = "ipv6-privacy"];
 
-        repeated string link_local = 9 [ json_name = "link-local" ];
+        repeated string link_local = 9 [json_name = "link-local"];
 
         bool critical = 10;
 
-        string dhcp_identifier = 11 [ json_name = "dhcp-identifier" ];
+        string dhcp_identifier = 11 [json_name = "dhcp-identifier"];
 
-        CommonOpts.DHCPOverrides dhcp4_overrides = 12
-            [ json_name = "dhcp4-overrides" ];
+        CommonOpts.DHCPOverrides dhcp4_overrides = 12 [json_name = "dhcp4-overrides"];
 
-        CommonOpts.DHCPOverrides dhcp6_overrides = 13
-            [ json_name = "dhcp6-overrides" ];
+        CommonOpts.DHCPOverrides dhcp6_overrides = 13 [json_name = "dhcp6-overrides"];
 
         bool accept_ra = 14;
 
@@ -391,13 +377,11 @@ message Device {
 
         bool optional = 19;
 
-        repeated string optional_addresses = 20
-            [ json_name = "optional-addresses" ];
+        repeated string optional_addresses = 20 [json_name = "optional-addresses"];
 
         repeated CommonOpts.Routes routes = 21;
 
-        CommonOpts.RoutingPolicy routing_policy = 22
-            [ json_name = "routing-policy" ];
+        CommonOpts.RoutingPolicy routing_policy = 22 [json_name = "routing-policy"];
 
         CommonOpts.Auth auth = 23;
 
@@ -408,19 +392,19 @@ message Device {
         string gateway6 = 25;
 
         message Parameters {
-          int32 ageing_time = 1 [ json_name = "ageing-time" ];
+          int32 ageing_time = 1 [json_name = "ageing-time"];
 
           int32 priority = 2;
 
-          int32 port_priority = 3 [ json_name = "port-priority" ];
+          int32 port_priority = 3 [json_name = "port-priority"];
 
-          int32 forward_delay = 4 [ json_name = "forward-delay" ];
+          int32 forward_delay = 4 [json_name = "forward-delay"];
 
-          int32 hello_time = 5 [ json_name = "hello-time" ];
+          int32 hello_time = 5 [json_name = "hello-time"];
 
-          int32 max_age = 6 [ json_name = "max-age" ];
+          int32 max_age = 6 [json_name = "max-age"];
 
-          int32 path_cost = 7 [ json_name = "path-cost" ];
+          int32 path_cost = 7 [json_name = "path-cost"];
 
           bool stp = 8;
         }
@@ -439,19 +423,17 @@ message Device {
 
         bool dhcp6 = 7;
 
-        bool ipv6_privacy = 8 [ json_name = "ipv6-privacy" ];
+        bool ipv6_privacy = 8 [json_name = "ipv6-privacy"];
 
-        repeated string link_local = 9 [ json_name = "link-local" ];
+        repeated string link_local = 9 [json_name = "link-local"];
 
         bool critical = 10;
 
-        string dhcp_identifier = 11 [ json_name = "dhcp-identifier" ];
+        string dhcp_identifier = 11 [json_name = "dhcp-identifier"];
 
-        CommonOpts.DHCPOverrides dhcp4_overrides = 12
-            [ json_name = "dhcp4-overrides" ];
+        CommonOpts.DHCPOverrides dhcp4_overrides = 12 [json_name = "dhcp4-overrides"];
 
-        CommonOpts.DHCPOverrides dhcp6_overrides = 13
-            [ json_name = "dhcp6-overrides" ];
+        CommonOpts.DHCPOverrides dhcp6_overrides = 13 [json_name = "dhcp6-overrides"];
 
         bool accept_ra = 14;
 
@@ -465,13 +447,11 @@ message Device {
 
         bool optional = 19;
 
-        repeated string optional_addresses = 20
-            [ json_name = "optional-addresses" ];
+        repeated string optional_addresses = 20 [json_name = "optional-addresses"];
 
         repeated CommonOpts.Routes routes = 21;
 
-        CommonOpts.RoutingPolicy routing_policy = 22
-            [ json_name = "routing-policy" ];
+        CommonOpts.RoutingPolicy routing_policy = 22 [json_name = "routing-policy"];
 
         CommonOpts.Auth auth = 23;
 
@@ -484,40 +464,37 @@ message Device {
         message Parameters {
           string mode = 1;
 
-          int32 lacp_rate = 2 [ json_name = "lacp-rate" ];
+          int32 lacp_rate = 2 [json_name = "lacp-rate"];
 
-          int32 mii_monitor_interval = 3 [ json_name = "mii-monitor-interval" ];
+          int32 mii_monitor_interval = 3 [json_name = "mii-monitor-interval"];
 
-          int32 min_links = 4 [ json_name = "min-links" ];
+          int32 min_links = 4 [json_name = "min-links"];
 
-          int32 transmit_hash_policy = 5 [ json_name = "transmit-hash-policy" ];
+          int32 transmit_hash_policy = 5 [json_name = "transmit-hash-policy"];
 
-          int32 ad_select = 6 [ json_name = "ad-select" ];
+          int32 ad_select = 6 [json_name = "ad-select"];
 
-          int32 all_slaves_active = 7 [ json_name = "all-slaves-active" ];
+          int32 all_slaves_active = 7 [json_name = "all-slaves-active"];
 
-          bool arp_ip_targets = 8 [ json_name = "arp-ip-targets" ];
+          bool arp_ip_targets = 8 [json_name = "arp-ip-targets"];
 
-          string arp_validate = 9 [ json_name = "arp-validate" ];
+          string arp_validate = 9 [json_name = "arp-validate"];
 
-          string arp_all_targets = 10 [ json_name = "arp-all-targets" ];
+          string arp_all_targets = 10 [json_name = "arp-all-targets"];
 
-          string up_delay = 11 [ json_name = "up-delay" ];
+          string up_delay = 11 [json_name = "up-delay"];
 
-          string fail_over_mac_policy = 12
-              [ json_name = "fail-over-mac-policy" ];
+          string fail_over_mac_policy = 12 [json_name = "fail-over-mac-policy"];
 
-          int32 gratuitous_arp = 13 [ json_name = "gratuitous-arp" ];
+          int32 gratuitous_arp = 13 [json_name = "gratuitous-arp"];
 
-          string packets_per_slave = 14 [ json_name = "packets-per-slave" ];
+          string packets_per_slave = 14 [json_name = "packets-per-slave"];
 
-          string primary_reselect_policy = 15
-              [ json_name = "primary-reselect-policy" ];
+          string primary_reselect_policy = 15 [json_name = "primary-reselect-policy"];
 
-          string resend_igmp = 16 [ json_name = "resend-igmp" ];
+          string resend_igmp = 16 [json_name = "resend-igmp"];
 
-          string learn_packet_interval = 17
-              [ json_name = "learn-packet-interval" ];
+          string learn_packet_interval = 17 [json_name = "learn-packet-interval"];
 
           string primary = 18;
         }
@@ -540,19 +517,17 @@ message Device {
 
         bool dhcp6 = 9;
 
-        bool ipv6_privacy = 10 [ json_name = "ipv6-privacy" ];
+        bool ipv6_privacy = 10 [json_name = "ipv6-privacy"];
 
-        repeated string link_local = 11 [ json_name = "link-local" ];
+        repeated string link_local = 11 [json_name = "link-local"];
 
         bool critical = 12;
 
-        string dhcp_identifier = 13 [ json_name = "dhcp-identifier" ];
+        string dhcp_identifier = 13 [json_name = "dhcp-identifier"];
 
-        CommonOpts.DHCPOverrides dhcp4_overrides = 14
-            [ json_name = "dhcp4-overrides" ];
+        CommonOpts.DHCPOverrides dhcp4_overrides = 14 [json_name = "dhcp4-overrides"];
 
-        CommonOpts.DHCPOverrides dhcp6_overrides = 15
-            [ json_name = "dhcp6-overrides" ];
+        CommonOpts.DHCPOverrides dhcp6_overrides = 15 [json_name = "dhcp6-overrides"];
 
         bool accept_ra = 16;
 
@@ -566,13 +541,11 @@ message Device {
 
         bool optional = 21;
 
-        repeated string optional_addresses = 22
-            [ json_name = "optional-addresses" ];
+        repeated string optional_addresses = 22 [json_name = "optional-addresses"];
 
         repeated CommonOpts.Routes routes = 23;
 
-        CommonOpts.RoutingPolicy routing_policy = 24
-            [ json_name = "routing-policy" ];
+        CommonOpts.RoutingPolicy routing_policy = 24 [json_name = "routing-policy"];
 
         CommonOpts.Auth auth = 25;
 
@@ -602,19 +575,17 @@ message Device {
 
         bool dhcp6 = 7;
 
-        bool ipv6_privacy = 8 [ json_name = "ipv6-privacy" ];
+        bool ipv6_privacy = 8 [json_name = "ipv6-privacy"];
 
-        repeated string link_local = 9 [ json_name = "link-local" ];
+        repeated string link_local = 9 [json_name = "link-local"];
 
         bool critical = 10;
 
-        string dhcp_identifier = 11 [ json_name = "dhcp-identifier" ];
+        string dhcp_identifier = 11 [json_name = "dhcp-identifier"];
 
-        CommonOpts.DHCPOverrides dhcp4_overrides = 12
-            [ json_name = "dhcp4-overrides" ];
+        CommonOpts.DHCPOverrides dhcp4_overrides = 12 [json_name = "dhcp4-overrides"];
 
-        CommonOpts.DHCPOverrides dhcp6_overrides = 13
-            [ json_name = "dhcp6-overrides" ];
+        CommonOpts.DHCPOverrides dhcp6_overrides = 13 [json_name = "dhcp6-overrides"];
 
         bool accept_ra = 14;
 
@@ -628,13 +599,11 @@ message Device {
 
         bool optional = 19;
 
-        repeated string optional_addresses = 20
-            [ json_name = "optional-addresses" ];
+        repeated string optional_addresses = 20 [json_name = "optional-addresses"];
 
         repeated CommonOpts.Routes routes = 21;
 
-        CommonOpts.RoutingPolicy routing_policy = 22
-            [ json_name = "routing-policy" ];
+        CommonOpts.RoutingPolicy routing_policy = 22 [json_name = "routing-policy"];
 
         CommonOpts.Auth auth = 23;
 
@@ -656,17 +625,17 @@ message Device {
 
         string number = 4;
 
-        string network_id = 5 [ json_name = "network-id" ];
+        string network_id = 5 [json_name = "network-id"];
 
-        string device_id = 6 [ json_name = "device-id" ];
+        string device_id = 6 [json_name = "device-id"];
 
         string pin = 7;
 
-        string sim_id = 8 [ json_name = "sim-id" ];
+        string sim_id = 8 [json_name = "sim-id"];
 
-        string sim_operator_id = 9 [ json_name = "sim-operator-id" ];
+        string sim_operator_id = 9 [json_name = "sim-operator-id"];
 
-        bool auto_config = 11 [ json_name = "auto-config" ];
+        bool auto_config = 11 [json_name = "auto-config"];
 
         string renderer = 12;
 
@@ -674,19 +643,17 @@ message Device {
 
         bool dhcp6 = 14;
 
-        bool ipv6_privacy = 15 [ json_name = "ipv6-privacy" ];
+        bool ipv6_privacy = 15 [json_name = "ipv6-privacy"];
 
-        repeated string link_local = 16 [ json_name = "link-local" ];
+        repeated string link_local = 16 [json_name = "link-local"];
 
         bool critical = 17;
 
-        string dhcp_identifier = 18 [ json_name = "dhcp-identifier" ];
+        string dhcp_identifier = 18 [json_name = "dhcp-identifier"];
 
-        CommonOpts.DHCPOverrides dhcp4_overrides = 19
-            [ json_name = "dhcp4-overrides" ];
+        CommonOpts.DHCPOverrides dhcp4_overrides = 19 [json_name = "dhcp4-overrides"];
 
-        CommonOpts.DHCPOverrides dhcp6_overrides = 20
-            [ json_name = "dhcp6-overrides" ];
+        CommonOpts.DHCPOverrides dhcp6_overrides = 20 [json_name = "dhcp6-overrides"];
 
         bool accept_ra = 21;
 
@@ -700,13 +667,11 @@ message Device {
 
         bool optional = 26;
 
-        repeated string optional_addresses = 27
-            [ json_name = "optional-addresses" ];
+        repeated string optional_addresses = 27 [json_name = "optional-addresses"];
 
         repeated CommonOpts.Routes routes = 28;
 
-        CommonOpts.RoutingPolicy routing_policy = 29
-            [ json_name = "routing-policy" ];
+        CommonOpts.RoutingPolicy routing_policy = 29 [json_name = "routing-policy"];
 
         CommonOpts.Auth auth = 30;
 
@@ -722,7 +687,9 @@ message Device {
       reserved 2, 3, 4, 5, 6, 7, 8;
     }
 
-    message NetplanConfig { NetworkingConfig network = 1; }
+    message NetplanConfig {
+      NetworkingConfig network = 1;
+    }
 
     // SSHConfig defines the ssh configuration for the Device.
     message SSHConfig {
@@ -1243,7 +1210,9 @@ message Device {
             string mico_mode = 2;
           }
 
-          message FiveGNr { RegistrationSettings registration_settings = 1; }
+          message FiveGNr {
+            RegistrationSettings registration_settings = 1;
+          }
 
           message Settings {
             string apn = 1;
@@ -1423,7 +1392,9 @@ message Device {
             string snr = 5;
           }
 
-          message SignalRefresh { string rate = 1; }
+          message SignalRefresh {
+            string rate = 1;
+          }
 
           message SignalThreshold {
             string error_rate = 1;

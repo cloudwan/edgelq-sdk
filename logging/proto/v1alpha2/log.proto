@@ -13,12 +13,7 @@ option java_package = "com.ntt.logging.pb.v1alpha2";
 
 // Log Resource
 message Log {
-  option (google.api.resource) = {
-    type : "logging.edgelq.com/Log"
-    pattern : "logs/{log}"
-    pattern : "projects/{project}/logs/{log}"
-    pattern : "organizations/{organization}/logs/{log}"
-  };
+  option (google.api.resource) = { type:"logging.edgelq.com/Log" pattern:"logs/{log}" pattern:"projects/{project}/logs/{log}" pattern:"organizations/{organization}/logs/{log}"  };
 
   // Name of Log. It contains scope + ID of the log.
   // ID is a base64 encoded unique key that identifies tuple:

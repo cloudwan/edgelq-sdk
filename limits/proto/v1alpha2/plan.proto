@@ -17,10 +17,7 @@ option java_package = "com.ntt.limits.pb.v1alpha2";
 // Those resources should be mostly from service plan references,
 // but it can also include resources from imported services too.
 message Plan {
-  option (google.api.resource) = {
-    type : "limits.edgelq.com/Plan"
-    pattern : "plans/{plan}"
-  };
+  option (google.api.resource) = { type:"limits.edgelq.com/Plan" pattern:"plans/{plan}"  };
 
   // Name of Plan
   // When creating a new instance, this field is optional and if not provided,

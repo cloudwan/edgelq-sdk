@@ -28,12 +28,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 // RoleBinding to grant permissions included in bound [Role], both RBAC and
 // Condition expression evaluation must grant access.
 message Condition {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Condition"
-    pattern : "conditions/{condition}"
-    pattern : "projects/{project}/conditions/{condition}"
-    pattern : "organizations/{organization}/conditions/{condition}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Condition" pattern:"conditions/{condition}" pattern:"projects/{project}/conditions/{condition}" pattern:"organizations/{organization}/conditions/{condition}"  };
 
   // Name of Condition
   // When creating a new instance, this field is optional and if not provided,

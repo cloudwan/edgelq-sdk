@@ -14,10 +14,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // Organization Resource
 message Organization {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Organization"
-    pattern : "organizations/{organization}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Organization" pattern:"organizations/{organization}"  };
 
   // Name of Organization
   // When creating a new instance, this field is optional and if not provided,

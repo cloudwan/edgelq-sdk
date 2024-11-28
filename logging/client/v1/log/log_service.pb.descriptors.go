@@ -29,10 +29,11 @@ var (
 )
 
 var (
-	descriptorsInitialized bool
-	logServiceDescriptor   *LogServiceDescriptor
-	listLogsDescriptor     *ListLogsDescriptor
-	createLogsDescriptor   *CreateLogsDescriptor
+	descriptorsInitialized        bool
+	logServiceDescriptor          *LogServiceDescriptor
+	listLogsDescriptor            *ListLogsDescriptor
+	createLogsDescriptor          *CreateLogsDescriptor
+	streamingCreateLogsDescriptor *StreamingCreateLogsDescriptor
 )
 
 type ListLogsDescriptor struct{}
@@ -460,12 +461,228 @@ func GetCreateLogsDescriptor() *CreateLogsDescriptor {
 	return createLogsDescriptor
 }
 
+type StreamingCreateLogsDescriptor struct{}
+
+type StreamingCreateLogsDescriptorClientMsgHandle struct{}
+
+type StreamingCreateLogsDescriptorServerMsgHandle struct{}
+
+func (d *StreamingCreateLogsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &StreamingCreateLogsRequest{}
+}
+
+func (d *StreamingCreateLogsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &StreamingCreateLogsResponse{}
+}
+
+func (d *StreamingCreateLogsDescriptor) IsUnary() bool {
+	return false
+}
+
+func (d *StreamingCreateLogsDescriptor) IsClientStream() bool {
+	return true
+}
+
+func (d *StreamingCreateLogsDescriptor) IsServerStream() bool {
+	return true
+}
+
+func (d *StreamingCreateLogsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *StreamingCreateLogsDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *StreamingCreateLogsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *StreamingCreateLogsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *StreamingCreateLogsDescriptor) GetVerb() string {
+	return "streamingCreate"
+}
+
+func (d *StreamingCreateLogsDescriptor) GetMethodName() string {
+	return "StreamingCreateLogs"
+}
+
+func (d *StreamingCreateLogsDescriptor) GetFullMethodName() string {
+	return "/ntt.logging.v1.LogService/StreamingCreateLogs"
+}
+
+func (d *StreamingCreateLogsDescriptor) GetProtoPkgName() string {
+	return "ntt.logging.v1"
+}
+
+func (d *StreamingCreateLogsDescriptor) GetApiName() string {
+	return "LogService"
+}
+
+func (d *StreamingCreateLogsDescriptor) GetServiceDomain() string {
+	return "logging.edgelq.com"
+}
+
+func (d *StreamingCreateLogsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *StreamingCreateLogsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return logServiceDescriptor
+}
+
+func (d *StreamingCreateLogsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return log.GetDescriptor()
+}
+
+func (d *StreamingCreateLogsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &StreamingCreateLogsDescriptorClientMsgHandle{}
+}
+
+func (d *StreamingCreateLogsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &StreamingCreateLogsDescriptorServerMsgHandle{}
+}
+
+func (h *StreamingCreateLogsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*StreamingCreateLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*StreamingCreateLogsRequest) *log.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*StreamingCreateLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*StreamingCreateLogsRequest) []*log.Name
+	})
+	if ok {
+		return log.LogNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*StreamingCreateLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*StreamingCreateLogsRequest) *log.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*log.ParentName)(nil)
+}
+
+func (h *StreamingCreateLogsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*StreamingCreateLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*StreamingCreateLogsRequest) *log.Log
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*StreamingCreateLogsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*StreamingCreateLogsRequest) []*log.Log
+	})
+	if ok {
+		return log.LogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*StreamingCreateLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*StreamingCreateLogsResponse) *log.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*StreamingCreateLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*StreamingCreateLogsResponse) []*log.Name
+	})
+	if ok {
+		return log.LogNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*StreamingCreateLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*StreamingCreateLogsResponse) *log.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*StreamingCreateLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*StreamingCreateLogsResponse) *log.Log
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *StreamingCreateLogsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*StreamingCreateLogsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*StreamingCreateLogsResponse) []*log.Log
+	})
+	if ok {
+		return log.LogList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetStreamingCreateLogsDescriptor() *StreamingCreateLogsDescriptor {
+	return streamingCreateLogsDescriptor
+}
+
 type LogServiceDescriptor struct{}
 
 func (d *LogServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
 	return []gotenclient.MethodDescriptor{
 		listLogsDescriptor,
 		createLogsDescriptor,
+		streamingCreateLogsDescriptor,
 	}
 }
 
@@ -497,9 +714,11 @@ func initDescriptors() {
 	logServiceDescriptor = &LogServiceDescriptor{}
 	listLogsDescriptor = &ListLogsDescriptor{}
 	createLogsDescriptor = &CreateLogsDescriptor{}
+	streamingCreateLogsDescriptor = &StreamingCreateLogsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(logServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listLogsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createLogsDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(streamingCreateLogsDescriptor)
 }
 
 func init() {

@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiConfigMapAccess(client config_map_client.ConfigMapServiceClient) conf
 	return &apiConfigMapAccess{client: client}
 }
 
-func (a *apiConfigMapAccess) GetConfigMap(ctx context.Context, query *config_map.GetQuery) (*config_map.ConfigMap, error) {
+func (a *apiConfigMapAccess) GetConfigMap(ctx context.Context, query *config_map.GetQuery, opts ...gotenresource.GetOption) (*config_map.ConfigMap, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiConfigMapAccess) GetConfigMap(ctx context.Context, query *config_map
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetConfigMap(ctx, request)
+	res, err := a.client.GetConfigMap(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiConfigMapAccess) GetConfigMap(ctx context.Context, query *config_map
 
 func (a *apiConfigMapAccess) BatchGetConfigMaps(ctx context.Context, refs []*config_map.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*config_map.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiConfigMapAccess) BatchGetConfigMaps(ctx context.Context, refs []*con
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*config_map.ConfigMap_FieldMask)
 	}
-	resp, err := a.client.BatchGetConfigMaps(ctx, request)
+	resp, err := a.client.BatchGetConfigMaps(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiConfigMapAccess) BatchGetConfigMaps(ctx context.Context, refs []*con
 	return nil
 }
 
-func (a *apiConfigMapAccess) QueryConfigMaps(ctx context.Context, query *config_map.ListQuery) (*config_map.QueryResultSnapshot, error) {
+func (a *apiConfigMapAccess) QueryConfigMaps(ctx context.Context, query *config_map.ListQuery, opts ...gotenresource.QueryOption) (*config_map.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &config_map_client.ListConfigMapsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiConfigMapAccess) WatchConfigMap(ctx context.Context, query *config_m
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchConfigMap(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiConfigMapAccess) WatchConfigMaps(ctx context.Context, query *config_
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiConfigMapAccess) WatchConfigMaps(ctx context.Context, query *config_
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchConfigMaps(ctx, request)
 	if initErr != nil {
 		return initErr

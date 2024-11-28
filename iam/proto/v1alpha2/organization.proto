@@ -20,10 +20,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 // [RoleBinding]s are propagated from organization ancestors to their
 // descendants.
 message Organization {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Organization"
-    pattern : "organizations/{organization}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Organization" pattern:"organizations/{organization}"  };
 
   // Name of Organization
   // When creating a new instance, this field is optional and if not provided,
@@ -35,16 +32,13 @@ message Organization {
   string title = 2;
 
   // Parent organization
-  string parent_organization = 3
-      [ (google.api.resource_reference) = {type : "Organization"} ];
+  string parent_organization = 3 [(google.api.resource_reference) = { type:"Organization"  }];
 
   // Top parent (internal)
-  string root_organization = 4
-      [ (google.api.resource_reference) = {type : "Organization"} ];
+  string root_organization = 4 [(google.api.resource_reference) = { type:"Organization"  }];
 
   // Full ancestry path (internal)
-  repeated string ancestry_path = 5
-      [ (google.api.resource_reference) = {type : "Organization"} ];
+  repeated string ancestry_path = 5 [(google.api.resource_reference) = { type:"Organization"  }];
 
   // Metadata
   goten.types.Meta metadata = 6;

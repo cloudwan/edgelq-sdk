@@ -13,10 +13,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // DeviceType Resource
 message DeviceType {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/DeviceType"
-    pattern : "deviceTypes/{device_type}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/DeviceType" pattern:"deviceTypes/{device_type}"  };
 
   // Name of DeviceType
   // When creating a new instance, this field is optional and if not provided,

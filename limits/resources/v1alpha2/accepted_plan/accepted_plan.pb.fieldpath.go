@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -1164,12 +1164,36 @@ func (fp *AcceptedPlanAssignee_FieldTerminalPath) GetRaw(source proto.Message) [
 func (fp *AcceptedPlanAssignee_FieldTerminalPath) GetSingle(source *AcceptedPlan_Assignee) (interface{}, bool) {
 	switch fp.selector {
 	case AcceptedPlanAssignee_FieldPathSelectorProjectAssignee:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetProjectAssignee(), false
+		}
+		_, oneOfSelected := source.Assignee.(*AcceptedPlan_Assignee_ProjectAssignee)
+		if !oneOfSelected {
+			return source.GetProjectAssignee(), false // to return "type" information
+		}
 		res := source.GetProjectAssignee()
 		return res, res != nil
 	case AcceptedPlanAssignee_FieldPathSelectorOrganizationAssignee:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetOrganizationAssignee(), false
+		}
+		_, oneOfSelected := source.Assignee.(*AcceptedPlan_Assignee_OrganizationAssignee)
+		if !oneOfSelected {
+			return source.GetOrganizationAssignee(), false // to return "type" information
+		}
 		res := source.GetOrganizationAssignee()
 		return res, res != nil
 	case AcceptedPlanAssignee_FieldPathSelectorSystemAssignee:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetSystemAssignee(), false
+		}
+		_, oneOfSelected := source.Assignee.(*AcceptedPlan_Assignee_SystemAssignee)
+		if !oneOfSelected {
+			return source.GetSystemAssignee(), false // to return "type" information
+		}
 		return source.GetSystemAssignee(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for AcceptedPlan_Assignee: %d", fp.selector))

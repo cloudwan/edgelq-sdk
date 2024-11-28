@@ -199,6 +199,26 @@ func (obj *CreatePlanAssignmentRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("CreatePlanAssignmentRequest", "planAssignment", obj.PlanAssignment, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CreatePlanAssignmentRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CreatePlanAssignmentRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *CreatePlanAssignmentRequest_ResponseMask_SkipEntireResponseBody:
+	case *CreatePlanAssignmentRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -221,6 +241,11 @@ func (obj *UpdatePlanAssignmentRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("UpdatePlanAssignmentRequest", "cas", obj.Cas, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdatePlanAssignmentRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -229,6 +254,22 @@ func (obj *UpdatePlanAssignmentRequest) GotenValidate() error {
 func (obj *UpdatePlanAssignmentRequest_CAS) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdatePlanAssignmentRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *UpdatePlanAssignmentRequest_ResponseMask_SkipEntireResponseBody:
+	case *UpdatePlanAssignmentRequest_ResponseMask_UpdatedFieldsOnly:
+	case *UpdatePlanAssignmentRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

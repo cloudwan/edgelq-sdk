@@ -15,11 +15,7 @@ option java_package = "com.ntt.devices.pb.v1";
 
 // ProvisioningPolicy Resource
 message ProvisioningPolicy {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/ProvisioningPolicy"
-    pattern : "projects/{project}/regions/{region}/provisioningPolicies/"
-              "{provisioning_policy}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/ProvisioningPolicy" pattern:"projects/{project}/regions/{region}/provisioningPolicies/{provisioning_policy}"  };
 
   // Name of ProvisioningPolicy
   // When creating a new instance, this field is optional and if not provided,
@@ -56,6 +52,9 @@ message ProvisioningPolicy {
     // Template for device name.
     string device_name_format = 3;
 
+    // Template for device display name.
+    string device_display_name_format = 11;
+
     // Deprecated: Use template instead.
     // labels that provisioned Device resources will have.
     map<string, string> labels = 4;
@@ -72,15 +71,14 @@ message ProvisioningPolicy {
     // Role that the newly created service account should be bound to.
     // If not specified, will use the default value of
     // "services/devices.edgelq.com/roles/device-agent".
-    string role = 7 [ (google.api.resource_reference) = {type : "Role"} ];
+    string role = 7 [(google.api.resource_reference) = { type:"Role"  }];
 
     // List of scope params to add IF role is specified. Ignored if role is
     // empty.
     repeated ntt.iam.v1.ScopeParam scope_params = 9;
 
     // Optional condition for the role binding.
-    string condition = 8
-        [ (google.api.resource_reference) = {type : "Condition"} ];
+    string condition = 8 [(google.api.resource_reference) = { type:"Condition"  }];
 
     // Condition params
     google.protobuf.Struct condition_params = 10;
@@ -95,7 +93,8 @@ message ProvisioningPolicy {
     }
   }
 
-  message Status {}
+  message Status {
+  }
 
   enum Mode {
     // Mode is not defined, devices will do nothing when the policy is

@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiRecoveryStoreShardingInfoAccess(client recovery_store_sharding_info_c
 	return &apiRecoveryStoreShardingInfoAccess{client: client}
 }
 
-func (a *apiRecoveryStoreShardingInfoAccess) GetRecoveryStoreShardingInfo(ctx context.Context, query *recovery_store_sharding_info.GetQuery) (*recovery_store_sharding_info.RecoveryStoreShardingInfo, error) {
+func (a *apiRecoveryStoreShardingInfoAccess) GetRecoveryStoreShardingInfo(ctx context.Context, query *recovery_store_sharding_info.GetQuery, opts ...gotenresource.GetOption) (*recovery_store_sharding_info.RecoveryStoreShardingInfo, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiRecoveryStoreShardingInfoAccess) GetRecoveryStoreShardingInfo(ctx co
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetRecoveryStoreShardingInfo(ctx, request)
+	res, err := a.client.GetRecoveryStoreShardingInfo(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiRecoveryStoreShardingInfoAccess) GetRecoveryStoreShardingInfo(ctx co
 
 func (a *apiRecoveryStoreShardingInfoAccess) BatchGetRecoveryStoreShardingInfos(ctx context.Context, refs []*recovery_store_sharding_info.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*recovery_store_sharding_info.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiRecoveryStoreShardingInfoAccess) BatchGetRecoveryStoreShardingInfos(
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask)
 	}
-	resp, err := a.client.BatchGetRecoveryStoreShardingInfos(ctx, request)
+	resp, err := a.client.BatchGetRecoveryStoreShardingInfos(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiRecoveryStoreShardingInfoAccess) BatchGetRecoveryStoreShardingInfos(
 	return nil
 }
 
-func (a *apiRecoveryStoreShardingInfoAccess) QueryRecoveryStoreShardingInfos(ctx context.Context, query *recovery_store_sharding_info.ListQuery) (*recovery_store_sharding_info.QueryResultSnapshot, error) {
+func (a *apiRecoveryStoreShardingInfoAccess) QueryRecoveryStoreShardingInfos(ctx context.Context, query *recovery_store_sharding_info.ListQuery, opts ...gotenresource.QueryOption) (*recovery_store_sharding_info.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &recovery_store_sharding_info_client.ListRecoveryStoreShardingInfosRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiRecoveryStoreShardingInfoAccess) WatchRecoveryStoreShardingInfo(ctx 
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRecoveryStoreShardingInfo(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiRecoveryStoreShardingInfoAccess) WatchRecoveryStoreShardingInfos(ctx
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiRecoveryStoreShardingInfoAccess) WatchRecoveryStoreShardingInfos(ctx
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRecoveryStoreShardingInfos(ctx, request)
 	if initErr != nil {
 		return initErr

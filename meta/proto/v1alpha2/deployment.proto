@@ -13,10 +13,7 @@ option java_package = "com.ntt.meta.pb.v1alpha2";
 // Deployment Resource - describes meta information about deployment of a parent
 // Service.
 message Deployment {
-  option (google.api.resource) = {
-    type : "meta.edgelq.com/Deployment"
-    pattern : "regions/{region}/deployments/{deployment}"
-  };
+  option (google.api.resource) = { type:"meta.edgelq.com/Deployment" pattern:"regions/{region}/deployments/{deployment}"  };
 
   // Name of Deployment
   // When creating a new instance, this field is optional and if not provided,

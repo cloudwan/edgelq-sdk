@@ -23,48 +23,27 @@ service TimeSerieService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ListTimeSeries
-  rpc ListTimeSeries(ListTimeSeriesRequest) returns (ListTimeSeriesResponse) {
-    option (google.api.http) = {
-      get : "/v4/{parent=projects/*}/timeSeries"
-      additional_bindings : <
-        get : "/v4/{parent=projects/*/regions/*/buckets/*}/timeSeries"
-      >
-    };
+  rpc ListTimeSeries ( ListTimeSeriesRequest ) returns ( ListTimeSeriesResponse ) {
+    option (google.api.http) = { get:"/v4/{parent=projects/*}/timeSeries" additional_bindings:<get:"/v4/{parent=projects/*/regions/*/buckets/*}/timeSeries" >  };
   }
 
   // QueryProjectTimeSeriesStats
-  rpc QueryProjectTimeSeriesStats(QueryProjectTimeSeriesStatsRequest)
-      returns (QueryProjectTimeSeriesStatsResponse) {
-    option (google.api.http) = {
-      get : "/v4/{project=projects/*}/timeSeries"
-    };
+  rpc QueryProjectTimeSeriesStats ( QueryProjectTimeSeriesStatsRequest ) returns ( QueryProjectTimeSeriesStatsResponse ) {
+    option (google.api.http) = { get:"/v4/{project=projects/*}/timeSeries"  };
   }
 
   // QueryServiceTimeSeriesStats
-  rpc QueryServiceTimeSeriesStats(QueryServiceTimeSeriesStatsRequest)
-      returns (QueryServiceTimeSeriesStatsResponse) {
-    option (google.api.http) = {
-      get : "/v4/{service=services/*}/timeSeries"
-    };
+  rpc QueryServiceTimeSeriesStats ( QueryServiceTimeSeriesStatsRequest ) returns ( QueryServiceTimeSeriesStatsResponse ) {
+    option (google.api.http) = { get:"/v4/{service=services/*}/timeSeries"  };
   }
 
   // CreateTimeSeries
-  rpc CreateTimeSeries(CreateTimeSeriesRequest)
-      returns (CreateTimeSeriesResponse) {
-    option (google.api.http) = {
-      post : "/v4/{parent=projects/*}/timeSeries"
-      body : "time_series"
-      additional_bindings : <
-        post : "/v4/{parent=projects/*/regions/*/buckets/*}/timeSeries"
-      >
-    };
+  rpc CreateTimeSeries ( CreateTimeSeriesRequest ) returns ( CreateTimeSeriesResponse ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*}/timeSeries" body:"time_series" additional_bindings:<post:"/v4/{parent=projects/*/regions/*/buckets/*}/timeSeries" >  };
   }
 
   // WatchTimeSeries
-  rpc WatchTimeSeries(WatchTimeSeriesRequest)
-      returns (stream WatchTimeSeriesResponse) {
-    option (google.api.http) = {
-      post : "/v4:watch"
-    };
+  rpc WatchTimeSeries ( WatchTimeSeriesRequest ) returns ( stream WatchTimeSeriesResponse ) {
+    option (google.api.http) = { post:"/v4:watch"  };
   }
 }

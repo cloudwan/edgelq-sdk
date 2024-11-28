@@ -67,7 +67,9 @@ message AlertingConditionChange {
 
   // AlertingCondition has been added or modified in a query view. Version used
   // for stateless watching
-  message Current { AlertingCondition alerting_condition = 1; }
+  message Current {
+    AlertingCondition alerting_condition = 1;
+  }
 
   // Removed is returned when AlertingCondition is deleted or leaves Query view
   message Removed {

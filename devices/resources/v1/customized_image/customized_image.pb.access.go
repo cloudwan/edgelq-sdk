@@ -40,9 +40,9 @@ var (
 )
 
 type CustomizedImageAccess interface {
-	GetCustomizedImage(context.Context, *GetQuery) (*CustomizedImage, error)
+	GetCustomizedImage(context.Context, *GetQuery, ...gotenresource.GetOption) (*CustomizedImage, error)
 	BatchGetCustomizedImages(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryCustomizedImages(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryCustomizedImages(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchCustomizedImage(context.Context, *GetQuery, func(*CustomizedImageChange) error) error
 	WatchCustomizedImages(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveCustomizedImage(context.Context, *CustomizedImage, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access CustomizedImageAccess) gotenresource.Access {
 	return &anyCastAccess{CustomizedImageAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asCustomizedImageQuery, ok := q.(*GetQuery); ok {
-		return a.GetCustomizedImage(ctx, asCustomizedImageQuery)
+		return a.GetCustomizedImage(ctx, asCustomizedImageQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected CustomizedImage, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asCustomizedImageQuery, ok := q.(*ListQuery); ok {
-		return a.QueryCustomizedImages(ctx, asCustomizedImageQuery)
+		return a.QueryCustomizedImages(ctx, asCustomizedImageQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected CustomizedImage, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for CustomizedImage")
 }
 

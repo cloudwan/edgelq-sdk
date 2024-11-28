@@ -25,13 +25,7 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 // activity and resource change logs, as one API call
 // can modify multiple resources.
 message ResourceChangeLog {
-  option (google.api.resource) = {
-    type : "audit.edgelq.com/ResourceChangeLog"
-    pattern : "resourceChangeLogs/{resource_change_log}"
-    pattern : "projects/{project}/resourceChangeLogs/{resource_change_log}"
-    pattern : "organizations/{organization}/resourceChangeLogs/"
-              "{resource_change_log}"
-  };
+  option (google.api.resource) = { type:"audit.edgelq.com/ResourceChangeLog" pattern:"resourceChangeLogs/{resource_change_log}" pattern:"projects/{project}/resourceChangeLogs/{resource_change_log}" pattern:"organizations/{organization}/resourceChangeLogs/{resource_change_log}"  };
 
   // Name of ResourceChangeLog. It contains scope + ID of the log.
   // ID is a base64 encoded unique key that identifies tuple:

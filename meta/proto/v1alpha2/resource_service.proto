@@ -139,7 +139,9 @@ message WatchResourceRequest {
 }
 
 // A response message of the WatchResource method.
-message WatchResourceResponse { ResourceChange change = 1; }
+message WatchResourceResponse {
+  ResourceChange change = 1;
+}
 
 // A request message of the WatchResources method.
 message WatchResourcesRequest {
@@ -273,40 +275,27 @@ service ResourceService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetResource
-  rpc GetResource(GetResourceRequest) returns (Resource) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=services/*/resources/*}"
-    };
+  rpc GetResource ( GetResourceRequest ) returns ( Resource ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=services/*/resources/*}"  };
   }
 
   // BatchGetResources
-  rpc BatchGetResources(BatchGetResourcesRequest)
-      returns (BatchGetResourcesResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/resources:batchGet"
-    };
+  rpc BatchGetResources ( BatchGetResourcesRequest ) returns ( BatchGetResourcesResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/resources:batchGet"  };
   }
 
   // ListResources
-  rpc ListResources(ListResourcesRequest) returns (ListResourcesResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{parent=services/*}/resources"
-    };
+  rpc ListResources ( ListResourcesRequest ) returns ( ListResourcesResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/{parent=services/*}/resources"  };
   }
 
   // WatchResource
-  rpc WatchResource(WatchResourceRequest)
-      returns (stream WatchResourceResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=services/*/resources/*}:watch"
-    };
+  rpc WatchResource ( WatchResourceRequest ) returns ( stream WatchResourceResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=services/*/resources/*}:watch"  };
   }
 
   // WatchResources
-  rpc WatchResources(WatchResourcesRequest)
-      returns (stream WatchResourcesResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=services/*}/resources:watch"
-    };
+  rpc WatchResources ( WatchResourcesRequest ) returns ( stream WatchResourcesResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=services/*}/resources:watch"  };
   }
 }

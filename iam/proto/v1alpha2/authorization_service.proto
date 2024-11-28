@@ -26,28 +26,17 @@ service AuthorizationService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // CheckPermissions
-  rpc CheckPermissions(CheckPermissionsRequest)
-      returns (CheckPermissionsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/permissions:check"
-      body : "*"
-    };
+  rpc CheckPermissions ( CheckPermissionsRequest ) returns ( CheckPermissionsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/permissions:check" body:"*"  };
   }
 
   // CheckMyPermissions
-  rpc CheckMyPermissions(CheckMyPermissionsRequest)
-      returns (CheckMyPermissionsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/permissions:checkMy"
-      body : "*"
-    };
+  rpc CheckMyPermissions ( CheckMyPermissionsRequest ) returns ( CheckMyPermissionsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/permissions:checkMy" body:"*"  };
   }
 
   // CheckMyRoles
-  rpc CheckMyRoles(CheckMyRolesRequest) returns (CheckMyRolesResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/roles:checkMy"
-      body : "*"
-    };
+  rpc CheckMyRoles ( CheckMyRolesRequest ) returns ( CheckMyRolesResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/roles:checkMy" body:"*"  };
   }
 }

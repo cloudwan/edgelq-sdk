@@ -65,7 +65,9 @@ message OrganizationChange {
 
   // Organization has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Organization organization = 1; }
+  message Current {
+    Organization organization = 1;
+  }
 
   // Removed is returned when Organization is deleted or leaves Query view
   message Removed {

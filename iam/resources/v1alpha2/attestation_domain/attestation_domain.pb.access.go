@@ -42,9 +42,9 @@ var (
 )
 
 type AttestationDomainAccess interface {
-	GetAttestationDomain(context.Context, *GetQuery) (*AttestationDomain, error)
+	GetAttestationDomain(context.Context, *GetQuery, ...gotenresource.GetOption) (*AttestationDomain, error)
 	BatchGetAttestationDomains(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryAttestationDomains(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryAttestationDomains(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchAttestationDomain(context.Context, *GetQuery, func(*AttestationDomainChange) error) error
 	WatchAttestationDomains(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAttestationDomain(context.Context, *AttestationDomain, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access AttestationDomainAccess) gotenresource.Access {
 	return &anyCastAccess{AttestationDomainAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asAttestationDomainQuery, ok := q.(*GetQuery); ok {
-		return a.GetAttestationDomain(ctx, asAttestationDomainQuery)
+		return a.GetAttestationDomain(ctx, asAttestationDomainQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AttestationDomain, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAttestationDomainQuery, ok := q.(*ListQuery); ok {
-		return a.QueryAttestationDomains(ctx, asAttestationDomainQuery)
+		return a.QueryAttestationDomains(ctx, asAttestationDomainQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AttestationDomain, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for AttestationDomain")
 }
 

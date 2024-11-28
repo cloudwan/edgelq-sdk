@@ -17,13 +17,7 @@ option java_package = "com.ntt.iam.pb.v1";
 // for more advanced cases compared to the resource/request conditions available
 // in Role grant definitions.
 message Condition {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Condition"
-    pattern : "conditions/{condition}"
-    pattern : "projects/{project}/conditions/{condition}"
-    pattern : "organizations/{organization}/conditions/{condition}"
-    pattern : "services/{service}/conditions/{condition}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Condition" pattern:"conditions/{condition}" pattern:"projects/{project}/conditions/{condition}" pattern:"organizations/{organization}/conditions/{condition}" pattern:"services/{service}/conditions/{condition}"  };
 
   // Name of Condition
   // When creating a new instance, this field is optional and if not provided,

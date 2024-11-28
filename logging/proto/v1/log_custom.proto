@@ -92,3 +92,37 @@ message CreateLogsResponse {
     ntt.rpc.Status status = 2;
   }
 }
+
+// A request message of the StreamingCreateLogs method.
+// This method only supports creating logs for the same project and region for
+// the entire duration of the stream. Any client that intends
+// to create logs in multiple projects or regions should not use this API. If
+// the client uses the same scope, service, version and log descriptor, these
+// fields need not be sent after the first message even if binary key is not
+// used in the log entry. The server will set the values observed in the first
+// message in case these are empty and binary key is also not present in the log
+message StreamingCreateLogsRequest {
+  // Parent reference of ntt.logging.v1.Log
+  // only required in the first request message
+  string parent = 1;
+
+  // only required in the first request in order to route the request to the
+  // correct region
+  string region_id = 2;
+
+  // List of logs to create/append. If they have specified name
+  // field, it must match provided parent field
+  repeated Log logs = 3;
+}
+
+// A response message of the StreamingCreateLogs method.
+message StreamingCreateLogsResponse {
+  // Binary key will be set in the map key corresponding to the array index
+  // in the request, but only if the particular request entry did not use binary
+  // key. Indices for log entries in request having binary key set will be
+  // ignored in the response
+  map<uint32, string> bin_keys = 1;
+
+  // Logs that failed to be created
+  repeated CreateLogsResponse.CreateError failed_logs = 2;
+}

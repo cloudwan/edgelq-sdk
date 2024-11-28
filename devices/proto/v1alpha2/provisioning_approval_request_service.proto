@@ -209,8 +209,7 @@ message WatchProvisioningApprovalRequestsRequest {
 // A response message of the WatchProvisioningApprovalRequests method.
 message WatchProvisioningApprovalRequestsResponse {
   // Changes of ProvisioningApprovalRequests
-  repeated ProvisioningApprovalRequestChange
-      provisioning_approval_request_changes = 2;
+  repeated ProvisioningApprovalRequestChange provisioning_approval_request_changes = 2;
 
   // If request specified max_chunk_size (or this limit was enforced if
   // stateless watch has been chosen), then responses with "full changeset" will
@@ -280,6 +279,23 @@ message CreateProvisioningApprovalRequestRequest {
 
   // ProvisioningApprovalRequest resource body
   ProvisioningApprovalRequest provisioning_approval_request = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateProvisioningApprovalRequest method.
@@ -303,7 +319,10 @@ message UpdateProvisioningApprovalRequestRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -314,6 +333,26 @@ message UpdateProvisioningApprovalRequestRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -329,90 +368,47 @@ service ProvisioningApprovalRequestService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetProvisioningApprovalRequest
-  rpc GetProvisioningApprovalRequest(GetProvisioningApprovalRequestRequest)
-      returns (ProvisioningApprovalRequest) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/"
-            "provisioningApprovalRequests/*}"
-    };
+  rpc GetProvisioningApprovalRequest ( GetProvisioningApprovalRequestRequest ) returns ( ProvisioningApprovalRequest ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*}"  };
   }
 
   // BatchGetProvisioningApprovalRequests
-  rpc BatchGetProvisioningApprovalRequests(
-      BatchGetProvisioningApprovalRequestsRequest)
-      returns (BatchGetProvisioningApprovalRequestsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/provisioningApprovalRequests:batchGet"
-    };
+  rpc BatchGetProvisioningApprovalRequests ( BatchGetProvisioningApprovalRequestsRequest ) returns ( BatchGetProvisioningApprovalRequestsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/provisioningApprovalRequests:batchGet"  };
   }
 
   // ListProvisioningApprovalRequests
-  rpc ListProvisioningApprovalRequests(ListProvisioningApprovalRequestsRequest)
-      returns (ListProvisioningApprovalRequestsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/"
-            "provisioningApprovalRequests"
-    };
+  rpc ListProvisioningApprovalRequests ( ListProvisioningApprovalRequestsRequest ) returns ( ListProvisioningApprovalRequestsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/provisioningApprovalRequests"  };
   }
 
   // WatchProvisioningApprovalRequest
-  rpc WatchProvisioningApprovalRequest(WatchProvisioningApprovalRequestRequest)
-      returns (stream WatchProvisioningApprovalRequestResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/"
-             "provisioningApprovalRequests/*}:watch"
-    };
+  rpc WatchProvisioningApprovalRequest ( WatchProvisioningApprovalRequestRequest ) returns ( stream WatchProvisioningApprovalRequestResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*}:watch"  };
   }
 
   // WatchProvisioningApprovalRequests
-  rpc WatchProvisioningApprovalRequests(
-      WatchProvisioningApprovalRequestsRequest)
-      returns (stream WatchProvisioningApprovalRequestsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/"
-             "provisioningApprovalRequests:watch"
-    };
+  rpc WatchProvisioningApprovalRequests ( WatchProvisioningApprovalRequestsRequest ) returns ( stream WatchProvisioningApprovalRequestsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/provisioningApprovalRequests:watch"  };
   }
 
   // CreateProvisioningApprovalRequest
-  rpc CreateProvisioningApprovalRequest(
-      CreateProvisioningApprovalRequestRequest)
-      returns (ProvisioningApprovalRequest) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/"
-             "provisioningApprovalRequests"
-      body : "provisioning_approval_request"
-    };
+  rpc CreateProvisioningApprovalRequest ( CreateProvisioningApprovalRequestRequest ) returns ( ProvisioningApprovalRequest ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=projects/*/regions/*/provisioningPolicies/*}/provisioningApprovalRequests" body:"provisioning_approval_request"  };
   }
 
   // UpdateProvisioningApprovalRequest
-  rpc UpdateProvisioningApprovalRequest(
-      UpdateProvisioningApprovalRequestRequest)
-      returns (ProvisioningApprovalRequest) {
-    option (google.api.http) = {
-      put : "/v1alpha2/{provisioning_approval_request.name=projects/*/regions/"
-            "*/provisioningPolicies/*/provisioningApprovalRequests/*}"
-      body : "provisioning_approval_request"
-    };
+  rpc UpdateProvisioningApprovalRequest ( UpdateProvisioningApprovalRequestRequest ) returns ( ProvisioningApprovalRequest ) {
+    option (google.api.http) = { put:"/v1alpha2/{provisioning_approval_request.name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*}" body:"provisioning_approval_request"  };
   }
 
   // DeleteProvisioningApprovalRequest
-  rpc DeleteProvisioningApprovalRequest(
-      DeleteProvisioningApprovalRequestRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/"
-               "provisioningApprovalRequests/*}"
-    };
+  rpc DeleteProvisioningApprovalRequest ( DeleteProvisioningApprovalRequestRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*}"  };
   }
 
   // ProvisionDeviceForApprovedRequest
-  rpc ProvisionDeviceForApprovedRequest(
-      ProvisionDeviceForApprovedRequestRequest)
-      returns (ProvisionDeviceForApprovedRequestResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/"
-             "provisioningApprovalRequests/*}:provisionDeviceForApprovedRequest"
-    };
+  rpc ProvisionDeviceForApprovedRequest ( ProvisionDeviceForApprovedRequestRequest ) returns ( ProvisionDeviceForApprovedRequestResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=projects/*/regions/*/provisioningPolicies/*/provisioningApprovalRequests/*}:provisionDeviceForApprovedRequest"  };
   }
 }

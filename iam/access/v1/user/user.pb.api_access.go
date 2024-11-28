@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiUserAccess(client user_client.UserServiceClient) user.UserAccess {
 	return &apiUserAccess{client: client}
 }
 
-func (a *apiUserAccess) GetUser(ctx context.Context, query *user.GetQuery) (*user.User, error) {
+func (a *apiUserAccess) GetUser(ctx context.Context, query *user.GetQuery, opts ...gotenresource.GetOption) (*user.User, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiUserAccess) GetUser(ctx context.Context, query *user.GetQuery) (*use
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetUser(ctx, request)
+	res, err := a.client.GetUser(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiUserAccess) GetUser(ctx context.Context, query *user.GetQuery) (*use
 
 func (a *apiUserAccess) BatchGetUsers(ctx context.Context, refs []*user.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*user.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiUserAccess) BatchGetUsers(ctx context.Context, refs []*user.Referenc
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*user.User_FieldMask)
 	}
-	resp, err := a.client.BatchGetUsers(ctx, request)
+	resp, err := a.client.BatchGetUsers(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiUserAccess) BatchGetUsers(ctx context.Context, refs []*user.Referenc
 	return nil
 }
 
-func (a *apiUserAccess) QueryUsers(ctx context.Context, query *user.ListQuery) (*user.QueryResultSnapshot, error) {
+func (a *apiUserAccess) QueryUsers(ctx context.Context, query *user.ListQuery, opts ...gotenresource.QueryOption) (*user.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &user_client.ListUsersRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +155,9 @@ func (a *apiUserAccess) WatchUser(ctx context.Context, query *user.GetQuery, obs
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchUser(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -150,12 +181,16 @@ func (a *apiUserAccess) WatchUsers(ctx context.Context, query *user.WatchQuery, 
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchUsers(ctx, request)
 	if initErr != nil {
 		return initErr

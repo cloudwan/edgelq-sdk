@@ -64,7 +64,9 @@ message RoleChange {
 
   // Role has been added or modified in a query view. Version used for stateless
   // watching
-  message Current { Role role = 1; }
+  message Current {
+    Role role = 1;
+  }
 
   // Removed is returned when Role is deleted or leaves Query view
   message Removed {

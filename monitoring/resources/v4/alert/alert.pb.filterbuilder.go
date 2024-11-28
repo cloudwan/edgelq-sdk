@@ -24,6 +24,7 @@ import (
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -45,6 +46,7 @@ var (
 	_ = &project.Project{}
 	_ = &time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
@@ -2527,6 +2529,10 @@ func (b *filterCndBuilderInfoTimeSerie) Data() *filterCndBuilderInfoTimeSerieDat
 	return &filterCndBuilderInfoTimeSerieData{builder: b.builder}
 }
 
+func (b *filterCndBuilderInfoTimeSerie) BinData() *filterCndBuilderInfoTimeSerieBinData {
+	return &filterCndBuilderInfoTimeSerieBinData{builder: b.builder}
+}
+
 type filterCndBuilderInfoTimeSerieKey struct {
 	builder *FilterBuilder
 }
@@ -3368,6 +3374,99 @@ func (b *filterCndBuilderInfoTimeSerieData) compare(op gotenfilter.CompareOperat
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:             op,
 		Alert_FieldPathValue: NewAlertFieldPathBuilder().Info().TimeSerie().Data().WithValue(value),
+	})
+}
+
+type filterCndBuilderInfoTimeSerieBinData struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) Eq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) Neq(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) Gt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) Gte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) Lt(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) Lte(value [][]byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) In(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) NotIn(values [][][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) Contains(value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().FieldPath(),
+		Value:     NewAlertFieldPathBuilder().Info().TimeSerie().BinData().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) ContainsAnyOf(values [][]byte) *FilterBuilder {
+	pathSelector := NewAlertFieldPathBuilder().Info().TimeSerie().BinData()
+	itemValues := make([]Alert_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) ContainsAll(values [][]byte) *FilterBuilder {
+	pathSelector := NewAlertFieldPathBuilder().Info().TimeSerie().BinData()
+	itemValues := make([]Alert_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderInfoTimeSerieBinData) compare(op gotenfilter.CompareOperator, value [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:             op,
+		Alert_FieldPathValue: NewAlertFieldPathBuilder().Info().TimeSerie().BinData().WithValue(value),
 	})
 }
 

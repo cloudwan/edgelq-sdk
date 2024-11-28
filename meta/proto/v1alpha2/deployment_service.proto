@@ -139,7 +139,9 @@ message WatchDeploymentRequest {
 }
 
 // A response message of the WatchDeployment method.
-message WatchDeploymentResponse { DeploymentChange change = 1; }
+message WatchDeploymentResponse {
+  DeploymentChange change = 1;
+}
 
 // A request message of the WatchDeployments method.
 message WatchDeploymentsRequest {
@@ -273,41 +275,27 @@ service DeploymentService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetDeployment
-  rpc GetDeployment(GetDeploymentRequest) returns (Deployment) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=regions/*/deployments/*}"
-    };
+  rpc GetDeployment ( GetDeploymentRequest ) returns ( Deployment ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=regions/*/deployments/*}"  };
   }
 
   // BatchGetDeployments
-  rpc BatchGetDeployments(BatchGetDeploymentsRequest)
-      returns (BatchGetDeploymentsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/deployments:batchGet"
-    };
+  rpc BatchGetDeployments ( BatchGetDeploymentsRequest ) returns ( BatchGetDeploymentsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/deployments:batchGet"  };
   }
 
   // ListDeployments
-  rpc ListDeployments(ListDeploymentsRequest)
-      returns (ListDeploymentsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{parent=regions/*}/deployments"
-    };
+  rpc ListDeployments ( ListDeploymentsRequest ) returns ( ListDeploymentsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/{parent=regions/*}/deployments"  };
   }
 
   // WatchDeployment
-  rpc WatchDeployment(WatchDeploymentRequest)
-      returns (stream WatchDeploymentResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=regions/*/deployments/*}:watch"
-    };
+  rpc WatchDeployment ( WatchDeploymentRequest ) returns ( stream WatchDeploymentResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=regions/*/deployments/*}:watch"  };
   }
 
   // WatchDeployments
-  rpc WatchDeployments(WatchDeploymentsRequest)
-      returns (stream WatchDeploymentsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=regions/*}/deployments:watch"
-    };
+  rpc WatchDeployments ( WatchDeploymentsRequest ) returns ( stream WatchDeploymentsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=regions/*}/deployments:watch"  };
   }
 }

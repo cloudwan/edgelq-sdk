@@ -492,6 +492,213 @@ func (m *CreateLogsResponse) SetFailedLogs(fv []*CreateLogsResponse_CreateError)
 	m.FailedLogs = fv
 }
 
+// A request message of the StreamingCreateLogs method.
+// This method only supports creating logs for the same project and region for
+// the entire duration of the stream. Any client that intends
+// to create logs in multiple projects or regions should not use this API. If
+// the client uses the same scope, service, version and log descriptor, these
+// fields need not be sent after the first message even if binary key is not
+// used in the log entry. The server will set the values observed in the first
+// message in case these are empty and binary key is also not present in the log
+type StreamingCreateLogsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Parent reference of ntt.logging.v1.Log
+	// only required in the first request message
+	Parent *log.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	// only required in the first request in order to route the request to the
+	// correct region
+	RegionId string `protobuf:"bytes,2,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	// List of logs to create/append. If they have specified name
+	// field, it must match provided parent field
+	Logs []*log.Log `protobuf:"bytes,3,rep,name=logs,proto3" json:"logs,omitempty" firestore:"logs"`
+}
+
+func (m *StreamingCreateLogsRequest) Reset() {
+	*m = StreamingCreateLogsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *StreamingCreateLogsRequest) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*StreamingCreateLogsRequest) ProtoMessage() {}
+
+func (m *StreamingCreateLogsRequest) ProtoReflect() preflect.Message {
+	mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*StreamingCreateLogsRequest) GotenMessage() {}
+
+// Deprecated, Use StreamingCreateLogsRequest.ProtoReflect.Descriptor instead.
+func (*StreamingCreateLogsRequest) Descriptor() ([]byte, []int) {
+	return edgelq_logging_proto_v1_log_custom_proto_rawDescGZIP(), []int{4}
+}
+
+func (m *StreamingCreateLogsRequest) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *StreamingCreateLogsRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *StreamingCreateLogsRequest) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *StreamingCreateLogsRequest) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *StreamingCreateLogsRequest) GetParent() *log.ParentName {
+	if m != nil {
+		return m.Parent
+	}
+	return nil
+}
+
+func (m *StreamingCreateLogsRequest) GetRegionId() string {
+	if m != nil {
+		return m.RegionId
+	}
+	return ""
+}
+
+func (m *StreamingCreateLogsRequest) GetLogs() []*log.Log {
+	if m != nil {
+		return m.Logs
+	}
+	return nil
+}
+
+func (m *StreamingCreateLogsRequest) SetParent(fv *log.ParentName) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Parent", "StreamingCreateLogsRequest"))
+	}
+	m.Parent = fv
+}
+
+func (m *StreamingCreateLogsRequest) SetRegionId(fv string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "RegionId", "StreamingCreateLogsRequest"))
+	}
+	m.RegionId = fv
+}
+
+func (m *StreamingCreateLogsRequest) SetLogs(fv []*log.Log) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Logs", "StreamingCreateLogsRequest"))
+	}
+	m.Logs = fv
+}
+
+// A response message of the StreamingCreateLogs method.
+type StreamingCreateLogsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Binary key will be set in the map key corresponding to the array index
+	// in the request, but only if the particular request entry did not use binary
+	// key. Indices for log entries in request having binary key set will be
+	// ignored in the response
+	BinKeys map[uint32]string `protobuf:"bytes,1,rep,name=bin_keys,json=binKeys,proto3" json:"bin_keys,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"binKeys"`
+	// Logs that failed to be created
+	FailedLogs []*CreateLogsResponse_CreateError `protobuf:"bytes,2,rep,name=failed_logs,json=failedLogs,proto3" json:"failed_logs,omitempty" firestore:"failedLogs"`
+}
+
+func (m *StreamingCreateLogsResponse) Reset() {
+	*m = StreamingCreateLogsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *StreamingCreateLogsResponse) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*StreamingCreateLogsResponse) ProtoMessage() {}
+
+func (m *StreamingCreateLogsResponse) ProtoReflect() preflect.Message {
+	mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*StreamingCreateLogsResponse) GotenMessage() {}
+
+// Deprecated, Use StreamingCreateLogsResponse.ProtoReflect.Descriptor instead.
+func (*StreamingCreateLogsResponse) Descriptor() ([]byte, []int) {
+	return edgelq_logging_proto_v1_log_custom_proto_rawDescGZIP(), []int{5}
+}
+
+func (m *StreamingCreateLogsResponse) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *StreamingCreateLogsResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *StreamingCreateLogsResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *StreamingCreateLogsResponse) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *StreamingCreateLogsResponse) GetBinKeys() map[uint32]string {
+	if m != nil {
+		return m.BinKeys
+	}
+	return nil
+}
+
+func (m *StreamingCreateLogsResponse) GetFailedLogs() []*CreateLogsResponse_CreateError {
+	if m != nil {
+		return m.FailedLogs
+	}
+	return nil
+}
+
+func (m *StreamingCreateLogsResponse) SetBinKeys(fv map[uint32]string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "BinKeys", "StreamingCreateLogsResponse"))
+	}
+	m.BinKeys = fv
+}
+
+func (m *StreamingCreateLogsResponse) SetFailedLogs(fv []*CreateLogsResponse_CreateError) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "FailedLogs", "StreamingCreateLogsResponse"))
+	}
+	m.FailedLogs = fv
+}
+
 // ErrorDetails is used when one of the queried regions fails to produce
 // results. It is used in execution_errors field (see subfield
 // ntt.rpc.Status.details).
@@ -506,7 +713,7 @@ type ListLogsResponse_ErrorDetails struct {
 func (m *ListLogsResponse_ErrorDetails) Reset() {
 	*m = ListLogsResponse_ErrorDetails{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[4]
+		mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -519,7 +726,7 @@ func (m *ListLogsResponse_ErrorDetails) String() string {
 func (*ListLogsResponse_ErrorDetails) ProtoMessage() {}
 
 func (m *ListLogsResponse_ErrorDetails) ProtoReflect() preflect.Message {
-	mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[4]
+	mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -582,7 +789,7 @@ type CreateLogsResponse_CreateError struct {
 func (m *CreateLogsResponse_CreateError) Reset() {
 	*m = CreateLogsResponse_CreateError{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[5]
+		mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -595,7 +802,7 @@ func (m *CreateLogsResponse_CreateError) String() string {
 func (*CreateLogsResponse_CreateError) ProtoMessage() {}
 
 func (m *CreateLogsResponse_CreateError) ProtoReflect() preflect.Message {
-	mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[5]
+	mi := &edgelq_logging_proto_v1_log_custom_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -733,15 +940,39 @@ var edgelq_logging_proto_v1_log_custom_proto_rawDesc = []byte{
 	0x75, 0x73, 0x1a, 0x3b, 0x0a, 0x0d, 0x4c, 0x6f, 0x67, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x45, 0x6e,
 	0x74, 0x72, 0x79, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d,
 	0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x42,
-	0x6a, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6c,
-	0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x0e, 0x4c, 0x6f,
-	0x67, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00, 0x5a, 0x3b,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64,
-	0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x6c, 0x6f, 0x67, 0x67, 0x69,
-	0x6e, 0x67, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x6f, 0x67,
-	0x3b, 0x6c, 0x6f, 0x67, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22,
+	0x87, 0x01, 0x0a, 0x1a, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x69, 0x6e, 0x67, 0x43, 0x72, 0x65,
+	0x61, 0x74, 0x65, 0x4c, 0x6f, 0x67, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x23,
+	0x0a, 0x06, 0x70, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0b,
+	0xb2, 0xda, 0x21, 0x07, 0x3a, 0x05, 0x0a, 0x03, 0x4c, 0x6f, 0x67, 0x52, 0x06, 0x70, 0x61, 0x72,
+	0x65, 0x6e, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x72, 0x65, 0x67, 0x69, 0x6f, 0x6e, 0x49, 0x64,
+	0x12, 0x27, 0x0a, 0x04, 0x6c, 0x6f, 0x67, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e,
+	0x4c, 0x6f, 0x67, 0x52, 0x04, 0x6c, 0x6f, 0x67, 0x73, 0x22, 0xff, 0x01, 0x0a, 0x1b, 0x53, 0x74,
+	0x72, 0x65, 0x61, 0x6d, 0x69, 0x6e, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x6f, 0x67,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x53, 0x0a, 0x08, 0x62, 0x69, 0x6e,
+	0x5f, 0x6b, 0x65, 0x79, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x38, 0x2e, 0x6e, 0x74,
+	0x74, 0x2e, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x53, 0x74, 0x72,
+	0x65, 0x61, 0x6d, 0x69, 0x6e, 0x67, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x6f, 0x67, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x42, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73,
+	0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x07, 0x62, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x12, 0x4f,
+	0x0a, 0x0b, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x5f, 0x6c, 0x6f, 0x67, 0x73, 0x18, 0x02, 0x20,
+	0x03, 0x28, 0x0b, 0x32, 0x2e, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e,
+	0x67, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4c, 0x6f, 0x67, 0x73, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x72,
+	0x72, 0x6f, 0x72, 0x52, 0x0a, 0x66, 0x61, 0x69, 0x6c, 0x65, 0x64, 0x4c, 0x6f, 0x67, 0x73, 0x1a,
+	0x3a, 0x0a, 0x0c, 0x42, 0x69, 0x6e, 0x4b, 0x65, 0x79, 0x73, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12,
+	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x03, 0x6b, 0x65,
+	0x79, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x42, 0x6a, 0xe8, 0xde, 0x21,
+	0x00, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6c, 0x6f, 0x67, 0x67, 0x69,
+	0x6e, 0x67, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x0e, 0x4c, 0x6f, 0x67, 0x43, 0x75, 0x73,
+	0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x00, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f,
+	0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x6c, 0x6f, 0x67, 0x67, 0x69, 0x6e, 0x67, 0x2f, 0x63,
+	0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x6c, 0x6f, 0x67, 0x3b, 0x6c, 0x6f, 0x67,
+	0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -756,33 +987,39 @@ func edgelq_logging_proto_v1_log_custom_proto_rawDescGZIP() []byte {
 	return edgelq_logging_proto_v1_log_custom_proto_rawDescData
 }
 
-var edgelq_logging_proto_v1_log_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var edgelq_logging_proto_v1_log_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var edgelq_logging_proto_v1_log_custom_proto_goTypes = []interface{}{
 	(*ListLogsRequest)(nil),                // 0: ntt.logging.v1.ListLogsRequest
 	(*ListLogsResponse)(nil),               // 1: ntt.logging.v1.ListLogsResponse
 	(*CreateLogsRequest)(nil),              // 2: ntt.logging.v1.CreateLogsRequest
 	(*CreateLogsResponse)(nil),             // 3: ntt.logging.v1.CreateLogsResponse
-	(*ListLogsResponse_ErrorDetails)(nil),  // 4: ntt.logging.v1.ListLogsResponse.ErrorDetails
-	(*CreateLogsResponse_CreateError)(nil), // 5: ntt.logging.v1.CreateLogsResponse.CreateError
-	nil,                                    // 6: ntt.logging.v1.CreateLogsResponse.LogNamesEntry
-	(*common.TimeInterval)(nil),            // 7: ntt.logging.v1.TimeInterval
-	(*log.Log)(nil),                        // 8: ntt.logging.v1.Log
-	(*rpc.Status)(nil),                     // 9: ntt.rpc.Status
+	(*StreamingCreateLogsRequest)(nil),     // 4: ntt.logging.v1.StreamingCreateLogsRequest
+	(*StreamingCreateLogsResponse)(nil),    // 5: ntt.logging.v1.StreamingCreateLogsResponse
+	(*ListLogsResponse_ErrorDetails)(nil),  // 6: ntt.logging.v1.ListLogsResponse.ErrorDetails
+	(*CreateLogsResponse_CreateError)(nil), // 7: ntt.logging.v1.CreateLogsResponse.CreateError
+	nil,                                    // 8: ntt.logging.v1.CreateLogsResponse.LogNamesEntry
+	nil,                                    // 9: ntt.logging.v1.StreamingCreateLogsResponse.BinKeysEntry
+	(*common.TimeInterval)(nil),            // 10: ntt.logging.v1.TimeInterval
+	(*log.Log)(nil),                        // 11: ntt.logging.v1.Log
+	(*rpc.Status)(nil),                     // 12: ntt.rpc.Status
 }
 var edgelq_logging_proto_v1_log_custom_proto_depIdxs = []int32{
-	7, // 0: ntt.logging.v1.ListLogsRequest.interval:type_name -> ntt.logging.v1.TimeInterval
-	8, // 1: ntt.logging.v1.ListLogsResponse.logs:type_name -> ntt.logging.v1.Log
-	9, // 2: ntt.logging.v1.ListLogsResponse.execution_errors:type_name -> ntt.rpc.Status
-	8, // 3: ntt.logging.v1.CreateLogsRequest.logs:type_name -> ntt.logging.v1.Log
-	6, // 4: ntt.logging.v1.CreateLogsResponse.log_names:type_name -> ntt.logging.v1.CreateLogsResponse.LogNamesEntry
-	5, // 5: ntt.logging.v1.CreateLogsResponse.failed_logs:type_name -> ntt.logging.v1.CreateLogsResponse.CreateError
-	8, // 6: ntt.logging.v1.CreateLogsResponse.CreateError.logs:type_name -> ntt.logging.v1.Log
-	9, // 7: ntt.logging.v1.CreateLogsResponse.CreateError.status:type_name -> ntt.rpc.Status
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	10, // 0: ntt.logging.v1.ListLogsRequest.interval:type_name -> ntt.logging.v1.TimeInterval
+	11, // 1: ntt.logging.v1.ListLogsResponse.logs:type_name -> ntt.logging.v1.Log
+	12, // 2: ntt.logging.v1.ListLogsResponse.execution_errors:type_name -> ntt.rpc.Status
+	11, // 3: ntt.logging.v1.CreateLogsRequest.logs:type_name -> ntt.logging.v1.Log
+	8,  // 4: ntt.logging.v1.CreateLogsResponse.log_names:type_name -> ntt.logging.v1.CreateLogsResponse.LogNamesEntry
+	7,  // 5: ntt.logging.v1.CreateLogsResponse.failed_logs:type_name -> ntt.logging.v1.CreateLogsResponse.CreateError
+	11, // 6: ntt.logging.v1.StreamingCreateLogsRequest.logs:type_name -> ntt.logging.v1.Log
+	9,  // 7: ntt.logging.v1.StreamingCreateLogsResponse.bin_keys:type_name -> ntt.logging.v1.StreamingCreateLogsResponse.BinKeysEntry
+	7,  // 8: ntt.logging.v1.StreamingCreateLogsResponse.failed_logs:type_name -> ntt.logging.v1.CreateLogsResponse.CreateError
+	11, // 9: ntt.logging.v1.CreateLogsResponse.CreateError.logs:type_name -> ntt.logging.v1.Log
+	12, // 10: ntt.logging.v1.CreateLogsResponse.CreateError.status:type_name -> ntt.rpc.Status
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { edgelq_logging_proto_v1_log_custom_proto_init() }
@@ -841,7 +1078,7 @@ func edgelq_logging_proto_v1_log_custom_proto_init() {
 			}
 		}
 		edgelq_logging_proto_v1_log_custom_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListLogsResponse_ErrorDetails); i {
+			switch v := v.(*StreamingCreateLogsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -853,6 +1090,30 @@ func edgelq_logging_proto_v1_log_custom_proto_init() {
 			}
 		}
 		edgelq_logging_proto_v1_log_custom_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StreamingCreateLogsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_logging_proto_v1_log_custom_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ListLogsResponse_ErrorDetails); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_logging_proto_v1_log_custom_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateLogsResponse_CreateError); i {
 			case 0:
 				return &v.state
@@ -872,7 +1133,7 @@ func edgelq_logging_proto_v1_log_custom_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_logging_proto_v1_log_custom_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

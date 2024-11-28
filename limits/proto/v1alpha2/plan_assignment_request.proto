@@ -29,13 +29,7 @@ option java_package = "com.ntt.meta.pb.v1alpha2";
 // consent. User creating request should check status field after operation
 // to check if request was automatically approved.
 message PlanAssignmentRequest {
-  option (google.api.resource) = {
-    type : "limits.edgelq.com/PlanAssignmentRequest"
-    pattern : "projects/{project}/planAssignmentRequests/"
-              "{plan_assignment_request}"
-    pattern : "organizations/{organization}/planAssignmentRequests/"
-              "{plan_assignment_request}"
-  };
+  option (google.api.resource) = { type:"limits.edgelq.com/PlanAssignmentRequest" pattern:"projects/{project}/planAssignmentRequests/{plan_assignment_request}" pattern:"organizations/{organization}/planAssignmentRequests/{plan_assignment_request}"  };
 
   // Name of PlanAssignmentRequest
   // When creating a new instance, this field is optional and if not provided,
@@ -143,6 +137,8 @@ message PlanAssignmentRequest {
     // Unassign is used to remove existing PlanAssignment. This will
     // always be automatically approved unless limits are in use by
     // existing resources.
-    message Unassign { string assignment = 1; }
+    message Unassign {
+      string assignment = 1;
+    }
   }
 }

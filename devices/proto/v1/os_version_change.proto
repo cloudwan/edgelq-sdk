@@ -65,7 +65,9 @@ message OsVersionChange {
 
   // OsVersion has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { OsVersion os_version = 1; }
+  message Current {
+    OsVersion os_version = 1;
+  }
 
   // Removed is returned when OsVersion is deleted or leaves Query view
   message Removed {

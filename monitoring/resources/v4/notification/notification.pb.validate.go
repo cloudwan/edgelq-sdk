@@ -62,10 +62,26 @@ func (obj *Notification) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Notification", "metadata", obj.Metadata, "nested object validation failed", err)
 		}
 	}
+	for idx, elem := range obj.AlertSets {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Notification", "alertSets", obj.AlertSets[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if subobj, ok := interface{}(obj.State).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Notification", "state", obj.State, "nested object validation failed", err)
 		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Notification_AlertsSet) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

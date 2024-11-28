@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -2381,6 +2381,7 @@ const (
 	AlertInfoTimeSerie_FieldPathSelectorMetric            AlertInfoTimeSerie_FieldPathSelector = 1
 	AlertInfoTimeSerie_FieldPathSelectorMonitoredResource AlertInfoTimeSerie_FieldPathSelector = 2
 	AlertInfoTimeSerie_FieldPathSelectorData              AlertInfoTimeSerie_FieldPathSelector = 3
+	AlertInfoTimeSerie_FieldPathSelectorBinData           AlertInfoTimeSerie_FieldPathSelector = 4
 )
 
 func (s AlertInfoTimeSerie_FieldPathSelector) String() string {
@@ -2393,6 +2394,8 @@ func (s AlertInfoTimeSerie_FieldPathSelector) String() string {
 		return "monitored_resource"
 	case AlertInfoTimeSerie_FieldPathSelectorData:
 		return "data"
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		return "bin_data"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", s))
 	}
@@ -2412,6 +2415,8 @@ func BuildAlertInfoTimeSerie_FieldPath(fp gotenobject.RawFieldPath) (AlertInfoTi
 			return &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorMonitoredResource}, nil
 		case "data":
 			return &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorData}, nil
+		case "bin_data", "binData", "bin-data":
+			return &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorBinData}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -2486,6 +2491,10 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) Get(source *Alert_Info_TimeSerie
 			for _, value := range source.GetData() {
 				values = append(values, value)
 			}
+		case AlertInfoTimeSerie_FieldPathSelectorBinData:
+			for _, value := range source.GetBinData() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 		}
@@ -2512,6 +2521,9 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) GetSingle(source *Alert_Info_Tim
 	case AlertInfoTimeSerie_FieldPathSelectorData:
 		res := source.GetData()
 		return res, res != nil
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		res := source.GetBinData()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2532,6 +2544,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) GetDefault() interface{} {
 		return (*common.MonitoredResource)(nil)
 	case AlertInfoTimeSerie_FieldPathSelectorData:
 		return ([]string)(nil)
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		return ([][]byte)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2548,6 +2562,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) ClearValue(item *Alert_Info_Time
 			item.MonitoredResource = nil
 		case AlertInfoTimeSerie_FieldPathSelectorData:
 			item.Data = nil
+		case AlertInfoTimeSerie_FieldPathSelectorBinData:
+			item.BinData = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 		}
@@ -2561,7 +2577,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) ClearValueRaw(item proto.Message
 // IsLeaf - whether field path is holds simple value
 func (fp *AlertInfoTimeSerie_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == AlertInfoTimeSerie_FieldPathSelectorKey ||
-		fp.selector == AlertInfoTimeSerie_FieldPathSelectorData
+		fp.selector == AlertInfoTimeSerie_FieldPathSelectorData ||
+		fp.selector == AlertInfoTimeSerie_FieldPathSelectorBinData
 }
 
 func (fp *AlertInfoTimeSerie_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2578,6 +2595,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIValue(value interface{}) Al
 		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(*common.MonitoredResource)}
 	case AlertInfoTimeSerie_FieldPathSelectorData:
 		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.([]string)}
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		return &AlertInfoTimeSerie_FieldTerminalPathValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.([][]byte)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2598,6 +2617,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([]*common.MonitoredResource)}
 	case AlertInfoTimeSerie_FieldPathSelectorData:
 		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([][]string)}
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		return &AlertInfoTimeSerie_FieldTerminalPathArrayOfValues{AlertInfoTimeSerie_FieldTerminalPath: *fp, values: values.([][][]byte)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2612,6 +2633,8 @@ func (fp *AlertInfoTimeSerie_FieldTerminalPath) WithIArrayItemValue(value interf
 	switch fp.selector {
 	case AlertInfoTimeSerie_FieldPathSelectorData:
 		return &AlertInfoTimeSerie_FieldTerminalPathArrayItemValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.(string)}
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		return &AlertInfoTimeSerie_FieldTerminalPathArrayItemValue{AlertInfoTimeSerie_FieldTerminalPath: *fp, value: value.([]byte)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fp.selector))
 	}
@@ -2801,6 +2824,10 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsDataValue() ([]string, b
 	res, ok := fpv.value.([]string)
 	return res, ok
 }
+func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) AsBinDataValue() ([][]byte, bool) {
+	res, ok := fpv.value.([][]byte)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object TimeSerie
 func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) SetTo(target **Alert_Info_TimeSerie) {
@@ -2816,6 +2843,8 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) SetTo(target **Alert_Info_
 		(*target).MonitoredResource = fpv.value.(*common.MonitoredResource)
 	case AlertInfoTimeSerie_FieldPathSelectorData:
 		(*target).Data = fpv.value.([]string)
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		(*target).BinData = fpv.value.([][]byte)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpv.selector))
 	}
@@ -2836,6 +2865,8 @@ func (fpv *AlertInfoTimeSerie_FieldTerminalPathValue) CompareWith(source *Alert_
 	case AlertInfoTimeSerie_FieldPathSelectorMonitoredResource:
 		return 0, false
 	case AlertInfoTimeSerie_FieldPathSelectorData:
+		return 0, false
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Info_TimeSerie: %d", fpv.selector))
@@ -2944,6 +2975,10 @@ func (fpaiv *AlertInfoTimeSerie_FieldTerminalPathArrayItemValue) AsDataItemValue
 	res, ok := fpaiv.value.(string)
 	return res, ok
 }
+func (fpaiv *AlertInfoTimeSerie_FieldTerminalPathArrayItemValue) AsBinDataItemValue() ([]byte, bool) {
+	res, ok := fpaiv.value.([]byte)
+	return res, ok
+}
 
 func (fpaiv *AlertInfoTimeSerie_FieldTerminalPathArrayItemValue) GetSingle(source *Alert_Info_TimeSerie) (interface{}, bool) {
 	return nil, false
@@ -3049,6 +3084,10 @@ func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([][]string) {
 			values = append(values, v)
 		}
+	case AlertInfoTimeSerie_FieldPathSelectorBinData:
+		for _, v := range fpaov.values.([][][]byte) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3066,6 +3105,10 @@ func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsMonitoredResou
 }
 func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsDataArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *AlertInfoTimeSerie_FieldTerminalPathArrayOfValues) AsBinDataArrayOfValues() ([][][]byte, bool) {
+	res, ok := fpaov.values.([][][]byte)
 	return res, ok
 }
 

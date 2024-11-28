@@ -14,10 +14,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 
 // ProjectInvitation Resource
 message ProjectInvitation {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/ProjectInvitation"
-    pattern : "projects/{project}/projectInvitations/{project_invitation}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/ProjectInvitation" pattern:"projects/{project}/projectInvitations/{project_invitation}"  };
 
   // Name of ProjectInvitation
   // When creating a new instance, this field is optional and if not provided,
@@ -27,7 +24,7 @@ message ProjectInvitation {
 
   // project display name (auto-generated). Present here as user doesn't have
   // yet permission to fetch related project.
-  string project_display_name = 4 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  string project_display_name = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   Invitation invitation = 2;
 

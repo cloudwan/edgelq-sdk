@@ -40,9 +40,9 @@ var (
 )
 
 type PermissionAccess interface {
-	GetPermission(context.Context, *GetQuery) (*Permission, error)
+	GetPermission(context.Context, *GetQuery, ...gotenresource.GetOption) (*Permission, error)
 	BatchGetPermissions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryPermissions(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryPermissions(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchPermission(context.Context, *GetQuery, func(*PermissionChange) error) error
 	WatchPermissions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SavePermission(context.Context, *Permission, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access PermissionAccess) gotenresource.Access {
 	return &anyCastAccess{PermissionAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asPermissionQuery, ok := q.(*GetQuery); ok {
-		return a.GetPermission(ctx, asPermissionQuery)
+		return a.GetPermission(ctx, asPermissionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Permission, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asPermissionQuery, ok := q.(*ListQuery); ok {
-		return a.QueryPermissions(ctx, asPermissionQuery)
+		return a.QueryPermissions(ctx, asPermissionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Permission, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Permission")
 }
 

@@ -42,9 +42,9 @@ var (
 )
 
 type AlertAccess interface {
-	GetAlert(context.Context, *GetQuery) (*Alert, error)
+	GetAlert(context.Context, *GetQuery, ...gotenresource.GetOption) (*Alert, error)
 	BatchGetAlerts(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryAlerts(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryAlerts(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchAlert(context.Context, *GetQuery, func(*AlertChange) error) error
 	WatchAlerts(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAlert(context.Context, *Alert, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access AlertAccess) gotenresource.Access {
 	return &anyCastAccess{AlertAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asAlertQuery, ok := q.(*GetQuery); ok {
-		return a.GetAlert(ctx, asAlertQuery)
+		return a.GetAlert(ctx, asAlertQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Alert, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAlertQuery, ok := q.(*ListQuery); ok {
-		return a.QueryAlerts(ctx, asAlertQuery)
+		return a.QueryAlerts(ctx, asAlertQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Alert, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Alert")
 }
 

@@ -17,10 +17,7 @@ option java_package = "com.ntt.monitoring.pb.v4";
 // deleting or altering it stops data collection and makes the metric type's
 // existing data unusable.
 message MetricDescriptor {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/MetricDescriptor"
-    pattern : "projects/{project}/metricDescriptors/{metric_descriptor}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/MetricDescriptor" pattern:"projects/{project}/metricDescriptors/{metric_descriptor}"  };
 
   // Name of MetricDescriptor
   // When creating a new instance, this field is optional and if not provided,
@@ -178,9 +175,11 @@ message MetricDescriptor {
   // Storage settings
   StorageConfig storage_config = 33;
 
-  // Generated indices data in binary format, for internal use.
+  // Generated indices data in binary format, for internal use only.
   // They are compiled when MetricDescriptor is saved and used by monitoring
   // server, db-controller or controller when necessary.
+  // One MetricDescriptor instance will have different value of this field
+  // in each region!
   BinaryIndices binary_indices = 38;
 
   // Additional annotations that can be used to guide the usage of a metric.
@@ -434,6 +433,9 @@ message MetricDescriptor {
 
   message BinaryIndices {
     repeated ByResourceType by_resources = 1;
+
+    // Region to which above binary data is relevant.
+    string region = 2;
 
     message PreAggregatedIndex {
       bytes key_data = 1;

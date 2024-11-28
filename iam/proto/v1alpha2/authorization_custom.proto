@@ -19,15 +19,13 @@ message Check {
   string object = 1;
 
   // Array of permissions to be verified
-  repeated string permissions = 2
-      [ (google.api.resource_reference) = {type : "Permission"} ];
+  repeated string permissions = 2 [(google.api.resource_reference) = { type:"Permission"  }];
 }
 
 // ConditionalGrant represents grant on repeated list of permissions if all of
 // conditions is met.
 message ConditionalGrant {
-  repeated string permissions = 1
-      [ (google.api.resource_reference) = {type : "Permission"} ];
+  repeated string permissions = 1 [(google.api.resource_reference) = { type:"Permission"  }];
 
   repeated ConditionBinding condition_bindings = 2;
 }
@@ -37,8 +35,7 @@ message CheckResult {
   string object = 1;
 
   // Granted Permissions
-  repeated string granted_permissions = 2
-      [ (google.api.resource_reference) = {type : "Permission"} ];
+  repeated string granted_permissions = 2 [(google.api.resource_reference) = { type:"Permission"  }];
 
   repeated ConditionalGrant conditionally_granted_permissions = 3;
 }
@@ -65,7 +62,9 @@ message CheckPermissionsRequest {
 
 // Response message for method
 // [CheckPermissions][ntt.iam.v1alpha2.CheckPermissions]
-message CheckPermissionsResponse { repeated CheckResult check_results = 1; }
+message CheckPermissionsResponse {
+  repeated CheckResult check_results = 1;
+}
 
 // Request message for method
 // [CheckMyPermissions][ntt.iam.v1alpha2.CheckMyPermissions]
@@ -81,7 +80,9 @@ message CheckMyPermissionsRequest {
 
 // Response message for method
 // [CheckMyPermissions][ntt.iam.v1alpha2.CheckMyPermissions]
-message CheckMyPermissionsResponse { repeated CheckResult check_results = 1; }
+message CheckMyPermissionsResponse {
+  repeated CheckResult check_results = 1;
+}
 
 // Request message for method
 // [CheckMyRoles][ntt.iam.v1alpha2.CheckMyRoles]
@@ -97,15 +98,14 @@ message CheckMyRolesResponse {
   string object = 1;
 
   // All unconditionally granted roles
-  repeated string granted_roles = 2
-      [ (google.api.resource_reference) = {type : "Role"} ];
+  repeated string granted_roles = 2 [(google.api.resource_reference) = { type:"Role"  }];
 
   // All conditionally granted roles. Each grant should be checked separately
   repeated ConditionalGrant conditionally_granted_roles = 3;
 
   message ConditionalGrant {
     // Role name
-    string role = 1 [ (google.api.resource_reference) = {type : "Role"} ];
+    string role = 1 [(google.api.resource_reference) = { type:"Role"  }];
 
     // All conditions that must be accepted for role to be granted
     repeated ConditionBinding condition_bindings = 2;

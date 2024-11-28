@@ -15,11 +15,7 @@ option java_package = "com.ntt.devices.pb.v1alpha2";
 
 // ProvisioningPolicy Resource
 message ProvisioningPolicy {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/ProvisioningPolicy"
-    pattern : "projects/{project}/regions/{region}/provisioningPolicies/"
-              "{provisioning_policy}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/ProvisioningPolicy" pattern:"projects/{project}/regions/{region}/provisioningPolicies/{provisioning_policy}"  };
 
   // Name of ProvisioningPolicy
   // When creating a new instance, this field is optional and if not provided,
@@ -64,13 +60,12 @@ message ProvisioningPolicy {
     // Role that the newly created service account should be bound to.
     // If not specified, will use the default value of
     // "roles/devices-device-agent".
-    string role = 7 [ (google.api.resource_reference) = {type : "Role"} ];
+    string role = 7 [(google.api.resource_reference) = { type:"Role"  }];
 
     // Condition for the role binding for the default role.
     // If not specified, will use the default value of
     // "device-isolation".
-    string condition = 8
-        [ (google.api.resource_reference) = {type : "Condition"} ];
+    string condition = 8 [(google.api.resource_reference) = { type:"Condition"  }];
 
     message Template {
       goten.types.Meta metadata = 1;
@@ -82,7 +77,8 @@ message ProvisioningPolicy {
     }
   }
 
-  message Status {}
+  message Status {
+  }
 
   enum Mode {
     // Mode is not defined, devices will do nothing when the policy is

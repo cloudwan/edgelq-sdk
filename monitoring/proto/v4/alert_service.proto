@@ -4,6 +4,7 @@ package ntt.monitoring.v4;
 
 import "edgelq-sdk/monitoring/proto/v4/alert.proto";
 import "edgelq-sdk/monitoring/proto/v4/alert_change.proto";
+import "edgelq-sdk/monitoring/proto/v4/alert_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -139,7 +140,9 @@ message WatchAlertRequest {
 }
 
 // A response message of the WatchAlert method.
-message WatchAlertResponse { AlertChange change = 1; }
+message WatchAlertResponse {
+  AlertChange change = 1;
+}
 
 // A request message of the WatchAlerts method.
 message WatchAlertsRequest {
@@ -267,15 +270,6 @@ message WatchAlertsResponse {
   }
 }
 
-// A request message of the CreateAlert method.
-message CreateAlertRequest {
-  // Parent name of ntt.monitoring.v4.Alert
-  string parent = 1;
-
-  // Alert resource body
-  Alert alert = 2;
-}
-
 // A request message of the UpdateAlert method.
 message UpdateAlertRequest {
   // Alert resource body
@@ -292,12 +286,9 @@ message UpdateAlertRequest {
   // Otherwise RPC error Aborted will be returned.
   CAS cas = 4;
 
-  // If set to true, and the resource is not found,
-  // a new resource will be created.  In this situation,
-  // 'field_mask' is ignored.
-  //
-  // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -308,6 +299,26 @@ message UpdateAlertRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -323,67 +334,47 @@ service AlertService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetAlert
-  rpc GetAlert(GetAlertRequest) returns (Alert) {
-    option (google.api.http) = {
-      get : "/v4/{name=projects/*/regions/*/alertingPolicies/*/"
-            "alertingConditions/*/alerts/*}"
-    };
+  rpc GetAlert ( GetAlertRequest ) returns ( Alert ) {
+    option (google.api.http) = { get:"/v4/{name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*/alerts/*}"  };
   }
 
   // BatchGetAlerts
-  rpc BatchGetAlerts(BatchGetAlertsRequest) returns (BatchGetAlertsResponse) {
-    option (google.api.http) = {
-      get : "/v4/alerts:batchGet"
-    };
+  rpc BatchGetAlerts ( BatchGetAlertsRequest ) returns ( BatchGetAlertsResponse ) {
+    option (google.api.http) = { get:"/v4/alerts:batchGet"  };
   }
 
   // ListAlerts
-  rpc ListAlerts(ListAlertsRequest) returns (ListAlertsResponse) {
-    option (google.api.http) = {
-      get : "/v4/{parent=projects/*/regions/*/alertingPolicies/*/"
-            "alertingConditions/*}/alerts"
-    };
+  rpc ListAlerts ( ListAlertsRequest ) returns ( ListAlertsResponse ) {
+    option (google.api.http) = { get:"/v4/{parent=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}/alerts"  };
   }
 
   // WatchAlert
-  rpc WatchAlert(WatchAlertRequest) returns (stream WatchAlertResponse) {
-    option (google.api.http) = {
-      post : "/v4/{name=projects/*/regions/*/alertingPolicies/*/"
-             "alertingConditions/*/alerts/*}:watch"
-    };
+  rpc WatchAlert ( WatchAlertRequest ) returns ( stream WatchAlertResponse ) {
+    option (google.api.http) = { post:"/v4/{name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*/alerts/*}:watch"  };
   }
 
   // WatchAlerts
-  rpc WatchAlerts(WatchAlertsRequest) returns (stream WatchAlertsResponse) {
-    option (google.api.http) = {
-      post : "/v4/{parent=projects/*/regions/*/alertingPolicies/*/"
-             "alertingConditions/*}/alerts:watch"
-    };
-  }
-
-  // CreateAlert
-  rpc CreateAlert(CreateAlertRequest) returns (Alert) {
-    option (google.api.http) = {
-      post : "/v4/{parent=projects/*/regions/*/alertingPolicies/*/"
-             "alertingConditions/*}/alerts"
-      body : "alert"
-    };
+  rpc WatchAlerts ( WatchAlertsRequest ) returns ( stream WatchAlertsResponse ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}/alerts:watch"  };
   }
 
   // UpdateAlert
-  rpc UpdateAlert(UpdateAlertRequest) returns (Alert) {
-    option (google.api.http) = {
-      put : "/v4/{alert.name=projects/*/regions/*/alertingPolicies/*/"
-            "alertingConditions/*/alerts/*}"
-      body : "alert"
-    };
+  rpc UpdateAlert ( UpdateAlertRequest ) returns ( Alert ) {
+    option (google.api.http) = { put:"/v4/{alert.name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*/alerts/*}" body:"alert"  };
   }
 
   // DeleteAlert
-  rpc DeleteAlert(DeleteAlertRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v4/{name=projects/*/regions/*/alertingPolicies/*/"
-               "alertingConditions/*/alerts/*}"
-    };
+  rpc DeleteAlert ( DeleteAlertRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v4/{name=projects/*/regions/*/alertingPolicies/*/alertingConditions/*/alerts/*}"  };
+  }
+
+  // BulkCreateAlerts
+  rpc BulkCreateAlerts ( BulkCreateAlertsRequest ) returns ( BulkCreateAlertsResponse ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}/alerts:bulkCreateAlerts"  };
+  }
+
+  // BulkUpdateAlerts
+  rpc BulkUpdateAlerts ( BulkUpdateAlertsRequest ) returns ( BulkUpdateAlertsResponse ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*/regions/*/alertingPolicies/*/alertingConditions/*}/alerts:bulkUpdateAlerts"  };
   }
 }

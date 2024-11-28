@@ -136,7 +136,9 @@ message WatchServiceRequest {
 }
 
 // A response message of the WatchService method.
-message WatchServiceResponse { ServiceChange change = 1; }
+message WatchServiceResponse {
+  ServiceChange change = 1;
+}
 
 // A request message of the WatchServices method.
 message WatchServicesRequest {
@@ -267,39 +269,27 @@ service ServiceService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetService
-  rpc GetService(GetServiceRequest) returns (Service) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=services/*}"
-    };
+  rpc GetService ( GetServiceRequest ) returns ( Service ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=services/*}"  };
   }
 
   // BatchGetServices
-  rpc BatchGetServices(BatchGetServicesRequest)
-      returns (BatchGetServicesResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/services:batchGet"
-    };
+  rpc BatchGetServices ( BatchGetServicesRequest ) returns ( BatchGetServicesResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/services:batchGet"  };
   }
 
   // ListServices
-  rpc ListServices(ListServicesRequest) returns (ListServicesResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/services"
-    };
+  rpc ListServices ( ListServicesRequest ) returns ( ListServicesResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/services"  };
   }
 
   // WatchService
-  rpc WatchService(WatchServiceRequest) returns (stream WatchServiceResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=services/*}:watch"
-    };
+  rpc WatchService ( WatchServiceRequest ) returns ( stream WatchServiceResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=services/*}:watch"  };
   }
 
   // WatchServices
-  rpc WatchServices(WatchServicesRequest)
-      returns (stream WatchServicesResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/services:watch"
-    };
+  rpc WatchServices ( WatchServicesRequest ) returns ( stream WatchServicesResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/services:watch"  };
   }
 }

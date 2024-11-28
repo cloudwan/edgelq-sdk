@@ -24,12 +24,7 @@ option java_package = "com.ntt.limits.pb.v1alpha2";
 // or system). System recognizes acceptance by existence of AcceptedPlan
 // instances - it synchronizes PlanAssignment instances with them.
 message PlanAssignment {
-  option (google.api.resource) = {
-    type : "limits.edgelq.com/PlanAssignment"
-    pattern : "planAssignments/{plan_assignment}"
-    pattern : "projects/{project}/planAssignments/{plan_assignment}"
-    pattern : "organizations/{organization}/planAssignments/{plan_assignment}"
-  };
+  option (google.api.resource) = { type:"limits.edgelq.com/PlanAssignment" pattern:"planAssignments/{plan_assignment}" pattern:"projects/{project}/planAssignments/{plan_assignment}" pattern:"organizations/{organization}/planAssignments/{plan_assignment}"  };
 
   // Name of PlanAssignment
   // When creating a new instance, this field is optional and if not provided,

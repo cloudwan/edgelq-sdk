@@ -46,9 +46,9 @@ var (
 )
 
 type LimitAccess interface {
-	GetLimit(context.Context, *GetQuery) (*Limit, error)
+	GetLimit(context.Context, *GetQuery, ...gotenresource.GetOption) (*Limit, error)
 	BatchGetLimits(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryLimits(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryLimits(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchLimit(context.Context, *GetQuery, func(*LimitChange) error) error
 	WatchLimits(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveLimit(context.Context, *Limit, ...gotenresource.SaveOption) error
@@ -63,25 +63,25 @@ func AsAnyCastAccess(access LimitAccess) gotenresource.Access {
 	return &anyCastAccess{LimitAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asLimitQuery, ok := q.(*GetQuery); ok {
-		return a.GetLimit(ctx, asLimitQuery)
+		return a.GetLimit(ctx, asLimitQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Limit, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asLimitQuery, ok := q.(*ListQuery); ok {
-		return a.QueryLimits(ctx, asLimitQuery)
+		return a.QueryLimits(ctx, asLimitQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Limit, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Limit")
 }
 

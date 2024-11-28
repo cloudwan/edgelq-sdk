@@ -13,12 +13,7 @@ option java_package = "com.ntt.logging.pb.v1";
 
 // LogDescriptor Resource
 message LogDescriptor {
-  option (google.api.resource) = {
-    type : "logging.edgelq.com/LogDescriptor"
-    pattern : "projects/{project}/logDescriptors/{log_descriptor}"
-    pattern : "organizations/{organization}/logDescriptors/{log_descriptor}"
-    pattern : "services/{service}/logDescriptors/{log_descriptor}"
-  };
+  option (google.api.resource) = { type:"logging.edgelq.com/LogDescriptor" pattern:"projects/{project}/logDescriptors/{log_descriptor}" pattern:"organizations/{organization}/logDescriptors/{log_descriptor}" pattern:"services/{service}/logDescriptors/{log_descriptor}"  };
 
   // Name of LogDescriptor
   // When creating a new instance, this field is optional and if not provided,

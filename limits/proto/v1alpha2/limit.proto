@@ -23,10 +23,7 @@ option java_package = "com.ntt.limits.pb.v1alpha2";
 // by system). Limits are created/modified along with
 // PlanAssignment instances.
 message Limit {
-  option (google.api.resource) = {
-    type : "limits.edgelq.com/Limit"
-    pattern : "projects/{project}/limits/{limit}"
-  };
+  option (google.api.resource) = { type:"limits.edgelq.com/Limit" pattern:"projects/{project}/limits/{limit}"  };
 
   // Name of Limit, it has following format:
   // projects/{project}/limits/{regionId}/{resourceType}

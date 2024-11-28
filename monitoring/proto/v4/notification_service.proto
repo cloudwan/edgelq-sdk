@@ -139,7 +139,9 @@ message WatchNotificationRequest {
 }
 
 // A response message of the WatchNotification method.
-message WatchNotificationResponse { NotificationChange change = 1; }
+message WatchNotificationResponse {
+  NotificationChange change = 1;
+}
 
 // A request message of the WatchNotifications method.
 message WatchNotificationsRequest {
@@ -274,6 +276,23 @@ message CreateNotificationRequest {
 
   // Notification resource body
   Notification notification = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateNotification method.
@@ -297,7 +316,10 @@ message UpdateNotificationRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -309,6 +331,26 @@ message UpdateNotificationRequest {
     // compare.
     google.protobuf.FieldMask field_mask = 2;
   }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
+  }
 }
 
 // A request message of the DeleteNotification method.
@@ -317,149 +359,48 @@ message DeleteNotificationRequest {
   string name = 1;
 }
 
-// A request message of the SearchNotifications method.
-message SearchNotificationsRequest {
-  // Parent name of ntt.monitoring.v4.Notification
-  string parent = 1;
-
-  // Requested page size. Server may return fewer Notifications than requested.
-  // If unspecified, server will pick an appropriate default.
-  int32 page_size = 2;
-
-  // A token identifying a page of results the server should return.
-  // Typically, this is the value of
-  // SearchNotificationsResponse.next_page_token.
-  string page_token = 3;
-
-  // Order By -
-  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
-  // of field path with order directive, either 'asc' or 'desc'. If direction is
-  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
-  // state.something.else desc, theme"
-  string order_by = 4;
-
-  // Filter - filter results by field criteria. Simplified SQL-like syntax with
-  // following operators:
-  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
-  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
-  // CONTAINS "severity:important" OR (state.last_error_time >
-  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-  string filter = 5;
-
-  // A list of extra fields to be obtained for each response item on top of
-  // fields defined by request field view
-  google.protobuf.FieldMask field_mask = 6;
-
-  // View defines list of standard response fields present in response items.
-  // Additional fields can be amended by request field field_mask
-  goten.types.View view = 7;
-
-  // Optional search phrase used to further filter results.
-  string phrase = 8;
-}
-
-// A response message of the SearchNotifications method.
-message SearchNotificationsResponse {
-  // The list of Notifications
-  repeated Notification notifications = 1;
-
-  // A token to retrieve previous page of results.
-  //
-  // Pass this value in the SearchNotificationsRequest.page_token.
-  string prev_page_token = 3;
-
-  // A token to retrieve next page of results.
-  //
-  // Pass this value in the SearchNotificationsRequest.page_token.
-  string next_page_token = 4;
-
-  // Current offset from the first page (0 if no page tokens were given). Page
-  // index can be computed from offset and limit provided in a request
-  int32 current_offset = 5;
-
-  // Number of total Notifications across all pages.
-  int32 total_results_count = 6;
-}
-
 // Notification service API for Monitoring
 service NotificationService {
   option (google.api.default_host) = "monitoring.edgelq.com";
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetNotification
-  rpc GetNotification(GetNotificationRequest) returns (Notification) {
-    option (google.api.http) = {
-      get : "/v4/{name=projects/*/regions/*/alertingPolicies/*/notifications/*}"
-    };
+  rpc GetNotification ( GetNotificationRequest ) returns ( Notification ) {
+    option (google.api.http) = { get:"/v4/{name=projects/*/regions/*/alertingPolicies/*/notifications/*}"  };
   }
 
   // BatchGetNotifications
-  rpc BatchGetNotifications(BatchGetNotificationsRequest)
-      returns (BatchGetNotificationsResponse) {
-    option (google.api.http) = {
-      get : "/v4/notifications:batchGet"
-    };
+  rpc BatchGetNotifications ( BatchGetNotificationsRequest ) returns ( BatchGetNotificationsResponse ) {
+    option (google.api.http) = { get:"/v4/notifications:batchGet"  };
   }
 
   // ListNotifications
-  rpc ListNotifications(ListNotificationsRequest)
-      returns (ListNotificationsResponse) {
-    option (google.api.http) = {
-      get : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/notifications"
-    };
+  rpc ListNotifications ( ListNotificationsRequest ) returns ( ListNotificationsResponse ) {
+    option (google.api.http) = { get:"/v4/{parent=projects/*/regions/*/alertingPolicies/*}/notifications"  };
   }
 
   // WatchNotification
-  rpc WatchNotification(WatchNotificationRequest)
-      returns (stream WatchNotificationResponse) {
-    option (google.api.http) = {
-      post : "/v4/{name=projects/*/regions/*/alertingPolicies/*/notifications/"
-             "*}:watch"
-    };
+  rpc WatchNotification ( WatchNotificationRequest ) returns ( stream WatchNotificationResponse ) {
+    option (google.api.http) = { post:"/v4/{name=projects/*/regions/*/alertingPolicies/*/notifications/*}:watch"  };
   }
 
   // WatchNotifications
-  rpc WatchNotifications(WatchNotificationsRequest)
-      returns (stream WatchNotificationsResponse) {
-    option (google.api.http) = {
-      post : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/"
-             "notifications:watch"
-    };
+  rpc WatchNotifications ( WatchNotificationsRequest ) returns ( stream WatchNotificationsResponse ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*/regions/*/alertingPolicies/*}/notifications:watch"  };
   }
 
   // CreateNotification
-  rpc CreateNotification(CreateNotificationRequest) returns (Notification) {
-    option (google.api.http) = {
-      post : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/"
-             "notifications"
-      body : "notification"
-    };
+  rpc CreateNotification ( CreateNotificationRequest ) returns ( Notification ) {
+    option (google.api.http) = { post:"/v4/{parent=projects/*/regions/*/alertingPolicies/*}/notifications" body:"notification"  };
   }
 
   // UpdateNotification
-  rpc UpdateNotification(UpdateNotificationRequest) returns (Notification) {
-    option (google.api.http) = {
-      put : "/v4/{notification.name=projects/*/regions/*/alertingPolicies/*/"
-            "notifications/*}"
-      body : "notification"
-    };
+  rpc UpdateNotification ( UpdateNotificationRequest ) returns ( Notification ) {
+    option (google.api.http) = { put:"/v4/{notification.name=projects/*/regions/*/alertingPolicies/*/notifications/*}" body:"notification"  };
   }
 
   // DeleteNotification
-  rpc DeleteNotification(DeleteNotificationRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v4/{name=projects/*/regions/*/alertingPolicies/*/"
-               "notifications/*}"
-    };
-  }
-
-  // SearchNotifications
-  rpc SearchNotifications(SearchNotificationsRequest)
-      returns (SearchNotificationsResponse) {
-    option (google.api.http) = {
-      get : "/v4/{parent=projects/*/regions/*/alertingPolicies/*}/"
-            "notifications:search"
-    };
+  rpc DeleteNotification ( DeleteNotificationRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v4/{name=projects/*/regions/*/alertingPolicies/*/notifications/*}"  };
   }
 }

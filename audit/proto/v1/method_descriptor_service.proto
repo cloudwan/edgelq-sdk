@@ -140,7 +140,9 @@ message WatchMethodDescriptorRequest {
 }
 
 // A response message of the WatchMethodDescriptor method.
-message WatchMethodDescriptorResponse { MethodDescriptorChange change = 1; }
+message WatchMethodDescriptorResponse {
+  MethodDescriptorChange change = 1;
+}
 
 // A request message of the WatchMethodDescriptors method.
 message WatchMethodDescriptorsRequest {
@@ -275,6 +277,23 @@ message CreateMethodDescriptorRequest {
 
   // MethodDescriptor resource body
   MethodDescriptor method_descriptor = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateMethodDescriptor method.
@@ -298,7 +317,10 @@ message UpdateMethodDescriptorRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -309,6 +331,26 @@ message UpdateMethodDescriptorRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -324,68 +366,42 @@ service MethodDescriptorService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetMethodDescriptor
-  rpc GetMethodDescriptor(GetMethodDescriptorRequest)
-      returns (MethodDescriptor) {
-    option (google.api.http) = {
-      get : "/v1/{name=services/*/methodDescriptors/*}"
-    };
+  rpc GetMethodDescriptor ( GetMethodDescriptorRequest ) returns ( MethodDescriptor ) {
+    option (google.api.http) = { get:"/v1/{name=services/*/methodDescriptors/*}"  };
   }
 
   // BatchGetMethodDescriptors
-  rpc BatchGetMethodDescriptors(BatchGetMethodDescriptorsRequest)
-      returns (BatchGetMethodDescriptorsResponse) {
-    option (google.api.http) = {
-      get : "/v1/methodDescriptors:batchGet"
-    };
+  rpc BatchGetMethodDescriptors ( BatchGetMethodDescriptorsRequest ) returns ( BatchGetMethodDescriptorsResponse ) {
+    option (google.api.http) = { get:"/v1/methodDescriptors:batchGet"  };
   }
 
   // ListMethodDescriptors
-  rpc ListMethodDescriptors(ListMethodDescriptorsRequest)
-      returns (ListMethodDescriptorsResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=services/*}/methodDescriptors"
-    };
+  rpc ListMethodDescriptors ( ListMethodDescriptorsRequest ) returns ( ListMethodDescriptorsResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=services/*}/methodDescriptors"  };
   }
 
   // WatchMethodDescriptor
-  rpc WatchMethodDescriptor(WatchMethodDescriptorRequest)
-      returns (stream WatchMethodDescriptorResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=services/*/methodDescriptors/*}:watch"
-    };
+  rpc WatchMethodDescriptor ( WatchMethodDescriptorRequest ) returns ( stream WatchMethodDescriptorResponse ) {
+    option (google.api.http) = { post:"/v1/{name=services/*/methodDescriptors/*}:watch"  };
   }
 
   // WatchMethodDescriptors
-  rpc WatchMethodDescriptors(WatchMethodDescriptorsRequest)
-      returns (stream WatchMethodDescriptorsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=services/*}/methodDescriptors:watch"
-    };
+  rpc WatchMethodDescriptors ( WatchMethodDescriptorsRequest ) returns ( stream WatchMethodDescriptorsResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=services/*}/methodDescriptors:watch"  };
   }
 
   // CreateMethodDescriptor
-  rpc CreateMethodDescriptor(CreateMethodDescriptorRequest)
-      returns (MethodDescriptor) {
-    option (google.api.http) = {
-      post : "/v1/{parent=services/*}/methodDescriptors"
-      body : "method_descriptor"
-    };
+  rpc CreateMethodDescriptor ( CreateMethodDescriptorRequest ) returns ( MethodDescriptor ) {
+    option (google.api.http) = { post:"/v1/{parent=services/*}/methodDescriptors" body:"method_descriptor"  };
   }
 
   // UpdateMethodDescriptor
-  rpc UpdateMethodDescriptor(UpdateMethodDescriptorRequest)
-      returns (MethodDescriptor) {
-    option (google.api.http) = {
-      put : "/v1/{method_descriptor.name=services/*/methodDescriptors/*}"
-      body : "method_descriptor"
-    };
+  rpc UpdateMethodDescriptor ( UpdateMethodDescriptorRequest ) returns ( MethodDescriptor ) {
+    option (google.api.http) = { put:"/v1/{method_descriptor.name=services/*/methodDescriptors/*}" body:"method_descriptor"  };
   }
 
   // DeleteMethodDescriptor
-  rpc DeleteMethodDescriptor(DeleteMethodDescriptorRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=services/*/methodDescriptors/*}"
-    };
+  rpc DeleteMethodDescriptor ( DeleteMethodDescriptorRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=services/*/methodDescriptors/*}"  };
   }
 }

@@ -21,12 +21,7 @@ option java_package = "com.ntt.iam.pb.v1alpha2";
 // through via [email][ntt.iam.v1alpha2.Group.email] in
 // [RoleBindings][ntt.iam.v1alpha2.RoleBinding.member].
 message Group {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Group"
-    pattern : "groups/{group}"
-    pattern : "projects/{project}/groups/{group}"
-    pattern : "organizations/{organization}/groups/{group}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Group" pattern:"groups/{group}" pattern:"projects/{project}/groups/{group}" pattern:"organizations/{organization}/groups/{group}"  };
 
   // Name of Group
   // When creating a new instance, this field is optional and if not provided,

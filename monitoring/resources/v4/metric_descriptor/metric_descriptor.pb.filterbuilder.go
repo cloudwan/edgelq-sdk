@@ -13886,6 +13886,10 @@ func (b *filterCndBuilderBinaryIndices) ByResources() *filterCndBuilderBinaryInd
 	return &filterCndBuilderBinaryIndicesByResources{builder: b.builder}
 }
 
+func (b *filterCndBuilderBinaryIndices) Region() *filterCndBuilderBinaryIndicesRegion {
+	return &filterCndBuilderBinaryIndicesRegion{builder: b.builder}
+}
+
 type filterCndBuilderBinaryIndicesByResources struct {
 	builder *FilterBuilder
 }
@@ -15038,5 +15042,64 @@ func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) compare(op gotenfilt
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesRegion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().WithValue(value),
 	})
 }

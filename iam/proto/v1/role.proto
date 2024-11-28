@@ -13,12 +13,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // Role Resource
 message Role {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Role"
-    pattern : "services/{service}/roles/{role}"
-    pattern : "projects/{project}/roles/{role}"
-    pattern : "organizations/{organization}/roles/{role}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Role" pattern:"services/{service}/roles/{role}" pattern:"projects/{project}/roles/{role}" pattern:"organizations/{organization}/roles/{role}"  };
 
   // Name of Role
   string name = 1;
@@ -174,9 +169,13 @@ message ScopeParam {
     FromValue value_from = 4;
   }
 
-  message StringValue { string value = 1; }
+  message StringValue {
+    string value = 1;
+  }
 
-  message ArrayOfStringsValue { repeated string values = 1; }
+  message ArrayOfStringsValue {
+    repeated string values = 1;
+  }
 
   message FromValue {
     Source source = 1;

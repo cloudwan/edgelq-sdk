@@ -46,7 +46,8 @@ message RemoveServiceAccountFromDeviceRequest {
 
 // Response message for method
 // [RemoveServiceAccountFromDevice][ntt.devices.v1.RemoveServiceAccountFromDevice]
-message RemoveServiceAccountFromDeviceResponse {}
+message RemoveServiceAccountFromDeviceResponse {
+}
 
 message HeartbeatMsg {
   string name = 1;
@@ -57,9 +58,11 @@ message HeartbeatMsg {
     Heartbeat heartbeat = 3;
   }
 
-  message Register {}
+  message Register {
+  }
 
-  message Heartbeat {}
+  message Heartbeat {
+  }
 }
 
 message HeartbeatResponse {

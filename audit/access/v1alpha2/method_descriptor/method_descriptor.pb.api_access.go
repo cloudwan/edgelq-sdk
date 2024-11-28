@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiMethodDescriptorAccess(client method_descriptor_client.MethodDescript
 	return &apiMethodDescriptorAccess{client: client}
 }
 
-func (a *apiMethodDescriptorAccess) GetMethodDescriptor(ctx context.Context, query *method_descriptor.GetQuery) (*method_descriptor.MethodDescriptor, error) {
+func (a *apiMethodDescriptorAccess) GetMethodDescriptor(ctx context.Context, query *method_descriptor.GetQuery, opts ...gotenresource.GetOption) (*method_descriptor.MethodDescriptor, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiMethodDescriptorAccess) GetMethodDescriptor(ctx context.Context, que
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetMethodDescriptor(ctx, request)
+	res, err := a.client.GetMethodDescriptor(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiMethodDescriptorAccess) GetMethodDescriptor(ctx context.Context, que
 
 func (a *apiMethodDescriptorAccess) BatchGetMethodDescriptors(ctx context.Context, refs []*method_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*method_descriptor.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiMethodDescriptorAccess) BatchGetMethodDescriptors(ctx context.Contex
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*method_descriptor.MethodDescriptor_FieldMask)
 	}
-	resp, err := a.client.BatchGetMethodDescriptors(ctx, request)
+	resp, err := a.client.BatchGetMethodDescriptors(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiMethodDescriptorAccess) BatchGetMethodDescriptors(ctx context.Contex
 	return nil
 }
 
-func (a *apiMethodDescriptorAccess) QueryMethodDescriptors(ctx context.Context, query *method_descriptor.ListQuery) (*method_descriptor.QueryResultSnapshot, error) {
+func (a *apiMethodDescriptorAccess) QueryMethodDescriptors(ctx context.Context, query *method_descriptor.ListQuery, opts ...gotenresource.QueryOption) (*method_descriptor.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &method_descriptor_client.ListMethodDescriptorsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +155,9 @@ func (a *apiMethodDescriptorAccess) WatchMethodDescriptor(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchMethodDescriptor(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -150,12 +181,16 @@ func (a *apiMethodDescriptorAccess) WatchMethodDescriptors(ctx context.Context, 
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchMethodDescriptors(ctx, request)
 	if initErr != nil {
 		return initErr

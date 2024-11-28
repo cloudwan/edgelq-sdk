@@ -24,10 +24,7 @@ service AttestationService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // Verify
-  rpc Verify(stream VerifyRequest) returns (stream VerifyResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{ask_for_challenge.attestation_domain=projects/*/"
-             "attestationDomains/*}:verify"
-    };
+  rpc Verify ( stream VerifyRequest ) returns ( stream VerifyResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{ask_for_challenge.attestation_domain=projects/*/attestationDomains/*}:verify"  };
   }
 }

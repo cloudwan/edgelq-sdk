@@ -41,7 +41,6 @@ var (
 	createNotificationDescriptor    *CreateNotificationDescriptor
 	updateNotificationDescriptor    *UpdateNotificationDescriptor
 	deleteNotificationDescriptor    *DeleteNotificationDescriptor
-	searchNotificationsDescriptor   *SearchNotificationsDescriptor
 )
 
 type GetNotificationDescriptor struct{}
@@ -1856,235 +1855,6 @@ func GetDeleteNotificationDescriptor() *DeleteNotificationDescriptor {
 	return deleteNotificationDescriptor
 }
 
-type SearchNotificationsDescriptor struct{}
-
-type SearchNotificationsDescriptorClientMsgHandle struct{}
-
-type SearchNotificationsDescriptorServerMsgHandle struct{}
-
-func (d *SearchNotificationsDescriptor) NewEmptyClientMsg() proto.Message {
-	return &SearchNotificationsRequest{}
-}
-
-func (d *SearchNotificationsDescriptor) NewEmptyServerMsg() proto.Message {
-	return &SearchNotificationsResponse{}
-}
-
-func (d *SearchNotificationsDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *SearchNotificationsDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *SearchNotificationsDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *SearchNotificationsDescriptor) IsCollection() bool {
-	return true
-}
-
-func (d *SearchNotificationsDescriptor) IsPlural() bool {
-	return true
-}
-
-func (d *SearchNotificationsDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *SearchNotificationsDescriptor) RequestHasResourceBody() bool {
-	return false
-}
-
-func (d *SearchNotificationsDescriptor) GetVerb() string {
-	return "search"
-}
-
-func (d *SearchNotificationsDescriptor) GetMethodName() string {
-	return "SearchNotifications"
-}
-
-func (d *SearchNotificationsDescriptor) GetFullMethodName() string {
-	return "/ntt.monitoring.v4.NotificationService/SearchNotifications"
-}
-
-func (d *SearchNotificationsDescriptor) GetProtoPkgName() string {
-	return "ntt.monitoring.v4"
-}
-
-func (d *SearchNotificationsDescriptor) GetApiName() string {
-	return "NotificationService"
-}
-
-func (d *SearchNotificationsDescriptor) GetServiceDomain() string {
-	return "monitoring.edgelq.com"
-}
-
-func (d *SearchNotificationsDescriptor) GetServiceVersion() string {
-	return "v4"
-}
-
-func (d *SearchNotificationsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return notificationServiceDescriptor
-}
-
-func (d *SearchNotificationsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return notification.GetDescriptor()
-}
-
-func (d *SearchNotificationsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &SearchNotificationsDescriptorClientMsgHandle{}
-}
-
-func (d *SearchNotificationsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &SearchNotificationsDescriptorServerMsgHandle{}
-}
-
-func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*SearchNotificationsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*SearchNotificationsRequest) *notification.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	return nil
-}
-
-func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*SearchNotificationsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*SearchNotificationsRequest) []*notification.Name
-	})
-	if ok {
-		return notification.NotificationNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*SearchNotificationsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*SearchNotificationsRequest) *notification.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if parentName := typedMsg.GetParent(); parentName != nil {
-			return parentName
-		}
-	}
-	return (*notification.ParentName)(nil)
-}
-
-func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
-	typedMsg := msg.(*SearchNotificationsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBody(*SearchNotificationsRequest) *notification.Notification
-	})
-	if ok {
-		return override.OverrideExtractResourceBody(typedMsg)
-	}
-	return nil
-}
-
-func (h *SearchNotificationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
-	typedMsg := msg.(*SearchNotificationsRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBodies(*SearchNotificationsRequest) []*notification.Notification
-	})
-	if ok {
-		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
-	}
-	return nil
-}
-
-func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*SearchNotificationsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*SearchNotificationsResponse) *notification.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	return nil
-}
-
-func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*SearchNotificationsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*SearchNotificationsResponse) []*notification.Name
-	})
-	if ok {
-		return notification.NotificationNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	{
-		if resources := typedMsg.GetNotifications(); len(resources) > 0 {
-			list := make(notification.NotificationNameList, 0, len(resources))
-			for _, res := range resources {
-				list = append(list, res.GetName())
-			}
-			return list
-		}
-	}
-	return (notification.NotificationNameList)(nil)
-}
-
-func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*SearchNotificationsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*SearchNotificationsResponse) *notification.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
-	typedMsg := msg.(*SearchNotificationsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBody(*SearchNotificationsResponse) *notification.Notification
-	})
-	if ok {
-		return override.OverrideExtractResourceBody(typedMsg)
-	}
-	return nil
-}
-
-func (h *SearchNotificationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
-	typedMsg := msg.(*SearchNotificationsResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBodies(*SearchNotificationsResponse) []*notification.Notification
-	})
-	if ok {
-		return notification.NotificationList(override.OverrideExtractResourceBodies(typedMsg))
-	}
-	{
-		if resources := typedMsg.GetNotifications(); len(resources) > 0 {
-			return notification.NotificationList(resources)
-		}
-	}
-	return (notification.NotificationList)(nil)
-}
-
-func GetSearchNotificationsDescriptor() *SearchNotificationsDescriptor {
-	return searchNotificationsDescriptor
-}
-
 type NotificationServiceDescriptor struct{}
 
 func (d *NotificationServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -2097,7 +1867,6 @@ func (d *NotificationServiceDescriptor) AllMethodDescriptors() []gotenclient.Met
 		createNotificationDescriptor,
 		updateNotificationDescriptor,
 		deleteNotificationDescriptor,
-		searchNotificationsDescriptor,
 	}
 }
 
@@ -2135,7 +1904,6 @@ func initDescriptors() {
 	createNotificationDescriptor = &CreateNotificationDescriptor{}
 	updateNotificationDescriptor = &UpdateNotificationDescriptor{}
 	deleteNotificationDescriptor = &DeleteNotificationDescriptor{}
-	searchNotificationsDescriptor = &SearchNotificationsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(notificationServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getNotificationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetNotificationsDescriptor)
@@ -2145,7 +1913,6 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createNotificationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateNotificationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteNotificationDescriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(searchNotificationsDescriptor)
 }
 
 func init() {

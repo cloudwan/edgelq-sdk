@@ -65,6 +65,8 @@ resources:
   idPattern: "[\\\\w./-]{4,128}"
   parents:
   - Project
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
   actions:
   - name: GetMetricDescriptor
     verb: get
@@ -241,16 +243,32 @@ resources:
   - AlertingPolicy
 
 - name: Alert
+  optOuts:
+    basicActions:
+    - CreateAlert
   parents:
   - AlertingCondition
   idPattern: "[a-zA-Z0-9_.:-]{1,128}"
+  multiRegion:
+    syncType: NEVER
+  actions:
+  - name: BulkCreateAlerts
+    opResourceInfo:
+      isCollection: true
+    withStoreHandle:
+      transaction: MANUAL
+  - name: BulkUpdateAlerts
+    opResourceInfo:
+      isCollection: true
+    withStoreHandle:
+      transaction: MANUAL
 
 - name: Notification
-  optIns:
-    searchable: true
   parents:
   - AlertingPolicy
   idPattern: "[a-zA-Z0-9_.:-]{1,128}"
+  multiRegion:
+    syncType: NEVER
 
 - name: NotificationChannel
   parents:

@@ -136,7 +136,9 @@ message WatchDeviceTypeRequest {
 }
 
 // A response message of the WatchDeviceType method.
-message WatchDeviceTypeResponse { DeviceTypeChange change = 1; }
+message WatchDeviceTypeResponse {
+  DeviceTypeChange change = 1;
+}
 
 // A request message of the WatchDeviceTypes method.
 message WatchDeviceTypesRequest {
@@ -265,6 +267,23 @@ message WatchDeviceTypesResponse {
 message CreateDeviceTypeRequest {
   // DeviceType resource body
   DeviceType device_type = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateDeviceType method.
@@ -288,7 +307,10 @@ message UpdateDeviceTypeRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -299,6 +321,26 @@ message UpdateDeviceTypeRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -314,65 +356,42 @@ service DeviceTypeService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetDeviceType
-  rpc GetDeviceType(GetDeviceTypeRequest) returns (DeviceType) {
-    option (google.api.http) = {
-      get : "/v1/{name=deviceTypes/*}"
-    };
+  rpc GetDeviceType ( GetDeviceTypeRequest ) returns ( DeviceType ) {
+    option (google.api.http) = { get:"/v1/{name=deviceTypes/*}"  };
   }
 
   // BatchGetDeviceTypes
-  rpc BatchGetDeviceTypes(BatchGetDeviceTypesRequest)
-      returns (BatchGetDeviceTypesResponse) {
-    option (google.api.http) = {
-      get : "/v1/deviceTypes:batchGet"
-    };
+  rpc BatchGetDeviceTypes ( BatchGetDeviceTypesRequest ) returns ( BatchGetDeviceTypesResponse ) {
+    option (google.api.http) = { get:"/v1/deviceTypes:batchGet"  };
   }
 
   // ListDeviceTypes
-  rpc ListDeviceTypes(ListDeviceTypesRequest)
-      returns (ListDeviceTypesResponse) {
-    option (google.api.http) = {
-      get : "/v1/deviceTypes"
-    };
+  rpc ListDeviceTypes ( ListDeviceTypesRequest ) returns ( ListDeviceTypesResponse ) {
+    option (google.api.http) = { get:"/v1/deviceTypes"  };
   }
 
   // WatchDeviceType
-  rpc WatchDeviceType(WatchDeviceTypeRequest)
-      returns (stream WatchDeviceTypeResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=deviceTypes/*}:watch"
-    };
+  rpc WatchDeviceType ( WatchDeviceTypeRequest ) returns ( stream WatchDeviceTypeResponse ) {
+    option (google.api.http) = { post:"/v1/{name=deviceTypes/*}:watch"  };
   }
 
   // WatchDeviceTypes
-  rpc WatchDeviceTypes(WatchDeviceTypesRequest)
-      returns (stream WatchDeviceTypesResponse) {
-    option (google.api.http) = {
-      post : "/v1/deviceTypes:watch"
-    };
+  rpc WatchDeviceTypes ( WatchDeviceTypesRequest ) returns ( stream WatchDeviceTypesResponse ) {
+    option (google.api.http) = { post:"/v1/deviceTypes:watch"  };
   }
 
   // CreateDeviceType
-  rpc CreateDeviceType(CreateDeviceTypeRequest) returns (DeviceType) {
-    option (google.api.http) = {
-      post : "/v1/deviceTypes"
-      body : "device_type"
-    };
+  rpc CreateDeviceType ( CreateDeviceTypeRequest ) returns ( DeviceType ) {
+    option (google.api.http) = { post:"/v1/deviceTypes" body:"device_type"  };
   }
 
   // UpdateDeviceType
-  rpc UpdateDeviceType(UpdateDeviceTypeRequest) returns (DeviceType) {
-    option (google.api.http) = {
-      put : "/v1/{device_type.name=deviceTypes/*}"
-      body : "device_type"
-    };
+  rpc UpdateDeviceType ( UpdateDeviceTypeRequest ) returns ( DeviceType ) {
+    option (google.api.http) = { put:"/v1/{device_type.name=deviceTypes/*}" body:"device_type"  };
   }
 
   // DeleteDeviceType
-  rpc DeleteDeviceType(DeleteDeviceTypeRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=deviceTypes/*}"
-    };
+  rpc DeleteDeviceType ( DeleteDeviceTypeRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=deviceTypes/*}"  };
   }
 }

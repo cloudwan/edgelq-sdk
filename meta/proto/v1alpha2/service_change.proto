@@ -64,7 +64,9 @@ message ServiceChange {
 
   // Service has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Service service = 1; }
+  message Current {
+    Service service = 1;
+  }
 
   // Removed is returned when Service is deleted or leaves Query view
   message Removed {

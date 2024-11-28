@@ -37,11 +37,7 @@ option java_package = "com.ntt.limits.pb.v1alpha2";
 // by system). LimitPools are created/modified along with
 // PlanAssignment instances.
 message LimitPool {
-  option (google.api.resource) = {
-    type : "limits.edgelq.com/LimitPool"
-    pattern : "limitPools/{limit_pool}"
-    pattern : "organizations/{organization}/limitPools/{limit_pool}"
-  };
+  option (google.api.resource) = { type:"limits.edgelq.com/LimitPool" pattern:"limitPools/{limit_pool}" pattern:"organizations/{organization}/limitPools/{limit_pool}"  };
 
   // Name of LimitPool
   string name = 1;

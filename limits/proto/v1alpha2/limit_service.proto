@@ -140,7 +140,9 @@ message WatchLimitRequest {
 }
 
 // A response message of the WatchLimit method.
-message WatchLimitResponse { LimitChange change = 1; }
+message WatchLimitResponse {
+  LimitChange change = 1;
+}
 
 // A request message of the WatchLimits method.
 message WatchLimitsRequest {
@@ -284,6 +286,10 @@ message UpdateLimitRequest {
   // Otherwise RPC error Aborted will be returned.
   CAS cas = 4;
 
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 6;
+
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
   message CAS {
@@ -293,6 +299,26 @@ message UpdateLimitRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -308,59 +334,42 @@ service LimitService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetLimit
-  rpc GetLimit(GetLimitRequest) returns (Limit) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{name=projects/*/limits/*}"
-    };
+  rpc GetLimit ( GetLimitRequest ) returns ( Limit ) {
+    option (google.api.http) = { get:"/v1alpha2/{name=projects/*/limits/*}"  };
   }
 
   // BatchGetLimits
-  rpc BatchGetLimits(BatchGetLimitsRequest) returns (BatchGetLimitsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/limits:batchGet"
-    };
+  rpc BatchGetLimits ( BatchGetLimitsRequest ) returns ( BatchGetLimitsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/limits:batchGet"  };
   }
 
   // ListLimits
-  rpc ListLimits(ListLimitsRequest) returns (ListLimitsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/{parent=projects/*}/limits"
-    };
+  rpc ListLimits ( ListLimitsRequest ) returns ( ListLimitsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/{parent=projects/*}/limits"  };
   }
 
   // WatchLimit
-  rpc WatchLimit(WatchLimitRequest) returns (stream WatchLimitResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/limits/*}:watch"
-    };
+  rpc WatchLimit ( WatchLimitRequest ) returns ( stream WatchLimitResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=projects/*/limits/*}:watch"  };
   }
 
   // WatchLimits
-  rpc WatchLimits(WatchLimitsRequest) returns (stream WatchLimitsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{parent=projects/*}/limits:watch"
-    };
+  rpc WatchLimits ( WatchLimitsRequest ) returns ( stream WatchLimitsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/{parent=projects/*}/limits:watch"  };
   }
 
   // UpdateLimit
-  rpc UpdateLimit(UpdateLimitRequest) returns (Limit) {
-    option (google.api.http) = {
-      put : "/v1alpha2/{limit.name=projects/*/limits/*}"
-      body : "limit"
-    };
+  rpc UpdateLimit ( UpdateLimitRequest ) returns ( Limit ) {
+    option (google.api.http) = { put:"/v1alpha2/{limit.name=projects/*/limits/*}" body:"limit"  };
   }
 
   // DeleteLimit
-  rpc DeleteLimit(DeleteLimitRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1alpha2/{name=projects/*/limits/*}"
-    };
+  rpc DeleteLimit ( DeleteLimitRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1alpha2/{name=projects/*/limits/*}"  };
   }
 
   // MigrateLimitSource
-  rpc MigrateLimitSource(MigrateLimitSourceRequest) returns (Limit) {
-    option (google.api.http) = {
-      post : "/v1alpha2/{name=projects/*/limits/*}:migrate"
-    };
+  rpc MigrateLimitSource ( MigrateLimitSourceRequest ) returns ( Limit ) {
+    option (google.api.http) = { post:"/v1alpha2/{name=projects/*/limits/*}:migrate"  };
   }
 }

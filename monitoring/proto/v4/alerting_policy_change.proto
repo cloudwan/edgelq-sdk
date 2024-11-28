@@ -65,7 +65,9 @@ message AlertingPolicyChange {
 
   // AlertingPolicy has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { AlertingPolicy alerting_policy = 1; }
+  message Current {
+    AlertingPolicy alerting_policy = 1;
+  }
 
   // Removed is returned when AlertingPolicy is deleted or leaves Query view
   message Removed {

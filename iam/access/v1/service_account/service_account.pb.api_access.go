@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiServiceAccountAccess(client service_account_client.ServiceAccountServ
 	return &apiServiceAccountAccess{client: client}
 }
 
-func (a *apiServiceAccountAccess) GetServiceAccount(ctx context.Context, query *service_account.GetQuery) (*service_account.ServiceAccount, error) {
+func (a *apiServiceAccountAccess) GetServiceAccount(ctx context.Context, query *service_account.GetQuery, opts ...gotenresource.GetOption) (*service_account.ServiceAccount, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiServiceAccountAccess) GetServiceAccount(ctx context.Context, query *
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetServiceAccount(ctx, request)
+	res, err := a.client.GetServiceAccount(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiServiceAccountAccess) GetServiceAccount(ctx context.Context, query *
 
 func (a *apiServiceAccountAccess) BatchGetServiceAccounts(ctx context.Context, refs []*service_account.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*service_account.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiServiceAccountAccess) BatchGetServiceAccounts(ctx context.Context, r
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*service_account.ServiceAccount_FieldMask)
 	}
-	resp, err := a.client.BatchGetServiceAccounts(ctx, request)
+	resp, err := a.client.BatchGetServiceAccounts(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiServiceAccountAccess) BatchGetServiceAccounts(ctx context.Context, r
 	return nil
 }
 
-func (a *apiServiceAccountAccess) QueryServiceAccounts(ctx context.Context, query *service_account.ListQuery) (*service_account.QueryResultSnapshot, error) {
+func (a *apiServiceAccountAccess) QueryServiceAccounts(ctx context.Context, query *service_account.ListQuery, opts ...gotenresource.QueryOption) (*service_account.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &service_account_client.ListServiceAccountsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiServiceAccountAccess) WatchServiceAccount(ctx context.Context, query
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchServiceAccount(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiServiceAccountAccess) WatchServiceAccounts(ctx context.Context, quer
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiServiceAccountAccess) WatchServiceAccounts(ctx context.Context, quer
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchServiceAccounts(ctx, request)
 	if initErr != nil {
 		return initErr

@@ -13,10 +13,7 @@ option java_package = "com.ntt.audit.pb.v1";
 
 // MethodDescriptor Resource
 message MethodDescriptor {
-  option (google.api.resource) = {
-    type : "audit.edgelq.com/MethodDescriptor"
-    pattern : "services/{service}/methodDescriptors/{method_descriptor}"
-  };
+  option (google.api.resource) = { type:"audit.edgelq.com/MethodDescriptor" pattern:"services/{service}/methodDescriptors/{method_descriptor}"  };
 
   // Name of MethodDescriptor
   string name = 1;

@@ -45,4 +45,5 @@ message RemoveServiceAccountFromDeviceRequest {
 
 // Response message for method
 // [RemoveServiceAccountFromDevice][ntt.devices.v1alpha2.RemoveServiceAccountFromDevice]
-message RemoveServiceAccountFromDeviceResponse {}
+message RemoveServiceAccountFromDeviceResponse {
+}

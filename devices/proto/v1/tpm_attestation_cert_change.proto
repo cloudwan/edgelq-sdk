@@ -67,7 +67,9 @@ message TpmAttestationCertChange {
 
   // TpmAttestationCert has been added or modified in a query view. Version used
   // for stateless watching
-  message Current { TpmAttestationCert tpm_attestation_cert = 1; }
+  message Current {
+    TpmAttestationCert tpm_attestation_cert = 1;
+  }
 
   // Removed is returned when TpmAttestationCert is deleted or leaves Query view
   message Removed {

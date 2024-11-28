@@ -1359,6 +1359,9 @@ type UpdateLimitRequest struct {
 	// applying field mask) and proceed with update only and only if they match.
 	// Otherwise RPC error Aborted will be returned.
 	Cas *UpdateLimitRequest_CAS `protobuf:"bytes,4,opt,name=cas,proto3" json:"cas,omitempty" firestore:"cas"`
+	// Optional masking applied to response object to reduce message response
+	// size.
+	ResponseMask *UpdateLimitRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *UpdateLimitRequest) Reset() {
@@ -1432,6 +1435,13 @@ func (m *UpdateLimitRequest) GetCas() *UpdateLimitRequest_CAS {
 	return nil
 }
 
+func (m *UpdateLimitRequest) GetResponseMask() *UpdateLimitRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *UpdateLimitRequest) SetLimit(fv *limit.Limit) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Limit", "UpdateLimitRequest"))
@@ -1451,6 +1461,13 @@ func (m *UpdateLimitRequest) SetCas(fv *UpdateLimitRequest_CAS) {
 		panic(fmt.Errorf("can't set %s on nil %s", "Cas", "UpdateLimitRequest"))
 	}
 	m.Cas = fv
+}
+
+func (m *UpdateLimitRequest) SetResponseMask(fv *UpdateLimitRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "UpdateLimitRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the DeleteLimit method.
@@ -1705,6 +1722,136 @@ func (m *UpdateLimitRequest_CAS) SetFieldMask(fv *limit.Limit_FieldMask) {
 	m.FieldMask = fv
 }
 
+// ResponseMask allows client to reduce response message size.
+type UpdateLimitRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*UpdateLimitRequest_ResponseMask_SkipEntireResponseBody
+	//	*UpdateLimitRequest_ResponseMask_UpdatedFieldsOnly
+	//	*UpdateLimitRequest_ResponseMask_BodyMask
+	Masking isUpdateLimitRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *UpdateLimitRequest_ResponseMask) Reset() {
+	*m = UpdateLimitRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_limits_proto_v1alpha2_limit_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *UpdateLimitRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*UpdateLimitRequest_ResponseMask) ProtoMessage() {}
+
+func (m *UpdateLimitRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_limits_proto_v1alpha2_limit_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*UpdateLimitRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use UpdateLimitRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*UpdateLimitRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_limits_proto_v1alpha2_limit_service_proto_rawDescGZIP(), []int{9, 1}
+}
+
+func (m *UpdateLimitRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *UpdateLimitRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *UpdateLimitRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *UpdateLimitRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isUpdateLimitRequest_ResponseMask_Masking interface {
+	isUpdateLimitRequest_ResponseMask_Masking()
+}
+
+type UpdateLimitRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated. Field body_mask is ignored if
+	// set.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type UpdateLimitRequest_ResponseMask_UpdatedFieldsOnly struct {
+	// Include all fields that were actually updated during processing. Note
+	// this may be larger than update mask if some fields were computed
+	// additionally. Name is added as well.
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+}
+type UpdateLimitRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields. If skip_entire_response_body is true, this field is
+	// ignored.
+	BodyMask *limit.Limit_FieldMask `protobuf:"bytes,3,opt,customtype=Limit_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*UpdateLimitRequest_ResponseMask_SkipEntireResponseBody) isUpdateLimitRequest_ResponseMask_Masking() {
+}
+func (*UpdateLimitRequest_ResponseMask_UpdatedFieldsOnly) isUpdateLimitRequest_ResponseMask_Masking() {
+}
+func (*UpdateLimitRequest_ResponseMask_BodyMask) isUpdateLimitRequest_ResponseMask_Masking() {}
+func (m *UpdateLimitRequest_ResponseMask) GetMasking() isUpdateLimitRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *UpdateLimitRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*UpdateLimitRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *UpdateLimitRequest_ResponseMask) GetUpdatedFieldsOnly() bool {
+	if x, ok := m.GetMasking().(*UpdateLimitRequest_ResponseMask_UpdatedFieldsOnly); ok {
+		return x.UpdatedFieldsOnly
+	}
+	return false
+}
+func (m *UpdateLimitRequest_ResponseMask) GetBodyMask() *limit.Limit_FieldMask {
+	if x, ok := m.GetMasking().(*UpdateLimitRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *UpdateLimitRequest_ResponseMask) SetMasking(ofv isUpdateLimitRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isUpdateLimitRequest_ResponseMask_Masking", "UpdateLimitRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *UpdateLimitRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&UpdateLimitRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *UpdateLimitRequest_ResponseMask) SetUpdatedFieldsOnly(fv bool) {
+	m.SetMasking(&UpdateLimitRequest_ResponseMask_UpdatedFieldsOnly{UpdatedFieldsOnly: fv})
+}
+func (m *UpdateLimitRequest_ResponseMask) SetBodyMask(fv *limit.Limit_FieldMask) {
+	m.SetMasking(&UpdateLimitRequest_ResponseMask_BodyMask{BodyMask: fv})
+}
+
 var edgelq_limits_proto_v1alpha2_limit_service_proto preflect.FileDescriptor
 
 var edgelq_limits_proto_v1alpha2_limit_service_proto_rawDesc = []byte{
@@ -1901,7 +2048,7 @@ var edgelq_limits_proto_v1alpha2_limit_service_proto_rawDesc = []byte{
 	0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x35, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67,
 	0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0d, 0xb2,
 	0xda, 0x21, 0x09, 0x22, 0x07, 0x0a, 0x05, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x0d, 0x6e, 0x65,
-	0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0x84, 0x03, 0x0a, 0x12,
+	0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xb4, 0x05, 0x0a, 0x12,
 	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
 	0x73, 0x74, 0x12, 0x3e, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x1a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x73, 0x2e, 0x76,
@@ -1915,18 +2062,37 @@ var edgelq_limits_proto_v1alpha2_limit_service_proto_rawDesc = []byte{
 	0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x6e, 0x74,
 	0x74, 0x2e, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
 	0x32, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x1a, 0xa2, 0x01,
-	0x0a, 0x03, 0x43, 0x41, 0x53, 0x12, 0x51, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69,
-	0x6f, 0x6e, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x1a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x73, 0x2e, 0x76, 0x31,
-	0x61, 0x6c, 0x70, 0x68, 0x61, 0x32, 0x2e, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x42, 0x08, 0xca, 0xc6,
-	0x27, 0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f,
-	0x6e, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x48, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c,
-	0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67,
-	0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46,
-	0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x0d, 0xb2, 0xda, 0x21, 0x09, 0x32, 0x07,
-	0x0a, 0x05, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61,
-	0x73, 0x6b, 0x22, 0x37, 0x0a, 0x12, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4c, 0x69, 0x6d, 0x69,
+	0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x59, 0x0a,
+	0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x06,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x34, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6c, 0x69, 0x6d, 0x69, 0x74,
+	0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61, 0x32, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xa2, 0x01, 0x0a, 0x03, 0x43, 0x41, 0x53,
+	0x12, 0x51, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x5f,
+	0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6e, 0x74,
+	0x74, 0x2e, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x73, 0x2e, 0x76, 0x31, 0x61, 0x6c, 0x70, 0x68, 0x61,
+	0x32, 0x2e, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x10,
+	0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x53, 0x74,
+	0x61, 0x74, 0x65, 0x12, 0x48, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73,
+	0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d,
+	0x61, 0x73, 0x6b, 0x42, 0x0d, 0xb2, 0xda, 0x21, 0x09, 0x32, 0x07, 0x0a, 0x05, 0x4c, 0x69, 0x6d,
+	0x69, 0x74, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xd2, 0x01,
+	0x0a, 0x0c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3b,
+	0x0a, 0x19, 0x73, 0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x5f, 0x72, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x08, 0x48, 0x00, 0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x30, 0x0a, 0x13, 0x75,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x5f, 0x6f, 0x6e,
+	0x6c, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x11, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x4f, 0x6e, 0x6c, 0x79, 0x12, 0x48, 0x0a,
+	0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
+	0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x0d, 0xb2, 0xda,
+	0x21, 0x09, 0x32, 0x07, 0x0a, 0x05, 0x4c, 0x69, 0x6d, 0x69, 0x74, 0x48, 0x00, 0x52, 0x08, 0x62,
+	0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a, 0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69,
+	0x6e, 0x67, 0x22, 0x37, 0x0a, 0x12, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x4c, 0x69, 0x6d, 0x69,
 	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x21, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0d, 0xb2, 0xda, 0x21, 0x09, 0x0a, 0x07, 0x0a, 0x05,
 	0x4c, 0x69, 0x6d, 0x69, 0x74, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x32, 0xb0, 0x0c, 0x0a, 0x0c,
@@ -2061,7 +2227,7 @@ func edgelq_limits_proto_v1alpha2_limit_service_proto_rawDescGZIP() []byte {
 	return edgelq_limits_proto_v1alpha2_limit_service_proto_rawDescData
 }
 
-var edgelq_limits_proto_v1alpha2_limit_service_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
+var edgelq_limits_proto_v1alpha2_limit_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var edgelq_limits_proto_v1alpha2_limit_service_proto_goTypes = []interface{}{
 	(*GetLimitRequest)(nil),                     // 0: ntt.limits.v1alpha2.GetLimitRequest
 	(*BatchGetLimitsRequest)(nil),               // 1: ntt.limits.v1alpha2.BatchGetLimitsRequest
@@ -2076,59 +2242,62 @@ var edgelq_limits_proto_v1alpha2_limit_service_proto_goTypes = []interface{}{
 	(*DeleteLimitRequest)(nil),                  // 10: ntt.limits.v1alpha2.DeleteLimitRequest
 	(*WatchLimitsResponse_PageTokenChange)(nil), // 11: ntt.limits.v1alpha2.WatchLimitsResponse.PageTokenChange
 	(*UpdateLimitRequest_CAS)(nil),              // 12: ntt.limits.v1alpha2.UpdateLimitRequest.CAS
-	(*limit.Limit_FieldMask)(nil),               // 13: ntt.limits.v1alpha2.Limit_FieldMask
-	(view.View)(0),                              // 14: goten.types.View
-	(*limit.Limit)(nil),                         // 15: ntt.limits.v1alpha2.Limit
-	(*limit.LimitChange)(nil),                   // 16: ntt.limits.v1alpha2.LimitChange
-	(watch_type.WatchType)(0),                   // 17: goten.types.WatchType
-	(*timestamppb.Timestamp)(nil),               // 18: google.protobuf.Timestamp
-	(*MigrateLimitSourceRequest)(nil),           // 19: ntt.limits.v1alpha2.MigrateLimitSourceRequest
-	(*emptypb.Empty)(nil),                       // 20: google.protobuf.Empty
+	(*UpdateLimitRequest_ResponseMask)(nil),     // 13: ntt.limits.v1alpha2.UpdateLimitRequest.ResponseMask
+	(*limit.Limit_FieldMask)(nil),               // 14: ntt.limits.v1alpha2.Limit_FieldMask
+	(view.View)(0),                              // 15: goten.types.View
+	(*limit.Limit)(nil),                         // 16: ntt.limits.v1alpha2.Limit
+	(*limit.LimitChange)(nil),                   // 17: ntt.limits.v1alpha2.LimitChange
+	(watch_type.WatchType)(0),                   // 18: goten.types.WatchType
+	(*timestamppb.Timestamp)(nil),               // 19: google.protobuf.Timestamp
+	(*MigrateLimitSourceRequest)(nil),           // 20: ntt.limits.v1alpha2.MigrateLimitSourceRequest
+	(*emptypb.Empty)(nil),                       // 21: google.protobuf.Empty
 }
 var edgelq_limits_proto_v1alpha2_limit_service_proto_depIdxs = []int32{
-	13, // 0: ntt.limits.v1alpha2.GetLimitRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
-	14, // 1: ntt.limits.v1alpha2.GetLimitRequest.view:type_name -> goten.types.View
-	13, // 2: ntt.limits.v1alpha2.BatchGetLimitsRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
-	14, // 3: ntt.limits.v1alpha2.BatchGetLimitsRequest.view:type_name -> goten.types.View
-	15, // 4: ntt.limits.v1alpha2.BatchGetLimitsResponse.limits:type_name -> ntt.limits.v1alpha2.Limit
-	13, // 5: ntt.limits.v1alpha2.ListLimitsRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
-	14, // 6: ntt.limits.v1alpha2.ListLimitsRequest.view:type_name -> goten.types.View
-	15, // 7: ntt.limits.v1alpha2.ListLimitsResponse.limits:type_name -> ntt.limits.v1alpha2.Limit
-	13, // 8: ntt.limits.v1alpha2.WatchLimitRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
-	14, // 9: ntt.limits.v1alpha2.WatchLimitRequest.view:type_name -> goten.types.View
-	16, // 10: ntt.limits.v1alpha2.WatchLimitResponse.change:type_name -> ntt.limits.v1alpha2.LimitChange
-	17, // 11: ntt.limits.v1alpha2.WatchLimitsRequest.type:type_name -> goten.types.WatchType
-	18, // 12: ntt.limits.v1alpha2.WatchLimitsRequest.starting_time:type_name -> google.protobuf.Timestamp
-	13, // 13: ntt.limits.v1alpha2.WatchLimitsRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
-	14, // 14: ntt.limits.v1alpha2.WatchLimitsRequest.view:type_name -> goten.types.View
-	16, // 15: ntt.limits.v1alpha2.WatchLimitsResponse.limit_changes:type_name -> ntt.limits.v1alpha2.LimitChange
+	14, // 0: ntt.limits.v1alpha2.GetLimitRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	15, // 1: ntt.limits.v1alpha2.GetLimitRequest.view:type_name -> goten.types.View
+	14, // 2: ntt.limits.v1alpha2.BatchGetLimitsRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	15, // 3: ntt.limits.v1alpha2.BatchGetLimitsRequest.view:type_name -> goten.types.View
+	16, // 4: ntt.limits.v1alpha2.BatchGetLimitsResponse.limits:type_name -> ntt.limits.v1alpha2.Limit
+	14, // 5: ntt.limits.v1alpha2.ListLimitsRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	15, // 6: ntt.limits.v1alpha2.ListLimitsRequest.view:type_name -> goten.types.View
+	16, // 7: ntt.limits.v1alpha2.ListLimitsResponse.limits:type_name -> ntt.limits.v1alpha2.Limit
+	14, // 8: ntt.limits.v1alpha2.WatchLimitRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	15, // 9: ntt.limits.v1alpha2.WatchLimitRequest.view:type_name -> goten.types.View
+	17, // 10: ntt.limits.v1alpha2.WatchLimitResponse.change:type_name -> ntt.limits.v1alpha2.LimitChange
+	18, // 11: ntt.limits.v1alpha2.WatchLimitsRequest.type:type_name -> goten.types.WatchType
+	19, // 12: ntt.limits.v1alpha2.WatchLimitsRequest.starting_time:type_name -> google.protobuf.Timestamp
+	14, // 13: ntt.limits.v1alpha2.WatchLimitsRequest.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	15, // 14: ntt.limits.v1alpha2.WatchLimitsRequest.view:type_name -> goten.types.View
+	17, // 15: ntt.limits.v1alpha2.WatchLimitsResponse.limit_changes:type_name -> ntt.limits.v1alpha2.LimitChange
 	11, // 16: ntt.limits.v1alpha2.WatchLimitsResponse.page_token_change:type_name -> ntt.limits.v1alpha2.WatchLimitsResponse.PageTokenChange
-	15, // 17: ntt.limits.v1alpha2.UpdateLimitRequest.limit:type_name -> ntt.limits.v1alpha2.Limit
-	13, // 18: ntt.limits.v1alpha2.UpdateLimitRequest.update_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	16, // 17: ntt.limits.v1alpha2.UpdateLimitRequest.limit:type_name -> ntt.limits.v1alpha2.Limit
+	14, // 18: ntt.limits.v1alpha2.UpdateLimitRequest.update_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
 	12, // 19: ntt.limits.v1alpha2.UpdateLimitRequest.cas:type_name -> ntt.limits.v1alpha2.UpdateLimitRequest.CAS
-	15, // 20: ntt.limits.v1alpha2.UpdateLimitRequest.CAS.conditional_state:type_name -> ntt.limits.v1alpha2.Limit
-	13, // 21: ntt.limits.v1alpha2.UpdateLimitRequest.CAS.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
-	0,  // 22: ntt.limits.v1alpha2.LimitService.GetLimit:input_type -> ntt.limits.v1alpha2.GetLimitRequest
-	1,  // 23: ntt.limits.v1alpha2.LimitService.BatchGetLimits:input_type -> ntt.limits.v1alpha2.BatchGetLimitsRequest
-	3,  // 24: ntt.limits.v1alpha2.LimitService.ListLimits:input_type -> ntt.limits.v1alpha2.ListLimitsRequest
-	5,  // 25: ntt.limits.v1alpha2.LimitService.WatchLimit:input_type -> ntt.limits.v1alpha2.WatchLimitRequest
-	7,  // 26: ntt.limits.v1alpha2.LimitService.WatchLimits:input_type -> ntt.limits.v1alpha2.WatchLimitsRequest
-	9,  // 27: ntt.limits.v1alpha2.LimitService.UpdateLimit:input_type -> ntt.limits.v1alpha2.UpdateLimitRequest
-	10, // 28: ntt.limits.v1alpha2.LimitService.DeleteLimit:input_type -> ntt.limits.v1alpha2.DeleteLimitRequest
-	19, // 29: ntt.limits.v1alpha2.LimitService.MigrateLimitSource:input_type -> ntt.limits.v1alpha2.MigrateLimitSourceRequest
-	15, // 30: ntt.limits.v1alpha2.LimitService.GetLimit:output_type -> ntt.limits.v1alpha2.Limit
-	2,  // 31: ntt.limits.v1alpha2.LimitService.BatchGetLimits:output_type -> ntt.limits.v1alpha2.BatchGetLimitsResponse
-	4,  // 32: ntt.limits.v1alpha2.LimitService.ListLimits:output_type -> ntt.limits.v1alpha2.ListLimitsResponse
-	6,  // 33: ntt.limits.v1alpha2.LimitService.WatchLimit:output_type -> ntt.limits.v1alpha2.WatchLimitResponse
-	8,  // 34: ntt.limits.v1alpha2.LimitService.WatchLimits:output_type -> ntt.limits.v1alpha2.WatchLimitsResponse
-	15, // 35: ntt.limits.v1alpha2.LimitService.UpdateLimit:output_type -> ntt.limits.v1alpha2.Limit
-	20, // 36: ntt.limits.v1alpha2.LimitService.DeleteLimit:output_type -> google.protobuf.Empty
-	15, // 37: ntt.limits.v1alpha2.LimitService.MigrateLimitSource:output_type -> ntt.limits.v1alpha2.Limit
-	30, // [30:38] is the sub-list for method output_type
-	22, // [22:30] is the sub-list for method input_type
-	22, // [22:22] is the sub-list for extension type_name
-	22, // [22:22] is the sub-list for extension extendee
-	0,  // [0:22] is the sub-list for field type_name
+	13, // 20: ntt.limits.v1alpha2.UpdateLimitRequest.response_mask:type_name -> ntt.limits.v1alpha2.UpdateLimitRequest.ResponseMask
+	16, // 21: ntt.limits.v1alpha2.UpdateLimitRequest.CAS.conditional_state:type_name -> ntt.limits.v1alpha2.Limit
+	14, // 22: ntt.limits.v1alpha2.UpdateLimitRequest.CAS.field_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	14, // 23: ntt.limits.v1alpha2.UpdateLimitRequest.ResponseMask.body_mask:type_name -> ntt.limits.v1alpha2.Limit_FieldMask
+	0,  // 24: ntt.limits.v1alpha2.LimitService.GetLimit:input_type -> ntt.limits.v1alpha2.GetLimitRequest
+	1,  // 25: ntt.limits.v1alpha2.LimitService.BatchGetLimits:input_type -> ntt.limits.v1alpha2.BatchGetLimitsRequest
+	3,  // 26: ntt.limits.v1alpha2.LimitService.ListLimits:input_type -> ntt.limits.v1alpha2.ListLimitsRequest
+	5,  // 27: ntt.limits.v1alpha2.LimitService.WatchLimit:input_type -> ntt.limits.v1alpha2.WatchLimitRequest
+	7,  // 28: ntt.limits.v1alpha2.LimitService.WatchLimits:input_type -> ntt.limits.v1alpha2.WatchLimitsRequest
+	9,  // 29: ntt.limits.v1alpha2.LimitService.UpdateLimit:input_type -> ntt.limits.v1alpha2.UpdateLimitRequest
+	10, // 30: ntt.limits.v1alpha2.LimitService.DeleteLimit:input_type -> ntt.limits.v1alpha2.DeleteLimitRequest
+	20, // 31: ntt.limits.v1alpha2.LimitService.MigrateLimitSource:input_type -> ntt.limits.v1alpha2.MigrateLimitSourceRequest
+	16, // 32: ntt.limits.v1alpha2.LimitService.GetLimit:output_type -> ntt.limits.v1alpha2.Limit
+	2,  // 33: ntt.limits.v1alpha2.LimitService.BatchGetLimits:output_type -> ntt.limits.v1alpha2.BatchGetLimitsResponse
+	4,  // 34: ntt.limits.v1alpha2.LimitService.ListLimits:output_type -> ntt.limits.v1alpha2.ListLimitsResponse
+	6,  // 35: ntt.limits.v1alpha2.LimitService.WatchLimit:output_type -> ntt.limits.v1alpha2.WatchLimitResponse
+	8,  // 36: ntt.limits.v1alpha2.LimitService.WatchLimits:output_type -> ntt.limits.v1alpha2.WatchLimitsResponse
+	16, // 37: ntt.limits.v1alpha2.LimitService.UpdateLimit:output_type -> ntt.limits.v1alpha2.Limit
+	21, // 38: ntt.limits.v1alpha2.LimitService.DeleteLimit:output_type -> google.protobuf.Empty
+	16, // 39: ntt.limits.v1alpha2.LimitService.MigrateLimitSource:output_type -> ntt.limits.v1alpha2.Limit
+	32, // [32:40] is the sub-list for method output_type
+	24, // [24:32] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { edgelq_limits_proto_v1alpha2_limit_service_proto_init() }
@@ -2294,15 +2463,32 @@ func edgelq_limits_proto_v1alpha2_limit_service_proto_init() {
 				return nil
 			}
 		}
+		edgelq_limits_proto_v1alpha2_limit_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateLimitRequest_ResponseMask); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 
+	edgelq_limits_proto_v1alpha2_limit_service_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*UpdateLimitRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*UpdateLimitRequest_ResponseMask_UpdatedFieldsOnly)(nil),
+		(*UpdateLimitRequest_ResponseMask_BodyMask)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_limits_proto_v1alpha2_limit_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   13,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

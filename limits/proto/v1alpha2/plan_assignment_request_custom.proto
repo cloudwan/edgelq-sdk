@@ -66,7 +66,9 @@ message AcceptPlanAssignmentRequest {
 
 // Response message for method
 // [AcceptAssignment][ntt.limits.v1alpha2.AcceptAssignment]
-message AcceptPlanAssignmentResponse { AcceptedPlan accepted_plan = 1; }
+message AcceptPlanAssignmentResponse {
+  AcceptedPlan accepted_plan = 1;
+}
 
 // Request message for method
 // [DeclineAssignment][ntt.limits.v1alpha2.DeclineAssignment]
@@ -83,4 +85,5 @@ message DeclinePlanAssignmentRequest {
 
 // Response message for method
 // [DeclinePlanAssignment][ntt.limits.v1alpha2.DeclinePlanAssignment]
-message DeclinePlanAssignmentResponse {}
+message DeclinePlanAssignmentResponse {
+}

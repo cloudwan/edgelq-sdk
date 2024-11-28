@@ -40,9 +40,9 @@ var (
 )
 
 type ConfigMapAccess interface {
-	GetConfigMap(context.Context, *GetQuery) (*ConfigMap, error)
+	GetConfigMap(context.Context, *GetQuery, ...gotenresource.GetOption) (*ConfigMap, error)
 	BatchGetConfigMaps(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryConfigMaps(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryConfigMaps(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchConfigMap(context.Context, *GetQuery, func(*ConfigMapChange) error) error
 	WatchConfigMaps(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveConfigMap(context.Context, *ConfigMap, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access ConfigMapAccess) gotenresource.Access {
 	return &anyCastAccess{ConfigMapAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asConfigMapQuery, ok := q.(*GetQuery); ok {
-		return a.GetConfigMap(ctx, asConfigMapQuery)
+		return a.GetConfigMap(ctx, asConfigMapQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ConfigMap, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asConfigMapQuery, ok := q.(*ListQuery); ok {
-		return a.QueryConfigMaps(ctx, asConfigMapQuery)
+		return a.QueryConfigMaps(ctx, asConfigMapQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ConfigMap, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for ConfigMap")
 }
 

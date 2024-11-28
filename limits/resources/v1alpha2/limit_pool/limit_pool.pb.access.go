@@ -44,9 +44,9 @@ var (
 )
 
 type LimitPoolAccess interface {
-	GetLimitPool(context.Context, *GetQuery) (*LimitPool, error)
+	GetLimitPool(context.Context, *GetQuery, ...gotenresource.GetOption) (*LimitPool, error)
 	BatchGetLimitPools(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryLimitPools(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryLimitPools(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchLimitPool(context.Context, *GetQuery, func(*LimitPoolChange) error) error
 	WatchLimitPools(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveLimitPool(context.Context, *LimitPool, ...gotenresource.SaveOption) error
@@ -61,25 +61,25 @@ func AsAnyCastAccess(access LimitPoolAccess) gotenresource.Access {
 	return &anyCastAccess{LimitPoolAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asLimitPoolQuery, ok := q.(*GetQuery); ok {
-		return a.GetLimitPool(ctx, asLimitPoolQuery)
+		return a.GetLimitPool(ctx, asLimitPoolQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected LimitPool, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asLimitPoolQuery, ok := q.(*ListQuery); ok {
-		return a.QueryLimitPools(ctx, asLimitPoolQuery)
+		return a.QueryLimitPools(ctx, asLimitPoolQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected LimitPool, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for LimitPool")
 }
 

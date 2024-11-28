@@ -51,10 +51,7 @@ option java_package = "com.ntt.iam.pb.v1";
 // System RoleBindings are managed only by EdgeLQ admins for internal cases, and
 // we dont need this tracking.
 message MemberAssignment {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/MemberAssignment"
-    pattern : "regions/{region}/memberAssignments/{member_assignment}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/MemberAssignment" pattern:"regions/{region}/memberAssignments/{member_assignment}"  };
 
   // Name of MemberAssignment
   // First letter is source indicator (p, o, s for project, org, service).

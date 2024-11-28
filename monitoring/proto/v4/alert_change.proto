@@ -64,7 +64,9 @@ message AlertChange {
 
   // Alert has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Alert alert = 1; }
+  message Current {
+    Alert alert = 1;
+  }
 
   // Removed is returned when Alert is deleted or leaves Query view
   message Removed {

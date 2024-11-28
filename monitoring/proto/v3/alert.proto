@@ -15,11 +15,7 @@ option java_package = "com.ntt.monitoring.pb.v3";
 
 // Alert Resource
 message Alert {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/Alert"
-    pattern : "projects/{project}/alertingPolicies/{alerting_policy}/regions/"
-              "{region}/alertingConditions/{alerting_condition}/alerts/{alert}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/Alert" pattern:"projects/{project}/alertingPolicies/{alerting_policy}/regions/{region}/alertingConditions/{alerting_condition}/alerts/{alert}"  };
 
   // Name of Alert
   // When creating a new instance, this field is optional and if not provided,
@@ -81,10 +77,14 @@ message Alert {
     bool lifecycle_completed = 10;
 
     // oneof:
-    message Threshold { double observed_value = 1; }
+    message Threshold {
+      double observed_value = 1;
+    }
 
     message CombineThreshold {
-      message PerMetric { map<string, double> observed_values = 2; }
+      message PerMetric {
+        map<string, double> observed_values = 2;
+      }
     }
   }
 }

@@ -7,6 +7,10 @@ resources:
   labels:
   - key: unit
     description: systemd unit
+  - key: priority
+    description: journal log priority
+  - key: pid
+    description: pid of the process that generated the log
   - key: device_id
     description: device ID
   - key: region_id
@@ -14,21 +18,16 @@ resources:
   - key: project_id
     description: project ID
   - key: pod_name
-    description: pod name
+    description: pod name (format projects/<name>/regions/<name>/pods/<nam>)
   - key: container_name
-    description: container name
+    description: container name (service name in the compose)
   - key: container_id
-    description: container id
+    description: container id (deprecated)
   - key: application_name
-    description: name of application
+    description: name of application (deprecated)
   promotedLabelKeySets:
-  - labelKeys: ["unit"]
   - labelKeys: ["device_id"]
   - labelKeys: ["pod_name"]
-  - labelKeys: ["container_name"]
-  - labelKeys: ["unit", "device_id"]
-  - labelKeys: ["pod_name", "application_name"]
-  - labelKeys: ["device_id", "pod_name", "application_name"]
   metadata:
     services:
       owningService: devices.edgelq.com

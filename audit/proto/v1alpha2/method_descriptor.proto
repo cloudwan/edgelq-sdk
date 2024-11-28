@@ -13,10 +13,7 @@ option java_package = "com.ntt.audit.pb.v1alpha2";
 
 // MethodDescriptor Resource
 message MethodDescriptor {
-  option (google.api.resource) = {
-    type : "audit.edgelq.com/MethodDescriptor"
-    pattern : "methodDescriptors/{method_descriptor}"
-  };
+  option (google.api.resource) = { type:"audit.edgelq.com/MethodDescriptor" pattern:"methodDescriptors/{method_descriptor}"  };
 
   // Name of MethodDescriptor - contains service name and
   // method type name, separated by '/' sign. Example name:

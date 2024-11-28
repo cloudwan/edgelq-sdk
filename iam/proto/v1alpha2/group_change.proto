@@ -64,7 +64,9 @@ message GroupChange {
 
   // Group has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Group group = 1; }
+  message Current {
+    Group group = 1;
+  }
 
   // Removed is returned when Group is deleted or leaves Query view
   message Removed {

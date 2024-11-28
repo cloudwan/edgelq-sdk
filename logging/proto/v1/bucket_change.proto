@@ -64,7 +64,9 @@ message BucketChange {
 
   // Bucket has been added or modified in a query view. Version used for
   // stateless watching
-  message Current { Bucket bucket = 1; }
+  message Current {
+    Bucket bucket = 1;
+  }
 
   // Removed is returned when Bucket is deleted or leaves Query view
   message Removed {

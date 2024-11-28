@@ -16,10 +16,7 @@ option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // Pod Resource
 message Pod {
-  option (google.api.resource) = {
-    type : "applications.edgelq.com/Pod"
-    pattern : "projects/{project}/regions/{region}/pods/{pod}"
-  };
+  option (google.api.resource) = { type:"applications.edgelq.com/Pod" pattern:"projects/{project}/regions/{region}/pods/{pod}"  };
 
   // Name of Pod
   // When creating a new instance, this field is optional and if not provided,

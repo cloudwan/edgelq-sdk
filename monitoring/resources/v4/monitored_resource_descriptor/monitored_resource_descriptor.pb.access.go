@@ -42,9 +42,9 @@ var (
 )
 
 type MonitoredResourceDescriptorAccess interface {
-	GetMonitoredResourceDescriptor(context.Context, *GetQuery) (*MonitoredResourceDescriptor, error)
+	GetMonitoredResourceDescriptor(context.Context, *GetQuery, ...gotenresource.GetOption) (*MonitoredResourceDescriptor, error)
 	BatchGetMonitoredResourceDescriptors(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryMonitoredResourceDescriptors(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryMonitoredResourceDescriptors(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchMonitoredResourceDescriptor(context.Context, *GetQuery, func(*MonitoredResourceDescriptorChange) error) error
 	WatchMonitoredResourceDescriptors(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveMonitoredResourceDescriptor(context.Context, *MonitoredResourceDescriptor, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access MonitoredResourceDescriptorAccess) gotenresource.Acc
 	return &anyCastAccess{MonitoredResourceDescriptorAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asMonitoredResourceDescriptorQuery, ok := q.(*GetQuery); ok {
-		return a.GetMonitoredResourceDescriptor(ctx, asMonitoredResourceDescriptorQuery)
+		return a.GetMonitoredResourceDescriptor(ctx, asMonitoredResourceDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected MonitoredResourceDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asMonitoredResourceDescriptorQuery, ok := q.(*ListQuery); ok {
-		return a.QueryMonitoredResourceDescriptors(ctx, asMonitoredResourceDescriptorQuery)
+		return a.QueryMonitoredResourceDescriptors(ctx, asMonitoredResourceDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected MonitoredResourceDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for MonitoredResourceDescriptor")
 }
 

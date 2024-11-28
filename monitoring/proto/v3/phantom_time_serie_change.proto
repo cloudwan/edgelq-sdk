@@ -66,7 +66,9 @@ message PhantomTimeSerieChange {
 
   // PhantomTimeSerie has been added or modified in a query view. Version used
   // for stateless watching
-  message Current { PhantomTimeSerie phantom_time_serie = 1; }
+  message Current {
+    PhantomTimeSerie phantom_time_serie = 1;
+  }
 
   // Removed is returned when PhantomTimeSerie is deleted or leaves Query view
   message Removed {

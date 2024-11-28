@@ -12,13 +12,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // Group Resource
 message Group {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/Group"
-    pattern : "groups/{group}"
-    pattern : "projects/{project}/groups/{group}"
-    pattern : "organizations/{organization}/groups/{group}"
-    pattern : "services/{service}/groups/{group}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/Group" pattern:"groups/{group}" pattern:"projects/{project}/groups/{group}" pattern:"organizations/{organization}/groups/{group}" pattern:"services/{service}/groups/{group}"  };
 
   // Name of Group
   // When creating a new instance, this field is optional and if not provided,

@@ -28,8 +28,7 @@ message VerifyRequest {
     string subject = 1;
 
     // attestation domain ref
-    string attestation_domain = 2
-        [ (google.api.resource_reference) = {type : "AttestationDomain"} ];
+    string attestation_domain = 2 [(google.api.resource_reference) = { type:"AttestationDomain"  }];
 
     TpmVersion tpm_version = 3;
 
@@ -145,5 +144,7 @@ message VerifyResponse {
     bytes secret_encrypted_by_cred = 3;
   }
 
-  message AttestationSuccessful { string attestation_token = 1; }
+  message AttestationSuccessful {
+    string attestation_token = 1;
+  }
 }

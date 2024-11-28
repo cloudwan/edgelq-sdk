@@ -13,10 +13,7 @@ option java_package = "com.ntt.iam.pb.v1";
 
 // AttestationDomain Resource
 message AttestationDomain {
-  option (google.api.resource) = {
-    type : "iam.edgelq.com/AttestationDomain"
-    pattern : "projects/{project}/attestationDomains/{attestation_domain}"
-  };
+  option (google.api.resource) = { type:"iam.edgelq.com/AttestationDomain" pattern:"projects/{project}/attestationDomains/{attestation_domain}"  };
 
   // Name of AttestationDomain
   // When creating a new instance, this field is optional and if not provided,

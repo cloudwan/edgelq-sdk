@@ -35,7 +35,9 @@ message SSHService {
   }
 
   message ClientIn {
-    oneof msg { bytes data = 1; }
+    oneof msg {
+      bytes data = 1;
+    }
   }
 }
 

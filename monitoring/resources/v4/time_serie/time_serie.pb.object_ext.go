@@ -161,6 +161,9 @@ func (o *TimeSerie) MakeDiffFieldMask(other *TimeSerie) *TimeSerie_FieldMask {
 	if o.GetRegion() != other.GetRegion() {
 		res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorRegion})
 	}
+	if o.GetUnit() != other.GetUnit() {
+		res.Paths = append(res.Paths, &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorUnit})
+	}
 	{
 		subMask := o.GetMetric().MakeDiffFieldMask(other.GetMetric())
 		if subMask.IsFull() {
@@ -217,6 +220,7 @@ func (o *TimeSerie) Clone() *TimeSerie {
 	}
 	result.Project = o.Project
 	result.Region = o.Region
+	result.Unit = o.Unit
 	result.Metric = o.Metric.Clone()
 	result.Resource = o.Resource.Clone()
 	result.MetricKind = o.MetricKind
@@ -239,6 +243,7 @@ func (o *TimeSerie) Merge(source *TimeSerie) {
 	}
 	o.Project = source.GetProject()
 	o.Region = source.GetRegion()
+	o.Unit = source.GetUnit()
 	if source.GetMetric() != nil {
 		if o.Metric == nil {
 			o.Metric = new(common.Metric)

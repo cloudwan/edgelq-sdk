@@ -13,10 +13,7 @@ option java_package = "com.ntt.monitoring.pb.v4";
 // Bucket Resource restricts create/list time series requests to
 // the specified metric/resource types.
 message Bucket {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/Bucket"
-    pattern : "projects/{project}/regions/{region}/buckets/{bucket}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/Bucket" pattern:"projects/{project}/regions/{region}/buckets/{bucket}"  };
 
   // Name of Bucket
   // When creating a new instance, this field is optional and if not provided,
@@ -53,7 +50,9 @@ message Bucket {
   }
 
   // ResolvedKeysWithValues binds multiple keys with possible values.
-  message ResolvedKeysWithValues { repeated ResolvedValues resolved_kvs = 1; }
+  message ResolvedKeysWithValues {
+    repeated ResolvedValues resolved_kvs = 1;
+  }
 
   // RequiredTypedLabels describes required label values for specified
   // metric and resource types. All time series in Create operation
@@ -66,6 +65,8 @@ message Bucket {
 
     map<string, Strings> labels = 2;
 
-    message Strings { repeated string strings = 1; }
+    message Strings {
+      repeated string strings = 1;
+    }
   }
 }

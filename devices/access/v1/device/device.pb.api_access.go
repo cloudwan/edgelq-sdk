@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiDeviceAccess(client device_client.DeviceServiceClient) device.DeviceA
 	return &apiDeviceAccess{client: client}
 }
 
-func (a *apiDeviceAccess) GetDevice(ctx context.Context, query *device.GetQuery) (*device.Device, error) {
+func (a *apiDeviceAccess) GetDevice(ctx context.Context, query *device.GetQuery, opts ...gotenresource.GetOption) (*device.Device, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiDeviceAccess) GetDevice(ctx context.Context, query *device.GetQuery)
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetDevice(ctx, request)
+	res, err := a.client.GetDevice(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiDeviceAccess) GetDevice(ctx context.Context, query *device.GetQuery)
 
 func (a *apiDeviceAccess) BatchGetDevices(ctx context.Context, refs []*device.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*device.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiDeviceAccess) BatchGetDevices(ctx context.Context, refs []*device.Re
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*device.Device_FieldMask)
 	}
-	resp, err := a.client.BatchGetDevices(ctx, request)
+	resp, err := a.client.BatchGetDevices(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiDeviceAccess) BatchGetDevices(ctx context.Context, refs []*device.Re
 	return nil
 }
 
-func (a *apiDeviceAccess) QueryDevices(ctx context.Context, query *device.ListQuery) (*device.QueryResultSnapshot, error) {
+func (a *apiDeviceAccess) QueryDevices(ctx context.Context, query *device.ListQuery, opts ...gotenresource.QueryOption) (*device.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &device_client.ListDevicesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiDeviceAccess) WatchDevice(ctx context.Context, query *device.GetQuer
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDevice(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiDeviceAccess) WatchDevices(ctx context.Context, query *device.WatchQ
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiDeviceAccess) WatchDevices(ctx context.Context, query *device.WatchQ
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDevices(ctx, request)
 	if initErr != nil {
 		return initErr

@@ -71,6 +71,15 @@ func (LogFieldPathBuilder) JsonPayload() LogPathSelectorJsonPayload {
 func (LogFieldPathBuilder) PbPayload() LogPathSelectorPbPayload {
 	return LogPathSelectorPbPayload{}
 }
+func (LogFieldPathBuilder) StringPayload() LogPathSelectorStringPayload {
+	return LogPathSelectorStringPayload{}
+}
+func (LogFieldPathBuilder) BytesPayload() LogPathSelectorBytesPayload {
+	return LogPathSelectorBytesPayload{}
+}
+func (LogFieldPathBuilder) BinKey() LogPathSelectorBinKey {
+	return LogPathSelectorBinKey{}
+}
 
 type LogPathSelectorName struct{}
 
@@ -229,5 +238,47 @@ func (s LogPathSelectorPbPayload) WithValue(value *anypb.Any) *Log_FieldTerminal
 }
 
 func (s LogPathSelectorPbPayload) WithArrayOfValues(values []*anypb.Any) *Log_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Log_FieldTerminalPathArrayOfValues)
+}
+
+type LogPathSelectorStringPayload struct{}
+
+func (LogPathSelectorStringPayload) FieldPath() *Log_FieldTerminalPath {
+	return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorStringPayload}
+}
+
+func (s LogPathSelectorStringPayload) WithValue(value string) *Log_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Log_FieldTerminalPathValue)
+}
+
+func (s LogPathSelectorStringPayload) WithArrayOfValues(values []string) *Log_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Log_FieldTerminalPathArrayOfValues)
+}
+
+type LogPathSelectorBytesPayload struct{}
+
+func (LogPathSelectorBytesPayload) FieldPath() *Log_FieldTerminalPath {
+	return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBytesPayload}
+}
+
+func (s LogPathSelectorBytesPayload) WithValue(value []byte) *Log_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Log_FieldTerminalPathValue)
+}
+
+func (s LogPathSelectorBytesPayload) WithArrayOfValues(values [][]byte) *Log_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Log_FieldTerminalPathArrayOfValues)
+}
+
+type LogPathSelectorBinKey struct{}
+
+func (LogPathSelectorBinKey) FieldPath() *Log_FieldTerminalPath {
+	return &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBinKey}
+}
+
+func (s LogPathSelectorBinKey) WithValue(value string) *Log_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Log_FieldTerminalPathValue)
+}
+
+func (s LogPathSelectorBinKey) WithArrayOfValues(values []string) *Log_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Log_FieldTerminalPathArrayOfValues)
 }

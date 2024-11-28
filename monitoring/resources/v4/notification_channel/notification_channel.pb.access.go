@@ -19,6 +19,7 @@ import (
 import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -37,14 +38,15 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
 
 type NotificationChannelAccess interface {
-	GetNotificationChannel(context.Context, *GetQuery) (*NotificationChannel, error)
+	GetNotificationChannel(context.Context, *GetQuery, ...gotenresource.GetOption) (*NotificationChannel, error)
 	BatchGetNotificationChannels(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryNotificationChannels(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryNotificationChannels(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchNotificationChannel(context.Context, *GetQuery, func(*NotificationChannelChange) error) error
 	WatchNotificationChannels(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveNotificationChannel(context.Context, *NotificationChannel, ...gotenresource.SaveOption) error
@@ -59,25 +61,25 @@ func AsAnyCastAccess(access NotificationChannelAccess) gotenresource.Access {
 	return &anyCastAccess{NotificationChannelAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asNotificationChannelQuery, ok := q.(*GetQuery); ok {
-		return a.GetNotificationChannel(ctx, asNotificationChannelQuery)
+		return a.GetNotificationChannel(ctx, asNotificationChannelQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected NotificationChannel, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asNotificationChannelQuery, ok := q.(*ListQuery); ok {
-		return a.QueryNotificationChannels(ctx, asNotificationChannelQuery)
+		return a.QueryNotificationChannels(ctx, asNotificationChannelQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected NotificationChannel, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for NotificationChannel")
 }
 

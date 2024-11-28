@@ -12,11 +12,7 @@ option java_package = "com.ntt.devices.pb.v1";
 
 // CustomizedImage Resource
 message CustomizedImage {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/CustomizedImage"
-    pattern : "projects/{project}/regions/{region}/customizedImages/"
-              "{customized_image}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/CustomizedImage" pattern:"projects/{project}/regions/{region}/customizedImages/{customized_image}"  };
 
   // Name of CustomizedImage
   // When creating a new instance, this field is optional and if not provided,

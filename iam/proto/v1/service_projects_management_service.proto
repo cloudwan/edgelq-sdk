@@ -26,59 +26,37 @@ service ServiceProjectsManagementService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ListMyServiceProjects
-  rpc ListMyServiceProjects(ListMyServiceProjectsRequest)
-      returns (ListMyServiceProjectsResponse) {
-    option (google.api.http) = {
-      post : "/v1/projects:listMyServiceProjects"
-    };
+  rpc ListMyServiceProjects ( ListMyServiceProjectsRequest ) returns ( ListMyServiceProjectsResponse ) {
+    option (google.api.http) = { post:"/v1/projects:listMyServiceProjects"  };
   }
 
   // SetupServiceProject
-  rpc SetupServiceProject(SetupServiceProjectRequest) returns (Project) {
-    option (google.api.http) = {
-      post : "/v1/projects:setupServiceProject"
-    };
+  rpc SetupServiceProject ( SetupServiceProjectRequest ) returns ( Project ) {
+    option (google.api.http) = { post:"/v1/projects:setupServiceProject"  };
   }
 
   // ReserveServiceName
-  rpc ReserveServiceName(ReserveServiceNameRequest)
-      returns (ReserveServiceNameResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*}:reserveServiceName"
-    };
+  rpc ReserveServiceName ( ReserveServiceNameRequest ) returns ( ReserveServiceNameResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*}:reserveServiceName"  };
   }
 
   // DeleteServiceReservation
-  rpc DeleteServiceReservation(DeleteServiceReservationRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*}:deleteServiceReservation"
-    };
+  rpc DeleteServiceReservation ( DeleteServiceReservationRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*}:deleteServiceReservation"  };
   }
 
   // ListServiceReservations
-  rpc ListServiceReservations(ListServiceReservationsRequest)
-      returns (ListServiceReservationsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*}:listServiceReservations"
-    };
+  rpc ListServiceReservations ( ListServiceReservationsRequest ) returns ( ListServiceReservationsResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*}:listServiceReservations"  };
   }
 
   // ListProjectServices
-  rpc ListProjectServices(ListProjectServicesRequest)
-      returns (ListProjectServicesResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*}:listProjectServices"
-    };
+  rpc ListProjectServices ( ListProjectServicesRequest ) returns ( ListProjectServicesResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*}:listProjectServices"  };
   }
 
   // AddRegionalAdminAccountForServices
-  rpc AddRegionalAdminAccountForServices(
-      AddRegionalAdminAccountForServicesRequest)
-      returns (AddRegionalAdminAccountForServicesResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*/regions/*}/"
-             "serviceAccounts:addRegionalAdminAccountForServices"
-    };
+  rpc AddRegionalAdminAccountForServices ( AddRegionalAdminAccountForServicesRequest ) returns ( AddRegionalAdminAccountForServicesResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*/regions/*}/serviceAccounts:addRegionalAdminAccountForServices"  };
   }
 }

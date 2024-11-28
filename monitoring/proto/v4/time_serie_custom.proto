@@ -7,6 +7,7 @@ import "edgelq-sdk/monitoring/proto/v4/common.proto";
 import "edgelq-sdk/monitoring/proto/v4/time_serie.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_serie;time_serie_client";
 option java_multiple_files = false;
@@ -344,7 +345,9 @@ message StatsQuery {
     }
   }
 
-  message ResourceCount { repeated string resources = 1; }
+  message ResourceCount {
+    repeated string resources = 1;
+  }
 
   message Logs {
     Type type = 1;
@@ -353,7 +356,9 @@ message StatsQuery {
 
     repeated Groups group_by = 3;
 
-    enum Groups { LOG_TYPE = 0; }
+    enum Groups {
+      LOG_TYPE = 0;
+    }
 
     enum Type {
       UNDEFINED = 0;
@@ -399,7 +404,9 @@ message StatsQuery {
 
     repeated Groups group_by = 3;
 
-    enum Groups { RESOURCE_TYPE = 0; }
+    enum Groups {
+      RESOURCE_TYPE = 0;
+    }
 
     enum Type {
       UNDEFINED = 0;
@@ -594,7 +601,17 @@ message WatchTimeSeriesRequest {
   // AlignmentPeriod value just in case. Initial time series in response will
   // contain extra past data. Once specific TimeSeries key was already observed,
   // further values will be coming only from realtime watch.
+  // This field has lower priority than starting_time!
   google.protobuf.Duration snapshot_interval_to_fetch = 4;
+
+  // For every new unique time series key monitoring will try to fetch past
+  // data from given starting time. This is useful for recovery purposes, if
+  // client has lost previous watch session. Once snapshot is retrieved for
+  // given key, further data will contain live updates. This field takes
+  // priority over snapshot_interval_to_fetch.
+  google.protobuf.Timestamp starting_time = 5;
 }
 
-message WatchTimeSeriesResponse { repeated TimeSerie time_series = 1; }
+message WatchTimeSeriesResponse {
+  repeated TimeSerie time_series = 1;
+}

@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiRoleBindingAccess(client role_binding_client.RoleBindingServiceClient
 	return &apiRoleBindingAccess{client: client}
 }
 
-func (a *apiRoleBindingAccess) GetRoleBinding(ctx context.Context, query *role_binding.GetQuery) (*role_binding.RoleBinding, error) {
+func (a *apiRoleBindingAccess) GetRoleBinding(ctx context.Context, query *role_binding.GetQuery, opts ...gotenresource.GetOption) (*role_binding.RoleBinding, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiRoleBindingAccess) GetRoleBinding(ctx context.Context, query *role_b
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetRoleBinding(ctx, request)
+	res, err := a.client.GetRoleBinding(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiRoleBindingAccess) GetRoleBinding(ctx context.Context, query *role_b
 
 func (a *apiRoleBindingAccess) BatchGetRoleBindings(ctx context.Context, refs []*role_binding.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*role_binding.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiRoleBindingAccess) BatchGetRoleBindings(ctx context.Context, refs []
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*role_binding.RoleBinding_FieldMask)
 	}
-	resp, err := a.client.BatchGetRoleBindings(ctx, request)
+	resp, err := a.client.BatchGetRoleBindings(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiRoleBindingAccess) BatchGetRoleBindings(ctx context.Context, refs []
 	return nil
 }
 
-func (a *apiRoleBindingAccess) QueryRoleBindings(ctx context.Context, query *role_binding.ListQuery) (*role_binding.QueryResultSnapshot, error) {
+func (a *apiRoleBindingAccess) QueryRoleBindings(ctx context.Context, query *role_binding.ListQuery, opts ...gotenresource.QueryOption) (*role_binding.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &role_binding_client.ListRoleBindingsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiRoleBindingAccess) WatchRoleBinding(ctx context.Context, query *role
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRoleBinding(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiRoleBindingAccess) WatchRoleBindings(ctx context.Context, query *rol
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiRoleBindingAccess) WatchRoleBindings(ctx context.Context, query *rol
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRoleBindings(ctx, request)
 	if initErr != nil {
 		return initErr

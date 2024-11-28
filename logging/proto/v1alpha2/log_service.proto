@@ -23,17 +23,12 @@ service LogService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // ListLogs
-  rpc ListLogs(ListLogsRequest) returns (ListLogsResponse) {
-    option (google.api.http) = {
-      get : "/v1alpha2/logs"
-    };
+  rpc ListLogs ( ListLogsRequest ) returns ( ListLogsResponse ) {
+    option (google.api.http) = { get:"/v1alpha2/logs"  };
   }
 
   // CreateLogs
-  rpc CreateLogs(CreateLogsRequest) returns (CreateLogsResponse) {
-    option (google.api.http) = {
-      post : "/v1alpha2/logs"
-      body : "logs"
-    };
+  rpc CreateLogs ( CreateLogsRequest ) returns ( CreateLogsResponse ) {
+    option (google.api.http) = { post:"/v1alpha2/logs" body:"logs"  };
   }
 }

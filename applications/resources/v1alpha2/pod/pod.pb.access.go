@@ -46,9 +46,9 @@ var (
 )
 
 type PodAccess interface {
-	GetPod(context.Context, *GetQuery) (*Pod, error)
+	GetPod(context.Context, *GetQuery, ...gotenresource.GetOption) (*Pod, error)
 	BatchGetPods(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryPods(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryPods(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchPod(context.Context, *GetQuery, func(*PodChange) error) error
 	WatchPods(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SavePod(context.Context, *Pod, ...gotenresource.SaveOption) error
@@ -63,25 +63,25 @@ func AsAnyCastAccess(access PodAccess) gotenresource.Access {
 	return &anyCastAccess{PodAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asPodQuery, ok := q.(*GetQuery); ok {
-		return a.GetPod(ctx, asPodQuery)
+		return a.GetPod(ctx, asPodQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Pod, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asPodQuery, ok := q.(*ListQuery); ok {
-		return a.QueryPods(ctx, asPodQuery)
+		return a.QueryPods(ctx, asPodQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Pod, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Pod")
 }
 

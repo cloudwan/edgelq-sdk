@@ -84,7 +84,8 @@ message RefreshUserFromIdTokenRequest {
 
 // Response message for method
 // [RefreshUserFromIdToken][ntt.iam.v1.RefreshUserFromIdToken]
-message RefreshUserFromIdTokenResponse {}
+message RefreshUserFromIdTokenResponse {
+}
 
 // Request message for method
 // [ResendVerificationEmail][ntt.iam.v1.ResendVerificationEmail]
@@ -95,12 +96,15 @@ message ResendVerificationEmailRequest {
 }
 
 // Request message for method [IsUserVerified][ntt.iam.v1.IsUserVerified]
-message IsUserVerifiedRequest {}
+message IsUserVerifiedRequest {
+}
 
 // Request message for method
 // [ResetMFAIfRecoveryKeyUsed][ntt.iam.v1.ResetMFAIfRecoveryKeyUsed]
-message ResetMFAIfRecoveryKeyUsedRequest {}
+message ResetMFAIfRecoveryKeyUsedRequest {
+}
 
 // Request message for method
 // [SetUsersNameInAuth0][ntt.iam.v1.SetUsersNameInAuth0]
-message SetUsersNameInAuth0Request {}
+message SetUsersNameInAuth0Request {
+}

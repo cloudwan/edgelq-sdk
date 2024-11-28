@@ -212,8 +212,7 @@ message WatchDeviceHardwareRegisterSessionsRequest {
 // A response message of the WatchDeviceHardwareRegisterSessions method.
 message WatchDeviceHardwareRegisterSessionsResponse {
   // Changes of DeviceHardwareRegisterSessions
-  repeated DeviceHardwareRegisterSessionChange
-      device_hardware_register_session_changes = 2;
+  repeated DeviceHardwareRegisterSessionChange device_hardware_register_session_changes = 2;
 
   // If request specified max_chunk_size (or this limit was enforced if
   // stateless watch has been chosen), then responses with "full changeset" will
@@ -283,6 +282,23 @@ message CreateDeviceHardwareRegisterSessionRequest {
 
   // DeviceHardwareRegisterSession resource body
   DeviceHardwareRegisterSession device_hardware_register_session = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateDeviceHardwareRegisterSession method.
@@ -306,7 +322,10 @@ message UpdateDeviceHardwareRegisterSessionRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -317,6 +336,26 @@ message UpdateDeviceHardwareRegisterSessionRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -332,105 +371,57 @@ service DeviceHardwareRegisterSessionService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetDeviceHardwareRegisterSession
-  rpc GetDeviceHardwareRegisterSession(GetDeviceHardwareRegisterSessionRequest)
-      returns (DeviceHardwareRegisterSession) {
-    option (google.api.http) = {
-      get : "/v1/{name=projects/*/regions/*/deviceHardwareRegisterSessions/*}"
-    };
+  rpc GetDeviceHardwareRegisterSession ( GetDeviceHardwareRegisterSessionRequest ) returns ( DeviceHardwareRegisterSession ) {
+    option (google.api.http) = { get:"/v1/{name=projects/*/regions/*/deviceHardwareRegisterSessions/*}"  };
   }
 
   // BatchGetDeviceHardwareRegisterSessions
-  rpc BatchGetDeviceHardwareRegisterSessions(
-      BatchGetDeviceHardwareRegisterSessionsRequest)
-      returns (BatchGetDeviceHardwareRegisterSessionsResponse) {
-    option (google.api.http) = {
-      get : "/v1/deviceHardwareRegisterSessions:batchGet"
-    };
+  rpc BatchGetDeviceHardwareRegisterSessions ( BatchGetDeviceHardwareRegisterSessionsRequest ) returns ( BatchGetDeviceHardwareRegisterSessionsResponse ) {
+    option (google.api.http) = { get:"/v1/deviceHardwareRegisterSessions:batchGet"  };
   }
 
   // ListDeviceHardwareRegisterSessions
-  rpc ListDeviceHardwareRegisterSessions(
-      ListDeviceHardwareRegisterSessionsRequest)
-      returns (ListDeviceHardwareRegisterSessionsResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=projects/*/regions/*}/deviceHardwareRegisterSessions"
-    };
+  rpc ListDeviceHardwareRegisterSessions ( ListDeviceHardwareRegisterSessionsRequest ) returns ( ListDeviceHardwareRegisterSessionsResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=projects/*/regions/*}/deviceHardwareRegisterSessions"  };
   }
 
   // WatchDeviceHardwareRegisterSession
-  rpc WatchDeviceHardwareRegisterSession(
-      WatchDeviceHardwareRegisterSessionRequest)
-      returns (stream WatchDeviceHardwareRegisterSessionResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/regions/*/deviceHardwareRegisterSessions/"
-             "*}:watch"
-    };
+  rpc WatchDeviceHardwareRegisterSession ( WatchDeviceHardwareRegisterSessionRequest ) returns ( stream WatchDeviceHardwareRegisterSessionResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/regions/*/deviceHardwareRegisterSessions/*}:watch"  };
   }
 
   // WatchDeviceHardwareRegisterSessions
-  rpc WatchDeviceHardwareRegisterSessions(
-      WatchDeviceHardwareRegisterSessionsRequest)
-      returns (stream WatchDeviceHardwareRegisterSessionsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*/regions/*}/"
-             "deviceHardwareRegisterSessions:watch"
-    };
+  rpc WatchDeviceHardwareRegisterSessions ( WatchDeviceHardwareRegisterSessionsRequest ) returns ( stream WatchDeviceHardwareRegisterSessionsResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*/regions/*}/deviceHardwareRegisterSessions:watch"  };
   }
 
   // CreateDeviceHardwareRegisterSession
-  rpc CreateDeviceHardwareRegisterSession(
-      CreateDeviceHardwareRegisterSessionRequest)
-      returns (DeviceHardwareRegisterSession) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*/regions/*}/deviceHardwareRegisterSessions"
-      body : "device_hardware_register_session"
-    };
+  rpc CreateDeviceHardwareRegisterSession ( CreateDeviceHardwareRegisterSessionRequest ) returns ( DeviceHardwareRegisterSession ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*/regions/*}/deviceHardwareRegisterSessions" body:"device_hardware_register_session"  };
   }
 
   // UpdateDeviceHardwareRegisterSession
-  rpc UpdateDeviceHardwareRegisterSession(
-      UpdateDeviceHardwareRegisterSessionRequest)
-      returns (DeviceHardwareRegisterSession) {
-    option (google.api.http) = {
-      put : "/v1/{device_hardware_register_session.name=projects/*/regions/*/"
-            "deviceHardwareRegisterSessions/*}"
-      body : "device_hardware_register_session"
-    };
+  rpc UpdateDeviceHardwareRegisterSession ( UpdateDeviceHardwareRegisterSessionRequest ) returns ( DeviceHardwareRegisterSession ) {
+    option (google.api.http) = { put:"/v1/{device_hardware_register_session.name=projects/*/regions/*/deviceHardwareRegisterSessions/*}" body:"device_hardware_register_session"  };
   }
 
   // DeleteDeviceHardwareRegisterSession
-  rpc DeleteDeviceHardwareRegisterSession(
-      DeleteDeviceHardwareRegisterSessionRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=projects/*/regions/*/deviceHardwareRegisterSessions/"
-               "*}"
-    };
+  rpc DeleteDeviceHardwareRegisterSession ( DeleteDeviceHardwareRegisterSessionRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=projects/*/regions/*/deviceHardwareRegisterSessions/*}"  };
   }
 
   // GetDeviceHardwareRegisterSessionFromToken
-  rpc GetDeviceHardwareRegisterSessionFromToken(
-      GetDeviceHardwareRegisterSessionFromTokenRequest)
-      returns (GetDeviceHardwareRegisterSessionFromTokenResponse) {
-    option (google.api.http) = {
-      get : "/v1/"
-            "deviceHardwareRegisterSessions:"
-            "getDeviceHardwareRegisterSessionFromToken"
-    };
+  rpc GetDeviceHardwareRegisterSessionFromToken ( GetDeviceHardwareRegisterSessionFromTokenRequest ) returns ( GetDeviceHardwareRegisterSessionFromTokenResponse ) {
+    option (google.api.http) = { get:"/v1/deviceHardwareRegisterSessions:getDeviceHardwareRegisterSessionFromToken"  };
   }
 
   // RegisterHardware
-  rpc RegisterHardware(RegisterHardwareRequest)
-      returns (RegisterHardwareResponse) {
-    option (google.api.http) = {
-      post : "/v1/deviceHardwareRegisterSessions:registerHardware"
-    };
+  rpc RegisterHardware ( RegisterHardwareRequest ) returns ( RegisterHardwareResponse ) {
+    option (google.api.http) = { post:"/v1/deviceHardwareRegisterSessions:registerHardware"  };
   }
 
   // HardwareStatus
-  rpc HardwareStatus(HardwareStatusRequest) returns (HardwareStatusResponse) {
-    option (google.api.http) = {
-      get : "/v1/deviceHardwareRegisterSessions:hardwareStatus"
-    };
+  rpc HardwareStatus ( HardwareStatusRequest ) returns ( HardwareStatusResponse ) {
+    option (google.api.http) = { get:"/v1/deviceHardwareRegisterSessions:hardwareStatus"  };
   }
 }

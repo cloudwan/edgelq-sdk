@@ -15,12 +15,7 @@ option java_package = "com.ntt.devices.pb.v1";
 
 // DeviceHardwareRegisterSession Resource
 message DeviceHardwareRegisterSession {
-  option (google.api.resource) = {
-    type : "devices.edgelq.com/DeviceHardwareRegisterSession"
-    pattern : "projects/{project}/regions/{region}/"
-              "deviceHardwareRegisterSessions/"
-              "{device_hardware_register_session}"
-  };
+  option (google.api.resource) = { type:"devices.edgelq.com/DeviceHardwareRegisterSession" pattern:"projects/{project}/regions/{region}/deviceHardwareRegisterSessions/{device_hardware_register_session}"  };
 
   // Name of DeviceHardwareRegisterSession
   // When creating a new instance, this field is optional and if not provided,
@@ -48,7 +43,7 @@ message DeviceHardwareRegisterSession {
   string user_email = 5;
 
   // Inviter Email, automatically set from token, not accepted as input
-  string inviter_email = 6 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  string inviter_email = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Email ISO language code. Defaults to "en-us" (American English).
   string language_code = 7;

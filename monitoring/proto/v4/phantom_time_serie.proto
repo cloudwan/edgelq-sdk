@@ -15,11 +15,7 @@ option java_package = "com.ntt.monitoring.pb.v4";
 
 // PhantomTimeSerie Resource
 message PhantomTimeSerie {
-  option (google.api.resource) = {
-    type : "monitoring.edgelq.com/PhantomTimeSerie"
-    pattern : "projects/{project}/regions/{region}/phantomTimeSeries/"
-              "{phantom_time_serie}"
-  };
+  option (google.api.resource) = { type:"monitoring.edgelq.com/PhantomTimeSerie" pattern:"projects/{project}/regions/{region}/phantomTimeSeries/{phantom_time_serie}"  };
 
   // Name of PhantomTimeSerie
   // When creating a new instance, this field is optional and if not provided,
@@ -39,10 +35,10 @@ message PhantomTimeSerie {
   //
   // Kind/ValueType are not present in key
   // Key is not to be decoded outside of service, but treated as opaque string
-  bytes key = 101 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  bytes key = 101 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Internal use - for bulk reporting of TimeSeries
-  string project = 102 [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  string project = 102 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // The associated metric. A fully-specified metric used to identify the time
   // series.
@@ -63,8 +59,7 @@ message PhantomTimeSerie {
   // metric's descriptor must be auto-created, then this field specifies the
   // metric kind of the new descriptor and must be either `GAUGE` (the default)
   // or `CUMULATIVE`.
-  MetricDescriptor.MetricKind metric_kind = 3
-      [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  MetricDescriptor.MetricKind metric_kind = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // The value type of the time series. When listing time series, this value
   // type might be different from the value type of the associated metric if
@@ -72,8 +67,7 @@ message PhantomTimeSerie {
   //
   // When creating a time series, this field is optional. If present, it must be
   // the same as the type of the data in the `points` field.
-  MetricDescriptor.ValueType value_type = 4
-      [ (google.api.field_behavior) = OUTPUT_ONLY ];
+  MetricDescriptor.ValueType value_type = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
 
   // Phantom value
   TypedValue value = 6;

@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiProvisioningApprovalRequestAccess(client provisioning_approval_reques
 	return &apiProvisioningApprovalRequestAccess{client: client}
 }
 
-func (a *apiProvisioningApprovalRequestAccess) GetProvisioningApprovalRequest(ctx context.Context, query *provisioning_approval_request.GetQuery) (*provisioning_approval_request.ProvisioningApprovalRequest, error) {
+func (a *apiProvisioningApprovalRequestAccess) GetProvisioningApprovalRequest(ctx context.Context, query *provisioning_approval_request.GetQuery, opts ...gotenresource.GetOption) (*provisioning_approval_request.ProvisioningApprovalRequest, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiProvisioningApprovalRequestAccess) GetProvisioningApprovalRequest(ct
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetProvisioningApprovalRequest(ctx, request)
+	res, err := a.client.GetProvisioningApprovalRequest(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiProvisioningApprovalRequestAccess) GetProvisioningApprovalRequest(ct
 
 func (a *apiProvisioningApprovalRequestAccess) BatchGetProvisioningApprovalRequests(ctx context.Context, refs []*provisioning_approval_request.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*provisioning_approval_request.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiProvisioningApprovalRequestAccess) BatchGetProvisioningApprovalReque
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*provisioning_approval_request.ProvisioningApprovalRequest_FieldMask)
 	}
-	resp, err := a.client.BatchGetProvisioningApprovalRequests(ctx, request)
+	resp, err := a.client.BatchGetProvisioningApprovalRequests(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiProvisioningApprovalRequestAccess) BatchGetProvisioningApprovalReque
 	return nil
 }
 
-func (a *apiProvisioningApprovalRequestAccess) QueryProvisioningApprovalRequests(ctx context.Context, query *provisioning_approval_request.ListQuery) (*provisioning_approval_request.QueryResultSnapshot, error) {
+func (a *apiProvisioningApprovalRequestAccess) QueryProvisioningApprovalRequests(ctx context.Context, query *provisioning_approval_request.ListQuery, opts ...gotenresource.QueryOption) (*provisioning_approval_request.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &provisioning_approval_request_client.ListProvisioningApprovalRequestsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiProvisioningApprovalRequestAccess) WatchProvisioningApprovalRequest(
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProvisioningApprovalRequest(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiProvisioningApprovalRequestAccess) WatchProvisioningApprovalRequests
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiProvisioningApprovalRequestAccess) WatchProvisioningApprovalRequests
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProvisioningApprovalRequests(ctx, request)
 	if initErr != nil {
 		return initErr

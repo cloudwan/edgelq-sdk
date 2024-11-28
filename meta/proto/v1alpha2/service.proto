@@ -12,10 +12,7 @@ option java_package = "com.ntt.meta.pb.v1alpha2";
 
 // Service Resource
 message Service {
-  option (google.api.resource) = {
-    type : "meta.edgelq.com/Service"
-    pattern : "services/{service}"
-  };
+  option (google.api.resource) = { type:"meta.edgelq.com/Service" pattern:"services/{service}"  };
 
   // Name of Service - it has form of service domain, for example
   // devices.edgelq.com, so full reference name would be like

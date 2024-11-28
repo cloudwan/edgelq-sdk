@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiDeploymentAccess(client deployment_client.DeploymentServiceClient) de
 	return &apiDeploymentAccess{client: client}
 }
 
-func (a *apiDeploymentAccess) GetDeployment(ctx context.Context, query *deployment.GetQuery) (*deployment.Deployment, error) {
+func (a *apiDeploymentAccess) GetDeployment(ctx context.Context, query *deployment.GetQuery, opts ...gotenresource.GetOption) (*deployment.Deployment, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiDeploymentAccess) GetDeployment(ctx context.Context, query *deployme
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetDeployment(ctx, request)
+	res, err := a.client.GetDeployment(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiDeploymentAccess) GetDeployment(ctx context.Context, query *deployme
 
 func (a *apiDeploymentAccess) BatchGetDeployments(ctx context.Context, refs []*deployment.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*deployment.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiDeploymentAccess) BatchGetDeployments(ctx context.Context, refs []*d
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*deployment.Deployment_FieldMask)
 	}
-	resp, err := a.client.BatchGetDeployments(ctx, request)
+	resp, err := a.client.BatchGetDeployments(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiDeploymentAccess) BatchGetDeployments(ctx context.Context, refs []*d
 	return nil
 }
 
-func (a *apiDeploymentAccess) QueryDeployments(ctx context.Context, query *deployment.ListQuery) (*deployment.QueryResultSnapshot, error) {
+func (a *apiDeploymentAccess) QueryDeployments(ctx context.Context, query *deployment.ListQuery, opts ...gotenresource.QueryOption) (*deployment.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &deployment_client.ListDeploymentsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiDeploymentAccess) WatchDeployment(ctx context.Context, query *deploy
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeployment(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiDeploymentAccess) WatchDeployments(ctx context.Context, query *deplo
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiDeploymentAccess) WatchDeployments(ctx context.Context, query *deplo
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeployments(ctx, request)
 	if initErr != nil {
 		return initErr

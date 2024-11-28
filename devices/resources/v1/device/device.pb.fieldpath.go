@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -5187,9 +5187,10 @@ type DeviceSpecLoggingConfig_FieldPath interface {
 type DeviceSpecLoggingConfig_FieldPathSelector int32
 
 const (
-	DeviceSpecLoggingConfig_FieldPathSelectorPriority            DeviceSpecLoggingConfig_FieldPathSelector = 0
-	DeviceSpecLoggingConfig_FieldPathSelectorUnits               DeviceSpecLoggingConfig_FieldPathSelector = 1
-	DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport DeviceSpecLoggingConfig_FieldPathSelector = 2
+	DeviceSpecLoggingConfig_FieldPathSelectorPriority               DeviceSpecLoggingConfig_FieldPathSelector = 0
+	DeviceSpecLoggingConfig_FieldPathSelectorUnits                  DeviceSpecLoggingConfig_FieldPathSelector = 1
+	DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport    DeviceSpecLoggingConfig_FieldPathSelector = 2
+	DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig DeviceSpecLoggingConfig_FieldPathSelector = 3
 )
 
 func (s DeviceSpecLoggingConfig_FieldPathSelector) String() string {
@@ -5200,6 +5201,8 @@ func (s DeviceSpecLoggingConfig_FieldPathSelector) String() string {
 		return "units"
 	case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 		return "enable_journal_export"
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		return "container_logging_config"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", s))
 	}
@@ -5217,6 +5220,17 @@ func BuildDeviceSpecLoggingConfig_FieldPath(fp gotenobject.RawFieldPath) (Device
 			return &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorUnits}, nil
 		case "enable_journal_export", "enableJournalExport", "enable-journal-export":
 			return &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport}, nil
+		case "container_logging_config", "containerLoggingConfig", "container-logging-config":
+			return &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "container_logging_config", "containerLoggingConfig", "container-logging-config":
+			if subpath, err := BuildDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &DeviceSpecLoggingConfig_FieldSubPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig, subPath: subpath}, nil
+			}
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Spec_LoggingConfig", fp)
@@ -5270,6 +5284,10 @@ func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) Get(source *Device_Spec_Log
 			}
 		case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 			values = append(values, source.EnableJournalExport)
+		case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+			if source.ContainerLoggingConfig != nil {
+				values = append(values, source.ContainerLoggingConfig)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fp.selector))
 		}
@@ -5291,6 +5309,9 @@ func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) GetSingle(source *Device_Sp
 		return res, res != nil
 	case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 		return source.GetEnableJournalExport(), source != nil
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		res := source.GetContainerLoggingConfig()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fp.selector))
 	}
@@ -5309,6 +5330,8 @@ func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) GetDefault() interface{} {
 		return ([]string)(nil)
 	case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 		return false
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		return (*Device_Spec_LoggingConfig_ContainerLoggingConfig)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fp.selector))
 	}
@@ -5323,6 +5346,8 @@ func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) ClearValue(item *Device_Spe
 			item.Units = nil
 		case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 			item.EnableJournalExport = false
+		case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+			item.ContainerLoggingConfig = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fp.selector))
 		}
@@ -5352,6 +5377,8 @@ func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) WithIValue(value interface{
 		return &DeviceSpecLoggingConfig_FieldTerminalPathValue{DeviceSpecLoggingConfig_FieldTerminalPath: *fp, value: value.([]string)}
 	case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 		return &DeviceSpecLoggingConfig_FieldTerminalPathValue{DeviceSpecLoggingConfig_FieldTerminalPath: *fp, value: value.(bool)}
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		return &DeviceSpecLoggingConfig_FieldTerminalPathValue{DeviceSpecLoggingConfig_FieldTerminalPath: *fp, value: value.(*Device_Spec_LoggingConfig_ContainerLoggingConfig)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fp.selector))
 	}
@@ -5370,6 +5397,8 @@ func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) WithIArrayOfValues(values i
 		return &DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues{DeviceSpecLoggingConfig_FieldTerminalPath: *fp, values: values.([][]string)}
 	case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 		return &DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues{DeviceSpecLoggingConfig_FieldTerminalPath: *fp, values: values.([]bool)}
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		return &DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues{DeviceSpecLoggingConfig_FieldTerminalPath: *fp, values: values.([]*Device_Spec_LoggingConfig_ContainerLoggingConfig)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fp.selector))
 	}
@@ -5391,6 +5420,118 @@ func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) WithIArrayItemValue(value i
 
 func (fp *DeviceSpecLoggingConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+type DeviceSpecLoggingConfig_FieldSubPath struct {
+	selector DeviceSpecLoggingConfig_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ DeviceSpecLoggingConfig_FieldPath = (*DeviceSpecLoggingConfig_FieldSubPath)(nil)
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) Selector() DeviceSpecLoggingConfig_FieldPathSelector {
+	return fps.selector
+}
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) AsContainerLoggingConfigSubPath() (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath, bool) {
+	res, ok := fps.subPath.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Device_Spec_LoggingConfig
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) Get(source *Device_Spec_LoggingConfig) (values []interface{}) {
+	switch fps.selector {
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		values = append(values, fps.subPath.GetRaw(source.GetContainerLoggingConfig())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Device_Spec_LoggingConfig))
+}
+
+// GetSingle returns value of selected field from source Device_Spec_LoggingConfig
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) GetSingle(source *Device_Spec_LoggingConfig) (interface{}, bool) {
+	switch fps.selector {
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		if source.GetContainerLoggingConfig() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetContainerLoggingConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fps.selector))
+	}
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Device_Spec_LoggingConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) ClearValue(item *Device_Spec_LoggingConfig) {
+	if item != nil {
+		switch fps.selector {
+		case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+			fps.subPath.ClearValueRaw(item.ContainerLoggingConfig)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Device_Spec_LoggingConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&DeviceSpecLoggingConfig_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) WithIValue(value interface{}) DeviceSpecLoggingConfig_FieldPathValue {
+	return &DeviceSpecLoggingConfig_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) WithIArrayOfValues(values interface{}) DeviceSpecLoggingConfig_FieldPathArrayOfValues {
+	return &DeviceSpecLoggingConfig_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) WithIArrayItemValue(value interface{}) DeviceSpecLoggingConfig_FieldPathArrayItemValue {
+	return &DeviceSpecLoggingConfig_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *DeviceSpecLoggingConfig_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
 }
 
 // DeviceSpecLoggingConfig_FieldPathValue allows storing values for LoggingConfig fields according to their type
@@ -5444,6 +5585,10 @@ func (fpv *DeviceSpecLoggingConfig_FieldTerminalPathValue) AsEnableJournalExport
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
+func (fpv *DeviceSpecLoggingConfig_FieldTerminalPathValue) AsContainerLoggingConfigValue() (*Device_Spec_LoggingConfig_ContainerLoggingConfig, bool) {
+	res, ok := fpv.value.(*Device_Spec_LoggingConfig_ContainerLoggingConfig)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object LoggingConfig
 func (fpv *DeviceSpecLoggingConfig_FieldTerminalPathValue) SetTo(target **Device_Spec_LoggingConfig) {
@@ -5457,6 +5602,8 @@ func (fpv *DeviceSpecLoggingConfig_FieldTerminalPathValue) SetTo(target **Device
 		(*target).Units = fpv.value.([]string)
 	case DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport:
 		(*target).EnableJournalExport = fpv.value.(bool)
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		(*target).ContainerLoggingConfig = fpv.value.(*Device_Spec_LoggingConfig_ContainerLoggingConfig)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fpv.selector))
 	}
@@ -5492,6 +5639,8 @@ func (fpv *DeviceSpecLoggingConfig_FieldTerminalPathValue) CompareWith(source *D
 		} else {
 			return 1, true
 		}
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fpv.selector))
 	}
@@ -5499,6 +5648,52 @@ func (fpv *DeviceSpecLoggingConfig_FieldTerminalPathValue) CompareWith(source *D
 
 func (fpv *DeviceSpecLoggingConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*Device_Spec_LoggingConfig))
+}
+
+type DeviceSpecLoggingConfig_FieldSubPathValue struct {
+	DeviceSpecLoggingConfig_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ DeviceSpecLoggingConfig_FieldPathValue = (*DeviceSpecLoggingConfig_FieldSubPathValue)(nil)
+
+func (fpvs *DeviceSpecLoggingConfig_FieldSubPathValue) AsContainerLoggingConfigPathValue() (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *DeviceSpecLoggingConfig_FieldSubPathValue) SetTo(target **Device_Spec_LoggingConfig) {
+	if *target == nil {
+		*target = new(Device_Spec_LoggingConfig)
+	}
+	switch fpvs.Selector() {
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		fpvs.subPathValue.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue).SetTo(&(*target).ContainerLoggingConfig)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceSpecLoggingConfig_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Spec_LoggingConfig)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *DeviceSpecLoggingConfig_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *DeviceSpecLoggingConfig_FieldSubPathValue) CompareWith(source *Device_Spec_LoggingConfig) (int, bool) {
+	switch fpvs.Selector() {
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		return fpvs.subPathValue.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue).CompareWith(source.GetContainerLoggingConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *DeviceSpecLoggingConfig_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Device_Spec_LoggingConfig))
 }
 
 // DeviceSpecLoggingConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for LoggingConfig according to their type
@@ -5569,6 +5764,30 @@ func (fpaiv *DeviceSpecLoggingConfig_FieldTerminalPathArrayItemValue) ContainsVa
 	return false
 }
 
+type DeviceSpecLoggingConfig_FieldSubPathArrayItemValue struct {
+	DeviceSpecLoggingConfig_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *DeviceSpecLoggingConfig_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *DeviceSpecLoggingConfig_FieldSubPathArrayItemValue) AsContainerLoggingConfigPathItemValue() (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'LoggingConfig'
+func (fpaivs *DeviceSpecLoggingConfig_FieldSubPathArrayItemValue) ContainsValue(source *Device_Spec_LoggingConfig) bool {
+	switch fpaivs.Selector() {
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		return fpaivs.subPathItemValue.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue).ContainsValue(source.GetContainerLoggingConfig())
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig: %d", fpaivs.Selector()))
+	}
+}
+
 // DeviceSpecLoggingConfig_FieldPathArrayOfValues allows storing slice of values for LoggingConfig fields according to their type
 type DeviceSpecLoggingConfig_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
@@ -5616,6 +5835,10 @@ func (fpaov *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues) GetRawValue
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
+	case DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig:
+		for _, v := range fpaov.values.([]*Device_Spec_LoggingConfig_ContainerLoggingConfig) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -5629,6 +5852,25 @@ func (fpaov *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues) AsUnitsArra
 }
 func (fpaov *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues) AsEnableJournalExportArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *DeviceSpecLoggingConfig_FieldTerminalPathArrayOfValues) AsContainerLoggingConfigArrayOfValues() ([]*Device_Spec_LoggingConfig_ContainerLoggingConfig, bool) {
+	res, ok := fpaov.values.([]*Device_Spec_LoggingConfig_ContainerLoggingConfig)
+	return res, ok
+}
+
+type DeviceSpecLoggingConfig_FieldSubPathArrayOfValues struct {
+	DeviceSpecLoggingConfig_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ DeviceSpecLoggingConfig_FieldPathArrayOfValues = (*DeviceSpecLoggingConfig_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *DeviceSpecLoggingConfig_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *DeviceSpecLoggingConfig_FieldSubPathArrayOfValues) AsContainerLoggingConfigPathArrayOfValues() (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -8111,6 +8353,385 @@ func (fpaov *DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayOfValues) AsTunnel
 	return res, ok
 }
 func (fpaov *DeviceSpecSSHConfigAuthKey_FieldTerminalPathArrayOfValues) AsRestrictArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelector
+	Get(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) []interface{}
+	GetSingle(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) (interface{}, bool)
+	ClearValue(item *Device_Spec_LoggingConfig_ContainerLoggingConfig)
+
+	// Those methods build corresponding DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue
+	WithIArrayOfValues(values interface{}) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue
+}
+
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelector int32
+
+const (
+	DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelector = 0
+)
+
+func (s DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelector) String() string {
+	switch s {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		return "enable_container_log_export"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", s))
+	}
+}
+
+func BuildDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Device_Spec_LoggingConfig_ContainerLoggingConfig")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "enable_container_log_export", "enableContainerLogExport", "enable-container-log-export":
+			return &DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Device_Spec_LoggingConfig_ContainerLoggingConfig", fp)
+}
+
+func ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(rawField string) (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(fp)
+}
+
+func MustParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(rawField string) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath {
+	fp, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath struct {
+	selector DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelector
+}
+
+var _ DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath = (*DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath)(nil)
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) Selector() DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Device_Spec_LoggingConfig_ContainerLoggingConfig
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) Get(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+			values = append(values, source.EnableContainerLogExport)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Device_Spec_LoggingConfig_ContainerLoggingConfig))
+}
+
+// GetSingle returns value pointed by specific field of from source Device_Spec_LoggingConfig_ContainerLoggingConfig
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) GetSingle(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) (interface{}, bool) {
+	switch fp.selector {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		return source.GetEnableContainerLogExport(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Device_Spec_LoggingConfig_ContainerLoggingConfig))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) ClearValue(item *Device_Spec_LoggingConfig_ContainerLoggingConfig) {
+	if item != nil {
+		switch fp.selector {
+		case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+			item.EnableContainerLogExport = false
+		default:
+			panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Device_Spec_LoggingConfig_ContainerLoggingConfig))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) WithIValue(value interface{}) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue {
+	switch fp.selector {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		return &DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue{DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath: *fp, value: value.(bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) WithIArrayOfValues(values interface{}) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues {
+	fpaov := &DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues{DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		return &DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues{DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath: *fp, values: values.([]bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fp.selector))
+	}
+}
+
+func (fp *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue allows storing values for ContainerLoggingConfig fields according to their type
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue interface {
+	DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Device_Spec_LoggingConfig_ContainerLoggingConfig)
+	CompareWith(*Device_Spec_LoggingConfig_ContainerLoggingConfig) (cmp int, comparable bool)
+}
+
+func ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue(pathStr, valueStr string) (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue, error) {
+	fp, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ContainerLoggingConfig field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue), nil
+}
+
+func MustParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue(pathStr, valueStr string) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue {
+	fpv, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue struct {
+	DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathValue = (*DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ContainerLoggingConfig' as interface{}
+func (fpv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue) AsEnableContainerLogExportValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ContainerLoggingConfig
+func (fpv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue) SetTo(target **Device_Spec_LoggingConfig_ContainerLoggingConfig) {
+	if *target == nil {
+		*target = new(Device_Spec_LoggingConfig_ContainerLoggingConfig)
+	}
+	switch fpv.selector {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		(*target).EnableContainerLogExport = fpv.value.(bool)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Device_Spec_LoggingConfig_ContainerLoggingConfig)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue' with the value under path in 'Device_Spec_LoggingConfig_ContainerLoggingConfig'.
+func (fpv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue) CompareWith(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) (int, bool) {
+	switch fpv.selector {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetEnableContainerLogExport()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Device_Spec_LoggingConfig_ContainerLoggingConfig: %d", fpv.selector))
+	}
+}
+
+func (fpv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Device_Spec_LoggingConfig_ContainerLoggingConfig))
+}
+
+// DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue allows storing single item in Path-specific values for ContainerLoggingConfig according to their type
+// Present only for array (repeated) types.
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath
+	ContainsValue(*Device_Spec_LoggingConfig_ContainerLoggingConfig) bool
+}
+
+// ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue(pathStr, valueStr string) (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue, error) {
+	fp, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ContainerLoggingConfig field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue), nil
+}
+
+func MustParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue(pathStr, valueStr string) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue {
+	fpaiv, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayItemValue struct {
+	DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath
+	value interface{}
+}
+
+var _ DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayItemValue = (*DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Device_Spec_LoggingConfig_ContainerLoggingConfig as interface{}
+func (fpaiv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Device_Spec_LoggingConfig_ContainerLoggingConfig))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ContainerLoggingConfig'
+func (fpaiv *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayItemValue) ContainsValue(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) bool {
+	slice := fpaiv.DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues allows storing slice of values for ContainerLoggingConfig fields according to their type
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	DeviceSpecLoggingConfigContainerLoggingConfig_FieldPath
+}
+
+func ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues(pathStr, valuesStr string) (DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues, error) {
+	fp, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ContainerLoggingConfig field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues), nil
+}
+
+func MustParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues(pathStr, valuesStr string) DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues {
+	fpaov, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues struct {
+	DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath
+	values interface{}
+}
+
+var _ DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathArrayOfValues = (*DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPathArrayOfValues) AsEnableContainerLogExportArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
 	return res, ok
 }

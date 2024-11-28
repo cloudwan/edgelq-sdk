@@ -177,6 +177,10 @@ func (d *Descriptor) SupportsMetadata() bool {
 	return false
 }
 
+func (d *Descriptor) SupportsDbConstraints() bool {
+	return true
+}
+
 func initTimeSerieDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(

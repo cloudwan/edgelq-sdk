@@ -42,9 +42,9 @@ var (
 )
 
 type ConditionAccess interface {
-	GetCondition(context.Context, *GetQuery) (*Condition, error)
+	GetCondition(context.Context, *GetQuery, ...gotenresource.GetOption) (*Condition, error)
 	BatchGetConditions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryConditions(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryConditions(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchCondition(context.Context, *GetQuery, func(*ConditionChange) error) error
 	WatchConditions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveCondition(context.Context, *Condition, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access ConditionAccess) gotenresource.Access {
 	return &anyCastAccess{ConditionAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asConditionQuery, ok := q.(*GetQuery); ok {
-		return a.GetCondition(ctx, asConditionQuery)
+		return a.GetCondition(ctx, asConditionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Condition, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asConditionQuery, ok := q.(*ListQuery); ok {
-		return a.QueryConditions(ctx, asConditionQuery)
+		return a.QueryConditions(ctx, asConditionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Condition, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Condition")
 }
 

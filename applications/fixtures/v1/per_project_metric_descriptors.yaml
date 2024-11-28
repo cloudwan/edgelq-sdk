@@ -22,6 +22,7 @@ resources:
           resourceKeys: [ device_id ]
         - name: "PodScope"
           resourceKeys: [ pod_id ]
+          closingStatus: <pod_id_indices_closing_status>
       paginationIndices:
       - name: "usage-ranking"
         resourceTypes: [ applications.edgelq.com/pod ]
@@ -73,6 +74,7 @@ resources:
           resourceKeys: [ device_id ]
         - name: "PodScope"
           resourceKeys: [ pod_id ]
+          closingStatus: <pod_id_indices_closing_status>
       paginationIndices:
       - name: "usage-ranking"
         resourceTypes: [ applications.edgelq.com/pod ]
@@ -124,6 +126,7 @@ resources:
           resourceKeys: [ device_id ]
         - name: "PodScope"
           resourceKeys: [ pod_id ]
+          closingStatus: <pod_id_indices_closing_status>
       paginationIndices:
       - name: "usage-ranking"
         resourceTypes: [ applications.edgelq.com/pod ]
@@ -148,6 +151,56 @@ resources:
       - name: "pod_id-"
         resourceKeys: [ pod_id ]
         closingStatus: <legacy_applications_indices_closing_status>
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com
+
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/health
+  type: applications.edgelq.com/pod/health
+  displayName: Pod Health Status
+  metricKind: GAUGE
+  valueType: INT64
+  unit: "1"
+  labels:
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "pod-nonaggregated"
+        resourceTypes: [ applications.edgelq.com/pod ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+        - name: "PodScope"
+          resourceKeys: [ pod_id ]
+          closingStatus: <pod_id_indices_closing_status>
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com
+
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/status
+  type: applications.edgelq.com/pod/status
+  displayName: Pod Status (matches enum value in pod.status.phase)
+  metricKind: GAUGE
+  valueType: INT64
+  unit: "1"
+  labels:
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "pod-nonaggregated"
+        resourceTypes: [ applications.edgelq.com/pod ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+        - name: "PodScope"
+          resourceKeys: [ pod_id ]
+          closingStatus: <pod_id_indices_closing_status>
   metadata:
     services:
       owningService: applications.edgelq.com

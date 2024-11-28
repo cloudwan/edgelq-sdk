@@ -139,7 +139,9 @@ message WatchRoleBindingRequest {
 }
 
 // A response message of the WatchRoleBinding method.
-message WatchRoleBindingResponse { RoleBindingChange change = 1; }
+message WatchRoleBindingResponse {
+  RoleBindingChange change = 1;
+}
 
 // A request message of the WatchRoleBindings method.
 message WatchRoleBindingsRequest {
@@ -274,6 +276,23 @@ message CreateRoleBindingRequest {
 
   // RoleBinding resource body
   RoleBinding role_binding = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateRoleBinding method.
@@ -297,7 +316,10 @@ message UpdateRoleBindingRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -308,6 +330,26 @@ message UpdateRoleBindingRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -323,106 +365,42 @@ service RoleBindingService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetRoleBinding
-  rpc GetRoleBinding(GetRoleBindingRequest) returns (RoleBinding) {
-    option (google.api.http) = {
-      get : "/v1/{name=roleBindings/*}"
-      additional_bindings : <get : "/v1/{name=projects/*/roleBindings/*}">
-      additional_bindings : <get : "/v1/{name=organizations/*/roleBindings/*}">
-      additional_bindings : <get : "/v1/{name=services/*/roleBindings/*}">
-    };
+  rpc GetRoleBinding ( GetRoleBindingRequest ) returns ( RoleBinding ) {
+    option (google.api.http) = { get:"/v1/{name=roleBindings/*}" additional_bindings:<get:"/v1/{name=projects/*/roleBindings/*}" > additional_bindings:<get:"/v1/{name=organizations/*/roleBindings/*}" > additional_bindings:<get:"/v1/{name=services/*/roleBindings/*}" >  };
   }
 
   // BatchGetRoleBindings
-  rpc BatchGetRoleBindings(BatchGetRoleBindingsRequest)
-      returns (BatchGetRoleBindingsResponse) {
-    option (google.api.http) = {
-      get : "/v1/roleBindings:batchGet"
-    };
+  rpc BatchGetRoleBindings ( BatchGetRoleBindingsRequest ) returns ( BatchGetRoleBindingsResponse ) {
+    option (google.api.http) = { get:"/v1/roleBindings:batchGet"  };
   }
 
   // ListRoleBindings
-  rpc ListRoleBindings(ListRoleBindingsRequest)
-      returns (ListRoleBindingsResponse) {
-    option (google.api.http) = {
-      get : "/v1/roleBindings"
-      additional_bindings : <get : "/v1/{parent=projects/*}/roleBindings">
-      additional_bindings : <get : "/v1/{parent=organizations/*}/roleBindings">
-      additional_bindings : <get : "/v1/{parent=services/*}/roleBindings">
-    };
+  rpc ListRoleBindings ( ListRoleBindingsRequest ) returns ( ListRoleBindingsResponse ) {
+    option (google.api.http) = { get:"/v1/roleBindings" additional_bindings:<get:"/v1/{parent=projects/*}/roleBindings" > additional_bindings:<get:"/v1/{parent=organizations/*}/roleBindings" > additional_bindings:<get:"/v1/{parent=services/*}/roleBindings" >  };
   }
 
   // WatchRoleBinding
-  rpc WatchRoleBinding(WatchRoleBindingRequest)
-      returns (stream WatchRoleBindingResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=roleBindings/*}:watch"
-      additional_bindings : <
-        post : "/v1/{name=projects/*/roleBindings/*}:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{name=organizations/*/roleBindings/*}:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{name=services/*/roleBindings/*}:watch"
-      >
-    };
+  rpc WatchRoleBinding ( WatchRoleBindingRequest ) returns ( stream WatchRoleBindingResponse ) {
+    option (google.api.http) = { post:"/v1/{name=roleBindings/*}:watch" additional_bindings:<post:"/v1/{name=projects/*/roleBindings/*}:watch" > additional_bindings:<post:"/v1/{name=organizations/*/roleBindings/*}:watch" > additional_bindings:<post:"/v1/{name=services/*/roleBindings/*}:watch" >  };
   }
 
   // WatchRoleBindings
-  rpc WatchRoleBindings(WatchRoleBindingsRequest)
-      returns (stream WatchRoleBindingsResponse) {
-    option (google.api.http) = {
-      post : "/v1/roleBindings:watch"
-      additional_bindings : <
-        post : "/v1/{parent=projects/*}/roleBindings:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*}/roleBindings:watch"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=services/*}/roleBindings:watch"
-      >
-    };
+  rpc WatchRoleBindings ( WatchRoleBindingsRequest ) returns ( stream WatchRoleBindingsResponse ) {
+    option (google.api.http) = { post:"/v1/roleBindings:watch" additional_bindings:<post:"/v1/{parent=projects/*}/roleBindings:watch" > additional_bindings:<post:"/v1/{parent=organizations/*}/roleBindings:watch" > additional_bindings:<post:"/v1/{parent=services/*}/roleBindings:watch" >  };
   }
 
   // CreateRoleBinding
-  rpc CreateRoleBinding(CreateRoleBindingRequest) returns (RoleBinding) {
-    option (google.api.http) = {
-      post : "/v1/roleBindings"
-      body : "role_binding"
-      additional_bindings : <post : "/v1/{parent=projects/*}/roleBindings">
-      additional_bindings : <post : "/v1/{parent=organizations/*}/roleBindings">
-      additional_bindings : <post : "/v1/{parent=services/*}/roleBindings">
-    };
+  rpc CreateRoleBinding ( CreateRoleBindingRequest ) returns ( RoleBinding ) {
+    option (google.api.http) = { post:"/v1/roleBindings" body:"role_binding" additional_bindings:<post:"/v1/{parent=projects/*}/roleBindings" > additional_bindings:<post:"/v1/{parent=organizations/*}/roleBindings" > additional_bindings:<post:"/v1/{parent=services/*}/roleBindings" >  };
   }
 
   // UpdateRoleBinding
-  rpc UpdateRoleBinding(UpdateRoleBindingRequest) returns (RoleBinding) {
-    option (google.api.http) = {
-      put : "/v1/{role_binding.name=roleBindings/*}"
-      body : "role_binding"
-      additional_bindings : <
-        put : "/v1/{role_binding.name=projects/*/roleBindings/*}"
-      >
-      additional_bindings : <
-        put : "/v1/{role_binding.name=organizations/*/roleBindings/*}"
-      >
-      additional_bindings : <
-        put : "/v1/{role_binding.name=services/*/roleBindings/*}"
-      >
-    };
+  rpc UpdateRoleBinding ( UpdateRoleBindingRequest ) returns ( RoleBinding ) {
+    option (google.api.http) = { put:"/v1/{role_binding.name=roleBindings/*}" body:"role_binding" additional_bindings:<put:"/v1/{role_binding.name=projects/*/roleBindings/*}" > additional_bindings:<put:"/v1/{role_binding.name=organizations/*/roleBindings/*}" > additional_bindings:<put:"/v1/{role_binding.name=services/*/roleBindings/*}" >  };
   }
 
   // DeleteRoleBinding
-  rpc DeleteRoleBinding(DeleteRoleBindingRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=roleBindings/*}"
-      additional_bindings : <delete : "/v1/{name=projects/*/roleBindings/*}">
-      additional_bindings : <
-        delete : "/v1/{name=organizations/*/roleBindings/*}"
-      >
-      additional_bindings : <delete : "/v1/{name=services/*/roleBindings/*}">
-    };
+  rpc DeleteRoleBinding ( DeleteRoleBindingRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=roleBindings/*}" additional_bindings:<delete:"/v1/{name=projects/*/roleBindings/*}" > additional_bindings:<delete:"/v1/{name=organizations/*/roleBindings/*}" > additional_bindings:<delete:"/v1/{name=services/*/roleBindings/*}" >  };
   }
 }

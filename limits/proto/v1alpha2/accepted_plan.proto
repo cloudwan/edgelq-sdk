@@ -26,11 +26,7 @@ option java_package = "com.ntt.limits.pb.v1alpha2";
 // without limits (however, system is allowed to assign plan to itself without
 // limits, which makes system admin fully responsible).
 message AcceptedPlan {
-  option (google.api.resource) = {
-    type : "limits.edgelq.com/AcceptedPlan"
-    pattern : "acceptedPlans/{accepted_plan}"
-    pattern : "organizations/{organization}/acceptedPlans/{accepted_plan}"
-  };
+  option (google.api.resource) = { type:"limits.edgelq.com/AcceptedPlan" pattern:"acceptedPlans/{accepted_plan}" pattern:"organizations/{organization}/acceptedPlans/{accepted_plan}"  };
 
   // Name of AcceptedPlan
   // When creating a new instance, this field is optional and if not provided,

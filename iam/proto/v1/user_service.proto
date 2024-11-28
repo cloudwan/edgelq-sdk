@@ -137,7 +137,9 @@ message WatchUserRequest {
 }
 
 // A response message of the WatchUser method.
-message WatchUserResponse { UserChange change = 1; }
+message WatchUserResponse {
+  UserChange change = 1;
+}
 
 // A request message of the WatchUsers method.
 message WatchUsersRequest {
@@ -266,6 +268,23 @@ message WatchUsersResponse {
 message CreateUserRequest {
   // User resource body
   User user = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateUser method.
@@ -289,7 +308,10 @@ message UpdateUserRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -300,6 +322,26 @@ message UpdateUserRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -315,128 +357,87 @@ service UserService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetUser
-  rpc GetUser(GetUserRequest) returns (User) {
-    option (google.api.http) = {
-      get : "/v1/{name=users/*}"
-    };
+  rpc GetUser ( GetUserRequest ) returns ( User ) {
+    option (google.api.http) = { get:"/v1/{name=users/*}"  };
   }
 
   // BatchGetUsers
-  rpc BatchGetUsers(BatchGetUsersRequest) returns (BatchGetUsersResponse) {
-    option (google.api.http) = {
-      get : "/v1/users:batchGet"
-    };
+  rpc BatchGetUsers ( BatchGetUsersRequest ) returns ( BatchGetUsersResponse ) {
+    option (google.api.http) = { get:"/v1/users:batchGet"  };
   }
 
   // ListUsers
-  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
-    option (google.api.http) = {
-      get : "/v1/users"
-    };
+  rpc ListUsers ( ListUsersRequest ) returns ( ListUsersResponse ) {
+    option (google.api.http) = { get:"/v1/users"  };
   }
 
   // WatchUser
-  rpc WatchUser(WatchUserRequest) returns (stream WatchUserResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=users/*}:watch"
-    };
+  rpc WatchUser ( WatchUserRequest ) returns ( stream WatchUserResponse ) {
+    option (google.api.http) = { post:"/v1/{name=users/*}:watch"  };
   }
 
   // WatchUsers
-  rpc WatchUsers(WatchUsersRequest) returns (stream WatchUsersResponse) {
-    option (google.api.http) = {
-      post : "/v1/users:watch"
-    };
+  rpc WatchUsers ( WatchUsersRequest ) returns ( stream WatchUsersResponse ) {
+    option (google.api.http) = { post:"/v1/users:watch"  };
   }
 
   // CreateUser
-  rpc CreateUser(CreateUserRequest) returns (User) {
-    option (google.api.http) = {
-      post : "/v1/users"
-      body : "user"
-    };
+  rpc CreateUser ( CreateUserRequest ) returns ( User ) {
+    option (google.api.http) = { post:"/v1/users" body:"user"  };
   }
 
   // UpdateUser
-  rpc UpdateUser(UpdateUserRequest) returns (User) {
-    option (google.api.http) = {
-      put : "/v1/{user.name=users/*}"
-      body : "user"
-    };
+  rpc UpdateUser ( UpdateUserRequest ) returns ( User ) {
+    option (google.api.http) = { put:"/v1/{user.name=users/*}" body:"user"  };
   }
 
   // DeleteUser
-  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=users/*}"
-    };
+  rpc DeleteUser ( DeleteUserRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=users/*}"  };
   }
 
   // GetUserByEmail
-  rpc GetUserByEmail(GetUserByEmailRequest) returns (User) {
-    option (google.api.http) = {
-      post : "/v1:getByEmail"
-    };
+  rpc GetUserByEmail ( GetUserByEmailRequest ) returns ( User ) {
+    option (google.api.http) = { post:"/v1:getByEmail"  };
   }
 
   // BatchGetUsersByEmail
-  rpc BatchGetUsersByEmail(BatchGetUsersByEmailRequest)
-      returns (BatchGetUsersByEmailResponse) {
-    option (google.api.http) = {
-      post : "/v1/users:batchGetByEmail"
-    };
+  rpc BatchGetUsersByEmail ( BatchGetUsersByEmailRequest ) returns ( BatchGetUsersByEmailResponse ) {
+    option (google.api.http) = { post:"/v1/users:batchGetByEmail"  };
   }
 
   // GetMySettings
-  rpc GetMySettings(GetMySettingsRequest) returns (GetMySettingsResponse) {
-    option (google.api.http) = {
-      post : "/v1/users:getMySettings"
-    };
+  rpc GetMySettings ( GetMySettingsRequest ) returns ( GetMySettingsResponse ) {
+    option (google.api.http) = { post:"/v1/users:getMySettings"  };
   }
 
   // SetMySettings
-  rpc SetMySettings(SetMySettingsRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post : "/v1/users:setMySettings"
-    };
+  rpc SetMySettings ( SetMySettingsRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { post:"/v1/users:setMySettings"  };
   }
 
   // RefreshUserFromIdToken
-  rpc RefreshUserFromIdToken(RefreshUserFromIdTokenRequest)
-      returns (RefreshUserFromIdTokenResponse) {
-    option (google.api.http) = {
-      post : "/v1/users:refreshUserFromIdToken"
-    };
+  rpc RefreshUserFromIdToken ( RefreshUserFromIdTokenRequest ) returns ( RefreshUserFromIdTokenResponse ) {
+    option (google.api.http) = { post:"/v1/users:refreshUserFromIdToken"  };
   }
 
   // ResendVerificationEmail
-  rpc ResendVerificationEmail(ResendVerificationEmailRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post : "/v1/users:resendVerificationEmail"
-    };
+  rpc ResendVerificationEmail ( ResendVerificationEmailRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { post:"/v1/users:resendVerificationEmail"  };
   }
 
   // IsUserVerified
-  rpc IsUserVerified(IsUserVerifiedRequest) returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post : "/v1/users:isUserVerified"
-    };
+  rpc IsUserVerified ( IsUserVerifiedRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { post:"/v1/users:isUserVerified"  };
   }
 
   // ResetMFAIfRecoveryKeyUsed
-  rpc ResetMFAIfRecoveryKeyUsed(ResetMFAIfRecoveryKeyUsedRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post : "/v1/users:resetMFAIfRecoveryKeyUsed"
-    };
+  rpc ResetMFAIfRecoveryKeyUsed ( ResetMFAIfRecoveryKeyUsedRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { post:"/v1/users:resetMFAIfRecoveryKeyUsed"  };
   }
 
   // SetUsersNameInAuth0
-  rpc SetUsersNameInAuth0(SetUsersNameInAuth0Request)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      post : "/v1/users:setUsersNameInAuth0"
-    };
+  rpc SetUsersNameInAuth0 ( SetUsersNameInAuth0Request ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { post:"/v1/users:setUsersNameInAuth0"  };
   }
 }

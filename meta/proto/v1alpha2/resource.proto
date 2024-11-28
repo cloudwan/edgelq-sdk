@@ -12,10 +12,7 @@ option java_package = "com.ntt.meta.pb.v1alpha2";
 
 // Resource Resource
 message Resource {
-  option (google.api.resource) = {
-    type : "meta.edgelq.com/Resource"
-    pattern : "services/{service}/resources/{resource}"
-  };
+  option (google.api.resource) = { type:"meta.edgelq.com/Resource" pattern:"services/{service}/resources/{resource}"  };
 
   // Name of Resource in CamelCase, for example "Device"
   string name = 1;

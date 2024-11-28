@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiResourceAccess(client resource_client.ResourceServiceClient) resource
 	return &apiResourceAccess{client: client}
 }
 
-func (a *apiResourceAccess) GetResource(ctx context.Context, query *resource.GetQuery) (*resource.Resource, error) {
+func (a *apiResourceAccess) GetResource(ctx context.Context, query *resource.GetQuery, opts ...gotenresource.GetOption) (*resource.Resource, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiResourceAccess) GetResource(ctx context.Context, query *resource.Get
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetResource(ctx, request)
+	res, err := a.client.GetResource(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiResourceAccess) GetResource(ctx context.Context, query *resource.Get
 
 func (a *apiResourceAccess) BatchGetResources(ctx context.Context, refs []*resource.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*resource.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiResourceAccess) BatchGetResources(ctx context.Context, refs []*resou
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*resource.Resource_FieldMask)
 	}
-	resp, err := a.client.BatchGetResources(ctx, request)
+	resp, err := a.client.BatchGetResources(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiResourceAccess) BatchGetResources(ctx context.Context, refs []*resou
 	return nil
 }
 
-func (a *apiResourceAccess) QueryResources(ctx context.Context, query *resource.ListQuery) (*resource.QueryResultSnapshot, error) {
+func (a *apiResourceAccess) QueryResources(ctx context.Context, query *resource.ListQuery, opts ...gotenresource.QueryOption) (*resource.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &resource_client.ListResourcesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiResourceAccess) WatchResource(ctx context.Context, query *resource.G
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchResource(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiResourceAccess) WatchResources(ctx context.Context, query *resource.
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiResourceAccess) WatchResources(ctx context.Context, query *resource.
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchResources(ctx, request)
 	if initErr != nil {
 		return initErr

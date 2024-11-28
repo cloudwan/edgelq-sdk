@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiProjectAccess(client project_client.ProjectServiceClient) project.Pro
 	return &apiProjectAccess{client: client}
 }
 
-func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQuery) (*project.Project, error) {
+func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQuery, opts ...gotenresource.GetOption) (*project.Project, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQue
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetProject(ctx, request)
+	res, err := a.client.GetProject(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQue
 
 func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*project.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*project.Project_FieldMask)
 	}
-	resp, err := a.client.BatchGetProjects(ctx, request)
+	resp, err := a.client.BatchGetProjects(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project
 	return nil
 }
 
-func (a *apiProjectAccess) QueryProjects(ctx context.Context, query *project.ListQuery) (*project.QueryResultSnapshot, error) {
+func (a *apiProjectAccess) QueryProjects(ctx context.Context, query *project.ListQuery, opts ...gotenresource.QueryOption) (*project.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &project_client.ListProjectsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +155,9 @@ func (a *apiProjectAccess) WatchProject(ctx context.Context, query *project.GetQ
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProject(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -150,12 +181,16 @@ func (a *apiProjectAccess) WatchProjects(ctx context.Context, query *project.Wat
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProjects(ctx, request)
 	if initErr != nil {
 		return initErr

@@ -19,7 +19,8 @@ message AcceptOrganizationInvitationRequest {
 
 // Response message for method
 // [AcceptOrganizationInvitation][ntt.iam.v1alpha2.AcceptOrganizationInvitation]
-message AcceptOrganizationInvitationResponse {}
+message AcceptOrganizationInvitationResponse {
+}
 
 // Request message for method
 // [DeclineOrganizationInvitation][ntt.iam.v1alpha2.DeclineOrganizationInvitation]
@@ -33,7 +34,8 @@ message DeclineOrganizationInvitationRequest {
 
 // Response message for method
 // [DeclineOrganizationInvitation][ntt.iam.v1alpha2.DeclineOrganizationInvitation]
-message DeclineOrganizationInvitationResponse {}
+message DeclineOrganizationInvitationResponse {
+}
 
 // Request message for method
 // [ListMyOrganizationInvitations][ntt.iam.v1alpha2.ListMyOrganizationInvitations]

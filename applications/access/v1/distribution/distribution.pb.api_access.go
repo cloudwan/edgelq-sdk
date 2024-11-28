@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiDistributionAccess(client distribution_client.DistributionServiceClie
 	return &apiDistributionAccess{client: client}
 }
 
-func (a *apiDistributionAccess) GetDistribution(ctx context.Context, query *distribution.GetQuery) (*distribution.Distribution, error) {
+func (a *apiDistributionAccess) GetDistribution(ctx context.Context, query *distribution.GetQuery, opts ...gotenresource.GetOption) (*distribution.Distribution, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiDistributionAccess) GetDistribution(ctx context.Context, query *dist
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetDistribution(ctx, request)
+	res, err := a.client.GetDistribution(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiDistributionAccess) GetDistribution(ctx context.Context, query *dist
 
 func (a *apiDistributionAccess) BatchGetDistributions(ctx context.Context, refs []*distribution.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*distribution.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiDistributionAccess) BatchGetDistributions(ctx context.Context, refs 
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*distribution.Distribution_FieldMask)
 	}
-	resp, err := a.client.BatchGetDistributions(ctx, request)
+	resp, err := a.client.BatchGetDistributions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiDistributionAccess) BatchGetDistributions(ctx context.Context, refs 
 	return nil
 }
 
-func (a *apiDistributionAccess) QueryDistributions(ctx context.Context, query *distribution.ListQuery) (*distribution.QueryResultSnapshot, error) {
+func (a *apiDistributionAccess) QueryDistributions(ctx context.Context, query *distribution.ListQuery, opts ...gotenresource.QueryOption) (*distribution.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &distribution_client.ListDistributionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiDistributionAccess) WatchDistribution(ctx context.Context, query *di
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDistribution(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiDistributionAccess) WatchDistributions(ctx context.Context, query *d
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiDistributionAccess) WatchDistributions(ctx context.Context, query *d
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDistributions(ctx, request)
 	if initErr != nil {
 		return initErr

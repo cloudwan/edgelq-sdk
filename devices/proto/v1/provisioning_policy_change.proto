@@ -67,7 +67,9 @@ message ProvisioningPolicyChange {
 
   // ProvisioningPolicy has been added or modified in a query view. Version used
   // for stateless watching
-  message Current { ProvisioningPolicy provisioning_policy = 1; }
+  message Current {
+    ProvisioningPolicy provisioning_policy = 1;
+  }
 
   // Removed is returned when ProvisioningPolicy is deleted or leaves Query view
   message Removed {

@@ -158,6 +158,26 @@ func (obj *CreateMonitoredResourceDescriptorRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("CreateMonitoredResourceDescriptorRequest", "monitoredResourceDescriptor", obj.MonitoredResourceDescriptor, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CreateMonitoredResourceDescriptorRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CreateMonitoredResourceDescriptorRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *CreateMonitoredResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody:
+	case *CreateMonitoredResourceDescriptorRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -180,6 +200,11 @@ func (obj *UpdateMonitoredResourceDescriptorRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("UpdateMonitoredResourceDescriptorRequest", "cas", obj.Cas, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateMonitoredResourceDescriptorRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -188,6 +213,22 @@ func (obj *UpdateMonitoredResourceDescriptorRequest) GotenValidate() error {
 func (obj *UpdateMonitoredResourceDescriptorRequest_CAS) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdateMonitoredResourceDescriptorRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *UpdateMonitoredResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody:
+	case *UpdateMonitoredResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly:
+	case *UpdateMonitoredResourceDescriptorRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

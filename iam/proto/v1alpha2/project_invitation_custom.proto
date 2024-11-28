@@ -19,7 +19,8 @@ message AcceptProjectInvitationRequest {
 
 // Response message for method
 // [AcceptProjectInvitation][ntt.iam.v1alpha2.AcceptProjectInvitation]
-message AcceptProjectInvitationResponse {}
+message AcceptProjectInvitationResponse {
+}
 
 // Request message for method
 // [DeclineProjectInvitation][ntt.iam.v1alpha2.DeclineProjectInvitation]
@@ -30,7 +31,8 @@ message DeclineProjectInvitationRequest {
 
 // Response message for method
 // [DeclineProjectInvitation][ntt.iam.v1alpha2.DeclineProjectInvitation]
-message DeclineProjectInvitationResponse {}
+message DeclineProjectInvitationResponse {
+}
 
 // Request message for method
 // [ListMyProjectInvitations][ntt.iam.v1alpha2.ListMyProjectInvitations]

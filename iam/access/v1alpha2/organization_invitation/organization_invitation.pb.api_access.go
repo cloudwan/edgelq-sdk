@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiOrganizationInvitationAccess(client organization_invitation_client.Or
 	return &apiOrganizationInvitationAccess{client: client}
 }
 
-func (a *apiOrganizationInvitationAccess) GetOrganizationInvitation(ctx context.Context, query *organization_invitation.GetQuery) (*organization_invitation.OrganizationInvitation, error) {
+func (a *apiOrganizationInvitationAccess) GetOrganizationInvitation(ctx context.Context, query *organization_invitation.GetQuery, opts ...gotenresource.GetOption) (*organization_invitation.OrganizationInvitation, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiOrganizationInvitationAccess) GetOrganizationInvitation(ctx context.
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetOrganizationInvitation(ctx, request)
+	res, err := a.client.GetOrganizationInvitation(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiOrganizationInvitationAccess) GetOrganizationInvitation(ctx context.
 
 func (a *apiOrganizationInvitationAccess) BatchGetOrganizationInvitations(ctx context.Context, refs []*organization_invitation.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*organization_invitation.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiOrganizationInvitationAccess) BatchGetOrganizationInvitations(ctx co
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*organization_invitation.OrganizationInvitation_FieldMask)
 	}
-	resp, err := a.client.BatchGetOrganizationInvitations(ctx, request)
+	resp, err := a.client.BatchGetOrganizationInvitations(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiOrganizationInvitationAccess) BatchGetOrganizationInvitations(ctx co
 	return nil
 }
 
-func (a *apiOrganizationInvitationAccess) QueryOrganizationInvitations(ctx context.Context, query *organization_invitation.ListQuery) (*organization_invitation.QueryResultSnapshot, error) {
+func (a *apiOrganizationInvitationAccess) QueryOrganizationInvitations(ctx context.Context, query *organization_invitation.ListQuery, opts ...gotenresource.QueryOption) (*organization_invitation.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &organization_invitation_client.ListOrganizationInvitationsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiOrganizationInvitationAccess) WatchOrganizationInvitation(ctx contex
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchOrganizationInvitation(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiOrganizationInvitationAccess) WatchOrganizationInvitations(ctx conte
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiOrganizationInvitationAccess) WatchOrganizationInvitations(ctx conte
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchOrganizationInvitations(ctx, request)
 	if initErr != nil {
 		return initErr

@@ -70,7 +70,9 @@ message PlanAssignmentRequestChange {
 
   // PlanAssignmentRequest has been added or modified in a query view. Version
   // used for stateless watching
-  message Current { PlanAssignmentRequest plan_assignment_request = 1; }
+  message Current {
+    PlanAssignmentRequest plan_assignment_request = 1;
+  }
 
   // Removed is returned when PlanAssignmentRequest is deleted or leaves Query
   // view

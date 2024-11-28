@@ -12,10 +12,7 @@ option java_package = "com.ntt.applications.pb.v1alpha2";
 
 // ConfigMap Resource
 message ConfigMap {
-  option (google.api.resource) = {
-    type : "applications.edgelq.com/ConfigMap"
-    pattern : "projects/{project}/regions/{region}/configMaps/{config_map}"
-  };
+  option (google.api.resource) = { type:"applications.edgelq.com/ConfigMap" pattern:"projects/{project}/regions/{region}/configMaps/{config_map}"  };
 
   // Name of ConfigMap
   // When creating a new instance, this field is optional and if not provided,

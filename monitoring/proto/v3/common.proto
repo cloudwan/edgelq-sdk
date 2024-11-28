@@ -647,7 +647,9 @@ message MonitoredResource {
 }
 
 // Represents wrapped list of strings.
-message Strings { repeated string values = 1; }
+message Strings {
+  repeated string values = 1;
+}
 
 // MonitoredResourceSelector selects `resource.type` and list of labels used to
 // build query, like:

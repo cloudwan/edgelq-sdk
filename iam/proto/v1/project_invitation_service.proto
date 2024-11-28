@@ -141,7 +141,9 @@ message WatchProjectInvitationRequest {
 }
 
 // A response message of the WatchProjectInvitation method.
-message WatchProjectInvitationResponse { ProjectInvitationChange change = 1; }
+message WatchProjectInvitationResponse {
+  ProjectInvitationChange change = 1;
+}
 
 // A request message of the WatchProjectInvitations method.
 message WatchProjectInvitationsRequest {
@@ -277,6 +279,23 @@ message CreateProjectInvitationRequest {
 
   // ProjectInvitation resource body
   ProjectInvitation project_invitation = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
 }
 
 // A request message of the UpdateProjectInvitation method.
@@ -300,7 +319,10 @@ message UpdateProjectInvitationRequest {
   // 'field_mask' is ignored.
   //
   // https://google.aip.dev/134#create-or-update
-  bool allow_missing = 5;
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
 
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
@@ -311,6 +333,26 @@ message UpdateProjectInvitationRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 
@@ -326,100 +368,62 @@ service ProjectInvitationService {
   option (google.api.oauth_scopes) = "https://apis.edgelq.com";
 
   // GetProjectInvitation
-  rpc GetProjectInvitation(GetProjectInvitationRequest)
-      returns (ProjectInvitation) {
-    option (google.api.http) = {
-      get : "/v1/{name=projects/*/projectInvitations/*}"
-    };
+  rpc GetProjectInvitation ( GetProjectInvitationRequest ) returns ( ProjectInvitation ) {
+    option (google.api.http) = { get:"/v1/{name=projects/*/projectInvitations/*}"  };
   }
 
   // BatchGetProjectInvitations
-  rpc BatchGetProjectInvitations(BatchGetProjectInvitationsRequest)
-      returns (BatchGetProjectInvitationsResponse) {
-    option (google.api.http) = {
-      get : "/v1/projectInvitations:batchGet"
-    };
+  rpc BatchGetProjectInvitations ( BatchGetProjectInvitationsRequest ) returns ( BatchGetProjectInvitationsResponse ) {
+    option (google.api.http) = { get:"/v1/projectInvitations:batchGet"  };
   }
 
   // ListProjectInvitations
-  rpc ListProjectInvitations(ListProjectInvitationsRequest)
-      returns (ListProjectInvitationsResponse) {
-    option (google.api.http) = {
-      get : "/v1/{parent=projects/*}/projectInvitations"
-    };
+  rpc ListProjectInvitations ( ListProjectInvitationsRequest ) returns ( ListProjectInvitationsResponse ) {
+    option (google.api.http) = { get:"/v1/{parent=projects/*}/projectInvitations"  };
   }
 
   // WatchProjectInvitation
-  rpc WatchProjectInvitation(WatchProjectInvitationRequest)
-      returns (stream WatchProjectInvitationResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/projectInvitations/*}:watch"
-    };
+  rpc WatchProjectInvitation ( WatchProjectInvitationRequest ) returns ( stream WatchProjectInvitationResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/projectInvitations/*}:watch"  };
   }
 
   // WatchProjectInvitations
-  rpc WatchProjectInvitations(WatchProjectInvitationsRequest)
-      returns (stream WatchProjectInvitationsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*}/projectInvitations:watch"
-    };
+  rpc WatchProjectInvitations ( WatchProjectInvitationsRequest ) returns ( stream WatchProjectInvitationsResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*}/projectInvitations:watch"  };
   }
 
   // CreateProjectInvitation
-  rpc CreateProjectInvitation(CreateProjectInvitationRequest)
-      returns (ProjectInvitation) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*}/projectInvitations"
-      body : "project_invitation"
-    };
+  rpc CreateProjectInvitation ( CreateProjectInvitationRequest ) returns ( ProjectInvitation ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*}/projectInvitations" body:"project_invitation"  };
   }
 
   // UpdateProjectInvitation
-  rpc UpdateProjectInvitation(UpdateProjectInvitationRequest)
-      returns (ProjectInvitation) {
-    option (google.api.http) = {
-      put : "/v1/{project_invitation.name=projects/*/projectInvitations/*}"
-      body : "project_invitation"
-    };
+  rpc UpdateProjectInvitation ( UpdateProjectInvitationRequest ) returns ( ProjectInvitation ) {
+    option (google.api.http) = { put:"/v1/{project_invitation.name=projects/*/projectInvitations/*}" body:"project_invitation"  };
   }
 
   // DeleteProjectInvitation
-  rpc DeleteProjectInvitation(DeleteProjectInvitationRequest)
-      returns (google.protobuf.Empty) {
-    option (google.api.http) = {
-      delete : "/v1/{name=projects/*/projectInvitations/*}"
-    };
+  rpc DeleteProjectInvitation ( DeleteProjectInvitationRequest ) returns ( google.protobuf.Empty ) {
+    option (google.api.http) = { delete:"/v1/{name=projects/*/projectInvitations/*}"  };
   }
 
   // AcceptProjectInvitation
-  rpc AcceptProjectInvitation(AcceptProjectInvitationRequest)
-      returns (AcceptProjectInvitationResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/projectInvitations/*}:accept"
-    };
+  rpc AcceptProjectInvitation ( AcceptProjectInvitationRequest ) returns ( AcceptProjectInvitationResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/projectInvitations/*}:accept"  };
   }
 
   // DeclineProjectInvitation
-  rpc DeclineProjectInvitation(DeclineProjectInvitationRequest)
-      returns (DeclineProjectInvitationResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/projectInvitations/*}:decline"
-    };
+  rpc DeclineProjectInvitation ( DeclineProjectInvitationRequest ) returns ( DeclineProjectInvitationResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/projectInvitations/*}:decline"  };
   }
 
   // ListMyProjectInvitations
-  rpc ListMyProjectInvitations(ListMyProjectInvitationsRequest)
-      returns (ListMyProjectInvitationsResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=projects/*}/projectInvitations:listMy"
-    };
+  rpc ListMyProjectInvitations ( ListMyProjectInvitationsRequest ) returns ( ListMyProjectInvitationsResponse ) {
+    option (google.api.http) = { post:"/v1/{parent=projects/*}/projectInvitations:listMy"  };
   }
 
   // ResendProjectInvitation
-  rpc ResendProjectInvitation(ResendProjectInvitationRequest)
-      returns (ResendProjectInvitationResponse) {
-    option (google.api.http) = {
-      post : "/v1/{name=projects/*/projectInvitations/*}:resend"
-    };
+  rpc ResendProjectInvitation ( ResendProjectInvitationRequest ) returns ( ResendProjectInvitationResponse ) {
+    option (google.api.http) = { post:"/v1/{name=projects/*/projectInvitations/*}:resend"  };
   }
 }

@@ -31,16 +31,17 @@ var (
 )
 
 var (
-	descriptorsInitialized   bool
-	alertServiceDescriptor   *AlertServiceDescriptor
-	getAlertDescriptor       *GetAlertDescriptor
-	batchGetAlertsDescriptor *BatchGetAlertsDescriptor
-	listAlertsDescriptor     *ListAlertsDescriptor
-	watchAlertDescriptor     *WatchAlertDescriptor
-	watchAlertsDescriptor    *WatchAlertsDescriptor
-	createAlertDescriptor    *CreateAlertDescriptor
-	updateAlertDescriptor    *UpdateAlertDescriptor
-	deleteAlertDescriptor    *DeleteAlertDescriptor
+	descriptorsInitialized     bool
+	alertServiceDescriptor     *AlertServiceDescriptor
+	getAlertDescriptor         *GetAlertDescriptor
+	batchGetAlertsDescriptor   *BatchGetAlertsDescriptor
+	listAlertsDescriptor       *ListAlertsDescriptor
+	watchAlertDescriptor       *WatchAlertDescriptor
+	watchAlertsDescriptor      *WatchAlertsDescriptor
+	updateAlertDescriptor      *UpdateAlertDescriptor
+	deleteAlertDescriptor      *DeleteAlertDescriptor
+	bulkCreateAlertsDescriptor *BulkCreateAlertsDescriptor
+	bulkUpdateAlertsDescriptor *BulkUpdateAlertsDescriptor
 )
 
 type GetAlertDescriptor struct{}
@@ -1203,227 +1204,6 @@ func GetWatchAlertsDescriptor() *WatchAlertsDescriptor {
 	return watchAlertsDescriptor
 }
 
-type CreateAlertDescriptor struct{}
-
-type CreateAlertDescriptorClientMsgHandle struct{}
-
-type CreateAlertDescriptorServerMsgHandle struct{}
-
-func (d *CreateAlertDescriptor) NewEmptyClientMsg() proto.Message {
-	return &CreateAlertRequest{}
-}
-
-func (d *CreateAlertDescriptor) NewEmptyServerMsg() proto.Message {
-	return &alert.Alert{}
-}
-
-func (d *CreateAlertDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *CreateAlertDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *CreateAlertDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *CreateAlertDescriptor) IsCollection() bool {
-	return true
-}
-
-func (d *CreateAlertDescriptor) IsPlural() bool {
-	return false
-}
-
-func (d *CreateAlertDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *CreateAlertDescriptor) RequestHasResourceBody() bool {
-	return true
-}
-
-func (d *CreateAlertDescriptor) GetVerb() string {
-	return "create"
-}
-
-func (d *CreateAlertDescriptor) GetMethodName() string {
-	return "CreateAlert"
-}
-
-func (d *CreateAlertDescriptor) GetFullMethodName() string {
-	return "/ntt.monitoring.v4.AlertService/CreateAlert"
-}
-
-func (d *CreateAlertDescriptor) GetProtoPkgName() string {
-	return "ntt.monitoring.v4"
-}
-
-func (d *CreateAlertDescriptor) GetApiName() string {
-	return "AlertService"
-}
-
-func (d *CreateAlertDescriptor) GetServiceDomain() string {
-	return "monitoring.edgelq.com"
-}
-
-func (d *CreateAlertDescriptor) GetServiceVersion() string {
-	return "v4"
-}
-
-func (d *CreateAlertDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return alertServiceDescriptor
-}
-
-func (d *CreateAlertDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return alert.GetDescriptor()
-}
-
-func (d *CreateAlertDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &CreateAlertDescriptorClientMsgHandle{}
-}
-
-func (d *CreateAlertDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &CreateAlertDescriptorServerMsgHandle{}
-}
-
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*CreateAlertRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*CreateAlertRequest) *alert.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		res := typedMsg.GetAlert()
-		if name := res.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*alert.Name)(nil)
-}
-
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*CreateAlertRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*CreateAlertRequest) []*alert.Name
-	})
-	if ok {
-		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*CreateAlertRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*CreateAlertRequest) *alert.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	{
-		if parentName := typedMsg.GetParent(); parentName != nil {
-			return parentName
-		}
-	}
-	return (*alert.ParentName)(nil)
-}
-
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
-	typedMsg := msg.(*CreateAlertRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBody(*CreateAlertRequest) *alert.Alert
-	})
-	if ok {
-		return override.OverrideExtractResourceBody(typedMsg)
-	}
-	{
-		return typedMsg.GetAlert()
-	}
-	return (*alert.Alert)(nil)
-}
-
-func (h *CreateAlertDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
-	typedMsg := msg.(*CreateAlertRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBodies(*CreateAlertRequest) []*alert.Alert
-	})
-	if ok {
-		return alert.AlertList(override.OverrideExtractResourceBodies(typedMsg))
-	}
-	return nil
-}
-
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*alert.Alert)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*alert.Alert) *alert.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	{
-		if name := typedMsg.GetName(); name != nil {
-			return name
-		}
-	}
-	return (*alert.Name)(nil)
-}
-
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*alert.Alert)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*alert.Alert) []*alert.Name
-	})
-	if ok {
-		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*alert.Alert)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractCollectionName(*alert.Alert) *alert.ParentName
-	})
-	if ok {
-		return override.OverrideExtractCollectionName(typedMsg)
-	}
-	return nil
-}
-
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
-	return msg.(*alert.Alert)
-}
-
-func (h *CreateAlertDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
-	typedMsg := msg.(*alert.Alert)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBodies(*alert.Alert) []*alert.Alert
-	})
-	if ok {
-		return alert.AlertList(override.OverrideExtractResourceBodies(typedMsg))
-	}
-	return nil
-}
-
-func GetCreateAlertDescriptor() *CreateAlertDescriptor {
-	return createAlertDescriptor
-}
-
 type UpdateAlertDescriptor struct{}
 
 type UpdateAlertDescriptorClientMsgHandle struct{}
@@ -1855,6 +1635,436 @@ func GetDeleteAlertDescriptor() *DeleteAlertDescriptor {
 	return deleteAlertDescriptor
 }
 
+type BulkCreateAlertsDescriptor struct{}
+
+type BulkCreateAlertsDescriptorClientMsgHandle struct{}
+
+type BulkCreateAlertsDescriptorServerMsgHandle struct{}
+
+func (d *BulkCreateAlertsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &BulkCreateAlertsRequest{}
+}
+
+func (d *BulkCreateAlertsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &BulkCreateAlertsResponse{}
+}
+
+func (d *BulkCreateAlertsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *BulkCreateAlertsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *BulkCreateAlertsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *BulkCreateAlertsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *BulkCreateAlertsDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *BulkCreateAlertsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *BulkCreateAlertsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *BulkCreateAlertsDescriptor) GetVerb() string {
+	return "bulkCreateAlerts"
+}
+
+func (d *BulkCreateAlertsDescriptor) GetMethodName() string {
+	return "BulkCreateAlerts"
+}
+
+func (d *BulkCreateAlertsDescriptor) GetFullMethodName() string {
+	return "/ntt.monitoring.v4.AlertService/BulkCreateAlerts"
+}
+
+func (d *BulkCreateAlertsDescriptor) GetProtoPkgName() string {
+	return "ntt.monitoring.v4"
+}
+
+func (d *BulkCreateAlertsDescriptor) GetApiName() string {
+	return "AlertService"
+}
+
+func (d *BulkCreateAlertsDescriptor) GetServiceDomain() string {
+	return "monitoring.edgelq.com"
+}
+
+func (d *BulkCreateAlertsDescriptor) GetServiceVersion() string {
+	return "v4"
+}
+
+func (d *BulkCreateAlertsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return alertServiceDescriptor
+}
+
+func (d *BulkCreateAlertsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return alert.GetDescriptor()
+}
+
+func (d *BulkCreateAlertsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &BulkCreateAlertsDescriptorClientMsgHandle{}
+}
+
+func (d *BulkCreateAlertsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &BulkCreateAlertsDescriptorServerMsgHandle{}
+}
+
+func (h *BulkCreateAlertsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkCreateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*BulkCreateAlertsRequest) *alert.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*BulkCreateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*BulkCreateAlertsRequest) []*alert.Name
+	})
+	if ok {
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkCreateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*BulkCreateAlertsRequest) *alert.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*alert.ParentName)(nil)
+}
+
+func (h *BulkCreateAlertsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BulkCreateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BulkCreateAlertsRequest) *alert.Alert
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BulkCreateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BulkCreateAlertsRequest) []*alert.Alert
+	})
+	if ok {
+		return alert.AlertList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkCreateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*BulkCreateAlertsResponse) *alert.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*BulkCreateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*BulkCreateAlertsResponse) []*alert.Name
+	})
+	if ok {
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkCreateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*BulkCreateAlertsResponse) *alert.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BulkCreateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BulkCreateAlertsResponse) *alert.Alert
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkCreateAlertsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BulkCreateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BulkCreateAlertsResponse) []*alert.Alert
+	})
+	if ok {
+		return alert.AlertList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetBulkCreateAlertsDescriptor() *BulkCreateAlertsDescriptor {
+	return bulkCreateAlertsDescriptor
+}
+
+type BulkUpdateAlertsDescriptor struct{}
+
+type BulkUpdateAlertsDescriptorClientMsgHandle struct{}
+
+type BulkUpdateAlertsDescriptorServerMsgHandle struct{}
+
+func (d *BulkUpdateAlertsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &BulkUpdateAlertsRequest{}
+}
+
+func (d *BulkUpdateAlertsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &BulkUpdateAlertsResponse{}
+}
+
+func (d *BulkUpdateAlertsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *BulkUpdateAlertsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *BulkUpdateAlertsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *BulkUpdateAlertsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *BulkUpdateAlertsDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *BulkUpdateAlertsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *BulkUpdateAlertsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetVerb() string {
+	return "bulkUpdateAlerts"
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetMethodName() string {
+	return "BulkUpdateAlerts"
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetFullMethodName() string {
+	return "/ntt.monitoring.v4.AlertService/BulkUpdateAlerts"
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetProtoPkgName() string {
+	return "ntt.monitoring.v4"
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetApiName() string {
+	return "AlertService"
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetServiceDomain() string {
+	return "monitoring.edgelq.com"
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetServiceVersion() string {
+	return "v4"
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return alertServiceDescriptor
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return alert.GetDescriptor()
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &BulkUpdateAlertsDescriptorClientMsgHandle{}
+}
+
+func (d *BulkUpdateAlertsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &BulkUpdateAlertsDescriptorServerMsgHandle{}
+}
+
+func (h *BulkUpdateAlertsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkUpdateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*BulkUpdateAlertsRequest) *alert.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*BulkUpdateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*BulkUpdateAlertsRequest) []*alert.Name
+	})
+	if ok {
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkUpdateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*BulkUpdateAlertsRequest) *alert.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*alert.ParentName)(nil)
+}
+
+func (h *BulkUpdateAlertsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BulkUpdateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BulkUpdateAlertsRequest) *alert.Alert
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BulkUpdateAlertsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BulkUpdateAlertsRequest) []*alert.Alert
+	})
+	if ok {
+		return alert.AlertList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkUpdateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*BulkUpdateAlertsResponse) *alert.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*BulkUpdateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*BulkUpdateAlertsResponse) []*alert.Name
+	})
+	if ok {
+		return alert.AlertNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*BulkUpdateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*BulkUpdateAlertsResponse) *alert.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*BulkUpdateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*BulkUpdateAlertsResponse) *alert.Alert
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *BulkUpdateAlertsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*BulkUpdateAlertsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*BulkUpdateAlertsResponse) []*alert.Alert
+	})
+	if ok {
+		return alert.AlertList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetBulkUpdateAlertsDescriptor() *BulkUpdateAlertsDescriptor {
+	return bulkUpdateAlertsDescriptor
+}
+
 type AlertServiceDescriptor struct{}
 
 func (d *AlertServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1864,9 +2074,10 @@ func (d *AlertServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDesc
 		listAlertsDescriptor,
 		watchAlertDescriptor,
 		watchAlertsDescriptor,
-		createAlertDescriptor,
 		updateAlertDescriptor,
 		deleteAlertDescriptor,
+		bulkCreateAlertsDescriptor,
+		bulkUpdateAlertsDescriptor,
 	}
 }
 
@@ -1901,18 +2112,20 @@ func initDescriptors() {
 	listAlertsDescriptor = &ListAlertsDescriptor{}
 	watchAlertDescriptor = &WatchAlertDescriptor{}
 	watchAlertsDescriptor = &WatchAlertsDescriptor{}
-	createAlertDescriptor = &CreateAlertDescriptor{}
 	updateAlertDescriptor = &UpdateAlertDescriptor{}
 	deleteAlertDescriptor = &DeleteAlertDescriptor{}
+	bulkCreateAlertsDescriptor = &BulkCreateAlertsDescriptor{}
+	bulkUpdateAlertsDescriptor = &BulkUpdateAlertsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(alertServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getAlertDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetAlertsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listAlertsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchAlertDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchAlertsDescriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(createAlertDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateAlertDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteAlertDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(bulkCreateAlertsDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(bulkUpdateAlertsDescriptor)
 }
 
 func init() {

@@ -155,3 +155,35 @@ func (obj *CreateLogsResponse_CreateError) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *StreamingCreateLogsRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Logs {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("StreamingCreateLogsRequest", "logs", obj.Logs[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *StreamingCreateLogsResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.FailedLogs {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("StreamingCreateLogsResponse", "failedLogs", obj.FailedLogs[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

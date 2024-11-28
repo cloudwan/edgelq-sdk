@@ -67,7 +67,9 @@ message NotificationChannelChange {
 
   // NotificationChannel has been added or modified in a query view. Version
   // used for stateless watching
-  message Current { NotificationChannel notification_channel = 1; }
+  message Current {
+    NotificationChannel notification_channel = 1;
+  }
 
   // Removed is returned when NotificationChannel is deleted or leaves Query
   // view

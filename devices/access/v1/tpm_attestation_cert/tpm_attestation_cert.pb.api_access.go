@@ -10,6 +10,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -25,6 +26,7 @@ var (
 	_ = new(context.Context)
 	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +45,16 @@ func NewApiTpmAttestationCertAccess(client tpm_attestation_cert_client.TpmAttest
 	return &apiTpmAttestationCertAccess{client: client}
 }
 
-func (a *apiTpmAttestationCertAccess) GetTpmAttestationCert(ctx context.Context, query *tpm_attestation_cert.GetQuery) (*tpm_attestation_cert.TpmAttestationCert, error) {
+func (a *apiTpmAttestationCertAccess) GetTpmAttestationCert(ctx context.Context, query *tpm_attestation_cert.GetQuery, opts ...gotenresource.GetOption) (*tpm_attestation_cert.TpmAttestationCert, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +62,7 @@ func (a *apiTpmAttestationCertAccess) GetTpmAttestationCert(ctx context.Context,
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetTpmAttestationCert(ctx, request)
+	res, err := a.client.GetTpmAttestationCert(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +72,14 @@ func (a *apiTpmAttestationCertAccess) GetTpmAttestationCert(ctx context.Context,
 
 func (a *apiTpmAttestationCertAccess) BatchGetTpmAttestationCerts(ctx context.Context, refs []*tpm_attestation_cert.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*tpm_attestation_cert.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +94,7 @@ func (a *apiTpmAttestationCertAccess) BatchGetTpmAttestationCerts(ctx context.Co
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*tpm_attestation_cert.TpmAttestationCert_FieldMask)
 	}
-	resp, err := a.client.BatchGetTpmAttestationCerts(ctx, request)
+	resp, err := a.client.BatchGetTpmAttestationCerts(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +114,16 @@ func (a *apiTpmAttestationCertAccess) BatchGetTpmAttestationCerts(ctx context.Co
 	return nil
 }
 
-func (a *apiTpmAttestationCertAccess) QueryTpmAttestationCerts(ctx context.Context, query *tpm_attestation_cert.ListQuery) (*tpm_attestation_cert.QueryResultSnapshot, error) {
+func (a *apiTpmAttestationCertAccess) QueryTpmAttestationCerts(ctx context.Context, query *tpm_attestation_cert.ListQuery, opts ...gotenresource.QueryOption) (*tpm_attestation_cert.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &tpm_attestation_cert_client.ListTpmAttestationCertsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +158,9 @@ func (a *apiTpmAttestationCertAccess) WatchTpmAttestationCert(ctx context.Contex
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchTpmAttestationCert(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -153,6 +184,7 @@ func (a *apiTpmAttestationCertAccess) WatchTpmAttestationCerts(ctx context.Conte
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +194,9 @@ func (a *apiTpmAttestationCertAccess) WatchTpmAttestationCerts(ctx context.Conte
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchTpmAttestationCerts(ctx, request)
 	if initErr != nil {
 		return initErr
