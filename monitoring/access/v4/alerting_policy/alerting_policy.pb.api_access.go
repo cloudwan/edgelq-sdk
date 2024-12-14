@@ -6,10 +6,10 @@ package alerting_policy_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiAlertingPolicyAccess(client alerting_policy_client.AlertingPolicyServ
 	return &apiAlertingPolicyAccess{client: client}
 }
 
-func (a *apiAlertingPolicyAccess) GetAlertingPolicy(ctx context.Context, query *alerting_policy.GetQuery) (*alerting_policy.AlertingPolicy, error) {
+func (a *apiAlertingPolicyAccess) GetAlertingPolicy(ctx context.Context, query *alerting_policy.GetQuery, opts ...gotenresource.GetOption) (*alerting_policy.AlertingPolicy, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiAlertingPolicyAccess) GetAlertingPolicy(ctx context.Context, query *
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetAlertingPolicy(ctx, request)
+	res, err := a.client.GetAlertingPolicy(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiAlertingPolicyAccess) GetAlertingPolicy(ctx context.Context, query *
 
 func (a *apiAlertingPolicyAccess) BatchGetAlertingPolicies(ctx context.Context, refs []*alerting_policy.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*alerting_policy.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiAlertingPolicyAccess) BatchGetAlertingPolicies(ctx context.Context, 
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*alerting_policy.AlertingPolicy_FieldMask)
 	}
-	resp, err := a.client.BatchGetAlertingPolicies(ctx, request)
+	resp, err := a.client.BatchGetAlertingPolicies(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiAlertingPolicyAccess) BatchGetAlertingPolicies(ctx context.Context, 
 	return nil
 }
 
-func (a *apiAlertingPolicyAccess) QueryAlertingPolicies(ctx context.Context, query *alerting_policy.ListQuery) (*alerting_policy.QueryResultSnapshot, error) {
+func (a *apiAlertingPolicyAccess) QueryAlertingPolicies(ctx context.Context, query *alerting_policy.ListQuery, opts ...gotenresource.QueryOption) (*alerting_policy.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &alerting_policy_client.ListAlertingPoliciesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -122,7 +148,16 @@ func (a *apiAlertingPolicyAccess) QueryAlertingPolicies(ctx context.Context, que
 	}, nil
 }
 
-func (a *apiAlertingPolicyAccess) SearchAlertingPolicies(ctx context.Context, query *alerting_policy.SearchQuery) (*alerting_policy.QueryResultSnapshot, error) {
+func (a *apiAlertingPolicyAccess) SearchAlertingPolicies(ctx context.Context, query *alerting_policy.SearchQuery, opts ...gotenresource.QueryOption) (*alerting_policy.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &alerting_policy_client.SearchAlertingPoliciesRequest{
 		Phrase:    query.Phrase,
 		Filter:    query.Filter,
@@ -136,7 +171,7 @@ func (a *apiAlertingPolicyAccess) SearchAlertingPolicies(ctx context.Context, qu
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
-	resp, err := a.client.SearchAlertingPolicies(ctx, request)
+	resp, err := a.client.SearchAlertingPolicies(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -157,6 +192,9 @@ func (a *apiAlertingPolicyAccess) WatchAlertingPolicy(ctx context.Context, query
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlertingPolicy(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -164,7 +202,7 @@ func (a *apiAlertingPolicyAccess) WatchAlertingPolicy(ctx context.Context, query
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -180,6 +218,7 @@ func (a *apiAlertingPolicyAccess) WatchAlertingPolicies(ctx context.Context, que
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -189,6 +228,9 @@ func (a *apiAlertingPolicyAccess) WatchAlertingPolicies(ctx context.Context, que
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlertingPolicies(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -196,7 +238,7 @@ func (a *apiAlertingPolicyAccess) WatchAlertingPolicies(ctx context.Context, que
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &alerting_policy.QueryResultChange{
 			Changes:      respChange.AlertingPolicyChanges,
@@ -218,22 +260,12 @@ func (a *apiAlertingPolicyAccess) WatchAlertingPolicies(ctx context.Context, que
 
 func (a *apiAlertingPolicyAccess) SaveAlertingPolicy(ctx context.Context, res *alerting_policy.AlertingPolicy, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetAlertingPolicy(ctx, &alerting_policy.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *alerting_policy.AlertingPolicy
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &alerting_policy_client.UpdateAlertingPolicyRequest{
 			AlertingPolicy: res,
+			AllowMissing:   !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*alerting_policy.AlertingPolicy_FieldMask)
@@ -262,7 +294,7 @@ func (a *apiAlertingPolicyAccess) SaveAlertingPolicy(ctx context.Context, res *a
 	return nil
 }
 
-func (a *apiAlertingPolicyAccess) DeleteAlertingPolicy(ctx context.Context, ref *alerting_policy.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiAlertingPolicyAccess) DeleteAlertingPolicy(ctx context.Context, ref *alerting_policy.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

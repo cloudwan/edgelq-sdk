@@ -6,10 +6,10 @@ package permission_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiPermissionAccess(client permission_client.PermissionServiceClient) pe
 	return &apiPermissionAccess{client: client}
 }
 
-func (a *apiPermissionAccess) GetPermission(ctx context.Context, query *permission.GetQuery) (*permission.Permission, error) {
+func (a *apiPermissionAccess) GetPermission(ctx context.Context, query *permission.GetQuery, opts ...gotenresource.GetOption) (*permission.Permission, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiPermissionAccess) GetPermission(ctx context.Context, query *permissi
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetPermission(ctx, request)
+	res, err := a.client.GetPermission(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiPermissionAccess) GetPermission(ctx context.Context, query *permissi
 
 func (a *apiPermissionAccess) BatchGetPermissions(ctx context.Context, refs []*permission.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*permission.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiPermissionAccess) BatchGetPermissions(ctx context.Context, refs []*p
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*permission.Permission_FieldMask)
 	}
-	resp, err := a.client.BatchGetPermissions(ctx, request)
+	resp, err := a.client.BatchGetPermissions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiPermissionAccess) BatchGetPermissions(ctx context.Context, refs []*p
 	return nil
 }
 
-func (a *apiPermissionAccess) QueryPermissions(ctx context.Context, query *permission.ListQuery) (*permission.QueryResultSnapshot, error) {
+func (a *apiPermissionAccess) QueryPermissions(ctx context.Context, query *permission.ListQuery, opts ...gotenresource.QueryOption) (*permission.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &permission_client.ListPermissionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiPermissionAccess) WatchPermission(ctx context.Context, query *permis
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPermission(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiPermissionAccess) WatchPermission(ctx context.Context, query *permis
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiPermissionAccess) WatchPermissions(ctx context.Context, query *permi
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiPermissionAccess) WatchPermissions(ctx context.Context, query *permi
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPermissions(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiPermissionAccess) WatchPermissions(ctx context.Context, query *permi
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &permission.QueryResultChange{
 			Changes:      respChange.PermissionChanges,
@@ -191,22 +224,12 @@ func (a *apiPermissionAccess) WatchPermissions(ctx context.Context, query *permi
 
 func (a *apiPermissionAccess) SavePermission(ctx context.Context, res *permission.Permission, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetPermission(ctx, &permission.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *permission.Permission
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &permission_client.UpdatePermissionRequest{
-			Permission: res,
+			Permission:   res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*permission.Permission_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiPermissionAccess) SavePermission(ctx context.Context, res *permissio
 	return nil
 }
 
-func (a *apiPermissionAccess) DeletePermission(ctx context.Context, ref *permission.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiPermissionAccess) DeletePermission(ctx context.Context, ref *permission.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

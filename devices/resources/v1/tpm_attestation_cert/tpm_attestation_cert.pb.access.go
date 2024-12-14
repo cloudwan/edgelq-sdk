@@ -40,9 +40,9 @@ var (
 )
 
 type TpmAttestationCertAccess interface {
-	GetTpmAttestationCert(context.Context, *GetQuery) (*TpmAttestationCert, error)
+	GetTpmAttestationCert(context.Context, *GetQuery, ...gotenresource.GetOption) (*TpmAttestationCert, error)
 	BatchGetTpmAttestationCerts(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryTpmAttestationCerts(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryTpmAttestationCerts(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchTpmAttestationCert(context.Context, *GetQuery, func(*TpmAttestationCertChange) error) error
 	WatchTpmAttestationCerts(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveTpmAttestationCert(context.Context, *TpmAttestationCert, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access TpmAttestationCertAccess) gotenresource.Access {
 	return &anyCastAccess{TpmAttestationCertAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asTpmAttestationCertQuery, ok := q.(*GetQuery); ok {
-		return a.GetTpmAttestationCert(ctx, asTpmAttestationCertQuery)
+		return a.GetTpmAttestationCert(ctx, asTpmAttestationCertQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected TpmAttestationCert, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asTpmAttestationCertQuery, ok := q.(*ListQuery); ok {
-		return a.QueryTpmAttestationCerts(ctx, asTpmAttestationCertQuery)
+		return a.QueryTpmAttestationCerts(ctx, asTpmAttestationCertQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected TpmAttestationCert, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for TpmAttestationCert")
 }
 

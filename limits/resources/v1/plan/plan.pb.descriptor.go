@@ -183,6 +183,10 @@ func (d *Descriptor) SupportsMetadata() bool {
 	return true
 }
 
+func (d *Descriptor) SupportsDbConstraints() bool {
+	return true
+}
+
 func initPlanDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(

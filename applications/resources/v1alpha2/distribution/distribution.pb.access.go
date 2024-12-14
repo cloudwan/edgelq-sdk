@@ -42,9 +42,9 @@ var (
 )
 
 type DistributionAccess interface {
-	GetDistribution(context.Context, *GetQuery) (*Distribution, error)
+	GetDistribution(context.Context, *GetQuery, ...gotenresource.GetOption) (*Distribution, error)
 	BatchGetDistributions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryDistributions(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryDistributions(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchDistribution(context.Context, *GetQuery, func(*DistributionChange) error) error
 	WatchDistributions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveDistribution(context.Context, *Distribution, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access DistributionAccess) gotenresource.Access {
 	return &anyCastAccess{DistributionAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asDistributionQuery, ok := q.(*GetQuery); ok {
-		return a.GetDistribution(ctx, asDistributionQuery)
+		return a.GetDistribution(ctx, asDistributionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Distribution, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asDistributionQuery, ok := q.(*ListQuery); ok {
-		return a.QueryDistributions(ctx, asDistributionQuery)
+		return a.QueryDistributions(ctx, asDistributionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Distribution, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Distribution")
 }
 

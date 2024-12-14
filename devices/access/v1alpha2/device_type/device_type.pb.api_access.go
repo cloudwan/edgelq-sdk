@@ -6,10 +6,10 @@ package device_type_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiDeviceTypeAccess(client device_type_client.DeviceTypeServiceClient) d
 	return &apiDeviceTypeAccess{client: client}
 }
 
-func (a *apiDeviceTypeAccess) GetDeviceType(ctx context.Context, query *device_type.GetQuery) (*device_type.DeviceType, error) {
+func (a *apiDeviceTypeAccess) GetDeviceType(ctx context.Context, query *device_type.GetQuery, opts ...gotenresource.GetOption) (*device_type.DeviceType, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiDeviceTypeAccess) GetDeviceType(ctx context.Context, query *device_t
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetDeviceType(ctx, request)
+	res, err := a.client.GetDeviceType(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiDeviceTypeAccess) GetDeviceType(ctx context.Context, query *device_t
 
 func (a *apiDeviceTypeAccess) BatchGetDeviceTypes(ctx context.Context, refs []*device_type.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*device_type.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiDeviceTypeAccess) BatchGetDeviceTypes(ctx context.Context, refs []*d
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*device_type.DeviceType_FieldMask)
 	}
-	resp, err := a.client.BatchGetDeviceTypes(ctx, request)
+	resp, err := a.client.BatchGetDeviceTypes(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiDeviceTypeAccess) BatchGetDeviceTypes(ctx context.Context, refs []*d
 	return nil
 }
 
-func (a *apiDeviceTypeAccess) QueryDeviceTypes(ctx context.Context, query *device_type.ListQuery) (*device_type.QueryResultSnapshot, error) {
+func (a *apiDeviceTypeAccess) QueryDeviceTypes(ctx context.Context, query *device_type.ListQuery, opts ...gotenresource.QueryOption) (*device_type.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &device_type_client.ListDeviceTypesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +153,9 @@ func (a *apiDeviceTypeAccess) WatchDeviceType(ctx context.Context, query *device
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeviceType(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -134,7 +163,7 @@ func (a *apiDeviceTypeAccess) WatchDeviceType(ctx context.Context, query *device
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -150,12 +179,16 @@ func (a *apiDeviceTypeAccess) WatchDeviceTypes(ctx context.Context, query *devic
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeviceTypes(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -163,7 +196,7 @@ func (a *apiDeviceTypeAccess) WatchDeviceTypes(ctx context.Context, query *devic
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &device_type.QueryResultChange{
 			Changes:      respChange.DeviceTypeChanges,
@@ -185,22 +218,12 @@ func (a *apiDeviceTypeAccess) WatchDeviceTypes(ctx context.Context, query *devic
 
 func (a *apiDeviceTypeAccess) SaveDeviceType(ctx context.Context, res *device_type.DeviceType, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetDeviceType(ctx, &device_type.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *device_type.DeviceType
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &device_type_client.UpdateDeviceTypeRequest{
-			DeviceType: res,
+			DeviceType:   res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*device_type.DeviceType_FieldMask)
@@ -229,7 +252,7 @@ func (a *apiDeviceTypeAccess) SaveDeviceType(ctx context.Context, res *device_ty
 	return nil
 }
 
-func (a *apiDeviceTypeAccess) DeleteDeviceType(ctx context.Context, ref *device_type.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiDeviceTypeAccess) DeleteDeviceType(ctx context.Context, ref *device_type.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

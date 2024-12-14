@@ -44,6 +44,7 @@ var (
 	provisionServiceAccountToDeviceDescriptor *ProvisionServiceAccountToDeviceDescriptor
 	removeServiceAccountFromDeviceDescriptor  *RemoveServiceAccountFromDeviceDescriptor
 	heartbeatDescriptor                       *HeartbeatDescriptor
+	reportDeviceMetricsDescriptor             *ReportDeviceMetricsDescriptor
 )
 
 type GetDeviceDescriptor struct{}
@@ -2503,6 +2504,221 @@ func GetHeartbeatDescriptor() *HeartbeatDescriptor {
 	return heartbeatDescriptor
 }
 
+type ReportDeviceMetricsDescriptor struct{}
+
+type ReportDeviceMetricsDescriptorClientMsgHandle struct{}
+
+type ReportDeviceMetricsDescriptorServerMsgHandle struct{}
+
+func (d *ReportDeviceMetricsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ReportDeviceMetricsRequest{}
+}
+
+func (d *ReportDeviceMetricsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ReportDeviceMetricsResponse{}
+}
+
+func (d *ReportDeviceMetricsDescriptor) IsUnary() bool {
+	return false
+}
+
+func (d *ReportDeviceMetricsDescriptor) IsClientStream() bool {
+	return true
+}
+
+func (d *ReportDeviceMetricsDescriptor) IsServerStream() bool {
+	return true
+}
+
+func (d *ReportDeviceMetricsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *ReportDeviceMetricsDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *ReportDeviceMetricsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ReportDeviceMetricsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetVerb() string {
+	return "reportDeviceMetrics"
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetMethodName() string {
+	return "ReportDeviceMetrics"
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetFullMethodName() string {
+	return "/ntt.devices.v1.DeviceService/ReportDeviceMetrics"
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetProtoPkgName() string {
+	return "ntt.devices.v1"
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetApiName() string {
+	return "DeviceService"
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetServiceDomain() string {
+	return "devices.edgelq.com"
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return deviceServiceDescriptor
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return device.GetDescriptor()
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ReportDeviceMetricsDescriptorClientMsgHandle{}
+}
+
+func (d *ReportDeviceMetricsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ReportDeviceMetricsDescriptorServerMsgHandle{}
+}
+
+func (h *ReportDeviceMetricsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ReportDeviceMetricsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ReportDeviceMetricsRequest) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*device.Name)(nil)
+}
+
+func (h *ReportDeviceMetricsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ReportDeviceMetricsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ReportDeviceMetricsRequest) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ReportDeviceMetricsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ReportDeviceMetricsRequest) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ReportDeviceMetricsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ReportDeviceMetricsRequest) *device.Device
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ReportDeviceMetricsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ReportDeviceMetricsRequest) []*device.Device
+	})
+	if ok {
+		return device.DeviceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ReportDeviceMetricsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ReportDeviceMetricsResponse) *device.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ReportDeviceMetricsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ReportDeviceMetricsResponse) []*device.Name
+	})
+	if ok {
+		return device.DeviceNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ReportDeviceMetricsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ReportDeviceMetricsResponse) *device.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ReportDeviceMetricsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ReportDeviceMetricsResponse) *device.Device
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ReportDeviceMetricsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ReportDeviceMetricsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ReportDeviceMetricsResponse) []*device.Device
+	})
+	if ok {
+		return device.DeviceList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetReportDeviceMetricsDescriptor() *ReportDeviceMetricsDescriptor {
+	return reportDeviceMetricsDescriptor
+}
+
 type DeviceServiceDescriptor struct{}
 
 func (d *DeviceServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -2518,6 +2734,7 @@ func (d *DeviceServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDes
 		provisionServiceAccountToDeviceDescriptor,
 		removeServiceAccountFromDeviceDescriptor,
 		heartbeatDescriptor,
+		reportDeviceMetricsDescriptor,
 	}
 }
 
@@ -2558,6 +2775,7 @@ func initDescriptors() {
 	provisionServiceAccountToDeviceDescriptor = &ProvisionServiceAccountToDeviceDescriptor{}
 	removeServiceAccountFromDeviceDescriptor = &RemoveServiceAccountFromDeviceDescriptor{}
 	heartbeatDescriptor = &HeartbeatDescriptor{}
+	reportDeviceMetricsDescriptor = &ReportDeviceMetricsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(deviceServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetDevicesDescriptor)
@@ -2570,6 +2788,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(provisionServiceAccountToDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(removeServiceAccountFromDeviceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(heartbeatDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(reportDeviceMetricsDescriptor)
 }
 
 func init() {

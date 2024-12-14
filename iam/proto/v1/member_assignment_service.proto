@@ -284,6 +284,10 @@ message UpdateMemberAssignmentRequest {
   // Otherwise RPC error Aborted will be returned.
   CAS cas = 4;
 
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 6;
+
   // CAS - Compare and Swap. This object is used if user wants to make update
   // conditional based upon previous resource version.
   message CAS {
@@ -293,6 +297,26 @@ message UpdateMemberAssignmentRequest {
     // Field paths from conditional state of resource server should check and
     // compare.
     google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
   }
 }
 

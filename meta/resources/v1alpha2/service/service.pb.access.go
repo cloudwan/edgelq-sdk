@@ -38,9 +38,9 @@ var (
 )
 
 type ServiceAccess interface {
-	GetService(context.Context, *GetQuery) (*Service, error)
+	GetService(context.Context, *GetQuery, ...gotenresource.GetOption) (*Service, error)
 	BatchGetServices(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryServices(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryServices(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchService(context.Context, *GetQuery, func(*ServiceChange) error) error
 	WatchServices(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveService(context.Context, *Service, ...gotenresource.SaveOption) error
@@ -55,25 +55,25 @@ func AsAnyCastAccess(access ServiceAccess) gotenresource.Access {
 	return &anyCastAccess{ServiceAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asServiceQuery, ok := q.(*GetQuery); ok {
-		return a.GetService(ctx, asServiceQuery)
+		return a.GetService(ctx, asServiceQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Service, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asServiceQuery, ok := q.(*ListQuery); ok {
-		return a.QueryServices(ctx, asServiceQuery)
+		return a.QueryServices(ctx, asServiceQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Service, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Service")
 }
 

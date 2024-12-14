@@ -9,6 +9,7 @@ import (
 
 	customized_image_access "github.com/cloudwan/edgelq-sdk/devices/access/v1/customized_image"
 	device_access "github.com/cloudwan/edgelq-sdk/devices/access/v1/device"
+	device_distribution_counter_access "github.com/cloudwan/edgelq-sdk/devices/access/v1/device_distribution_counter"
 	device_hardware_access "github.com/cloudwan/edgelq-sdk/devices/access/v1/device_hardware"
 	device_hardware_register_session_access "github.com/cloudwan/edgelq-sdk/devices/access/v1/device_hardware_register_session"
 	device_type_access "github.com/cloudwan/edgelq-sdk/devices/access/v1/device_type"
@@ -21,6 +22,7 @@ import (
 	devices_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/devices"
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
+	device_distribution_counter "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_distribution_counter"
 	device_hardware "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware"
 	device_hardware_register_session "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware_register_session"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
@@ -37,6 +39,7 @@ type DevicesApiAccess interface {
 
 	customized_image.CustomizedImageAccess
 	device.DeviceAccess
+	device_distribution_counter.DeviceDistributionCounterAccess
 	device_hardware.DeviceHardwareAccess
 	device_hardware_register_session.DeviceHardwareRegisterSessionAccess
 	device_type.DeviceTypeAccess
@@ -53,6 +56,7 @@ type apiDevicesAccess struct {
 
 	customized_image.CustomizedImageAccess
 	device.DeviceAccess
+	device_distribution_counter.DeviceDistributionCounterAccess
 	device_hardware.DeviceHardwareAccess
 	device_hardware_register_session.DeviceHardwareRegisterSessionAccess
 	device_type.DeviceTypeAccess
@@ -68,6 +72,7 @@ func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 
 	customizedImageAccess := customized_image_access.NewApiCustomizedImageAccess(client)
 	deviceAccess := device_access.NewApiDeviceAccess(client)
+	deviceDistributionCounterAccess := device_distribution_counter_access.NewApiDeviceDistributionCounterAccess(client)
 	deviceHardwareAccess := device_hardware_access.NewApiDeviceHardwareAccess(client)
 	deviceHardwareRegisterSessionAccess := device_hardware_register_session_access.NewApiDeviceHardwareRegisterSessionAccess(client)
 	deviceTypeAccess := device_type_access.NewApiDeviceTypeAccess(client)
@@ -83,6 +88,7 @@ func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 
 			customized_image.AsAnyCastAccess(customizedImageAccess),
 			device.AsAnyCastAccess(deviceAccess),
+			device_distribution_counter.AsAnyCastAccess(deviceDistributionCounterAccess),
 			device_hardware.AsAnyCastAccess(deviceHardwareAccess),
 			device_hardware_register_session.AsAnyCastAccess(deviceHardwareRegisterSessionAccess),
 			device_type.AsAnyCastAccess(deviceTypeAccess),
@@ -96,6 +102,7 @@ func NewApiAccess(client devices_client.DevicesClient) DevicesApiAccess {
 
 		CustomizedImageAccess:               customizedImageAccess,
 		DeviceAccess:                        deviceAccess,
+		DeviceDistributionCounterAccess:     deviceDistributionCounterAccess,
 		DeviceHardwareAccess:                deviceHardwareAccess,
 		DeviceHardwareRegisterSessionAccess: deviceHardwareRegisterSessionAccess,
 		DeviceTypeAccess:                    deviceTypeAccess,

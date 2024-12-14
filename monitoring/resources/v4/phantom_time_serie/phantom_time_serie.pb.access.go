@@ -44,9 +44,9 @@ var (
 )
 
 type PhantomTimeSerieAccess interface {
-	GetPhantomTimeSerie(context.Context, *GetQuery) (*PhantomTimeSerie, error)
+	GetPhantomTimeSerie(context.Context, *GetQuery, ...gotenresource.GetOption) (*PhantomTimeSerie, error)
 	BatchGetPhantomTimeSeries(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryPhantomTimeSeries(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryPhantomTimeSeries(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchPhantomTimeSerie(context.Context, *GetQuery, func(*PhantomTimeSerieChange) error) error
 	WatchPhantomTimeSeries(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SavePhantomTimeSerie(context.Context, *PhantomTimeSerie, ...gotenresource.SaveOption) error
@@ -61,25 +61,25 @@ func AsAnyCastAccess(access PhantomTimeSerieAccess) gotenresource.Access {
 	return &anyCastAccess{PhantomTimeSerieAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asPhantomTimeSerieQuery, ok := q.(*GetQuery); ok {
-		return a.GetPhantomTimeSerie(ctx, asPhantomTimeSerieQuery)
+		return a.GetPhantomTimeSerie(ctx, asPhantomTimeSerieQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected PhantomTimeSerie, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asPhantomTimeSerieQuery, ok := q.(*ListQuery); ok {
-		return a.QueryPhantomTimeSeries(ctx, asPhantomTimeSerieQuery)
+		return a.QueryPhantomTimeSeries(ctx, asPhantomTimeSerieQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected PhantomTimeSerie, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for PhantomTimeSerie")
 }
 

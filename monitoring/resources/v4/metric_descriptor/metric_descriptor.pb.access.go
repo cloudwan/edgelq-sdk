@@ -22,6 +22,7 @@ import (
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -42,13 +43,14 @@ var (
 	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 	_ = &meta.Meta{}
 )
 
 type MetricDescriptorAccess interface {
-	GetMetricDescriptor(context.Context, *GetQuery) (*MetricDescriptor, error)
+	GetMetricDescriptor(context.Context, *GetQuery, ...gotenresource.GetOption) (*MetricDescriptor, error)
 	BatchGetMetricDescriptors(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryMetricDescriptors(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryMetricDescriptors(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchMetricDescriptor(context.Context, *GetQuery, func(*MetricDescriptorChange) error) error
 	WatchMetricDescriptors(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveMetricDescriptor(context.Context, *MetricDescriptor, ...gotenresource.SaveOption) error
@@ -63,25 +65,25 @@ func AsAnyCastAccess(access MetricDescriptorAccess) gotenresource.Access {
 	return &anyCastAccess{MetricDescriptorAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asMetricDescriptorQuery, ok := q.(*GetQuery); ok {
-		return a.GetMetricDescriptor(ctx, asMetricDescriptorQuery)
+		return a.GetMetricDescriptor(ctx, asMetricDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected MetricDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asMetricDescriptorQuery, ok := q.(*ListQuery); ok {
-		return a.QueryMetricDescriptors(ctx, asMetricDescriptorQuery)
+		return a.QueryMetricDescriptors(ctx, asMetricDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected MetricDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for MetricDescriptor")
 }
 

@@ -50,9 +50,9 @@ var (
 )
 
 type ProvisioningPolicyAccess interface {
-	GetProvisioningPolicy(context.Context, *GetQuery) (*ProvisioningPolicy, error)
+	GetProvisioningPolicy(context.Context, *GetQuery, ...gotenresource.GetOption) (*ProvisioningPolicy, error)
 	BatchGetProvisioningPolicies(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryProvisioningPolicies(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryProvisioningPolicies(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchProvisioningPolicy(context.Context, *GetQuery, func(*ProvisioningPolicyChange) error) error
 	WatchProvisioningPolicies(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveProvisioningPolicy(context.Context, *ProvisioningPolicy, ...gotenresource.SaveOption) error
@@ -67,25 +67,25 @@ func AsAnyCastAccess(access ProvisioningPolicyAccess) gotenresource.Access {
 	return &anyCastAccess{ProvisioningPolicyAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asProvisioningPolicyQuery, ok := q.(*GetQuery); ok {
-		return a.GetProvisioningPolicy(ctx, asProvisioningPolicyQuery)
+		return a.GetProvisioningPolicy(ctx, asProvisioningPolicyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ProvisioningPolicy, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asProvisioningPolicyQuery, ok := q.(*ListQuery); ok {
-		return a.QueryProvisioningPolicies(ctx, asProvisioningPolicyQuery)
+		return a.QueryProvisioningPolicies(ctx, asProvisioningPolicyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected ProvisioningPolicy, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for ProvisioningPolicy")
 }
 

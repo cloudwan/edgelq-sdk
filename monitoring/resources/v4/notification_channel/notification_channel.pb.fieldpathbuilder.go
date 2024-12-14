@@ -9,12 +9,14 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -926,6 +928,10 @@ func (NotificationChannelPathSelectorSpecWebhook) Headers() NotificationChannelP
 	return NotificationChannelPathSelectorSpecWebhookHeaders{}
 }
 
+func (NotificationChannelPathSelectorSpecWebhook) NotificationMask() NotificationChannelPathSelectorSpecWebhookNotificationMask {
+	return NotificationChannelPathSelectorSpecWebhookNotificationMask{}
+}
+
 type NotificationChannelPathSelectorSpecWebhookUrl struct{}
 
 func (NotificationChannelPathSelectorSpecWebhookUrl) FieldPath() *NotificationChannel_FieldSubPath {
@@ -1003,6 +1009,23 @@ func (s NotificationChannelPathSelectorSpecWebhookHeadersValue) WithValue(value 
 }
 
 func (s NotificationChannelPathSelectorSpecWebhookHeadersValue) WithArrayOfValues(values []string) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorSpecWebhookNotificationMask struct{}
+
+func (NotificationChannelPathSelectorSpecWebhookNotificationMask) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorSpec,
+		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().NotificationMask().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorSpecWebhookNotificationMask) WithValue(value *fieldmaskpb.FieldMask) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorSpecWebhookNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -1347,6 +1370,10 @@ func (NotificationChannel_SpecPathSelectorWebhook) Headers() NotificationChannel
 	return NotificationChannel_SpecPathSelectorWebhookHeaders{}
 }
 
+func (NotificationChannel_SpecPathSelectorWebhook) NotificationMask() NotificationChannel_SpecPathSelectorWebhookNotificationMask {
+	return NotificationChannel_SpecPathSelectorWebhookNotificationMask{}
+}
+
 type NotificationChannel_SpecPathSelectorWebhookUrl struct{}
 
 func (NotificationChannel_SpecPathSelectorWebhookUrl) FieldPath() *NotificationChannelSpec_FieldSubPath {
@@ -1424,6 +1451,23 @@ func (s NotificationChannel_SpecPathSelectorWebhookHeadersValue) WithValue(value
 }
 
 func (s NotificationChannel_SpecPathSelectorWebhookHeadersValue) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannel_SpecPathSelectorWebhookNotificationMask struct{}
+
+func (NotificationChannel_SpecPathSelectorWebhookNotificationMask) FieldPath() *NotificationChannelSpec_FieldSubPath {
+	return &NotificationChannelSpec_FieldSubPath{
+		selector: NotificationChannelSpec_FieldPathSelectorWebhook,
+		subPath:  NewNotificationChannelSpecWebhookFieldPathBuilder().NotificationMask().FieldPath(),
+	}
+}
+
+func (s NotificationChannel_SpecPathSelectorWebhookNotificationMask) WithValue(value *fieldmaskpb.FieldMask) *NotificationChannelSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
+}
+
+func (s NotificationChannel_SpecPathSelectorWebhookNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannelSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
 }
 
@@ -1623,6 +1667,9 @@ func (NotificationChannelSpecWebhookFieldPathBuilder) Url() NotificationChannel_
 func (NotificationChannelSpecWebhookFieldPathBuilder) Headers() NotificationChannel_Spec_WebhookPathSelectorHeaders {
 	return NotificationChannel_Spec_WebhookPathSelectorHeaders{}
 }
+func (NotificationChannelSpecWebhookFieldPathBuilder) NotificationMask() NotificationChannel_Spec_WebhookPathSelectorNotificationMask {
+	return NotificationChannel_Spec_WebhookPathSelectorNotificationMask{}
+}
 
 type NotificationChannel_Spec_WebhookPathSelectorUrl struct{}
 
@@ -1711,6 +1758,20 @@ func (s NotificationChannel_Spec_WebhookPathSelectorHeadersValue) WithValue(valu
 
 func (s NotificationChannel_Spec_WebhookPathSelectorHeadersValue) WithArrayOfValues(values []string) *NotificationChannelSpecWebhook_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannel_Spec_WebhookPathSelectorNotificationMask struct{}
+
+func (NotificationChannel_Spec_WebhookPathSelectorNotificationMask) FieldPath() *NotificationChannelSpecWebhook_FieldTerminalPath {
+	return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask}
+}
+
+func (s NotificationChannel_Spec_WebhookPathSelectorNotificationMask) WithValue(value *fieldmaskpb.FieldMask) *NotificationChannelSpecWebhook_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhook_FieldTerminalPathValue)
+}
+
+func (s NotificationChannel_Spec_WebhookPathSelectorNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues)
 }
 
 type NotificationChannelSpecWebhookHeaderFieldPathBuilder struct{}

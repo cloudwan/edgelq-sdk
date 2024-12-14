@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,12 +18,14 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
 import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -49,6 +50,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
@@ -3545,8 +3547,9 @@ type NotificationChannelSpecWebhook_FieldPath interface {
 type NotificationChannelSpecWebhook_FieldPathSelector int32
 
 const (
-	NotificationChannelSpecWebhook_FieldPathSelectorUrl     NotificationChannelSpecWebhook_FieldPathSelector = 0
-	NotificationChannelSpecWebhook_FieldPathSelectorHeaders NotificationChannelSpecWebhook_FieldPathSelector = 1
+	NotificationChannelSpecWebhook_FieldPathSelectorUrl              NotificationChannelSpecWebhook_FieldPathSelector = 0
+	NotificationChannelSpecWebhook_FieldPathSelectorHeaders          NotificationChannelSpecWebhook_FieldPathSelector = 1
+	NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask NotificationChannelSpecWebhook_FieldPathSelector = 2
 )
 
 func (s NotificationChannelSpecWebhook_FieldPathSelector) String() string {
@@ -3555,6 +3558,8 @@ func (s NotificationChannelSpecWebhook_FieldPathSelector) String() string {
 		return "url"
 	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 		return "headers"
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+		return "notification_mask"
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", s))
 	}
@@ -3570,6 +3575,8 @@ func BuildNotificationChannelSpecWebhook_FieldPath(fp gotenobject.RawFieldPath) 
 			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorUrl}, nil
 		case "headers":
 			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders}, nil
+		case "notification_mask", "notificationMask", "notification-mask":
+			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3630,6 +3637,10 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) Get(source *Notifica
 			for _, value := range source.GetHeaders() {
 				values = append(values, value)
 			}
+		case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+			if source.NotificationMask != nil {
+				values = append(values, source.NotificationMask)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 		}
@@ -3649,6 +3660,9 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetSingle(source *No
 	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 		res := source.GetHeaders()
 		return res, res != nil
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+		res := source.GetNotificationMask()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3665,6 +3679,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetDefault() interfa
 		return ""
 	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 		return ([]*NotificationChannel_Spec_Webhook_Header)(nil)
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+		return (*fieldmaskpb.FieldMask)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3677,6 +3693,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) ClearValue(item *Not
 			item.Url = ""
 		case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 			item.Headers = nil
+		case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+			item.NotificationMask = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 		}
@@ -3689,7 +3707,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) ClearValueRaw(item p
 
 // IsLeaf - whether field path is holds simple value
 func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorUrl
+	return fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorUrl ||
+		fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask
 }
 
 func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -3702,6 +3721,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithIValue(value int
 		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.(string)}
 	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.([]*NotificationChannel_Spec_Webhook_Header)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.(*fieldmaskpb.FieldMask)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3718,6 +3739,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithIArrayOfValues(v
 		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([]string)}
 	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([][]*NotificationChannel_Spec_Webhook_Header)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([]*fieldmaskpb.FieldMask)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3904,6 +3927,10 @@ func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) AsHeadersValue
 	res, ok := fpv.value.([]*NotificationChannel_Spec_Webhook_Header)
 	return res, ok
 }
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) AsNotificationMaskValue() (*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpv.value.(*fieldmaskpb.FieldMask)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Webhook
 func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) SetTo(target **NotificationChannel_Spec_Webhook) {
@@ -3915,6 +3942,8 @@ func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) SetTo(target *
 		(*target).Url = fpv.value.(string)
 	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 		(*target).Headers = fpv.value.([]*NotificationChannel_Spec_Webhook_Header)
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+		(*target).NotificationMask = fpv.value.(*fieldmaskpb.FieldMask)
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fpv.selector))
 	}
@@ -3939,6 +3968,8 @@ func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) CompareWith(so
 			return 1, true
 		}
 	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return 0, false
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fpv.selector))
@@ -4130,6 +4161,10 @@ func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([][]*NotificationChannel_Spec_Webhook_Header) {
 			values = append(values, v)
 		}
+	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+		for _, v := range fpaov.values.([]*fieldmaskpb.FieldMask) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -4139,6 +4174,10 @@ func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsUr
 }
 func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsHeadersArrayOfValues() ([][]*NotificationChannel_Spec_Webhook_Header, bool) {
 	res, ok := fpaov.values.([][]*NotificationChannel_Spec_Webhook_Header)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsNotificationMaskArrayOfValues() ([]*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpaov.values.([]*fieldmaskpb.FieldMask)
 	return res, ok
 }
 

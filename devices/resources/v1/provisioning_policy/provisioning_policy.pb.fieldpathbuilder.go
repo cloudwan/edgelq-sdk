@@ -827,6 +827,10 @@ func (ProvisioningPolicyPathSelectorSpec) DeviceNameFormat() ProvisioningPolicyP
 	return ProvisioningPolicyPathSelectorSpecDeviceNameFormat{}
 }
 
+func (ProvisioningPolicyPathSelectorSpec) DeviceDisplayNameFormat() ProvisioningPolicyPathSelectorSpecDeviceDisplayNameFormat {
+	return ProvisioningPolicyPathSelectorSpecDeviceDisplayNameFormat{}
+}
+
 func (ProvisioningPolicyPathSelectorSpec) Labels() ProvisioningPolicyPathSelectorSpecLabels {
 	return ProvisioningPolicyPathSelectorSpecLabels{}
 }
@@ -903,6 +907,23 @@ func (s ProvisioningPolicyPathSelectorSpecDeviceNameFormat) WithValue(value stri
 }
 
 func (s ProvisioningPolicyPathSelectorSpecDeviceNameFormat) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecDeviceDisplayNameFormat struct{}
+
+func (ProvisioningPolicyPathSelectorSpecDeviceDisplayNameFormat) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().DeviceDisplayNameFormat().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecDeviceDisplayNameFormat) WithValue(value string) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecDeviceDisplayNameFormat) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -2390,6 +2411,10 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfig) EnableJournal
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigEnableJournalExport{}
 }
 
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfig) ContainerLoggingConfig() ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfig {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfig{}
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigPriority struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigPriority) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -2442,6 +2467,44 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigEnableJournal
 }
 
 func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfig struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfig) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().LoggingConfig().ContainerLoggingConfig().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfig) WithValue(value *device.Device_Spec_LoggingConfig_ContainerLoggingConfig) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfig) WithArrayOfValues(values []*device.Device_Spec_LoggingConfig_ContainerLoggingConfig) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfig) EnableContainerLogExport() ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport{}
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().LoggingConfig().ContainerLoggingConfig().EnableContainerLogExport().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithValue(value bool) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
@@ -3245,6 +3308,9 @@ func (ProvisioningPolicySpecFieldPathBuilder) ServiceAccount() ProvisioningPolic
 func (ProvisioningPolicySpecFieldPathBuilder) DeviceNameFormat() ProvisioningPolicy_SpecPathSelectorDeviceNameFormat {
 	return ProvisioningPolicy_SpecPathSelectorDeviceNameFormat{}
 }
+func (ProvisioningPolicySpecFieldPathBuilder) DeviceDisplayNameFormat() ProvisioningPolicy_SpecPathSelectorDeviceDisplayNameFormat {
+	return ProvisioningPolicy_SpecPathSelectorDeviceDisplayNameFormat{}
+}
 func (ProvisioningPolicySpecFieldPathBuilder) Labels() ProvisioningPolicy_SpecPathSelectorLabels {
 	return ProvisioningPolicy_SpecPathSelectorLabels{}
 }
@@ -3306,6 +3372,20 @@ func (s ProvisioningPolicy_SpecPathSelectorDeviceNameFormat) WithValue(value str
 }
 
 func (s ProvisioningPolicy_SpecPathSelectorDeviceNameFormat) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldTerminalPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorDeviceDisplayNameFormat struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorDeviceDisplayNameFormat) FieldPath() *ProvisioningPolicySpec_FieldTerminalPath {
+	return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorDeviceDisplayNameFormat) WithValue(value string) *ProvisioningPolicySpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldTerminalPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorDeviceDisplayNameFormat) WithArrayOfValues(values []string) *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldTerminalPathArrayOfValues)
 }
 
@@ -4800,6 +4880,10 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfig) EnableJourna
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigEnableJournalExport{}
 }
 
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfig) ContainerLoggingConfig() ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfig {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfig{}
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigPriority struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigPriority) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -4852,6 +4936,44 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigEnableJourna
 }
 
 func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfig struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfig) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().LoggingConfig().ContainerLoggingConfig().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfig) WithValue(value *device.Device_Spec_LoggingConfig_ContainerLoggingConfig) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfig) WithArrayOfValues(values []*device.Device_Spec_LoggingConfig_ContainerLoggingConfig) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfig) EnableContainerLogExport() ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport{}
+}
+
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().LoggingConfig().ContainerLoggingConfig().EnableContainerLogExport().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithValue(value bool) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithArrayOfValues(values []bool) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
@@ -7073,6 +7195,10 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfig) EnableJourn
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigEnableJournalExport{}
 }
 
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfig) ContainerLoggingConfig() ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfig {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfig{}
+}
+
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigPriority struct{}
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigPriority) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
@@ -7125,6 +7251,44 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigEnableJourn
 }
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigEnableJournalExport) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfig struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfig) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().LoggingConfig().ContainerLoggingConfig().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfig) WithValue(value *device.Device_Spec_LoggingConfig_ContainerLoggingConfig) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfig) WithArrayOfValues(values []*device.Device_Spec_LoggingConfig_ContainerLoggingConfig) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfig) EnableContainerLogExport() ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport{}
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().LoggingConfig().ContainerLoggingConfig().EnableContainerLogExport().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithValue(value bool) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecLoggingConfigContainerLoggingConfigEnableContainerLogExport) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 

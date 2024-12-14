@@ -1354,6 +1354,9 @@ type CreateOrganizationInvitationRequest struct {
 	Parent *organization_invitation.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
 	// OrganizationInvitation resource body
 	OrganizationInvitation *organization_invitation.OrganizationInvitation `protobuf:"bytes,2,opt,name=organization_invitation,json=organizationInvitation,proto3" json:"organization_invitation,omitempty" firestore:"organizationInvitation"`
+	// Optional masking applied to response object to reduce message response
+	// size.
+	ResponseMask *CreateOrganizationInvitationRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *CreateOrganizationInvitationRequest) Reset() {
@@ -1420,6 +1423,13 @@ func (m *CreateOrganizationInvitationRequest) GetOrganizationInvitation() *organ
 	return nil
 }
 
+func (m *CreateOrganizationInvitationRequest) GetResponseMask() *CreateOrganizationInvitationRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *CreateOrganizationInvitationRequest) SetParent(fv *organization_invitation.ParentName) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Parent", "CreateOrganizationInvitationRequest"))
@@ -1432,6 +1442,13 @@ func (m *CreateOrganizationInvitationRequest) SetOrganizationInvitation(fv *orga
 		panic(fmt.Errorf("can't set %s on nil %s", "OrganizationInvitation", "CreateOrganizationInvitationRequest"))
 	}
 	m.OrganizationInvitation = fv
+}
+
+func (m *CreateOrganizationInvitationRequest) SetResponseMask(fv *CreateOrganizationInvitationRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "CreateOrganizationInvitationRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the UpdateOrganizationInvitation method.
@@ -1456,6 +1473,8 @@ type UpdateOrganizationInvitationRequest struct {
 	//
 	// https://google.aip.dev/134#create-or-update
 	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
+	// reduce message response size.
+	ResponseMask *UpdateOrganizationInvitationRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *UpdateOrganizationInvitationRequest) Reset() {
@@ -1536,6 +1555,13 @@ func (m *UpdateOrganizationInvitationRequest) GetAllowMissing() bool {
 	return false
 }
 
+func (m *UpdateOrganizationInvitationRequest) GetResponseMask() *UpdateOrganizationInvitationRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *UpdateOrganizationInvitationRequest) SetOrganizationInvitation(fv *organization_invitation.OrganizationInvitation) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "OrganizationInvitation", "UpdateOrganizationInvitationRequest"))
@@ -1562,6 +1588,13 @@ func (m *UpdateOrganizationInvitationRequest) SetAllowMissing(fv bool) {
 		panic(fmt.Errorf("can't set %s on nil %s", "AllowMissing", "UpdateOrganizationInvitationRequest"))
 	}
 	m.AllowMissing = fv
+}
+
+func (m *UpdateOrganizationInvitationRequest) SetResponseMask(fv *UpdateOrganizationInvitationRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "UpdateOrganizationInvitationRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the DeleteOrganizationInvitation method.
@@ -1725,6 +1758,117 @@ func (m *WatchOrganizationInvitationsResponse_PageTokenChange) SetNextPageToken(
 	m.NextPageToken = fv
 }
 
+// ResponseMask allows client to reduce response message size.
+type CreateOrganizationInvitationRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*CreateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody
+	//	*CreateOrganizationInvitationRequest_ResponseMask_BodyMask
+	Masking isCreateOrganizationInvitationRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *CreateOrganizationInvitationRequest_ResponseMask) Reset() {
+	*m = CreateOrganizationInvitationRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *CreateOrganizationInvitationRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*CreateOrganizationInvitationRequest_ResponseMask) ProtoMessage() {}
+
+func (m *CreateOrganizationInvitationRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*CreateOrganizationInvitationRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use CreateOrganizationInvitationRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*CreateOrganizationInvitationRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_organization_invitation_service_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (m *CreateOrganizationInvitationRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *CreateOrganizationInvitationRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *CreateOrganizationInvitationRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *CreateOrganizationInvitationRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isCreateOrganizationInvitationRequest_ResponseMask_Masking interface {
+	isCreateOrganizationInvitationRequest_ResponseMask_Masking()
+}
+
+type CreateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type CreateOrganizationInvitationRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields.
+	BodyMask *organization_invitation.OrganizationInvitation_FieldMask `protobuf:"bytes,2,opt,customtype=OrganizationInvitation_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*CreateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody) isCreateOrganizationInvitationRequest_ResponseMask_Masking() {
+}
+func (*CreateOrganizationInvitationRequest_ResponseMask_BodyMask) isCreateOrganizationInvitationRequest_ResponseMask_Masking() {
+}
+func (m *CreateOrganizationInvitationRequest_ResponseMask) GetMasking() isCreateOrganizationInvitationRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *CreateOrganizationInvitationRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*CreateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *CreateOrganizationInvitationRequest_ResponseMask) GetBodyMask() *organization_invitation.OrganizationInvitation_FieldMask {
+	if x, ok := m.GetMasking().(*CreateOrganizationInvitationRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *CreateOrganizationInvitationRequest_ResponseMask) SetMasking(ofv isCreateOrganizationInvitationRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isCreateOrganizationInvitationRequest_ResponseMask_Masking", "CreateOrganizationInvitationRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *CreateOrganizationInvitationRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&CreateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *CreateOrganizationInvitationRequest_ResponseMask) SetBodyMask(fv *organization_invitation.OrganizationInvitation_FieldMask) {
+	m.SetMasking(&CreateOrganizationInvitationRequest_ResponseMask_BodyMask{BodyMask: fv})
+}
+
 // CAS - Compare and Swap. This object is used if user wants to make update
 // conditional based upon previous resource version.
 type UpdateOrganizationInvitationRequest_CAS struct {
@@ -1741,7 +1885,7 @@ type UpdateOrganizationInvitationRequest_CAS struct {
 func (m *UpdateOrganizationInvitationRequest_CAS) Reset() {
 	*m = UpdateOrganizationInvitationRequest_CAS{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[13]
+		mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1754,7 +1898,7 @@ func (m *UpdateOrganizationInvitationRequest_CAS) String() string {
 func (*UpdateOrganizationInvitationRequest_CAS) ProtoMessage() {}
 
 func (m *UpdateOrganizationInvitationRequest_CAS) ProtoReflect() preflect.Message {
-	mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[13]
+	mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1814,6 +1958,137 @@ func (m *UpdateOrganizationInvitationRequest_CAS) SetFieldMask(fv *organization_
 		panic(fmt.Errorf("can't set %s on nil %s", "FieldMask", "UpdateOrganizationInvitationRequest_CAS"))
 	}
 	m.FieldMask = fv
+}
+
+// ResponseMask allows client to reduce response message size.
+type UpdateOrganizationInvitationRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*UpdateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody
+	//	*UpdateOrganizationInvitationRequest_ResponseMask_UpdatedFieldsOnly
+	//	*UpdateOrganizationInvitationRequest_ResponseMask_BodyMask
+	Masking isUpdateOrganizationInvitationRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) Reset() {
+	*m = UpdateOrganizationInvitationRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*UpdateOrganizationInvitationRequest_ResponseMask) ProtoMessage() {}
+
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*UpdateOrganizationInvitationRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use UpdateOrganizationInvitationRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*UpdateOrganizationInvitationRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_organization_invitation_service_proto_rawDescGZIP(), []int{10, 1}
+}
+
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isUpdateOrganizationInvitationRequest_ResponseMask_Masking interface {
+	isUpdateOrganizationInvitationRequest_ResponseMask_Masking()
+}
+
+type UpdateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated. Field body_mask is ignored if
+	// set.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type UpdateOrganizationInvitationRequest_ResponseMask_UpdatedFieldsOnly struct {
+	// Include all fields that were actually updated during processing. Note
+	// this may be larger than update mask if some fields were computed
+	// additionally. Name is added as well.
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+}
+type UpdateOrganizationInvitationRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields. If skip_entire_response_body is true, this field is
+	// ignored.
+	BodyMask *organization_invitation.OrganizationInvitation_FieldMask `protobuf:"bytes,3,opt,customtype=OrganizationInvitation_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*UpdateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody) isUpdateOrganizationInvitationRequest_ResponseMask_Masking() {
+}
+func (*UpdateOrganizationInvitationRequest_ResponseMask_UpdatedFieldsOnly) isUpdateOrganizationInvitationRequest_ResponseMask_Masking() {
+}
+func (*UpdateOrganizationInvitationRequest_ResponseMask_BodyMask) isUpdateOrganizationInvitationRequest_ResponseMask_Masking() {
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) GetMasking() isUpdateOrganizationInvitationRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*UpdateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) GetUpdatedFieldsOnly() bool {
+	if x, ok := m.GetMasking().(*UpdateOrganizationInvitationRequest_ResponseMask_UpdatedFieldsOnly); ok {
+		return x.UpdatedFieldsOnly
+	}
+	return false
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) GetBodyMask() *organization_invitation.OrganizationInvitation_FieldMask {
+	if x, ok := m.GetMasking().(*UpdateOrganizationInvitationRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) SetMasking(ofv isUpdateOrganizationInvitationRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isUpdateOrganizationInvitationRequest_ResponseMask_Masking", "UpdateOrganizationInvitationRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&UpdateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) SetUpdatedFieldsOnly(fv bool) {
+	m.SetMasking(&UpdateOrganizationInvitationRequest_ResponseMask_UpdatedFieldsOnly{UpdatedFieldsOnly: fv})
+}
+func (m *UpdateOrganizationInvitationRequest_ResponseMask) SetBodyMask(fv *organization_invitation.OrganizationInvitation_FieldMask) {
+	m.SetMasking(&UpdateOrganizationInvitationRequest_ResponseMask_BodyMask{BodyMask: fv})
 }
 
 var edgelq_iam_proto_v1_organization_invitation_service_proto preflect.FileDescriptor
@@ -2053,7 +2328,7 @@ var edgelq_iam_proto_v1_organization_invitation_service_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x09, 0x42, 0x1e, 0xb2, 0xda, 0x21, 0x1a, 0x22, 0x18, 0x0a, 0x16, 0x4f, 0x72,
 	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f,
-	0x6b, 0x65, 0x6e, 0x22, 0xc8, 0x01, 0x0a, 0x23, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4f, 0x72,
+	0x6b, 0x65, 0x6e, 0x22, 0xdf, 0x03, 0x0a, 0x23, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4f, 0x72,
 	0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x36, 0x0a, 0x06, 0x70,
 	0x61, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x1e, 0xb2, 0xda, 0x21,
@@ -2065,41 +2340,79 @@ var edgelq_iam_proto_v1_organization_invitation_service_proto_rawDesc = []byte{
 	0x31, 0x2e, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e,
 	0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6,
 	0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x16, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x97,
-	0x04, 0x0a, 0x23, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
+	0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x61,
+	0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3c, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e,
+	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x69, 0x0a, 0x17, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69,
-	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61,
-	0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x0c, 0xc8, 0xd5, 0x22,
-	0x01, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x16, 0x6f, 0x72, 0x67, 0x61, 0x6e,
-	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x12, 0x5b, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61,
-	0x73, 0x6b, 0x42, 0x1e, 0xb2, 0xda, 0x21, 0x1a, 0x32, 0x18, 0x0a, 0x16, 0x4f, 0x72, 0x67, 0x61,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d,
+	0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73,
+	0x6b, 0x1a, 0xb1, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61,
+	0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72,
+	0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74,
+	0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12,
+	0x59, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x1e,
+	0xb2, 0xda, 0x21, 0x1a, 0x32, 0x18, 0x0a, 0x16, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x48, 0x00,
+	0x52, 0x08, 0x62, 0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a, 0x07, 0x6d, 0x61,
+	0x73, 0x6b, 0x69, 0x6e, 0x67, 0x22, 0xe0, 0x06, 0x0a, 0x23, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69,
+	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x69, 0x0a,
+	0x17, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x6e,
+	0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x4f, 0x72, 0x67, 0x61,
 	0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x45,
-	0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x33, 0x2e, 0x6e, 0x74,
-	0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4f,
-	0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53,
-	0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c,
-	0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x1a, 0xbb, 0x01, 0x0a, 0x03, 0x43,
-	0x41, 0x53, 0x12, 0x59, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61,
-	0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e,
-	0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x4f, 0x72, 0x67, 0x61, 0x6e,
+	0x6f, 0x6e, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01,
+	0x52, 0x16, 0x6f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e,
+	0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x5b, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x1e, 0xb2, 0xda, 0x21, 0x1a, 0x32,
+	0x18, 0x0a, 0x16, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49,
+	0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x45, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x33, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x23, 0x0a, 0x0d,
+	0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73, 0x73, 0x69, 0x6e,
+	0x67, 0x12, 0x61, 0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61,
+	0x73, 0x6b, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x3c, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69,
+	0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4f, 0x72, 0x67, 0x61,
+	0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xbb, 0x01, 0x0a, 0x03, 0x43, 0x41, 0x53, 0x12, 0x59, 0x0a, 0x11,
+	0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61,
+	0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x42, 0x08, 0xca, 0xc6, 0x27,
+	0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e,
+	0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x59, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64,
+	0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69,
+	0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x1e, 0xb2, 0xda, 0x21, 0x1a, 0x32, 0x18, 0x0a,
+	0x16, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76,
+	0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61,
+	0x73, 0x6b, 0x1a, 0xe3, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d,
+	0x61, 0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69,
+	0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e,
+	0x74, 0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79,
+	0x12, 0x30, 0x0a, 0x13, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c,
+	0x64, 0x73, 0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52,
+	0x11, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x4f, 0x6e,
+	0x6c, 0x79, 0x12, 0x59, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73,
+	0x6b, 0x42, 0x1e, 0xb2, 0xda, 0x21, 0x1a, 0x32, 0x18, 0x0a, 0x16, 0x4f, 0x72, 0x67, 0x61, 0x6e,
 	0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e,
-	0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x59, 0x0a,
-	0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x1e, 0xb2,
-	0xda, 0x21, 0x1a, 0x32, 0x18, 0x0a, 0x16, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x09, 0x66,
-	0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x22, 0x59, 0x0a, 0x23, 0x44, 0x65, 0x6c, 0x65,
+	0x6e, 0x48, 0x00, 0x52, 0x08, 0x62, 0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a,
+	0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69, 0x6e, 0x67, 0x22, 0x59, 0x0a, 0x23, 0x44, 0x65, 0x6c, 0x65,
 	0x74, 0x65, 0x4f, 0x72, 0x67, 0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e,
 	0x76, 0x69, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x32, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x1e, 0xb2,
@@ -2335,7 +2648,7 @@ func edgelq_iam_proto_v1_organization_invitation_service_proto_rawDescGZIP() []b
 	return edgelq_iam_proto_v1_organization_invitation_service_proto_rawDescData
 }
 
-var edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var edgelq_iam_proto_v1_organization_invitation_service_proto_goTypes = []interface{}{
 	(*GetOrganizationInvitationRequest)(nil),                         // 0: ntt.iam.v1.GetOrganizationInvitationRequest
 	(*BatchGetOrganizationInvitationsRequest)(nil),                   // 1: ntt.iam.v1.BatchGetOrganizationInvitationsRequest
@@ -2350,72 +2663,78 @@ var edgelq_iam_proto_v1_organization_invitation_service_proto_goTypes = []interf
 	(*UpdateOrganizationInvitationRequest)(nil),                      // 10: ntt.iam.v1.UpdateOrganizationInvitationRequest
 	(*DeleteOrganizationInvitationRequest)(nil),                      // 11: ntt.iam.v1.DeleteOrganizationInvitationRequest
 	(*WatchOrganizationInvitationsResponse_PageTokenChange)(nil),     // 12: ntt.iam.v1.WatchOrganizationInvitationsResponse.PageTokenChange
-	(*UpdateOrganizationInvitationRequest_CAS)(nil),                  // 13: ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS
-	(*organization_invitation.OrganizationInvitation_FieldMask)(nil), // 14: ntt.iam.v1.OrganizationInvitation_FieldMask
-	(view.View)(0), // 15: goten.types.View
-	(*organization_invitation.OrganizationInvitation)(nil),       // 16: ntt.iam.v1.OrganizationInvitation
-	(*organization_invitation.OrganizationInvitationChange)(nil), // 17: ntt.iam.v1.OrganizationInvitationChange
-	(watch_type.WatchType)(0),                                    // 18: goten.types.WatchType
-	(*timestamppb.Timestamp)(nil),                                // 19: google.protobuf.Timestamp
-	(*AcceptOrganizationInvitationRequest)(nil),                  // 20: ntt.iam.v1.AcceptOrganizationInvitationRequest
-	(*DeclineOrganizationInvitationRequest)(nil),                 // 21: ntt.iam.v1.DeclineOrganizationInvitationRequest
-	(*ListMyOrganizationInvitationsRequest)(nil),                 // 22: ntt.iam.v1.ListMyOrganizationInvitationsRequest
-	(*emptypb.Empty)(nil),                                        // 23: google.protobuf.Empty
-	(*AcceptOrganizationInvitationResponse)(nil),                 // 24: ntt.iam.v1.AcceptOrganizationInvitationResponse
-	(*DeclineOrganizationInvitationResponse)(nil),                // 25: ntt.iam.v1.DeclineOrganizationInvitationResponse
-	(*ListMyOrganizationInvitationsResponse)(nil),                // 26: ntt.iam.v1.ListMyOrganizationInvitationsResponse
+	(*CreateOrganizationInvitationRequest_ResponseMask)(nil),         // 13: ntt.iam.v1.CreateOrganizationInvitationRequest.ResponseMask
+	(*UpdateOrganizationInvitationRequest_CAS)(nil),                  // 14: ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS
+	(*UpdateOrganizationInvitationRequest_ResponseMask)(nil),         // 15: ntt.iam.v1.UpdateOrganizationInvitationRequest.ResponseMask
+	(*organization_invitation.OrganizationInvitation_FieldMask)(nil), // 16: ntt.iam.v1.OrganizationInvitation_FieldMask
+	(view.View)(0), // 17: goten.types.View
+	(*organization_invitation.OrganizationInvitation)(nil),       // 18: ntt.iam.v1.OrganizationInvitation
+	(*organization_invitation.OrganizationInvitationChange)(nil), // 19: ntt.iam.v1.OrganizationInvitationChange
+	(watch_type.WatchType)(0),                                    // 20: goten.types.WatchType
+	(*timestamppb.Timestamp)(nil),                                // 21: google.protobuf.Timestamp
+	(*AcceptOrganizationInvitationRequest)(nil),                  // 22: ntt.iam.v1.AcceptOrganizationInvitationRequest
+	(*DeclineOrganizationInvitationRequest)(nil),                 // 23: ntt.iam.v1.DeclineOrganizationInvitationRequest
+	(*ListMyOrganizationInvitationsRequest)(nil),                 // 24: ntt.iam.v1.ListMyOrganizationInvitationsRequest
+	(*emptypb.Empty)(nil),                                        // 25: google.protobuf.Empty
+	(*AcceptOrganizationInvitationResponse)(nil),                 // 26: ntt.iam.v1.AcceptOrganizationInvitationResponse
+	(*DeclineOrganizationInvitationResponse)(nil),                // 27: ntt.iam.v1.DeclineOrganizationInvitationResponse
+	(*ListMyOrganizationInvitationsResponse)(nil),                // 28: ntt.iam.v1.ListMyOrganizationInvitationsResponse
 }
 var edgelq_iam_proto_v1_organization_invitation_service_proto_depIdxs = []int32{
-	14, // 0: ntt.iam.v1.GetOrganizationInvitationRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
-	15, // 1: ntt.iam.v1.GetOrganizationInvitationRequest.view:type_name -> goten.types.View
-	14, // 2: ntt.iam.v1.BatchGetOrganizationInvitationsRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
-	15, // 3: ntt.iam.v1.BatchGetOrganizationInvitationsRequest.view:type_name -> goten.types.View
-	16, // 4: ntt.iam.v1.BatchGetOrganizationInvitationsResponse.organization_invitations:type_name -> ntt.iam.v1.OrganizationInvitation
-	14, // 5: ntt.iam.v1.ListOrganizationInvitationsRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
-	15, // 6: ntt.iam.v1.ListOrganizationInvitationsRequest.view:type_name -> goten.types.View
-	16, // 7: ntt.iam.v1.ListOrganizationInvitationsResponse.organization_invitations:type_name -> ntt.iam.v1.OrganizationInvitation
-	14, // 8: ntt.iam.v1.WatchOrganizationInvitationRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
-	15, // 9: ntt.iam.v1.WatchOrganizationInvitationRequest.view:type_name -> goten.types.View
-	17, // 10: ntt.iam.v1.WatchOrganizationInvitationResponse.change:type_name -> ntt.iam.v1.OrganizationInvitationChange
-	18, // 11: ntt.iam.v1.WatchOrganizationInvitationsRequest.type:type_name -> goten.types.WatchType
-	19, // 12: ntt.iam.v1.WatchOrganizationInvitationsRequest.starting_time:type_name -> google.protobuf.Timestamp
-	14, // 13: ntt.iam.v1.WatchOrganizationInvitationsRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
-	15, // 14: ntt.iam.v1.WatchOrganizationInvitationsRequest.view:type_name -> goten.types.View
-	17, // 15: ntt.iam.v1.WatchOrganizationInvitationsResponse.organization_invitation_changes:type_name -> ntt.iam.v1.OrganizationInvitationChange
+	16, // 0: ntt.iam.v1.GetOrganizationInvitationRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	17, // 1: ntt.iam.v1.GetOrganizationInvitationRequest.view:type_name -> goten.types.View
+	16, // 2: ntt.iam.v1.BatchGetOrganizationInvitationsRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	17, // 3: ntt.iam.v1.BatchGetOrganizationInvitationsRequest.view:type_name -> goten.types.View
+	18, // 4: ntt.iam.v1.BatchGetOrganizationInvitationsResponse.organization_invitations:type_name -> ntt.iam.v1.OrganizationInvitation
+	16, // 5: ntt.iam.v1.ListOrganizationInvitationsRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	17, // 6: ntt.iam.v1.ListOrganizationInvitationsRequest.view:type_name -> goten.types.View
+	18, // 7: ntt.iam.v1.ListOrganizationInvitationsResponse.organization_invitations:type_name -> ntt.iam.v1.OrganizationInvitation
+	16, // 8: ntt.iam.v1.WatchOrganizationInvitationRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	17, // 9: ntt.iam.v1.WatchOrganizationInvitationRequest.view:type_name -> goten.types.View
+	19, // 10: ntt.iam.v1.WatchOrganizationInvitationResponse.change:type_name -> ntt.iam.v1.OrganizationInvitationChange
+	20, // 11: ntt.iam.v1.WatchOrganizationInvitationsRequest.type:type_name -> goten.types.WatchType
+	21, // 12: ntt.iam.v1.WatchOrganizationInvitationsRequest.starting_time:type_name -> google.protobuf.Timestamp
+	16, // 13: ntt.iam.v1.WatchOrganizationInvitationsRequest.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	17, // 14: ntt.iam.v1.WatchOrganizationInvitationsRequest.view:type_name -> goten.types.View
+	19, // 15: ntt.iam.v1.WatchOrganizationInvitationsResponse.organization_invitation_changes:type_name -> ntt.iam.v1.OrganizationInvitationChange
 	12, // 16: ntt.iam.v1.WatchOrganizationInvitationsResponse.page_token_change:type_name -> ntt.iam.v1.WatchOrganizationInvitationsResponse.PageTokenChange
-	16, // 17: ntt.iam.v1.CreateOrganizationInvitationRequest.organization_invitation:type_name -> ntt.iam.v1.OrganizationInvitation
-	16, // 18: ntt.iam.v1.UpdateOrganizationInvitationRequest.organization_invitation:type_name -> ntt.iam.v1.OrganizationInvitation
-	14, // 19: ntt.iam.v1.UpdateOrganizationInvitationRequest.update_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
-	13, // 20: ntt.iam.v1.UpdateOrganizationInvitationRequest.cas:type_name -> ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS
-	16, // 21: ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS.conditional_state:type_name -> ntt.iam.v1.OrganizationInvitation
-	14, // 22: ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
-	0,  // 23: ntt.iam.v1.OrganizationInvitationService.GetOrganizationInvitation:input_type -> ntt.iam.v1.GetOrganizationInvitationRequest
-	1,  // 24: ntt.iam.v1.OrganizationInvitationService.BatchGetOrganizationInvitations:input_type -> ntt.iam.v1.BatchGetOrganizationInvitationsRequest
-	3,  // 25: ntt.iam.v1.OrganizationInvitationService.ListOrganizationInvitations:input_type -> ntt.iam.v1.ListOrganizationInvitationsRequest
-	5,  // 26: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitation:input_type -> ntt.iam.v1.WatchOrganizationInvitationRequest
-	7,  // 27: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitations:input_type -> ntt.iam.v1.WatchOrganizationInvitationsRequest
-	9,  // 28: ntt.iam.v1.OrganizationInvitationService.CreateOrganizationInvitation:input_type -> ntt.iam.v1.CreateOrganizationInvitationRequest
-	10, // 29: ntt.iam.v1.OrganizationInvitationService.UpdateOrganizationInvitation:input_type -> ntt.iam.v1.UpdateOrganizationInvitationRequest
-	11, // 30: ntt.iam.v1.OrganizationInvitationService.DeleteOrganizationInvitation:input_type -> ntt.iam.v1.DeleteOrganizationInvitationRequest
-	20, // 31: ntt.iam.v1.OrganizationInvitationService.AcceptOrganizationInvitation:input_type -> ntt.iam.v1.AcceptOrganizationInvitationRequest
-	21, // 32: ntt.iam.v1.OrganizationInvitationService.DeclineOrganizationInvitation:input_type -> ntt.iam.v1.DeclineOrganizationInvitationRequest
-	22, // 33: ntt.iam.v1.OrganizationInvitationService.ListMyOrganizationInvitations:input_type -> ntt.iam.v1.ListMyOrganizationInvitationsRequest
-	16, // 34: ntt.iam.v1.OrganizationInvitationService.GetOrganizationInvitation:output_type -> ntt.iam.v1.OrganizationInvitation
-	2,  // 35: ntt.iam.v1.OrganizationInvitationService.BatchGetOrganizationInvitations:output_type -> ntt.iam.v1.BatchGetOrganizationInvitationsResponse
-	4,  // 36: ntt.iam.v1.OrganizationInvitationService.ListOrganizationInvitations:output_type -> ntt.iam.v1.ListOrganizationInvitationsResponse
-	6,  // 37: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitation:output_type -> ntt.iam.v1.WatchOrganizationInvitationResponse
-	8,  // 38: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitations:output_type -> ntt.iam.v1.WatchOrganizationInvitationsResponse
-	16, // 39: ntt.iam.v1.OrganizationInvitationService.CreateOrganizationInvitation:output_type -> ntt.iam.v1.OrganizationInvitation
-	16, // 40: ntt.iam.v1.OrganizationInvitationService.UpdateOrganizationInvitation:output_type -> ntt.iam.v1.OrganizationInvitation
-	23, // 41: ntt.iam.v1.OrganizationInvitationService.DeleteOrganizationInvitation:output_type -> google.protobuf.Empty
-	24, // 42: ntt.iam.v1.OrganizationInvitationService.AcceptOrganizationInvitation:output_type -> ntt.iam.v1.AcceptOrganizationInvitationResponse
-	25, // 43: ntt.iam.v1.OrganizationInvitationService.DeclineOrganizationInvitation:output_type -> ntt.iam.v1.DeclineOrganizationInvitationResponse
-	26, // 44: ntt.iam.v1.OrganizationInvitationService.ListMyOrganizationInvitations:output_type -> ntt.iam.v1.ListMyOrganizationInvitationsResponse
-	34, // [34:45] is the sub-list for method output_type
-	23, // [23:34] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	18, // 17: ntt.iam.v1.CreateOrganizationInvitationRequest.organization_invitation:type_name -> ntt.iam.v1.OrganizationInvitation
+	13, // 18: ntt.iam.v1.CreateOrganizationInvitationRequest.response_mask:type_name -> ntt.iam.v1.CreateOrganizationInvitationRequest.ResponseMask
+	18, // 19: ntt.iam.v1.UpdateOrganizationInvitationRequest.organization_invitation:type_name -> ntt.iam.v1.OrganizationInvitation
+	16, // 20: ntt.iam.v1.UpdateOrganizationInvitationRequest.update_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	14, // 21: ntt.iam.v1.UpdateOrganizationInvitationRequest.cas:type_name -> ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS
+	15, // 22: ntt.iam.v1.UpdateOrganizationInvitationRequest.response_mask:type_name -> ntt.iam.v1.UpdateOrganizationInvitationRequest.ResponseMask
+	16, // 23: ntt.iam.v1.CreateOrganizationInvitationRequest.ResponseMask.body_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	18, // 24: ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS.conditional_state:type_name -> ntt.iam.v1.OrganizationInvitation
+	16, // 25: ntt.iam.v1.UpdateOrganizationInvitationRequest.CAS.field_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	16, // 26: ntt.iam.v1.UpdateOrganizationInvitationRequest.ResponseMask.body_mask:type_name -> ntt.iam.v1.OrganizationInvitation_FieldMask
+	0,  // 27: ntt.iam.v1.OrganizationInvitationService.GetOrganizationInvitation:input_type -> ntt.iam.v1.GetOrganizationInvitationRequest
+	1,  // 28: ntt.iam.v1.OrganizationInvitationService.BatchGetOrganizationInvitations:input_type -> ntt.iam.v1.BatchGetOrganizationInvitationsRequest
+	3,  // 29: ntt.iam.v1.OrganizationInvitationService.ListOrganizationInvitations:input_type -> ntt.iam.v1.ListOrganizationInvitationsRequest
+	5,  // 30: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitation:input_type -> ntt.iam.v1.WatchOrganizationInvitationRequest
+	7,  // 31: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitations:input_type -> ntt.iam.v1.WatchOrganizationInvitationsRequest
+	9,  // 32: ntt.iam.v1.OrganizationInvitationService.CreateOrganizationInvitation:input_type -> ntt.iam.v1.CreateOrganizationInvitationRequest
+	10, // 33: ntt.iam.v1.OrganizationInvitationService.UpdateOrganizationInvitation:input_type -> ntt.iam.v1.UpdateOrganizationInvitationRequest
+	11, // 34: ntt.iam.v1.OrganizationInvitationService.DeleteOrganizationInvitation:input_type -> ntt.iam.v1.DeleteOrganizationInvitationRequest
+	22, // 35: ntt.iam.v1.OrganizationInvitationService.AcceptOrganizationInvitation:input_type -> ntt.iam.v1.AcceptOrganizationInvitationRequest
+	23, // 36: ntt.iam.v1.OrganizationInvitationService.DeclineOrganizationInvitation:input_type -> ntt.iam.v1.DeclineOrganizationInvitationRequest
+	24, // 37: ntt.iam.v1.OrganizationInvitationService.ListMyOrganizationInvitations:input_type -> ntt.iam.v1.ListMyOrganizationInvitationsRequest
+	18, // 38: ntt.iam.v1.OrganizationInvitationService.GetOrganizationInvitation:output_type -> ntt.iam.v1.OrganizationInvitation
+	2,  // 39: ntt.iam.v1.OrganizationInvitationService.BatchGetOrganizationInvitations:output_type -> ntt.iam.v1.BatchGetOrganizationInvitationsResponse
+	4,  // 40: ntt.iam.v1.OrganizationInvitationService.ListOrganizationInvitations:output_type -> ntt.iam.v1.ListOrganizationInvitationsResponse
+	6,  // 41: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitation:output_type -> ntt.iam.v1.WatchOrganizationInvitationResponse
+	8,  // 42: ntt.iam.v1.OrganizationInvitationService.WatchOrganizationInvitations:output_type -> ntt.iam.v1.WatchOrganizationInvitationsResponse
+	18, // 43: ntt.iam.v1.OrganizationInvitationService.CreateOrganizationInvitation:output_type -> ntt.iam.v1.OrganizationInvitation
+	18, // 44: ntt.iam.v1.OrganizationInvitationService.UpdateOrganizationInvitation:output_type -> ntt.iam.v1.OrganizationInvitation
+	25, // 45: ntt.iam.v1.OrganizationInvitationService.DeleteOrganizationInvitation:output_type -> google.protobuf.Empty
+	26, // 46: ntt.iam.v1.OrganizationInvitationService.AcceptOrganizationInvitation:output_type -> ntt.iam.v1.AcceptOrganizationInvitationResponse
+	27, // 47: ntt.iam.v1.OrganizationInvitationService.DeclineOrganizationInvitation:output_type -> ntt.iam.v1.DeclineOrganizationInvitationResponse
+	28, // 48: ntt.iam.v1.OrganizationInvitationService.ListMyOrganizationInvitations:output_type -> ntt.iam.v1.ListMyOrganizationInvitationsResponse
+	38, // [38:49] is the sub-list for method output_type
+	27, // [27:38] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { edgelq_iam_proto_v1_organization_invitation_service_proto_init() }
@@ -2582,7 +2901,31 @@ func edgelq_iam_proto_v1_organization_invitation_service_proto_init() {
 			}
 		}
 		edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateOrganizationInvitationRequest_ResponseMask); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateOrganizationInvitationRequest_CAS); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateOrganizationInvitationRequest_ResponseMask); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2595,13 +2938,22 @@ func edgelq_iam_proto_v1_organization_invitation_service_proto_init() {
 		}
 	}
 
+	edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*CreateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*CreateOrganizationInvitationRequest_ResponseMask_BodyMask)(nil),
+	}
+	edgelq_iam_proto_v1_organization_invitation_service_proto_msgTypes[15].OneofWrappers = []interface{}{
+		(*UpdateOrganizationInvitationRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*UpdateOrganizationInvitationRequest_ResponseMask_UpdatedFieldsOnly)(nil),
+		(*UpdateOrganizationInvitationRequest_ResponseMask_BodyMask)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_iam_proto_v1_organization_invitation_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -226,6 +226,10 @@ func (b *filterCndBuilder) Region() *filterCndBuilderRegion {
 	return &filterCndBuilderRegion{builder: b.builder}
 }
 
+func (b *filterCndBuilder) Unit() *filterCndBuilderUnit {
+	return &filterCndBuilderUnit{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Metric() *filterCndBuilderMetric {
 	return &filterCndBuilderMetric{builder: b.builder}
 }
@@ -420,6 +424,65 @@ func (b *filterCndBuilderRegion) compare(op gotenfilter.CompareOperator, value s
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Region().WithValue(value),
+	})
+}
+
+type filterCndBuilderUnit struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderUnit) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderUnit) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderUnit) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderUnit) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderUnit) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderUnit) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderUnit) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Unit().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUnit) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		TimeSerie_FieldPathArrayOfValues: NewTimeSerieFieldPathBuilder().Unit().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderUnit) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewTimeSerieFieldPathBuilder().Unit().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUnit) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewTimeSerieFieldPathBuilder().Unit().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderUnit) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		TimeSerie_FieldPathValue: NewTimeSerieFieldPathBuilder().Unit().WithValue(value),
 	})
 }
 

@@ -356,14 +356,38 @@ func (o *AcceptedPlan_Assignee) MakeDiffFieldMask(other *AcceptedPlan_Assignee) 
 	}
 
 	res := &AcceptedPlan_Assignee_FieldMask{}
-	if o.GetProjectAssignee().String() != other.GetProjectAssignee().String() {
-		res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorProjectAssignee})
+	{
+		_, leftSelected := o.Assignee.(*AcceptedPlan_Assignee_ProjectAssignee)
+		_, rightSelected := other.Assignee.(*AcceptedPlan_Assignee_ProjectAssignee)
+		if leftSelected == rightSelected {
+			if o.GetProjectAssignee().String() != other.GetProjectAssignee().String() {
+				res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorProjectAssignee})
+			}
+		} else {
+			res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorProjectAssignee})
+		}
 	}
-	if o.GetOrganizationAssignee().String() != other.GetOrganizationAssignee().String() {
-		res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorOrganizationAssignee})
+	{
+		_, leftSelected := o.Assignee.(*AcceptedPlan_Assignee_OrganizationAssignee)
+		_, rightSelected := other.Assignee.(*AcceptedPlan_Assignee_OrganizationAssignee)
+		if leftSelected == rightSelected {
+			if o.GetOrganizationAssignee().String() != other.GetOrganizationAssignee().String() {
+				res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorOrganizationAssignee})
+			}
+		} else {
+			res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorOrganizationAssignee})
+		}
 	}
-	if o.GetServiceAssignee().String() != other.GetServiceAssignee().String() {
-		res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorServiceAssignee})
+	{
+		_, leftSelected := o.Assignee.(*AcceptedPlan_Assignee_ServiceAssignee)
+		_, rightSelected := other.Assignee.(*AcceptedPlan_Assignee_ServiceAssignee)
+		if leftSelected == rightSelected {
+			if o.GetServiceAssignee().String() != other.GetServiceAssignee().String() {
+				res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorServiceAssignee})
+			}
+		} else {
+			res.Paths = append(res.Paths, &AcceptedPlanAssignee_FieldTerminalPath{selector: AcceptedPlanAssignee_FieldPathSelectorServiceAssignee})
+		}
 	}
 	return res
 }

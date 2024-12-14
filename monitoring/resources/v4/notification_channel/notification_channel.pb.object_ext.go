@@ -18,6 +18,7 @@ import (
 import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -35,6 +36,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
@@ -558,6 +560,9 @@ func (o *NotificationChannel_Spec_Webhook) MakeDiffFieldMask(other *Notification
 	} else {
 		res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders})
 	}
+	if !proto.Equal(o.GetNotificationMask(), other.GetNotificationMask()) {
+		res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask})
+	}
 	return res
 }
 
@@ -575,6 +580,7 @@ func (o *NotificationChannel_Spec_Webhook) Clone() *NotificationChannel_Spec_Web
 	for i, sourceValue := range o.Headers {
 		result.Headers[i] = sourceValue.Clone()
 	}
+	result.NotificationMask = proto.Clone(o.NotificationMask).(*fieldmaskpb.FieldMask)
 	return result
 }
 
@@ -602,6 +608,12 @@ func (o *NotificationChannel_Spec_Webhook) Merge(source *NotificationChannel_Spe
 		}
 	}
 
+	if source.GetNotificationMask() != nil {
+		if o.NotificationMask == nil {
+			o.NotificationMask = new(fieldmaskpb.FieldMask)
+		}
+		proto.Merge(o.NotificationMask, source.GetNotificationMask())
+	}
 }
 
 func (o *NotificationChannel_Spec_Webhook) MergeRaw(source gotenobject.GotenObjectExt) {

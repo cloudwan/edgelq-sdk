@@ -195,6 +195,26 @@ func (obj *CreateProvisioningPolicyRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("CreateProvisioningPolicyRequest", "provisioningPolicy", obj.ProvisioningPolicy, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CreateProvisioningPolicyRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CreateProvisioningPolicyRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *CreateProvisioningPolicyRequest_ResponseMask_SkipEntireResponseBody:
+	case *CreateProvisioningPolicyRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -217,6 +237,11 @@ func (obj *UpdateProvisioningPolicyRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("UpdateProvisioningPolicyRequest", "cas", obj.Cas, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateProvisioningPolicyRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -225,6 +250,22 @@ func (obj *UpdateProvisioningPolicyRequest) GotenValidate() error {
 func (obj *UpdateProvisioningPolicyRequest_CAS) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdateProvisioningPolicyRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *UpdateProvisioningPolicyRequest_ResponseMask_SkipEntireResponseBody:
+	case *UpdateProvisioningPolicyRequest_ResponseMask_UpdatedFieldsOnly:
+	case *UpdateProvisioningPolicyRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

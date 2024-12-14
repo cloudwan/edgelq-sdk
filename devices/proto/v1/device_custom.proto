@@ -6,6 +6,7 @@ import "edgelq-sdk/common/api/credentials.proto";
 import "edgelq-sdk/devices/proto/v1/device.proto";
 import "edgelq-sdk/devices/proto/v1/device_change.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/devices/client/v1/device;device_client";
 option java_multiple_files = false;
@@ -64,4 +65,195 @@ message HeartbeatMsg {
 
 message HeartbeatResponse {
   google.protobuf.Duration desired_heartbeat_interval = 1;
+}
+
+// A request message of the ReportDeviceMetrics method.
+message ReportDeviceMetricsRequest {
+  // device_name abd region_id are required in first message for streaming
+  string name = 1;
+
+  DeviceMetrics device_metrics = 2;
+}
+
+message DeviceMetrics {
+  uint64 uptime = 1;
+
+  uint64 memory_usage_bytes = 2;
+
+  float memory_utilization_percent = 3;
+
+  float load_average_1m = 4;
+
+  MemoryStats memory_stats = 5;
+
+  repeated CpuCoreStats cpu_stats = 6;
+
+  // should match order in repeated DiskMetricsLabel
+  repeated DiskMetric disk_metrics = 8;
+
+  // should match order in repeated DiskMetricsLabel
+  repeated HardwareMetric hardware_metrics = 10;
+
+  // should match order in repeated ModemMetricLabel
+  map<uint32, ModemMetric> modem_metrics = 12;
+
+  PerAntennaSignal per_antenna_signal = 13;
+
+  // should match order in repeated ContainerMetricLabel
+  map<uint32, ContainerMetric> container_metrics = 15;
+
+  // should match order in repeated PodMetricLabel
+  repeated PodMetric pod_metrics = 17;
+
+  google.protobuf.Timestamp metrics_time = 18;
+
+  // optional - only required when something changes or in first time the metric
+  // is sent
+  repeated DiskMetricsLabel disk_labels = 7;
+
+  // optional - only required when something changes or in first time the metric
+  // is sent
+  repeated HardwareMetricsLabel hardware_metrics_labels = 9;
+
+  // optional - only required when something changes or in first time the metric
+  // is sent
+  repeated ModemMetricLabel modem_metrics_labels = 11;
+
+  // optional - only required when something changes or in first time the metric
+  // is sent
+  repeated ContainerMetricLabel container_metrics_labels = 14;
+
+  // optional - only required when something changes or in first time the metric
+  // is sent
+  repeated PodMetricLabel pod_metrics_labels = 16;
+
+  message MemoryStats {
+    uint64 buffered_memory = 1;
+
+    uint64 cached_memory = 2;
+
+    uint64 free_memory = 3;
+
+    uint64 used_memory = 4;
+
+    uint64 available_memory = 5;
+
+    uint64 shared_memory = 6;
+  }
+
+  message CpuCoreStats {
+    float user = 1;
+
+    float system = 2;
+
+    float idle = 3;
+
+    float nice = 4;
+
+    float iowait = 5;
+
+    float irq = 6;
+
+    float softirq = 7;
+
+    float steal = 8;
+  }
+
+  message DiskMetricsLabel {
+    string mount_point = 1;
+
+    string partition_label = 2;
+
+    string partition = 3;
+  }
+
+  message HardwareMetricsLabel {
+    string sensor_tag = 1;
+
+    string chip_tag = 2;
+  }
+
+  message DiskMetric {
+    uint64 disk_usage_bytes = 1;
+
+    float disk_utilization_percent = 2;
+  }
+
+  message HardwareMetric {
+    uint64 fan_speed = 1;
+
+    int64 temperature = 2;
+
+    float voltage = 3;
+
+    float power = 4;
+  }
+
+  message ModemMetricLabel {
+    MobileNetworkType cell_type = 1;
+
+    uint64 cell_id = 2;
+
+    uint64 physical_cell_id = 3;
+
+    uint64 tac = 4;
+
+    uint64 earfcn = 5;
+  }
+
+  message ModemMetric {
+    sint32 rssi = 1;
+
+    sint32 rsrp = 2;
+
+    float rsrq = 3;
+
+    float snr = 4;
+  }
+
+  message PerAntennaSignal {
+    repeated sint32 fiveg_rsrps = 1;
+
+    repeated float fiveg_rsrqs = 2;
+
+    repeated sint32 lte_rsrps = 3;
+
+    repeated float lte_rsrqs = 4;
+  }
+
+  message ContainerMetricLabel {
+    string pod_id = 1;
+
+    string container_id = 2;
+  }
+
+  message ContainerMetric {
+    float cpu_utilization = 1;
+
+    float memory_utilization = 2;
+
+    uint64 memory_usage_bytes = 3;
+  }
+
+  message PodMetricLabel { string pod_id = 1; }
+
+  message PodMetric {
+    uint64 pod_status = 1;
+
+    bool is_healthy = 2;
+  }
+}
+
+message ReportDeviceMetricsResponse {
+  // CreateTimeSeries call failed, likely a temporary issue.
+  // droplet can retry without closing the stream
+  bool ts_create_failed = 1;
+}
+
+enum MobileNetworkType {
+  FiveGNR = 0;
+
+  LTE = 1;
+
+  UMTS = 2;
 }

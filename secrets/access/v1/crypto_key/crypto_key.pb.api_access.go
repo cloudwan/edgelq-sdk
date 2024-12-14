@@ -6,10 +6,10 @@ package crypto_key_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiCryptoKeyAccess(client crypto_key_client.CryptoKeyServiceClient) cryp
 	return &apiCryptoKeyAccess{client: client}
 }
 
-func (a *apiCryptoKeyAccess) GetCryptoKey(ctx context.Context, query *crypto_key.GetQuery) (*crypto_key.CryptoKey, error) {
+func (a *apiCryptoKeyAccess) GetCryptoKey(ctx context.Context, query *crypto_key.GetQuery, opts ...gotenresource.GetOption) (*crypto_key.CryptoKey, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiCryptoKeyAccess) GetCryptoKey(ctx context.Context, query *crypto_key
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetCryptoKey(ctx, request)
+	res, err := a.client.GetCryptoKey(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiCryptoKeyAccess) GetCryptoKey(ctx context.Context, query *crypto_key
 
 func (a *apiCryptoKeyAccess) BatchGetCryptoKeys(ctx context.Context, refs []*crypto_key.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*crypto_key.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiCryptoKeyAccess) BatchGetCryptoKeys(ctx context.Context, refs []*cry
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*crypto_key.CryptoKey_FieldMask)
 	}
-	resp, err := a.client.BatchGetCryptoKeys(ctx, request)
+	resp, err := a.client.BatchGetCryptoKeys(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiCryptoKeyAccess) BatchGetCryptoKeys(ctx context.Context, refs []*cry
 	return nil
 }
 
-func (a *apiCryptoKeyAccess) QueryCryptoKeys(ctx context.Context, query *crypto_key.ListQuery) (*crypto_key.QueryResultSnapshot, error) {
+func (a *apiCryptoKeyAccess) QueryCryptoKeys(ctx context.Context, query *crypto_key.ListQuery, opts ...gotenresource.QueryOption) (*crypto_key.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &crypto_key_client.ListCryptoKeysRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiCryptoKeyAccess) WatchCryptoKey(ctx context.Context, query *crypto_k
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchCryptoKey(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiCryptoKeyAccess) WatchCryptoKey(ctx context.Context, query *crypto_k
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiCryptoKeyAccess) WatchCryptoKeys(ctx context.Context, query *crypto_
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiCryptoKeyAccess) WatchCryptoKeys(ctx context.Context, query *crypto_
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchCryptoKeys(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiCryptoKeyAccess) WatchCryptoKeys(ctx context.Context, query *crypto_
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &crypto_key.QueryResultChange{
 			Changes:      respChange.CryptoKeyChanges,
@@ -190,22 +223,10 @@ func (a *apiCryptoKeyAccess) WatchCryptoKeys(ctx context.Context, query *crypto_
 }
 
 func (a *apiCryptoKeyAccess) SaveCryptoKey(ctx context.Context, res *crypto_key.CryptoKey, opts ...gotenresource.SaveOption) error {
-	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetCryptoKey(ctx, &crypto_key.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
-	return fmt.Errorf("save operation on %s is prohibited", res.Name.AsReference().String())
+	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiCryptoKeyAccess) DeleteCryptoKey(ctx context.Context, ref *crypto_key.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiCryptoKeyAccess) DeleteCryptoKey(ctx context.Context, ref *crypto_key.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

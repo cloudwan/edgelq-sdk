@@ -36,4 +36,12 @@ service LogService {
       body : "logs"
     };
   }
+
+  // StreamingCreateLogs
+  rpc StreamingCreateLogs(stream StreamingCreateLogsRequest)
+      returns (stream StreamingCreateLogsResponse) {
+    option (google.api.http) = {
+      post : "/v1/logs:streamingCreate"
+    };
+  }
 }

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "edgelq-sdk/monitoring/proto/v4/alert.proto";
+import "edgelq-sdk/monitoring/proto/v4/alert_change.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/alert;alert_client";
+option java_multiple_files = false;
+option java_outer_classname = "AlertCustomProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// A request message of the BulkCreateAlerts method.
+message BulkCreateAlertsRequest {
+  // Parent name of ntt.monitoring.v4.Alert
+  string parent = 1;
+
+  repeated Alert alerts = 2;
+}
+
+// A response message of the BulkCreateAlerts method.
+message BulkCreateAlertsResponse {}
+
+// A request message of the BulkUpdateAlerts method.
+message BulkUpdateAlertsRequest {
+  // Parent name of ntt.monitoring.v4.Alert
+  string parent = 1;
+
+  google.protobuf.FieldMask update_mask = 2;
+
+  repeated Alert alerts = 3;
+}
+
+// A response message of the BulkUpdateAlerts method.
+message BulkUpdateAlertsResponse {}

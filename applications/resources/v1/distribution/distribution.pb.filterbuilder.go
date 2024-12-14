@@ -2533,6 +2533,10 @@ func (b *filterCndBuilderSpec) Template() *filterCndBuilderSpecTemplate {
 	return &filterCndBuilderSpecTemplate{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpec) PodDisplayNameFormat() *filterCndBuilderSpecPodDisplayNameFormat {
+	return &filterCndBuilderSpecPodDisplayNameFormat{builder: b.builder}
+}
+
 type filterCndBuilderSpecSelector struct {
 	builder *FilterBuilder
 }
@@ -9939,6 +9943,65 @@ func (b *filterCndBuilderSpecTemplateSpecHostVolumeMountsSubPath) compare(op got
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts().SubPath().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecPodDisplayNameFormat struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().PodDisplayNameFormat().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().PodDisplayNameFormat().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().PodDisplayNameFormat().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().PodDisplayNameFormat().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecPodDisplayNameFormat) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().PodDisplayNameFormat().WithValue(value),
 	})
 }
 

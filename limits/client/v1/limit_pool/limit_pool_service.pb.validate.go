@@ -202,6 +202,11 @@ func (obj *UpdateLimitPoolRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("UpdateLimitPoolRequest", "cas", obj.Cas, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateLimitPoolRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -210,6 +215,22 @@ func (obj *UpdateLimitPoolRequest) GotenValidate() error {
 func (obj *UpdateLimitPoolRequest_CAS) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdateLimitPoolRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *UpdateLimitPoolRequest_ResponseMask_SkipEntireResponseBody:
+	case *UpdateLimitPoolRequest_ResponseMask_UpdatedFieldsOnly:
+	case *UpdateLimitPoolRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

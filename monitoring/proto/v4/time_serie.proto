@@ -42,7 +42,7 @@ message TimeSerie {
 
   // TimeSerie key identifies unique TimeSeries tuple:
   // <project, region, metric.type, metric.labels, resource.type,
-  // resource.labels>
+  // resource.labels, unit>
   //
   // Kind/ValueType are not present in key
   // Key is not to be decoded outside of service, but treated as opaque string
@@ -56,6 +56,12 @@ message TimeSerie {
 
   // Region ID associated with time serie.
   string region = 103;
+
+  // Unit taken from MetricDescriptor (metric.type field). It does not need to
+  // be populated during creation (it is derived).
+  // It may be modified by certain queries (COUNT will switch unit to "1",
+  // ALIGN_RATE will append "/s".
+  string unit = 104;
 
   // The associated metric. A fully-specified metric used to identify the time
   // series.

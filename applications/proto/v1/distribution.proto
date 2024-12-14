@@ -48,6 +48,9 @@ message Distribution {
     // template defines the probing config to be distributed.
     Template template = 2;
 
+    // Template for distribution name.
+    string pod_display_name_format = 3;
+
     message Template {
       goten.types.Meta metadata = 1;
 

@@ -107,6 +107,15 @@ func (o *Log) MakeDiffFieldMask(other *Log) *Log_FieldMask {
 	if !proto.Equal(o.GetPbPayload(), other.GetPbPayload()) {
 		res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorPbPayload})
 	}
+	if o.GetStringPayload() != other.GetStringPayload() {
+		res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorStringPayload})
+	}
+	if string(o.GetBytesPayload()) != string(other.GetBytesPayload()) {
+		res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBytesPayload})
+	}
+	if o.GetBinKey() != other.GetBinKey() {
+		res.Paths = append(res.Paths, &Log_FieldTerminalPath{selector: Log_FieldPathSelectorBinKey})
+	}
 	return res
 }
 
@@ -150,6 +159,12 @@ func (o *Log) Clone() *Log {
 	result.Time = proto.Clone(o.Time).(*timestamppb.Timestamp)
 	result.JsonPayload = proto.Clone(o.JsonPayload).(*structpb.Struct)
 	result.PbPayload = proto.Clone(o.PbPayload).(*anypb.Any)
+	result.StringPayload = o.StringPayload
+	result.BytesPayload = make([]byte, len(o.BytesPayload))
+	for i, bt := range o.BytesPayload {
+		result.BytesPayload[i] = bt
+	}
+	result.BinKey = o.BinKey
 	return result
 }
 
@@ -212,6 +227,12 @@ func (o *Log) Merge(source *Log) {
 		}
 		proto.Merge(o.PbPayload, source.GetPbPayload())
 	}
+	o.StringPayload = source.GetStringPayload()
+	o.BytesPayload = make([]byte, len(source.GetBytesPayload()))
+	for i, bt := range source.GetBytesPayload() {
+		o.BytesPayload[i] = bt
+	}
+	o.BinKey = source.GetBinKey()
 }
 
 func (o *Log) MergeRaw(source gotenobject.GotenObjectExt) {

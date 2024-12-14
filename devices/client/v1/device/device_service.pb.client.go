@@ -60,6 +60,7 @@ type DeviceServiceClient interface {
 	ProvisionServiceAccountToDevice(ctx context.Context, in *ProvisionServiceAccountToDeviceRequest, opts ...grpc.CallOption) (*ProvisionServiceAccountToDeviceResponse, error)
 	RemoveServiceAccountFromDevice(ctx context.Context, in *RemoveServiceAccountFromDeviceRequest, opts ...grpc.CallOption) (*RemoveServiceAccountFromDeviceResponse, error)
 	Heartbeat(ctx context.Context, opts ...grpc.CallOption) (HeartbeatClientStream, error)
+	ReportDeviceMetrics(ctx context.Context, opts ...grpc.CallOption) (ReportDeviceMetricsClientStream, error)
 }
 
 type client struct {
@@ -247,6 +248,43 @@ func (x *heartbeatHeartbeatClient) Send(m *HeartbeatMsg) error {
 
 func (x *heartbeatHeartbeatClient) Recv() (*HeartbeatResponse, error) {
 	m := new(HeartbeatResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *client) ReportDeviceMetrics(ctx context.Context, opts ...grpc.CallOption) (ReportDeviceMetricsClientStream, error) {
+	stream, err := c.cc.NewStream(ctx,
+		&grpc.StreamDesc{
+			StreamName:    "ReportDeviceMetrics",
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+		"/ntt.devices.v1.DeviceService/ReportDeviceMetrics", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &reportDeviceMetricsReportDeviceMetricsClient{stream}
+	return x, nil
+}
+
+type ReportDeviceMetricsClientStream interface {
+	Send(*ReportDeviceMetricsRequest) error
+	Recv() (*ReportDeviceMetricsResponse, error)
+	grpc.ClientStream
+}
+
+type reportDeviceMetricsReportDeviceMetricsClient struct {
+	grpc.ClientStream
+}
+
+func (x *reportDeviceMetricsReportDeviceMetricsClient) Send(m *ReportDeviceMetricsRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *reportDeviceMetricsReportDeviceMetricsClient) Recv() (*ReportDeviceMetricsResponse, error) {
+	m := new(ReportDeviceMetricsResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}

@@ -1353,6 +1353,9 @@ type CreateEdgelqInstanceRequest struct {
 	Parent *edgelq_instance.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
 	// EdgelqInstance resource body
 	EdgelqInstance *edgelq_instance.EdgelqInstance `protobuf:"bytes,2,opt,name=edgelq_instance,json=edgelqInstance,proto3" json:"edgelq_instance,omitempty" firestore:"edgelqInstance"`
+	// Optional masking applied to response object to reduce message response
+	// size.
+	ResponseMask *CreateEdgelqInstanceRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *CreateEdgelqInstanceRequest) Reset() {
@@ -1419,6 +1422,13 @@ func (m *CreateEdgelqInstanceRequest) GetEdgelqInstance() *edgelq_instance.Edgel
 	return nil
 }
 
+func (m *CreateEdgelqInstanceRequest) GetResponseMask() *CreateEdgelqInstanceRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *CreateEdgelqInstanceRequest) SetParent(fv *edgelq_instance.ParentName) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Parent", "CreateEdgelqInstanceRequest"))
@@ -1431,6 +1441,13 @@ func (m *CreateEdgelqInstanceRequest) SetEdgelqInstance(fv *edgelq_instance.Edge
 		panic(fmt.Errorf("can't set %s on nil %s", "EdgelqInstance", "CreateEdgelqInstanceRequest"))
 	}
 	m.EdgelqInstance = fv
+}
+
+func (m *CreateEdgelqInstanceRequest) SetResponseMask(fv *CreateEdgelqInstanceRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "CreateEdgelqInstanceRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the UpdateEdgelqInstance method.
@@ -1455,6 +1472,8 @@ type UpdateEdgelqInstanceRequest struct {
 	//
 	// https://google.aip.dev/134#create-or-update
 	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
+	// reduce message response size.
+	ResponseMask *UpdateEdgelqInstanceRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *UpdateEdgelqInstanceRequest) Reset() {
@@ -1535,6 +1554,13 @@ func (m *UpdateEdgelqInstanceRequest) GetAllowMissing() bool {
 	return false
 }
 
+func (m *UpdateEdgelqInstanceRequest) GetResponseMask() *UpdateEdgelqInstanceRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *UpdateEdgelqInstanceRequest) SetEdgelqInstance(fv *edgelq_instance.EdgelqInstance) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "EdgelqInstance", "UpdateEdgelqInstanceRequest"))
@@ -1561,6 +1587,13 @@ func (m *UpdateEdgelqInstanceRequest) SetAllowMissing(fv bool) {
 		panic(fmt.Errorf("can't set %s on nil %s", "AllowMissing", "UpdateEdgelqInstanceRequest"))
 	}
 	m.AllowMissing = fv
+}
+
+func (m *UpdateEdgelqInstanceRequest) SetResponseMask(fv *UpdateEdgelqInstanceRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "UpdateEdgelqInstanceRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the DeleteEdgelqInstance method.
@@ -1724,6 +1757,117 @@ func (m *WatchEdgelqInstancesResponse_PageTokenChange) SetNextPageToken(fv *edge
 	m.NextPageToken = fv
 }
 
+// ResponseMask allows client to reduce response message size.
+type CreateEdgelqInstanceRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*CreateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody
+	//	*CreateEdgelqInstanceRequest_ResponseMask_BodyMask
+	Masking isCreateEdgelqInstanceRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *CreateEdgelqInstanceRequest_ResponseMask) Reset() {
+	*m = CreateEdgelqInstanceRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *CreateEdgelqInstanceRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*CreateEdgelqInstanceRequest_ResponseMask) ProtoMessage() {}
+
+func (m *CreateEdgelqInstanceRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*CreateEdgelqInstanceRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use CreateEdgelqInstanceRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*CreateEdgelqInstanceRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_ztp_proto_v1_edgelq_instance_service_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (m *CreateEdgelqInstanceRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *CreateEdgelqInstanceRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *CreateEdgelqInstanceRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *CreateEdgelqInstanceRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isCreateEdgelqInstanceRequest_ResponseMask_Masking interface {
+	isCreateEdgelqInstanceRequest_ResponseMask_Masking()
+}
+
+type CreateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type CreateEdgelqInstanceRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields.
+	BodyMask *edgelq_instance.EdgelqInstance_FieldMask `protobuf:"bytes,2,opt,customtype=EdgelqInstance_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*CreateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody) isCreateEdgelqInstanceRequest_ResponseMask_Masking() {
+}
+func (*CreateEdgelqInstanceRequest_ResponseMask_BodyMask) isCreateEdgelqInstanceRequest_ResponseMask_Masking() {
+}
+func (m *CreateEdgelqInstanceRequest_ResponseMask) GetMasking() isCreateEdgelqInstanceRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *CreateEdgelqInstanceRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*CreateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *CreateEdgelqInstanceRequest_ResponseMask) GetBodyMask() *edgelq_instance.EdgelqInstance_FieldMask {
+	if x, ok := m.GetMasking().(*CreateEdgelqInstanceRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *CreateEdgelqInstanceRequest_ResponseMask) SetMasking(ofv isCreateEdgelqInstanceRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isCreateEdgelqInstanceRequest_ResponseMask_Masking", "CreateEdgelqInstanceRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *CreateEdgelqInstanceRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&CreateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *CreateEdgelqInstanceRequest_ResponseMask) SetBodyMask(fv *edgelq_instance.EdgelqInstance_FieldMask) {
+	m.SetMasking(&CreateEdgelqInstanceRequest_ResponseMask_BodyMask{BodyMask: fv})
+}
+
 // CAS - Compare and Swap. This object is used if user wants to make update
 // conditional based upon previous resource version.
 type UpdateEdgelqInstanceRequest_CAS struct {
@@ -1740,7 +1884,7 @@ type UpdateEdgelqInstanceRequest_CAS struct {
 func (m *UpdateEdgelqInstanceRequest_CAS) Reset() {
 	*m = UpdateEdgelqInstanceRequest_CAS{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[13]
+		mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1753,7 +1897,7 @@ func (m *UpdateEdgelqInstanceRequest_CAS) String() string {
 func (*UpdateEdgelqInstanceRequest_CAS) ProtoMessage() {}
 
 func (m *UpdateEdgelqInstanceRequest_CAS) ProtoReflect() preflect.Message {
-	mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[13]
+	mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1813,6 +1957,137 @@ func (m *UpdateEdgelqInstanceRequest_CAS) SetFieldMask(fv *edgelq_instance.Edgel
 		panic(fmt.Errorf("can't set %s on nil %s", "FieldMask", "UpdateEdgelqInstanceRequest_CAS"))
 	}
 	m.FieldMask = fv
+}
+
+// ResponseMask allows client to reduce response message size.
+type UpdateEdgelqInstanceRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*UpdateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody
+	//	*UpdateEdgelqInstanceRequest_ResponseMask_UpdatedFieldsOnly
+	//	*UpdateEdgelqInstanceRequest_ResponseMask_BodyMask
+	Masking isUpdateEdgelqInstanceRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) Reset() {
+	*m = UpdateEdgelqInstanceRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*UpdateEdgelqInstanceRequest_ResponseMask) ProtoMessage() {}
+
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*UpdateEdgelqInstanceRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use UpdateEdgelqInstanceRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*UpdateEdgelqInstanceRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_ztp_proto_v1_edgelq_instance_service_proto_rawDescGZIP(), []int{10, 1}
+}
+
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isUpdateEdgelqInstanceRequest_ResponseMask_Masking interface {
+	isUpdateEdgelqInstanceRequest_ResponseMask_Masking()
+}
+
+type UpdateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated. Field body_mask is ignored if
+	// set.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type UpdateEdgelqInstanceRequest_ResponseMask_UpdatedFieldsOnly struct {
+	// Include all fields that were actually updated during processing. Note
+	// this may be larger than update mask if some fields were computed
+	// additionally. Name is added as well.
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+}
+type UpdateEdgelqInstanceRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields. If skip_entire_response_body is true, this field is
+	// ignored.
+	BodyMask *edgelq_instance.EdgelqInstance_FieldMask `protobuf:"bytes,3,opt,customtype=EdgelqInstance_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*UpdateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody) isUpdateEdgelqInstanceRequest_ResponseMask_Masking() {
+}
+func (*UpdateEdgelqInstanceRequest_ResponseMask_UpdatedFieldsOnly) isUpdateEdgelqInstanceRequest_ResponseMask_Masking() {
+}
+func (*UpdateEdgelqInstanceRequest_ResponseMask_BodyMask) isUpdateEdgelqInstanceRequest_ResponseMask_Masking() {
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) GetMasking() isUpdateEdgelqInstanceRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*UpdateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) GetUpdatedFieldsOnly() bool {
+	if x, ok := m.GetMasking().(*UpdateEdgelqInstanceRequest_ResponseMask_UpdatedFieldsOnly); ok {
+		return x.UpdatedFieldsOnly
+	}
+	return false
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) GetBodyMask() *edgelq_instance.EdgelqInstance_FieldMask {
+	if x, ok := m.GetMasking().(*UpdateEdgelqInstanceRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) SetMasking(ofv isUpdateEdgelqInstanceRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isUpdateEdgelqInstanceRequest_ResponseMask_Masking", "UpdateEdgelqInstanceRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&UpdateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) SetUpdatedFieldsOnly(fv bool) {
+	m.SetMasking(&UpdateEdgelqInstanceRequest_ResponseMask_UpdatedFieldsOnly{UpdatedFieldsOnly: fv})
+}
+func (m *UpdateEdgelqInstanceRequest_ResponseMask) SetBodyMask(fv *edgelq_instance.EdgelqInstance_FieldMask) {
+	m.SetMasking(&UpdateEdgelqInstanceRequest_ResponseMask_BodyMask{BodyMask: fv})
 }
 
 var edgelq_ztp_proto_v1_edgelq_instance_service_proto preflect.FileDescriptor
@@ -2029,7 +2304,7 @@ var edgelq_ztp_proto_v1_edgelq_instance_service_proto_rawDesc = []byte{
 	0x65, 0x78, 0x74, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02,
 	0x20, 0x01, 0x28, 0x09, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x22, 0x10, 0x0a, 0x0e, 0x45, 0x64,
 	0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x0d, 0x6e, 0x65,
-	0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xa0, 0x01, 0x0a, 0x1b,
+	0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xa7, 0x03, 0x0a, 0x1b,
 	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74,
 	0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x06, 0x70,
 	0x61, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x16, 0xb2, 0xda, 0x21,
@@ -2039,37 +2314,73 @@ var edgelq_ztp_proto_v1_edgelq_instance_service_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76,
 	0x31, 0x2e, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
 	0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x0e,
-	0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x22, 0xd7,
-	0x03, 0x0a, 0x1b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49,
-	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x51,
-	0x0a, 0x0f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x5f, 0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74,
-	0x70, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61,
-	0x6e, 0x63, 0x65, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08,
-	0x01, 0x52, 0x0e, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
-	0x65, 0x12, 0x53, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61,
-	0x73, 0x6b, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x32, 0x10, 0x0a, 0x0e, 0x45, 0x64, 0x67, 0x65,
-	0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3d, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20,
-	0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31,
-	0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73,
-	0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53,
-	0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c,
-	0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x1a, 0xab, 0x01, 0x0a, 0x03, 0x43,
-	0x41, 0x53, 0x12, 0x51, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61,
-	0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
-	0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x64, 0x67, 0x65, 0x6c,
-	0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62,
-	0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c,
-	0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x51, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d,
-	0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
-	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c,
-	0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x32, 0x10, 0x0a, 0x0e, 0x45,
-	0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x09, 0x66,
-	0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x22, 0x49, 0x0a, 0x1b, 0x44, 0x65, 0x6c, 0x65,
+	0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x12, 0x59,
+	0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x34, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e,
+	0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49,
+	0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xa9, 0x01, 0x0a, 0x0c, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b,
+	0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52,
+	0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x51, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f,
+	0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
+	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65,
+	0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x32, 0x10, 0x0a, 0x0e,
+	0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x48, 0x00,
+	0x52, 0x08, 0x62, 0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a, 0x07, 0x6d, 0x61,
+	0x73, 0x6b, 0x69, 0x6e, 0x67, 0x22, 0x90, 0x06, 0x0a, 0x1b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x51, 0x0a, 0x0f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x5f,
+	0x69, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x64, 0x67, 0x65,
+	0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01,
+	0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x0e, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71,
+	0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x12, 0x53, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x32,
+	0x10, 0x0a, 0x0e, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3d, 0x0a,
+	0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x6e, 0x74, 0x74,
+	0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x45, 0x64,
+	0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x23, 0x0a, 0x0d,
+	0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73, 0x73, 0x69, 0x6e,
+	0x67, 0x12, 0x59, 0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61,
+	0x73, 0x6b, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x34, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a,
+	0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x45, 0x64, 0x67, 0x65,
+	0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c,
+	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xab, 0x01, 0x0a,
+	0x03, 0x43, 0x41, 0x53, 0x12, 0x51, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x45, 0x64, 0x67,
+	0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x42, 0x08, 0xca, 0xc6, 0x27,
+	0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e,
+	0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x51, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64,
+	0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69,
+	0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x32, 0x10, 0x0a,
+	0x0e, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65, 0x52,
+	0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xdb, 0x01, 0x0a, 0x0c, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73,
+	0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00,
+	0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x30, 0x0a, 0x13, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x11, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x4f, 0x6e, 0x6c, 0x79, 0x12, 0x51, 0x0a, 0x09, 0x62, 0x6f,
+	0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x32,
+	0x10, 0x0a, 0x0e, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63,
+	0x65, 0x48, 0x00, 0x52, 0x08, 0x62, 0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a,
+	0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69, 0x6e, 0x67, 0x22, 0x49, 0x0a, 0x1b, 0x44, 0x65, 0x6c, 0x65,
 	0x74, 0x65, 0x45, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x49, 0x6e, 0x73, 0x74, 0x61, 0x6e, 0x63, 0x65,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2a, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x12, 0x0a, 0x10, 0x0a, 0x0e, 0x45,
@@ -2251,7 +2562,7 @@ func edgelq_ztp_proto_v1_edgelq_instance_service_proto_rawDescGZIP() []byte {
 	return edgelq_ztp_proto_v1_edgelq_instance_service_proto_rawDescData
 }
 
-var edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var edgelq_ztp_proto_v1_edgelq_instance_service_proto_goTypes = []interface{}{
 	(*GetEdgelqInstanceRequest)(nil),                     // 0: ntt.ztp.v1.GetEdgelqInstanceRequest
 	(*BatchGetEdgelqInstancesRequest)(nil),               // 1: ntt.ztp.v1.BatchGetEdgelqInstancesRequest
@@ -2266,67 +2577,73 @@ var edgelq_ztp_proto_v1_edgelq_instance_service_proto_goTypes = []interface{}{
 	(*UpdateEdgelqInstanceRequest)(nil),                  // 10: ntt.ztp.v1.UpdateEdgelqInstanceRequest
 	(*DeleteEdgelqInstanceRequest)(nil),                  // 11: ntt.ztp.v1.DeleteEdgelqInstanceRequest
 	(*WatchEdgelqInstancesResponse_PageTokenChange)(nil), // 12: ntt.ztp.v1.WatchEdgelqInstancesResponse.PageTokenChange
-	(*UpdateEdgelqInstanceRequest_CAS)(nil),              // 13: ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS
-	(*edgelq_instance.EdgelqInstance_FieldMask)(nil),     // 14: ntt.ztp.v1.EdgelqInstance_FieldMask
-	(view.View)(0),                               // 15: goten.types.View
-	(*edgelq_instance.EdgelqInstance)(nil),       // 16: ntt.ztp.v1.EdgelqInstance
-	(*edgelq_instance.EdgelqInstanceChange)(nil), // 17: ntt.ztp.v1.EdgelqInstanceChange
-	(watch_type.WatchType)(0),                    // 18: goten.types.WatchType
-	(*timestamppb.Timestamp)(nil),                // 19: google.protobuf.Timestamp
-	(*AssociateHardwareRequest)(nil),             // 20: ntt.ztp.v1.AssociateHardwareRequest
-	(*DissociateHardwareRequest)(nil),            // 21: ntt.ztp.v1.DissociateHardwareRequest
-	(*emptypb.Empty)(nil),                        // 22: google.protobuf.Empty
-	(*AssociateHardwareResponse)(nil),            // 23: ntt.ztp.v1.AssociateHardwareResponse
+	(*CreateEdgelqInstanceRequest_ResponseMask)(nil),     // 13: ntt.ztp.v1.CreateEdgelqInstanceRequest.ResponseMask
+	(*UpdateEdgelqInstanceRequest_CAS)(nil),              // 14: ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS
+	(*UpdateEdgelqInstanceRequest_ResponseMask)(nil),     // 15: ntt.ztp.v1.UpdateEdgelqInstanceRequest.ResponseMask
+	(*edgelq_instance.EdgelqInstance_FieldMask)(nil),     // 16: ntt.ztp.v1.EdgelqInstance_FieldMask
+	(view.View)(0),                               // 17: goten.types.View
+	(*edgelq_instance.EdgelqInstance)(nil),       // 18: ntt.ztp.v1.EdgelqInstance
+	(*edgelq_instance.EdgelqInstanceChange)(nil), // 19: ntt.ztp.v1.EdgelqInstanceChange
+	(watch_type.WatchType)(0),                    // 20: goten.types.WatchType
+	(*timestamppb.Timestamp)(nil),                // 21: google.protobuf.Timestamp
+	(*AssociateHardwareRequest)(nil),             // 22: ntt.ztp.v1.AssociateHardwareRequest
+	(*DissociateHardwareRequest)(nil),            // 23: ntt.ztp.v1.DissociateHardwareRequest
+	(*emptypb.Empty)(nil),                        // 24: google.protobuf.Empty
+	(*AssociateHardwareResponse)(nil),            // 25: ntt.ztp.v1.AssociateHardwareResponse
 }
 var edgelq_ztp_proto_v1_edgelq_instance_service_proto_depIdxs = []int32{
-	14, // 0: ntt.ztp.v1.GetEdgelqInstanceRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
-	15, // 1: ntt.ztp.v1.GetEdgelqInstanceRequest.view:type_name -> goten.types.View
-	14, // 2: ntt.ztp.v1.BatchGetEdgelqInstancesRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
-	15, // 3: ntt.ztp.v1.BatchGetEdgelqInstancesRequest.view:type_name -> goten.types.View
-	16, // 4: ntt.ztp.v1.BatchGetEdgelqInstancesResponse.edgelq_instances:type_name -> ntt.ztp.v1.EdgelqInstance
-	14, // 5: ntt.ztp.v1.ListEdgelqInstancesRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
-	15, // 6: ntt.ztp.v1.ListEdgelqInstancesRequest.view:type_name -> goten.types.View
-	16, // 7: ntt.ztp.v1.ListEdgelqInstancesResponse.edgelq_instances:type_name -> ntt.ztp.v1.EdgelqInstance
-	14, // 8: ntt.ztp.v1.WatchEdgelqInstanceRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
-	15, // 9: ntt.ztp.v1.WatchEdgelqInstanceRequest.view:type_name -> goten.types.View
-	17, // 10: ntt.ztp.v1.WatchEdgelqInstanceResponse.change:type_name -> ntt.ztp.v1.EdgelqInstanceChange
-	18, // 11: ntt.ztp.v1.WatchEdgelqInstancesRequest.type:type_name -> goten.types.WatchType
-	19, // 12: ntt.ztp.v1.WatchEdgelqInstancesRequest.starting_time:type_name -> google.protobuf.Timestamp
-	14, // 13: ntt.ztp.v1.WatchEdgelqInstancesRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
-	15, // 14: ntt.ztp.v1.WatchEdgelqInstancesRequest.view:type_name -> goten.types.View
-	17, // 15: ntt.ztp.v1.WatchEdgelqInstancesResponse.edgelq_instance_changes:type_name -> ntt.ztp.v1.EdgelqInstanceChange
+	16, // 0: ntt.ztp.v1.GetEdgelqInstanceRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	17, // 1: ntt.ztp.v1.GetEdgelqInstanceRequest.view:type_name -> goten.types.View
+	16, // 2: ntt.ztp.v1.BatchGetEdgelqInstancesRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	17, // 3: ntt.ztp.v1.BatchGetEdgelqInstancesRequest.view:type_name -> goten.types.View
+	18, // 4: ntt.ztp.v1.BatchGetEdgelqInstancesResponse.edgelq_instances:type_name -> ntt.ztp.v1.EdgelqInstance
+	16, // 5: ntt.ztp.v1.ListEdgelqInstancesRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	17, // 6: ntt.ztp.v1.ListEdgelqInstancesRequest.view:type_name -> goten.types.View
+	18, // 7: ntt.ztp.v1.ListEdgelqInstancesResponse.edgelq_instances:type_name -> ntt.ztp.v1.EdgelqInstance
+	16, // 8: ntt.ztp.v1.WatchEdgelqInstanceRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	17, // 9: ntt.ztp.v1.WatchEdgelqInstanceRequest.view:type_name -> goten.types.View
+	19, // 10: ntt.ztp.v1.WatchEdgelqInstanceResponse.change:type_name -> ntt.ztp.v1.EdgelqInstanceChange
+	20, // 11: ntt.ztp.v1.WatchEdgelqInstancesRequest.type:type_name -> goten.types.WatchType
+	21, // 12: ntt.ztp.v1.WatchEdgelqInstancesRequest.starting_time:type_name -> google.protobuf.Timestamp
+	16, // 13: ntt.ztp.v1.WatchEdgelqInstancesRequest.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	17, // 14: ntt.ztp.v1.WatchEdgelqInstancesRequest.view:type_name -> goten.types.View
+	19, // 15: ntt.ztp.v1.WatchEdgelqInstancesResponse.edgelq_instance_changes:type_name -> ntt.ztp.v1.EdgelqInstanceChange
 	12, // 16: ntt.ztp.v1.WatchEdgelqInstancesResponse.page_token_change:type_name -> ntt.ztp.v1.WatchEdgelqInstancesResponse.PageTokenChange
-	16, // 17: ntt.ztp.v1.CreateEdgelqInstanceRequest.edgelq_instance:type_name -> ntt.ztp.v1.EdgelqInstance
-	16, // 18: ntt.ztp.v1.UpdateEdgelqInstanceRequest.edgelq_instance:type_name -> ntt.ztp.v1.EdgelqInstance
-	14, // 19: ntt.ztp.v1.UpdateEdgelqInstanceRequest.update_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
-	13, // 20: ntt.ztp.v1.UpdateEdgelqInstanceRequest.cas:type_name -> ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS
-	16, // 21: ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS.conditional_state:type_name -> ntt.ztp.v1.EdgelqInstance
-	14, // 22: ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
-	0,  // 23: ntt.ztp.v1.EdgelqInstanceService.GetEdgelqInstance:input_type -> ntt.ztp.v1.GetEdgelqInstanceRequest
-	1,  // 24: ntt.ztp.v1.EdgelqInstanceService.BatchGetEdgelqInstances:input_type -> ntt.ztp.v1.BatchGetEdgelqInstancesRequest
-	3,  // 25: ntt.ztp.v1.EdgelqInstanceService.ListEdgelqInstances:input_type -> ntt.ztp.v1.ListEdgelqInstancesRequest
-	5,  // 26: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstance:input_type -> ntt.ztp.v1.WatchEdgelqInstanceRequest
-	7,  // 27: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstances:input_type -> ntt.ztp.v1.WatchEdgelqInstancesRequest
-	9,  // 28: ntt.ztp.v1.EdgelqInstanceService.CreateEdgelqInstance:input_type -> ntt.ztp.v1.CreateEdgelqInstanceRequest
-	10, // 29: ntt.ztp.v1.EdgelqInstanceService.UpdateEdgelqInstance:input_type -> ntt.ztp.v1.UpdateEdgelqInstanceRequest
-	11, // 30: ntt.ztp.v1.EdgelqInstanceService.DeleteEdgelqInstance:input_type -> ntt.ztp.v1.DeleteEdgelqInstanceRequest
-	20, // 31: ntt.ztp.v1.EdgelqInstanceService.AssociateHardware:input_type -> ntt.ztp.v1.AssociateHardwareRequest
-	21, // 32: ntt.ztp.v1.EdgelqInstanceService.DissociateHardware:input_type -> ntt.ztp.v1.DissociateHardwareRequest
-	16, // 33: ntt.ztp.v1.EdgelqInstanceService.GetEdgelqInstance:output_type -> ntt.ztp.v1.EdgelqInstance
-	2,  // 34: ntt.ztp.v1.EdgelqInstanceService.BatchGetEdgelqInstances:output_type -> ntt.ztp.v1.BatchGetEdgelqInstancesResponse
-	4,  // 35: ntt.ztp.v1.EdgelqInstanceService.ListEdgelqInstances:output_type -> ntt.ztp.v1.ListEdgelqInstancesResponse
-	6,  // 36: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstance:output_type -> ntt.ztp.v1.WatchEdgelqInstanceResponse
-	8,  // 37: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstances:output_type -> ntt.ztp.v1.WatchEdgelqInstancesResponse
-	16, // 38: ntt.ztp.v1.EdgelqInstanceService.CreateEdgelqInstance:output_type -> ntt.ztp.v1.EdgelqInstance
-	16, // 39: ntt.ztp.v1.EdgelqInstanceService.UpdateEdgelqInstance:output_type -> ntt.ztp.v1.EdgelqInstance
-	22, // 40: ntt.ztp.v1.EdgelqInstanceService.DeleteEdgelqInstance:output_type -> google.protobuf.Empty
-	23, // 41: ntt.ztp.v1.EdgelqInstanceService.AssociateHardware:output_type -> ntt.ztp.v1.AssociateHardwareResponse
-	22, // 42: ntt.ztp.v1.EdgelqInstanceService.DissociateHardware:output_type -> google.protobuf.Empty
-	33, // [33:43] is the sub-list for method output_type
-	23, // [23:33] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	18, // 17: ntt.ztp.v1.CreateEdgelqInstanceRequest.edgelq_instance:type_name -> ntt.ztp.v1.EdgelqInstance
+	13, // 18: ntt.ztp.v1.CreateEdgelqInstanceRequest.response_mask:type_name -> ntt.ztp.v1.CreateEdgelqInstanceRequest.ResponseMask
+	18, // 19: ntt.ztp.v1.UpdateEdgelqInstanceRequest.edgelq_instance:type_name -> ntt.ztp.v1.EdgelqInstance
+	16, // 20: ntt.ztp.v1.UpdateEdgelqInstanceRequest.update_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	14, // 21: ntt.ztp.v1.UpdateEdgelqInstanceRequest.cas:type_name -> ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS
+	15, // 22: ntt.ztp.v1.UpdateEdgelqInstanceRequest.response_mask:type_name -> ntt.ztp.v1.UpdateEdgelqInstanceRequest.ResponseMask
+	16, // 23: ntt.ztp.v1.CreateEdgelqInstanceRequest.ResponseMask.body_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	18, // 24: ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS.conditional_state:type_name -> ntt.ztp.v1.EdgelqInstance
+	16, // 25: ntt.ztp.v1.UpdateEdgelqInstanceRequest.CAS.field_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	16, // 26: ntt.ztp.v1.UpdateEdgelqInstanceRequest.ResponseMask.body_mask:type_name -> ntt.ztp.v1.EdgelqInstance_FieldMask
+	0,  // 27: ntt.ztp.v1.EdgelqInstanceService.GetEdgelqInstance:input_type -> ntt.ztp.v1.GetEdgelqInstanceRequest
+	1,  // 28: ntt.ztp.v1.EdgelqInstanceService.BatchGetEdgelqInstances:input_type -> ntt.ztp.v1.BatchGetEdgelqInstancesRequest
+	3,  // 29: ntt.ztp.v1.EdgelqInstanceService.ListEdgelqInstances:input_type -> ntt.ztp.v1.ListEdgelqInstancesRequest
+	5,  // 30: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstance:input_type -> ntt.ztp.v1.WatchEdgelqInstanceRequest
+	7,  // 31: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstances:input_type -> ntt.ztp.v1.WatchEdgelqInstancesRequest
+	9,  // 32: ntt.ztp.v1.EdgelqInstanceService.CreateEdgelqInstance:input_type -> ntt.ztp.v1.CreateEdgelqInstanceRequest
+	10, // 33: ntt.ztp.v1.EdgelqInstanceService.UpdateEdgelqInstance:input_type -> ntt.ztp.v1.UpdateEdgelqInstanceRequest
+	11, // 34: ntt.ztp.v1.EdgelqInstanceService.DeleteEdgelqInstance:input_type -> ntt.ztp.v1.DeleteEdgelqInstanceRequest
+	22, // 35: ntt.ztp.v1.EdgelqInstanceService.AssociateHardware:input_type -> ntt.ztp.v1.AssociateHardwareRequest
+	23, // 36: ntt.ztp.v1.EdgelqInstanceService.DissociateHardware:input_type -> ntt.ztp.v1.DissociateHardwareRequest
+	18, // 37: ntt.ztp.v1.EdgelqInstanceService.GetEdgelqInstance:output_type -> ntt.ztp.v1.EdgelqInstance
+	2,  // 38: ntt.ztp.v1.EdgelqInstanceService.BatchGetEdgelqInstances:output_type -> ntt.ztp.v1.BatchGetEdgelqInstancesResponse
+	4,  // 39: ntt.ztp.v1.EdgelqInstanceService.ListEdgelqInstances:output_type -> ntt.ztp.v1.ListEdgelqInstancesResponse
+	6,  // 40: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstance:output_type -> ntt.ztp.v1.WatchEdgelqInstanceResponse
+	8,  // 41: ntt.ztp.v1.EdgelqInstanceService.WatchEdgelqInstances:output_type -> ntt.ztp.v1.WatchEdgelqInstancesResponse
+	18, // 42: ntt.ztp.v1.EdgelqInstanceService.CreateEdgelqInstance:output_type -> ntt.ztp.v1.EdgelqInstance
+	18, // 43: ntt.ztp.v1.EdgelqInstanceService.UpdateEdgelqInstance:output_type -> ntt.ztp.v1.EdgelqInstance
+	24, // 44: ntt.ztp.v1.EdgelqInstanceService.DeleteEdgelqInstance:output_type -> google.protobuf.Empty
+	25, // 45: ntt.ztp.v1.EdgelqInstanceService.AssociateHardware:output_type -> ntt.ztp.v1.AssociateHardwareResponse
+	24, // 46: ntt.ztp.v1.EdgelqInstanceService.DissociateHardware:output_type -> google.protobuf.Empty
+	37, // [37:47] is the sub-list for method output_type
+	27, // [27:37] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { edgelq_ztp_proto_v1_edgelq_instance_service_proto_init() }
@@ -2493,7 +2810,31 @@ func edgelq_ztp_proto_v1_edgelq_instance_service_proto_init() {
 			}
 		}
 		edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateEdgelqInstanceRequest_ResponseMask); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateEdgelqInstanceRequest_CAS); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateEdgelqInstanceRequest_ResponseMask); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2506,13 +2847,22 @@ func edgelq_ztp_proto_v1_edgelq_instance_service_proto_init() {
 		}
 	}
 
+	edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*CreateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*CreateEdgelqInstanceRequest_ResponseMask_BodyMask)(nil),
+	}
+	edgelq_ztp_proto_v1_edgelq_instance_service_proto_msgTypes[15].OneofWrappers = []interface{}{
+		(*UpdateEdgelqInstanceRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*UpdateEdgelqInstanceRequest_ResponseMask_UpdatedFieldsOnly)(nil),
+		(*UpdateEdgelqInstanceRequest_ResponseMask_BodyMask)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_ztp_proto_v1_edgelq_instance_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

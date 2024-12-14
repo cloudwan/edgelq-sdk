@@ -56,6 +56,9 @@ message ProvisioningPolicy {
     // Template for device name.
     string device_name_format = 3;
 
+    // Template for device display name.
+    string device_display_name_format = 11;
+
     // Deprecated: Use template instead.
     // labels that provisioned Device resources will have.
     map<string, string> labels = 4;

@@ -25,6 +25,7 @@ import (
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -48,6 +49,7 @@ var (
 	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 	_ = &meta.Meta{}
 )
 
@@ -1382,6 +1384,7 @@ type MetricDescriptor_StorageConfig_FieldMask struct {
 func FullMetricDescriptor_StorageConfig_FieldMask() *MetricDescriptor_StorageConfig_FieldMask {
 	res := &MetricDescriptor_StorageConfig_FieldMask{}
 	res.Paths = append(res.Paths, &MetricDescriptorStorageConfig_FieldTerminalPath{selector: MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints})
+	res.Paths = append(res.Paths, &MetricDescriptorStorageConfig_FieldTerminalPath{selector: MetricDescriptorStorageConfig_FieldPathSelectorMaxAp})
 	return res
 }
 
@@ -1425,7 +1428,7 @@ func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*MetricDescriptorStorageConfig_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1455,7 +1458,7 @@ func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) Reset() {
 
 func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) Subtract(other *MetricDescriptor_StorageConfig_FieldMask) *MetricDescriptor_StorageConfig_FieldMask {
 	result := &MetricDescriptor_StorageConfig_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -1611,6 +1614,8 @@ func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) Project(source *Metri
 			switch tp.selector {
 			case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 				result.StoreRawPoints = source.StoreRawPoints
+			case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+				result.MaxAp = source.MaxAp
 			}
 		}
 	}
@@ -1635,6 +1640,7 @@ type MetricDescriptor_BinaryIndices_FieldMask struct {
 func FullMetricDescriptor_BinaryIndices_FieldMask() *MetricDescriptor_BinaryIndices_FieldMask {
 	res := &MetricDescriptor_BinaryIndices_FieldMask{}
 	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources})
+	res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorRegion})
 	return res
 }
 
@@ -1678,7 +1684,7 @@ func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 1)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*MetricDescriptorBinaryIndices_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1708,7 +1714,7 @@ func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Reset() {
 
 func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Subtract(other *MetricDescriptor_BinaryIndices_FieldMask) *MetricDescriptor_BinaryIndices_FieldMask {
 	result := &MetricDescriptor_BinaryIndices_FieldMask{}
-	removedSelectors := make([]bool, 1)
+	removedSelectors := make([]bool, 2)
 	otherSubMasks := map[MetricDescriptorBinaryIndices_FieldPathSelector]gotenobject.FieldMask{
 		MetricDescriptorBinaryIndices_FieldPathSelectorByResources: &MetricDescriptor_BinaryIndices_ByResourceType_FieldMask{},
 	}
@@ -1893,6 +1899,8 @@ func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) Project(source *Metri
 			case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 				result.ByResources = source.ByResources
 				wholeByResourcesAccepted = true
+			case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+				result.Region = source.Region
 			}
 		case *MetricDescriptorBinaryIndices_FieldSubPath:
 			switch tp.selector {

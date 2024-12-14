@@ -42,9 +42,9 @@ var (
 )
 
 type RecoveryStoreShardingInfoAccess interface {
-	GetRecoveryStoreShardingInfo(context.Context, *GetQuery) (*RecoveryStoreShardingInfo, error)
+	GetRecoveryStoreShardingInfo(context.Context, *GetQuery, ...gotenresource.GetOption) (*RecoveryStoreShardingInfo, error)
 	BatchGetRecoveryStoreShardingInfos(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryRecoveryStoreShardingInfos(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryRecoveryStoreShardingInfos(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchRecoveryStoreShardingInfo(context.Context, *GetQuery, func(*RecoveryStoreShardingInfoChange) error) error
 	WatchRecoveryStoreShardingInfos(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveRecoveryStoreShardingInfo(context.Context, *RecoveryStoreShardingInfo, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access RecoveryStoreShardingInfoAccess) gotenresource.Acces
 	return &anyCastAccess{RecoveryStoreShardingInfoAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asRecoveryStoreShardingInfoQuery, ok := q.(*GetQuery); ok {
-		return a.GetRecoveryStoreShardingInfo(ctx, asRecoveryStoreShardingInfoQuery)
+		return a.GetRecoveryStoreShardingInfo(ctx, asRecoveryStoreShardingInfoQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected RecoveryStoreShardingInfo, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asRecoveryStoreShardingInfoQuery, ok := q.(*ListQuery); ok {
-		return a.QueryRecoveryStoreShardingInfos(ctx, asRecoveryStoreShardingInfoQuery)
+		return a.QueryRecoveryStoreShardingInfos(ctx, asRecoveryStoreShardingInfoQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected RecoveryStoreShardingInfo, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for RecoveryStoreShardingInfo")
 }
 

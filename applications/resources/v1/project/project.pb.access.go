@@ -40,9 +40,9 @@ var (
 )
 
 type ProjectAccess interface {
-	GetProject(context.Context, *GetQuery) (*Project, error)
+	GetProject(context.Context, *GetQuery, ...gotenresource.GetOption) (*Project, error)
 	BatchGetProjects(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryProjects(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryProjects(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchProject(context.Context, *GetQuery, func(*ProjectChange) error) error
 	WatchProjects(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveProject(context.Context, *Project, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access ProjectAccess) gotenresource.Access {
 	return &anyCastAccess{ProjectAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asProjectQuery, ok := q.(*GetQuery); ok {
-		return a.GetProject(ctx, asProjectQuery)
+		return a.GetProject(ctx, asProjectQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Project, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asProjectQuery, ok := q.(*ListQuery); ok {
-		return a.QueryProjects(ctx, asProjectQuery)
+		return a.QueryProjects(ctx, asProjectQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Project, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Project")
 }
 

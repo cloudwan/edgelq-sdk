@@ -195,6 +195,26 @@ func (obj *CreateNotificationRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("CreateNotificationRequest", "notification", obj.Notification, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CreateNotificationRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CreateNotificationRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *CreateNotificationRequest_ResponseMask_SkipEntireResponseBody:
+	case *CreateNotificationRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -217,6 +237,11 @@ func (obj *UpdateNotificationRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("UpdateNotificationRequest", "cas", obj.Cas, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateNotificationRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -231,37 +256,25 @@ func (obj *UpdateNotificationRequest_CAS) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *UpdateNotificationRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *UpdateNotificationRequest_ResponseMask_SkipEntireResponseBody:
+	case *UpdateNotificationRequest_ResponseMask_UpdatedFieldsOnly:
+	case *UpdateNotificationRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *DeleteNotificationRequest) GotenValidate() error {
 	if obj == nil {
 		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *SearchNotificationsRequest) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if !(obj.PageSize >= 0) {
-		return gotenvalidate.NewValidationError("SearchNotificationsRequest", "pageSize", obj.PageSize, "field must be greater or equal to 0", nil)
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *SearchNotificationsResponse) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	for idx, elem := range obj.Notifications {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("SearchNotificationsResponse", "notifications", obj.Notifications[idx], "nested object validation failed", err)
-			}
-		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

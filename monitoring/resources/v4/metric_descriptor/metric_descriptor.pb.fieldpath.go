@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -28,6 +28,7 @@ import (
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -54,6 +55,7 @@ var (
 	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 	_ = &meta.Meta{}
 )
 
@@ -3314,12 +3316,15 @@ type MetricDescriptorStorageConfig_FieldPathSelector int32
 
 const (
 	MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints MetricDescriptorStorageConfig_FieldPathSelector = 0
+	MetricDescriptorStorageConfig_FieldPathSelectorMaxAp          MetricDescriptorStorageConfig_FieldPathSelector = 1
 )
 
 func (s MetricDescriptorStorageConfig_FieldPathSelector) String() string {
 	switch s {
 	case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 		return "store_raw_points"
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		return "max_ap"
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", s))
 	}
@@ -3333,6 +3338,8 @@ func BuildMetricDescriptorStorageConfig_FieldPath(fp gotenobject.RawFieldPath) (
 		switch fp[0] {
 		case "store_raw_points", "storeRawPoints", "store-raw-points":
 			return &MetricDescriptorStorageConfig_FieldTerminalPath{selector: MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints}, nil
+		case "max_ap", "maxAp", "max-ap":
+			return &MetricDescriptorStorageConfig_FieldTerminalPath{selector: MetricDescriptorStorageConfig_FieldPathSelectorMaxAp}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object MetricDescriptor_StorageConfig", fp)
@@ -3380,6 +3387,10 @@ func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) Get(source *MetricDes
 		switch fp.selector {
 		case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 			values = append(values, source.StoreRawPoints)
+		case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+			if source.MaxAp != nil {
+				values = append(values, source.MaxAp)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", fp.selector))
 		}
@@ -3396,6 +3407,9 @@ func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) GetSingle(source *Met
 	switch fp.selector {
 	case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 		return source.GetStoreRawPoints(), source != nil
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		res := source.GetMaxAp()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", fp.selector))
 	}
@@ -3410,6 +3424,8 @@ func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) GetDefault() interfac
 	switch fp.selector {
 	case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 		return false
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		return (*durationpb.Duration)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", fp.selector))
 	}
@@ -3420,6 +3436,8 @@ func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) ClearValue(item *Metr
 		switch fp.selector {
 		case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 			item.StoreRawPoints = false
+		case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+			item.MaxAp = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", fp.selector))
 		}
@@ -3432,7 +3450,8 @@ func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) ClearValueRaw(item pr
 
 // IsLeaf - whether field path is holds simple value
 func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints
+	return fp.selector == MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints ||
+		fp.selector == MetricDescriptorStorageConfig_FieldPathSelectorMaxAp
 }
 
 func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -3443,6 +3462,8 @@ func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) WithIValue(value inte
 	switch fp.selector {
 	case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 		return &MetricDescriptorStorageConfig_FieldTerminalPathValue{MetricDescriptorStorageConfig_FieldTerminalPath: *fp, value: value.(bool)}
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		return &MetricDescriptorStorageConfig_FieldTerminalPathValue{MetricDescriptorStorageConfig_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", fp.selector))
 	}
@@ -3457,6 +3478,8 @@ func (fp *MetricDescriptorStorageConfig_FieldTerminalPath) WithIArrayOfValues(va
 	switch fp.selector {
 	case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 		return &MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues{MetricDescriptorStorageConfig_FieldTerminalPath: *fp, values: values.([]bool)}
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		return &MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues{MetricDescriptorStorageConfig_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", fp.selector))
 	}
@@ -3521,6 +3544,10 @@ func (fpv *MetricDescriptorStorageConfig_FieldTerminalPathValue) AsStoreRawPoint
 	res, ok := fpv.value.(bool)
 	return res, ok
 }
+func (fpv *MetricDescriptorStorageConfig_FieldTerminalPathValue) AsMaxApValue() (*durationpb.Duration, bool) {
+	res, ok := fpv.value.(*durationpb.Duration)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object StorageConfig
 func (fpv *MetricDescriptorStorageConfig_FieldTerminalPathValue) SetTo(target **MetricDescriptor_StorageConfig) {
@@ -3530,6 +3557,8 @@ func (fpv *MetricDescriptorStorageConfig_FieldTerminalPathValue) SetTo(target **
 	switch fpv.selector {
 	case MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints:
 		(*target).StoreRawPoints = fpv.value.(bool)
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		(*target).MaxAp = fpv.value.(*durationpb.Duration)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_StorageConfig: %d", fpv.selector))
 	}
@@ -3549,6 +3578,25 @@ func (fpv *MetricDescriptorStorageConfig_FieldTerminalPathValue) CompareWith(sou
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		leftValue := fpv.value.(*durationpb.Duration)
+		rightValue := source.GetMaxAp()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.AsDuration() == rightValue.AsDuration() {
+			return 0, true
+		} else if leftValue.AsDuration() < rightValue.AsDuration() {
 			return -1, true
 		} else {
 			return 1, true
@@ -3665,11 +3713,19 @@ func (fpaov *MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
+	case MetricDescriptorStorageConfig_FieldPathSelectorMaxAp:
+		for _, v := range fpaov.values.([]*durationpb.Duration) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpaov *MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues) AsStoreRawPointsArrayOfValues() ([]bool, bool) {
 	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues) AsMaxApArrayOfValues() ([]*durationpb.Duration, bool) {
+	res, ok := fpaov.values.([]*durationpb.Duration)
 	return res, ok
 }
 
@@ -3693,12 +3749,15 @@ type MetricDescriptorBinaryIndices_FieldPathSelector int32
 
 const (
 	MetricDescriptorBinaryIndices_FieldPathSelectorByResources MetricDescriptorBinaryIndices_FieldPathSelector = 0
+	MetricDescriptorBinaryIndices_FieldPathSelectorRegion      MetricDescriptorBinaryIndices_FieldPathSelector = 1
 )
 
 func (s MetricDescriptorBinaryIndices_FieldPathSelector) String() string {
 	switch s {
 	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 		return "by_resources"
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		return "region"
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", s))
 	}
@@ -3712,6 +3771,8 @@ func BuildMetricDescriptorBinaryIndices_FieldPath(fp gotenobject.RawFieldPath) (
 		switch fp[0] {
 		case "by_resources", "byResources", "by-resources":
 			return &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources}, nil
+		case "region":
+			return &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorRegion}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3770,6 +3831,8 @@ func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) Get(source *MetricDes
 			for _, value := range source.GetByResources() {
 				values = append(values, value)
 			}
+		case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+			values = append(values, source.Region)
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
 		}
@@ -3787,6 +3850,8 @@ func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) GetSingle(source *Met
 	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 		res := source.GetByResources()
 		return res, res != nil
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		return source.GetRegion(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
 	}
@@ -3801,6 +3866,8 @@ func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) GetDefault() interfac
 	switch fp.selector {
 	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 		return ([]*MetricDescriptor_BinaryIndices_ByResourceType)(nil)
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
 	}
@@ -3811,6 +3878,8 @@ func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) ClearValue(item *Metr
 		switch fp.selector {
 		case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 			item.ByResources = nil
+		case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+			item.Region = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
 		}
@@ -3823,7 +3892,7 @@ func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) ClearValueRaw(item pr
 
 // IsLeaf - whether field path is holds simple value
 func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == MetricDescriptorBinaryIndices_FieldPathSelectorRegion
 }
 
 func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -3834,6 +3903,8 @@ func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithIValue(value inte
 	switch fp.selector {
 	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 		return &MetricDescriptorBinaryIndices_FieldTerminalPathValue{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp, value: value.([]*MetricDescriptor_BinaryIndices_ByResourceType)}
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		return &MetricDescriptorBinaryIndices_FieldTerminalPathValue{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
 	}
@@ -3848,6 +3919,8 @@ func (fp *MetricDescriptorBinaryIndices_FieldTerminalPath) WithIArrayOfValues(va
 	switch fp.selector {
 	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 		return &MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp, values: values.([][]*MetricDescriptor_BinaryIndices_ByResourceType)}
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		return &MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues{MetricDescriptorBinaryIndices_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fp.selector))
 	}
@@ -4030,6 +4103,10 @@ func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) AsByResourcesVa
 	res, ok := fpv.value.([]*MetricDescriptor_BinaryIndices_ByResourceType)
 	return res, ok
 }
+func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) AsRegionValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object BinaryIndices
 func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) SetTo(target **MetricDescriptor_BinaryIndices) {
@@ -4039,6 +4116,8 @@ func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) SetTo(target **
 	switch fpv.selector {
 	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 		(*target).ByResources = fpv.value.([]*MetricDescriptor_BinaryIndices_ByResourceType)
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		(*target).Region = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fpv.selector))
 	}
@@ -4054,6 +4133,16 @@ func (fpv *MetricDescriptorBinaryIndices_FieldTerminalPathValue) CompareWith(sou
 	switch fpv.selector {
 	case MetricDescriptorBinaryIndices_FieldPathSelectorByResources:
 		return 0, false
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetRegion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for MetricDescriptor_BinaryIndices: %d", fpv.selector))
 	}
@@ -4240,11 +4329,19 @@ func (fpaov *MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues) GetRa
 		for _, v := range fpaov.values.([][]*MetricDescriptor_BinaryIndices_ByResourceType) {
 			values = append(values, v)
 		}
+	case MetricDescriptorBinaryIndices_FieldPathSelectorRegion:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
 func (fpaov *MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues) AsByResourcesArrayOfValues() ([][]*MetricDescriptor_BinaryIndices_ByResourceType, bool) {
 	res, ok := fpaov.values.([][]*MetricDescriptor_BinaryIndices_ByResourceType)
+	return res, ok
+}
+func (fpaov *MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues) AsRegionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 

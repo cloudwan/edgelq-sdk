@@ -42,6 +42,8 @@ message ListMyOrganizationsRequest {
   // fields will be present in each response item. Omitting field_mask results
   // will cause response items to contain all present fields.
   google.protobuf.FieldMask field_mask = 6;
+
+  bool include_paging_info = 7;
 }
 
 // Response message for method
@@ -57,4 +59,8 @@ message ListMyOrganizationsResponse {
   // A token to retrieve next page of results. Pass this value in the
   // [ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]
   string next_page_token = 4;
+
+  int32 total_count = 5;
+
+  int32 cursor_offset = 6;
 }

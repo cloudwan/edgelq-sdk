@@ -57,7 +57,6 @@ type NotificationServiceClient interface {
 	CreateNotification(ctx context.Context, in *CreateNotificationRequest, opts ...grpc.CallOption) (*notification.Notification, error)
 	UpdateNotification(ctx context.Context, in *UpdateNotificationRequest, opts ...grpc.CallOption) (*notification.Notification, error)
 	DeleteNotification(ctx context.Context, in *DeleteNotificationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	SearchNotifications(ctx context.Context, in *SearchNotificationsRequest, opts ...grpc.CallOption) (*SearchNotificationsResponse, error)
 }
 
 type client struct {
@@ -190,15 +189,6 @@ func (c *client) UpdateNotification(ctx context.Context, in *UpdateNotificationR
 func (c *client) DeleteNotification(ctx context.Context, in *DeleteNotificationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.NotificationService/DeleteNotification", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) SearchNotifications(ctx context.Context, in *SearchNotificationsRequest, opts ...grpc.CallOption) (*SearchNotificationsResponse, error) {
-	out := new(SearchNotificationsResponse)
-	err := c.cc.Invoke(ctx, "/ntt.monitoring.v3.NotificationService/SearchNotifications", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

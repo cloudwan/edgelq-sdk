@@ -6,10 +6,10 @@ package service_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiServiceAccess(client service_client.ServiceServiceClient) service.Ser
 	return &apiServiceAccess{client: client}
 }
 
-func (a *apiServiceAccess) GetService(ctx context.Context, query *service.GetQuery) (*service.Service, error) {
+func (a *apiServiceAccess) GetService(ctx context.Context, query *service.GetQuery, opts ...gotenresource.GetOption) (*service.Service, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiServiceAccess) GetService(ctx context.Context, query *service.GetQue
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetService(ctx, request)
+	res, err := a.client.GetService(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiServiceAccess) GetService(ctx context.Context, query *service.GetQue
 
 func (a *apiServiceAccess) BatchGetServices(ctx context.Context, refs []*service.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*service.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiServiceAccess) BatchGetServices(ctx context.Context, refs []*service
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*service.Service_FieldMask)
 	}
-	resp, err := a.client.BatchGetServices(ctx, request)
+	resp, err := a.client.BatchGetServices(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiServiceAccess) BatchGetServices(ctx context.Context, refs []*service
 	return nil
 }
 
-func (a *apiServiceAccess) QueryServices(ctx context.Context, query *service.ListQuery) (*service.QueryResultSnapshot, error) {
+func (a *apiServiceAccess) QueryServices(ctx context.Context, query *service.ListQuery, opts ...gotenresource.QueryOption) (*service.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &service_client.ListServicesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +153,9 @@ func (a *apiServiceAccess) WatchService(ctx context.Context, query *service.GetQ
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchService(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -134,7 +163,7 @@ func (a *apiServiceAccess) WatchService(ctx context.Context, query *service.GetQ
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -150,12 +179,16 @@ func (a *apiServiceAccess) WatchServices(ctx context.Context, query *service.Wat
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchServices(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -163,7 +196,7 @@ func (a *apiServiceAccess) WatchServices(ctx context.Context, query *service.Wat
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &service.QueryResultChange{
 			Changes:      respChange.ServiceChanges,
@@ -184,23 +217,11 @@ func (a *apiServiceAccess) WatchServices(ctx context.Context, query *service.Wat
 }
 
 func (a *apiServiceAccess) SaveService(ctx context.Context, res *service.Service, opts ...gotenresource.SaveOption) error {
-	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetService(ctx, &service.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
-	return fmt.Errorf("save operation on %s is prohibited", res.Name.AsReference().String())
+	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiServiceAccess) DeleteService(ctx context.Context, ref *service.Reference, opts ...gotenresource.DeleteOption) error {
-	return fmt.Errorf("Delete operation on Service is prohibited")
+func (a *apiServiceAccess) DeleteService(ctx context.Context, ref *service.Reference, _ ...gotenresource.DeleteOption) error {
+	return status.Errorf(codes.Internal, "Delete operation on Service is prohibited")
 }
 
 func init() {

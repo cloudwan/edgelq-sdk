@@ -62,4 +62,19 @@ message Log {
 
   // Log Protobuf payload
   google.protobuf.Any pb_payload = 10;
+
+  // Log string type payload
+  string string_payload = 11;
+
+  // Log bytes type payload
+  bytes bytes_payload = 12;
+
+  // Log bin_key identifies unique Log tuple:
+  // <scope, service, region, version, labels, log_descriptor
+  //
+  // Key is not to be decoded outside of service, but treated as opaque string.
+  // This field is equivalent to ID part of the log name and therefore any one
+  // of them can be used. This is intented for streaming log create to conserve
+  // some bandwidth
+  string bin_key = 101;
 }

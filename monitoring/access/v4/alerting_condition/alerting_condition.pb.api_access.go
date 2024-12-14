@@ -6,10 +6,10 @@ package alerting_condition_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiAlertingConditionAccess(client alerting_condition_client.AlertingCond
 	return &apiAlertingConditionAccess{client: client}
 }
 
-func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, query *alerting_condition.GetQuery) (*alerting_condition.AlertingCondition, error) {
+func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, query *alerting_condition.GetQuery, opts ...gotenresource.GetOption) (*alerting_condition.AlertingCondition, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetAlertingCondition(ctx, request)
+	res, err := a.client.GetAlertingCondition(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiAlertingConditionAccess) GetAlertingCondition(ctx context.Context, q
 
 func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Context, refs []*alerting_condition.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*alerting_condition.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Cont
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*alerting_condition.AlertingCondition_FieldMask)
 	}
-	resp, err := a.client.BatchGetAlertingConditions(ctx, request)
+	resp, err := a.client.BatchGetAlertingConditions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiAlertingConditionAccess) BatchGetAlertingConditions(ctx context.Cont
 	return nil
 }
 
-func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context, query *alerting_condition.ListQuery) (*alerting_condition.QueryResultSnapshot, error) {
+func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context, query *alerting_condition.ListQuery, opts ...gotenresource.QueryOption) (*alerting_condition.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &alerting_condition_client.ListAlertingConditionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -122,7 +148,16 @@ func (a *apiAlertingConditionAccess) QueryAlertingConditions(ctx context.Context
 	}, nil
 }
 
-func (a *apiAlertingConditionAccess) SearchAlertingConditions(ctx context.Context, query *alerting_condition.SearchQuery) (*alerting_condition.QueryResultSnapshot, error) {
+func (a *apiAlertingConditionAccess) SearchAlertingConditions(ctx context.Context, query *alerting_condition.SearchQuery, opts ...gotenresource.QueryOption) (*alerting_condition.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &alerting_condition_client.SearchAlertingConditionsRequest{
 		Phrase:    query.Phrase,
 		Filter:    query.Filter,
@@ -136,7 +171,7 @@ func (a *apiAlertingConditionAccess) SearchAlertingConditions(ctx context.Contex
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
-	resp, err := a.client.SearchAlertingConditions(ctx, request)
+	resp, err := a.client.SearchAlertingConditions(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -157,6 +192,9 @@ func (a *apiAlertingConditionAccess) WatchAlertingCondition(ctx context.Context,
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlertingCondition(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -164,7 +202,7 @@ func (a *apiAlertingConditionAccess) WatchAlertingCondition(ctx context.Context,
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -180,6 +218,7 @@ func (a *apiAlertingConditionAccess) WatchAlertingConditions(ctx context.Context
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -189,6 +228,9 @@ func (a *apiAlertingConditionAccess) WatchAlertingConditions(ctx context.Context
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlertingConditions(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -196,7 +238,7 @@ func (a *apiAlertingConditionAccess) WatchAlertingConditions(ctx context.Context
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &alerting_condition.QueryResultChange{
 			Changes:      respChange.AlertingConditionChanges,
@@ -218,22 +260,12 @@ func (a *apiAlertingConditionAccess) WatchAlertingConditions(ctx context.Context
 
 func (a *apiAlertingConditionAccess) SaveAlertingCondition(ctx context.Context, res *alerting_condition.AlertingCondition, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetAlertingCondition(ctx, &alerting_condition.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *alerting_condition.AlertingCondition
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &alerting_condition_client.UpdateAlertingConditionRequest{
 			AlertingCondition: res,
+			AllowMissing:      !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*alerting_condition.AlertingCondition_FieldMask)
@@ -262,7 +294,7 @@ func (a *apiAlertingConditionAccess) SaveAlertingCondition(ctx context.Context, 
 	return nil
 }
 
-func (a *apiAlertingConditionAccess) DeleteAlertingCondition(ctx context.Context, ref *alerting_condition.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiAlertingConditionAccess) DeleteAlertingCondition(ctx context.Context, ref *alerting_condition.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

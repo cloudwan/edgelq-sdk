@@ -6,10 +6,10 @@ package project_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiProjectAccess(client project_client.ProjectServiceClient) project.Pro
 	return &apiProjectAccess{client: client}
 }
 
-func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQuery) (*project.Project, error) {
+func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQuery, opts ...gotenresource.GetOption) (*project.Project, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQue
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetProject(ctx, request)
+	res, err := a.client.GetProject(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiProjectAccess) GetProject(ctx context.Context, query *project.GetQue
 
 func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*project.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*project.Project_FieldMask)
 	}
-	resp, err := a.client.BatchGetProjects(ctx, request)
+	resp, err := a.client.BatchGetProjects(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiProjectAccess) BatchGetProjects(ctx context.Context, refs []*project
 	return nil
 }
 
-func (a *apiProjectAccess) QueryProjects(ctx context.Context, query *project.ListQuery) (*project.QueryResultSnapshot, error) {
+func (a *apiProjectAccess) QueryProjects(ctx context.Context, query *project.ListQuery, opts ...gotenresource.QueryOption) (*project.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &project_client.ListProjectsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +153,9 @@ func (a *apiProjectAccess) WatchProject(ctx context.Context, query *project.GetQ
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProject(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -134,7 +163,7 @@ func (a *apiProjectAccess) WatchProject(ctx context.Context, query *project.GetQ
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -150,12 +179,16 @@ func (a *apiProjectAccess) WatchProjects(ctx context.Context, query *project.Wat
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProjects(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -163,7 +196,7 @@ func (a *apiProjectAccess) WatchProjects(ctx context.Context, query *project.Wat
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &project.QueryResultChange{
 			Changes:      respChange.ProjectChanges,
@@ -185,22 +218,12 @@ func (a *apiProjectAccess) WatchProjects(ctx context.Context, query *project.Wat
 
 func (a *apiProjectAccess) SaveProject(ctx context.Context, res *project.Project, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetProject(ctx, &project.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *project.Project
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &project_client.UpdateProjectRequest{
-			Project: res,
+			Project:      res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*project.Project_FieldMask)
@@ -229,7 +252,7 @@ func (a *apiProjectAccess) SaveProject(ctx context.Context, res *project.Project
 	return nil
 }
 
-func (a *apiProjectAccess) DeleteProject(ctx context.Context, ref *project.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiProjectAccess) DeleteProject(ctx context.Context, ref *project.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

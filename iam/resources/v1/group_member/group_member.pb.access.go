@@ -40,9 +40,9 @@ var (
 )
 
 type GroupMemberAccess interface {
-	GetGroupMember(context.Context, *GetQuery) (*GroupMember, error)
+	GetGroupMember(context.Context, *GetQuery, ...gotenresource.GetOption) (*GroupMember, error)
 	BatchGetGroupMembers(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryGroupMembers(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryGroupMembers(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchGroupMember(context.Context, *GetQuery, func(*GroupMemberChange) error) error
 	WatchGroupMembers(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveGroupMember(context.Context, *GroupMember, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access GroupMemberAccess) gotenresource.Access {
 	return &anyCastAccess{GroupMemberAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asGroupMemberQuery, ok := q.(*GetQuery); ok {
-		return a.GetGroupMember(ctx, asGroupMemberQuery)
+		return a.GetGroupMember(ctx, asGroupMemberQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected GroupMember, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asGroupMemberQuery, ok := q.(*ListQuery); ok {
-		return a.QueryGroupMembers(ctx, asGroupMemberQuery)
+		return a.QueryGroupMembers(ctx, asGroupMemberQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected GroupMember, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for GroupMember")
 }
 

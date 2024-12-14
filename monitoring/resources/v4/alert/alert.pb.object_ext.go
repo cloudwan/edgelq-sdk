@@ -390,6 +390,18 @@ func (o *Alert_Info_TimeSerie) MakeDiffFieldMask(other *Alert_Info_TimeSerie) *A
 	} else {
 		res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorData})
 	}
+
+	if len(o.GetBinData()) == len(other.GetBinData()) {
+		for i, lValue := range o.GetBinData() {
+			rValue := other.GetBinData()[i]
+			if string(lValue) != string(rValue) {
+				res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorBinData})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &AlertInfoTimeSerie_FieldTerminalPath{selector: AlertInfoTimeSerie_FieldPathSelectorBinData})
+	}
 	return res
 }
 
@@ -411,6 +423,10 @@ func (o *Alert_Info_TimeSerie) Clone() *Alert_Info_TimeSerie {
 	result.Data = make([]string, len(o.Data))
 	for i, sourceValue := range o.Data {
 		result.Data[i] = sourceValue
+	}
+	result.BinData = make([][]byte, len(o.BinData))
+	for i, sourceValue := range o.BinData {
+		result.BinData[i] = sourceValue
 	}
 	return result
 }
@@ -448,6 +464,21 @@ func (o *Alert_Info_TimeSerie) Merge(source *Alert_Info_TimeSerie) {
 			var newDstElement string
 			newDstElement = sourceValue
 			o.Data = append(o.Data, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetBinData() {
+		exists := false
+		for _, currentValue := range o.BinData {
+			if string(currentValue) == string(sourceValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement []byte
+			newDstElement = sourceValue
+			o.BinData = append(o.BinData, newDstElement)
 		}
 	}
 

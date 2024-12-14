@@ -25,6 +25,7 @@ import (
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -47,6 +48,7 @@ var (
 	_ = &project.Project{}
 	_ = &time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
@@ -232,12 +234,12 @@ func (b *filterCndBuilder) Metadata() *filterCndBuilderMetadata {
 	return &filterCndBuilderMetadata{builder: b.builder}
 }
 
-func (b *filterCndBuilder) AlertingPolicy() *filterCndBuilderAlertingPolicy {
-	return &filterCndBuilderAlertingPolicy{builder: b.builder}
-}
-
 func (b *filterCndBuilder) Alerts() *filterCndBuilderAlerts {
 	return &filterCndBuilderAlerts{builder: b.builder}
+}
+
+func (b *filterCndBuilder) AlertSets() *filterCndBuilderAlertSets {
+	return &filterCndBuilderAlertSets{builder: b.builder}
 }
 
 func (b *filterCndBuilder) State() *filterCndBuilderState {
@@ -2328,65 +2330,6 @@ func (b *filterCndBuilderMetadataServicesAllowedServices) compare(op gotenfilter
 	})
 }
 
-type filterCndBuilderAlertingPolicy struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderAlertingPolicy) Eq(value *alerting_policy.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderAlertingPolicy) Neq(value *alerting_policy.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderAlertingPolicy) Gt(value *alerting_policy.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderAlertingPolicy) Gte(value *alerting_policy.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderAlertingPolicy) Lt(value *alerting_policy.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderAlertingPolicy) Lte(value *alerting_policy.Name) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderAlertingPolicy) In(values []*alerting_policy.Name) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertingPolicy().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderAlertingPolicy) NotIn(values []*alerting_policy.Name) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertingPolicy().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderAlertingPolicy) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewNotificationFieldPathBuilder().AlertingPolicy().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderAlertingPolicy) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewNotificationFieldPathBuilder().AlertingPolicy().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderAlertingPolicy) compare(op gotenfilter.CompareOperator, value *alerting_policy.Name) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                    op,
-		Notification_FieldPathValue: NewNotificationFieldPathBuilder().AlertingPolicy().WithValue(value),
-	})
-}
-
 type filterCndBuilderAlerts struct {
 	builder *FilterBuilder
 }
@@ -2477,6 +2420,259 @@ func (b *filterCndBuilderAlerts) compare(op gotenfilter.CompareOperator, value [
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Notification_FieldPathValue: NewNotificationFieldPathBuilder().Alerts().WithValue(value),
+	})
+}
+
+type filterCndBuilderAlertSets struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAlertSets) Eq(value []*Notification_AlertsSet) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAlertSets) Neq(value []*Notification_AlertsSet) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAlertSets) Gt(value []*Notification_AlertsSet) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAlertSets) Gte(value []*Notification_AlertsSet) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAlertSets) Lt(value []*Notification_AlertsSet) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAlertSets) Lte(value []*Notification_AlertsSet) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAlertSets) In(values [][]*Notification_AlertsSet) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAlertSets) NotIn(values [][]*Notification_AlertsSet) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertSets().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAlertSets) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAlertSets) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAlertSets) Contains(value *Notification_AlertsSet) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().FieldPath(),
+		Value:     NewNotificationFieldPathBuilder().AlertSets().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderAlertSets) ContainsAnyOf(values []*Notification_AlertsSet) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().AlertSets()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAlertSets) ContainsAll(values []*Notification_AlertsSet) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().AlertSets()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAlertSets) compare(op gotenfilter.CompareOperator, value []*Notification_AlertsSet) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().AlertSets().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderAlertSets) Condition() *filterCndBuilderAlertSetsCondition {
+	return &filterCndBuilderAlertSetsCondition{builder: b.builder}
+}
+
+func (b *filterCndBuilderAlertSets) Ids() *filterCndBuilderAlertSetsIds {
+	return &filterCndBuilderAlertSetsIds{builder: b.builder}
+}
+
+type filterCndBuilderAlertSetsCondition struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAlertSetsCondition) Eq(value *alerting_condition.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAlertSetsCondition) Neq(value *alerting_condition.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAlertSetsCondition) Gt(value *alerting_condition.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAlertSetsCondition) Gte(value *alerting_condition.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAlertSetsCondition) Lt(value *alerting_condition.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAlertSetsCondition) Lte(value *alerting_condition.Name) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAlertSetsCondition) In(values []*alerting_condition.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertSets().Condition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsCondition) NotIn(values []*alerting_condition.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertSets().Condition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsCondition) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().Condition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsCondition) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().Condition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsCondition) compare(op gotenfilter.CompareOperator, value *alerting_condition.Name) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().AlertSets().Condition().WithValue(value),
+	})
+}
+
+type filterCndBuilderAlertSetsIds struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAlertSetsIds) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAlertSetsIds) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAlertSetsIds) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAlertSetsIds) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAlertSetsIds) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAlertSetsIds) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAlertSetsIds) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertSets().Ids().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsIds) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().AlertSets().Ids().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsIds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().Ids().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsIds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().Ids().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsIds) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().Ids().FieldPath(),
+		Value:     NewNotificationFieldPathBuilder().AlertSets().Ids().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderAlertSetsIds) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().AlertSets().Ids()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().Ids().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAlertSetsIds) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().AlertSets().Ids()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewNotificationFieldPathBuilder().AlertSets().Ids().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAlertSetsIds) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().AlertSets().Ids().WithValue(value),
 	})
 }
 

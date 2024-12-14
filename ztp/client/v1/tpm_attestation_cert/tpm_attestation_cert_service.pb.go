@@ -1354,6 +1354,9 @@ type CreateTpmAttestationCertRequest struct {
 	Parent *tpm_attestation_cert.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
 	// TpmAttestationCert resource body
 	TpmAttestationCert *tpm_attestation_cert.TpmAttestationCert `protobuf:"bytes,2,opt,name=tpm_attestation_cert,json=tpmAttestationCert,proto3" json:"tpm_attestation_cert,omitempty" firestore:"tpmAttestationCert"`
+	// Optional masking applied to response object to reduce message response
+	// size.
+	ResponseMask *CreateTpmAttestationCertRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *CreateTpmAttestationCertRequest) Reset() {
@@ -1420,6 +1423,13 @@ func (m *CreateTpmAttestationCertRequest) GetTpmAttestationCert() *tpm_attestati
 	return nil
 }
 
+func (m *CreateTpmAttestationCertRequest) GetResponseMask() *CreateTpmAttestationCertRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *CreateTpmAttestationCertRequest) SetParent(fv *tpm_attestation_cert.ParentName) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Parent", "CreateTpmAttestationCertRequest"))
@@ -1432,6 +1442,13 @@ func (m *CreateTpmAttestationCertRequest) SetTpmAttestationCert(fv *tpm_attestat
 		panic(fmt.Errorf("can't set %s on nil %s", "TpmAttestationCert", "CreateTpmAttestationCertRequest"))
 	}
 	m.TpmAttestationCert = fv
+}
+
+func (m *CreateTpmAttestationCertRequest) SetResponseMask(fv *CreateTpmAttestationCertRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "CreateTpmAttestationCertRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the UpdateTpmAttestationCert method.
@@ -1456,6 +1473,8 @@ type UpdateTpmAttestationCertRequest struct {
 	//
 	// https://google.aip.dev/134#create-or-update
 	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
+	// reduce message response size.
+	ResponseMask *UpdateTpmAttestationCertRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *UpdateTpmAttestationCertRequest) Reset() {
@@ -1536,6 +1555,13 @@ func (m *UpdateTpmAttestationCertRequest) GetAllowMissing() bool {
 	return false
 }
 
+func (m *UpdateTpmAttestationCertRequest) GetResponseMask() *UpdateTpmAttestationCertRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *UpdateTpmAttestationCertRequest) SetTpmAttestationCert(fv *tpm_attestation_cert.TpmAttestationCert) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "TpmAttestationCert", "UpdateTpmAttestationCertRequest"))
@@ -1562,6 +1588,13 @@ func (m *UpdateTpmAttestationCertRequest) SetAllowMissing(fv bool) {
 		panic(fmt.Errorf("can't set %s on nil %s", "AllowMissing", "UpdateTpmAttestationCertRequest"))
 	}
 	m.AllowMissing = fv
+}
+
+func (m *UpdateTpmAttestationCertRequest) SetResponseMask(fv *UpdateTpmAttestationCertRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "UpdateTpmAttestationCertRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the DeleteTpmAttestationCert method.
@@ -1725,6 +1758,117 @@ func (m *WatchTpmAttestationCertsResponse_PageTokenChange) SetNextPageToken(fv *
 	m.NextPageToken = fv
 }
 
+// ResponseMask allows client to reduce response message size.
+type CreateTpmAttestationCertRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*CreateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody
+	//	*CreateTpmAttestationCertRequest_ResponseMask_BodyMask
+	Masking isCreateTpmAttestationCertRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *CreateTpmAttestationCertRequest_ResponseMask) Reset() {
+	*m = CreateTpmAttestationCertRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *CreateTpmAttestationCertRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*CreateTpmAttestationCertRequest_ResponseMask) ProtoMessage() {}
+
+func (m *CreateTpmAttestationCertRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*CreateTpmAttestationCertRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use CreateTpmAttestationCertRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*CreateTpmAttestationCertRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (m *CreateTpmAttestationCertRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *CreateTpmAttestationCertRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *CreateTpmAttestationCertRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *CreateTpmAttestationCertRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isCreateTpmAttestationCertRequest_ResponseMask_Masking interface {
+	isCreateTpmAttestationCertRequest_ResponseMask_Masking()
+}
+
+type CreateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type CreateTpmAttestationCertRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields.
+	BodyMask *tpm_attestation_cert.TpmAttestationCert_FieldMask `protobuf:"bytes,2,opt,customtype=TpmAttestationCert_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*CreateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody) isCreateTpmAttestationCertRequest_ResponseMask_Masking() {
+}
+func (*CreateTpmAttestationCertRequest_ResponseMask_BodyMask) isCreateTpmAttestationCertRequest_ResponseMask_Masking() {
+}
+func (m *CreateTpmAttestationCertRequest_ResponseMask) GetMasking() isCreateTpmAttestationCertRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *CreateTpmAttestationCertRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*CreateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *CreateTpmAttestationCertRequest_ResponseMask) GetBodyMask() *tpm_attestation_cert.TpmAttestationCert_FieldMask {
+	if x, ok := m.GetMasking().(*CreateTpmAttestationCertRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *CreateTpmAttestationCertRequest_ResponseMask) SetMasking(ofv isCreateTpmAttestationCertRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isCreateTpmAttestationCertRequest_ResponseMask_Masking", "CreateTpmAttestationCertRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *CreateTpmAttestationCertRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&CreateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *CreateTpmAttestationCertRequest_ResponseMask) SetBodyMask(fv *tpm_attestation_cert.TpmAttestationCert_FieldMask) {
+	m.SetMasking(&CreateTpmAttestationCertRequest_ResponseMask_BodyMask{BodyMask: fv})
+}
+
 // CAS - Compare and Swap. This object is used if user wants to make update
 // conditional based upon previous resource version.
 type UpdateTpmAttestationCertRequest_CAS struct {
@@ -1741,7 +1885,7 @@ type UpdateTpmAttestationCertRequest_CAS struct {
 func (m *UpdateTpmAttestationCertRequest_CAS) Reset() {
 	*m = UpdateTpmAttestationCertRequest_CAS{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[13]
+		mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1754,7 +1898,7 @@ func (m *UpdateTpmAttestationCertRequest_CAS) String() string {
 func (*UpdateTpmAttestationCertRequest_CAS) ProtoMessage() {}
 
 func (m *UpdateTpmAttestationCertRequest_CAS) ProtoReflect() preflect.Message {
-	mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[13]
+	mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1814,6 +1958,137 @@ func (m *UpdateTpmAttestationCertRequest_CAS) SetFieldMask(fv *tpm_attestation_c
 		panic(fmt.Errorf("can't set %s on nil %s", "FieldMask", "UpdateTpmAttestationCertRequest_CAS"))
 	}
 	m.FieldMask = fv
+}
+
+// ResponseMask allows client to reduce response message size.
+type UpdateTpmAttestationCertRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*UpdateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody
+	//	*UpdateTpmAttestationCertRequest_ResponseMask_UpdatedFieldsOnly
+	//	*UpdateTpmAttestationCertRequest_ResponseMask_BodyMask
+	Masking isUpdateTpmAttestationCertRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) Reset() {
+	*m = UpdateTpmAttestationCertRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*UpdateTpmAttestationCertRequest_ResponseMask) ProtoMessage() {}
+
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*UpdateTpmAttestationCertRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use UpdateTpmAttestationCertRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*UpdateTpmAttestationCertRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_rawDescGZIP(), []int{10, 1}
+}
+
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isUpdateTpmAttestationCertRequest_ResponseMask_Masking interface {
+	isUpdateTpmAttestationCertRequest_ResponseMask_Masking()
+}
+
+type UpdateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated. Field body_mask is ignored if
+	// set.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type UpdateTpmAttestationCertRequest_ResponseMask_UpdatedFieldsOnly struct {
+	// Include all fields that were actually updated during processing. Note
+	// this may be larger than update mask if some fields were computed
+	// additionally. Name is added as well.
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+}
+type UpdateTpmAttestationCertRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields. If skip_entire_response_body is true, this field is
+	// ignored.
+	BodyMask *tpm_attestation_cert.TpmAttestationCert_FieldMask `protobuf:"bytes,3,opt,customtype=TpmAttestationCert_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*UpdateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody) isUpdateTpmAttestationCertRequest_ResponseMask_Masking() {
+}
+func (*UpdateTpmAttestationCertRequest_ResponseMask_UpdatedFieldsOnly) isUpdateTpmAttestationCertRequest_ResponseMask_Masking() {
+}
+func (*UpdateTpmAttestationCertRequest_ResponseMask_BodyMask) isUpdateTpmAttestationCertRequest_ResponseMask_Masking() {
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) GetMasking() isUpdateTpmAttestationCertRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*UpdateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) GetUpdatedFieldsOnly() bool {
+	if x, ok := m.GetMasking().(*UpdateTpmAttestationCertRequest_ResponseMask_UpdatedFieldsOnly); ok {
+		return x.UpdatedFieldsOnly
+	}
+	return false
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) GetBodyMask() *tpm_attestation_cert.TpmAttestationCert_FieldMask {
+	if x, ok := m.GetMasking().(*UpdateTpmAttestationCertRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) SetMasking(ofv isUpdateTpmAttestationCertRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isUpdateTpmAttestationCertRequest_ResponseMask_Masking", "UpdateTpmAttestationCertRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&UpdateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) SetUpdatedFieldsOnly(fv bool) {
+	m.SetMasking(&UpdateTpmAttestationCertRequest_ResponseMask_UpdatedFieldsOnly{UpdatedFieldsOnly: fv})
+}
+func (m *UpdateTpmAttestationCertRequest_ResponseMask) SetBodyMask(fv *tpm_attestation_cert.TpmAttestationCert_FieldMask) {
+	m.SetMasking(&UpdateTpmAttestationCertRequest_ResponseMask_BodyMask{BodyMask: fv})
 }
 
 var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto preflect.FileDescriptor
@@ -2039,7 +2314,7 @@ var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x09, 0x42, 0x1a, 0xb2, 0xda, 0x21, 0x16, 0x22, 0x14, 0x0a, 0x12, 0x54, 0x70,
 	0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74,
 	0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22,
-	0xb5, 0x01, 0x0a, 0x1f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74,
+	0xc4, 0x03, 0x0a, 0x1f, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74,
 	0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x12, 0x32, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x42, 0x1a, 0xb2, 0xda, 0x21, 0x16, 0x3a, 0x14, 0x0a, 0x12, 0x54, 0x70, 0x6d,
@@ -2050,39 +2325,76 @@ var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_rawDesc = []byte{
 	0x76, 0x31, 0x2e, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f,
 	0x6e, 0x43, 0x65, 0x72, 0x74, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6, 0x27, 0x04, 0x62,
 	0x02, 0x08, 0x01, 0x52, 0x12, 0x74, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x22, 0xf8, 0x03, 0x0a, 0x1f, 0x55, 0x70, 0x64, 0x61,
+	0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x12, 0x5d, 0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x38,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61,
 	0x74, 0x65, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x43, 0x65, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x5e, 0x0a, 0x14, 0x74,
-	0x70, 0x6d, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x63,
-	0x65, 0x72, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x6e, 0x74, 0x74, 0x2e,
-	0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca,
-	0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x12, 0x74, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65,
-	0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x12, 0x57, 0x0a, 0x0b, 0x75,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62,
-	0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x1a, 0xb2, 0xda,
-	0x21, 0x16, 0x32, 0x14, 0x0a, 0x12, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
-	0x4d, 0x61, 0x73, 0x6b, 0x12, 0x41, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x2f, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43,
-	0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77,
-	0x5f, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c,
-	0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x1a, 0xb3, 0x01, 0x0a,
-	0x03, 0x43, 0x41, 0x53, 0x12, 0x55, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f,
-	0x6e, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1e, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x70, 0x6d,
-	0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x42,
-	0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69,
-	0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x55, 0x0a, 0x0a, 0x66,
-	0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x43, 0x65, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xad, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b, 0x69, 0x70, 0x5f,
+	0x65, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f,
+	0x62, 0x6f, 0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x16, 0x73, 0x6b,
+	0x69, 0x70, 0x45, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x42, 0x6f, 0x64, 0x79, 0x12, 0x55, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73,
+	0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d,
+	0x61, 0x73, 0x6b, 0x42, 0x1a, 0xb2, 0xda, 0x21, 0x16, 0x32, 0x14, 0x0a, 0x12, 0x54, 0x70, 0x6d,
+	0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x48,
+	0x00, 0x52, 0x08, 0x62, 0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a, 0x07, 0x6d,
+	0x61, 0x73, 0x6b, 0x69, 0x6e, 0x67, 0x22, 0xb9, 0x06, 0x0a, 0x1f, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43,
+	0x65, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x5e, 0x0a, 0x14, 0x74, 0x70,
+	0x6d, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x63, 0x65,
+	0x72, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a,
+	0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6,
+	0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x12, 0x74, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73,
+	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x12, 0x57, 0x0a, 0x0b, 0x75, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
 	0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x1a, 0xb2, 0xda, 0x21,
 	0x16, 0x32, 0x14, 0x0a, 0x12, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74,
-	0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61,
-	0x73, 0x6b, 0x22, 0x51, 0x0a, 0x1f, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x70, 0x6d, 0x41,
+	0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d,
+	0x61, 0x73, 0x6b, 0x12, 0x41, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x2f, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41,
+	0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x61,
+	0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x12, 0x5d, 0x0a, 0x0d, 0x72,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x06, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x38, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xb3, 0x01, 0x0a, 0x03, 0x43,
+	0x41, 0x53, 0x12, 0x55, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61,
+	0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e,
+	0x6e, 0x74, 0x74, 0x2e, 0x7a, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x2e, 0x54, 0x70, 0x6d, 0x41, 0x74,
+	0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x42, 0x08, 0xca,
+	0xc6, 0x27, 0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69,
+	0x6f, 0x6e, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x55, 0x0a, 0x0a, 0x66, 0x69, 0x65,
+	0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e,
+	0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e,
+	0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x1a, 0xb2, 0xda, 0x21, 0x16, 0x32,
+	0x14, 0x0a, 0x12, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b,
+	0x1a, 0xdf, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73,
+	0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72, 0x65,
+	0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74, 0x69,
+	0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x30,
+	0x0a, 0x13, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73,
+	0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x11, 0x75,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x4f, 0x6e, 0x6c, 0x79,
+	0x12, 0x55, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42,
+	0x1a, 0xb2, 0xda, 0x21, 0x16, 0x32, 0x14, 0x0a, 0x12, 0x54, 0x70, 0x6d, 0x41, 0x74, 0x74, 0x65,
+	0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x48, 0x00, 0x52, 0x08, 0x62,
+	0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a, 0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69,
+	0x6e, 0x67, 0x22, 0x51, 0x0a, 0x1f, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x70, 0x6d, 0x41,
 	0x74, 0x74, 0x65, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x65, 0x72, 0x74, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x2e, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x42, 0x1a, 0xb2, 0xda, 0x21, 0x16, 0x0a, 0x14, 0x0a, 0x12, 0x54, 0x70, 0x6d,
@@ -2251,7 +2563,7 @@ func edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_rawDescGZIP() []byte
 	return edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_rawDescData
 }
 
-var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_goTypes = []interface{}{
 	(*GetTpmAttestationCertRequest)(nil),                      // 0: ntt.ztp.v1.GetTpmAttestationCertRequest
 	(*BatchGetTpmAttestationCertsRequest)(nil),                // 1: ntt.ztp.v1.BatchGetTpmAttestationCertsRequest
@@ -2266,60 +2578,66 @@ var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_goTypes = []interface
 	(*UpdateTpmAttestationCertRequest)(nil),                   // 10: ntt.ztp.v1.UpdateTpmAttestationCertRequest
 	(*DeleteTpmAttestationCertRequest)(nil),                   // 11: ntt.ztp.v1.DeleteTpmAttestationCertRequest
 	(*WatchTpmAttestationCertsResponse_PageTokenChange)(nil),  // 12: ntt.ztp.v1.WatchTpmAttestationCertsResponse.PageTokenChange
-	(*UpdateTpmAttestationCertRequest_CAS)(nil),               // 13: ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS
-	(*tpm_attestation_cert.TpmAttestationCert_FieldMask)(nil), // 14: ntt.ztp.v1.TpmAttestationCert_FieldMask
-	(view.View)(0), // 15: goten.types.View
-	(*tpm_attestation_cert.TpmAttestationCert)(nil),       // 16: ntt.ztp.v1.TpmAttestationCert
-	(*tpm_attestation_cert.TpmAttestationCertChange)(nil), // 17: ntt.ztp.v1.TpmAttestationCertChange
-	(watch_type.WatchType)(0),                             // 18: goten.types.WatchType
-	(*timestamppb.Timestamp)(nil),                         // 19: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),                                 // 20: google.protobuf.Empty
+	(*CreateTpmAttestationCertRequest_ResponseMask)(nil),      // 13: ntt.ztp.v1.CreateTpmAttestationCertRequest.ResponseMask
+	(*UpdateTpmAttestationCertRequest_CAS)(nil),               // 14: ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS
+	(*UpdateTpmAttestationCertRequest_ResponseMask)(nil),      // 15: ntt.ztp.v1.UpdateTpmAttestationCertRequest.ResponseMask
+	(*tpm_attestation_cert.TpmAttestationCert_FieldMask)(nil), // 16: ntt.ztp.v1.TpmAttestationCert_FieldMask
+	(view.View)(0), // 17: goten.types.View
+	(*tpm_attestation_cert.TpmAttestationCert)(nil),       // 18: ntt.ztp.v1.TpmAttestationCert
+	(*tpm_attestation_cert.TpmAttestationCertChange)(nil), // 19: ntt.ztp.v1.TpmAttestationCertChange
+	(watch_type.WatchType)(0),                             // 20: goten.types.WatchType
+	(*timestamppb.Timestamp)(nil),                         // 21: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),                                 // 22: google.protobuf.Empty
 }
 var edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_depIdxs = []int32{
-	14, // 0: ntt.ztp.v1.GetTpmAttestationCertRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
-	15, // 1: ntt.ztp.v1.GetTpmAttestationCertRequest.view:type_name -> goten.types.View
-	14, // 2: ntt.ztp.v1.BatchGetTpmAttestationCertsRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
-	15, // 3: ntt.ztp.v1.BatchGetTpmAttestationCertsRequest.view:type_name -> goten.types.View
-	16, // 4: ntt.ztp.v1.BatchGetTpmAttestationCertsResponse.tpm_attestation_certs:type_name -> ntt.ztp.v1.TpmAttestationCert
-	14, // 5: ntt.ztp.v1.ListTpmAttestationCertsRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
-	15, // 6: ntt.ztp.v1.ListTpmAttestationCertsRequest.view:type_name -> goten.types.View
-	16, // 7: ntt.ztp.v1.ListTpmAttestationCertsResponse.tpm_attestation_certs:type_name -> ntt.ztp.v1.TpmAttestationCert
-	14, // 8: ntt.ztp.v1.WatchTpmAttestationCertRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
-	15, // 9: ntt.ztp.v1.WatchTpmAttestationCertRequest.view:type_name -> goten.types.View
-	17, // 10: ntt.ztp.v1.WatchTpmAttestationCertResponse.change:type_name -> ntt.ztp.v1.TpmAttestationCertChange
-	18, // 11: ntt.ztp.v1.WatchTpmAttestationCertsRequest.type:type_name -> goten.types.WatchType
-	19, // 12: ntt.ztp.v1.WatchTpmAttestationCertsRequest.starting_time:type_name -> google.protobuf.Timestamp
-	14, // 13: ntt.ztp.v1.WatchTpmAttestationCertsRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
-	15, // 14: ntt.ztp.v1.WatchTpmAttestationCertsRequest.view:type_name -> goten.types.View
-	17, // 15: ntt.ztp.v1.WatchTpmAttestationCertsResponse.tpm_attestation_cert_changes:type_name -> ntt.ztp.v1.TpmAttestationCertChange
+	16, // 0: ntt.ztp.v1.GetTpmAttestationCertRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	17, // 1: ntt.ztp.v1.GetTpmAttestationCertRequest.view:type_name -> goten.types.View
+	16, // 2: ntt.ztp.v1.BatchGetTpmAttestationCertsRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	17, // 3: ntt.ztp.v1.BatchGetTpmAttestationCertsRequest.view:type_name -> goten.types.View
+	18, // 4: ntt.ztp.v1.BatchGetTpmAttestationCertsResponse.tpm_attestation_certs:type_name -> ntt.ztp.v1.TpmAttestationCert
+	16, // 5: ntt.ztp.v1.ListTpmAttestationCertsRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	17, // 6: ntt.ztp.v1.ListTpmAttestationCertsRequest.view:type_name -> goten.types.View
+	18, // 7: ntt.ztp.v1.ListTpmAttestationCertsResponse.tpm_attestation_certs:type_name -> ntt.ztp.v1.TpmAttestationCert
+	16, // 8: ntt.ztp.v1.WatchTpmAttestationCertRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	17, // 9: ntt.ztp.v1.WatchTpmAttestationCertRequest.view:type_name -> goten.types.View
+	19, // 10: ntt.ztp.v1.WatchTpmAttestationCertResponse.change:type_name -> ntt.ztp.v1.TpmAttestationCertChange
+	20, // 11: ntt.ztp.v1.WatchTpmAttestationCertsRequest.type:type_name -> goten.types.WatchType
+	21, // 12: ntt.ztp.v1.WatchTpmAttestationCertsRequest.starting_time:type_name -> google.protobuf.Timestamp
+	16, // 13: ntt.ztp.v1.WatchTpmAttestationCertsRequest.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	17, // 14: ntt.ztp.v1.WatchTpmAttestationCertsRequest.view:type_name -> goten.types.View
+	19, // 15: ntt.ztp.v1.WatchTpmAttestationCertsResponse.tpm_attestation_cert_changes:type_name -> ntt.ztp.v1.TpmAttestationCertChange
 	12, // 16: ntt.ztp.v1.WatchTpmAttestationCertsResponse.page_token_change:type_name -> ntt.ztp.v1.WatchTpmAttestationCertsResponse.PageTokenChange
-	16, // 17: ntt.ztp.v1.CreateTpmAttestationCertRequest.tpm_attestation_cert:type_name -> ntt.ztp.v1.TpmAttestationCert
-	16, // 18: ntt.ztp.v1.UpdateTpmAttestationCertRequest.tpm_attestation_cert:type_name -> ntt.ztp.v1.TpmAttestationCert
-	14, // 19: ntt.ztp.v1.UpdateTpmAttestationCertRequest.update_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
-	13, // 20: ntt.ztp.v1.UpdateTpmAttestationCertRequest.cas:type_name -> ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS
-	16, // 21: ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS.conditional_state:type_name -> ntt.ztp.v1.TpmAttestationCert
-	14, // 22: ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
-	0,  // 23: ntt.ztp.v1.TpmAttestationCertService.GetTpmAttestationCert:input_type -> ntt.ztp.v1.GetTpmAttestationCertRequest
-	1,  // 24: ntt.ztp.v1.TpmAttestationCertService.BatchGetTpmAttestationCerts:input_type -> ntt.ztp.v1.BatchGetTpmAttestationCertsRequest
-	3,  // 25: ntt.ztp.v1.TpmAttestationCertService.ListTpmAttestationCerts:input_type -> ntt.ztp.v1.ListTpmAttestationCertsRequest
-	5,  // 26: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCert:input_type -> ntt.ztp.v1.WatchTpmAttestationCertRequest
-	7,  // 27: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCerts:input_type -> ntt.ztp.v1.WatchTpmAttestationCertsRequest
-	9,  // 28: ntt.ztp.v1.TpmAttestationCertService.CreateTpmAttestationCert:input_type -> ntt.ztp.v1.CreateTpmAttestationCertRequest
-	10, // 29: ntt.ztp.v1.TpmAttestationCertService.UpdateTpmAttestationCert:input_type -> ntt.ztp.v1.UpdateTpmAttestationCertRequest
-	11, // 30: ntt.ztp.v1.TpmAttestationCertService.DeleteTpmAttestationCert:input_type -> ntt.ztp.v1.DeleteTpmAttestationCertRequest
-	16, // 31: ntt.ztp.v1.TpmAttestationCertService.GetTpmAttestationCert:output_type -> ntt.ztp.v1.TpmAttestationCert
-	2,  // 32: ntt.ztp.v1.TpmAttestationCertService.BatchGetTpmAttestationCerts:output_type -> ntt.ztp.v1.BatchGetTpmAttestationCertsResponse
-	4,  // 33: ntt.ztp.v1.TpmAttestationCertService.ListTpmAttestationCerts:output_type -> ntt.ztp.v1.ListTpmAttestationCertsResponse
-	6,  // 34: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCert:output_type -> ntt.ztp.v1.WatchTpmAttestationCertResponse
-	8,  // 35: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCerts:output_type -> ntt.ztp.v1.WatchTpmAttestationCertsResponse
-	16, // 36: ntt.ztp.v1.TpmAttestationCertService.CreateTpmAttestationCert:output_type -> ntt.ztp.v1.TpmAttestationCert
-	16, // 37: ntt.ztp.v1.TpmAttestationCertService.UpdateTpmAttestationCert:output_type -> ntt.ztp.v1.TpmAttestationCert
-	20, // 38: ntt.ztp.v1.TpmAttestationCertService.DeleteTpmAttestationCert:output_type -> google.protobuf.Empty
-	31, // [31:39] is the sub-list for method output_type
-	23, // [23:31] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	18, // 17: ntt.ztp.v1.CreateTpmAttestationCertRequest.tpm_attestation_cert:type_name -> ntt.ztp.v1.TpmAttestationCert
+	13, // 18: ntt.ztp.v1.CreateTpmAttestationCertRequest.response_mask:type_name -> ntt.ztp.v1.CreateTpmAttestationCertRequest.ResponseMask
+	18, // 19: ntt.ztp.v1.UpdateTpmAttestationCertRequest.tpm_attestation_cert:type_name -> ntt.ztp.v1.TpmAttestationCert
+	16, // 20: ntt.ztp.v1.UpdateTpmAttestationCertRequest.update_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	14, // 21: ntt.ztp.v1.UpdateTpmAttestationCertRequest.cas:type_name -> ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS
+	15, // 22: ntt.ztp.v1.UpdateTpmAttestationCertRequest.response_mask:type_name -> ntt.ztp.v1.UpdateTpmAttestationCertRequest.ResponseMask
+	16, // 23: ntt.ztp.v1.CreateTpmAttestationCertRequest.ResponseMask.body_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	18, // 24: ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS.conditional_state:type_name -> ntt.ztp.v1.TpmAttestationCert
+	16, // 25: ntt.ztp.v1.UpdateTpmAttestationCertRequest.CAS.field_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	16, // 26: ntt.ztp.v1.UpdateTpmAttestationCertRequest.ResponseMask.body_mask:type_name -> ntt.ztp.v1.TpmAttestationCert_FieldMask
+	0,  // 27: ntt.ztp.v1.TpmAttestationCertService.GetTpmAttestationCert:input_type -> ntt.ztp.v1.GetTpmAttestationCertRequest
+	1,  // 28: ntt.ztp.v1.TpmAttestationCertService.BatchGetTpmAttestationCerts:input_type -> ntt.ztp.v1.BatchGetTpmAttestationCertsRequest
+	3,  // 29: ntt.ztp.v1.TpmAttestationCertService.ListTpmAttestationCerts:input_type -> ntt.ztp.v1.ListTpmAttestationCertsRequest
+	5,  // 30: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCert:input_type -> ntt.ztp.v1.WatchTpmAttestationCertRequest
+	7,  // 31: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCerts:input_type -> ntt.ztp.v1.WatchTpmAttestationCertsRequest
+	9,  // 32: ntt.ztp.v1.TpmAttestationCertService.CreateTpmAttestationCert:input_type -> ntt.ztp.v1.CreateTpmAttestationCertRequest
+	10, // 33: ntt.ztp.v1.TpmAttestationCertService.UpdateTpmAttestationCert:input_type -> ntt.ztp.v1.UpdateTpmAttestationCertRequest
+	11, // 34: ntt.ztp.v1.TpmAttestationCertService.DeleteTpmAttestationCert:input_type -> ntt.ztp.v1.DeleteTpmAttestationCertRequest
+	18, // 35: ntt.ztp.v1.TpmAttestationCertService.GetTpmAttestationCert:output_type -> ntt.ztp.v1.TpmAttestationCert
+	2,  // 36: ntt.ztp.v1.TpmAttestationCertService.BatchGetTpmAttestationCerts:output_type -> ntt.ztp.v1.BatchGetTpmAttestationCertsResponse
+	4,  // 37: ntt.ztp.v1.TpmAttestationCertService.ListTpmAttestationCerts:output_type -> ntt.ztp.v1.ListTpmAttestationCertsResponse
+	6,  // 38: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCert:output_type -> ntt.ztp.v1.WatchTpmAttestationCertResponse
+	8,  // 39: ntt.ztp.v1.TpmAttestationCertService.WatchTpmAttestationCerts:output_type -> ntt.ztp.v1.WatchTpmAttestationCertsResponse
+	18, // 40: ntt.ztp.v1.TpmAttestationCertService.CreateTpmAttestationCert:output_type -> ntt.ztp.v1.TpmAttestationCert
+	18, // 41: ntt.ztp.v1.TpmAttestationCertService.UpdateTpmAttestationCert:output_type -> ntt.ztp.v1.TpmAttestationCert
+	22, // 42: ntt.ztp.v1.TpmAttestationCertService.DeleteTpmAttestationCert:output_type -> google.protobuf.Empty
+	35, // [35:43] is the sub-list for method output_type
+	27, // [27:35] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_init() }
@@ -2486,7 +2804,31 @@ func edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_init() {
 			}
 		}
 		edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateTpmAttestationCertRequest_ResponseMask); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateTpmAttestationCertRequest_CAS); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateTpmAttestationCertRequest_ResponseMask); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2499,13 +2841,22 @@ func edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_init() {
 		}
 	}
 
+	edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*CreateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*CreateTpmAttestationCertRequest_ResponseMask_BodyMask)(nil),
+	}
+	edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_msgTypes[15].OneofWrappers = []interface{}{
+		(*UpdateTpmAttestationCertRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*UpdateTpmAttestationCertRequest_ResponseMask_UpdatedFieldsOnly)(nil),
+		(*UpdateTpmAttestationCertRequest_ResponseMask_BodyMask)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_ztp_proto_v1_tpm_attestation_cert_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

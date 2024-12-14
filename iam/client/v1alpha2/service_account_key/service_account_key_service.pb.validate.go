@@ -195,6 +195,26 @@ func (obj *CreateServiceAccountKeyRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("CreateServiceAccountKeyRequest", "serviceAccountKey", obj.ServiceAccountKey, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("CreateServiceAccountKeyRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *CreateServiceAccountKeyRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *CreateServiceAccountKeyRequest_ResponseMask_SkipEntireResponseBody:
+	case *CreateServiceAccountKeyRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -217,6 +237,11 @@ func (obj *UpdateServiceAccountKeyRequest) GotenValidate() error {
 			return gotenvalidate.NewValidationError("UpdateServiceAccountKeyRequest", "cas", obj.Cas, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.ResponseMask).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("UpdateServiceAccountKeyRequest", "responseMask", obj.ResponseMask, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -225,6 +250,22 @@ func (obj *UpdateServiceAccountKeyRequest) GotenValidate() error {
 func (obj *UpdateServiceAccountKeyRequest_CAS) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *UpdateServiceAccountKeyRequest_ResponseMask) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.Masking.(type) {
+	case *UpdateServiceAccountKeyRequest_ResponseMask_SkipEntireResponseBody:
+	case *UpdateServiceAccountKeyRequest_ResponseMask_UpdatedFieldsOnly:
+	case *UpdateServiceAccountKeyRequest_ResponseMask_BodyMask:
+	default:
+		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

@@ -24,6 +24,7 @@ import (
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 var (
@@ -45,6 +46,7 @@ var (
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &durationpb.Duration{}
+	_ = &timestamppb.Timestamp{}
 )
 
 func (obj *ProvisionServiceAccountToDeviceRequest) GotenValidate() error {
@@ -132,6 +134,228 @@ func (obj *HeartbeatMsg_Heartbeat) GotenValidate() error {
 	return nil
 }
 func (obj *HeartbeatResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ReportDeviceMetricsRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.DeviceMetrics).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ReportDeviceMetricsRequest", "deviceMetrics", obj.DeviceMetrics, "nested object validation failed", err)
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if subobj, ok := interface{}(obj.MemoryStats).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("DeviceMetrics", "memoryStats", obj.MemoryStats, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.CpuStats {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "cpuStats", obj.CpuStats[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.DiskMetrics {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "diskMetrics", obj.DiskMetrics[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.HardwareMetrics {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "hardwareMetrics", obj.HardwareMetrics[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if subobj, ok := interface{}(obj.PerAntennaSignal).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("DeviceMetrics", "perAntennaSignal", obj.PerAntennaSignal, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.PodMetrics {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "podMetrics", obj.PodMetrics[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.DiskLabels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "diskLabels", obj.DiskLabels[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.HardwareMetricsLabels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "hardwareMetricsLabels", obj.HardwareMetricsLabels[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.ModemMetricsLabels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "modemMetricsLabels", obj.ModemMetricsLabels[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.ContainerMetricsLabels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "containerMetricsLabels", obj.ContainerMetricsLabels[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.PodMetricsLabels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "podMetricsLabels", obj.PodMetricsLabels[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_MemoryStats) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_CpuCoreStats) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_DiskMetricsLabel) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_HardwareMetricsLabel) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_DiskMetric) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_HardwareMetric) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_ModemMetricLabel) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_ModemMetric) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_PerAntennaSignal) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_ContainerMetricLabel) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_ContainerMetric) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_PodMetricLabel) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_PodMetric) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ReportDeviceMetricsResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

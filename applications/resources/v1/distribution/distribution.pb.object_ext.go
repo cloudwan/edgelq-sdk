@@ -209,6 +209,9 @@ func (o *Distribution_Spec) MakeDiffFieldMask(other *Distribution_Spec) *Distrib
 			}
 		}
 	}
+	if o.GetPodDisplayNameFormat() != other.GetPodDisplayNameFormat() {
+		res.Paths = append(res.Paths, &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorPodDisplayNameFormat})
+	}
 	return res
 }
 
@@ -223,6 +226,7 @@ func (o *Distribution_Spec) Clone() *Distribution_Spec {
 	result := &Distribution_Spec{}
 	result.Selector = o.Selector.Clone()
 	result.Template = o.Template.Clone()
+	result.PodDisplayNameFormat = o.PodDisplayNameFormat
 	return result
 }
 
@@ -243,6 +247,7 @@ func (o *Distribution_Spec) Merge(source *Distribution_Spec) {
 		}
 		o.Template.Merge(source.GetTemplate())
 	}
+	o.PodDisplayNameFormat = source.GetPodDisplayNameFormat()
 }
 
 func (o *Distribution_Spec) MergeRaw(source gotenobject.GotenObjectExt) {

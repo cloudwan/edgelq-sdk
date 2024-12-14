@@ -5,6 +5,7 @@ package ntt.monitoring.v4;
 import "edgelq-sdk/common/api/launch_stage.proto";
 import "edgelq-sdk/monitoring/proto/v4/common.proto";
 import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 import "goten-sdk/types/meta.proto";
 
@@ -178,9 +179,11 @@ message MetricDescriptor {
   // Storage settings
   StorageConfig storage_config = 33;
 
-  // Generated indices data in binary format, for internal use.
+  // Generated indices data in binary format, for internal use only.
   // They are compiled when MetricDescriptor is saved and used by monitoring
   // server, db-controller or controller when necessary.
+  // One MetricDescriptor instance will have different value of this field
+  // in each region!
   BinaryIndices binary_indices = 38;
 
   // Additional annotations that can be used to guide the usage of a metric.
@@ -430,10 +433,19 @@ message MetricDescriptor {
   message StorageConfig {
     // whether to store raw points
     bool store_raw_points = 1;
+
+    // Maximum AlignmentPeriod produced. If max_ap is 0, then it is treated as
+    // no maximum. Monitoring will be producing time series for all alignment
+    // periods. If max_ap is 1 minute, it means only the smallest alignment
+    // period is produced.
+    google.protobuf.Duration max_ap = 2;
   }
 
   message BinaryIndices {
     repeated ByResourceType by_resources = 1;
+
+    // Region to which above binary data is relevant.
+    string region = 2;
 
     message PreAggregatedIndex {
       bytes key_data = 1;

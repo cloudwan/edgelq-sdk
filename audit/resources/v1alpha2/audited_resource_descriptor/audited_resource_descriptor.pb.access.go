@@ -40,9 +40,9 @@ var (
 )
 
 type AuditedResourceDescriptorAccess interface {
-	GetAuditedResourceDescriptor(context.Context, *GetQuery) (*AuditedResourceDescriptor, error)
+	GetAuditedResourceDescriptor(context.Context, *GetQuery, ...gotenresource.GetOption) (*AuditedResourceDescriptor, error)
 	BatchGetAuditedResourceDescriptors(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryAuditedResourceDescriptors(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryAuditedResourceDescriptors(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchAuditedResourceDescriptor(context.Context, *GetQuery, func(*AuditedResourceDescriptorChange) error) error
 	WatchAuditedResourceDescriptors(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAuditedResourceDescriptor(context.Context, *AuditedResourceDescriptor, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access AuditedResourceDescriptorAccess) gotenresource.Acces
 	return &anyCastAccess{AuditedResourceDescriptorAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asAuditedResourceDescriptorQuery, ok := q.(*GetQuery); ok {
-		return a.GetAuditedResourceDescriptor(ctx, asAuditedResourceDescriptorQuery)
+		return a.GetAuditedResourceDescriptor(ctx, asAuditedResourceDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AuditedResourceDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAuditedResourceDescriptorQuery, ok := q.(*ListQuery); ok {
-		return a.QueryAuditedResourceDescriptors(ctx, asAuditedResourceDescriptorQuery)
+		return a.QueryAuditedResourceDescriptors(ctx, asAuditedResourceDescriptorQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AuditedResourceDescriptor, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for AuditedResourceDescriptor")
 }
 

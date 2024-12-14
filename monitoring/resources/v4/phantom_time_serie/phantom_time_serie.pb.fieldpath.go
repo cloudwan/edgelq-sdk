@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports

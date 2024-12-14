@@ -40,9 +40,9 @@ var (
 )
 
 type OsVersionAccess interface {
-	GetOsVersion(context.Context, *GetQuery) (*OsVersion, error)
+	GetOsVersion(context.Context, *GetQuery, ...gotenresource.GetOption) (*OsVersion, error)
 	BatchGetOsVersions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryOsVersions(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryOsVersions(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchOsVersion(context.Context, *GetQuery, func(*OsVersionChange) error) error
 	WatchOsVersions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveOsVersion(context.Context, *OsVersion, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access OsVersionAccess) gotenresource.Access {
 	return &anyCastAccess{OsVersionAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asOsVersionQuery, ok := q.(*GetQuery); ok {
-		return a.GetOsVersion(ctx, asOsVersionQuery)
+		return a.GetOsVersion(ctx, asOsVersionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected OsVersion, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asOsVersionQuery, ok := q.(*ListQuery); ok {
-		return a.QueryOsVersions(ctx, asOsVersionQuery)
+		return a.QueryOsVersions(ctx, asOsVersionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected OsVersion, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for OsVersion")
 }
 

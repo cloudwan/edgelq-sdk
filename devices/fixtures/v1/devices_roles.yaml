@@ -41,6 +41,7 @@ resources:
     - services/devices.edgelq.com/permissions/devices.listenForConnections
     - services/devices.edgelq.com/permissions/devices.openConnectionChannelSocket
     - services/devices.edgelq.com/permissions/devices.heartbeat
+    - services/devices.edgelq.com/permissions/devices.reportDeviceMetrics
     - services/proxies.edgelq.com/permissions/projects.listen
     - services/proxies.edgelq.com/permissions/projects.accept
 
@@ -92,6 +93,7 @@ resources:
   - subScope: regions/{region}/buckets/{bucket}
     permissions:
     - services/logging.edgelq.com/permissions/logs.create
+    - services/logging.edgelq.com/permissions/logs.streamingCreate
     - services/monitoring.edgelq.com/permissions/timeSeries.create
     - services/logging.edgelq.com/permissions/buckets!attach
     - services/monitoring.edgelq.com/permissions/buckets!attach

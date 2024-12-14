@@ -24,6 +24,8 @@ resources:
   - Project
   - Organization
   idPattern : "[a-zA-Z0-9-]{1,128}"
+  multiRegion:
+    syncType: ALWAYS_GLOBALLY
 
 - name: Organization
   actions:

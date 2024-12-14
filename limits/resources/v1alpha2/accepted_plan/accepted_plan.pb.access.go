@@ -48,9 +48,9 @@ var (
 )
 
 type AcceptedPlanAccess interface {
-	GetAcceptedPlan(context.Context, *GetQuery) (*AcceptedPlan, error)
+	GetAcceptedPlan(context.Context, *GetQuery, ...gotenresource.GetOption) (*AcceptedPlan, error)
 	BatchGetAcceptedPlans(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryAcceptedPlans(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryAcceptedPlans(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchAcceptedPlan(context.Context, *GetQuery, func(*AcceptedPlanChange) error) error
 	WatchAcceptedPlans(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAcceptedPlan(context.Context, *AcceptedPlan, ...gotenresource.SaveOption) error
@@ -65,25 +65,25 @@ func AsAnyCastAccess(access AcceptedPlanAccess) gotenresource.Access {
 	return &anyCastAccess{AcceptedPlanAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asAcceptedPlanQuery, ok := q.(*GetQuery); ok {
-		return a.GetAcceptedPlan(ctx, asAcceptedPlanQuery)
+		return a.GetAcceptedPlan(ctx, asAcceptedPlanQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AcceptedPlan, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAcceptedPlanQuery, ok := q.(*ListQuery); ok {
-		return a.QueryAcceptedPlans(ctx, asAcceptedPlanQuery)
+		return a.QueryAcceptedPlans(ctx, asAcceptedPlanQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AcceptedPlan, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for AcceptedPlan")
 }
 

@@ -186,6 +186,10 @@ func (d *Descriptor) SupportsMetadata() bool {
 	return false
 }
 
+func (d *Descriptor) SupportsDbConstraints() bool {
+	return true
+}
+
 func initActivityLogDescriptor() {
 	descriptor = &Descriptor{
 		typeName: gotenresource.NewTypeName(

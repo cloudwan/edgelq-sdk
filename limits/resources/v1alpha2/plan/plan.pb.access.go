@@ -44,9 +44,9 @@ var (
 )
 
 type PlanAccess interface {
-	GetPlan(context.Context, *GetQuery) (*Plan, error)
+	GetPlan(context.Context, *GetQuery, ...gotenresource.GetOption) (*Plan, error)
 	BatchGetPlans(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryPlans(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryPlans(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchPlan(context.Context, *GetQuery, func(*PlanChange) error) error
 	WatchPlans(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SavePlan(context.Context, *Plan, ...gotenresource.SaveOption) error
@@ -61,25 +61,25 @@ func AsAnyCastAccess(access PlanAccess) gotenresource.Access {
 	return &anyCastAccess{PlanAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asPlanQuery, ok := q.(*GetQuery); ok {
-		return a.GetPlan(ctx, asPlanQuery)
+		return a.GetPlan(ctx, asPlanQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Plan, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asPlanQuery, ok := q.(*ListQuery); ok {
-		return a.QueryPlans(ctx, asPlanQuery)
+		return a.QueryPlans(ctx, asPlanQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Plan, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Plan")
 }
 

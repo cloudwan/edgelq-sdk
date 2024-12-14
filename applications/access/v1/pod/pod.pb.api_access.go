@@ -6,10 +6,10 @@ package pod_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiPodAccess(client pod_client.PodServiceClient) pod.PodAccess {
 	return &apiPodAccess{client: client}
 }
 
-func (a *apiPodAccess) GetPod(ctx context.Context, query *pod.GetQuery) (*pod.Pod, error) {
+func (a *apiPodAccess) GetPod(ctx context.Context, query *pod.GetQuery, opts ...gotenresource.GetOption) (*pod.Pod, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiPodAccess) GetPod(ctx context.Context, query *pod.GetQuery) (*pod.Po
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetPod(ctx, request)
+	res, err := a.client.GetPod(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiPodAccess) GetPod(ctx context.Context, query *pod.GetQuery) (*pod.Po
 
 func (a *apiPodAccess) BatchGetPods(ctx context.Context, refs []*pod.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*pod.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiPodAccess) BatchGetPods(ctx context.Context, refs []*pod.Reference, 
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*pod.Pod_FieldMask)
 	}
-	resp, err := a.client.BatchGetPods(ctx, request)
+	resp, err := a.client.BatchGetPods(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiPodAccess) BatchGetPods(ctx context.Context, refs []*pod.Reference, 
 	return nil
 }
 
-func (a *apiPodAccess) QueryPods(ctx context.Context, query *pod.ListQuery) (*pod.QueryResultSnapshot, error) {
+func (a *apiPodAccess) QueryPods(ctx context.Context, query *pod.ListQuery, opts ...gotenresource.QueryOption) (*pod.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &pod_client.ListPodsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiPodAccess) WatchPod(ctx context.Context, query *pod.GetQuery, observ
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPod(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiPodAccess) WatchPod(ctx context.Context, query *pod.GetQuery, observ
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiPodAccess) WatchPods(ctx context.Context, query *pod.WatchQuery, obs
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiPodAccess) WatchPods(ctx context.Context, query *pod.WatchQuery, obs
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPods(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiPodAccess) WatchPods(ctx context.Context, query *pod.WatchQuery, obs
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &pod.QueryResultChange{
 			Changes:      respChange.PodChanges,
@@ -191,22 +224,12 @@ func (a *apiPodAccess) WatchPods(ctx context.Context, query *pod.WatchQuery, obs
 
 func (a *apiPodAccess) SavePod(ctx context.Context, res *pod.Pod, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetPod(ctx, &pod.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *pod.Pod
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &pod_client.UpdatePodRequest{
-			Pod: res,
+			Pod:          res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*pod.Pod_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiPodAccess) SavePod(ctx context.Context, res *pod.Pod, opts ...gotenr
 	return nil
 }
 
-func (a *apiPodAccess) DeletePod(ctx context.Context, ref *pod.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiPodAccess) DeletePod(ctx context.Context, ref *pod.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

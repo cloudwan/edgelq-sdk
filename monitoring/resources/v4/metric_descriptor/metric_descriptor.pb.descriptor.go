@@ -16,6 +16,7 @@ import (
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -30,6 +31,7 @@ var (
 	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 	_ = &meta.Meta{}
 )
 
@@ -179,6 +181,10 @@ func (d *Descriptor) ParseResourceName(nameStr string) (gotenresource.Name, erro
 }
 
 func (d *Descriptor) SupportsMetadata() bool {
+	return true
+}
+
+func (d *Descriptor) SupportsDbConstraints() bool {
 	return true
 }
 

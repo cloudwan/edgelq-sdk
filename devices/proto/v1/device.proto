@@ -171,6 +171,15 @@ message Device {
 
       // Whether the journald log exporter is enabled.
       bool enable_journal_export = 3;
+
+      ContainerLoggingConfig container_logging_config = 4;
+
+      // Configuration to control how container log export is handled
+      // Only enable option is available now
+      message ContainerLoggingConfig {
+        // Enable container log export. Default is disabled
+        bool enable_container_log_export = 1;
+      }
     }
 
     message ProxyConfig {

@@ -23,6 +23,7 @@ import (
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -43,6 +44,7 @@ var (
 	_ = &project.Project{}
 	_ = &time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

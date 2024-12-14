@@ -839,6 +839,9 @@ func (TimeSerieFieldPathBuilder) Project() TimeSeriePathSelectorProject {
 func (TimeSerieFieldPathBuilder) Region() TimeSeriePathSelectorRegion {
 	return TimeSeriePathSelectorRegion{}
 }
+func (TimeSerieFieldPathBuilder) Unit() TimeSeriePathSelectorUnit {
+	return TimeSeriePathSelectorUnit{}
+}
 func (TimeSerieFieldPathBuilder) Metric() TimeSeriePathSelectorMetric {
 	return TimeSeriePathSelectorMetric{}
 }
@@ -894,6 +897,20 @@ func (s TimeSeriePathSelectorRegion) WithValue(value string) *TimeSerie_FieldTer
 }
 
 func (s TimeSeriePathSelectorRegion) WithArrayOfValues(values []string) *TimeSerie_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldTerminalPathArrayOfValues)
+}
+
+type TimeSeriePathSelectorUnit struct{}
+
+func (TimeSeriePathSelectorUnit) FieldPath() *TimeSerie_FieldTerminalPath {
+	return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorUnit}
+}
+
+func (s TimeSeriePathSelectorUnit) WithValue(value string) *TimeSerie_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSerie_FieldTerminalPathValue)
+}
+
+func (s TimeSeriePathSelectorUnit) WithArrayOfValues(values []string) *TimeSerie_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSerie_FieldTerminalPathArrayOfValues)
 }
 
@@ -2006,6 +2023,10 @@ func (BulkTimeSeriesPathSelectorTimeSeries) Region() BulkTimeSeriesPathSelectorT
 	return BulkTimeSeriesPathSelectorTimeSeriesRegion{}
 }
 
+func (BulkTimeSeriesPathSelectorTimeSeries) Unit() BulkTimeSeriesPathSelectorTimeSeriesUnit {
+	return BulkTimeSeriesPathSelectorTimeSeriesUnit{}
+}
+
 func (BulkTimeSeriesPathSelectorTimeSeries) Metric() BulkTimeSeriesPathSelectorTimeSeriesMetric {
 	return BulkTimeSeriesPathSelectorTimeSeriesMetric{}
 }
@@ -2074,6 +2095,23 @@ func (s BulkTimeSeriesPathSelectorTimeSeriesRegion) WithValue(value string) *Bul
 }
 
 func (s BulkTimeSeriesPathSelectorTimeSeriesRegion) WithArrayOfValues(values []string) *BulkTimeSeries_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
+}
+
+type BulkTimeSeriesPathSelectorTimeSeriesUnit struct{}
+
+func (BulkTimeSeriesPathSelectorTimeSeriesUnit) FieldPath() *BulkTimeSeries_FieldSubPath {
+	return &BulkTimeSeries_FieldSubPath{
+		selector: BulkTimeSeries_FieldPathSelectorTimeSeries,
+		subPath:  NewTimeSerieFieldPathBuilder().Unit().FieldPath(),
+	}
+}
+
+func (s BulkTimeSeriesPathSelectorTimeSeriesUnit) WithValue(value string) *BulkTimeSeries_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*BulkTimeSeries_FieldSubPathValue)
+}
+
+func (s BulkTimeSeriesPathSelectorTimeSeriesUnit) WithArrayOfValues(values []string) *BulkTimeSeries_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*BulkTimeSeries_FieldSubPathArrayOfValues)
 }
 

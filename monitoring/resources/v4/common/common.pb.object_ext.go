@@ -383,43 +383,67 @@ func (o *Distribution_BucketOptions) MakeDiffFieldMask(other *Distribution_Bucke
 
 	res := &Distribution_BucketOptions_FieldMask{}
 	{
-		subMask := o.GetLinearBuckets().MakeDiffFieldMask(other.GetLinearBuckets())
-		if subMask.IsFull() {
+		_, leftSelected := o.Options.(*Distribution_BucketOptions_LinearBuckets)
+		_, rightSelected := other.Options.(*Distribution_BucketOptions_LinearBuckets)
+		if leftSelected == rightSelected {
+			subMask := o.GetLinearBuckets().MakeDiffFieldMask(other.GetLinearBuckets())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorLinearBuckets})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorLinearBuckets, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorLinearBuckets})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorLinearBuckets, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetExponentialBuckets().MakeDiffFieldMask(other.GetExponentialBuckets())
-		if subMask.IsFull() {
+		_, leftSelected := o.Options.(*Distribution_BucketOptions_ExponentialBuckets)
+		_, rightSelected := other.Options.(*Distribution_BucketOptions_ExponentialBuckets)
+		if leftSelected == rightSelected {
+			subMask := o.GetExponentialBuckets().MakeDiffFieldMask(other.GetExponentialBuckets())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorExponentialBuckets})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorExponentialBuckets, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorExponentialBuckets})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorExponentialBuckets, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetExplicitBuckets().MakeDiffFieldMask(other.GetExplicitBuckets())
-		if subMask.IsFull() {
+		_, leftSelected := o.Options.(*Distribution_BucketOptions_ExplicitBuckets)
+		_, rightSelected := other.Options.(*Distribution_BucketOptions_ExplicitBuckets)
+		if leftSelected == rightSelected {
+			subMask := o.GetExplicitBuckets().MakeDiffFieldMask(other.GetExplicitBuckets())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorExplicitBuckets})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorExplicitBuckets, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorExplicitBuckets})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorExplicitBuckets, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetDynamicBuckets().MakeDiffFieldMask(other.GetDynamicBuckets())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorDynamicBuckets})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorDynamicBuckets, subPath: subpath})
+		_, leftSelected := o.Options.(*Distribution_BucketOptions_DynamicBuckets)
+		_, rightSelected := other.Options.(*Distribution_BucketOptions_DynamicBuckets)
+		if leftSelected == rightSelected {
+			subMask := o.GetDynamicBuckets().MakeDiffFieldMask(other.GetDynamicBuckets())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorDynamicBuckets})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &DistributionBucketOptions_FieldSubPath{selector: DistributionBucketOptions_FieldPathSelectorDynamicBuckets, subPath: subpath})
+				}
 			}
+		} else {
+			res.Paths = append(res.Paths, &DistributionBucketOptions_FieldTerminalPath{selector: DistributionBucketOptions_FieldPathSelectorDynamicBuckets})
 		}
 	}
 	return res
@@ -832,26 +856,64 @@ func (o *TypedValue) MakeDiffFieldMask(other *TypedValue) *TypedValue_FieldMask 
 	}
 
 	res := &TypedValue_FieldMask{}
-	if o.GetBoolValue() != other.GetBoolValue() {
-		res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorBoolValue})
-	}
-	if o.GetInt64Value() != other.GetInt64Value() {
-		res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorInt64Value})
-	}
-	if o.GetDoubleValue() != other.GetDoubleValue() {
-		res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorDoubleValue})
-	}
-	if o.GetStringValue() != other.GetStringValue() {
-		res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorStringValue})
+	{
+		_, leftSelected := o.Value.(*TypedValue_BoolValue)
+		_, rightSelected := other.Value.(*TypedValue_BoolValue)
+		if leftSelected == rightSelected {
+			if o.GetBoolValue() != other.GetBoolValue() {
+				res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorBoolValue})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorBoolValue})
+		}
 	}
 	{
-		subMask := o.GetDistributionValue().MakeDiffFieldMask(other.GetDistributionValue())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorDistributionValue})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &TypedValue_FieldSubPath{selector: TypedValue_FieldPathSelectorDistributionValue, subPath: subpath})
+		_, leftSelected := o.Value.(*TypedValue_Int64Value)
+		_, rightSelected := other.Value.(*TypedValue_Int64Value)
+		if leftSelected == rightSelected {
+			if o.GetInt64Value() != other.GetInt64Value() {
+				res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorInt64Value})
 			}
+		} else {
+			res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorInt64Value})
+		}
+	}
+	{
+		_, leftSelected := o.Value.(*TypedValue_DoubleValue)
+		_, rightSelected := other.Value.(*TypedValue_DoubleValue)
+		if leftSelected == rightSelected {
+			if o.GetDoubleValue() != other.GetDoubleValue() {
+				res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorDoubleValue})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorDoubleValue})
+		}
+	}
+	{
+		_, leftSelected := o.Value.(*TypedValue_StringValue)
+		_, rightSelected := other.Value.(*TypedValue_StringValue)
+		if leftSelected == rightSelected {
+			if o.GetStringValue() != other.GetStringValue() {
+				res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorStringValue})
+			}
+		} else {
+			res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorStringValue})
+		}
+	}
+	{
+		_, leftSelected := o.Value.(*TypedValue_DistributionValue)
+		_, rightSelected := other.Value.(*TypedValue_DistributionValue)
+		if leftSelected == rightSelected {
+			subMask := o.GetDistributionValue().MakeDiffFieldMask(other.GetDistributionValue())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorDistributionValue})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &TypedValue_FieldSubPath{selector: TypedValue_FieldPathSelectorDistributionValue, subPath: subpath})
+				}
+			}
+		} else {
+			res.Paths = append(res.Paths, &TypedValue_FieldTerminalPath{selector: TypedValue_FieldPathSelectorDistributionValue})
 		}
 	}
 	return res

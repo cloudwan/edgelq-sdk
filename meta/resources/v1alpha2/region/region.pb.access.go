@@ -38,9 +38,9 @@ var (
 )
 
 type RegionAccess interface {
-	GetRegion(context.Context, *GetQuery) (*Region, error)
+	GetRegion(context.Context, *GetQuery, ...gotenresource.GetOption) (*Region, error)
 	BatchGetRegions(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryRegions(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryRegions(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchRegion(context.Context, *GetQuery, func(*RegionChange) error) error
 	WatchRegions(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveRegion(context.Context, *Region, ...gotenresource.SaveOption) error
@@ -55,25 +55,25 @@ func AsAnyCastAccess(access RegionAccess) gotenresource.Access {
 	return &anyCastAccess{RegionAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asRegionQuery, ok := q.(*GetQuery); ok {
-		return a.GetRegion(ctx, asRegionQuery)
+		return a.GetRegion(ctx, asRegionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Region, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asRegionQuery, ok := q.(*ListQuery); ok {
-		return a.QueryRegions(ctx, asRegionQuery)
+		return a.QueryRegions(ctx, asRegionQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Region, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Region")
 }
 

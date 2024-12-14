@@ -3,10 +3,9 @@ module github.com/cloudwan/edgelq-sdk
 go 1.21
 
 require (
-	github.com/cloudwan/goten-sdk v1.5.12
+	github.com/cloudwan/goten-sdk v1.8.3
 	github.com/google/cel-go v0.20.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
-	github.com/iancoleman/strcase v0.0.0-20180726023541-3605ed457bf7
 	github.com/spf13/pflag v1.0.5
 	go.opencensus.io v0.23.0
 	golang.org/x/oauth2 v0.0.0-20210402161424-2e8d93401602
@@ -30,4 +29,4 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 )
 
-replace google.golang.org/protobuf => github.com/cloudwan/goten-protobuf v1.26.0
+replace google.golang.org/protobuf => github.com/cloudwan/protobuf-go v1.34.2

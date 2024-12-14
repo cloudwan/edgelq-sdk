@@ -21,6 +21,7 @@ import (
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 // ensure the imports are used
@@ -40,6 +41,7 @@ var (
 	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 	_ = &meta.Meta{}
 )
 
@@ -625,6 +627,9 @@ func (o *MetricDescriptor_StorageConfig) MakeDiffFieldMask(other *MetricDescript
 	if o.GetStoreRawPoints() != other.GetStoreRawPoints() {
 		res.Paths = append(res.Paths, &MetricDescriptorStorageConfig_FieldTerminalPath{selector: MetricDescriptorStorageConfig_FieldPathSelectorStoreRawPoints})
 	}
+	if !proto.Equal(o.GetMaxAp(), other.GetMaxAp()) {
+		res.Paths = append(res.Paths, &MetricDescriptorStorageConfig_FieldTerminalPath{selector: MetricDescriptorStorageConfig_FieldPathSelectorMaxAp})
+	}
 	return res
 }
 
@@ -638,6 +643,7 @@ func (o *MetricDescriptor_StorageConfig) Clone() *MetricDescriptor_StorageConfig
 	}
 	result := &MetricDescriptor_StorageConfig{}
 	result.StoreRawPoints = o.StoreRawPoints
+	result.MaxAp = proto.Clone(o.MaxAp).(*durationpb.Duration)
 	return result
 }
 
@@ -647,6 +653,12 @@ func (o *MetricDescriptor_StorageConfig) CloneRaw() gotenobject.GotenObjectExt {
 
 func (o *MetricDescriptor_StorageConfig) Merge(source *MetricDescriptor_StorageConfig) {
 	o.StoreRawPoints = source.GetStoreRawPoints()
+	if source.GetMaxAp() != nil {
+		if o.MaxAp == nil {
+			o.MaxAp = new(durationpb.Duration)
+		}
+		proto.Merge(o.MaxAp, source.GetMaxAp())
+	}
 }
 
 func (o *MetricDescriptor_StorageConfig) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -684,6 +696,9 @@ func (o *MetricDescriptor_BinaryIndices) MakeDiffFieldMask(other *MetricDescript
 	} else {
 		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorByResources})
 	}
+	if o.GetRegion() != other.GetRegion() {
+		res.Paths = append(res.Paths, &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorRegion})
+	}
 	return res
 }
 
@@ -700,6 +715,7 @@ func (o *MetricDescriptor_BinaryIndices) Clone() *MetricDescriptor_BinaryIndices
 	for i, sourceValue := range o.ByResources {
 		result.ByResources[i] = sourceValue.Clone()
 	}
+	result.Region = o.Region
 	return result
 }
 
@@ -726,6 +742,7 @@ func (o *MetricDescriptor_BinaryIndices) Merge(source *MetricDescriptor_BinaryIn
 		}
 	}
 
+	o.Region = source.GetRegion()
 }
 
 func (o *MetricDescriptor_BinaryIndices) MergeRaw(source gotenobject.GotenObjectExt) {

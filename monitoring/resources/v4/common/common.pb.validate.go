@@ -241,8 +241,8 @@ func (obj *Aggregation) GotenValidate() error {
 		d := obj.AlignmentPeriod.AsDuration()
 
 		if obj.AlignmentPeriod != nil {
-			if d != time.Duration(0) && d != time.Duration(60000000000) && d != time.Duration(180000000000) && d != time.Duration(300000000000) && d != time.Duration(900000000000) && d != time.Duration(1800000000000) && d != time.Duration(3600000000000) && d != time.Duration(10800000000000) && d != time.Duration(21600000000000) && d != time.Duration(43200000000000) && d != time.Duration(86400000000000) && d != time.Duration(604800000000000) && d != time.Duration(2419200000000000) {
-				return gotenvalidate.NewValidationError("Aggregation", "alignmentPeriod", d, "field must be equal to exactly one of the following values: 0s, 1m0s, 3m0s, 5m0s, 15m0s, 30m0s, 1h0m0s, 3h0m0s, 6h0m0s, 12h0m0s, 24h0m0s, 168h0m0s, 672h0m0s", nil)
+			if d != time.Duration(0) && d != time.Duration(60000000000) && d != time.Duration(180000000000) && d != time.Duration(300000000000) && d != time.Duration(900000000000) && d != time.Duration(1800000000000) && d != time.Duration(3600000000000) && d != time.Duration(10800000000000) && d != time.Duration(21600000000000) && d != time.Duration(43200000000000) && d != time.Duration(86400000000000) {
+				return gotenvalidate.NewValidationError("Aggregation", "alignmentPeriod", d, "field must be equal to exactly one of the following values: 0s, 1m0s, 3m0s, 5m0s, 15m0s, 30m0s, 1h0m0s, 3h0m0s, 6h0m0s, 12h0m0s, 24h0m0s", nil)
 			}
 		}
 	}

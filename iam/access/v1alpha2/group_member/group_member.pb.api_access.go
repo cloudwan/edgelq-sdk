@@ -6,10 +6,10 @@ package group_member_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiGroupMemberAccess(client group_member_client.GroupMemberServiceClient
 	return &apiGroupMemberAccess{client: client}
 }
 
-func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_member.GetQuery) (*group_member.GroupMember, error) {
+func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_member.GetQuery, opts ...gotenresource.GetOption) (*group_member.GroupMember, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetGroupMember(ctx, request)
+	res, err := a.client.GetGroupMember(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiGroupMemberAccess) GetGroupMember(ctx context.Context, query *group_
 
 func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []*group_member.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*group_member.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*group_member.GroupMember_FieldMask)
 	}
-	resp, err := a.client.BatchGetGroupMembers(ctx, request)
+	resp, err := a.client.BatchGetGroupMembers(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiGroupMemberAccess) BatchGetGroupMembers(ctx context.Context, refs []
 	return nil
 }
 
-func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *group_member.ListQuery) (*group_member.QueryResultSnapshot, error) {
+func (a *apiGroupMemberAccess) QueryGroupMembers(ctx context.Context, query *group_member.ListQuery, opts ...gotenresource.QueryOption) (*group_member.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &group_member_client.ListGroupMembersRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiGroupMemberAccess) WatchGroupMember(ctx context.Context, query *grou
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroupMember(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiGroupMemberAccess) WatchGroupMember(ctx context.Context, query *grou
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiGroupMemberAccess) WatchGroupMembers(ctx context.Context, query *gro
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiGroupMemberAccess) WatchGroupMembers(ctx context.Context, query *gro
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroupMembers(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiGroupMemberAccess) WatchGroupMembers(ctx context.Context, query *gro
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &group_member.QueryResultChange{
 			Changes:      respChange.GroupMemberChanges,
@@ -191,22 +224,12 @@ func (a *apiGroupMemberAccess) WatchGroupMembers(ctx context.Context, query *gro
 
 func (a *apiGroupMemberAccess) SaveGroupMember(ctx context.Context, res *group_member.GroupMember, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetGroupMember(ctx, &group_member.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *group_member.GroupMember
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &group_member_client.UpdateGroupMemberRequest{
-			GroupMember: res,
+			GroupMember:  res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*group_member.GroupMember_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiGroupMemberAccess) SaveGroupMember(ctx context.Context, res *group_m
 	return nil
 }
 
-func (a *apiGroupMemberAccess) DeleteGroupMember(ctx context.Context, ref *group_member.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiGroupMemberAccess) DeleteGroupMember(ctx context.Context, ref *group_member.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

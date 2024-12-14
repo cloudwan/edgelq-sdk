@@ -12,6 +12,7 @@ import (
 import (
 	customized_image_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/customized_image"
 	device_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device"
+	device_distribution_counter_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_distribution_counter"
 	device_hardware_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_hardware"
 	device_hardware_register_session_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_hardware_register_session"
 	device_type_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_type"
@@ -25,6 +26,7 @@ import (
 	ztp_provision_hardware_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/ztp_provision_hardware"
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
+	device_distribution_counter "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_distribution_counter"
 	device_hardware "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware"
 	device_hardware_register_session "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware_register_session"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
@@ -46,6 +48,8 @@ var (
 	_ = &customized_image.CustomizedImage{}
 	_ = &customized_image_client.GetCustomizedImageRequest{}
 	_ = &device.Device{}
+	_ = &device_distribution_counter.DeviceDistributionCounter{}
+	_ = &device_distribution_counter_client.GetDeviceDistributionCounterRequest{}
 	_ = &device_hardware.DeviceHardware{}
 	_ = &device_hardware_register_session.DeviceHardwareRegisterSession{}
 	_ = &device_hardware_register_session_client.GetDeviceHardwareRegisterSessionRequest{}
@@ -69,6 +73,7 @@ var (
 
 type DevicesClient interface {
 	customized_image_client.CustomizedImageServiceClient
+	device_distribution_counter_client.DeviceDistributionCounterServiceClient
 	device_hardware_register_session_client.DeviceHardwareRegisterSessionServiceClient
 	device_hardware_client.DeviceHardwareServiceClient
 	device_client.DeviceServiceClient
@@ -85,6 +90,7 @@ type DevicesClient interface {
 
 type devicesClient struct {
 	customized_image_client.CustomizedImageServiceClient
+	device_distribution_counter_client.DeviceDistributionCounterServiceClient
 	device_hardware_register_session_client.DeviceHardwareRegisterSessionServiceClient
 	device_hardware_client.DeviceHardwareServiceClient
 	device_client.DeviceServiceClient
@@ -102,6 +108,7 @@ type devicesClient struct {
 func NewDevicesClient(cc grpc.ClientConnInterface) DevicesClient {
 	return &devicesClient{
 		CustomizedImageServiceClient:               customized_image_client.NewCustomizedImageServiceClient(cc),
+		DeviceDistributionCounterServiceClient:     device_distribution_counter_client.NewDeviceDistributionCounterServiceClient(cc),
 		DeviceHardwareRegisterSessionServiceClient: device_hardware_register_session_client.NewDeviceHardwareRegisterSessionServiceClient(cc),
 		DeviceHardwareServiceClient:                device_hardware_client.NewDeviceHardwareServiceClient(cc),
 		DeviceServiceClient:                        device_client.NewDeviceServiceClient(cc),

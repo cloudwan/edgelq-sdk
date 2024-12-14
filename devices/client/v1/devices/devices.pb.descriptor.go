@@ -13,6 +13,7 @@ import (
 import (
 	customized_image_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/customized_image"
 	device_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device"
+	device_distribution_counter_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_distribution_counter"
 	device_hardware_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_hardware"
 	device_hardware_register_session_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_hardware_register_session"
 	device_type_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/device_type"
@@ -26,6 +27,7 @@ import (
 	ztp_provision_hardware_client "github.com/cloudwan/edgelq-sdk/devices/client/v1/ztp_provision_hardware"
 	customized_image "github.com/cloudwan/edgelq-sdk/devices/resources/v1/customized_image"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
+	device_distribution_counter "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_distribution_counter"
 	device_hardware "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware"
 	device_hardware_register_session "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware_register_session"
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
@@ -48,6 +50,8 @@ var (
 	_ = &customized_image.CustomizedImage{}
 	_ = &customized_image_client.GetCustomizedImageRequest{}
 	_ = &device.Device{}
+	_ = &device_distribution_counter.DeviceDistributionCounter{}
+	_ = &device_distribution_counter_client.GetDeviceDistributionCounterRequest{}
 	_ = &device_hardware.DeviceHardware{}
 	_ = &device_hardware_register_session.DeviceHardwareRegisterSession{}
 	_ = &device_hardware_register_session_client.GetDeviceHardwareRegisterSessionRequest{}
@@ -97,6 +101,7 @@ func (d *DevicesDescriptor) AllResourceDescriptors() []gotenresource.Descriptor 
 	return []gotenresource.Descriptor{
 		customized_image.GetDescriptor(),
 		device.GetDescriptor(),
+		device_distribution_counter.GetDescriptor(),
 		device_hardware.GetDescriptor(),
 		device_hardware_register_session.GetDescriptor(),
 		device_type.GetDescriptor(),
@@ -112,6 +117,7 @@ func (d *DevicesDescriptor) AllResourceDescriptors() []gotenresource.Descriptor 
 func (d *DevicesDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	return []gotenclient.ApiDescriptor{
 		customized_image_client.GetCustomizedImageServiceDescriptor(),
+		device_distribution_counter_client.GetDeviceDistributionCounterServiceDescriptor(),
 		device_hardware_register_session_client.GetDeviceHardwareRegisterSessionServiceDescriptor(),
 		device_hardware_client.GetDeviceHardwareServiceDescriptor(),
 		device_client.GetDeviceServiceDescriptor(),

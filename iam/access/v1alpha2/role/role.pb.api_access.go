@@ -6,10 +6,10 @@ package role_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiRoleAccess(client role_client.RoleServiceClient) role.RoleAccess {
 	return &apiRoleAccess{client: client}
 }
 
-func (a *apiRoleAccess) GetRole(ctx context.Context, query *role.GetQuery) (*role.Role, error) {
+func (a *apiRoleAccess) GetRole(ctx context.Context, query *role.GetQuery, opts ...gotenresource.GetOption) (*role.Role, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiRoleAccess) GetRole(ctx context.Context, query *role.GetQuery) (*rol
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetRole(ctx, request)
+	res, err := a.client.GetRole(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiRoleAccess) GetRole(ctx context.Context, query *role.GetQuery) (*rol
 
 func (a *apiRoleAccess) BatchGetRoles(ctx context.Context, refs []*role.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*role.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiRoleAccess) BatchGetRoles(ctx context.Context, refs []*role.Referenc
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*role.Role_FieldMask)
 	}
-	resp, err := a.client.BatchGetRoles(ctx, request)
+	resp, err := a.client.BatchGetRoles(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiRoleAccess) BatchGetRoles(ctx context.Context, refs []*role.Referenc
 	return nil
 }
 
-func (a *apiRoleAccess) QueryRoles(ctx context.Context, query *role.ListQuery) (*role.QueryResultSnapshot, error) {
+func (a *apiRoleAccess) QueryRoles(ctx context.Context, query *role.ListQuery, opts ...gotenresource.QueryOption) (*role.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &role_client.ListRolesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +153,9 @@ func (a *apiRoleAccess) WatchRole(ctx context.Context, query *role.GetQuery, obs
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRole(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -134,7 +163,7 @@ func (a *apiRoleAccess) WatchRole(ctx context.Context, query *role.GetQuery, obs
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -150,12 +179,16 @@ func (a *apiRoleAccess) WatchRoles(ctx context.Context, query *role.WatchQuery, 
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRoles(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -163,7 +196,7 @@ func (a *apiRoleAccess) WatchRoles(ctx context.Context, query *role.WatchQuery, 
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &role.QueryResultChange{
 			Changes:      respChange.RoleChanges,
@@ -185,22 +218,12 @@ func (a *apiRoleAccess) WatchRoles(ctx context.Context, query *role.WatchQuery, 
 
 func (a *apiRoleAccess) SaveRole(ctx context.Context, res *role.Role, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetRole(ctx, &role.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *role.Role
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &role_client.UpdateRoleRequest{
-			Role: res,
+			Role:         res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*role.Role_FieldMask)
@@ -229,7 +252,7 @@ func (a *apiRoleAccess) SaveRole(ctx context.Context, res *role.Role, opts ...go
 	return nil
 }
 
-func (a *apiRoleAccess) DeleteRole(ctx context.Context, ref *role.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiRoleAccess) DeleteRole(ctx context.Context, ref *role.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

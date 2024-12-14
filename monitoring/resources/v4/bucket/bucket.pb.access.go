@@ -40,9 +40,9 @@ var (
 )
 
 type BucketAccess interface {
-	GetBucket(context.Context, *GetQuery) (*Bucket, error)
+	GetBucket(context.Context, *GetQuery, ...gotenresource.GetOption) (*Bucket, error)
 	BatchGetBuckets(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryBuckets(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryBuckets(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchBucket(context.Context, *GetQuery, func(*BucketChange) error) error
 	WatchBuckets(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveBucket(context.Context, *Bucket, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access BucketAccess) gotenresource.Access {
 	return &anyCastAccess{BucketAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asBucketQuery, ok := q.(*GetQuery); ok {
-		return a.GetBucket(ctx, asBucketQuery)
+		return a.GetBucket(ctx, asBucketQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Bucket, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asBucketQuery, ok := q.(*ListQuery); ok {
-		return a.QueryBuckets(ctx, asBucketQuery)
+		return a.QueryBuckets(ctx, asBucketQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Bucket, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Bucket")
 }
 

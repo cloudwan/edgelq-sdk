@@ -6,10 +6,10 @@ package accepted_plan_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiAcceptedPlanAccess(client accepted_plan_client.AcceptedPlanServiceCli
 	return &apiAcceptedPlanAccess{client: client}
 }
 
-func (a *apiAcceptedPlanAccess) GetAcceptedPlan(ctx context.Context, query *accepted_plan.GetQuery) (*accepted_plan.AcceptedPlan, error) {
+func (a *apiAcceptedPlanAccess) GetAcceptedPlan(ctx context.Context, query *accepted_plan.GetQuery, opts ...gotenresource.GetOption) (*accepted_plan.AcceptedPlan, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiAcceptedPlanAccess) GetAcceptedPlan(ctx context.Context, query *acce
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetAcceptedPlan(ctx, request)
+	res, err := a.client.GetAcceptedPlan(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiAcceptedPlanAccess) GetAcceptedPlan(ctx context.Context, query *acce
 
 func (a *apiAcceptedPlanAccess) BatchGetAcceptedPlans(ctx context.Context, refs []*accepted_plan.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*accepted_plan.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiAcceptedPlanAccess) BatchGetAcceptedPlans(ctx context.Context, refs 
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*accepted_plan.AcceptedPlan_FieldMask)
 	}
-	resp, err := a.client.BatchGetAcceptedPlans(ctx, request)
+	resp, err := a.client.BatchGetAcceptedPlans(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiAcceptedPlanAccess) BatchGetAcceptedPlans(ctx context.Context, refs 
 	return nil
 }
 
-func (a *apiAcceptedPlanAccess) QueryAcceptedPlans(ctx context.Context, query *accepted_plan.ListQuery) (*accepted_plan.QueryResultSnapshot, error) {
+func (a *apiAcceptedPlanAccess) QueryAcceptedPlans(ctx context.Context, query *accepted_plan.ListQuery, opts ...gotenresource.QueryOption) (*accepted_plan.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &accepted_plan_client.ListAcceptedPlansRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiAcceptedPlanAccess) WatchAcceptedPlan(ctx context.Context, query *ac
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAcceptedPlan(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiAcceptedPlanAccess) WatchAcceptedPlan(ctx context.Context, query *ac
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiAcceptedPlanAccess) WatchAcceptedPlans(ctx context.Context, query *a
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiAcceptedPlanAccess) WatchAcceptedPlans(ctx context.Context, query *a
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAcceptedPlans(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiAcceptedPlanAccess) WatchAcceptedPlans(ctx context.Context, query *a
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &accepted_plan.QueryResultChange{
 			Changes:      respChange.AcceptedPlanChanges,
@@ -191,22 +224,12 @@ func (a *apiAcceptedPlanAccess) WatchAcceptedPlans(ctx context.Context, query *a
 
 func (a *apiAcceptedPlanAccess) SaveAcceptedPlan(ctx context.Context, res *accepted_plan.AcceptedPlan, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetAcceptedPlan(ctx, &accepted_plan.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *accepted_plan.AcceptedPlan
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &accepted_plan_client.UpdateAcceptedPlanRequest{
 			AcceptedPlan: res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*accepted_plan.AcceptedPlan_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiAcceptedPlanAccess) SaveAcceptedPlan(ctx context.Context, res *accep
 	return nil
 }
 
-func (a *apiAcceptedPlanAccess) DeleteAcceptedPlan(ctx context.Context, ref *accepted_plan.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiAcceptedPlanAccess) DeleteAcceptedPlan(ctx context.Context, ref *accepted_plan.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

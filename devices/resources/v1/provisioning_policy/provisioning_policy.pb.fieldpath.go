@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -943,16 +943,17 @@ type ProvisioningPolicySpec_FieldPath interface {
 type ProvisioningPolicySpec_FieldPathSelector int32
 
 const (
-	ProvisioningPolicySpec_FieldPathSelectorMode               ProvisioningPolicySpec_FieldPathSelector = 0
-	ProvisioningPolicySpec_FieldPathSelectorServiceAccount     ProvisioningPolicySpec_FieldPathSelector = 1
-	ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat   ProvisioningPolicySpec_FieldPathSelector = 2
-	ProvisioningPolicySpec_FieldPathSelectorLabels             ProvisioningPolicySpec_FieldPathSelector = 3
-	ProvisioningPolicySpec_FieldPathSelectorTemplate           ProvisioningPolicySpec_FieldPathSelector = 4
-	ProvisioningPolicySpec_FieldPathSelectorIdentityFieldPaths ProvisioningPolicySpec_FieldPathSelector = 5
-	ProvisioningPolicySpec_FieldPathSelectorRole               ProvisioningPolicySpec_FieldPathSelector = 6
-	ProvisioningPolicySpec_FieldPathSelectorScopeParams        ProvisioningPolicySpec_FieldPathSelector = 7
-	ProvisioningPolicySpec_FieldPathSelectorCondition          ProvisioningPolicySpec_FieldPathSelector = 8
-	ProvisioningPolicySpec_FieldPathSelectorConditionParams    ProvisioningPolicySpec_FieldPathSelector = 9
+	ProvisioningPolicySpec_FieldPathSelectorMode                    ProvisioningPolicySpec_FieldPathSelector = 0
+	ProvisioningPolicySpec_FieldPathSelectorServiceAccount          ProvisioningPolicySpec_FieldPathSelector = 1
+	ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat        ProvisioningPolicySpec_FieldPathSelector = 2
+	ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat ProvisioningPolicySpec_FieldPathSelector = 3
+	ProvisioningPolicySpec_FieldPathSelectorLabels                  ProvisioningPolicySpec_FieldPathSelector = 4
+	ProvisioningPolicySpec_FieldPathSelectorTemplate                ProvisioningPolicySpec_FieldPathSelector = 5
+	ProvisioningPolicySpec_FieldPathSelectorIdentityFieldPaths      ProvisioningPolicySpec_FieldPathSelector = 6
+	ProvisioningPolicySpec_FieldPathSelectorRole                    ProvisioningPolicySpec_FieldPathSelector = 7
+	ProvisioningPolicySpec_FieldPathSelectorScopeParams             ProvisioningPolicySpec_FieldPathSelector = 8
+	ProvisioningPolicySpec_FieldPathSelectorCondition               ProvisioningPolicySpec_FieldPathSelector = 9
+	ProvisioningPolicySpec_FieldPathSelectorConditionParams         ProvisioningPolicySpec_FieldPathSelector = 10
 )
 
 func (s ProvisioningPolicySpec_FieldPathSelector) String() string {
@@ -963,6 +964,8 @@ func (s ProvisioningPolicySpec_FieldPathSelector) String() string {
 		return "service_account"
 	case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 		return "device_name_format"
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+		return "device_display_name_format"
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
 		return "labels"
 	case ProvisioningPolicySpec_FieldPathSelectorTemplate:
@@ -994,6 +997,8 @@ func BuildProvisioningPolicySpec_FieldPath(fp gotenobject.RawFieldPath) (Provisi
 			return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorServiceAccount}, nil
 		case "device_name_format", "deviceNameFormat", "device-name-format":
 			return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat}, nil
+		case "device_display_name_format", "deviceDisplayNameFormat", "device-display-name-format":
+			return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat}, nil
 		case "labels":
 			return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorLabels}, nil
 		case "template":
@@ -1081,6 +1086,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) Get(source *ProvisioningPoli
 			}
 		case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 			values = append(values, source.DeviceNameFormat)
+		case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+			values = append(values, source.DeviceDisplayNameFormat)
 		case ProvisioningPolicySpec_FieldPathSelectorLabels:
 			values = append(values, source.Labels)
 		case ProvisioningPolicySpec_FieldPathSelectorTemplate:
@@ -1128,6 +1135,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) GetSingle(source *Provisioni
 		return res, res != nil
 	case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 		return source.GetDeviceNameFormat(), source != nil
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+		return source.GetDeviceDisplayNameFormat(), source != nil
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
 		res := source.GetLabels()
 		return res, res != nil
@@ -1167,6 +1176,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*iam_service_account.Reference)(nil)
 	case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 		return ""
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+		return ""
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
 		return (map[string]string)(nil)
 	case ProvisioningPolicySpec_FieldPathSelectorTemplate:
@@ -1195,6 +1206,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) ClearValue(item *Provisionin
 			item.ServiceAccount = nil
 		case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 			item.DeviceNameFormat = ""
+		case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+			item.DeviceDisplayNameFormat = ""
 		case ProvisioningPolicySpec_FieldPathSelectorLabels:
 			item.Labels = nil
 		case ProvisioningPolicySpec_FieldPathSelectorTemplate:
@@ -1224,6 +1237,7 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ProvisioningPolicySpec_FieldPathSelectorMode ||
 		fp.selector == ProvisioningPolicySpec_FieldPathSelectorServiceAccount ||
 		fp.selector == ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat ||
+		fp.selector == ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat ||
 		fp.selector == ProvisioningPolicySpec_FieldPathSelectorLabels ||
 		fp.selector == ProvisioningPolicySpec_FieldPathSelectorIdentityFieldPaths ||
 		fp.selector == ProvisioningPolicySpec_FieldPathSelectorRole ||
@@ -1242,6 +1256,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) WithIValue(value interface{}
 	case ProvisioningPolicySpec_FieldPathSelectorServiceAccount:
 		return &ProvisioningPolicySpec_FieldTerminalPathValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(*iam_service_account.Reference)}
 	case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
+		return &ProvisioningPolicySpec_FieldTerminalPathValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(string)}
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
 		return &ProvisioningPolicySpec_FieldTerminalPathValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(string)}
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
 		return &ProvisioningPolicySpec_FieldTerminalPathValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(map[string]string)}
@@ -1274,6 +1290,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) WithIArrayOfValues(values in
 	case ProvisioningPolicySpec_FieldPathSelectorServiceAccount:
 		return &ProvisioningPolicySpec_FieldTerminalPathArrayOfValues{ProvisioningPolicySpec_FieldTerminalPath: *fp, values: values.([]*iam_service_account.Reference)}
 	case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
+		return &ProvisioningPolicySpec_FieldTerminalPathArrayOfValues{ProvisioningPolicySpec_FieldTerminalPath: *fp, values: values.([]string)}
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
 		return &ProvisioningPolicySpec_FieldTerminalPathArrayOfValues{ProvisioningPolicySpec_FieldTerminalPath: *fp, values: values.([]string)}
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
 		return &ProvisioningPolicySpec_FieldTerminalPathArrayOfValues{ProvisioningPolicySpec_FieldTerminalPath: *fp, values: values.([]map[string]string)}
@@ -1626,6 +1644,10 @@ func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) AsDeviceNameFormatValu
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) AsDeviceDisplayNameFormatValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) AsLabelsValue() (map[string]string, bool) {
 	res, ok := fpv.value.(map[string]string)
 	return res, ok
@@ -1667,6 +1689,8 @@ func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) SetTo(target **Provisi
 		(*target).ServiceAccount = fpv.value.(*iam_service_account.Reference)
 	case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 		(*target).DeviceNameFormat = fpv.value.(string)
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+		(*target).DeviceDisplayNameFormat = fpv.value.(string)
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
 		(*target).Labels = fpv.value.(map[string]string)
 	case ProvisioningPolicySpec_FieldPathSelectorTemplate:
@@ -1726,6 +1750,16 @@ func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) CompareWith(source *Pr
 	case ProvisioningPolicySpec_FieldPathSelectorDeviceNameFormat:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetDeviceNameFormat()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetDeviceDisplayNameFormat()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -2052,6 +2086,10 @@ func (fpaov *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case ProvisioningPolicySpec_FieldPathSelectorDeviceDisplayNameFormat:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case ProvisioningPolicySpec_FieldPathSelectorLabels:
 		for _, v := range fpaov.values.([]map[string]string) {
 			values = append(values, v)
@@ -2092,6 +2130,10 @@ func (fpaov *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues) AsServiceAcc
 	return res, ok
 }
 func (fpaov *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues) AsDeviceNameFormatArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues) AsDeviceDisplayNameFormatArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

@@ -6,10 +6,10 @@ package service_account_key_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiServiceAccountKeyAccess(client service_account_key_client.ServiceAcco
 	return &apiServiceAccountKeyAccess{client: client}
 }
 
-func (a *apiServiceAccountKeyAccess) GetServiceAccountKey(ctx context.Context, query *service_account_key.GetQuery) (*service_account_key.ServiceAccountKey, error) {
+func (a *apiServiceAccountKeyAccess) GetServiceAccountKey(ctx context.Context, query *service_account_key.GetQuery, opts ...gotenresource.GetOption) (*service_account_key.ServiceAccountKey, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiServiceAccountKeyAccess) GetServiceAccountKey(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetServiceAccountKey(ctx, request)
+	res, err := a.client.GetServiceAccountKey(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiServiceAccountKeyAccess) GetServiceAccountKey(ctx context.Context, q
 
 func (a *apiServiceAccountKeyAccess) BatchGetServiceAccountKeys(ctx context.Context, refs []*service_account_key.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*service_account_key.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiServiceAccountKeyAccess) BatchGetServiceAccountKeys(ctx context.Cont
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*service_account_key.ServiceAccountKey_FieldMask)
 	}
-	resp, err := a.client.BatchGetServiceAccountKeys(ctx, request)
+	resp, err := a.client.BatchGetServiceAccountKeys(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiServiceAccountKeyAccess) BatchGetServiceAccountKeys(ctx context.Cont
 	return nil
 }
 
-func (a *apiServiceAccountKeyAccess) QueryServiceAccountKeys(ctx context.Context, query *service_account_key.ListQuery) (*service_account_key.QueryResultSnapshot, error) {
+func (a *apiServiceAccountKeyAccess) QueryServiceAccountKeys(ctx context.Context, query *service_account_key.ListQuery, opts ...gotenresource.QueryOption) (*service_account_key.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &service_account_key_client.ListServiceAccountKeysRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiServiceAccountKeyAccess) WatchServiceAccountKey(ctx context.Context,
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchServiceAccountKey(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiServiceAccountKeyAccess) WatchServiceAccountKey(ctx context.Context,
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiServiceAccountKeyAccess) WatchServiceAccountKeys(ctx context.Context
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiServiceAccountKeyAccess) WatchServiceAccountKeys(ctx context.Context
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchServiceAccountKeys(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiServiceAccountKeyAccess) WatchServiceAccountKeys(ctx context.Context
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &service_account_key.QueryResultChange{
 			Changes:      respChange.ServiceAccountKeyChanges,
@@ -191,22 +224,12 @@ func (a *apiServiceAccountKeyAccess) WatchServiceAccountKeys(ctx context.Context
 
 func (a *apiServiceAccountKeyAccess) SaveServiceAccountKey(ctx context.Context, res *service_account_key.ServiceAccountKey, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetServiceAccountKey(ctx, &service_account_key.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *service_account_key.ServiceAccountKey
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &service_account_key_client.UpdateServiceAccountKeyRequest{
 			ServiceAccountKey: res,
+			AllowMissing:      !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*service_account_key.ServiceAccountKey_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiServiceAccountKeyAccess) SaveServiceAccountKey(ctx context.Context, 
 	return nil
 }
 
-func (a *apiServiceAccountKeyAccess) DeleteServiceAccountKey(ctx context.Context, ref *service_account_key.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiServiceAccountKeyAccess) DeleteServiceAccountKey(ctx context.Context, ref *service_account_key.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

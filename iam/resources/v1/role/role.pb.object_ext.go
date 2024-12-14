@@ -638,33 +638,51 @@ func (o *ScopeParam) MakeDiffFieldMask(other *ScopeParam) *ScopeParam_FieldMask 
 		res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorName})
 	}
 	{
-		subMask := o.GetString_().MakeDiffFieldMask(other.GetString_())
-		if subMask.IsFull() {
+		_, leftSelected := o.Value.(*ScopeParam_String_)
+		_, rightSelected := other.Value.(*ScopeParam_String_)
+		if leftSelected == rightSelected {
+			subMask := o.GetString_().MakeDiffFieldMask(other.GetString_())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorString})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorString, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorString})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorString, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetStrings().MakeDiffFieldMask(other.GetStrings())
-		if subMask.IsFull() {
+		_, leftSelected := o.Value.(*ScopeParam_Strings)
+		_, rightSelected := other.Value.(*ScopeParam_Strings)
+		if leftSelected == rightSelected {
+			subMask := o.GetStrings().MakeDiffFieldMask(other.GetStrings())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorStrings})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorStrings, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorStrings})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorStrings, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetValueFrom().MakeDiffFieldMask(other.GetValueFrom())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorValueFrom})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorValueFrom, subPath: subpath})
+		_, leftSelected := o.Value.(*ScopeParam_ValueFrom)
+		_, rightSelected := other.Value.(*ScopeParam_ValueFrom)
+		if leftSelected == rightSelected {
+			subMask := o.GetValueFrom().MakeDiffFieldMask(other.GetValueFrom())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorValueFrom})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ScopeParam_FieldSubPath{selector: ScopeParam_FieldPathSelectorValueFrom, subPath: subpath})
+				}
 			}
+		} else {
+			res.Paths = append(res.Paths, &ScopeParam_FieldTerminalPath{selector: ScopeParam_FieldPathSelectorValueFrom})
 		}
 	}
 	return res

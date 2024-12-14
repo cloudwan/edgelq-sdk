@@ -6,10 +6,10 @@ package alert_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiAlertAccess(client alert_client.AlertServiceClient) alert.AlertAccess
 	return &apiAlertAccess{client: client}
 }
 
-func (a *apiAlertAccess) GetAlert(ctx context.Context, query *alert.GetQuery) (*alert.Alert, error) {
+func (a *apiAlertAccess) GetAlert(ctx context.Context, query *alert.GetQuery, opts ...gotenresource.GetOption) (*alert.Alert, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiAlertAccess) GetAlert(ctx context.Context, query *alert.GetQuery) (*
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetAlert(ctx, request)
+	res, err := a.client.GetAlert(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiAlertAccess) GetAlert(ctx context.Context, query *alert.GetQuery) (*
 
 func (a *apiAlertAccess) BatchGetAlerts(ctx context.Context, refs []*alert.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*alert.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiAlertAccess) BatchGetAlerts(ctx context.Context, refs []*alert.Refer
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*alert.Alert_FieldMask)
 	}
-	resp, err := a.client.BatchGetAlerts(ctx, request)
+	resp, err := a.client.BatchGetAlerts(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiAlertAccess) BatchGetAlerts(ctx context.Context, refs []*alert.Refer
 	return nil
 }
 
-func (a *apiAlertAccess) QueryAlerts(ctx context.Context, query *alert.ListQuery) (*alert.QueryResultSnapshot, error) {
+func (a *apiAlertAccess) QueryAlerts(ctx context.Context, query *alert.ListQuery, opts ...gotenresource.QueryOption) (*alert.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &alert_client.ListAlertsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiAlertAccess) WatchAlert(ctx context.Context, query *alert.GetQuery, 
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlert(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiAlertAccess) WatchAlert(ctx context.Context, query *alert.GetQuery, 
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiAlertAccess) WatchAlerts(ctx context.Context, query *alert.WatchQuer
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiAlertAccess) WatchAlerts(ctx context.Context, query *alert.WatchQuer
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAlerts(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiAlertAccess) WatchAlerts(ctx context.Context, query *alert.WatchQuer
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &alert.QueryResultChange{
 			Changes:      respChange.AlertChanges,
@@ -191,22 +224,12 @@ func (a *apiAlertAccess) WatchAlerts(ctx context.Context, query *alert.WatchQuer
 
 func (a *apiAlertAccess) SaveAlert(ctx context.Context, res *alert.Alert, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetAlert(ctx, &alert.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *alert.Alert
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &alert_client.UpdateAlertRequest{
-			Alert: res,
+			Alert:        res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*alert.Alert_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiAlertAccess) SaveAlert(ctx context.Context, res *alert.Alert, opts .
 	return nil
 }
 
-func (a *apiAlertAccess) DeleteAlert(ctx context.Context, ref *alert.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiAlertAccess) DeleteAlert(ctx context.Context, ref *alert.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

@@ -6,10 +6,10 @@ package bucket_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiBucketAccess(client bucket_client.BucketServiceClient) bucket.BucketA
 	return &apiBucketAccess{client: client}
 }
 
-func (a *apiBucketAccess) GetBucket(ctx context.Context, query *bucket.GetQuery) (*bucket.Bucket, error) {
+func (a *apiBucketAccess) GetBucket(ctx context.Context, query *bucket.GetQuery, opts ...gotenresource.GetOption) (*bucket.Bucket, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiBucketAccess) GetBucket(ctx context.Context, query *bucket.GetQuery)
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetBucket(ctx, request)
+	res, err := a.client.GetBucket(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiBucketAccess) GetBucket(ctx context.Context, query *bucket.GetQuery)
 
 func (a *apiBucketAccess) BatchGetBuckets(ctx context.Context, refs []*bucket.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*bucket.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiBucketAccess) BatchGetBuckets(ctx context.Context, refs []*bucket.Re
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*bucket.Bucket_FieldMask)
 	}
-	resp, err := a.client.BatchGetBuckets(ctx, request)
+	resp, err := a.client.BatchGetBuckets(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiBucketAccess) BatchGetBuckets(ctx context.Context, refs []*bucket.Re
 	return nil
 }
 
-func (a *apiBucketAccess) QueryBuckets(ctx context.Context, query *bucket.ListQuery) (*bucket.QueryResultSnapshot, error) {
+func (a *apiBucketAccess) QueryBuckets(ctx context.Context, query *bucket.ListQuery, opts ...gotenresource.QueryOption) (*bucket.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &bucket_client.ListBucketsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiBucketAccess) WatchBucket(ctx context.Context, query *bucket.GetQuer
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchBucket(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiBucketAccess) WatchBucket(ctx context.Context, query *bucket.GetQuer
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiBucketAccess) WatchBuckets(ctx context.Context, query *bucket.WatchQ
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiBucketAccess) WatchBuckets(ctx context.Context, query *bucket.WatchQ
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchBuckets(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiBucketAccess) WatchBuckets(ctx context.Context, query *bucket.WatchQ
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &bucket.QueryResultChange{
 			Changes:      respChange.BucketChanges,
@@ -191,22 +224,12 @@ func (a *apiBucketAccess) WatchBuckets(ctx context.Context, query *bucket.WatchQ
 
 func (a *apiBucketAccess) SaveBucket(ctx context.Context, res *bucket.Bucket, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetBucket(ctx, &bucket.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *bucket.Bucket
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &bucket_client.UpdateBucketRequest{
-			Bucket: res,
+			Bucket:       res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*bucket.Bucket_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiBucketAccess) SaveBucket(ctx context.Context, res *bucket.Bucket, op
 	return nil
 }
 
-func (a *apiBucketAccess) DeleteBucket(ctx context.Context, ref *bucket.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiBucketAccess) DeleteBucket(ctx context.Context, ref *bucket.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

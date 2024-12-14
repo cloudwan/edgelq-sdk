@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -1775,18 +1775,58 @@ func (fp *ActivityLogEvent_FieldTerminalPath) GetRaw(source proto.Message) []int
 func (fp *ActivityLogEvent_FieldTerminalPath) GetSingle(source *ActivityLog_Event) (interface{}, bool) {
 	switch fp.selector {
 	case ActivityLogEvent_FieldPathSelectorClientMessage:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetClientMessage(), false
+		}
+		_, oneOfSelected := source.Evt.(*ActivityLog_Event_ClientMessage)
+		if !oneOfSelected {
+			return source.GetClientMessage(), false // to return "type" information
+		}
 		res := source.GetClientMessage()
 		return res, res != nil
 	case ActivityLogEvent_FieldPathSelectorServerMessage:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetServerMessage(), false
+		}
+		_, oneOfSelected := source.Evt.(*ActivityLog_Event_ServerMessage)
+		if !oneOfSelected {
+			return source.GetServerMessage(), false // to return "type" information
+		}
 		res := source.GetServerMessage()
 		return res, res != nil
 	case ActivityLogEvent_FieldPathSelectorExit:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetExit(), false
+		}
+		_, oneOfSelected := source.Evt.(*ActivityLog_Event_Exit)
+		if !oneOfSelected {
+			return source.GetExit(), false // to return "type" information
+		}
 		res := source.GetExit()
 		return res, res != nil
 	case ActivityLogEvent_FieldPathSelectorRegionalServerMessage:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetRegionalServerMessage(), false
+		}
+		_, oneOfSelected := source.Evt.(*ActivityLog_Event_RegionalServerMessage)
+		if !oneOfSelected {
+			return source.GetRegionalServerMessage(), false // to return "type" information
+		}
 		res := source.GetRegionalServerMessage()
 		return res, res != nil
 	case ActivityLogEvent_FieldPathSelectorRegionalExit:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetRegionalExit(), false
+		}
+		_, oneOfSelected := source.Evt.(*ActivityLog_Event_RegionalExit)
+		if !oneOfSelected {
+			return source.GetRegionalExit(), false // to return "type" information
+		}
 		res := source.GetRegionalExit()
 		return res, res != nil
 	default:

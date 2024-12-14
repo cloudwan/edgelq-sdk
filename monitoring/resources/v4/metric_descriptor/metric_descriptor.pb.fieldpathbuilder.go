@@ -4082,6 +4082,10 @@ func (MetricDescriptorPathSelectorStorageConfig) StoreRawPoints() MetricDescript
 	return MetricDescriptorPathSelectorStorageConfigStoreRawPoints{}
 }
 
+func (MetricDescriptorPathSelectorStorageConfig) MaxAp() MetricDescriptorPathSelectorStorageConfigMaxAp {
+	return MetricDescriptorPathSelectorStorageConfigMaxAp{}
+}
+
 type MetricDescriptorPathSelectorStorageConfigStoreRawPoints struct{}
 
 func (MetricDescriptorPathSelectorStorageConfigStoreRawPoints) FieldPath() *MetricDescriptor_FieldSubPath {
@@ -4096,6 +4100,23 @@ func (s MetricDescriptorPathSelectorStorageConfigStoreRawPoints) WithValue(value
 }
 
 func (s MetricDescriptorPathSelectorStorageConfigStoreRawPoints) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorStorageConfigMaxAp struct{}
+
+func (MetricDescriptorPathSelectorStorageConfigMaxAp) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorStorageConfig,
+		subPath:  NewMetricDescriptorStorageConfigFieldPathBuilder().MaxAp().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorStorageConfigMaxAp) WithValue(value *durationpb.Duration) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorStorageConfigMaxAp) WithArrayOfValues(values []*durationpb.Duration) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
@@ -4131,6 +4152,10 @@ func (s MetricDescriptorPathSelectorBinaryIndices) WithSubArrayItemValue(subPath
 
 func (MetricDescriptorPathSelectorBinaryIndices) ByResources() MetricDescriptorPathSelectorBinaryIndicesByResources {
 	return MetricDescriptorPathSelectorBinaryIndicesByResources{}
+}
+
+func (MetricDescriptorPathSelectorBinaryIndices) Region() MetricDescriptorPathSelectorBinaryIndicesRegion {
+	return MetricDescriptorPathSelectorBinaryIndicesRegion{}
 }
 
 type MetricDescriptorPathSelectorBinaryIndicesByResources struct{}
@@ -4440,6 +4465,23 @@ func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts) WithArray
 
 func (s MetricDescriptorPathSelectorBinaryIndicesByResourcesNameParts) WithItemValue(value string) *MetricDescriptor_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptor_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptorPathSelectorBinaryIndicesRegion struct{}
+
+func (MetricDescriptorPathSelectorBinaryIndicesRegion) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorBinaryIndices,
+		subPath:  NewMetricDescriptorBinaryIndicesFieldPathBuilder().Region().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesRegion) WithValue(value string) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorBinaryIndicesRegion) WithArrayOfValues(values []string) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 
 type MetricDescriptorMetricDescriptorMetadataFieldPathBuilder struct{}
@@ -7097,6 +7139,9 @@ func NewMetricDescriptorStorageConfigFieldPathBuilder() MetricDescriptorStorageC
 func (MetricDescriptorStorageConfigFieldPathBuilder) StoreRawPoints() MetricDescriptor_StorageConfigPathSelectorStoreRawPoints {
 	return MetricDescriptor_StorageConfigPathSelectorStoreRawPoints{}
 }
+func (MetricDescriptorStorageConfigFieldPathBuilder) MaxAp() MetricDescriptor_StorageConfigPathSelectorMaxAp {
+	return MetricDescriptor_StorageConfigPathSelectorMaxAp{}
+}
 
 type MetricDescriptor_StorageConfigPathSelectorStoreRawPoints struct{}
 
@@ -7112,6 +7157,20 @@ func (s MetricDescriptor_StorageConfigPathSelectorStoreRawPoints) WithArrayOfVal
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues)
 }
 
+type MetricDescriptor_StorageConfigPathSelectorMaxAp struct{}
+
+func (MetricDescriptor_StorageConfigPathSelectorMaxAp) FieldPath() *MetricDescriptorStorageConfig_FieldTerminalPath {
+	return &MetricDescriptorStorageConfig_FieldTerminalPath{selector: MetricDescriptorStorageConfig_FieldPathSelectorMaxAp}
+}
+
+func (s MetricDescriptor_StorageConfigPathSelectorMaxAp) WithValue(value *durationpb.Duration) *MetricDescriptorStorageConfig_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorStorageConfig_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_StorageConfigPathSelectorMaxAp) WithArrayOfValues(values []*durationpb.Duration) *MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorStorageConfig_FieldTerminalPathArrayOfValues)
+}
+
 type MetricDescriptorBinaryIndicesFieldPathBuilder struct{}
 
 func NewMetricDescriptorBinaryIndicesFieldPathBuilder() MetricDescriptorBinaryIndicesFieldPathBuilder {
@@ -7119,6 +7178,9 @@ func NewMetricDescriptorBinaryIndicesFieldPathBuilder() MetricDescriptorBinaryIn
 }
 func (MetricDescriptorBinaryIndicesFieldPathBuilder) ByResources() MetricDescriptor_BinaryIndicesPathSelectorByResources {
 	return MetricDescriptor_BinaryIndicesPathSelectorByResources{}
+}
+func (MetricDescriptorBinaryIndicesFieldPathBuilder) Region() MetricDescriptor_BinaryIndicesPathSelectorRegion {
+	return MetricDescriptor_BinaryIndicesPathSelectorRegion{}
 }
 
 type MetricDescriptor_BinaryIndicesPathSelectorByResources struct{}
@@ -7440,6 +7502,20 @@ func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts) WithArra
 
 func (s MetricDescriptor_BinaryIndicesPathSelectorByResourcesNameParts) WithItemValue(value string) *MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*MetricDescriptorBinaryIndices_FieldSubPathArrayItemValue)
+}
+
+type MetricDescriptor_BinaryIndicesPathSelectorRegion struct{}
+
+func (MetricDescriptor_BinaryIndicesPathSelectorRegion) FieldPath() *MetricDescriptorBinaryIndices_FieldTerminalPath {
+	return &MetricDescriptorBinaryIndices_FieldTerminalPath{selector: MetricDescriptorBinaryIndices_FieldPathSelectorRegion}
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorRegion) WithValue(value string) *MetricDescriptorBinaryIndices_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptorBinaryIndices_FieldTerminalPathValue)
+}
+
+func (s MetricDescriptor_BinaryIndicesPathSelectorRegion) WithArrayOfValues(values []string) *MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptorBinaryIndices_FieldTerminalPathArrayOfValues)
 }
 
 type MetricDescriptorIndexSpecIndexFieldPathBuilder struct{}

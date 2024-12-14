@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -799,11 +799,12 @@ const (
 	TimeSerie_FieldPathSelectorKey        TimeSerie_FieldPathSelector = 0
 	TimeSerie_FieldPathSelectorProject    TimeSerie_FieldPathSelector = 1
 	TimeSerie_FieldPathSelectorRegion     TimeSerie_FieldPathSelector = 2
-	TimeSerie_FieldPathSelectorMetric     TimeSerie_FieldPathSelector = 3
-	TimeSerie_FieldPathSelectorResource   TimeSerie_FieldPathSelector = 4
-	TimeSerie_FieldPathSelectorMetricKind TimeSerie_FieldPathSelector = 5
-	TimeSerie_FieldPathSelectorValueType  TimeSerie_FieldPathSelector = 6
-	TimeSerie_FieldPathSelectorPoints     TimeSerie_FieldPathSelector = 7
+	TimeSerie_FieldPathSelectorUnit       TimeSerie_FieldPathSelector = 3
+	TimeSerie_FieldPathSelectorMetric     TimeSerie_FieldPathSelector = 4
+	TimeSerie_FieldPathSelectorResource   TimeSerie_FieldPathSelector = 5
+	TimeSerie_FieldPathSelectorMetricKind TimeSerie_FieldPathSelector = 6
+	TimeSerie_FieldPathSelectorValueType  TimeSerie_FieldPathSelector = 7
+	TimeSerie_FieldPathSelectorPoints     TimeSerie_FieldPathSelector = 8
 )
 
 func (s TimeSerie_FieldPathSelector) String() string {
@@ -814,6 +815,8 @@ func (s TimeSerie_FieldPathSelector) String() string {
 		return "project"
 	case TimeSerie_FieldPathSelectorRegion:
 		return "region"
+	case TimeSerie_FieldPathSelectorUnit:
+		return "unit"
 	case TimeSerie_FieldPathSelectorMetric:
 		return "metric"
 	case TimeSerie_FieldPathSelectorResource:
@@ -841,6 +844,8 @@ func BuildTimeSerie_FieldPath(fp gotenobject.RawFieldPath) (TimeSerie_FieldPath,
 			return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorProject}, nil
 		case "region":
 			return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorRegion}, nil
+		case "unit":
+			return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorUnit}, nil
 		case "metric":
 			return &TimeSerie_FieldTerminalPath{selector: TimeSerie_FieldPathSelectorMetric}, nil
 		case "resource":
@@ -923,6 +928,8 @@ func (fp *TimeSerie_FieldTerminalPath) Get(source *TimeSerie) (values []interfac
 			values = append(values, source.Project)
 		case TimeSerie_FieldPathSelectorRegion:
 			values = append(values, source.Region)
+		case TimeSerie_FieldPathSelectorUnit:
+			values = append(values, source.Unit)
 		case TimeSerie_FieldPathSelectorMetric:
 			if source.Metric != nil {
 				values = append(values, source.Metric)
@@ -960,6 +967,8 @@ func (fp *TimeSerie_FieldTerminalPath) GetSingle(source *TimeSerie) (interface{}
 		return source.GetProject(), source != nil
 	case TimeSerie_FieldPathSelectorRegion:
 		return source.GetRegion(), source != nil
+	case TimeSerie_FieldPathSelectorUnit:
+		return source.GetUnit(), source != nil
 	case TimeSerie_FieldPathSelectorMetric:
 		res := source.GetMetric()
 		return res, res != nil
@@ -991,6 +1000,8 @@ func (fp *TimeSerie_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case TimeSerie_FieldPathSelectorRegion:
 		return ""
+	case TimeSerie_FieldPathSelectorUnit:
+		return ""
 	case TimeSerie_FieldPathSelectorMetric:
 		return (*common.Metric)(nil)
 	case TimeSerie_FieldPathSelectorResource:
@@ -1015,6 +1026,8 @@ func (fp *TimeSerie_FieldTerminalPath) ClearValue(item *TimeSerie) {
 			item.Project = ""
 		case TimeSerie_FieldPathSelectorRegion:
 			item.Region = ""
+		case TimeSerie_FieldPathSelectorUnit:
+			item.Unit = ""
 		case TimeSerie_FieldPathSelectorMetric:
 			item.Metric = nil
 		case TimeSerie_FieldPathSelectorResource:
@@ -1040,6 +1053,7 @@ func (fp *TimeSerie_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == TimeSerie_FieldPathSelectorKey ||
 		fp.selector == TimeSerie_FieldPathSelectorProject ||
 		fp.selector == TimeSerie_FieldPathSelectorRegion ||
+		fp.selector == TimeSerie_FieldPathSelectorUnit ||
 		fp.selector == TimeSerie_FieldPathSelectorMetricKind ||
 		fp.selector == TimeSerie_FieldPathSelectorValueType
 }
@@ -1055,6 +1069,8 @@ func (fp *TimeSerie_FieldTerminalPath) WithIValue(value interface{}) TimeSerie_F
 	case TimeSerie_FieldPathSelectorProject:
 		return &TimeSerie_FieldTerminalPathValue{TimeSerie_FieldTerminalPath: *fp, value: value.(string)}
 	case TimeSerie_FieldPathSelectorRegion:
+		return &TimeSerie_FieldTerminalPathValue{TimeSerie_FieldTerminalPath: *fp, value: value.(string)}
+	case TimeSerie_FieldPathSelectorUnit:
 		return &TimeSerie_FieldTerminalPathValue{TimeSerie_FieldTerminalPath: *fp, value: value.(string)}
 	case TimeSerie_FieldPathSelectorMetric:
 		return &TimeSerie_FieldTerminalPathValue{TimeSerie_FieldTerminalPath: *fp, value: value.(*common.Metric)}
@@ -1083,6 +1099,8 @@ func (fp *TimeSerie_FieldTerminalPath) WithIArrayOfValues(values interface{}) Ti
 	case TimeSerie_FieldPathSelectorProject:
 		return &TimeSerie_FieldTerminalPathArrayOfValues{TimeSerie_FieldTerminalPath: *fp, values: values.([]string)}
 	case TimeSerie_FieldPathSelectorRegion:
+		return &TimeSerie_FieldTerminalPathArrayOfValues{TimeSerie_FieldTerminalPath: *fp, values: values.([]string)}
+	case TimeSerie_FieldPathSelectorUnit:
 		return &TimeSerie_FieldTerminalPathArrayOfValues{TimeSerie_FieldTerminalPath: *fp, values: values.([]string)}
 	case TimeSerie_FieldPathSelectorMetric:
 		return &TimeSerie_FieldTerminalPathArrayOfValues{TimeSerie_FieldTerminalPath: *fp, values: values.([]*common.Metric)}
@@ -1310,6 +1328,10 @@ func (fpv *TimeSerie_FieldTerminalPathValue) AsRegionValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *TimeSerie_FieldTerminalPathValue) AsUnitValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *TimeSerie_FieldTerminalPathValue) AsMetricValue() (*common.Metric, bool) {
 	res, ok := fpv.value.(*common.Metric)
 	return res, ok
@@ -1343,6 +1365,8 @@ func (fpv *TimeSerie_FieldTerminalPathValue) SetTo(target **TimeSerie) {
 		(*target).Project = fpv.value.(string)
 	case TimeSerie_FieldPathSelectorRegion:
 		(*target).Region = fpv.value.(string)
+	case TimeSerie_FieldPathSelectorUnit:
+		(*target).Unit = fpv.value.(string)
 	case TimeSerie_FieldPathSelectorMetric:
 		(*target).Metric = fpv.value.(*common.Metric)
 	case TimeSerie_FieldPathSelectorResource:
@@ -1381,6 +1405,16 @@ func (fpv *TimeSerie_FieldTerminalPathValue) CompareWith(source *TimeSerie) (int
 	case TimeSerie_FieldPathSelectorRegion:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetRegion()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case TimeSerie_FieldPathSelectorUnit:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetUnit()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1636,6 +1670,10 @@ func (fpaov *TimeSerie_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case TimeSerie_FieldPathSelectorUnit:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case TimeSerie_FieldPathSelectorMetric:
 		for _, v := range fpaov.values.([]*common.Metric) {
 			values = append(values, v)
@@ -1668,6 +1706,10 @@ func (fpaov *TimeSerie_FieldTerminalPathArrayOfValues) AsProjectArrayOfValues() 
 	return res, ok
 }
 func (fpaov *TimeSerie_FieldTerminalPathArrayOfValues) AsRegionArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *TimeSerie_FieldTerminalPathArrayOfValues) AsUnitArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

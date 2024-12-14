@@ -823,6 +823,10 @@ func (DistributionPathSelectorSpec) Template() DistributionPathSelectorSpecTempl
 	return DistributionPathSelectorSpecTemplate{}
 }
 
+func (DistributionPathSelectorSpec) PodDisplayNameFormat() DistributionPathSelectorSpecPodDisplayNameFormat {
+	return DistributionPathSelectorSpecPodDisplayNameFormat{}
+}
+
 type DistributionPathSelectorSpecSelector struct{}
 
 func (DistributionPathSelectorSpecSelector) FieldPath() *Distribution_FieldSubPath {
@@ -3180,6 +3184,23 @@ func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMountsSubPath) WithArr
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
+type DistributionPathSelectorSpecPodDisplayNameFormat struct{}
+
+func (DistributionPathSelectorSpecPodDisplayNameFormat) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().PodDisplayNameFormat().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorSpecPodDisplayNameFormat) WithValue(value string) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorSpecPodDisplayNameFormat) WithArrayOfValues(values []string) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
 type DistributionPathSelectorStatus struct{}
 
 func (DistributionPathSelectorStatus) FieldPath() *Distribution_FieldTerminalPath {
@@ -3220,6 +3241,9 @@ func (DistributionSpecFieldPathBuilder) Selector() Distribution_SpecPathSelector
 }
 func (DistributionSpecFieldPathBuilder) Template() Distribution_SpecPathSelectorTemplate {
 	return Distribution_SpecPathSelectorTemplate{}
+}
+func (DistributionSpecFieldPathBuilder) PodDisplayNameFormat() Distribution_SpecPathSelectorPodDisplayNameFormat {
+	return Distribution_SpecPathSelectorPodDisplayNameFormat{}
 }
 
 type Distribution_SpecPathSelectorSelector struct{}
@@ -5603,6 +5627,20 @@ func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMountsSubPath) WithVa
 
 func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+type Distribution_SpecPathSelectorPodDisplayNameFormat struct{}
+
+func (Distribution_SpecPathSelectorPodDisplayNameFormat) FieldPath() *DistributionSpec_FieldTerminalPath {
+	return &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorPodDisplayNameFormat}
+}
+
+func (s Distribution_SpecPathSelectorPodDisplayNameFormat) WithValue(value string) *DistributionSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldTerminalPathValue)
+}
+
+func (s Distribution_SpecPathSelectorPodDisplayNameFormat) WithArrayOfValues(values []string) *DistributionSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldTerminalPathArrayOfValues)
 }
 
 type DistributionStatusFieldPathBuilder struct{}

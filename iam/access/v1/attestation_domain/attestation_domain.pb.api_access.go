@@ -6,10 +6,10 @@ package attestation_domain_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiAttestationDomainAccess(client attestation_domain_client.AttestationD
 	return &apiAttestationDomainAccess{client: client}
 }
 
-func (a *apiAttestationDomainAccess) GetAttestationDomain(ctx context.Context, query *attestation_domain.GetQuery) (*attestation_domain.AttestationDomain, error) {
+func (a *apiAttestationDomainAccess) GetAttestationDomain(ctx context.Context, query *attestation_domain.GetQuery, opts ...gotenresource.GetOption) (*attestation_domain.AttestationDomain, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiAttestationDomainAccess) GetAttestationDomain(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetAttestationDomain(ctx, request)
+	res, err := a.client.GetAttestationDomain(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiAttestationDomainAccess) GetAttestationDomain(ctx context.Context, q
 
 func (a *apiAttestationDomainAccess) BatchGetAttestationDomains(ctx context.Context, refs []*attestation_domain.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*attestation_domain.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiAttestationDomainAccess) BatchGetAttestationDomains(ctx context.Cont
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*attestation_domain.AttestationDomain_FieldMask)
 	}
-	resp, err := a.client.BatchGetAttestationDomains(ctx, request)
+	resp, err := a.client.BatchGetAttestationDomains(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiAttestationDomainAccess) BatchGetAttestationDomains(ctx context.Cont
 	return nil
 }
 
-func (a *apiAttestationDomainAccess) QueryAttestationDomains(ctx context.Context, query *attestation_domain.ListQuery) (*attestation_domain.QueryResultSnapshot, error) {
+func (a *apiAttestationDomainAccess) QueryAttestationDomains(ctx context.Context, query *attestation_domain.ListQuery, opts ...gotenresource.QueryOption) (*attestation_domain.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &attestation_domain_client.ListAttestationDomainsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiAttestationDomainAccess) WatchAttestationDomain(ctx context.Context,
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAttestationDomain(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiAttestationDomainAccess) WatchAttestationDomain(ctx context.Context,
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiAttestationDomainAccess) WatchAttestationDomains(ctx context.Context
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiAttestationDomainAccess) WatchAttestationDomains(ctx context.Context
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchAttestationDomains(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiAttestationDomainAccess) WatchAttestationDomains(ctx context.Context
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &attestation_domain.QueryResultChange{
 			Changes:      respChange.AttestationDomainChanges,
@@ -191,22 +224,12 @@ func (a *apiAttestationDomainAccess) WatchAttestationDomains(ctx context.Context
 
 func (a *apiAttestationDomainAccess) SaveAttestationDomain(ctx context.Context, res *attestation_domain.AttestationDomain, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetAttestationDomain(ctx, &attestation_domain.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *attestation_domain.AttestationDomain
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &attestation_domain_client.UpdateAttestationDomainRequest{
 			AttestationDomain: res,
+			AllowMissing:      !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*attestation_domain.AttestationDomain_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiAttestationDomainAccess) SaveAttestationDomain(ctx context.Context, 
 	return nil
 }
 
-func (a *apiAttestationDomainAccess) DeleteAttestationDomain(ctx context.Context, ref *attestation_domain.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiAttestationDomainAccess) DeleteAttestationDomain(ctx context.Context, ref *attestation_domain.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

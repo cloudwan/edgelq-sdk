@@ -42,9 +42,9 @@ var (
 )
 
 type OsImageProfileAccess interface {
-	GetOsImageProfile(context.Context, *GetQuery) (*OsImageProfile, error)
+	GetOsImageProfile(context.Context, *GetQuery, ...gotenresource.GetOption) (*OsImageProfile, error)
 	BatchGetOsImageProfiles(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryOsImageProfiles(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryOsImageProfiles(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchOsImageProfile(context.Context, *GetQuery, func(*OsImageProfileChange) error) error
 	WatchOsImageProfiles(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveOsImageProfile(context.Context, *OsImageProfile, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access OsImageProfileAccess) gotenresource.Access {
 	return &anyCastAccess{OsImageProfileAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asOsImageProfileQuery, ok := q.(*GetQuery); ok {
-		return a.GetOsImageProfile(ctx, asOsImageProfileQuery)
+		return a.GetOsImageProfile(ctx, asOsImageProfileQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected OsImageProfile, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asOsImageProfileQuery, ok := q.(*ListQuery); ok {
-		return a.QueryOsImageProfiles(ctx, asOsImageProfileQuery)
+		return a.QueryOsImageProfiles(ctx, asOsImageProfileQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected OsImageProfile, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for OsImageProfile")
 }
 

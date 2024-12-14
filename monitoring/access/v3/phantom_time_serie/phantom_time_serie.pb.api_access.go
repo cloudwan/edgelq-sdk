@@ -6,10 +6,10 @@ package phantom_time_serie_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiPhantomTimeSerieAccess(client phantom_time_serie_client.PhantomTimeSe
 	return &apiPhantomTimeSerieAccess{client: client}
 }
 
-func (a *apiPhantomTimeSerieAccess) GetPhantomTimeSerie(ctx context.Context, query *phantom_time_serie.GetQuery) (*phantom_time_serie.PhantomTimeSerie, error) {
+func (a *apiPhantomTimeSerieAccess) GetPhantomTimeSerie(ctx context.Context, query *phantom_time_serie.GetQuery, opts ...gotenresource.GetOption) (*phantom_time_serie.PhantomTimeSerie, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiPhantomTimeSerieAccess) GetPhantomTimeSerie(ctx context.Context, que
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetPhantomTimeSerie(ctx, request)
+	res, err := a.client.GetPhantomTimeSerie(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiPhantomTimeSerieAccess) GetPhantomTimeSerie(ctx context.Context, que
 
 func (a *apiPhantomTimeSerieAccess) BatchGetPhantomTimeSeries(ctx context.Context, refs []*phantom_time_serie.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*phantom_time_serie.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiPhantomTimeSerieAccess) BatchGetPhantomTimeSeries(ctx context.Contex
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
 	}
-	resp, err := a.client.BatchGetPhantomTimeSeries(ctx, request)
+	resp, err := a.client.BatchGetPhantomTimeSeries(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiPhantomTimeSerieAccess) BatchGetPhantomTimeSeries(ctx context.Contex
 	return nil
 }
 
-func (a *apiPhantomTimeSerieAccess) QueryPhantomTimeSeries(ctx context.Context, query *phantom_time_serie.ListQuery) (*phantom_time_serie.QueryResultSnapshot, error) {
+func (a *apiPhantomTimeSerieAccess) QueryPhantomTimeSeries(ctx context.Context, query *phantom_time_serie.ListQuery, opts ...gotenresource.QueryOption) (*phantom_time_serie.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &phantom_time_serie_client.ListPhantomTimeSeriesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSerie(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPhantomTimeSerie(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSerie(ctx context.Context, q
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSeries(ctx context.Context, 
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSeries(ctx context.Context, 
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchPhantomTimeSeries(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSeries(ctx context.Context, 
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &phantom_time_serie.QueryResultChange{
 			Changes:      respChange.PhantomTimeSerieChanges,
@@ -191,22 +224,12 @@ func (a *apiPhantomTimeSerieAccess) WatchPhantomTimeSeries(ctx context.Context, 
 
 func (a *apiPhantomTimeSerieAccess) SavePhantomTimeSerie(ctx context.Context, res *phantom_time_serie.PhantomTimeSerie, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetPhantomTimeSerie(ctx, &phantom_time_serie.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *phantom_time_serie.PhantomTimeSerie
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &phantom_time_serie_client.UpdatePhantomTimeSerieRequest{
 			PhantomTimeSerie: res,
+			AllowMissing:     !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*phantom_time_serie.PhantomTimeSerie_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiPhantomTimeSerieAccess) SavePhantomTimeSerie(ctx context.Context, re
 	return nil
 }
 
-func (a *apiPhantomTimeSerieAccess) DeletePhantomTimeSerie(ctx context.Context, ref *phantom_time_serie.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiPhantomTimeSerieAccess) DeletePhantomTimeSerie(ctx context.Context, ref *phantom_time_serie.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

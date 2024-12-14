@@ -44,9 +44,9 @@ var (
 )
 
 type GroupAccess interface {
-	GetGroup(context.Context, *GetQuery) (*Group, error)
+	GetGroup(context.Context, *GetQuery, ...gotenresource.GetOption) (*Group, error)
 	BatchGetGroups(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryGroups(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryGroups(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchGroup(context.Context, *GetQuery, func(*GroupChange) error) error
 	WatchGroups(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveGroup(context.Context, *Group, ...gotenresource.SaveOption) error
@@ -61,25 +61,25 @@ func AsAnyCastAccess(access GroupAccess) gotenresource.Access {
 	return &anyCastAccess{GroupAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asGroupQuery, ok := q.(*GetQuery); ok {
-		return a.GetGroup(ctx, asGroupQuery)
+		return a.GetGroup(ctx, asGroupQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Group, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asGroupQuery, ok := q.(*ListQuery); ok {
-		return a.QueryGroups(ctx, asGroupQuery)
+		return a.QueryGroups(ctx, asGroupQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Group, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Group")
 }
 

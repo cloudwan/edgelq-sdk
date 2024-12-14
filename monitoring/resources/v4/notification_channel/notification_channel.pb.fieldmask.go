@@ -22,6 +22,7 @@ import (
 import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -43,6 +44,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
@@ -1783,6 +1785,7 @@ func FullNotificationChannel_Spec_Webhook_FieldMask() *NotificationChannel_Spec_
 	res := &NotificationChannel_Spec_Webhook_FieldMask{}
 	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorUrl})
 	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders})
+	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask})
 	return res
 }
 
@@ -1826,7 +1829,7 @@ func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*NotificationChannelSpecWebhook_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1856,7 +1859,7 @@ func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) Reset() {
 
 func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) Subtract(other *NotificationChannel_Spec_Webhook_FieldMask) *NotificationChannel_Spec_Webhook_FieldMask {
 	result := &NotificationChannel_Spec_Webhook_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[NotificationChannelSpecWebhook_FieldPathSelector]gotenobject.FieldMask{
 		NotificationChannelSpecWebhook_FieldPathSelectorHeaders: &NotificationChannel_Spec_Webhook_Header_FieldMask{},
 	}
@@ -2043,6 +2046,8 @@ func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) Project(source *Not
 			case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
 				result.Headers = source.Headers
 				wholeHeadersAccepted = true
+			case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
+				result.NotificationMask = source.NotificationMask
 			}
 		case *NotificationChannelSpecWebhook_FieldSubPath:
 			switch tp.selector {

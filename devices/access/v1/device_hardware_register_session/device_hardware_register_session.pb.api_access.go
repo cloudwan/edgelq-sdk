@@ -6,10 +6,10 @@ package device_hardware_register_session_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiDeviceHardwareRegisterSessionAccess(client device_hardware_register_s
 	return &apiDeviceHardwareRegisterSessionAccess{client: client}
 }
 
-func (a *apiDeviceHardwareRegisterSessionAccess) GetDeviceHardwareRegisterSession(ctx context.Context, query *device_hardware_register_session.GetQuery) (*device_hardware_register_session.DeviceHardwareRegisterSession, error) {
+func (a *apiDeviceHardwareRegisterSessionAccess) GetDeviceHardwareRegisterSession(ctx context.Context, query *device_hardware_register_session.GetQuery, opts ...gotenresource.GetOption) (*device_hardware_register_session.DeviceHardwareRegisterSession, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiDeviceHardwareRegisterSessionAccess) GetDeviceHardwareRegisterSessio
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetDeviceHardwareRegisterSession(ctx, request)
+	res, err := a.client.GetDeviceHardwareRegisterSession(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiDeviceHardwareRegisterSessionAccess) GetDeviceHardwareRegisterSessio
 
 func (a *apiDeviceHardwareRegisterSessionAccess) BatchGetDeviceHardwareRegisterSessions(ctx context.Context, refs []*device_hardware_register_session.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*device_hardware_register_session.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiDeviceHardwareRegisterSessionAccess) BatchGetDeviceHardwareRegisterS
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*device_hardware_register_session.DeviceHardwareRegisterSession_FieldMask)
 	}
-	resp, err := a.client.BatchGetDeviceHardwareRegisterSessions(ctx, request)
+	resp, err := a.client.BatchGetDeviceHardwareRegisterSessions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiDeviceHardwareRegisterSessionAccess) BatchGetDeviceHardwareRegisterS
 	return nil
 }
 
-func (a *apiDeviceHardwareRegisterSessionAccess) QueryDeviceHardwareRegisterSessions(ctx context.Context, query *device_hardware_register_session.ListQuery) (*device_hardware_register_session.QueryResultSnapshot, error) {
+func (a *apiDeviceHardwareRegisterSessionAccess) QueryDeviceHardwareRegisterSessions(ctx context.Context, query *device_hardware_register_session.ListQuery, opts ...gotenresource.QueryOption) (*device_hardware_register_session.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &device_hardware_register_session_client.ListDeviceHardwareRegisterSessionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiDeviceHardwareRegisterSessionAccess) WatchDeviceHardwareRegisterSess
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeviceHardwareRegisterSession(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiDeviceHardwareRegisterSessionAccess) WatchDeviceHardwareRegisterSess
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiDeviceHardwareRegisterSessionAccess) WatchDeviceHardwareRegisterSess
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiDeviceHardwareRegisterSessionAccess) WatchDeviceHardwareRegisterSess
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeviceHardwareRegisterSessions(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiDeviceHardwareRegisterSessionAccess) WatchDeviceHardwareRegisterSess
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &device_hardware_register_session.QueryResultChange{
 			Changes:      respChange.DeviceHardwareRegisterSessionChanges,
@@ -191,22 +224,12 @@ func (a *apiDeviceHardwareRegisterSessionAccess) WatchDeviceHardwareRegisterSess
 
 func (a *apiDeviceHardwareRegisterSessionAccess) SaveDeviceHardwareRegisterSession(ctx context.Context, res *device_hardware_register_session.DeviceHardwareRegisterSession, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetDeviceHardwareRegisterSession(ctx, &device_hardware_register_session.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *device_hardware_register_session.DeviceHardwareRegisterSession
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &device_hardware_register_session_client.UpdateDeviceHardwareRegisterSessionRequest{
 			DeviceHardwareRegisterSession: res,
+			AllowMissing:                  !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*device_hardware_register_session.DeviceHardwareRegisterSession_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiDeviceHardwareRegisterSessionAccess) SaveDeviceHardwareRegisterSessi
 	return nil
 }
 
-func (a *apiDeviceHardwareRegisterSessionAccess) DeleteDeviceHardwareRegisterSession(ctx context.Context, ref *device_hardware_register_session.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiDeviceHardwareRegisterSessionAccess) DeleteDeviceHardwareRegisterSession(ctx context.Context, ref *device_hardware_register_session.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

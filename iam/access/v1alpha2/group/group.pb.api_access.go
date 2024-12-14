@@ -6,10 +6,10 @@ package group_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiGroupAccess(client group_client.GroupServiceClient) group.GroupAccess
 	return &apiGroupAccess{client: client}
 }
 
-func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery) (*group.Group, error) {
+func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery, opts ...gotenresource.GetOption) (*group.Group, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery) (*
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetGroup(ctx, request)
+	res, err := a.client.GetGroup(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiGroupAccess) GetGroup(ctx context.Context, query *group.GetQuery) (*
 
 func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*group.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Refer
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*group.Group_FieldMask)
 	}
-	resp, err := a.client.BatchGetGroups(ctx, request)
+	resp, err := a.client.BatchGetGroups(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiGroupAccess) BatchGetGroups(ctx context.Context, refs []*group.Refer
 	return nil
 }
 
-func (a *apiGroupAccess) QueryGroups(ctx context.Context, query *group.ListQuery) (*group.QueryResultSnapshot, error) {
+func (a *apiGroupAccess) QueryGroups(ctx context.Context, query *group.ListQuery, opts ...gotenresource.QueryOption) (*group.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &group_client.ListGroupsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiGroupAccess) WatchGroup(ctx context.Context, query *group.GetQuery, 
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroup(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiGroupAccess) WatchGroup(ctx context.Context, query *group.GetQuery, 
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiGroupAccess) WatchGroups(ctx context.Context, query *group.WatchQuer
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiGroupAccess) WatchGroups(ctx context.Context, query *group.WatchQuer
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchGroups(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiGroupAccess) WatchGroups(ctx context.Context, query *group.WatchQuer
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &group.QueryResultChange{
 			Changes:      respChange.GroupChanges,
@@ -191,22 +224,12 @@ func (a *apiGroupAccess) WatchGroups(ctx context.Context, query *group.WatchQuer
 
 func (a *apiGroupAccess) SaveGroup(ctx context.Context, res *group.Group, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetGroup(ctx, &group.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *group.Group
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &group_client.UpdateGroupRequest{
-			Group: res,
+			Group:        res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*group.Group_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiGroupAccess) SaveGroup(ctx context.Context, res *group.Group, opts .
 	return nil
 }
 
-func (a *apiGroupAccess) DeleteGroup(ctx context.Context, ref *group.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiGroupAccess) DeleteGroup(ctx context.Context, ref *group.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

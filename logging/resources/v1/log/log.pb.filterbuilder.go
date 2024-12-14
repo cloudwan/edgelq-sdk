@@ -258,6 +258,18 @@ func (b *filterCndBuilder) PbPayload() *filterCndBuilderPbPayload {
 	return &filterCndBuilderPbPayload{builder: b.builder}
 }
 
+func (b *filterCndBuilder) StringPayload() *filterCndBuilderStringPayload {
+	return &filterCndBuilderStringPayload{builder: b.builder}
+}
+
+func (b *filterCndBuilder) BytesPayload() *filterCndBuilderBytesPayload {
+	return &filterCndBuilderBytesPayload{builder: b.builder}
+}
+
+func (b *filterCndBuilder) BinKey() *filterCndBuilderBinKey {
+	return &filterCndBuilderBinKey{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -909,5 +921,182 @@ func (b *filterCndBuilderPbPayload) compare(op gotenfilter.CompareOperator, valu
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Log_FieldPathValue: NewLogFieldPathBuilder().PbPayload().WithValue(value),
+	})
+}
+
+type filterCndBuilderStringPayload struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStringPayload) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStringPayload) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStringPayload) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStringPayload) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStringPayload) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStringPayload) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStringPayload) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().StringPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStringPayload) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().StringPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStringPayload) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewLogFieldPathBuilder().StringPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStringPayload) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewLogFieldPathBuilder().StringPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStringPayload) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Log_FieldPathValue: NewLogFieldPathBuilder().StringPayload().WithValue(value),
+	})
+}
+
+type filterCndBuilderBytesPayload struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBytesPayload) Eq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBytesPayload) Neq(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBytesPayload) Gt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBytesPayload) Gte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBytesPayload) Lt(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBytesPayload) Lte(value []byte) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBytesPayload) In(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().BytesPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBytesPayload) NotIn(values [][]byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().BytesPayload().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBytesPayload) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewLogFieldPathBuilder().BytesPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBytesPayload) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewLogFieldPathBuilder().BytesPayload().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBytesPayload) compare(op gotenfilter.CompareOperator, value []byte) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Log_FieldPathValue: NewLogFieldPathBuilder().BytesPayload().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinKey struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinKey) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinKey) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinKey) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinKey) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinKey) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinKey) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinKey) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().BinKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinKey) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Log_FieldPathArrayOfValues: NewLogFieldPathBuilder().BinKey().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinKey) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewLogFieldPathBuilder().BinKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinKey) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewLogFieldPathBuilder().BinKey().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinKey) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Log_FieldPathValue: NewLogFieldPathBuilder().BinKey().WithValue(value),
 	})
 }

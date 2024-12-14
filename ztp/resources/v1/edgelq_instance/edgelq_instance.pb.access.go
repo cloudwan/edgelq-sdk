@@ -40,9 +40,9 @@ var (
 )
 
 type EdgelqInstanceAccess interface {
-	GetEdgelqInstance(context.Context, *GetQuery) (*EdgelqInstance, error)
+	GetEdgelqInstance(context.Context, *GetQuery, ...gotenresource.GetOption) (*EdgelqInstance, error)
 	BatchGetEdgelqInstances(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryEdgelqInstances(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryEdgelqInstances(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchEdgelqInstance(context.Context, *GetQuery, func(*EdgelqInstanceChange) error) error
 	WatchEdgelqInstances(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveEdgelqInstance(context.Context, *EdgelqInstance, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access EdgelqInstanceAccess) gotenresource.Access {
 	return &anyCastAccess{EdgelqInstanceAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asEdgelqInstanceQuery, ok := q.(*GetQuery); ok {
-		return a.GetEdgelqInstance(ctx, asEdgelqInstanceQuery)
+		return a.GetEdgelqInstance(ctx, asEdgelqInstanceQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected EdgelqInstance, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asEdgelqInstanceQuery, ok := q.(*ListQuery); ok {
-		return a.QueryEdgelqInstances(ctx, asEdgelqInstanceQuery)
+		return a.QueryEdgelqInstances(ctx, asEdgelqInstanceQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected EdgelqInstance, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for EdgelqInstance")
 }
 

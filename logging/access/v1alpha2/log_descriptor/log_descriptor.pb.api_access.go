@@ -6,10 +6,10 @@ package log_descriptor_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiLogDescriptorAccess(client log_descriptor_client.LogDescriptorService
 	return &apiLogDescriptorAccess{client: client}
 }
 
-func (a *apiLogDescriptorAccess) GetLogDescriptor(ctx context.Context, query *log_descriptor.GetQuery) (*log_descriptor.LogDescriptor, error) {
+func (a *apiLogDescriptorAccess) GetLogDescriptor(ctx context.Context, query *log_descriptor.GetQuery, opts ...gotenresource.GetOption) (*log_descriptor.LogDescriptor, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiLogDescriptorAccess) GetLogDescriptor(ctx context.Context, query *lo
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetLogDescriptor(ctx, request)
+	res, err := a.client.GetLogDescriptor(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiLogDescriptorAccess) GetLogDescriptor(ctx context.Context, query *lo
 
 func (a *apiLogDescriptorAccess) BatchGetLogDescriptors(ctx context.Context, refs []*log_descriptor.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*log_descriptor.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiLogDescriptorAccess) BatchGetLogDescriptors(ctx context.Context, ref
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*log_descriptor.LogDescriptor_FieldMask)
 	}
-	resp, err := a.client.BatchGetLogDescriptors(ctx, request)
+	resp, err := a.client.BatchGetLogDescriptors(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiLogDescriptorAccess) BatchGetLogDescriptors(ctx context.Context, ref
 	return nil
 }
 
-func (a *apiLogDescriptorAccess) QueryLogDescriptors(ctx context.Context, query *log_descriptor.ListQuery) (*log_descriptor.QueryResultSnapshot, error) {
+func (a *apiLogDescriptorAccess) QueryLogDescriptors(ctx context.Context, query *log_descriptor.ListQuery, opts ...gotenresource.QueryOption) (*log_descriptor.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &log_descriptor_client.ListLogDescriptorsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiLogDescriptorAccess) WatchLogDescriptor(ctx context.Context, query *
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchLogDescriptor(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiLogDescriptorAccess) WatchLogDescriptor(ctx context.Context, query *
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiLogDescriptorAccess) WatchLogDescriptors(ctx context.Context, query 
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiLogDescriptorAccess) WatchLogDescriptors(ctx context.Context, query 
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchLogDescriptors(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiLogDescriptorAccess) WatchLogDescriptors(ctx context.Context, query 
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &log_descriptor.QueryResultChange{
 			Changes:      respChange.LogDescriptorChanges,
@@ -191,22 +224,12 @@ func (a *apiLogDescriptorAccess) WatchLogDescriptors(ctx context.Context, query 
 
 func (a *apiLogDescriptorAccess) SaveLogDescriptor(ctx context.Context, res *log_descriptor.LogDescriptor, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetLogDescriptor(ctx, &log_descriptor.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *log_descriptor.LogDescriptor
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &log_descriptor_client.UpdateLogDescriptorRequest{
 			LogDescriptor: res,
+			AllowMissing:  !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*log_descriptor.LogDescriptor_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiLogDescriptorAccess) SaveLogDescriptor(ctx context.Context, res *log
 	return nil
 }
 
-func (a *apiLogDescriptorAccess) DeleteLogDescriptor(ctx context.Context, ref *log_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiLogDescriptorAccess) DeleteLogDescriptor(ctx context.Context, ref *log_descriptor.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

@@ -40,9 +40,9 @@ var (
 )
 
 type CryptoKeyAccess interface {
-	GetCryptoKey(context.Context, *GetQuery) (*CryptoKey, error)
+	GetCryptoKey(context.Context, *GetQuery, ...gotenresource.GetOption) (*CryptoKey, error)
 	BatchGetCryptoKeys(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryCryptoKeys(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryCryptoKeys(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchCryptoKey(context.Context, *GetQuery, func(*CryptoKeyChange) error) error
 	WatchCryptoKeys(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveCryptoKey(context.Context, *CryptoKey, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access CryptoKeyAccess) gotenresource.Access {
 	return &anyCastAccess{CryptoKeyAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asCryptoKeyQuery, ok := q.(*GetQuery); ok {
-		return a.GetCryptoKey(ctx, asCryptoKeyQuery)
+		return a.GetCryptoKey(ctx, asCryptoKeyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected CryptoKey, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asCryptoKeyQuery, ok := q.(*ListQuery); ok {
-		return a.QueryCryptoKeys(ctx, asCryptoKeyQuery)
+		return a.QueryCryptoKeys(ctx, asCryptoKeyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected CryptoKey, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for CryptoKey")
 }
 

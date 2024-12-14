@@ -38,9 +38,9 @@ var (
 )
 
 type DeviceTypeAccess interface {
-	GetDeviceType(context.Context, *GetQuery) (*DeviceType, error)
+	GetDeviceType(context.Context, *GetQuery, ...gotenresource.GetOption) (*DeviceType, error)
 	BatchGetDeviceTypes(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryDeviceTypes(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryDeviceTypes(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchDeviceType(context.Context, *GetQuery, func(*DeviceTypeChange) error) error
 	WatchDeviceTypes(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveDeviceType(context.Context, *DeviceType, ...gotenresource.SaveOption) error
@@ -55,25 +55,25 @@ func AsAnyCastAccess(access DeviceTypeAccess) gotenresource.Access {
 	return &anyCastAccess{DeviceTypeAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asDeviceTypeQuery, ok := q.(*GetQuery); ok {
-		return a.GetDeviceType(ctx, asDeviceTypeQuery)
+		return a.GetDeviceType(ctx, asDeviceTypeQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected DeviceType, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asDeviceTypeQuery, ok := q.(*ListQuery); ok {
-		return a.QueryDeviceTypes(ctx, asDeviceTypeQuery)
+		return a.QueryDeviceTypes(ctx, asDeviceTypeQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected DeviceType, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for DeviceType")
 }
 

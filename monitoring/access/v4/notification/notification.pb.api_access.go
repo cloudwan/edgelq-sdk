@@ -6,10 +6,10 @@ package notification_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiNotificationAccess(client notification_client.NotificationServiceClie
 	return &apiNotificationAccess{client: client}
 }
 
-func (a *apiNotificationAccess) GetNotification(ctx context.Context, query *notification.GetQuery) (*notification.Notification, error) {
+func (a *apiNotificationAccess) GetNotification(ctx context.Context, query *notification.GetQuery, opts ...gotenresource.GetOption) (*notification.Notification, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiNotificationAccess) GetNotification(ctx context.Context, query *noti
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetNotification(ctx, request)
+	res, err := a.client.GetNotification(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiNotificationAccess) GetNotification(ctx context.Context, query *noti
 
 func (a *apiNotificationAccess) BatchGetNotifications(ctx context.Context, refs []*notification.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*notification.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiNotificationAccess) BatchGetNotifications(ctx context.Context, refs 
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*notification.Notification_FieldMask)
 	}
-	resp, err := a.client.BatchGetNotifications(ctx, request)
+	resp, err := a.client.BatchGetNotifications(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiNotificationAccess) BatchGetNotifications(ctx context.Context, refs 
 	return nil
 }
 
-func (a *apiNotificationAccess) QueryNotifications(ctx context.Context, query *notification.ListQuery) (*notification.QueryResultSnapshot, error) {
+func (a *apiNotificationAccess) QueryNotifications(ctx context.Context, query *notification.ListQuery, opts ...gotenresource.QueryOption) (*notification.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &notification_client.ListNotificationsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -122,33 +148,6 @@ func (a *apiNotificationAccess) QueryNotifications(ctx context.Context, query *n
 	}, nil
 }
 
-func (a *apiNotificationAccess) SearchNotifications(ctx context.Context, query *notification.SearchQuery) (*notification.QueryResultSnapshot, error) {
-	request := &notification_client.SearchNotificationsRequest{
-		Phrase:    query.Phrase,
-		Filter:    query.Filter,
-		FieldMask: query.Mask,
-	}
-	if query.Pager != nil {
-		request.PageSize = int32(query.Pager.Limit)
-		request.OrderBy = query.Pager.OrderBy
-		request.PageToken = query.Pager.Cursor
-	}
-	if query.Filter != nil && query.Filter.GetCondition() != nil {
-		request.Filter, request.Parent = getParentAndFilter(query.Filter)
-	}
-	resp, err := a.client.SearchNotifications(ctx, request)
-	if err != nil {
-		return nil, err
-	}
-	return &notification.QueryResultSnapshot{
-		Notifications:     resp.Notifications,
-		NextPageCursor:    resp.NextPageToken,
-		PrevPageCursor:    resp.PrevPageToken,
-		CurrentOffset:     resp.CurrentOffset,
-		TotalResultsCount: resp.TotalResultsCount,
-	}, nil
-}
-
 func (a *apiNotificationAccess) WatchNotification(ctx context.Context, query *notification.GetQuery, observerCb func(*notification.NotificationChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
@@ -157,6 +156,9 @@ func (a *apiNotificationAccess) WatchNotification(ctx context.Context, query *no
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchNotification(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -164,7 +166,7 @@ func (a *apiNotificationAccess) WatchNotification(ctx context.Context, query *no
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -180,6 +182,7 @@ func (a *apiNotificationAccess) WatchNotifications(ctx context.Context, query *n
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -189,6 +192,9 @@ func (a *apiNotificationAccess) WatchNotifications(ctx context.Context, query *n
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchNotifications(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -196,7 +202,7 @@ func (a *apiNotificationAccess) WatchNotifications(ctx context.Context, query *n
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &notification.QueryResultChange{
 			Changes:      respChange.NotificationChanges,
@@ -218,22 +224,12 @@ func (a *apiNotificationAccess) WatchNotifications(ctx context.Context, query *n
 
 func (a *apiNotificationAccess) SaveNotification(ctx context.Context, res *notification.Notification, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetNotification(ctx, &notification.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *notification.Notification
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &notification_client.UpdateNotificationRequest{
 			Notification: res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*notification.Notification_FieldMask)
@@ -262,7 +258,7 @@ func (a *apiNotificationAccess) SaveNotification(ctx context.Context, res *notif
 	return nil
 }
 
-func (a *apiNotificationAccess) DeleteNotification(ctx context.Context, ref *notification.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiNotificationAccess) DeleteNotification(ctx context.Context, ref *notification.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

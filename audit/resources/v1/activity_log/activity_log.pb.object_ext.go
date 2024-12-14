@@ -331,53 +331,83 @@ func (o *ActivityLog_Event) MakeDiffFieldMask(other *ActivityLog_Event) *Activit
 
 	res := &ActivityLog_Event_FieldMask{}
 	{
-		subMask := o.GetClientMessage().MakeDiffFieldMask(other.GetClientMessage())
-		if subMask.IsFull() {
+		_, leftSelected := o.Evt.(*ActivityLog_Event_ClientMessage)
+		_, rightSelected := other.Evt.(*ActivityLog_Event_ClientMessage)
+		if leftSelected == rightSelected {
+			subMask := o.GetClientMessage().MakeDiffFieldMask(other.GetClientMessage())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorClientMessage})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorClientMessage, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorClientMessage})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorClientMessage, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetServerMessage().MakeDiffFieldMask(other.GetServerMessage())
-		if subMask.IsFull() {
+		_, leftSelected := o.Evt.(*ActivityLog_Event_ServerMessage)
+		_, rightSelected := other.Evt.(*ActivityLog_Event_ServerMessage)
+		if leftSelected == rightSelected {
+			subMask := o.GetServerMessage().MakeDiffFieldMask(other.GetServerMessage())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorServerMessage})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorServerMessage, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorServerMessage})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorServerMessage, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetExit().MakeDiffFieldMask(other.GetExit())
-		if subMask.IsFull() {
+		_, leftSelected := o.Evt.(*ActivityLog_Event_Exit)
+		_, rightSelected := other.Evt.(*ActivityLog_Event_Exit)
+		if leftSelected == rightSelected {
+			subMask := o.GetExit().MakeDiffFieldMask(other.GetExit())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorExit})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorExit, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorExit})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorExit, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetRegionalServerMessage().MakeDiffFieldMask(other.GetRegionalServerMessage())
-		if subMask.IsFull() {
+		_, leftSelected := o.Evt.(*ActivityLog_Event_RegionalServerMessage)
+		_, rightSelected := other.Evt.(*ActivityLog_Event_RegionalServerMessage)
+		if leftSelected == rightSelected {
+			subMask := o.GetRegionalServerMessage().MakeDiffFieldMask(other.GetRegionalServerMessage())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorRegionalServerMessage})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorRegionalServerMessage, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorRegionalServerMessage})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorRegionalServerMessage, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetRegionalExit().MakeDiffFieldMask(other.GetRegionalExit())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorRegionalExit})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorRegionalExit, subPath: subpath})
+		_, leftSelected := o.Evt.(*ActivityLog_Event_RegionalExit)
+		_, rightSelected := other.Evt.(*ActivityLog_Event_RegionalExit)
+		if leftSelected == rightSelected {
+			subMask := o.GetRegionalExit().MakeDiffFieldMask(other.GetRegionalExit())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorRegionalExit})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &ActivityLogEvent_FieldSubPath{selector: ActivityLogEvent_FieldPathSelectorRegionalExit, subPath: subpath})
+				}
 			}
+		} else {
+			res.Paths = append(res.Paths, &ActivityLogEvent_FieldTerminalPath{selector: ActivityLogEvent_FieldPathSelectorRegionalExit})
 		}
 	}
 	return res

@@ -25,6 +25,7 @@ import (
 	monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 )
 
 var (
@@ -53,6 +54,7 @@ var (
 	_ = &common.LabelDescriptor{}
 	_ = &monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &project.Project{}
+	_ = &durationpb.Duration{}
 	_ = &meta.Meta{}
 )
 
@@ -101,8 +103,8 @@ func (obj *MetricDescriptor) GotenValidate() error {
 	}
 	{
 		rlen := utf8.RuneCountInString(obj.Description)
-		if rlen > 256 {
-			return gotenvalidate.NewValidationError("MetricDescriptor", "description", obj.Description, "field must contain at most 256 characters", nil)
+		if rlen > 512 {
+			return gotenvalidate.NewValidationError("MetricDescriptor", "description", obj.Description, "field must contain at most 512 characters", nil)
 		}
 	}
 	{
@@ -207,6 +209,18 @@ func (obj *MetricDescriptor_Indices) GotenValidate() error {
 func (obj *MetricDescriptor_StorageConfig) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	if obj.MaxAp != nil && obj.MaxAp.CheckValid() != nil {
+		err := obj.MaxAp.CheckValid()
+		return gotenvalidate.NewValidationError("StorageConfig", "maxAp", obj.MaxAp, "could not validate duration", err)
+	} else {
+		d := obj.MaxAp.AsDuration()
+
+		if obj.MaxAp != nil {
+			if d != time.Duration(0) && d != time.Duration(60000000000) && d != time.Duration(180000000000) && d != time.Duration(300000000000) && d != time.Duration(900000000000) && d != time.Duration(1800000000000) && d != time.Duration(3600000000000) && d != time.Duration(10800000000000) && d != time.Duration(21600000000000) && d != time.Duration(43200000000000) && d != time.Duration(86400000000000) {
+				return gotenvalidate.NewValidationError("StorageConfig", "maxAp", d, "field must be equal to exactly one of the following values: 0s, 1m0s, 3m0s, 5m0s, 15m0s, 30m0s, 1h0m0s, 3h0m0s, 6h0m0s, 12h0m0s, 24h0m0s", nil)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

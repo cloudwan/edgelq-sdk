@@ -1021,6 +1021,16 @@ func (o *Device_Spec_LoggingConfig) MakeDiffFieldMask(other *Device_Spec_Logging
 	if o.GetEnableJournalExport() != other.GetEnableJournalExport() {
 		res.Paths = append(res.Paths, &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorEnableJournalExport})
 	}
+	{
+		subMask := o.GetContainerLoggingConfig().MakeDiffFieldMask(other.GetContainerLoggingConfig())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &DeviceSpecLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &DeviceSpecLoggingConfig_FieldSubPath{selector: DeviceSpecLoggingConfig_FieldPathSelectorContainerLoggingConfig, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -1039,6 +1049,7 @@ func (o *Device_Spec_LoggingConfig) Clone() *Device_Spec_LoggingConfig {
 		result.Units[i] = sourceValue
 	}
 	result.EnableJournalExport = o.EnableJournalExport
+	result.ContainerLoggingConfig = o.ContainerLoggingConfig.Clone()
 	return result
 }
 
@@ -1064,6 +1075,12 @@ func (o *Device_Spec_LoggingConfig) Merge(source *Device_Spec_LoggingConfig) {
 	}
 
 	o.EnableJournalExport = source.GetEnableJournalExport()
+	if source.GetContainerLoggingConfig() != nil {
+		if o.ContainerLoggingConfig == nil {
+			o.ContainerLoggingConfig = new(Device_Spec_LoggingConfig_ContainerLoggingConfig)
+		}
+		o.ContainerLoggingConfig.Merge(source.GetContainerLoggingConfig())
+	}
 }
 
 func (o *Device_Spec_LoggingConfig) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -1413,6 +1430,56 @@ func (o *Device_Spec_SSHConfig_AuthKey) Merge(source *Device_Spec_SSHConfig_Auth
 
 func (o *Device_Spec_SSHConfig_AuthKey) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Device_Spec_SSHConfig_AuthKey))
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) GotenObjectExt() {}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) MakeFullFieldMask() *Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask {
+	return FullDevice_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask()
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullDevice_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask()
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) MakeDiffFieldMask(other *Device_Spec_LoggingConfig_ContainerLoggingConfig) *Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask {
+	if o == nil && other == nil {
+		return &Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullDevice_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask()
+	}
+
+	res := &Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask{}
+	if o.GetEnableContainerLogExport() != other.GetEnableContainerLogExport() {
+		res.Paths = append(res.Paths, &DeviceSpecLoggingConfigContainerLoggingConfig_FieldTerminalPath{selector: DeviceSpecLoggingConfigContainerLoggingConfig_FieldPathSelectorEnableContainerLogExport})
+	}
+	return res
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Device_Spec_LoggingConfig_ContainerLoggingConfig))
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) Clone() *Device_Spec_LoggingConfig_ContainerLoggingConfig {
+	if o == nil {
+		return nil
+	}
+	result := &Device_Spec_LoggingConfig_ContainerLoggingConfig{}
+	result.EnableContainerLogExport = o.EnableContainerLogExport
+	return result
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) Merge(source *Device_Spec_LoggingConfig_ContainerLoggingConfig) {
+	o.EnableContainerLogExport = source.GetEnableContainerLogExport()
+}
+
+func (o *Device_Spec_LoggingConfig_ContainerLoggingConfig) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Device_Spec_LoggingConfig_ContainerLoggingConfig))
 }
 
 func (o *Device_Spec_USBGuard_Port) GotenObjectExt() {}

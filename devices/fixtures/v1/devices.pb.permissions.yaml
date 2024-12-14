@@ -35,6 +35,21 @@ resources:
 - name: services/devices.edgelq.com/permissions/customizedImages.watch
   title: Devices CustomizedImage WatchCustomizedImage
   description: Allows for performing WatchCustomizedImage method on CustomizedImage resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters!attach
+  title: Attach permission for DeviceDistributionCounter
+  description: Allows attaching instance of DeviceDistributionCounter
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.batchGet
+  title: Devices DeviceDistributionCounter BatchGetDeviceDistributionCounters
+  description: Allows for performing BatchGetDeviceDistributionCounters method on DeviceDistributionCounter resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.get
+  title: Devices DeviceDistributionCounter GetDeviceDistributionCounter
+  description: Allows for performing GetDeviceDistributionCounter method on DeviceDistributionCounter resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.list
+  title: Devices DeviceDistributionCounter ListDeviceDistributionCounters
+  description: Allows for performing ListDeviceDistributionCounters method on DeviceDistributionCounter resource.
+- name: services/devices.edgelq.com/permissions/deviceDistributionCounters.watch
+  title: Devices DeviceDistributionCounter WatchDeviceDistributionCounter
+  description: Allows for performing WatchDeviceDistributionCounter method on DeviceDistributionCounter resource.
 - name: services/devices.edgelq.com/permissions/deviceHardwareRegisterSessions!attach
   title: Attach permission for DeviceHardwareRegisterSession
   description: Allows attaching instance of DeviceHardwareRegisterSession
@@ -161,6 +176,9 @@ resources:
 - name: services/devices.edgelq.com/permissions/devices.removeServiceAccountFromDevice
   title: Devices Device RemoveServiceAccountFromDevice
   description: Allows for performing RemoveServiceAccountFromDevice method on Device resource.
+- name: services/devices.edgelq.com/permissions/devices.reportDeviceMetrics
+  title: Devices Device ReportDeviceMetrics
+  description: Allows for performing ReportDeviceMetrics method on Device resource.
 - name: services/devices.edgelq.com/permissions/devices.update
   title: Devices Device UpdateDevice
   description: Allows for performing UpdateDevice method on Device resource.

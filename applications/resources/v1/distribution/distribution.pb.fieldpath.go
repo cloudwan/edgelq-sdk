@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -935,8 +935,9 @@ type DistributionSpec_FieldPath interface {
 type DistributionSpec_FieldPathSelector int32
 
 const (
-	DistributionSpec_FieldPathSelectorSelector DistributionSpec_FieldPathSelector = 0
-	DistributionSpec_FieldPathSelectorTemplate DistributionSpec_FieldPathSelector = 1
+	DistributionSpec_FieldPathSelectorSelector             DistributionSpec_FieldPathSelector = 0
+	DistributionSpec_FieldPathSelectorTemplate             DistributionSpec_FieldPathSelector = 1
+	DistributionSpec_FieldPathSelectorPodDisplayNameFormat DistributionSpec_FieldPathSelector = 2
 )
 
 func (s DistributionSpec_FieldPathSelector) String() string {
@@ -945,6 +946,8 @@ func (s DistributionSpec_FieldPathSelector) String() string {
 		return "selector"
 	case DistributionSpec_FieldPathSelectorTemplate:
 		return "template"
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		return "pod_display_name_format"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", s))
 	}
@@ -960,6 +963,8 @@ func BuildDistributionSpec_FieldPath(fp gotenobject.RawFieldPath) (DistributionS
 			return &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorSelector}, nil
 		case "template":
 			return &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorTemplate}, nil
+		case "pod_display_name_format", "podDisplayNameFormat", "pod-display-name-format":
+			return &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorPodDisplayNameFormat}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1028,6 +1033,8 @@ func (fp *DistributionSpec_FieldTerminalPath) Get(source *Distribution_Spec) (va
 			if source.Template != nil {
 				values = append(values, source.Template)
 			}
+		case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+			values = append(values, source.PodDisplayNameFormat)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fp.selector))
 		}
@@ -1048,6 +1055,8 @@ func (fp *DistributionSpec_FieldTerminalPath) GetSingle(source *Distribution_Spe
 	case DistributionSpec_FieldPathSelectorTemplate:
 		res := source.GetTemplate()
 		return res, res != nil
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		return source.GetPodDisplayNameFormat(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fp.selector))
 	}
@@ -1064,6 +1073,8 @@ func (fp *DistributionSpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*LabelSelector)(nil)
 	case DistributionSpec_FieldPathSelectorTemplate:
 		return (*Distribution_Spec_Template)(nil)
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fp.selector))
 	}
@@ -1076,6 +1087,8 @@ func (fp *DistributionSpec_FieldTerminalPath) ClearValue(item *Distribution_Spec
 			item.Selector = nil
 		case DistributionSpec_FieldPathSelectorTemplate:
 			item.Template = nil
+		case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+			item.PodDisplayNameFormat = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fp.selector))
 		}
@@ -1088,7 +1101,7 @@ func (fp *DistributionSpec_FieldTerminalPath) ClearValueRaw(item proto.Message) 
 
 // IsLeaf - whether field path is holds simple value
 func (fp *DistributionSpec_FieldTerminalPath) IsLeaf() bool {
-	return false
+	return fp.selector == DistributionSpec_FieldPathSelectorPodDisplayNameFormat
 }
 
 func (fp *DistributionSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1101,6 +1114,8 @@ func (fp *DistributionSpec_FieldTerminalPath) WithIValue(value interface{}) Dist
 		return &DistributionSpec_FieldTerminalPathValue{DistributionSpec_FieldTerminalPath: *fp, value: value.(*LabelSelector)}
 	case DistributionSpec_FieldPathSelectorTemplate:
 		return &DistributionSpec_FieldTerminalPathValue{DistributionSpec_FieldTerminalPath: *fp, value: value.(*Distribution_Spec_Template)}
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		return &DistributionSpec_FieldTerminalPathValue{DistributionSpec_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fp.selector))
 	}
@@ -1117,6 +1132,8 @@ func (fp *DistributionSpec_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &DistributionSpec_FieldTerminalPathArrayOfValues{DistributionSpec_FieldTerminalPath: *fp, values: values.([]*LabelSelector)}
 	case DistributionSpec_FieldPathSelectorTemplate:
 		return &DistributionSpec_FieldTerminalPathArrayOfValues{DistributionSpec_FieldTerminalPath: *fp, values: values.([]*Distribution_Spec_Template)}
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		return &DistributionSpec_FieldTerminalPathArrayOfValues{DistributionSpec_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fp.selector))
 	}
@@ -1310,6 +1327,10 @@ func (fpv *DistributionSpec_FieldTerminalPathValue) AsTemplateValue() (*Distribu
 	res, ok := fpv.value.(*Distribution_Spec_Template)
 	return res, ok
 }
+func (fpv *DistributionSpec_FieldTerminalPathValue) AsPodDisplayNameFormatValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *DistributionSpec_FieldTerminalPathValue) SetTo(target **Distribution_Spec) {
@@ -1321,6 +1342,8 @@ func (fpv *DistributionSpec_FieldTerminalPathValue) SetTo(target **Distribution_
 		(*target).Selector = fpv.value.(*LabelSelector)
 	case DistributionSpec_FieldPathSelectorTemplate:
 		(*target).Template = fpv.value.(*Distribution_Spec_Template)
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		(*target).PodDisplayNameFormat = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fpv.selector))
 	}
@@ -1338,6 +1361,16 @@ func (fpv *DistributionSpec_FieldTerminalPathValue) CompareWith(source *Distribu
 		return 0, false
 	case DistributionSpec_FieldPathSelectorTemplate:
 		return 0, false
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetPodDisplayNameFormat()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Distribution_Spec: %d", fpv.selector))
 	}
@@ -1538,6 +1571,10 @@ func (fpaov *DistributionSpec_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]*Distribution_Spec_Template) {
 			values = append(values, v)
 		}
+	case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1547,6 +1584,10 @@ func (fpaov *DistributionSpec_FieldTerminalPathArrayOfValues) AsSelectorArrayOfV
 }
 func (fpaov *DistributionSpec_FieldTerminalPathArrayOfValues) AsTemplateArrayOfValues() ([]*Distribution_Spec_Template, bool) {
 	res, ok := fpaov.values.([]*Distribution_Spec_Template)
+	return res, ok
+}
+func (fpaov *DistributionSpec_FieldTerminalPathArrayOfValues) AsPodDisplayNameFormatArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
 	return res, ok
 }
 

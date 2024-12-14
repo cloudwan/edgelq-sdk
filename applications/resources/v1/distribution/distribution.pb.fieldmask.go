@@ -415,6 +415,7 @@ func FullDistribution_Spec_FieldMask() *Distribution_Spec_FieldMask {
 	res := &Distribution_Spec_FieldMask{}
 	res.Paths = append(res.Paths, &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorSelector})
 	res.Paths = append(res.Paths, &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorTemplate})
+	res.Paths = append(res.Paths, &DistributionSpec_FieldTerminalPath{selector: DistributionSpec_FieldPathSelectorPodDisplayNameFormat})
 	return res
 }
 
@@ -458,7 +459,7 @@ func (fieldMask *Distribution_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DistributionSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -488,7 +489,7 @@ func (fieldMask *Distribution_Spec_FieldMask) Reset() {
 
 func (fieldMask *Distribution_Spec_FieldMask) Subtract(other *Distribution_Spec_FieldMask) *Distribution_Spec_FieldMask {
 	result := &Distribution_Spec_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[DistributionSpec_FieldPathSelector]gotenobject.FieldMask{
 		DistributionSpec_FieldPathSelectorSelector: &LabelSelector_FieldMask{},
 		DistributionSpec_FieldPathSelectorTemplate: &Distribution_Spec_Template_FieldMask{},
@@ -700,6 +701,8 @@ func (fieldMask *Distribution_Spec_FieldMask) Project(source *Distribution_Spec)
 			case DistributionSpec_FieldPathSelectorTemplate:
 				result.Template = source.Template
 				wholeTemplateAccepted = true
+			case DistributionSpec_FieldPathSelectorPodDisplayNameFormat:
+				result.PodDisplayNameFormat = source.PodDisplayNameFormat
 			}
 		case *DistributionSpec_FieldSubPath:
 			switch tp.selector {

@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -2427,15 +2427,47 @@ func (fp *DistributionBucketOptions_FieldTerminalPath) GetRaw(source proto.Messa
 func (fp *DistributionBucketOptions_FieldTerminalPath) GetSingle(source *Distribution_BucketOptions) (interface{}, bool) {
 	switch fp.selector {
 	case DistributionBucketOptions_FieldPathSelectorLinearBuckets:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetLinearBuckets(), false
+		}
+		_, oneOfSelected := source.Options.(*Distribution_BucketOptions_LinearBuckets)
+		if !oneOfSelected {
+			return source.GetLinearBuckets(), false // to return "type" information
+		}
 		res := source.GetLinearBuckets()
 		return res, res != nil
 	case DistributionBucketOptions_FieldPathSelectorExponentialBuckets:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetExponentialBuckets(), false
+		}
+		_, oneOfSelected := source.Options.(*Distribution_BucketOptions_ExponentialBuckets)
+		if !oneOfSelected {
+			return source.GetExponentialBuckets(), false // to return "type" information
+		}
 		res := source.GetExponentialBuckets()
 		return res, res != nil
 	case DistributionBucketOptions_FieldPathSelectorExplicitBuckets:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetExplicitBuckets(), false
+		}
+		_, oneOfSelected := source.Options.(*Distribution_BucketOptions_ExplicitBuckets)
+		if !oneOfSelected {
+			return source.GetExplicitBuckets(), false // to return "type" information
+		}
 		res := source.GetExplicitBuckets()
 		return res, res != nil
 	case DistributionBucketOptions_FieldPathSelectorDynamicBuckets:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetDynamicBuckets(), false
+		}
+		_, oneOfSelected := source.Options.(*Distribution_BucketOptions_DynamicBuckets)
+		if !oneOfSelected {
+			return source.GetDynamicBuckets(), false // to return "type" information
+		}
 		res := source.GetDynamicBuckets()
 		return res, res != nil
 	default:
@@ -4995,14 +5027,54 @@ func (fp *TypedValue_FieldTerminalPath) GetRaw(source proto.Message) []interface
 func (fp *TypedValue_FieldTerminalPath) GetSingle(source *TypedValue) (interface{}, bool) {
 	switch fp.selector {
 	case TypedValue_FieldPathSelectorBoolValue:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetBoolValue(), false
+		}
+		_, oneOfSelected := source.Value.(*TypedValue_BoolValue)
+		if !oneOfSelected {
+			return source.GetBoolValue(), false // to return "type" information
+		}
 		return source.GetBoolValue(), source != nil
 	case TypedValue_FieldPathSelectorInt64Value:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetInt64Value(), false
+		}
+		_, oneOfSelected := source.Value.(*TypedValue_Int64Value)
+		if !oneOfSelected {
+			return source.GetInt64Value(), false // to return "type" information
+		}
 		return source.GetInt64Value(), source != nil
 	case TypedValue_FieldPathSelectorDoubleValue:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetDoubleValue(), false
+		}
+		_, oneOfSelected := source.Value.(*TypedValue_DoubleValue)
+		if !oneOfSelected {
+			return source.GetDoubleValue(), false // to return "type" information
+		}
 		return source.GetDoubleValue(), source != nil
 	case TypedValue_FieldPathSelectorStringValue:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetStringValue(), false
+		}
+		_, oneOfSelected := source.Value.(*TypedValue_StringValue)
+		if !oneOfSelected {
+			return source.GetStringValue(), false // to return "type" information
+		}
 		return source.GetStringValue(), source != nil
 	case TypedValue_FieldPathSelectorDistributionValue:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetDistributionValue(), false
+		}
+		_, oneOfSelected := source.Value.(*TypedValue_DistributionValue)
+		if !oneOfSelected {
+			return source.GetDistributionValue(), false // to return "type" information
+		}
 		res := source.GetDistributionValue()
 		return res, res != nil
 	default:

@@ -14,6 +14,7 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -26,6 +27,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &project.Project{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -2915,6 +2917,10 @@ func (b *filterCndBuilderSpecWebhook) Headers() *filterCndBuilderSpecWebhookHead
 	return &filterCndBuilderSpecWebhookHeaders{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecWebhook) NotificationMask() *filterCndBuilderSpecWebhookNotificationMask {
+	return &filterCndBuilderSpecWebhookNotificationMask{builder: b.builder}
+}
+
 type filterCndBuilderSpecWebhookUrl struct {
 	builder *FilterBuilder
 }
@@ -3190,6 +3196,65 @@ func (b *filterCndBuilderSpecWebhookHeadersValue) compare(op gotenfilter.Compare
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers().Value().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecWebhookNotificationMask struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) Eq(value *fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) Neq(value *fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) Gt(value *fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) Gte(value *fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) Lt(value *fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) Lte(value *fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) In(values []*fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().NotificationMask().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) NotIn(values []*fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().NotificationMask().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().Webhook().NotificationMask().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().Webhook().NotificationMask().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookNotificationMask) compare(op gotenfilter.CompareOperator, value *fieldmaskpb.FieldMask) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                           op,
+		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Webhook().NotificationMask().WithValue(value),
 	})
 }
 

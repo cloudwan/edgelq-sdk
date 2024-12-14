@@ -40,9 +40,9 @@ var (
 )
 
 type UserAccess interface {
-	GetUser(context.Context, *GetQuery) (*User, error)
+	GetUser(context.Context, *GetQuery, ...gotenresource.GetOption) (*User, error)
 	BatchGetUsers(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryUsers(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryUsers(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchUser(context.Context, *GetQuery, func(*UserChange) error) error
 	WatchUsers(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveUser(context.Context, *User, ...gotenresource.SaveOption) error
@@ -57,25 +57,25 @@ func AsAnyCastAccess(access UserAccess) gotenresource.Access {
 	return &anyCastAccess{UserAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asUserQuery, ok := q.(*GetQuery); ok {
-		return a.GetUser(ctx, asUserQuery)
+		return a.GetUser(ctx, asUserQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected User, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asUserQuery, ok := q.(*ListQuery); ok {
-		return a.QueryUsers(ctx, asUserQuery)
+		return a.QueryUsers(ctx, asUserQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected User, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for User")
 }
 

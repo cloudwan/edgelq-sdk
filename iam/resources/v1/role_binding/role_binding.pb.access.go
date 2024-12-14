@@ -48,9 +48,9 @@ var (
 )
 
 type RoleBindingAccess interface {
-	GetRoleBinding(context.Context, *GetQuery) (*RoleBinding, error)
+	GetRoleBinding(context.Context, *GetQuery, ...gotenresource.GetOption) (*RoleBinding, error)
 	BatchGetRoleBindings(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryRoleBindings(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryRoleBindings(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchRoleBinding(context.Context, *GetQuery, func(*RoleBindingChange) error) error
 	WatchRoleBindings(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveRoleBinding(context.Context, *RoleBinding, ...gotenresource.SaveOption) error
@@ -65,25 +65,25 @@ func AsAnyCastAccess(access RoleBindingAccess) gotenresource.Access {
 	return &anyCastAccess{RoleBindingAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asRoleBindingQuery, ok := q.(*GetQuery); ok {
-		return a.GetRoleBinding(ctx, asRoleBindingQuery)
+		return a.GetRoleBinding(ctx, asRoleBindingQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected RoleBinding, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asRoleBindingQuery, ok := q.(*ListQuery); ok {
-		return a.QueryRoleBindings(ctx, asRoleBindingQuery)
+		return a.QueryRoleBindings(ctx, asRoleBindingQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected RoleBinding, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for RoleBinding")
 }
 

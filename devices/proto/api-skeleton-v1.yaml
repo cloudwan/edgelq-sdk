@@ -89,8 +89,7 @@ resources:
   - name: ProvisionServiceAccountToDevice
     verb: provision_service_account_to_device
     withStoreHandle:
-      readOnly: false
-      transaction: SNAPSHOT
+      transaction: MANUAL
   - name: RemoveServiceAccountFromDevice
     verb: remove_service_account_from_device
     withStoreHandle:
@@ -106,6 +105,14 @@ resources:
     streamingResponse: true
     withStoreHandle:
       transaction: MANUAL
+  - name: ReportDeviceMetrics
+    verb: report_device_metrics
+    skipResponseMsgGen: false
+    skipRequestMsgGen: false
+    streamingRequest: true
+    streamingResponse: true
+    withStoreHandle:
+      transaction: MANUAL
 
 - name: ProvisioningPolicy
   plural: ProvisioningPolicies
@@ -117,8 +124,7 @@ resources:
   - name: ProvisionServiceAccountToProvisioningPolicy
     verb: provision_service_account_to_provisioning_policy
     withStoreHandle:
-      readOnly: false
-      transaction: SNAPSHOT
+      transaction: MANUAL
   - name: RemoveServiceAccountFromProvisioningPolicy
     verb: remove_service_account_from_provisioning_policy
     withStoreHandle:
@@ -127,13 +133,11 @@ resources:
   - name: ProvisionDeviceViaPolicy
     verb: provision_device_via_policy
     withStoreHandle:
-      readOnly: false
-      transaction: SNAPSHOT
+      transaction: MANUAL
   - name: RequestProvisioningApproval
     verb: request_provisioning_approval
     withStoreHandle:
-      readOnly: false
-      transaction: SNAPSHOT
+      transaction: MANUAL
 
 - name: ProvisioningApprovalRequest
   parents:
@@ -142,8 +146,7 @@ resources:
   - name: ProvisionDeviceForApprovedRequest
     verb: provision_device_for_approved_request
     withStoreHandle:
-      readOnly: false
-      transaction: SNAPSHOT
+      transaction: MANUAL
 
 - name: CustomizedImage
   parents:
@@ -166,6 +169,20 @@ resources:
   - Project
   scopeAttributes:
   - Region
+
+- name: DeviceDistributionCounter
+  optOuts:
+    basicActions: 
+    - CreateDeviceDistributionCounter
+    - UpdateDeviceDistributionCounter
+    - DeleteDeviceDistributionCounter
+    dbConstraints: true
+  parents:
+  - Project
+  scopeAttributes:
+  - Region
+  multiRegion:
+    syncType: NEVER
 
 apis:
 - name: Public

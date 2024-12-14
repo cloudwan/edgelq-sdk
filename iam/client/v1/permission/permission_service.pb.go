@@ -1352,6 +1352,9 @@ type CreatePermissionRequest struct {
 	Parent *permission.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
 	// Permission resource body
 	Permission *permission.Permission `protobuf:"bytes,2,opt,name=permission,proto3" json:"permission,omitempty" firestore:"permission"`
+	// Optional masking applied to response object to reduce message response
+	// size.
+	ResponseMask *CreatePermissionRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *CreatePermissionRequest) Reset() {
@@ -1418,6 +1421,13 @@ func (m *CreatePermissionRequest) GetPermission() *permission.Permission {
 	return nil
 }
 
+func (m *CreatePermissionRequest) GetResponseMask() *CreatePermissionRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *CreatePermissionRequest) SetParent(fv *permission.ParentName) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Parent", "CreatePermissionRequest"))
@@ -1430,6 +1440,13 @@ func (m *CreatePermissionRequest) SetPermission(fv *permission.Permission) {
 		panic(fmt.Errorf("can't set %s on nil %s", "Permission", "CreatePermissionRequest"))
 	}
 	m.Permission = fv
+}
+
+func (m *CreatePermissionRequest) SetResponseMask(fv *CreatePermissionRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "CreatePermissionRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the UpdatePermission method.
@@ -1454,6 +1471,8 @@ type UpdatePermissionRequest struct {
 	//
 	// https://google.aip.dev/134#create-or-update
 	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
+	// reduce message response size.
+	ResponseMask *UpdatePermissionRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *UpdatePermissionRequest) Reset() {
@@ -1534,6 +1553,13 @@ func (m *UpdatePermissionRequest) GetAllowMissing() bool {
 	return false
 }
 
+func (m *UpdatePermissionRequest) GetResponseMask() *UpdatePermissionRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *UpdatePermissionRequest) SetPermission(fv *permission.Permission) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Permission", "UpdatePermissionRequest"))
@@ -1560,6 +1586,13 @@ func (m *UpdatePermissionRequest) SetAllowMissing(fv bool) {
 		panic(fmt.Errorf("can't set %s on nil %s", "AllowMissing", "UpdatePermissionRequest"))
 	}
 	m.AllowMissing = fv
+}
+
+func (m *UpdatePermissionRequest) SetResponseMask(fv *UpdatePermissionRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "UpdatePermissionRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the DeletePermission method.
@@ -1723,6 +1756,117 @@ func (m *WatchPermissionsResponse_PageTokenChange) SetNextPageToken(fv *permissi
 	m.NextPageToken = fv
 }
 
+// ResponseMask allows client to reduce response message size.
+type CreatePermissionRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*CreatePermissionRequest_ResponseMask_SkipEntireResponseBody
+	//	*CreatePermissionRequest_ResponseMask_BodyMask
+	Masking isCreatePermissionRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *CreatePermissionRequest_ResponseMask) Reset() {
+	*m = CreatePermissionRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *CreatePermissionRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*CreatePermissionRequest_ResponseMask) ProtoMessage() {}
+
+func (m *CreatePermissionRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*CreatePermissionRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use CreatePermissionRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*CreatePermissionRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_permission_service_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (m *CreatePermissionRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *CreatePermissionRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *CreatePermissionRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *CreatePermissionRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isCreatePermissionRequest_ResponseMask_Masking interface {
+	isCreatePermissionRequest_ResponseMask_Masking()
+}
+
+type CreatePermissionRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type CreatePermissionRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields.
+	BodyMask *permission.Permission_FieldMask `protobuf:"bytes,2,opt,customtype=Permission_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*CreatePermissionRequest_ResponseMask_SkipEntireResponseBody) isCreatePermissionRequest_ResponseMask_Masking() {
+}
+func (*CreatePermissionRequest_ResponseMask_BodyMask) isCreatePermissionRequest_ResponseMask_Masking() {
+}
+func (m *CreatePermissionRequest_ResponseMask) GetMasking() isCreatePermissionRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *CreatePermissionRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*CreatePermissionRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *CreatePermissionRequest_ResponseMask) GetBodyMask() *permission.Permission_FieldMask {
+	if x, ok := m.GetMasking().(*CreatePermissionRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *CreatePermissionRequest_ResponseMask) SetMasking(ofv isCreatePermissionRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isCreatePermissionRequest_ResponseMask_Masking", "CreatePermissionRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *CreatePermissionRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&CreatePermissionRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *CreatePermissionRequest_ResponseMask) SetBodyMask(fv *permission.Permission_FieldMask) {
+	m.SetMasking(&CreatePermissionRequest_ResponseMask_BodyMask{BodyMask: fv})
+}
+
 // CAS - Compare and Swap. This object is used if user wants to make update
 // conditional based upon previous resource version.
 type UpdatePermissionRequest_CAS struct {
@@ -1739,7 +1883,7 @@ type UpdatePermissionRequest_CAS struct {
 func (m *UpdatePermissionRequest_CAS) Reset() {
 	*m = UpdatePermissionRequest_CAS{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[13]
+		mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1752,7 +1896,7 @@ func (m *UpdatePermissionRequest_CAS) String() string {
 func (*UpdatePermissionRequest_CAS) ProtoMessage() {}
 
 func (m *UpdatePermissionRequest_CAS) ProtoReflect() preflect.Message {
-	mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[13]
+	mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1812,6 +1956,137 @@ func (m *UpdatePermissionRequest_CAS) SetFieldMask(fv *permission.Permission_Fie
 		panic(fmt.Errorf("can't set %s on nil %s", "FieldMask", "UpdatePermissionRequest_CAS"))
 	}
 	m.FieldMask = fv
+}
+
+// ResponseMask allows client to reduce response message size.
+type UpdatePermissionRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*UpdatePermissionRequest_ResponseMask_SkipEntireResponseBody
+	//	*UpdatePermissionRequest_ResponseMask_UpdatedFieldsOnly
+	//	*UpdatePermissionRequest_ResponseMask_BodyMask
+	Masking isUpdatePermissionRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *UpdatePermissionRequest_ResponseMask) Reset() {
+	*m = UpdatePermissionRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *UpdatePermissionRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*UpdatePermissionRequest_ResponseMask) ProtoMessage() {}
+
+func (m *UpdatePermissionRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_permission_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*UpdatePermissionRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use UpdatePermissionRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*UpdatePermissionRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_permission_service_proto_rawDescGZIP(), []int{10, 1}
+}
+
+func (m *UpdatePermissionRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *UpdatePermissionRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *UpdatePermissionRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *UpdatePermissionRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isUpdatePermissionRequest_ResponseMask_Masking interface {
+	isUpdatePermissionRequest_ResponseMask_Masking()
+}
+
+type UpdatePermissionRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated. Field body_mask is ignored if
+	// set.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type UpdatePermissionRequest_ResponseMask_UpdatedFieldsOnly struct {
+	// Include all fields that were actually updated during processing. Note
+	// this may be larger than update mask if some fields were computed
+	// additionally. Name is added as well.
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+}
+type UpdatePermissionRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields. If skip_entire_response_body is true, this field is
+	// ignored.
+	BodyMask *permission.Permission_FieldMask `protobuf:"bytes,3,opt,customtype=Permission_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*UpdatePermissionRequest_ResponseMask_SkipEntireResponseBody) isUpdatePermissionRequest_ResponseMask_Masking() {
+}
+func (*UpdatePermissionRequest_ResponseMask_UpdatedFieldsOnly) isUpdatePermissionRequest_ResponseMask_Masking() {
+}
+func (*UpdatePermissionRequest_ResponseMask_BodyMask) isUpdatePermissionRequest_ResponseMask_Masking() {
+}
+func (m *UpdatePermissionRequest_ResponseMask) GetMasking() isUpdatePermissionRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *UpdatePermissionRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*UpdatePermissionRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *UpdatePermissionRequest_ResponseMask) GetUpdatedFieldsOnly() bool {
+	if x, ok := m.GetMasking().(*UpdatePermissionRequest_ResponseMask_UpdatedFieldsOnly); ok {
+		return x.UpdatedFieldsOnly
+	}
+	return false
+}
+func (m *UpdatePermissionRequest_ResponseMask) GetBodyMask() *permission.Permission_FieldMask {
+	if x, ok := m.GetMasking().(*UpdatePermissionRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *UpdatePermissionRequest_ResponseMask) SetMasking(ofv isUpdatePermissionRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isUpdatePermissionRequest_ResponseMask_Masking", "UpdatePermissionRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *UpdatePermissionRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&UpdatePermissionRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *UpdatePermissionRequest_ResponseMask) SetUpdatedFieldsOnly(fv bool) {
+	m.SetMasking(&UpdatePermissionRequest_ResponseMask_UpdatedFieldsOnly{UpdatedFieldsOnly: fv})
+}
+func (m *UpdatePermissionRequest_ResponseMask) SetBodyMask(fv *permission.Permission_FieldMask) {
+	m.SetMasking(&UpdatePermissionRequest_ResponseMask_BodyMask{BodyMask: fv})
 }
 
 var edgelq_iam_proto_v1_permission_service_proto preflect.FileDescriptor
@@ -2014,7 +2289,7 @@ var edgelq_iam_proto_v1_permission_service_proto_rawDesc = []byte{
 	0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
 	0x42, 0x12, 0xb2, 0xda, 0x21, 0x0e, 0x22, 0x0c, 0x0a, 0x0a, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73,
 	0x73, 0x69, 0x6f, 0x6e, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f,
-	0x6b, 0x65, 0x6e, 0x22, 0x8b, 0x01, 0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x65,
+	0x6b, 0x65, 0x6e, 0x22, 0x8a, 0x03, 0x0a, 0x17, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x65,
 	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x2a, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42,
 	0x12, 0xb2, 0xda, 0x21, 0x0e, 0x3a, 0x0c, 0x0a, 0x0a, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
@@ -2023,34 +2298,69 @@ var edgelq_iam_proto_v1_permission_service_proto_rawDesc = []byte{
 	0x16, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65, 0x72,
 	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6, 0x27,
 	0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f,
-	0x6e, 0x22, 0xb6, 0x03, 0x0a, 0x17, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x65, 0x72, 0x6d,
-	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x44, 0x0a,
-	0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x16, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x50,
-	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca,
-	0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
-	0x69, 0x6f, 0x6e, 0x12, 0x4f, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61,
-	0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64,
-	0x4d, 0x61, 0x73, 0x6b, 0x42, 0x12, 0xb2, 0xda, 0x21, 0x0e, 0x32, 0x0c, 0x0a, 0x0a, 0x50, 0x65,
-	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
-	0x4d, 0x61, 0x73, 0x6b, 0x12, 0x39, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x27, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12,
-	0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67,
-	0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73,
-	0x73, 0x69, 0x6e, 0x67, 0x1a, 0xa3, 0x01, 0x0a, 0x03, 0x43, 0x41, 0x53, 0x12, 0x4d, 0x0a, 0x11,
-	0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74,
-	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61,
-	0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42,
-	0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69,
-	0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x4d, 0x0a, 0x0a, 0x66,
-	0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x12, 0xb2, 0xda, 0x21,
-	0x0e, 0x32, 0x0c, 0x0a, 0x0a, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52,
-	0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x22, 0x41, 0x0a, 0x17, 0x44, 0x65,
+	0x6e, 0x12, 0x55, 0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d, 0x61,
+	0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69,
+	0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x50, 0x65, 0x72, 0x6d,
+	0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xa5, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b, 0x69,
+	0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x16,
+	0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x4d, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d,
+	0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
+	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c,
+	0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x12, 0xb2, 0xda, 0x21, 0x0e, 0x32, 0x0c, 0x0a, 0x0a, 0x50,
+	0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52, 0x08, 0x62, 0x6f, 0x64,
+	0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a, 0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69, 0x6e, 0x67,
+	0x22, 0xe7, 0x05, 0x0a, 0x17, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x44, 0x0a, 0x0a,
+	0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x16, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca, 0xc6,
+	0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x0a, 0x70, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69,
+	0x6f, 0x6e, 0x12, 0x4f, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61, 0x73,
+	0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d,
+	0x61, 0x73, 0x6b, 0x42, 0x12, 0xb2, 0xda, 0x21, 0x0e, 0x32, 0x0c, 0x0a, 0x0a, 0x50, 0x65, 0x72,
+	0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d,
+	0x61, 0x73, 0x6b, 0x12, 0x39, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x27, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12, 0x23,
+	0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73, 0x73,
+	0x69, 0x6e, 0x67, 0x12, 0x55, 0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f,
+	0x6d, 0x61, 0x73, 0x6b, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x30, 0x2e, 0x6e, 0x74, 0x74,
+	0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x65,
+	0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xa3, 0x01, 0x0a, 0x03, 0x43,
+	0x41, 0x53, 0x12, 0x4d, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61,
+	0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e,
+	0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x10, 0x01, 0x52,
+	0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74,
+	0x65, 0x12, 0x4d, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73,
+	0x6b, 0x42, 0x12, 0xb2, 0xda, 0x21, 0x0e, 0x32, 0x0c, 0x0a, 0x0a, 0x50, 0x65, 0x72, 0x6d, 0x69,
+	0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b,
+	0x1a, 0xd7, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73,
+	0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72, 0x65,
+	0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74, 0x69,
+	0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x30,
+	0x0a, 0x13, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x73,
+	0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x11, 0x75,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x4f, 0x6e, 0x6c, 0x79,
+	0x12, 0x4d, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x03, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42,
+	0x12, 0xb2, 0xda, 0x21, 0x0e, 0x32, 0x0c, 0x0a, 0x0a, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73,
+	0x69, 0x6f, 0x6e, 0x48, 0x00, 0x52, 0x08, 0x62, 0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42,
+	0x09, 0x0a, 0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69, 0x6e, 0x67, 0x22, 0x41, 0x0a, 0x17, 0x44, 0x65,
 	0x6c, 0x65, 0x74, 0x65, 0x50, 0x65, 0x72, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x26, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x42, 0x12, 0xb2, 0xda, 0x21, 0x0e, 0x0a, 0x0c, 0x0a, 0x0a, 0x50, 0x65, 0x72,
@@ -2189,7 +2499,7 @@ func edgelq_iam_proto_v1_permission_service_proto_rawDescGZIP() []byte {
 	return edgelq_iam_proto_v1_permission_service_proto_rawDescData
 }
 
-var edgelq_iam_proto_v1_permission_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var edgelq_iam_proto_v1_permission_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var edgelq_iam_proto_v1_permission_service_proto_goTypes = []interface{}{
 	(*GetPermissionRequest)(nil),                     // 0: ntt.iam.v1.GetPermissionRequest
 	(*BatchGetPermissionsRequest)(nil),               // 1: ntt.iam.v1.BatchGetPermissionsRequest
@@ -2204,60 +2514,66 @@ var edgelq_iam_proto_v1_permission_service_proto_goTypes = []interface{}{
 	(*UpdatePermissionRequest)(nil),                  // 10: ntt.iam.v1.UpdatePermissionRequest
 	(*DeletePermissionRequest)(nil),                  // 11: ntt.iam.v1.DeletePermissionRequest
 	(*WatchPermissionsResponse_PageTokenChange)(nil), // 12: ntt.iam.v1.WatchPermissionsResponse.PageTokenChange
-	(*UpdatePermissionRequest_CAS)(nil),              // 13: ntt.iam.v1.UpdatePermissionRequest.CAS
-	(*permission.Permission_FieldMask)(nil),          // 14: ntt.iam.v1.Permission_FieldMask
-	(view.View)(0),                                   // 15: goten.types.View
-	(*permission.Permission)(nil),                    // 16: ntt.iam.v1.Permission
-	(*permission.PermissionChange)(nil),              // 17: ntt.iam.v1.PermissionChange
-	(watch_type.WatchType)(0),                        // 18: goten.types.WatchType
-	(*timestamppb.Timestamp)(nil),                    // 19: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),                            // 20: google.protobuf.Empty
+	(*CreatePermissionRequest_ResponseMask)(nil),     // 13: ntt.iam.v1.CreatePermissionRequest.ResponseMask
+	(*UpdatePermissionRequest_CAS)(nil),              // 14: ntt.iam.v1.UpdatePermissionRequest.CAS
+	(*UpdatePermissionRequest_ResponseMask)(nil),     // 15: ntt.iam.v1.UpdatePermissionRequest.ResponseMask
+	(*permission.Permission_FieldMask)(nil),          // 16: ntt.iam.v1.Permission_FieldMask
+	(view.View)(0),                                   // 17: goten.types.View
+	(*permission.Permission)(nil),                    // 18: ntt.iam.v1.Permission
+	(*permission.PermissionChange)(nil),              // 19: ntt.iam.v1.PermissionChange
+	(watch_type.WatchType)(0),                        // 20: goten.types.WatchType
+	(*timestamppb.Timestamp)(nil),                    // 21: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),                            // 22: google.protobuf.Empty
 }
 var edgelq_iam_proto_v1_permission_service_proto_depIdxs = []int32{
-	14, // 0: ntt.iam.v1.GetPermissionRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
-	15, // 1: ntt.iam.v1.GetPermissionRequest.view:type_name -> goten.types.View
-	14, // 2: ntt.iam.v1.BatchGetPermissionsRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
-	15, // 3: ntt.iam.v1.BatchGetPermissionsRequest.view:type_name -> goten.types.View
-	16, // 4: ntt.iam.v1.BatchGetPermissionsResponse.permissions:type_name -> ntt.iam.v1.Permission
-	14, // 5: ntt.iam.v1.ListPermissionsRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
-	15, // 6: ntt.iam.v1.ListPermissionsRequest.view:type_name -> goten.types.View
-	16, // 7: ntt.iam.v1.ListPermissionsResponse.permissions:type_name -> ntt.iam.v1.Permission
-	14, // 8: ntt.iam.v1.WatchPermissionRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
-	15, // 9: ntt.iam.v1.WatchPermissionRequest.view:type_name -> goten.types.View
-	17, // 10: ntt.iam.v1.WatchPermissionResponse.change:type_name -> ntt.iam.v1.PermissionChange
-	18, // 11: ntt.iam.v1.WatchPermissionsRequest.type:type_name -> goten.types.WatchType
-	19, // 12: ntt.iam.v1.WatchPermissionsRequest.starting_time:type_name -> google.protobuf.Timestamp
-	14, // 13: ntt.iam.v1.WatchPermissionsRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
-	15, // 14: ntt.iam.v1.WatchPermissionsRequest.view:type_name -> goten.types.View
-	17, // 15: ntt.iam.v1.WatchPermissionsResponse.permission_changes:type_name -> ntt.iam.v1.PermissionChange
+	16, // 0: ntt.iam.v1.GetPermissionRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	17, // 1: ntt.iam.v1.GetPermissionRequest.view:type_name -> goten.types.View
+	16, // 2: ntt.iam.v1.BatchGetPermissionsRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	17, // 3: ntt.iam.v1.BatchGetPermissionsRequest.view:type_name -> goten.types.View
+	18, // 4: ntt.iam.v1.BatchGetPermissionsResponse.permissions:type_name -> ntt.iam.v1.Permission
+	16, // 5: ntt.iam.v1.ListPermissionsRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	17, // 6: ntt.iam.v1.ListPermissionsRequest.view:type_name -> goten.types.View
+	18, // 7: ntt.iam.v1.ListPermissionsResponse.permissions:type_name -> ntt.iam.v1.Permission
+	16, // 8: ntt.iam.v1.WatchPermissionRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	17, // 9: ntt.iam.v1.WatchPermissionRequest.view:type_name -> goten.types.View
+	19, // 10: ntt.iam.v1.WatchPermissionResponse.change:type_name -> ntt.iam.v1.PermissionChange
+	20, // 11: ntt.iam.v1.WatchPermissionsRequest.type:type_name -> goten.types.WatchType
+	21, // 12: ntt.iam.v1.WatchPermissionsRequest.starting_time:type_name -> google.protobuf.Timestamp
+	16, // 13: ntt.iam.v1.WatchPermissionsRequest.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	17, // 14: ntt.iam.v1.WatchPermissionsRequest.view:type_name -> goten.types.View
+	19, // 15: ntt.iam.v1.WatchPermissionsResponse.permission_changes:type_name -> ntt.iam.v1.PermissionChange
 	12, // 16: ntt.iam.v1.WatchPermissionsResponse.page_token_change:type_name -> ntt.iam.v1.WatchPermissionsResponse.PageTokenChange
-	16, // 17: ntt.iam.v1.CreatePermissionRequest.permission:type_name -> ntt.iam.v1.Permission
-	16, // 18: ntt.iam.v1.UpdatePermissionRequest.permission:type_name -> ntt.iam.v1.Permission
-	14, // 19: ntt.iam.v1.UpdatePermissionRequest.update_mask:type_name -> ntt.iam.v1.Permission_FieldMask
-	13, // 20: ntt.iam.v1.UpdatePermissionRequest.cas:type_name -> ntt.iam.v1.UpdatePermissionRequest.CAS
-	16, // 21: ntt.iam.v1.UpdatePermissionRequest.CAS.conditional_state:type_name -> ntt.iam.v1.Permission
-	14, // 22: ntt.iam.v1.UpdatePermissionRequest.CAS.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
-	0,  // 23: ntt.iam.v1.PermissionService.GetPermission:input_type -> ntt.iam.v1.GetPermissionRequest
-	1,  // 24: ntt.iam.v1.PermissionService.BatchGetPermissions:input_type -> ntt.iam.v1.BatchGetPermissionsRequest
-	3,  // 25: ntt.iam.v1.PermissionService.ListPermissions:input_type -> ntt.iam.v1.ListPermissionsRequest
-	5,  // 26: ntt.iam.v1.PermissionService.WatchPermission:input_type -> ntt.iam.v1.WatchPermissionRequest
-	7,  // 27: ntt.iam.v1.PermissionService.WatchPermissions:input_type -> ntt.iam.v1.WatchPermissionsRequest
-	9,  // 28: ntt.iam.v1.PermissionService.CreatePermission:input_type -> ntt.iam.v1.CreatePermissionRequest
-	10, // 29: ntt.iam.v1.PermissionService.UpdatePermission:input_type -> ntt.iam.v1.UpdatePermissionRequest
-	11, // 30: ntt.iam.v1.PermissionService.DeletePermission:input_type -> ntt.iam.v1.DeletePermissionRequest
-	16, // 31: ntt.iam.v1.PermissionService.GetPermission:output_type -> ntt.iam.v1.Permission
-	2,  // 32: ntt.iam.v1.PermissionService.BatchGetPermissions:output_type -> ntt.iam.v1.BatchGetPermissionsResponse
-	4,  // 33: ntt.iam.v1.PermissionService.ListPermissions:output_type -> ntt.iam.v1.ListPermissionsResponse
-	6,  // 34: ntt.iam.v1.PermissionService.WatchPermission:output_type -> ntt.iam.v1.WatchPermissionResponse
-	8,  // 35: ntt.iam.v1.PermissionService.WatchPermissions:output_type -> ntt.iam.v1.WatchPermissionsResponse
-	16, // 36: ntt.iam.v1.PermissionService.CreatePermission:output_type -> ntt.iam.v1.Permission
-	16, // 37: ntt.iam.v1.PermissionService.UpdatePermission:output_type -> ntt.iam.v1.Permission
-	20, // 38: ntt.iam.v1.PermissionService.DeletePermission:output_type -> google.protobuf.Empty
-	31, // [31:39] is the sub-list for method output_type
-	23, // [23:31] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	18, // 17: ntt.iam.v1.CreatePermissionRequest.permission:type_name -> ntt.iam.v1.Permission
+	13, // 18: ntt.iam.v1.CreatePermissionRequest.response_mask:type_name -> ntt.iam.v1.CreatePermissionRequest.ResponseMask
+	18, // 19: ntt.iam.v1.UpdatePermissionRequest.permission:type_name -> ntt.iam.v1.Permission
+	16, // 20: ntt.iam.v1.UpdatePermissionRequest.update_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	14, // 21: ntt.iam.v1.UpdatePermissionRequest.cas:type_name -> ntt.iam.v1.UpdatePermissionRequest.CAS
+	15, // 22: ntt.iam.v1.UpdatePermissionRequest.response_mask:type_name -> ntt.iam.v1.UpdatePermissionRequest.ResponseMask
+	16, // 23: ntt.iam.v1.CreatePermissionRequest.ResponseMask.body_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	18, // 24: ntt.iam.v1.UpdatePermissionRequest.CAS.conditional_state:type_name -> ntt.iam.v1.Permission
+	16, // 25: ntt.iam.v1.UpdatePermissionRequest.CAS.field_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	16, // 26: ntt.iam.v1.UpdatePermissionRequest.ResponseMask.body_mask:type_name -> ntt.iam.v1.Permission_FieldMask
+	0,  // 27: ntt.iam.v1.PermissionService.GetPermission:input_type -> ntt.iam.v1.GetPermissionRequest
+	1,  // 28: ntt.iam.v1.PermissionService.BatchGetPermissions:input_type -> ntt.iam.v1.BatchGetPermissionsRequest
+	3,  // 29: ntt.iam.v1.PermissionService.ListPermissions:input_type -> ntt.iam.v1.ListPermissionsRequest
+	5,  // 30: ntt.iam.v1.PermissionService.WatchPermission:input_type -> ntt.iam.v1.WatchPermissionRequest
+	7,  // 31: ntt.iam.v1.PermissionService.WatchPermissions:input_type -> ntt.iam.v1.WatchPermissionsRequest
+	9,  // 32: ntt.iam.v1.PermissionService.CreatePermission:input_type -> ntt.iam.v1.CreatePermissionRequest
+	10, // 33: ntt.iam.v1.PermissionService.UpdatePermission:input_type -> ntt.iam.v1.UpdatePermissionRequest
+	11, // 34: ntt.iam.v1.PermissionService.DeletePermission:input_type -> ntt.iam.v1.DeletePermissionRequest
+	18, // 35: ntt.iam.v1.PermissionService.GetPermission:output_type -> ntt.iam.v1.Permission
+	2,  // 36: ntt.iam.v1.PermissionService.BatchGetPermissions:output_type -> ntt.iam.v1.BatchGetPermissionsResponse
+	4,  // 37: ntt.iam.v1.PermissionService.ListPermissions:output_type -> ntt.iam.v1.ListPermissionsResponse
+	6,  // 38: ntt.iam.v1.PermissionService.WatchPermission:output_type -> ntt.iam.v1.WatchPermissionResponse
+	8,  // 39: ntt.iam.v1.PermissionService.WatchPermissions:output_type -> ntt.iam.v1.WatchPermissionsResponse
+	18, // 40: ntt.iam.v1.PermissionService.CreatePermission:output_type -> ntt.iam.v1.Permission
+	18, // 41: ntt.iam.v1.PermissionService.UpdatePermission:output_type -> ntt.iam.v1.Permission
+	22, // 42: ntt.iam.v1.PermissionService.DeletePermission:output_type -> google.protobuf.Empty
+	35, // [35:43] is the sub-list for method output_type
+	27, // [27:35] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { edgelq_iam_proto_v1_permission_service_proto_init() }
@@ -2424,7 +2740,31 @@ func edgelq_iam_proto_v1_permission_service_proto_init() {
 			}
 		}
 		edgelq_iam_proto_v1_permission_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreatePermissionRequest_ResponseMask); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_iam_proto_v1_permission_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdatePermissionRequest_CAS); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_iam_proto_v1_permission_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdatePermissionRequest_ResponseMask); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2437,13 +2777,22 @@ func edgelq_iam_proto_v1_permission_service_proto_init() {
 		}
 	}
 
+	edgelq_iam_proto_v1_permission_service_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*CreatePermissionRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*CreatePermissionRequest_ResponseMask_BodyMask)(nil),
+	}
+	edgelq_iam_proto_v1_permission_service_proto_msgTypes[15].OneofWrappers = []interface{}{
+		(*UpdatePermissionRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*UpdatePermissionRequest_ResponseMask_UpdatedFieldsOnly)(nil),
+		(*UpdatePermissionRequest_ResponseMask_BodyMask)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_iam_proto_v1_permission_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

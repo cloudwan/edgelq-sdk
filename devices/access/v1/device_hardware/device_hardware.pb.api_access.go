@@ -6,10 +6,10 @@ package device_hardware_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiDeviceHardwareAccess(client device_hardware_client.DeviceHardwareServ
 	return &apiDeviceHardwareAccess{client: client}
 }
 
-func (a *apiDeviceHardwareAccess) GetDeviceHardware(ctx context.Context, query *device_hardware.GetQuery) (*device_hardware.DeviceHardware, error) {
+func (a *apiDeviceHardwareAccess) GetDeviceHardware(ctx context.Context, query *device_hardware.GetQuery, opts ...gotenresource.GetOption) (*device_hardware.DeviceHardware, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiDeviceHardwareAccess) GetDeviceHardware(ctx context.Context, query *
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetDeviceHardware(ctx, request)
+	res, err := a.client.GetDeviceHardware(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiDeviceHardwareAccess) GetDeviceHardware(ctx context.Context, query *
 
 func (a *apiDeviceHardwareAccess) BatchGetDeviceHardwares(ctx context.Context, refs []*device_hardware.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*device_hardware.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiDeviceHardwareAccess) BatchGetDeviceHardwares(ctx context.Context, r
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*device_hardware.DeviceHardware_FieldMask)
 	}
-	resp, err := a.client.BatchGetDeviceHardwares(ctx, request)
+	resp, err := a.client.BatchGetDeviceHardwares(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiDeviceHardwareAccess) BatchGetDeviceHardwares(ctx context.Context, r
 	return nil
 }
 
-func (a *apiDeviceHardwareAccess) QueryDeviceHardwares(ctx context.Context, query *device_hardware.ListQuery) (*device_hardware.QueryResultSnapshot, error) {
+func (a *apiDeviceHardwareAccess) QueryDeviceHardwares(ctx context.Context, query *device_hardware.ListQuery, opts ...gotenresource.QueryOption) (*device_hardware.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &device_hardware_client.ListDeviceHardwaresRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiDeviceHardwareAccess) WatchDeviceHardware(ctx context.Context, query
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeviceHardware(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiDeviceHardwareAccess) WatchDeviceHardware(ctx context.Context, query
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiDeviceHardwareAccess) WatchDeviceHardwares(ctx context.Context, quer
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiDeviceHardwareAccess) WatchDeviceHardwares(ctx context.Context, quer
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchDeviceHardwares(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiDeviceHardwareAccess) WatchDeviceHardwares(ctx context.Context, quer
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &device_hardware.QueryResultChange{
 			Changes:      respChange.DeviceHardwareChanges,
@@ -191,22 +224,12 @@ func (a *apiDeviceHardwareAccess) WatchDeviceHardwares(ctx context.Context, quer
 
 func (a *apiDeviceHardwareAccess) SaveDeviceHardware(ctx context.Context, res *device_hardware.DeviceHardware, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetDeviceHardware(ctx, &device_hardware.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *device_hardware.DeviceHardware
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &device_hardware_client.UpdateDeviceHardwareRequest{
 			DeviceHardware: res,
+			AllowMissing:   !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*device_hardware.DeviceHardware_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiDeviceHardwareAccess) SaveDeviceHardware(ctx context.Context, res *d
 	return nil
 }
 
-func (a *apiDeviceHardwareAccess) DeleteDeviceHardware(ctx context.Context, ref *device_hardware.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiDeviceHardwareAccess) DeleteDeviceHardware(ctx context.Context, ref *device_hardware.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

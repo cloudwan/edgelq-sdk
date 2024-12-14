@@ -42,9 +42,9 @@ var (
 )
 
 type HardwareAccess interface {
-	GetHardware(context.Context, *GetQuery) (*Hardware, error)
+	GetHardware(context.Context, *GetQuery, ...gotenresource.GetOption) (*Hardware, error)
 	BatchGetHardwares(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryHardwares(context.Context, *ListQuery) (*QueryResultSnapshot, error)
+	QueryHardwares(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchHardware(context.Context, *GetQuery, func(*HardwareChange) error) error
 	WatchHardwares(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveHardware(context.Context, *Hardware, ...gotenresource.SaveOption) error
@@ -59,25 +59,25 @@ func AsAnyCastAccess(access HardwareAccess) gotenresource.Access {
 	return &anyCastAccess{HardwareAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asHardwareQuery, ok := q.(*GetQuery); ok {
-		return a.GetHardware(ctx, asHardwareQuery)
+		return a.GetHardware(ctx, asHardwareQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Hardware, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asHardwareQuery, ok := q.(*ListQuery); ok {
-		return a.QueryHardwares(ctx, asHardwareQuery)
+		return a.QueryHardwares(ctx, asHardwareQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Hardware, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	return nil, status.Errorf(codes.Internal, "Search is not available for Hardware")
 }
 

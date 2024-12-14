@@ -67,6 +67,21 @@ resources:
       transaction: NONE
     multiRegionRouting:
       skipCodeGenBasedRouting: true
+  - name: StreamingCreateLogs
+    verb: streamingCreate
+    streamingRequest: true
+    streamingResponse: true
+    opResourceInfo:
+      isCollection: true
+      skipResourceInRequest: true
+      requestPaths:
+        resourceParent: [ "parent" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      regionIdFieldPaths:
+      - region_id
 
 - name: Bucket
   parents:

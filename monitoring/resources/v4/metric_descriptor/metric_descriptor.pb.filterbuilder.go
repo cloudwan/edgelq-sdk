@@ -13764,6 +13764,10 @@ func (b *filterCndBuilderStorageConfig) StoreRawPoints() *filterCndBuilderStorag
 	return &filterCndBuilderStorageConfigStoreRawPoints{builder: b.builder}
 }
 
+func (b *filterCndBuilderStorageConfig) MaxAp() *filterCndBuilderStorageConfigMaxAp {
+	return &filterCndBuilderStorageConfigMaxAp{builder: b.builder}
+}
+
 type filterCndBuilderStorageConfigStoreRawPoints struct {
 	builder *FilterBuilder
 }
@@ -13820,6 +13824,65 @@ func (b *filterCndBuilderStorageConfigStoreRawPoints) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().StorageConfig().StoreRawPoints().WithValue(value),
+	})
+}
+
+type filterCndBuilderStorageConfigMaxAp struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) Eq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) Neq(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) Gt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) Gte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) Lt(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) Lte(value *durationpb.Duration) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) In(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().StorageConfig().MaxAp().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) NotIn(values []*durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().StorageConfig().MaxAp().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().StorageConfig().MaxAp().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().StorageConfig().MaxAp().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStorageConfigMaxAp) compare(op gotenfilter.CompareOperator, value *durationpb.Duration) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().StorageConfig().MaxAp().WithValue(value),
 	})
 }
 
@@ -13884,6 +13947,10 @@ func (b *filterCndBuilderBinaryIndices) compare(op gotenfilter.CompareOperator, 
 
 func (b *filterCndBuilderBinaryIndices) ByResources() *filterCndBuilderBinaryIndicesByResources {
 	return &filterCndBuilderBinaryIndicesByResources{builder: b.builder}
+}
+
+func (b *filterCndBuilderBinaryIndices) Region() *filterCndBuilderBinaryIndicesRegion {
+	return &filterCndBuilderBinaryIndicesRegion{builder: b.builder}
 }
 
 type filterCndBuilderBinaryIndicesByResources struct {
@@ -15038,5 +15105,64 @@ func (b *filterCndBuilderBinaryIndicesByResourcesNameParts) compare(op gotenfilt
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                        op,
 		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().ByResources().NameParts().WithValue(value),
+	})
+}
+
+type filterCndBuilderBinaryIndicesRegion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		MetricDescriptor_FieldPathArrayOfValues: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderBinaryIndicesRegion) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                        op,
+		MetricDescriptor_FieldPathValue: NewMetricDescriptorFieldPathBuilder().BinaryIndices().Region().WithValue(value),
 	})
 }

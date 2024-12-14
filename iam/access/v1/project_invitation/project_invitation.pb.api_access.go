@@ -6,10 +6,10 @@ package project_invitation_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiProjectInvitationAccess(client project_invitation_client.ProjectInvit
 	return &apiProjectInvitationAccess{client: client}
 }
 
-func (a *apiProjectInvitationAccess) GetProjectInvitation(ctx context.Context, query *project_invitation.GetQuery) (*project_invitation.ProjectInvitation, error) {
+func (a *apiProjectInvitationAccess) GetProjectInvitation(ctx context.Context, query *project_invitation.GetQuery, opts ...gotenresource.GetOption) (*project_invitation.ProjectInvitation, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiProjectInvitationAccess) GetProjectInvitation(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetProjectInvitation(ctx, request)
+	res, err := a.client.GetProjectInvitation(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiProjectInvitationAccess) GetProjectInvitation(ctx context.Context, q
 
 func (a *apiProjectInvitationAccess) BatchGetProjectInvitations(ctx context.Context, refs []*project_invitation.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*project_invitation.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiProjectInvitationAccess) BatchGetProjectInvitations(ctx context.Cont
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*project_invitation.ProjectInvitation_FieldMask)
 	}
-	resp, err := a.client.BatchGetProjectInvitations(ctx, request)
+	resp, err := a.client.BatchGetProjectInvitations(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiProjectInvitationAccess) BatchGetProjectInvitations(ctx context.Cont
 	return nil
 }
 
-func (a *apiProjectInvitationAccess) QueryProjectInvitations(ctx context.Context, query *project_invitation.ListQuery) (*project_invitation.QueryResultSnapshot, error) {
+func (a *apiProjectInvitationAccess) QueryProjectInvitations(ctx context.Context, query *project_invitation.ListQuery, opts ...gotenresource.QueryOption) (*project_invitation.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &project_invitation_client.ListProjectInvitationsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiProjectInvitationAccess) WatchProjectInvitation(ctx context.Context,
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProjectInvitation(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiProjectInvitationAccess) WatchProjectInvitation(ctx context.Context,
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiProjectInvitationAccess) WatchProjectInvitations(ctx context.Context
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiProjectInvitationAccess) WatchProjectInvitations(ctx context.Context
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchProjectInvitations(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiProjectInvitationAccess) WatchProjectInvitations(ctx context.Context
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &project_invitation.QueryResultChange{
 			Changes:      respChange.ProjectInvitationChanges,
@@ -191,22 +224,12 @@ func (a *apiProjectInvitationAccess) WatchProjectInvitations(ctx context.Context
 
 func (a *apiProjectInvitationAccess) SaveProjectInvitation(ctx context.Context, res *project_invitation.ProjectInvitation, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetProjectInvitation(ctx, &project_invitation.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *project_invitation.ProjectInvitation
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &project_invitation_client.UpdateProjectInvitationRequest{
 			ProjectInvitation: res,
+			AllowMissing:      !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*project_invitation.ProjectInvitation_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiProjectInvitationAccess) SaveProjectInvitation(ctx context.Context, 
 	return nil
 }
 
-func (a *apiProjectInvitationAccess) DeleteProjectInvitation(ctx context.Context, ref *project_invitation.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiProjectInvitationAccess) DeleteProjectInvitation(ctx context.Context, ref *project_invitation.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

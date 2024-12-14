@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -80,11 +80,11 @@ type Notification_FieldPath interface {
 type Notification_FieldPathSelector int32
 
 const (
-	Notification_FieldPathSelectorName           Notification_FieldPathSelector = 0
-	Notification_FieldPathSelectorMetadata       Notification_FieldPathSelector = 1
-	Notification_FieldPathSelectorAlertingPolicy Notification_FieldPathSelector = 2
-	Notification_FieldPathSelectorAlerts         Notification_FieldPathSelector = 3
-	Notification_FieldPathSelectorState          Notification_FieldPathSelector = 4
+	Notification_FieldPathSelectorName      Notification_FieldPathSelector = 0
+	Notification_FieldPathSelectorMetadata  Notification_FieldPathSelector = 1
+	Notification_FieldPathSelectorAlerts    Notification_FieldPathSelector = 2
+	Notification_FieldPathSelectorAlertSets Notification_FieldPathSelector = 3
+	Notification_FieldPathSelectorState     Notification_FieldPathSelector = 4
 )
 
 func (s Notification_FieldPathSelector) String() string {
@@ -93,10 +93,10 @@ func (s Notification_FieldPathSelector) String() string {
 		return "name"
 	case Notification_FieldPathSelectorMetadata:
 		return "metadata"
-	case Notification_FieldPathSelectorAlertingPolicy:
-		return "alerting_policy"
 	case Notification_FieldPathSelectorAlerts:
 		return "alerts"
+	case Notification_FieldPathSelectorAlertSets:
+		return "alert_sets"
 	case Notification_FieldPathSelectorState:
 		return "state"
 	default:
@@ -114,10 +114,10 @@ func BuildNotification_FieldPath(fp gotenobject.RawFieldPath) (Notification_Fiel
 			return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorName}, nil
 		case "metadata":
 			return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorMetadata}, nil
-		case "alerting_policy", "alertingPolicy", "alerting-policy":
-			return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlertingPolicy}, nil
 		case "alerts":
 			return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlerts}, nil
+		case "alert_sets", "alertSets", "alert-sets":
+			return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorAlertSets}, nil
 		case "state":
 			return &Notification_FieldTerminalPath{selector: Notification_FieldPathSelectorState}, nil
 		}
@@ -128,6 +128,12 @@ func BuildNotification_FieldPath(fp gotenobject.RawFieldPath) (Notification_Fiel
 				return nil, err
 			} else {
 				return &Notification_FieldSubPath{selector: Notification_FieldPathSelectorMetadata, subPath: subpath}, nil
+			}
+		case "alert_sets", "alertSets", "alert-sets":
+			if subpath, err := BuildNotificationAlertsSet_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Notification_FieldSubPath{selector: Notification_FieldPathSelectorAlertSets, subPath: subpath}, nil
 			}
 		case "state":
 			if subpath, err := BuildNotificationState_FieldPath(fp[1:]); err != nil {
@@ -188,12 +194,12 @@ func (fp *Notification_FieldTerminalPath) Get(source *Notification) (values []in
 			if source.Metadata != nil {
 				values = append(values, source.Metadata)
 			}
-		case Notification_FieldPathSelectorAlertingPolicy:
-			if source.AlertingPolicy != nil {
-				values = append(values, source.AlertingPolicy)
-			}
 		case Notification_FieldPathSelectorAlerts:
 			for _, value := range source.GetAlerts() {
+				values = append(values, value)
+			}
+		case Notification_FieldPathSelectorAlertSets:
+			for _, value := range source.GetAlertSets() {
 				values = append(values, value)
 			}
 		case Notification_FieldPathSelectorState:
@@ -220,11 +226,11 @@ func (fp *Notification_FieldTerminalPath) GetSingle(source *Notification) (inter
 	case Notification_FieldPathSelectorMetadata:
 		res := source.GetMetadata()
 		return res, res != nil
-	case Notification_FieldPathSelectorAlertingPolicy:
-		res := source.GetAlertingPolicy()
-		return res, res != nil
 	case Notification_FieldPathSelectorAlerts:
 		res := source.GetAlerts()
+		return res, res != nil
+	case Notification_FieldPathSelectorAlertSets:
+		res := source.GetAlertSets()
 		return res, res != nil
 	case Notification_FieldPathSelectorState:
 		res := source.GetState()
@@ -245,10 +251,10 @@ func (fp *Notification_FieldTerminalPath) GetDefault() interface{} {
 		return (*Name)(nil)
 	case Notification_FieldPathSelectorMetadata:
 		return (*meta.Meta)(nil)
-	case Notification_FieldPathSelectorAlertingPolicy:
-		return (*alerting_policy.Name)(nil)
 	case Notification_FieldPathSelectorAlerts:
 		return ([]*alert.Name)(nil)
+	case Notification_FieldPathSelectorAlertSets:
+		return ([]*Notification_AlertsSet)(nil)
 	case Notification_FieldPathSelectorState:
 		return (*Notification_State)(nil)
 	default:
@@ -263,10 +269,10 @@ func (fp *Notification_FieldTerminalPath) ClearValue(item *Notification) {
 			item.Name = nil
 		case Notification_FieldPathSelectorMetadata:
 			item.Metadata = nil
-		case Notification_FieldPathSelectorAlertingPolicy:
-			item.AlertingPolicy = nil
 		case Notification_FieldPathSelectorAlerts:
 			item.Alerts = nil
+		case Notification_FieldPathSelectorAlertSets:
+			item.AlertSets = nil
 		case Notification_FieldPathSelectorState:
 			item.State = nil
 		default:
@@ -282,7 +288,6 @@ func (fp *Notification_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *Notification_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Notification_FieldPathSelectorName ||
-		fp.selector == Notification_FieldPathSelectorAlertingPolicy ||
 		fp.selector == Notification_FieldPathSelectorAlerts
 }
 
@@ -296,10 +301,10 @@ func (fp *Notification_FieldTerminalPath) WithIValue(value interface{}) Notifica
 		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*Name)}
 	case Notification_FieldPathSelectorMetadata:
 		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*meta.Meta)}
-	case Notification_FieldPathSelectorAlertingPolicy:
-		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*alerting_policy.Name)}
 	case Notification_FieldPathSelectorAlerts:
 		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.([]*alert.Name)}
+	case Notification_FieldPathSelectorAlertSets:
+		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.([]*Notification_AlertsSet)}
 	case Notification_FieldPathSelectorState:
 		return &Notification_FieldTerminalPathValue{Notification_FieldTerminalPath: *fp, value: value.(*Notification_State)}
 	default:
@@ -318,10 +323,10 @@ func (fp *Notification_FieldTerminalPath) WithIArrayOfValues(values interface{})
 		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*Name)}
 	case Notification_FieldPathSelectorMetadata:
 		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*meta.Meta)}
-	case Notification_FieldPathSelectorAlertingPolicy:
-		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*alerting_policy.Name)}
 	case Notification_FieldPathSelectorAlerts:
 		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([][]*alert.Name)}
+	case Notification_FieldPathSelectorAlertSets:
+		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([][]*Notification_AlertsSet)}
 	case Notification_FieldPathSelectorState:
 		return &Notification_FieldTerminalPathArrayOfValues{Notification_FieldTerminalPath: *fp, values: values.([]*Notification_State)}
 	default:
@@ -338,6 +343,8 @@ func (fp *Notification_FieldTerminalPath) WithIArrayItemValue(value interface{})
 	switch fp.selector {
 	case Notification_FieldPathSelectorAlerts:
 		return &Notification_FieldTerminalPathArrayItemValue{Notification_FieldTerminalPath: *fp, value: value.(*alert.Name)}
+	case Notification_FieldPathSelectorAlertSets:
+		return &Notification_FieldTerminalPathArrayItemValue{Notification_FieldTerminalPath: *fp, value: value.(*Notification_AlertsSet)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification: %d", fp.selector))
 	}
@@ -361,6 +368,10 @@ func (fps *Notification_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, 
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
+func (fps *Notification_FieldSubPath) AsAlertSetsSubPath() (NotificationAlertsSet_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationAlertsSet_FieldPath)
+	return res, ok
+}
 func (fps *Notification_FieldSubPath) AsStateSubPath() (NotificationState_FieldPath, bool) {
 	res, ok := fps.subPath.(NotificationState_FieldPath)
 	return res, ok
@@ -381,6 +392,10 @@ func (fps *Notification_FieldSubPath) Get(source *Notification) (values []interf
 	switch fps.selector {
 	case Notification_FieldPathSelectorMetadata:
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Notification_FieldPathSelectorAlertSets:
+		for _, item := range source.GetAlertSets() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
 	case Notification_FieldPathSelectorState:
 		values = append(values, fps.subPath.GetRaw(source.GetState())...)
 	default:
@@ -401,6 +416,11 @@ func (fps *Notification_FieldSubPath) GetSingle(source *Notification) (interface
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMetadata())
+	case Notification_FieldPathSelectorAlertSets:
+		if len(source.GetAlertSets()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAlertSets()[0])
 	case Notification_FieldPathSelectorState:
 		if source.GetState() == nil {
 			return nil, false
@@ -425,6 +445,10 @@ func (fps *Notification_FieldSubPath) ClearValue(item *Notification) {
 		switch fps.selector {
 		case Notification_FieldPathSelectorMetadata:
 			fps.subPath.ClearValueRaw(item.Metadata)
+		case Notification_FieldPathSelectorAlertSets:
+			for _, subItem := range item.AlertSets {
+				fps.subPath.ClearValueRaw(subItem)
+			}
 		case Notification_FieldPathSelectorState:
 			fps.subPath.ClearValueRaw(item.State)
 		default:
@@ -519,12 +543,12 @@ func (fpv *Notification_FieldTerminalPathValue) AsMetadataValue() (*meta.Meta, b
 	res, ok := fpv.value.(*meta.Meta)
 	return res, ok
 }
-func (fpv *Notification_FieldTerminalPathValue) AsAlertingPolicyValue() (*alerting_policy.Name, bool) {
-	res, ok := fpv.value.(*alerting_policy.Name)
-	return res, ok
-}
 func (fpv *Notification_FieldTerminalPathValue) AsAlertsValue() ([]*alert.Name, bool) {
 	res, ok := fpv.value.([]*alert.Name)
+	return res, ok
+}
+func (fpv *Notification_FieldTerminalPathValue) AsAlertSetsValue() ([]*Notification_AlertsSet, bool) {
+	res, ok := fpv.value.([]*Notification_AlertsSet)
 	return res, ok
 }
 func (fpv *Notification_FieldTerminalPathValue) AsStateValue() (*Notification_State, bool) {
@@ -542,10 +566,10 @@ func (fpv *Notification_FieldTerminalPathValue) SetTo(target **Notification) {
 		(*target).Name = fpv.value.(*Name)
 	case Notification_FieldPathSelectorMetadata:
 		(*target).Metadata = fpv.value.(*meta.Meta)
-	case Notification_FieldPathSelectorAlertingPolicy:
-		(*target).AlertingPolicy = fpv.value.(*alerting_policy.Name)
 	case Notification_FieldPathSelectorAlerts:
 		(*target).Alerts = fpv.value.([]*alert.Name)
+	case Notification_FieldPathSelectorAlertSets:
+		(*target).AlertSets = fpv.value.([]*Notification_AlertsSet)
 	case Notification_FieldPathSelectorState:
 		(*target).State = fpv.value.(*Notification_State)
 	default:
@@ -582,26 +606,9 @@ func (fpv *Notification_FieldTerminalPathValue) CompareWith(source *Notification
 		}
 	case Notification_FieldPathSelectorMetadata:
 		return 0, false
-	case Notification_FieldPathSelectorAlertingPolicy:
-		leftValue := fpv.value.(*alerting_policy.Name)
-		rightValue := source.GetAlertingPolicy()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	case Notification_FieldPathSelectorAlerts:
+		return 0, false
+	case Notification_FieldPathSelectorAlertSets:
 		return 0, false
 	case Notification_FieldPathSelectorState:
 		return 0, false
@@ -625,6 +632,10 @@ func (fpvs *Notification_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_Fie
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Notification_FieldSubPathValue) AsAlertSetsPathValue() (NotificationAlertsSet_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationAlertsSet_FieldPathValue)
+	return res, ok
+}
 func (fpvs *Notification_FieldSubPathValue) AsStatePathValue() (NotificationState_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(NotificationState_FieldPathValue)
 	return res, ok
@@ -637,6 +648,8 @@ func (fpvs *Notification_FieldSubPathValue) SetTo(target **Notification) {
 	switch fpvs.Selector() {
 	case Notification_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+	case Notification_FieldPathSelectorAlertSets:
+		panic("FieldPath setter is unsupported for array subpaths")
 	case Notification_FieldPathSelectorState:
 		fpvs.subPathValue.(NotificationState_FieldPathValue).SetTo(&(*target).State)
 	default:
@@ -657,6 +670,8 @@ func (fpvs *Notification_FieldSubPathValue) CompareWith(source *Notification) (i
 	switch fpvs.Selector() {
 	case Notification_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+	case Notification_FieldPathSelectorAlertSets:
+		return 0, false // repeated field
 	case Notification_FieldPathSelectorState:
 		return fpvs.subPathValue.(NotificationState_FieldPathValue).CompareWith(source.GetState())
 	default:
@@ -712,6 +727,10 @@ func (fpaiv *Notification_FieldTerminalPathArrayItemValue) AsAlertsItemValue() (
 	res, ok := fpaiv.value.(*alert.Name)
 	return res, ok
 }
+func (fpaiv *Notification_FieldTerminalPathArrayItemValue) AsAlertSetsItemValue() (*Notification_AlertsSet, bool) {
+	res, ok := fpaiv.value.(*Notification_AlertsSet)
+	return res, ok
+}
 
 func (fpaiv *Notification_FieldTerminalPathArrayItemValue) GetSingle(source *Notification) (interface{}, bool) {
 	return nil, false
@@ -749,6 +768,10 @@ func (fpaivs *Notification_FieldSubPathArrayItemValue) AsMetadataPathItemValue()
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Notification_FieldSubPathArrayItemValue) AsAlertSetsPathItemValue() (NotificationAlertsSet_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationAlertsSet_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *Notification_FieldSubPathArrayItemValue) AsStatePathItemValue() (NotificationState_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(NotificationState_FieldPathArrayItemValue)
 	return res, ok
@@ -759,6 +782,8 @@ func (fpaivs *Notification_FieldSubPathArrayItemValue) ContainsValue(source *Not
 	switch fpaivs.Selector() {
 	case Notification_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+	case Notification_FieldPathSelectorAlertSets:
+		return false // repeated/map field
 	case Notification_FieldPathSelectorState:
 		return fpaivs.subPathItemValue.(NotificationState_FieldPathArrayItemValue).ContainsValue(source.GetState())
 	default:
@@ -809,12 +834,12 @@ func (fpaov *Notification_FieldTerminalPathArrayOfValues) GetRawValues() (values
 		for _, v := range fpaov.values.([]*meta.Meta) {
 			values = append(values, v)
 		}
-	case Notification_FieldPathSelectorAlertingPolicy:
-		for _, v := range fpaov.values.([]*alerting_policy.Name) {
-			values = append(values, v)
-		}
 	case Notification_FieldPathSelectorAlerts:
 		for _, v := range fpaov.values.([][]*alert.Name) {
+			values = append(values, v)
+		}
+	case Notification_FieldPathSelectorAlertSets:
+		for _, v := range fpaov.values.([][]*Notification_AlertsSet) {
 			values = append(values, v)
 		}
 	case Notification_FieldPathSelectorState:
@@ -832,12 +857,12 @@ func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsMetadataArrayOfValue
 	res, ok := fpaov.values.([]*meta.Meta)
 	return res, ok
 }
-func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsAlertingPolicyArrayOfValues() ([]*alerting_policy.Name, bool) {
-	res, ok := fpaov.values.([]*alerting_policy.Name)
-	return res, ok
-}
 func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsAlertsArrayOfValues() ([][]*alert.Name, bool) {
 	res, ok := fpaov.values.([][]*alert.Name)
+	return res, ok
+}
+func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsAlertSetsArrayOfValues() ([][]*Notification_AlertsSet, bool) {
+	res, ok := fpaov.values.([][]*Notification_AlertsSet)
 	return res, ok
 }
 func (fpaov *Notification_FieldTerminalPathArrayOfValues) AsStateArrayOfValues() ([]*Notification_State, bool) {
@@ -859,8 +884,446 @@ func (fpsaov *Notification_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValue
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
+func (fpsaov *Notification_FieldSubPathArrayOfValues) AsAlertSetsPathArrayOfValues() (NotificationAlertsSet_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationAlertsSet_FieldPathArrayOfValues)
+	return res, ok
+}
 func (fpsaov *Notification_FieldSubPathArrayOfValues) AsStatePathArrayOfValues() (NotificationState_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(NotificationState_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationAlertsSet_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationAlertsSet_FieldPathSelector
+	Get(source *Notification_AlertsSet) []interface{}
+	GetSingle(source *Notification_AlertsSet) (interface{}, bool)
+	ClearValue(item *Notification_AlertsSet)
+
+	// Those methods build corresponding NotificationAlertsSet_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationAlertsSet_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationAlertsSet_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationAlertsSet_FieldPathArrayItemValue
+}
+
+type NotificationAlertsSet_FieldPathSelector int32
+
+const (
+	NotificationAlertsSet_FieldPathSelectorCondition NotificationAlertsSet_FieldPathSelector = 0
+	NotificationAlertsSet_FieldPathSelectorIds       NotificationAlertsSet_FieldPathSelector = 1
+)
+
+func (s NotificationAlertsSet_FieldPathSelector) String() string {
+	switch s {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		return "condition"
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		return "ids"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", s))
+	}
+}
+
+func BuildNotificationAlertsSet_FieldPath(fp gotenobject.RawFieldPath) (NotificationAlertsSet_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Notification_AlertsSet")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "condition":
+			return &NotificationAlertsSet_FieldTerminalPath{selector: NotificationAlertsSet_FieldPathSelectorCondition}, nil
+		case "ids":
+			return &NotificationAlertsSet_FieldTerminalPath{selector: NotificationAlertsSet_FieldPathSelectorIds}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Notification_AlertsSet", fp)
+}
+
+func ParseNotificationAlertsSet_FieldPath(rawField string) (NotificationAlertsSet_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationAlertsSet_FieldPath(fp)
+}
+
+func MustParseNotificationAlertsSet_FieldPath(rawField string) NotificationAlertsSet_FieldPath {
+	fp, err := ParseNotificationAlertsSet_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationAlertsSet_FieldTerminalPath struct {
+	selector NotificationAlertsSet_FieldPathSelector
+}
+
+var _ NotificationAlertsSet_FieldPath = (*NotificationAlertsSet_FieldTerminalPath)(nil)
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) Selector() NotificationAlertsSet_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationAlertsSet_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationAlertsSet_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Notification_AlertsSet
+func (fp *NotificationAlertsSet_FieldTerminalPath) Get(source *Notification_AlertsSet) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationAlertsSet_FieldPathSelectorCondition:
+			if source.Condition != nil {
+				values = append(values, source.Condition)
+			}
+		case NotificationAlertsSet_FieldPathSelectorIds:
+			for _, value := range source.GetIds() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Notification_AlertsSet))
+}
+
+// GetSingle returns value pointed by specific field of from source Notification_AlertsSet
+func (fp *NotificationAlertsSet_FieldTerminalPath) GetSingle(source *Notification_AlertsSet) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		res := source.GetCondition()
+		return res, res != nil
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		res := source.GetIds()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Notification_AlertsSet))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationAlertsSet_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		return (*alerting_condition.Name)(nil)
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) ClearValue(item *Notification_AlertsSet) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationAlertsSet_FieldPathSelectorCondition:
+			item.Condition = nil
+		case NotificationAlertsSet_FieldPathSelectorIds:
+			item.Ids = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Notification_AlertsSet))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationAlertsSet_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationAlertsSet_FieldPathSelectorCondition ||
+		fp.selector == NotificationAlertsSet_FieldPathSelectorIds
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) WithIValue(value interface{}) NotificationAlertsSet_FieldPathValue {
+	switch fp.selector {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		return &NotificationAlertsSet_FieldTerminalPathValue{NotificationAlertsSet_FieldTerminalPath: *fp, value: value.(*alerting_condition.Name)}
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		return &NotificationAlertsSet_FieldTerminalPathValue{NotificationAlertsSet_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationAlertsSet_FieldPathArrayOfValues {
+	fpaov := &NotificationAlertsSet_FieldTerminalPathArrayOfValues{NotificationAlertsSet_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		return &NotificationAlertsSet_FieldTerminalPathArrayOfValues{NotificationAlertsSet_FieldTerminalPath: *fp, values: values.([]*alerting_condition.Name)}
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		return &NotificationAlertsSet_FieldTerminalPathArrayOfValues{NotificationAlertsSet_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationAlertsSet_FieldPathArrayItemValue {
+	switch fp.selector {
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		return &NotificationAlertsSet_FieldTerminalPathArrayItemValue{NotificationAlertsSet_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationAlertsSet_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// NotificationAlertsSet_FieldPathValue allows storing values for AlertsSet fields according to their type
+type NotificationAlertsSet_FieldPathValue interface {
+	NotificationAlertsSet_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Notification_AlertsSet)
+	CompareWith(*Notification_AlertsSet) (cmp int, comparable bool)
+}
+
+func ParseNotificationAlertsSet_FieldPathValue(pathStr, valueStr string) (NotificationAlertsSet_FieldPathValue, error) {
+	fp, err := ParseNotificationAlertsSet_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertsSet field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationAlertsSet_FieldPathValue), nil
+}
+
+func MustParseNotificationAlertsSet_FieldPathValue(pathStr, valueStr string) NotificationAlertsSet_FieldPathValue {
+	fpv, err := ParseNotificationAlertsSet_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationAlertsSet_FieldTerminalPathValue struct {
+	NotificationAlertsSet_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationAlertsSet_FieldPathValue = (*NotificationAlertsSet_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'AlertsSet' as interface{}
+func (fpv *NotificationAlertsSet_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationAlertsSet_FieldTerminalPathValue) AsConditionValue() (*alerting_condition.Name, bool) {
+	res, ok := fpv.value.(*alerting_condition.Name)
+	return res, ok
+}
+func (fpv *NotificationAlertsSet_FieldTerminalPathValue) AsIdsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object AlertsSet
+func (fpv *NotificationAlertsSet_FieldTerminalPathValue) SetTo(target **Notification_AlertsSet) {
+	if *target == nil {
+		*target = new(Notification_AlertsSet)
+	}
+	switch fpv.selector {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		(*target).Condition = fpv.value.(*alerting_condition.Name)
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		(*target).Ids = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationAlertsSet_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Notification_AlertsSet)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationAlertsSet_FieldTerminalPathValue' with the value under path in 'Notification_AlertsSet'.
+func (fpv *NotificationAlertsSet_FieldTerminalPathValue) CompareWith(source *Notification_AlertsSet) (int, bool) {
+	switch fpv.selector {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		leftValue := fpv.value.(*alerting_condition.Name)
+		rightValue := source.GetCondition()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_AlertsSet: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationAlertsSet_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Notification_AlertsSet))
+}
+
+// NotificationAlertsSet_FieldPathArrayItemValue allows storing single item in Path-specific values for AlertsSet according to their type
+// Present only for array (repeated) types.
+type NotificationAlertsSet_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationAlertsSet_FieldPath
+	ContainsValue(*Notification_AlertsSet) bool
+}
+
+// ParseNotificationAlertsSet_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationAlertsSet_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationAlertsSet_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationAlertsSet_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertsSet field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationAlertsSet_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationAlertsSet_FieldPathArrayItemValue(pathStr, valueStr string) NotificationAlertsSet_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationAlertsSet_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationAlertsSet_FieldTerminalPathArrayItemValue struct {
+	NotificationAlertsSet_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationAlertsSet_FieldPathArrayItemValue = (*NotificationAlertsSet_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Notification_AlertsSet as interface{}
+func (fpaiv *NotificationAlertsSet_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *NotificationAlertsSet_FieldTerminalPathArrayItemValue) AsIdsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *NotificationAlertsSet_FieldTerminalPathArrayItemValue) GetSingle(source *Notification_AlertsSet) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationAlertsSet_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Notification_AlertsSet))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'AlertsSet'
+func (fpaiv *NotificationAlertsSet_FieldTerminalPathArrayItemValue) ContainsValue(source *Notification_AlertsSet) bool {
+	slice := fpaiv.NotificationAlertsSet_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// NotificationAlertsSet_FieldPathArrayOfValues allows storing slice of values for AlertsSet fields according to their type
+type NotificationAlertsSet_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationAlertsSet_FieldPath
+}
+
+func ParseNotificationAlertsSet_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationAlertsSet_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationAlertsSet_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertsSet field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationAlertsSet_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationAlertsSet_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationAlertsSet_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationAlertsSet_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationAlertsSet_FieldTerminalPathArrayOfValues struct {
+	NotificationAlertsSet_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationAlertsSet_FieldPathArrayOfValues = (*NotificationAlertsSet_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationAlertsSet_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationAlertsSet_FieldPathSelectorCondition:
+		for _, v := range fpaov.values.([]*alerting_condition.Name) {
+			values = append(values, v)
+		}
+	case NotificationAlertsSet_FieldPathSelectorIds:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationAlertsSet_FieldTerminalPathArrayOfValues) AsConditionArrayOfValues() ([]*alerting_condition.Name, bool) {
+	res, ok := fpaov.values.([]*alerting_condition.Name)
+	return res, ok
+}
+func (fpaov *NotificationAlertsSet_FieldTerminalPathArrayOfValues) AsIdsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
 	return res, ok
 }
 

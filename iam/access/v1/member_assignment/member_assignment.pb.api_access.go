@@ -6,10 +6,10 @@ package member_assignment_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiMemberAssignmentAccess(client member_assignment_client.MemberAssignme
 	return &apiMemberAssignmentAccess{client: client}
 }
 
-func (a *apiMemberAssignmentAccess) GetMemberAssignment(ctx context.Context, query *member_assignment.GetQuery) (*member_assignment.MemberAssignment, error) {
+func (a *apiMemberAssignmentAccess) GetMemberAssignment(ctx context.Context, query *member_assignment.GetQuery, opts ...gotenresource.GetOption) (*member_assignment.MemberAssignment, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiMemberAssignmentAccess) GetMemberAssignment(ctx context.Context, que
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetMemberAssignment(ctx, request)
+	res, err := a.client.GetMemberAssignment(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiMemberAssignmentAccess) GetMemberAssignment(ctx context.Context, que
 
 func (a *apiMemberAssignmentAccess) BatchGetMemberAssignments(ctx context.Context, refs []*member_assignment.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*member_assignment.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiMemberAssignmentAccess) BatchGetMemberAssignments(ctx context.Contex
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*member_assignment.MemberAssignment_FieldMask)
 	}
-	resp, err := a.client.BatchGetMemberAssignments(ctx, request)
+	resp, err := a.client.BatchGetMemberAssignments(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiMemberAssignmentAccess) BatchGetMemberAssignments(ctx context.Contex
 	return nil
 }
 
-func (a *apiMemberAssignmentAccess) QueryMemberAssignments(ctx context.Context, query *member_assignment.ListQuery) (*member_assignment.QueryResultSnapshot, error) {
+func (a *apiMemberAssignmentAccess) QueryMemberAssignments(ctx context.Context, query *member_assignment.ListQuery, opts ...gotenresource.QueryOption) (*member_assignment.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &member_assignment_client.ListMemberAssignmentsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiMemberAssignmentAccess) WatchMemberAssignment(ctx context.Context, q
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchMemberAssignment(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiMemberAssignmentAccess) WatchMemberAssignment(ctx context.Context, q
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiMemberAssignmentAccess) WatchMemberAssignments(ctx context.Context, 
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiMemberAssignmentAccess) WatchMemberAssignments(ctx context.Context, 
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchMemberAssignments(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiMemberAssignmentAccess) WatchMemberAssignments(ctx context.Context, 
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &member_assignment.QueryResultChange{
 			Changes:      respChange.MemberAssignmentChanges,
@@ -191,20 +224,9 @@ func (a *apiMemberAssignmentAccess) WatchMemberAssignments(ctx context.Context, 
 
 func (a *apiMemberAssignmentAccess) SaveMemberAssignment(ctx context.Context, res *member_assignment.MemberAssignment, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetMemberAssignment(ctx, &member_assignment.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *member_assignment.MemberAssignment
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &member_assignment_client.UpdateMemberAssignmentRequest{
 			MemberAssignment: res,
 		}
@@ -222,14 +244,14 @@ func (a *apiMemberAssignmentAccess) SaveMemberAssignment(ctx context.Context, re
 			return err
 		}
 	} else {
-		return fmt.Errorf("create operation on %s is prohibited", res.Name.AsReference().String())
+		return status.Errorf(codes.Internal, "create operation on %s does not exist", res.Name.AsReference().String())
 	}
 	// Ensure object is updated - but in most shallow way possible
 	res.MakeDiffFieldMask(resp).Set(res, resp)
 	return nil
 }
 
-func (a *apiMemberAssignmentAccess) DeleteMemberAssignment(ctx context.Context, ref *member_assignment.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiMemberAssignmentAccess) DeleteMemberAssignment(ctx context.Context, ref *member_assignment.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.monitoring.v4;
 
 import "edgelq-sdk/monitoring/proto/v4/alert.proto";
+import "edgelq-sdk/monitoring/proto/v4/alert_custom.proto";
 import "edgelq-sdk/monitoring/proto/v4/alert_service.proto";
 import "edgelq-sdk/monitoring/proto/v4/alerting_condition.proto";
 import "edgelq-sdk/monitoring/proto/v4/alerting_condition_service.proto";

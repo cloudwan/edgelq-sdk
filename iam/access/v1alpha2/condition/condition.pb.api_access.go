@@ -6,10 +6,10 @@ package condition_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiConditionAccess(client condition_client.ConditionServiceClient) condi
 	return &apiConditionAccess{client: client}
 }
 
-func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.GetQuery) (*condition.Condition, error) {
+func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.GetQuery, opts ...gotenresource.GetOption) (*condition.Condition, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetCondition(ctx, request)
+	res, err := a.client.GetCondition(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiConditionAccess) GetCondition(ctx context.Context, query *condition.
 
 func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*condition.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*condition.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*con
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*condition.Condition_FieldMask)
 	}
-	resp, err := a.client.BatchGetConditions(ctx, request)
+	resp, err := a.client.BatchGetConditions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiConditionAccess) BatchGetConditions(ctx context.Context, refs []*con
 	return nil
 }
 
-func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *condition.ListQuery) (*condition.QueryResultSnapshot, error) {
+func (a *apiConditionAccess) QueryConditions(ctx context.Context, query *condition.ListQuery, opts ...gotenresource.QueryOption) (*condition.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &condition_client.ListConditionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiConditionAccess) WatchCondition(ctx context.Context, query *conditio
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchCondition(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiConditionAccess) WatchCondition(ctx context.Context, query *conditio
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiConditionAccess) WatchConditions(ctx context.Context, query *conditi
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiConditionAccess) WatchConditions(ctx context.Context, query *conditi
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchConditions(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiConditionAccess) WatchConditions(ctx context.Context, query *conditi
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &condition.QueryResultChange{
 			Changes:      respChange.ConditionChanges,
@@ -191,22 +224,12 @@ func (a *apiConditionAccess) WatchConditions(ctx context.Context, query *conditi
 
 func (a *apiConditionAccess) SaveCondition(ctx context.Context, res *condition.Condition, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetCondition(ctx, &condition.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *condition.Condition
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &condition_client.UpdateConditionRequest{
-			Condition: res,
+			Condition:    res,
+			AllowMissing: !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*condition.Condition_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiConditionAccess) SaveCondition(ctx context.Context, res *condition.C
 	return nil
 }
 
-func (a *apiConditionAccess) DeleteCondition(ctx context.Context, ref *condition.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiConditionAccess) DeleteCondition(ctx context.Context, ref *condition.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

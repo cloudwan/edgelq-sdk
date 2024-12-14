@@ -6,10 +6,10 @@ package edgelq_instance_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiEdgelqInstanceAccess(client edgelq_instance_client.EdgelqInstanceServ
 	return &apiEdgelqInstanceAccess{client: client}
 }
 
-func (a *apiEdgelqInstanceAccess) GetEdgelqInstance(ctx context.Context, query *edgelq_instance.GetQuery) (*edgelq_instance.EdgelqInstance, error) {
+func (a *apiEdgelqInstanceAccess) GetEdgelqInstance(ctx context.Context, query *edgelq_instance.GetQuery, opts ...gotenresource.GetOption) (*edgelq_instance.EdgelqInstance, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiEdgelqInstanceAccess) GetEdgelqInstance(ctx context.Context, query *
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetEdgelqInstance(ctx, request)
+	res, err := a.client.GetEdgelqInstance(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiEdgelqInstanceAccess) GetEdgelqInstance(ctx context.Context, query *
 
 func (a *apiEdgelqInstanceAccess) BatchGetEdgelqInstances(ctx context.Context, refs []*edgelq_instance.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*edgelq_instance.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiEdgelqInstanceAccess) BatchGetEdgelqInstances(ctx context.Context, r
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*edgelq_instance.EdgelqInstance_FieldMask)
 	}
-	resp, err := a.client.BatchGetEdgelqInstances(ctx, request)
+	resp, err := a.client.BatchGetEdgelqInstances(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiEdgelqInstanceAccess) BatchGetEdgelqInstances(ctx context.Context, r
 	return nil
 }
 
-func (a *apiEdgelqInstanceAccess) QueryEdgelqInstances(ctx context.Context, query *edgelq_instance.ListQuery) (*edgelq_instance.QueryResultSnapshot, error) {
+func (a *apiEdgelqInstanceAccess) QueryEdgelqInstances(ctx context.Context, query *edgelq_instance.ListQuery, opts ...gotenresource.QueryOption) (*edgelq_instance.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &edgelq_instance_client.ListEdgelqInstancesRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -130,6 +156,9 @@ func (a *apiEdgelqInstanceAccess) WatchEdgelqInstance(ctx context.Context, query
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchEdgelqInstance(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -137,7 +166,7 @@ func (a *apiEdgelqInstanceAccess) WatchEdgelqInstance(ctx context.Context, query
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -153,6 +182,7 @@ func (a *apiEdgelqInstanceAccess) WatchEdgelqInstances(ctx context.Context, quer
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
@@ -162,6 +192,9 @@ func (a *apiEdgelqInstanceAccess) WatchEdgelqInstances(ctx context.Context, quer
 	if query.Filter != nil && query.Filter.GetCondition() != nil {
 		request.Filter, request.Parent = getParentAndFilter(query.Filter)
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchEdgelqInstances(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -169,7 +202,7 @@ func (a *apiEdgelqInstanceAccess) WatchEdgelqInstances(ctx context.Context, quer
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &edgelq_instance.QueryResultChange{
 			Changes:      respChange.EdgelqInstanceChanges,
@@ -191,22 +224,12 @@ func (a *apiEdgelqInstanceAccess) WatchEdgelqInstances(ctx context.Context, quer
 
 func (a *apiEdgelqInstanceAccess) SaveEdgelqInstance(ctx context.Context, res *edgelq_instance.EdgelqInstance, opts ...gotenresource.SaveOption) error {
 	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetEdgelqInstance(ctx, &edgelq_instance.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
 	var resp *edgelq_instance.EdgelqInstance
 	var err error
-	if saveOpts.OnlyUpdate() || previousRes != nil {
+	if !saveOpts.OnlyCreate() {
 		updateRequest := &edgelq_instance_client.UpdateEdgelqInstanceRequest{
 			EdgelqInstance: res,
+			AllowMissing:   !saveOpts.OnlyUpdate(),
 		}
 		if updateMask := saveOpts.GetUpdateMask(); updateMask != nil {
 			updateRequest.UpdateMask = updateMask.(*edgelq_instance.EdgelqInstance_FieldMask)
@@ -235,7 +258,7 @@ func (a *apiEdgelqInstanceAccess) SaveEdgelqInstance(ctx context.Context, res *e
 	return nil
 }
 
-func (a *apiEdgelqInstanceAccess) DeleteEdgelqInstance(ctx context.Context, ref *edgelq_instance.Reference, opts ...gotenresource.DeleteOption) error {
+func (a *apiEdgelqInstanceAccess) DeleteEdgelqInstance(ctx context.Context, ref *edgelq_instance.Reference, _ ...gotenresource.DeleteOption) error {
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}

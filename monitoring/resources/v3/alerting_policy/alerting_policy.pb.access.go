@@ -42,10 +42,10 @@ var (
 )
 
 type AlertingPolicyAccess interface {
-	GetAlertingPolicy(context.Context, *GetQuery) (*AlertingPolicy, error)
+	GetAlertingPolicy(context.Context, *GetQuery, ...gotenresource.GetOption) (*AlertingPolicy, error)
 	BatchGetAlertingPolicies(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryAlertingPolicies(context.Context, *ListQuery) (*QueryResultSnapshot, error)
-	SearchAlertingPolicies(context.Context, *SearchQuery) (*QueryResultSnapshot, error)
+	QueryAlertingPolicies(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchAlertingPolicies(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchAlertingPolicy(context.Context, *GetQuery, func(*AlertingPolicyChange) error) error
 	WatchAlertingPolicies(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveAlertingPolicy(context.Context, *AlertingPolicy, ...gotenresource.SaveOption) error
@@ -60,27 +60,27 @@ func AsAnyCastAccess(access AlertingPolicyAccess) gotenresource.Access {
 	return &anyCastAccess{AlertingPolicyAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asAlertingPolicyQuery, ok := q.(*GetQuery); ok {
-		return a.GetAlertingPolicy(ctx, asAlertingPolicyQuery)
+		return a.GetAlertingPolicy(ctx, asAlertingPolicyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AlertingPolicy, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAlertingPolicyQuery, ok := q.(*ListQuery); ok {
-		return a.QueryAlertingPolicies(ctx, asAlertingPolicyQuery)
+		return a.QueryAlertingPolicies(ctx, asAlertingPolicyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AlertingPolicy, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asAlertingPolicyQuery, ok := q.(*SearchQuery); ok {
-		return a.SearchAlertingPolicies(ctx, asAlertingPolicyQuery)
+		return a.SearchAlertingPolicies(ctx, asAlertingPolicyQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected AlertingPolicy, got: %s",

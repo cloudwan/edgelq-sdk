@@ -50,10 +50,9 @@ var (
 )
 
 type NotificationAccess interface {
-	GetNotification(context.Context, *GetQuery) (*Notification, error)
+	GetNotification(context.Context, *GetQuery, ...gotenresource.GetOption) (*Notification, error)
 	BatchGetNotifications(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
-	QueryNotifications(context.Context, *ListQuery) (*QueryResultSnapshot, error)
-	SearchNotifications(context.Context, *SearchQuery) (*QueryResultSnapshot, error)
+	QueryNotifications(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchNotification(context.Context, *GetQuery, func(*NotificationChange) error) error
 	WatchNotifications(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveNotification(context.Context, *Notification, ...gotenresource.SaveOption) error
@@ -68,31 +67,26 @@ func AsAnyCastAccess(access NotificationAccess) gotenresource.Access {
 	return &anyCastAccess{NotificationAccess: access}
 }
 
-func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery) (gotenresource.Resource, error) {
+func (a *anyCastAccess) Get(ctx context.Context, q gotenresource.GetQuery, opts ...gotenresource.GetOption) (gotenresource.Resource, error) {
 	if asNotificationQuery, ok := q.(*GetQuery); ok {
-		return a.GetNotification(ctx, asNotificationQuery)
+		return a.GetNotification(ctx, asNotificationQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Notification, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery) (gotenresource.QueryResultSnapshot, error) {
+func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
 	if asNotificationQuery, ok := q.(*ListQuery); ok {
-		return a.QueryNotifications(ctx, asNotificationQuery)
+		return a.QueryNotifications(ctx, asNotificationQuery, opts...)
 	}
 	return nil, status.Errorf(codes.Internal,
 		"Unrecognized descriptor, expected Notification, got: %s",
 		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
-func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery) (gotenresource.QueryResultSnapshot, error) {
-	if asNotificationQuery, ok := q.(*SearchQuery); ok {
-		return a.SearchNotifications(ctx, asNotificationQuery)
-	}
-	return nil, status.Errorf(codes.Internal,
-		"Unrecognized descriptor, expected Notification, got: %s",
-		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
+func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
+	return nil, status.Errorf(codes.Internal, "Search is not available for Notification")
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

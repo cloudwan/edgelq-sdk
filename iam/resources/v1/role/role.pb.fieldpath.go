@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iancoleman/strcase"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -19,6 +18,7 @@ import (
 	"google.golang.org/protobuf/reflect/protoregistry"
 
 	gotenobject "github.com/cloudwan/goten-sdk/runtime/object"
+	"github.com/cloudwan/goten-sdk/runtime/strcase"
 )
 
 // proto imports
@@ -2951,12 +2951,36 @@ func (fp *ScopeParam_FieldTerminalPath) GetSingle(source *ScopeParam) (interface
 	case ScopeParam_FieldPathSelectorName:
 		return source.GetName(), source != nil
 	case ScopeParam_FieldPathSelectorString:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetString_(), false
+		}
+		_, oneOfSelected := source.Value.(*ScopeParam_String_)
+		if !oneOfSelected {
+			return source.GetString_(), false // to return "type" information
+		}
 		res := source.GetString_()
 		return res, res != nil
 	case ScopeParam_FieldPathSelectorStrings:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetStrings(), false
+		}
+		_, oneOfSelected := source.Value.(*ScopeParam_Strings)
+		if !oneOfSelected {
+			return source.GetStrings(), false // to return "type" information
+		}
 		res := source.GetStrings()
 		return res, res != nil
 	case ScopeParam_FieldPathSelectorValueFrom:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetValueFrom(), false
+		}
+		_, oneOfSelected := source.Value.(*ScopeParam_ValueFrom)
+		if !oneOfSelected {
+			return source.GetValueFrom(), false // to return "type" information
+		}
 		res := source.GetValueFrom()
 		return res, res != nil
 	default:

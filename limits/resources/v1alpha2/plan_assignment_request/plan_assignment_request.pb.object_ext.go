@@ -293,43 +293,67 @@ func (o *PlanAssignmentRequest_RequestType) MakeDiffFieldMask(other *PlanAssignm
 
 	res := &PlanAssignmentRequest_RequestType_FieldMask{}
 	{
-		subMask := o.GetAssign().MakeDiffFieldMask(other.GetAssign())
-		if subMask.IsFull() {
+		_, leftSelected := o.Request.(*PlanAssignmentRequest_RequestType_Assign_)
+		_, rightSelected := other.Request.(*PlanAssignmentRequest_RequestType_Assign_)
+		if leftSelected == rightSelected {
+			subMask := o.GetAssign().MakeDiffFieldMask(other.GetAssign())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorAssign, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetExtend().MakeDiffFieldMask(other.GetExtend())
-		if subMask.IsFull() {
+		_, leftSelected := o.Request.(*PlanAssignmentRequest_RequestType_Extend_)
+		_, rightSelected := other.Request.(*PlanAssignmentRequest_RequestType_Extend_)
+		if leftSelected == rightSelected {
+			subMask := o.GetExtend().MakeDiffFieldMask(other.GetExtend())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorExtend, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetRedistribute().MakeDiffFieldMask(other.GetRedistribute())
-		if subMask.IsFull() {
+		_, leftSelected := o.Request.(*PlanAssignmentRequest_RequestType_Redistribute_)
+		_, rightSelected := other.Request.(*PlanAssignmentRequest_RequestType_Redistribute_)
+		if leftSelected == rightSelected {
+			subMask := o.GetRedistribute().MakeDiffFieldMask(other.GetRedistribute())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute, subPath: subpath})
+				}
+			}
+		} else {
 			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorRedistribute, subPath: subpath})
-			}
 		}
 	}
 	{
-		subMask := o.GetUnassign().MakeDiffFieldMask(other.GetUnassign())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign, subPath: subpath})
+		_, leftSelected := o.Request.(*PlanAssignmentRequest_RequestType_Unassign_)
+		_, rightSelected := other.Request.(*PlanAssignmentRequest_RequestType_Unassign_)
+		if leftSelected == rightSelected {
+			subMask := o.GetUnassign().MakeDiffFieldMask(other.GetUnassign())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldSubPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign, subPath: subpath})
+				}
 			}
+		} else {
+			res.Paths = append(res.Paths, &PlanAssignmentRequestRequestType_FieldTerminalPath{selector: PlanAssignmentRequestRequestType_FieldPathSelectorUnassign})
 		}
 	}
 	return res

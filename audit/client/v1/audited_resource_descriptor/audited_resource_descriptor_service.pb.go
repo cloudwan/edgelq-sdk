@@ -1354,6 +1354,9 @@ type CreateAuditedResourceDescriptorRequest struct {
 	Parent *audited_resource_descriptor.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
 	// AuditedResourceDescriptor resource body
 	AuditedResourceDescriptor *audited_resource_descriptor.AuditedResourceDescriptor `protobuf:"bytes,2,opt,name=audited_resource_descriptor,json=auditedResourceDescriptor,proto3" json:"audited_resource_descriptor,omitempty" firestore:"auditedResourceDescriptor"`
+	// Optional masking applied to response object to reduce message response
+	// size.
+	ResponseMask *CreateAuditedResourceDescriptorRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *CreateAuditedResourceDescriptorRequest) Reset() {
@@ -1420,6 +1423,13 @@ func (m *CreateAuditedResourceDescriptorRequest) GetAuditedResourceDescriptor() 
 	return nil
 }
 
+func (m *CreateAuditedResourceDescriptorRequest) GetResponseMask() *CreateAuditedResourceDescriptorRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *CreateAuditedResourceDescriptorRequest) SetParent(fv *audited_resource_descriptor.ParentName) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Parent", "CreateAuditedResourceDescriptorRequest"))
@@ -1432,6 +1442,13 @@ func (m *CreateAuditedResourceDescriptorRequest) SetAuditedResourceDescriptor(fv
 		panic(fmt.Errorf("can't set %s on nil %s", "AuditedResourceDescriptor", "CreateAuditedResourceDescriptorRequest"))
 	}
 	m.AuditedResourceDescriptor = fv
+}
+
+func (m *CreateAuditedResourceDescriptorRequest) SetResponseMask(fv *CreateAuditedResourceDescriptorRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "CreateAuditedResourceDescriptorRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the UpdateAuditedResourceDescriptor method.
@@ -1456,6 +1473,8 @@ type UpdateAuditedResourceDescriptorRequest struct {
 	//
 	// https://google.aip.dev/134#create-or-update
 	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
+	// reduce message response size.
+	ResponseMask *UpdateAuditedResourceDescriptorRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
 }
 
 func (m *UpdateAuditedResourceDescriptorRequest) Reset() {
@@ -1536,6 +1555,13 @@ func (m *UpdateAuditedResourceDescriptorRequest) GetAllowMissing() bool {
 	return false
 }
 
+func (m *UpdateAuditedResourceDescriptorRequest) GetResponseMask() *UpdateAuditedResourceDescriptorRequest_ResponseMask {
+	if m != nil {
+		return m.ResponseMask
+	}
+	return nil
+}
+
 func (m *UpdateAuditedResourceDescriptorRequest) SetAuditedResourceDescriptor(fv *audited_resource_descriptor.AuditedResourceDescriptor) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "AuditedResourceDescriptor", "UpdateAuditedResourceDescriptorRequest"))
@@ -1562,6 +1588,13 @@ func (m *UpdateAuditedResourceDescriptorRequest) SetAllowMissing(fv bool) {
 		panic(fmt.Errorf("can't set %s on nil %s", "AllowMissing", "UpdateAuditedResourceDescriptorRequest"))
 	}
 	m.AllowMissing = fv
+}
+
+func (m *UpdateAuditedResourceDescriptorRequest) SetResponseMask(fv *UpdateAuditedResourceDescriptorRequest_ResponseMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "ResponseMask", "UpdateAuditedResourceDescriptorRequest"))
+	}
+	m.ResponseMask = fv
 }
 
 // A request message of the DeleteAuditedResourceDescriptor method.
@@ -1725,6 +1758,117 @@ func (m *WatchAuditedResourceDescriptorsResponse_PageTokenChange) SetNextPageTok
 	m.NextPageToken = fv
 }
 
+// ResponseMask allows client to reduce response message size.
+type CreateAuditedResourceDescriptorRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*CreateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody
+	//	*CreateAuditedResourceDescriptorRequest_ResponseMask_BodyMask
+	Masking isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) Reset() {
+	*m = CreateAuditedResourceDescriptorRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*CreateAuditedResourceDescriptorRequest_ResponseMask) ProtoMessage() {}
+
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*CreateAuditedResourceDescriptorRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use CreateAuditedResourceDescriptorRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*CreateAuditedResourceDescriptorRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking interface {
+	isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking()
+}
+
+type CreateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type CreateAuditedResourceDescriptorRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields.
+	BodyMask *audited_resource_descriptor.AuditedResourceDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=AuditedResourceDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*CreateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody) isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking() {
+}
+func (*CreateAuditedResourceDescriptorRequest_ResponseMask_BodyMask) isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking() {
+}
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) GetMasking() isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*CreateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) GetBodyMask() *audited_resource_descriptor.AuditedResourceDescriptor_FieldMask {
+	if x, ok := m.GetMasking().(*CreateAuditedResourceDescriptorRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) SetMasking(ofv isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isCreateAuditedResourceDescriptorRequest_ResponseMask_Masking", "CreateAuditedResourceDescriptorRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&CreateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *CreateAuditedResourceDescriptorRequest_ResponseMask) SetBodyMask(fv *audited_resource_descriptor.AuditedResourceDescriptor_FieldMask) {
+	m.SetMasking(&CreateAuditedResourceDescriptorRequest_ResponseMask_BodyMask{BodyMask: fv})
+}
+
 // CAS - Compare and Swap. This object is used if user wants to make update
 // conditional based upon previous resource version.
 type UpdateAuditedResourceDescriptorRequest_CAS struct {
@@ -1741,7 +1885,7 @@ type UpdateAuditedResourceDescriptorRequest_CAS struct {
 func (m *UpdateAuditedResourceDescriptorRequest_CAS) Reset() {
 	*m = UpdateAuditedResourceDescriptorRequest_CAS{}
 	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[13]
+		mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1754,7 +1898,7 @@ func (m *UpdateAuditedResourceDescriptorRequest_CAS) String() string {
 func (*UpdateAuditedResourceDescriptorRequest_CAS) ProtoMessage() {}
 
 func (m *UpdateAuditedResourceDescriptorRequest_CAS) ProtoReflect() preflect.Message {
-	mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[13]
+	mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && m != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
 		if ms.LoadMessageInfo() == nil {
@@ -1814,6 +1958,137 @@ func (m *UpdateAuditedResourceDescriptorRequest_CAS) SetFieldMask(fv *audited_re
 		panic(fmt.Errorf("can't set %s on nil %s", "FieldMask", "UpdateAuditedResourceDescriptorRequest_CAS"))
 	}
 	m.FieldMask = fv
+}
+
+// ResponseMask allows client to reduce response message size.
+type UpdateAuditedResourceDescriptorRequest_ResponseMask struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Types that are valid to be assigned to Masking:
+	//	*UpdateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody
+	//	*UpdateAuditedResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly
+	//	*UpdateAuditedResourceDescriptorRequest_ResponseMask_BodyMask
+	Masking isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking `protobuf_oneof:"masking"`
+}
+
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) Reset() {
+	*m = UpdateAuditedResourceDescriptorRequest_ResponseMask{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*UpdateAuditedResourceDescriptorRequest_ResponseMask) ProtoMessage() {}
+
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) ProtoReflect() preflect.Message {
+	mi := &edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*UpdateAuditedResourceDescriptorRequest_ResponseMask) GotenMessage() {}
+
+// Deprecated, Use UpdateAuditedResourceDescriptorRequest_ResponseMask.ProtoReflect.Descriptor instead.
+func (*UpdateAuditedResourceDescriptorRequest_ResponseMask) Descriptor() ([]byte, []int) {
+	return edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_rawDescGZIP(), []int{10, 1}
+}
+
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+type isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking interface {
+	isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking()
+}
+
+type UpdateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody struct {
+	// If this flag has value true, then response will contain just empty
+	// resource without any fields populated. Field body_mask is ignored if
+	// set.
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+}
+type UpdateAuditedResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly struct {
+	// Include all fields that were actually updated during processing. Note
+	// this may be larger than update mask if some fields were computed
+	// additionally. Name is added as well.
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+}
+type UpdateAuditedResourceDescriptorRequest_ResponseMask_BodyMask struct {
+	// If this field is populated, then resource in response will contain only
+	// specific fields. If skip_entire_response_body is true, this field is
+	// ignored.
+	BodyMask *audited_resource_descriptor.AuditedResourceDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=AuditedResourceDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+}
+
+func (*UpdateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody) isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking() {
+}
+func (*UpdateAuditedResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly) isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking() {
+}
+func (*UpdateAuditedResourceDescriptorRequest_ResponseMask_BodyMask) isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking() {
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) GetMasking() isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking {
+	if m != nil {
+		return m.Masking
+	}
+	return nil
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) GetSkipEntireResponseBody() bool {
+	if x, ok := m.GetMasking().(*UpdateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody); ok {
+		return x.SkipEntireResponseBody
+	}
+	return false
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) GetUpdatedFieldsOnly() bool {
+	if x, ok := m.GetMasking().(*UpdateAuditedResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly); ok {
+		return x.UpdatedFieldsOnly
+	}
+	return false
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) GetBodyMask() *audited_resource_descriptor.AuditedResourceDescriptor_FieldMask {
+	if x, ok := m.GetMasking().(*UpdateAuditedResourceDescriptorRequest_ResponseMask_BodyMask); ok {
+		return x.BodyMask
+	}
+	return nil
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) SetMasking(ofv isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "isUpdateAuditedResourceDescriptorRequest_ResponseMask_Masking", "UpdateAuditedResourceDescriptorRequest_ResponseMask"))
+	}
+	m.Masking = ofv
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) SetSkipEntireResponseBody(fv bool) {
+	m.SetMasking(&UpdateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody{SkipEntireResponseBody: fv})
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) SetUpdatedFieldsOnly(fv bool) {
+	m.SetMasking(&UpdateAuditedResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly{UpdatedFieldsOnly: fv})
+}
+func (m *UpdateAuditedResourceDescriptorRequest_ResponseMask) SetBodyMask(fv *audited_resource_descriptor.AuditedResourceDescriptor_FieldMask) {
+	m.SetMasking(&UpdateAuditedResourceDescriptorRequest_ResponseMask_BodyMask{BodyMask: fv})
 }
 
 var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto preflect.FileDescriptor
@@ -2059,7 +2334,7 @@ var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_rawDesc = []
 	0x01, 0x28, 0x09, 0x42, 0x21, 0xb2, 0xda, 0x21, 0x1d, 0x22, 0x1b, 0x0a, 0x19, 0x41, 0x75, 0x64,
 	0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63,
 	0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65,
-	0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xda, 0x01, 0x0a, 0x26, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x22, 0xf9, 0x03, 0x0a, 0x26, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
 	0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44,
 	0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x12, 0x39, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x65, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
@@ -2073,42 +2348,81 @@ var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_rawDesc = []
 	0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01, 0xca,
 	0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x19, 0x61, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64,
 	0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74,
-	0x6f, 0x72, 0x22, 0xb6, 0x04, 0x0a, 0x26, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x75, 0x64,
-	0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63,
-	0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x75, 0x0a,
-	0x1b, 0x61, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x5f, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x27, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76,
-	0x31, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
-	0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x42, 0x0c, 0xc8, 0xd5, 0x22,
-	0x01, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x19, 0x61, 0x75, 0x64, 0x69, 0x74,
-	0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69,
-	0x70, 0x74, 0x6f, 0x72, 0x12, 0x5e, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d,
-	0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67,
-	0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c,
-	0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x21, 0xb2, 0xda, 0x21, 0x1d, 0x32, 0x1b, 0x0a, 0x19, 0x41,
+	0x6f, 0x72, 0x12, 0x66, 0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x6d,
+	0x61, 0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x41, 0x2e, 0x6e, 0x74, 0x74, 0x2e,
+	0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41,
 	0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65,
-	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65,
-	0x4d, 0x61, 0x73, 0x6b, 0x12, 0x4a, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x38, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31,
-	0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65,
-	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73,
-	0x12, 0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e,
-	0x67, 0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69,
-	0x73, 0x73, 0x69, 0x6e, 0x67, 0x1a, 0xc3, 0x01, 0x0a, 0x03, 0x43, 0x41, 0x53, 0x12, 0x5e, 0x0a,
-	0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61,
-	0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61,
-	0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52,
-	0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f,
-	0x72, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e,
-	0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x5c, 0x0a,
-	0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x21, 0xb2,
-	0xda, 0x21, 0x1d, 0x32, 0x1b, 0x0a, 0x19, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65,
-	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72,
-	0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x22, 0x5f, 0x0a, 0x26, 0x44,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c, 0x72, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xb4, 0x01, 0x0a, 0x0c, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73,
+	0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00,
+	0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e, 0x74, 0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79, 0x12, 0x5c, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79,
+	0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f,
+	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69,
+	0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x21, 0xb2, 0xda, 0x21, 0x1d, 0x32, 0x1b, 0x0a,
+	0x19, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x48, 0x00, 0x52, 0x08, 0x62, 0x6f,
+	0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x09, 0x0a, 0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69, 0x6e,
+	0x67, 0x22, 0x87, 0x07, 0x0a, 0x26, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x75, 0x64, 0x69,
+	0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72,
+	0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x75, 0x0a, 0x1b,
+	0x61, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x5f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x5f, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x27, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31,
+	0x2e, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x42, 0x0c, 0xc8, 0xd5, 0x22, 0x01,
+	0xca, 0xc6, 0x27, 0x04, 0x62, 0x02, 0x08, 0x01, 0x52, 0x19, 0x61, 0x75, 0x64, 0x69, 0x74, 0x65,
+	0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70,
+	0x74, 0x6f, 0x72, 0x12, 0x5e, 0x0a, 0x0b, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x5f, 0x6d, 0x61,
+	0x73, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64,
+	0x4d, 0x61, 0x73, 0x6b, 0x42, 0x21, 0xb2, 0xda, 0x21, 0x1d, 0x32, 0x1b, 0x0a, 0x19, 0x41, 0x75,
+	0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x4d,
+	0x61, 0x73, 0x6b, 0x12, 0x4a, 0x0a, 0x03, 0x63, 0x61, 0x73, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x38, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31, 0x2e,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73,
+	0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x43, 0x41, 0x53, 0x52, 0x03, 0x63, 0x61, 0x73, 0x12,
+	0x23, 0x0a, 0x0d, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x5f, 0x6d, 0x69, 0x73, 0x73, 0x69, 0x6e, 0x67,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x6c, 0x6c, 0x6f, 0x77, 0x4d, 0x69, 0x73,
+	0x73, 0x69, 0x6e, 0x67, 0x12, 0x66, 0x0a, 0x0d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x41, 0x2e, 0x6e, 0x74,
+	0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x52, 0x0c,
+	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d, 0x61, 0x73, 0x6b, 0x1a, 0xc3, 0x01, 0x0a,
+	0x03, 0x43, 0x41, 0x53, 0x12, 0x5e, 0x0a, 0x11, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f,
+	0x6e, 0x61, 0x6c, 0x5f, 0x73, 0x74, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x27, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x61, 0x75, 0x64, 0x69, 0x74, 0x2e, 0x76, 0x31, 0x2e, 0x41,
+	0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x62, 0x02,
+	0x10, 0x01, 0x52, 0x10, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x53,
+	0x74, 0x61, 0x74, 0x65, 0x12, 0x5c, 0x0a, 0x0a, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61,
+	0x73, 0x6b, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64,
+	0x4d, 0x61, 0x73, 0x6b, 0x42, 0x21, 0xb2, 0xda, 0x21, 0x1d, 0x32, 0x1b, 0x0a, 0x19, 0x41, 0x75,
+	0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x09, 0x66, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61,
+	0x73, 0x6b, 0x1a, 0xe6, 0x01, 0x0a, 0x0c, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x4d,
+	0x61, 0x73, 0x6b, 0x12, 0x3b, 0x0a, 0x19, 0x73, 0x6b, 0x69, 0x70, 0x5f, 0x65, 0x6e, 0x74, 0x69,
+	0x72, 0x65, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x5f, 0x62, 0x6f, 0x64, 0x79,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52, 0x16, 0x73, 0x6b, 0x69, 0x70, 0x45, 0x6e,
+	0x74, 0x69, 0x72, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x6f, 0x64, 0x79,
+	0x12, 0x30, 0x0a, 0x13, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x5f, 0x66, 0x69, 0x65, 0x6c,
+	0x64, 0x73, 0x5f, 0x6f, 0x6e, 0x6c, 0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x48, 0x00, 0x52,
+	0x11, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x64, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x73, 0x4f, 0x6e,
+	0x6c, 0x79, 0x12, 0x5c, 0x0a, 0x09, 0x62, 0x6f, 0x64, 0x79, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73,
+	0x6b, 0x42, 0x21, 0xb2, 0xda, 0x21, 0x1d, 0x32, 0x1b, 0x0a, 0x19, 0x41, 0x75, 0x64, 0x69, 0x74,
+	0x65, 0x64, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x6f, 0x72, 0x48, 0x00, 0x52, 0x08, 0x62, 0x6f, 0x64, 0x79, 0x4d, 0x61, 0x73, 0x6b,
+	0x42, 0x09, 0x0a, 0x07, 0x6d, 0x61, 0x73, 0x6b, 0x69, 0x6e, 0x67, 0x22, 0x5f, 0x0a, 0x26, 0x44,
 	0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x75, 0x64, 0x69, 0x74, 0x65, 0x64, 0x52, 0x65, 0x73, 0x6f,
 	0x75, 0x72, 0x63, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x6f, 0x72, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x35, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20,
@@ -2305,7 +2619,7 @@ func edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_rawDescGZIP
 	return edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_rawDescData
 }
 
-var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_goTypes = []interface{}{
 	(*GetAuditedResourceDescriptorRequest)(nil),                             // 0: ntt.audit.v1.GetAuditedResourceDescriptorRequest
 	(*BatchGetAuditedResourceDescriptorsRequest)(nil),                       // 1: ntt.audit.v1.BatchGetAuditedResourceDescriptorsRequest
@@ -2320,60 +2634,66 @@ var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_goTypes = []
 	(*UpdateAuditedResourceDescriptorRequest)(nil),                          // 10: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest
 	(*DeleteAuditedResourceDescriptorRequest)(nil),                          // 11: ntt.audit.v1.DeleteAuditedResourceDescriptorRequest
 	(*WatchAuditedResourceDescriptorsResponse_PageTokenChange)(nil),         // 12: ntt.audit.v1.WatchAuditedResourceDescriptorsResponse.PageTokenChange
-	(*UpdateAuditedResourceDescriptorRequest_CAS)(nil),                      // 13: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS
-	(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)(nil), // 14: ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	(view.View)(0), // 15: goten.types.View
-	(*audited_resource_descriptor.AuditedResourceDescriptor)(nil),       // 16: ntt.audit.v1.AuditedResourceDescriptor
-	(*audited_resource_descriptor.AuditedResourceDescriptorChange)(nil), // 17: ntt.audit.v1.AuditedResourceDescriptorChange
-	(watch_type.WatchType)(0),     // 18: goten.types.WatchType
-	(*timestamppb.Timestamp)(nil), // 19: google.protobuf.Timestamp
-	(*emptypb.Empty)(nil),         // 20: google.protobuf.Empty
+	(*CreateAuditedResourceDescriptorRequest_ResponseMask)(nil),             // 13: ntt.audit.v1.CreateAuditedResourceDescriptorRequest.ResponseMask
+	(*UpdateAuditedResourceDescriptorRequest_CAS)(nil),                      // 14: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS
+	(*UpdateAuditedResourceDescriptorRequest_ResponseMask)(nil),             // 15: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.ResponseMask
+	(*audited_resource_descriptor.AuditedResourceDescriptor_FieldMask)(nil), // 16: ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	(view.View)(0), // 17: goten.types.View
+	(*audited_resource_descriptor.AuditedResourceDescriptor)(nil),       // 18: ntt.audit.v1.AuditedResourceDescriptor
+	(*audited_resource_descriptor.AuditedResourceDescriptorChange)(nil), // 19: ntt.audit.v1.AuditedResourceDescriptorChange
+	(watch_type.WatchType)(0),     // 20: goten.types.WatchType
+	(*timestamppb.Timestamp)(nil), // 21: google.protobuf.Timestamp
+	(*emptypb.Empty)(nil),         // 22: google.protobuf.Empty
 }
 var edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_depIdxs = []int32{
-	14, // 0: ntt.audit.v1.GetAuditedResourceDescriptorRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	15, // 1: ntt.audit.v1.GetAuditedResourceDescriptorRequest.view:type_name -> goten.types.View
-	14, // 2: ntt.audit.v1.BatchGetAuditedResourceDescriptorsRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	15, // 3: ntt.audit.v1.BatchGetAuditedResourceDescriptorsRequest.view:type_name -> goten.types.View
-	16, // 4: ntt.audit.v1.BatchGetAuditedResourceDescriptorsResponse.audited_resource_descriptors:type_name -> ntt.audit.v1.AuditedResourceDescriptor
-	14, // 5: ntt.audit.v1.ListAuditedResourceDescriptorsRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	15, // 6: ntt.audit.v1.ListAuditedResourceDescriptorsRequest.view:type_name -> goten.types.View
-	16, // 7: ntt.audit.v1.ListAuditedResourceDescriptorsResponse.audited_resource_descriptors:type_name -> ntt.audit.v1.AuditedResourceDescriptor
-	14, // 8: ntt.audit.v1.WatchAuditedResourceDescriptorRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	15, // 9: ntt.audit.v1.WatchAuditedResourceDescriptorRequest.view:type_name -> goten.types.View
-	17, // 10: ntt.audit.v1.WatchAuditedResourceDescriptorResponse.change:type_name -> ntt.audit.v1.AuditedResourceDescriptorChange
-	18, // 11: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.type:type_name -> goten.types.WatchType
-	19, // 12: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.starting_time:type_name -> google.protobuf.Timestamp
-	14, // 13: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	15, // 14: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.view:type_name -> goten.types.View
-	17, // 15: ntt.audit.v1.WatchAuditedResourceDescriptorsResponse.audited_resource_descriptor_changes:type_name -> ntt.audit.v1.AuditedResourceDescriptorChange
+	16, // 0: ntt.audit.v1.GetAuditedResourceDescriptorRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	17, // 1: ntt.audit.v1.GetAuditedResourceDescriptorRequest.view:type_name -> goten.types.View
+	16, // 2: ntt.audit.v1.BatchGetAuditedResourceDescriptorsRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	17, // 3: ntt.audit.v1.BatchGetAuditedResourceDescriptorsRequest.view:type_name -> goten.types.View
+	18, // 4: ntt.audit.v1.BatchGetAuditedResourceDescriptorsResponse.audited_resource_descriptors:type_name -> ntt.audit.v1.AuditedResourceDescriptor
+	16, // 5: ntt.audit.v1.ListAuditedResourceDescriptorsRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	17, // 6: ntt.audit.v1.ListAuditedResourceDescriptorsRequest.view:type_name -> goten.types.View
+	18, // 7: ntt.audit.v1.ListAuditedResourceDescriptorsResponse.audited_resource_descriptors:type_name -> ntt.audit.v1.AuditedResourceDescriptor
+	16, // 8: ntt.audit.v1.WatchAuditedResourceDescriptorRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	17, // 9: ntt.audit.v1.WatchAuditedResourceDescriptorRequest.view:type_name -> goten.types.View
+	19, // 10: ntt.audit.v1.WatchAuditedResourceDescriptorResponse.change:type_name -> ntt.audit.v1.AuditedResourceDescriptorChange
+	20, // 11: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.type:type_name -> goten.types.WatchType
+	21, // 12: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.starting_time:type_name -> google.protobuf.Timestamp
+	16, // 13: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	17, // 14: ntt.audit.v1.WatchAuditedResourceDescriptorsRequest.view:type_name -> goten.types.View
+	19, // 15: ntt.audit.v1.WatchAuditedResourceDescriptorsResponse.audited_resource_descriptor_changes:type_name -> ntt.audit.v1.AuditedResourceDescriptorChange
 	12, // 16: ntt.audit.v1.WatchAuditedResourceDescriptorsResponse.page_token_change:type_name -> ntt.audit.v1.WatchAuditedResourceDescriptorsResponse.PageTokenChange
-	16, // 17: ntt.audit.v1.CreateAuditedResourceDescriptorRequest.audited_resource_descriptor:type_name -> ntt.audit.v1.AuditedResourceDescriptor
-	16, // 18: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.audited_resource_descriptor:type_name -> ntt.audit.v1.AuditedResourceDescriptor
-	14, // 19: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.update_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	13, // 20: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.cas:type_name -> ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS
-	16, // 21: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS.conditional_state:type_name -> ntt.audit.v1.AuditedResourceDescriptor
-	14, // 22: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
-	0,  // 23: ntt.audit.v1.AuditedResourceDescriptorService.GetAuditedResourceDescriptor:input_type -> ntt.audit.v1.GetAuditedResourceDescriptorRequest
-	1,  // 24: ntt.audit.v1.AuditedResourceDescriptorService.BatchGetAuditedResourceDescriptors:input_type -> ntt.audit.v1.BatchGetAuditedResourceDescriptorsRequest
-	3,  // 25: ntt.audit.v1.AuditedResourceDescriptorService.ListAuditedResourceDescriptors:input_type -> ntt.audit.v1.ListAuditedResourceDescriptorsRequest
-	5,  // 26: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptor:input_type -> ntt.audit.v1.WatchAuditedResourceDescriptorRequest
-	7,  // 27: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptors:input_type -> ntt.audit.v1.WatchAuditedResourceDescriptorsRequest
-	9,  // 28: ntt.audit.v1.AuditedResourceDescriptorService.CreateAuditedResourceDescriptor:input_type -> ntt.audit.v1.CreateAuditedResourceDescriptorRequest
-	10, // 29: ntt.audit.v1.AuditedResourceDescriptorService.UpdateAuditedResourceDescriptor:input_type -> ntt.audit.v1.UpdateAuditedResourceDescriptorRequest
-	11, // 30: ntt.audit.v1.AuditedResourceDescriptorService.DeleteAuditedResourceDescriptor:input_type -> ntt.audit.v1.DeleteAuditedResourceDescriptorRequest
-	16, // 31: ntt.audit.v1.AuditedResourceDescriptorService.GetAuditedResourceDescriptor:output_type -> ntt.audit.v1.AuditedResourceDescriptor
-	2,  // 32: ntt.audit.v1.AuditedResourceDescriptorService.BatchGetAuditedResourceDescriptors:output_type -> ntt.audit.v1.BatchGetAuditedResourceDescriptorsResponse
-	4,  // 33: ntt.audit.v1.AuditedResourceDescriptorService.ListAuditedResourceDescriptors:output_type -> ntt.audit.v1.ListAuditedResourceDescriptorsResponse
-	6,  // 34: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptor:output_type -> ntt.audit.v1.WatchAuditedResourceDescriptorResponse
-	8,  // 35: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptors:output_type -> ntt.audit.v1.WatchAuditedResourceDescriptorsResponse
-	16, // 36: ntt.audit.v1.AuditedResourceDescriptorService.CreateAuditedResourceDescriptor:output_type -> ntt.audit.v1.AuditedResourceDescriptor
-	16, // 37: ntt.audit.v1.AuditedResourceDescriptorService.UpdateAuditedResourceDescriptor:output_type -> ntt.audit.v1.AuditedResourceDescriptor
-	20, // 38: ntt.audit.v1.AuditedResourceDescriptorService.DeleteAuditedResourceDescriptor:output_type -> google.protobuf.Empty
-	31, // [31:39] is the sub-list for method output_type
-	23, // [23:31] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	23, // [23:23] is the sub-list for extension extendee
-	0,  // [0:23] is the sub-list for field type_name
+	18, // 17: ntt.audit.v1.CreateAuditedResourceDescriptorRequest.audited_resource_descriptor:type_name -> ntt.audit.v1.AuditedResourceDescriptor
+	13, // 18: ntt.audit.v1.CreateAuditedResourceDescriptorRequest.response_mask:type_name -> ntt.audit.v1.CreateAuditedResourceDescriptorRequest.ResponseMask
+	18, // 19: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.audited_resource_descriptor:type_name -> ntt.audit.v1.AuditedResourceDescriptor
+	16, // 20: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.update_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	14, // 21: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.cas:type_name -> ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS
+	15, // 22: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.response_mask:type_name -> ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.ResponseMask
+	16, // 23: ntt.audit.v1.CreateAuditedResourceDescriptorRequest.ResponseMask.body_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	18, // 24: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS.conditional_state:type_name -> ntt.audit.v1.AuditedResourceDescriptor
+	16, // 25: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.CAS.field_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	16, // 26: ntt.audit.v1.UpdateAuditedResourceDescriptorRequest.ResponseMask.body_mask:type_name -> ntt.audit.v1.AuditedResourceDescriptor_FieldMask
+	0,  // 27: ntt.audit.v1.AuditedResourceDescriptorService.GetAuditedResourceDescriptor:input_type -> ntt.audit.v1.GetAuditedResourceDescriptorRequest
+	1,  // 28: ntt.audit.v1.AuditedResourceDescriptorService.BatchGetAuditedResourceDescriptors:input_type -> ntt.audit.v1.BatchGetAuditedResourceDescriptorsRequest
+	3,  // 29: ntt.audit.v1.AuditedResourceDescriptorService.ListAuditedResourceDescriptors:input_type -> ntt.audit.v1.ListAuditedResourceDescriptorsRequest
+	5,  // 30: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptor:input_type -> ntt.audit.v1.WatchAuditedResourceDescriptorRequest
+	7,  // 31: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptors:input_type -> ntt.audit.v1.WatchAuditedResourceDescriptorsRequest
+	9,  // 32: ntt.audit.v1.AuditedResourceDescriptorService.CreateAuditedResourceDescriptor:input_type -> ntt.audit.v1.CreateAuditedResourceDescriptorRequest
+	10, // 33: ntt.audit.v1.AuditedResourceDescriptorService.UpdateAuditedResourceDescriptor:input_type -> ntt.audit.v1.UpdateAuditedResourceDescriptorRequest
+	11, // 34: ntt.audit.v1.AuditedResourceDescriptorService.DeleteAuditedResourceDescriptor:input_type -> ntt.audit.v1.DeleteAuditedResourceDescriptorRequest
+	18, // 35: ntt.audit.v1.AuditedResourceDescriptorService.GetAuditedResourceDescriptor:output_type -> ntt.audit.v1.AuditedResourceDescriptor
+	2,  // 36: ntt.audit.v1.AuditedResourceDescriptorService.BatchGetAuditedResourceDescriptors:output_type -> ntt.audit.v1.BatchGetAuditedResourceDescriptorsResponse
+	4,  // 37: ntt.audit.v1.AuditedResourceDescriptorService.ListAuditedResourceDescriptors:output_type -> ntt.audit.v1.ListAuditedResourceDescriptorsResponse
+	6,  // 38: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptor:output_type -> ntt.audit.v1.WatchAuditedResourceDescriptorResponse
+	8,  // 39: ntt.audit.v1.AuditedResourceDescriptorService.WatchAuditedResourceDescriptors:output_type -> ntt.audit.v1.WatchAuditedResourceDescriptorsResponse
+	18, // 40: ntt.audit.v1.AuditedResourceDescriptorService.CreateAuditedResourceDescriptor:output_type -> ntt.audit.v1.AuditedResourceDescriptor
+	18, // 41: ntt.audit.v1.AuditedResourceDescriptorService.UpdateAuditedResourceDescriptor:output_type -> ntt.audit.v1.AuditedResourceDescriptor
+	22, // 42: ntt.audit.v1.AuditedResourceDescriptorService.DeleteAuditedResourceDescriptor:output_type -> google.protobuf.Empty
+	35, // [35:43] is the sub-list for method output_type
+	27, // [27:35] is the sub-list for method input_type
+	27, // [27:27] is the sub-list for extension type_name
+	27, // [27:27] is the sub-list for extension extendee
+	0,  // [0:27] is the sub-list for field type_name
 }
 
 func init() { edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_init() }
@@ -2540,7 +2860,31 @@ func edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_init() {
 			}
 		}
 		edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*CreateAuditedResourceDescriptorRequest_ResponseMask); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateAuditedResourceDescriptorRequest_CAS); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateAuditedResourceDescriptorRequest_ResponseMask); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -2553,13 +2897,22 @@ func edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_init() {
 		}
 	}
 
+	edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[13].OneofWrappers = []interface{}{
+		(*CreateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*CreateAuditedResourceDescriptorRequest_ResponseMask_BodyMask)(nil),
+	}
+	edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_msgTypes[15].OneofWrappers = []interface{}{
+		(*UpdateAuditedResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody)(nil),
+		(*UpdateAuditedResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly)(nil),
+		(*UpdateAuditedResourceDescriptorRequest_ResponseMask_BodyMask)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_audit_proto_v1_audited_resource_descriptor_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

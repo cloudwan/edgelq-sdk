@@ -6,10 +6,10 @@ package region_access
 
 import (
 	"context"
-	"fmt"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
@@ -23,8 +23,8 @@ import (
 
 var (
 	_ = new(context.Context)
-	_ = new(fmt.GoStringer)
 
+	_ = metadata.MD{}
 	_ = new(grpc.ClientConnInterface)
 	_ = codes.NotFound
 	_ = status.Status{}
@@ -43,7 +43,16 @@ func NewApiRegionAccess(client region_client.RegionServiceClient) region.RegionA
 	return &apiRegionAccess{client: client}
 }
 
-func (a *apiRegionAccess) GetRegion(ctx context.Context, query *region.GetQuery) (*region.Region, error) {
+func (a *apiRegionAccess) GetRegion(ctx context.Context, query *region.GetQuery, opts ...gotenresource.GetOption) (*region.Region, error) {
+	getOpts := gotenresource.MakeGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if getOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	if !query.Reference.IsFullyQualified() {
 		return nil, status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)
 	}
@@ -51,7 +60,7 @@ func (a *apiRegionAccess) GetRegion(ctx context.Context, query *region.GetQuery)
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
-	res, err := a.client.GetRegion(ctx, request)
+	res, err := a.client.GetRegion(ctx, request, callOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,6 +70,14 @@ func (a *apiRegionAccess) GetRegion(ctx context.Context, query *region.GetQuery)
 
 func (a *apiRegionAccess) BatchGetRegions(ctx context.Context, refs []*region.Reference, opts ...gotenresource.BatchGetOption) error {
 	batchGetOpts := gotenresource.MakeBatchGetOptions(opts)
+	callHeaders := metadata.MD{}
+	if batchGetOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	asNames := make([]*region.Name, 0, len(refs))
 	for _, ref := range refs {
 		if !ref.IsFullyQualified() {
@@ -75,7 +92,7 @@ func (a *apiRegionAccess) BatchGetRegions(ctx context.Context, refs []*region.Re
 	if fieldMask != nil {
 		request.FieldMask = fieldMask.(*region.Region_FieldMask)
 	}
-	resp, err := a.client.BatchGetRegions(ctx, request)
+	resp, err := a.client.BatchGetRegions(ctx, request, callOpts...)
 	if err != nil {
 		return err
 	}
@@ -95,7 +112,16 @@ func (a *apiRegionAccess) BatchGetRegions(ctx context.Context, refs []*region.Re
 	return nil
 }
 
-func (a *apiRegionAccess) QueryRegions(ctx context.Context, query *region.ListQuery) (*region.QueryResultSnapshot, error) {
+func (a *apiRegionAccess) QueryRegions(ctx context.Context, query *region.ListQuery, opts ...gotenresource.QueryOption) (*region.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
 	request := &region_client.ListRegionsRequest{
 		Filter:            query.Filter,
 		FieldMask:         query.Mask,
@@ -127,6 +153,9 @@ func (a *apiRegionAccess) WatchRegion(ctx context.Context, query *region.GetQuer
 		Name:      &query.Reference.Name,
 		FieldMask: query.Mask,
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRegion(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -134,7 +163,7 @@ func (a *apiRegionAccess) WatchRegion(ctx context.Context, query *region.GetQuer
 	for {
 		resp, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		change := resp.GetChange()
 		if err := observerCb(change); err != nil {
@@ -150,12 +179,16 @@ func (a *apiRegionAccess) WatchRegions(ctx context.Context, query *region.WatchQ
 		MaxChunkSize: int32(query.ChunkSize),
 		Type:         query.WatchType,
 		ResumeToken:  query.ResumeToken,
+		StartingTime: query.StartingTime,
 	}
 	if query.Pager != nil {
 		request.OrderBy = query.Pager.OrderBy
 		request.PageSize = int32(query.Pager.Limit)
 		request.PageToken = query.Pager.Cursor
 	}
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
 	changesStream, initErr := a.client.WatchRegions(ctx, request)
 	if initErr != nil {
 		return initErr
@@ -163,7 +196,7 @@ func (a *apiRegionAccess) WatchRegions(ctx context.Context, query *region.WatchQ
 	for {
 		respChange, err := changesStream.Recv()
 		if err != nil {
-			return fmt.Errorf("watch recv error: %w", err)
+			return status.Errorf(status.Code(err), "watch recv error: %s", err)
 		}
 		changesWithPaging := &region.QueryResultChange{
 			Changes:      respChange.RegionChanges,
@@ -184,23 +217,11 @@ func (a *apiRegionAccess) WatchRegions(ctx context.Context, query *region.WatchQ
 }
 
 func (a *apiRegionAccess) SaveRegion(ctx context.Context, res *region.Region, opts ...gotenresource.SaveOption) error {
-	saveOpts := gotenresource.MakeSaveOptions(opts)
-	previousRes := saveOpts.GetPreviousResource()
-
-	if previousRes == nil && !saveOpts.OnlyUpdate() && !saveOpts.OnlyCreate() {
-		var err error
-		previousRes, err = a.GetRegion(ctx, &region.GetQuery{Reference: res.Name.AsReference()})
-		if err != nil {
-			if statusErr, ok := status.FromError(err); !ok || statusErr.Code() != codes.NotFound {
-				return err
-			}
-		}
-	}
-	return fmt.Errorf("save operation on %s is prohibited", res.Name.AsReference().String())
+	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiRegionAccess) DeleteRegion(ctx context.Context, ref *region.Reference, opts ...gotenresource.DeleteOption) error {
-	return fmt.Errorf("Delete operation on Region is prohibited")
+func (a *apiRegionAccess) DeleteRegion(ctx context.Context, ref *region.Reference, _ ...gotenresource.DeleteOption) error {
+	return status.Errorf(codes.Internal, "Delete operation on Region is prohibited")
 }
 
 func init() {
