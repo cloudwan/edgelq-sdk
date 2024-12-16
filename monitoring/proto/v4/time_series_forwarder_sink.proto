@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package ntt.monitoring.v4;
+
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_series_forwarder_sink;time_series_forwarder_sink";
+option java_multiple_files = true;
+option java_outer_classname = "TimeSeriesForwarderSinkProto";
+option java_package = "com.ntt.monitoring.pb.v4";
+
+// TimeSeriesForwarderSink Resource describes destination of TimeSeries data.
+// Sink can be connected to TimeSeriesCollectionRule.
+// TimeSeriesForwarderSink does not need to be in the same project as collection
+// rule. Each item published on the sink will be a protobuf message of
+// ntt.monitoring.v4.BulkTimeSeries.
+message TimeSeriesForwarderSink {
+  option (google.api.resource) = {
+    type : "monitoring.edgelq.com/TimeSeriesForwarderSink"
+    pattern : "projects/{project}/timeSeriesForwarderSinks/"
+              "{time_series_forwarder_sink}"
+  };
+
+  // Name of TimeSeriesForwarderSink
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Optional display name
+  string display_name = 5;
+
+  // Current spec
+  Spec spec = 3;
+
+  // Current status
+  Status status = 4;
+
+  // Sink specification, instructing where data must go.
+  // It must specify one valid sink spec inside.
+  message Spec {
+    // Optional data compression.
+    Compression compression = 1;
+
+    oneof sink { AzureEventHubSink azure_event_hub = 2; }
+
+    // AzureEventHubSink describes sink for Azure Event Hub.
+    message AzureEventHubSink {
+      // Endpoint must contain secret value for authentication purposes,
+      // therefore it is packed as a Secret resource. Secret resource itself
+      // must contain following data field:
+      // {
+      //  "data": {
+      //    "EndpointString":
+      //    "Endpoint=sb://<name>.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=<SECRET>;EntityPath=<topicName>"
+      //   }
+      // }
+      // Replace <> elements with appropiate values.
+      string endpoint = 1;
+    }
+
+    enum Compression {
+      NO_COMPRESSION = 0;
+
+      SNAPPY = 1;
+    }
+  }
+
+  // Status describes status of TimeSeriesForwarderSink.
+  message Status {
+    // If there is some persisting error on the sink, it will be reported here.
+    string error = 1;
+  }
+}

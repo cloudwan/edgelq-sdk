@@ -12,6 +12,7 @@ proto:
 
 imports:
 - meta.goten.com
+- secrets.edgelq.com
 
 resources:
 - name: Project
@@ -217,6 +218,18 @@ resources:
       transaction: NONE
     multiRegionRouting:
       skipCodeGenBasedRouting: true
+
+- name: TimeSeriesForwarderSink
+  parents:
+  - Project
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
+
+- name: TimeSeriesCollectionRule
+  parents:
+  - Project
+  multiRegion:
+    syncType: ALWAYS_IN_SCOPE
 
 - name: PhantomTimeSerie
   parents:

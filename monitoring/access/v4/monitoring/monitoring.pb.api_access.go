@@ -18,6 +18,8 @@ import (
 	phantom_time_serie_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v4/phantom_time_serie"
 	project_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v4/project"
 	recovery_store_sharding_info_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v4/recovery_store_sharding_info"
+	time_series_collection_rule_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v4/time_series_collection_rule"
+	time_series_forwarder_sink_access "github.com/cloudwan/edgelq-sdk/monitoring/access/v4/time_series_forwarder_sink"
 	monitoring_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/monitoring"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alerting_condition"
@@ -30,6 +32,8 @@ import (
 	phantom_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/phantom_time_serie"
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/recovery_store_sharding_info"
+	time_series_collection_rule "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_series_collection_rule"
+	time_series_forwarder_sink "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_series_forwarder_sink"
 )
 
 type MonitoringApiAccess interface {
@@ -46,6 +50,8 @@ type MonitoringApiAccess interface {
 	phantom_time_serie.PhantomTimeSerieAccess
 	project.ProjectAccess
 	recovery_store_sharding_info.RecoveryStoreShardingInfoAccess
+	time_series_collection_rule.TimeSeriesCollectionRuleAccess
+	time_series_forwarder_sink.TimeSeriesForwarderSinkAccess
 }
 
 type apiMonitoringAccess struct {
@@ -62,6 +68,8 @@ type apiMonitoringAccess struct {
 	phantom_time_serie.PhantomTimeSerieAccess
 	project.ProjectAccess
 	recovery_store_sharding_info.RecoveryStoreShardingInfoAccess
+	time_series_collection_rule.TimeSeriesCollectionRuleAccess
+	time_series_forwarder_sink.TimeSeriesForwarderSinkAccess
 }
 
 func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess {
@@ -77,6 +85,8 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 	phantomTimeSerieAccess := phantom_time_serie_access.NewApiPhantomTimeSerieAccess(client)
 	projectAccess := project_access.NewApiProjectAccess(client)
 	recoveryStoreShardingInfoAccess := recovery_store_sharding_info_access.NewApiRecoveryStoreShardingInfoAccess(client)
+	timeSeriesCollectionRuleAccess := time_series_collection_rule_access.NewApiTimeSeriesCollectionRuleAccess(client)
+	timeSeriesForwarderSinkAccess := time_series_forwarder_sink_access.NewApiTimeSeriesForwarderSinkAccess(client)
 
 	return &apiMonitoringAccess{
 		Access: gotenresource.NewCompositeAccess(
@@ -92,6 +102,8 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 			phantom_time_serie.AsAnyCastAccess(phantomTimeSerieAccess),
 			project.AsAnyCastAccess(projectAccess),
 			recovery_store_sharding_info.AsAnyCastAccess(recoveryStoreShardingInfoAccess),
+			time_series_collection_rule.AsAnyCastAccess(timeSeriesCollectionRuleAccess),
+			time_series_forwarder_sink.AsAnyCastAccess(timeSeriesForwarderSinkAccess),
 		),
 
 		AlertAccess:                       alertAccess,
@@ -105,5 +117,7 @@ func NewApiAccess(client monitoring_client.MonitoringClient) MonitoringApiAccess
 		PhantomTimeSerieAccess:            phantomTimeSerieAccess,
 		ProjectAccess:                     projectAccess,
 		RecoveryStoreShardingInfoAccess:   recoveryStoreShardingInfoAccess,
+		TimeSeriesCollectionRuleAccess:    timeSeriesCollectionRuleAccess,
+		TimeSeriesForwarderSinkAccess:     timeSeriesForwarderSinkAccess,
 	}
 }

@@ -31,6 +31,11 @@ import "edgelq-sdk/monitoring/proto/v4/recovery_store_sharding_info_service.prot
 import "edgelq-sdk/monitoring/proto/v4/time_serie.proto";
 import "edgelq-sdk/monitoring/proto/v4/time_serie_custom.proto";
 import "edgelq-sdk/monitoring/proto/v4/time_serie_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_series_collection_rule.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_series_collection_rule_service.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_series_forwarder_sink.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_series_forwarder_sink_service.proto";
+import "edgelq-sdk/secrets/proto/v1/secrets.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";

@@ -22,6 +22,8 @@ import (
 	project_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/project"
 	recovery_store_sharding_info_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/recovery_store_sharding_info"
 	time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_serie"
+	time_series_collection_rule_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_series_collection_rule"
+	time_series_forwarder_sink_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_series_forwarder_sink"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alerting_condition"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alerting_policy"
@@ -34,6 +36,8 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/recovery_store_sharding_info"
 	time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
+	time_series_collection_rule "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_series_collection_rule"
+	time_series_forwarder_sink "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_series_forwarder_sink"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -66,6 +70,10 @@ var (
 	_ = &recovery_store_sharding_info.RecoveryStoreShardingInfo{}
 	_ = &recovery_store_sharding_info_client.GetRecoveryStoreShardingInfoRequest{}
 	_ = &time_serie.Point{}
+	_ = &time_series_collection_rule.TimeSeriesCollectionRule{}
+	_ = &time_series_collection_rule_client.GetTimeSeriesCollectionRuleRequest{}
+	_ = &time_series_forwarder_sink.TimeSeriesForwarderSink{}
+	_ = &time_series_forwarder_sink_client.GetTimeSeriesForwarderSinkRequest{}
 )
 
 type MonitoringClient interface {
@@ -81,6 +89,8 @@ type MonitoringClient interface {
 	project_client.ProjectServiceClient
 	recovery_store_sharding_info_client.RecoveryStoreShardingInfoServiceClient
 	time_serie_client.TimeSerieServiceClient
+	time_series_collection_rule_client.TimeSeriesCollectionRuleServiceClient
+	time_series_forwarder_sink_client.TimeSeriesForwarderSinkServiceClient
 }
 
 type monitoringClient struct {
@@ -96,6 +106,8 @@ type monitoringClient struct {
 	project_client.ProjectServiceClient
 	recovery_store_sharding_info_client.RecoveryStoreShardingInfoServiceClient
 	time_serie_client.TimeSerieServiceClient
+	time_series_collection_rule_client.TimeSeriesCollectionRuleServiceClient
+	time_series_forwarder_sink_client.TimeSeriesForwarderSinkServiceClient
 }
 
 func NewMonitoringClient(cc grpc.ClientConnInterface) MonitoringClient {
@@ -112,5 +124,7 @@ func NewMonitoringClient(cc grpc.ClientConnInterface) MonitoringClient {
 		ProjectServiceClient:                     project_client.NewProjectServiceClient(cc),
 		RecoveryStoreShardingInfoServiceClient:   recovery_store_sharding_info_client.NewRecoveryStoreShardingInfoServiceClient(cc),
 		TimeSerieServiceClient:                   time_serie_client.NewTimeSerieServiceClient(cc),
+		TimeSeriesCollectionRuleServiceClient:    time_series_collection_rule_client.NewTimeSeriesCollectionRuleServiceClient(cc),
+		TimeSeriesForwarderSinkServiceClient:     time_series_forwarder_sink_client.NewTimeSeriesForwarderSinkServiceClient(cc),
 	}
 }

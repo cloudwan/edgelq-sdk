@@ -23,6 +23,8 @@ import (
 	project_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/project"
 	recovery_store_sharding_info_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/recovery_store_sharding_info"
 	time_serie_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_serie"
+	time_series_collection_rule_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_series_collection_rule"
+	time_series_forwarder_sink_client "github.com/cloudwan/edgelq-sdk/monitoring/client/v4/time_series_forwarder_sink"
 	alert "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alert"
 	alerting_condition "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alerting_condition"
 	alerting_policy "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/alerting_policy"
@@ -35,6 +37,8 @@ import (
 	project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
 	recovery_store_sharding_info "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/recovery_store_sharding_info"
 	time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
+	time_series_collection_rule "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_series_collection_rule"
+	time_series_forwarder_sink "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_series_forwarder_sink"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -68,6 +72,10 @@ var (
 	_ = &recovery_store_sharding_info.RecoveryStoreShardingInfo{}
 	_ = &recovery_store_sharding_info_client.GetRecoveryStoreShardingInfoRequest{}
 	_ = &time_serie.Point{}
+	_ = &time_series_collection_rule.TimeSeriesCollectionRule{}
+	_ = &time_series_collection_rule_client.GetTimeSeriesCollectionRuleRequest{}
+	_ = &time_series_forwarder_sink.TimeSeriesForwarderSink{}
+	_ = &time_series_forwarder_sink_client.GetTimeSeriesForwarderSinkRequest{}
 )
 
 var (
@@ -107,6 +115,8 @@ func (d *MonitoringDescriptor) AllResourceDescriptors() []gotenresource.Descript
 		phantom_time_serie.GetDescriptor(),
 		project.GetDescriptor(),
 		recovery_store_sharding_info.GetDescriptor(),
+		time_series_collection_rule.GetDescriptor(),
+		time_series_forwarder_sink.GetDescriptor(),
 	}
 }
 
@@ -124,6 +134,8 @@ func (d *MonitoringDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 		project_client.GetProjectServiceDescriptor(),
 		recovery_store_sharding_info_client.GetRecoveryStoreShardingInfoServiceDescriptor(),
 		time_serie_client.GetTimeSerieServiceDescriptor(),
+		time_series_collection_rule_client.GetTimeSeriesCollectionRuleServiceDescriptor(),
+		time_series_forwarder_sink_client.GetTimeSeriesForwarderSinkServiceDescriptor(),
 	}
 }
 
@@ -131,6 +143,10 @@ func (d *MonitoringDescriptor) AllImportedServiceInfos() []gotenclient.ServiceIm
 	return []gotenclient.ServiceImportInfo{
 		{
 			Domain:  "meta.goten.com",
+			Version: "v1",
+		},
+		{
+			Domain:  "secrets.edgelq.com",
 			Version: "v1",
 		},
 	}
