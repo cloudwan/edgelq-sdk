@@ -429,6 +429,10 @@ func (MemberAssignmentPathSelectorMetadataOwnerReferences) RequiresOwnerReferenc
 	return MemberAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (MemberAssignmentPathSelectorMetadataOwnerReferences) UnsetOnDelete() MemberAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return MemberAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type MemberAssignmentPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (MemberAssignmentPathSelectorMetadataOwnerReferencesKind) FieldPath() *MemberAssignment_FieldSubPath {
@@ -528,6 +532,23 @@ func (s MemberAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReferenc
 }
 
 func (s MemberAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *MemberAssignment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MemberAssignment_FieldSubPathArrayOfValues)
+}
+
+type MemberAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (MemberAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *MemberAssignment_FieldSubPath {
+	return &MemberAssignment_FieldSubPath{
+		selector: MemberAssignment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s MemberAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *MemberAssignment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MemberAssignment_FieldSubPathValue)
+}
+
+func (s MemberAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *MemberAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MemberAssignment_FieldSubPathArrayOfValues)
 }
 
@@ -1132,6 +1153,10 @@ func (MemberAssignmentPathSelectorScopeMetadataOwnerReferences) RequiresOwnerRef
 	return MemberAssignmentPathSelectorScopeMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (MemberAssignmentPathSelectorScopeMetadataOwnerReferences) UnsetOnDelete() MemberAssignmentPathSelectorScopeMetadataOwnerReferencesUnsetOnDelete {
+	return MemberAssignmentPathSelectorScopeMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type MemberAssignmentPathSelectorScopeMetadataOwnerReferencesKind struct{}
 
 func (MemberAssignmentPathSelectorScopeMetadataOwnerReferencesKind) FieldPath() *MemberAssignment_FieldSubPath {
@@ -1231,6 +1256,23 @@ func (s MemberAssignmentPathSelectorScopeMetadataOwnerReferencesRequiresOwnerRef
 }
 
 func (s MemberAssignmentPathSelectorScopeMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *MemberAssignment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MemberAssignment_FieldSubPathArrayOfValues)
+}
+
+type MemberAssignmentPathSelectorScopeMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (MemberAssignmentPathSelectorScopeMetadataOwnerReferencesUnsetOnDelete) FieldPath() *MemberAssignment_FieldSubPath {
+	return &MemberAssignment_FieldSubPath{
+		selector: MemberAssignment_FieldPathSelectorScopeMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s MemberAssignmentPathSelectorScopeMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *MemberAssignment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MemberAssignment_FieldSubPathValue)
+}
+
+func (s MemberAssignmentPathSelectorScopeMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *MemberAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MemberAssignment_FieldSubPathArrayOfValues)
 }
 

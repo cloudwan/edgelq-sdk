@@ -36,9 +36,14 @@ message CustomizedImage {
   Status status = 4;
 
   message Spec {
-    string version = 1;
+    // Deprecated. Use os_version instead.
+    // After a while, version and device_type are removed
+    // and os_version becomes required
+    string version = 1 [ deprecated = true ];
 
-    string device_type = 2;
+    string device_type = 2 [ deprecated = true ];
+
+    string os_version = 14;
 
     string provisioning_policy = 3;
 

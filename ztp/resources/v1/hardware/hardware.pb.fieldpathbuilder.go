@@ -409,6 +409,10 @@ func (HardwarePathSelectorMetadataOwnerReferences) RequiresOwnerReference() Hard
 	return HardwarePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (HardwarePathSelectorMetadataOwnerReferences) UnsetOnDelete() HardwarePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return HardwarePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type HardwarePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (HardwarePathSelectorMetadataOwnerReferencesKind) FieldPath() *Hardware_FieldSubPath {
@@ -508,6 +512,23 @@ func (s HardwarePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithV
 }
 
 func (s HardwarePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Hardware_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Hardware_FieldSubPathArrayOfValues)
+}
+
+type HardwarePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (HardwarePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Hardware_FieldSubPath {
+	return &Hardware_FieldSubPath{
+		selector: Hardware_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s HardwarePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Hardware_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Hardware_FieldSubPathValue)
+}
+
+func (s HardwarePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Hardware_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Hardware_FieldSubPathArrayOfValues)
 }
 

@@ -397,6 +397,10 @@ func (AlertingPolicyPathSelectorMetadataOwnerReferences) RequiresOwnerReference(
 	return AlertingPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (AlertingPolicyPathSelectorMetadataOwnerReferences) UnsetOnDelete() AlertingPolicyPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return AlertingPolicyPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type AlertingPolicyPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (AlertingPolicyPathSelectorMetadataOwnerReferencesKind) FieldPath() *AlertingPolicy_FieldSubPath {
@@ -496,6 +500,23 @@ func (s AlertingPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference)
 }
 
 func (s AlertingPolicyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *AlertingPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
+}
+
+type AlertingPolicyPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (AlertingPolicyPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *AlertingPolicy_FieldSubPath {
+	return &AlertingPolicy_FieldSubPath{
+		selector: AlertingPolicy_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s AlertingPolicyPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *AlertingPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingPolicy_FieldSubPathValue)
+}
+
+func (s AlertingPolicyPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *AlertingPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingPolicy_FieldSubPathArrayOfValues)
 }
 

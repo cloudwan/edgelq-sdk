@@ -381,6 +381,10 @@ func (ProjectPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Proje
 	return ProjectPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (ProjectPathSelectorMetadataOwnerReferences) UnsetOnDelete() ProjectPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return ProjectPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type ProjectPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (ProjectPathSelectorMetadataOwnerReferencesKind) FieldPath() *Project_FieldSubPath {
@@ -480,6 +484,23 @@ func (s ProjectPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithVa
 }
 
 func (s ProjectPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Project_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldSubPathArrayOfValues)
+}
+
+type ProjectPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (ProjectPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Project_FieldSubPath {
+	return &Project_FieldSubPath{
+		selector: Project_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s ProjectPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Project_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Project_FieldSubPathValue)
+}
+
+func (s ProjectPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Project_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Project_FieldSubPathArrayOfValues)
 }
 

@@ -420,6 +420,10 @@ func (ServiceAccountPathSelectorMetadataOwnerReferences) RequiresOwnerReference(
 	return ServiceAccountPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (ServiceAccountPathSelectorMetadataOwnerReferences) UnsetOnDelete() ServiceAccountPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return ServiceAccountPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type ServiceAccountPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (ServiceAccountPathSelectorMetadataOwnerReferencesKind) FieldPath() *ServiceAccount_FieldSubPath {
@@ -519,6 +523,23 @@ func (s ServiceAccountPathSelectorMetadataOwnerReferencesRequiresOwnerReference)
 }
 
 func (s ServiceAccountPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ServiceAccount_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccount_FieldSubPathArrayOfValues)
+}
+
+type ServiceAccountPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (ServiceAccountPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *ServiceAccount_FieldSubPath {
+	return &ServiceAccount_FieldSubPath{
+		selector: ServiceAccount_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s ServiceAccountPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *ServiceAccount_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccount_FieldSubPathValue)
+}
+
+func (s ServiceAccountPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *ServiceAccount_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccount_FieldSubPathArrayOfValues)
 }
 

@@ -430,6 +430,10 @@ func (RoleBindingPathSelectorMetadataOwnerReferences) RequiresOwnerReference() R
 	return RoleBindingPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (RoleBindingPathSelectorMetadataOwnerReferences) UnsetOnDelete() RoleBindingPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return RoleBindingPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type RoleBindingPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (RoleBindingPathSelectorMetadataOwnerReferencesKind) FieldPath() *RoleBinding_FieldSubPath {
@@ -529,6 +533,23 @@ func (s RoleBindingPathSelectorMetadataOwnerReferencesRequiresOwnerReference) Wi
 }
 
 func (s RoleBindingPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *RoleBinding_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
+}
+
+type RoleBindingPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (RoleBindingPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *RoleBinding_FieldSubPath {
+	return &RoleBinding_FieldSubPath{
+		selector: RoleBinding_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s RoleBindingPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *RoleBinding_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldSubPathValue)
+}
+
+func (s RoleBindingPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *RoleBinding_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
 }
 

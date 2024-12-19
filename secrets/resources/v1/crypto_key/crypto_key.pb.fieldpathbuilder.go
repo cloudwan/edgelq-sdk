@@ -383,6 +383,10 @@ func (CryptoKeyPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Cry
 	return CryptoKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (CryptoKeyPathSelectorMetadataOwnerReferences) UnsetOnDelete() CryptoKeyPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return CryptoKeyPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type CryptoKeyPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (CryptoKeyPathSelectorMetadataOwnerReferencesKind) FieldPath() *CryptoKey_FieldSubPath {
@@ -482,6 +486,23 @@ func (s CryptoKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) With
 }
 
 func (s CryptoKeyPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CryptoKey_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CryptoKey_FieldSubPathArrayOfValues)
+}
+
+type CryptoKeyPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (CryptoKeyPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *CryptoKey_FieldSubPath {
+	return &CryptoKey_FieldSubPath{
+		selector: CryptoKey_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s CryptoKeyPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *CryptoKey_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CryptoKey_FieldSubPathValue)
+}
+
+func (s CryptoKeyPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *CryptoKey_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CryptoKey_FieldSubPathArrayOfValues)
 }
 

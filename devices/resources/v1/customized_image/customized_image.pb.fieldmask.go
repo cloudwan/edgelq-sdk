@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -41,6 +42,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
 	_ = &meta.Meta{}
 )
@@ -394,6 +396,7 @@ func FullCustomizedImage_Spec_FieldMask() *CustomizedImage_Spec_FieldMask {
 	res := &CustomizedImage_Spec_FieldMask{}
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorVersion})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorDeviceType})
+	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorOsVersion})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorProvisioningPolicy})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorPassword})
@@ -448,7 +451,7 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 13)
+	presentSelectors := make([]bool, 14)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CustomizedImageSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -478,7 +481,7 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) Reset() {
 
 func (fieldMask *CustomizedImage_Spec_FieldMask) Subtract(other *CustomizedImage_Spec_FieldMask) *CustomizedImage_Spec_FieldMask {
 	result := &CustomizedImage_Spec_FieldMask{}
-	removedSelectors := make([]bool, 13)
+	removedSelectors := make([]bool, 14)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -636,6 +639,8 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) Project(source *CustomizedImage
 				result.Version = source.Version
 			case CustomizedImageSpec_FieldPathSelectorDeviceType:
 				result.DeviceType = source.DeviceType
+			case CustomizedImageSpec_FieldPathSelectorOsVersion:
+				result.OsVersion = source.OsVersion
 			case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 				result.ProvisioningPolicy = source.ProvisioningPolicy
 			case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:

@@ -16,6 +16,7 @@ import (
 
 // proto imports
 import (
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -33,6 +34,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
 	_ = &meta.Meta{}
 )
@@ -183,6 +185,9 @@ func (o *CustomizedImage_Spec) MakeDiffFieldMask(other *CustomizedImage_Spec) *C
 	if o.GetDeviceType() != other.GetDeviceType() {
 		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorDeviceType})
 	}
+	if o.GetOsVersion().String() != other.GetOsVersion().String() {
+		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorOsVersion})
+	}
 	if o.GetProvisioningPolicy() != other.GetProvisioningPolicy() {
 		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorProvisioningPolicy})
 	}
@@ -230,6 +235,16 @@ func (o *CustomizedImage_Spec) Clone() *CustomizedImage_Spec {
 	result := &CustomizedImage_Spec{}
 	result.Version = o.Version
 	result.DeviceType = o.DeviceType
+	if o.OsVersion == nil {
+		result.OsVersion = nil
+	} else if data, err := o.OsVersion.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.OsVersion = &os_version.Reference{}
+		if err := result.OsVersion.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
 	result.ProvisioningPolicy = o.ProvisioningPolicy
 	result.InstallAiAccelerator = o.InstallAiAccelerator
 	result.Password = o.Password
@@ -251,6 +266,18 @@ func (o *CustomizedImage_Spec) CloneRaw() gotenobject.GotenObjectExt {
 func (o *CustomizedImage_Spec) Merge(source *CustomizedImage_Spec) {
 	o.Version = source.GetVersion()
 	o.DeviceType = source.GetDeviceType()
+	if source.GetOsVersion() != nil {
+		if data, err := source.GetOsVersion().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.OsVersion = &os_version.Reference{}
+			if err := o.OsVersion.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.OsVersion = nil
+	}
 	o.ProvisioningPolicy = source.GetProvisioningPolicy()
 	o.InstallAiAccelerator = source.GetInstallAiAccelerator()
 	o.Password = source.GetPassword()

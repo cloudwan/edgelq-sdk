@@ -388,6 +388,10 @@ func (DeviceTypePathSelectorMetadataOwnerReferences) RequiresOwnerReference() De
 	return DeviceTypePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (DeviceTypePathSelectorMetadataOwnerReferences) UnsetOnDelete() DeviceTypePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return DeviceTypePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type DeviceTypePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (DeviceTypePathSelectorMetadataOwnerReferencesKind) FieldPath() *DeviceType_FieldSubPath {
@@ -487,6 +491,23 @@ func (s DeviceTypePathSelectorMetadataOwnerReferencesRequiresOwnerReference) Wit
 }
 
 func (s DeviceTypePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *DeviceType_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceType_FieldSubPathArrayOfValues)
+}
+
+type DeviceTypePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (DeviceTypePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *DeviceType_FieldSubPath {
+	return &DeviceType_FieldSubPath{
+		selector: DeviceType_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s DeviceTypePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *DeviceType_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceType_FieldSubPathValue)
+}
+
+func (s DeviceTypePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *DeviceType_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceType_FieldSubPathArrayOfValues)
 }
 

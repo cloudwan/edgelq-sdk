@@ -666,6 +666,10 @@ func (AuditedResourceDescriptorPathSelectorMetadataOwnerReferences) RequiresOwne
 	return AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (AuditedResourceDescriptorPathSelectorMetadataOwnerReferences) UnsetOnDelete() AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesKind) FieldPath() *AuditedResourceDescriptor_FieldSubPath {
@@ -765,6 +769,23 @@ func (s AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesRequiresOwne
 }
 
 func (s AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *AuditedResourceDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AuditedResourceDescriptor_FieldSubPathArrayOfValues)
+}
+
+type AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *AuditedResourceDescriptor_FieldSubPath {
+	return &AuditedResourceDescriptor_FieldSubPath{
+		selector: AuditedResourceDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *AuditedResourceDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AuditedResourceDescriptor_FieldSubPathValue)
+}
+
+func (s AuditedResourceDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *AuditedResourceDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AuditedResourceDescriptor_FieldSubPathArrayOfValues)
 }
 

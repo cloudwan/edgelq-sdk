@@ -518,6 +518,10 @@ func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) RequiresOw
 	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferences) UnsetOnDelete() ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesKind) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
@@ -617,6 +621,23 @@ func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOw
 }
 
 func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *ProvisioningApprovalRequest_FieldSubPath {
+	return &ProvisioningApprovalRequest_FieldSubPath{
+		selector: ProvisioningApprovalRequest_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *ProvisioningApprovalRequest_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningApprovalRequest_FieldSubPathValue)
+}
+
+func (s ProvisioningApprovalRequestPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *ProvisioningApprovalRequest_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningApprovalRequest_FieldSubPathArrayOfValues)
 }
 

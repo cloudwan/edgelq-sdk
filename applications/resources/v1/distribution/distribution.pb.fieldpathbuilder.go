@@ -430,6 +430,10 @@ func (DistributionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() 
 	return DistributionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (DistributionPathSelectorMetadataOwnerReferences) UnsetOnDelete() DistributionPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return DistributionPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type DistributionPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (DistributionPathSelectorMetadataOwnerReferencesKind) FieldPath() *Distribution_FieldSubPath {
@@ -529,6 +533,23 @@ func (s DistributionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) W
 }
 
 func (s DistributionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+type DistributionPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (DistributionPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -1326,6 +1347,10 @@ func (DistributionPathSelectorSpecTemplateMetadataOwnerReferences) RequiresOwner
 	return DistributionPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (DistributionPathSelectorSpecTemplateMetadataOwnerReferences) UnsetOnDelete() DistributionPathSelectorSpecTemplateMetadataOwnerReferencesUnsetOnDelete {
+	return DistributionPathSelectorSpecTemplateMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type DistributionPathSelectorSpecTemplateMetadataOwnerReferencesKind struct{}
 
 func (DistributionPathSelectorSpecTemplateMetadataOwnerReferencesKind) FieldPath() *Distribution_FieldSubPath {
@@ -1425,6 +1450,23 @@ func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwner
 }
 
 func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+type DistributionPathSelectorSpecTemplateMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (DistributionPathSelectorSpecTemplateMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().Template().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorSpecTemplateMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -3771,6 +3813,10 @@ func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) RequiresOwne
 	return Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferences) UnsetOnDelete() Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesUnsetOnDelete {
+	return Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesKind struct{}
 
 func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesKind) FieldPath() *DistributionSpec_FieldSubPath {
@@ -3870,6 +3916,23 @@ func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwne
 }
 
 func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *DistributionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+type Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesUnsetOnDelete) FieldPath() *DistributionSpec_FieldSubPath {
+	return &DistributionSpec_FieldSubPath{
+		selector: DistributionSpec_FieldPathSelectorTemplate,
+		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *DistributionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
+}
+
+func (s Distribution_SpecPathSelectorTemplateMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -5995,6 +6058,10 @@ func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) RequiresOwn
 	return Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferences) UnsetOnDelete() Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesKind) FieldPath() *DistributionSpecTemplate_FieldSubPath {
@@ -6094,6 +6161,23 @@ func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwn
 }
 
 func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *DistributionSpecTemplate_FieldSubPath {
+	return &DistributionSpecTemplate_FieldSubPath{
+		selector: DistributionSpecTemplate_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *DistributionSpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 

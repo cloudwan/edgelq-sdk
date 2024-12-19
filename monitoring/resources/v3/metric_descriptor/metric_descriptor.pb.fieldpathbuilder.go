@@ -413,6 +413,10 @@ func (MetricDescriptorPathSelectorMetadataOwnerReferences) RequiresOwnerReferenc
 	return MetricDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (MetricDescriptorPathSelectorMetadataOwnerReferences) UnsetOnDelete() MetricDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return MetricDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type MetricDescriptorPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (MetricDescriptorPathSelectorMetadataOwnerReferencesKind) FieldPath() *MetricDescriptor_FieldSubPath {
@@ -512,6 +516,23 @@ func (s MetricDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReferenc
 }
 
 func (s MetricDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MetricDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (MetricDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *MetricDescriptor_FieldSubPath {
+	return &MetricDescriptor_FieldSubPath{
+		selector: MetricDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s MetricDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *MetricDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MetricDescriptor_FieldSubPathValue)
+}
+
+func (s MetricDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *MetricDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MetricDescriptor_FieldSubPathArrayOfValues)
 }
 

@@ -395,6 +395,10 @@ func (GroupPathSelectorMetadataOwnerReferences) RequiresOwnerReference() GroupPa
 	return GroupPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (GroupPathSelectorMetadataOwnerReferences) UnsetOnDelete() GroupPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return GroupPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type GroupPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (GroupPathSelectorMetadataOwnerReferencesKind) FieldPath() *Group_FieldSubPath {
@@ -494,6 +498,23 @@ func (s GroupPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValu
 }
 
 func (s GroupPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Group_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Group_FieldSubPathArrayOfValues)
+}
+
+type GroupPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (GroupPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Group_FieldSubPath {
+	return &Group_FieldSubPath{
+		selector: Group_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s GroupPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Group_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Group_FieldSubPathValue)
+}
+
+func (s GroupPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Group_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Group_FieldSubPathArrayOfValues)
 }
 

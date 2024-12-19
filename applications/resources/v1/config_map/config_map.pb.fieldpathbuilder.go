@@ -392,6 +392,10 @@ func (ConfigMapPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Con
 	return ConfigMapPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (ConfigMapPathSelectorMetadataOwnerReferences) UnsetOnDelete() ConfigMapPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return ConfigMapPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type ConfigMapPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (ConfigMapPathSelectorMetadataOwnerReferencesKind) FieldPath() *ConfigMap_FieldSubPath {
@@ -491,6 +495,23 @@ func (s ConfigMapPathSelectorMetadataOwnerReferencesRequiresOwnerReference) With
 }
 
 func (s ConfigMapPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ConfigMap_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
+}
+
+type ConfigMapPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (ConfigMapPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *ConfigMap_FieldSubPath {
+	return &ConfigMap_FieldSubPath{
+		selector: ConfigMap_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s ConfigMapPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *ConfigMap_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ConfigMap_FieldSubPathValue)
+}
+
+func (s ConfigMapPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *ConfigMap_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConfigMap_FieldSubPathArrayOfValues)
 }
 

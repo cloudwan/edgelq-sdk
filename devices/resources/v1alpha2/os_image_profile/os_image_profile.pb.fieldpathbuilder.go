@@ -412,6 +412,10 @@ func (OsImageProfilePathSelectorMetadataOwnerReferences) RequiresOwnerReference(
 	return OsImageProfilePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (OsImageProfilePathSelectorMetadataOwnerReferences) UnsetOnDelete() OsImageProfilePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return OsImageProfilePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type OsImageProfilePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (OsImageProfilePathSelectorMetadataOwnerReferencesKind) FieldPath() *OsImageProfile_FieldSubPath {
@@ -511,6 +515,23 @@ func (s OsImageProfilePathSelectorMetadataOwnerReferencesRequiresOwnerReference)
 }
 
 func (s OsImageProfilePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *OsImageProfile_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
+}
+
+type OsImageProfilePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (OsImageProfilePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *OsImageProfile_FieldSubPath {
+	return &OsImageProfile_FieldSubPath{
+		selector: OsImageProfile_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s OsImageProfilePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *OsImageProfile_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsImageProfile_FieldSubPathValue)
+}
+
+func (s OsImageProfilePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *OsImageProfile_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsImageProfile_FieldSubPathArrayOfValues)
 }
 

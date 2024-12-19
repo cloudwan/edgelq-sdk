@@ -399,6 +399,10 @@ func (AlertPathSelectorMetadataOwnerReferences) RequiresOwnerReference() AlertPa
 	return AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (AlertPathSelectorMetadataOwnerReferences) UnsetOnDelete() AlertPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return AlertPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type AlertPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (AlertPathSelectorMetadataOwnerReferencesKind) FieldPath() *Alert_FieldSubPath {
@@ -498,6 +502,23 @@ func (s AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValu
 }
 
 func (s AlertPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Alert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
+}
+
+type AlertPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (AlertPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Alert_FieldSubPath {
+	return &Alert_FieldSubPath{
+		selector: Alert_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s AlertPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Alert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
+}
+
+func (s AlertPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 

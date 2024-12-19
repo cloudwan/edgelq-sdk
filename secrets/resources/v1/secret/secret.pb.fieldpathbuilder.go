@@ -392,6 +392,10 @@ func (SecretPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Secret
 	return SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (SecretPathSelectorMetadataOwnerReferences) UnsetOnDelete() SecretPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return SecretPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type SecretPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (SecretPathSelectorMetadataOwnerReferencesKind) FieldPath() *Secret_FieldSubPath {
@@ -491,6 +495,23 @@ func (s SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithVal
 }
 
 func (s SecretPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Secret_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
+}
+
+type SecretPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (SecretPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Secret_FieldSubPath {
+	return &Secret_FieldSubPath{
+		selector: Secret_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s SecretPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Secret_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Secret_FieldSubPathValue)
+}
+
+func (s SecretPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Secret_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Secret_FieldSubPathArrayOfValues)
 }
 

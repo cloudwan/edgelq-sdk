@@ -392,6 +392,10 @@ func (NotificationChannelPathSelectorMetadataOwnerReferences) RequiresOwnerRefer
 	return NotificationChannelPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (NotificationChannelPathSelectorMetadataOwnerReferences) UnsetOnDelete() NotificationChannelPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return NotificationChannelPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type NotificationChannelPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (NotificationChannelPathSelectorMetadataOwnerReferencesKind) FieldPath() *NotificationChannel_FieldSubPath {
@@ -491,6 +495,23 @@ func (s NotificationChannelPathSelectorMetadataOwnerReferencesRequiresOwnerRefer
 }
 
 func (s NotificationChannelPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (NotificationChannelPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 

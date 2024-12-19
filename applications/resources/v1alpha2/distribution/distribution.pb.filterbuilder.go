@@ -1293,6 +1293,10 @@ func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filt
 	return &filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadataOwnerReferences) UnsetOnDelete() *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete {
+	return &filterCndBuilderMetadataOwnerReferencesUnsetOnDelete{builder: b.builder}
+}
+
 type filterCndBuilderMetadataOwnerReferencesKind struct {
 	builder *FilterBuilder
 }
@@ -1644,6 +1648,65 @@ func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) compare(
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataOwnerReferencesUnsetOnDelete struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithValue(value),
 	})
 }
 
@@ -3958,6 +4021,10 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) RequiresOwnerRefer
 	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReference{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferences) UnsetOnDelete() *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete {
+	return &filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateMetadataOwnerReferencesKind struct {
 	builder *FilterBuilder
 }
@@ -4309,6 +4376,65 @@ func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesRequiresOwnerReferen
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().RequiresOwnerReference().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateMetadataOwnerReferencesUnsetOnDelete) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Metadata().OwnerReferences().UnsetOnDelete().WithValue(value),
 	})
 }
 

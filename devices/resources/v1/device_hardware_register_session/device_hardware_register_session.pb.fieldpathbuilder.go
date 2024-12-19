@@ -472,6 +472,10 @@ func (DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferences) Requires
 	return DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferences) UnsetOnDelete() DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesKind) FieldPath() *DeviceHardwareRegisterSession_FieldSubPath {
@@ -571,6 +575,23 @@ func (s DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesRequires
 }
 
 func (s DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *DeviceHardwareRegisterSession_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceHardwareRegisterSession_FieldSubPathArrayOfValues)
+}
+
+type DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *DeviceHardwareRegisterSession_FieldSubPath {
+	return &DeviceHardwareRegisterSession_FieldSubPath{
+		selector: DeviceHardwareRegisterSession_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *DeviceHardwareRegisterSession_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceHardwareRegisterSession_FieldSubPathValue)
+}
+
+func (s DeviceHardwareRegisterSessionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *DeviceHardwareRegisterSession_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceHardwareRegisterSession_FieldSubPathArrayOfValues)
 }
 

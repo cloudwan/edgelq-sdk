@@ -413,6 +413,10 @@ func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) RequiresOwnerReferenc
 	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferences) UnsetOnDelete() PhantomTimeSeriePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return PhantomTimeSeriePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type PhantomTimeSeriePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (PhantomTimeSeriePathSelectorMetadataOwnerReferencesKind) FieldPath() *PhantomTimeSerie_FieldSubPath {
@@ -512,6 +516,23 @@ func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReferenc
 }
 
 func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *PhantomTimeSerie_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
+}
+
+type PhantomTimeSeriePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (PhantomTimeSeriePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *PhantomTimeSerie_FieldSubPath {
+	return &PhantomTimeSerie_FieldSubPath{
+		selector: PhantomTimeSerie_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *PhantomTimeSerie_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PhantomTimeSerie_FieldSubPathValue)
+}
+
+func (s PhantomTimeSeriePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *PhantomTimeSerie_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PhantomTimeSerie_FieldSubPathArrayOfValues)
 }
 

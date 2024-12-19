@@ -398,6 +398,10 @@ func (AttestationDomainPathSelectorMetadataOwnerReferences) RequiresOwnerReferen
 	return AttestationDomainPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (AttestationDomainPathSelectorMetadataOwnerReferences) UnsetOnDelete() AttestationDomainPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return AttestationDomainPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type AttestationDomainPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (AttestationDomainPathSelectorMetadataOwnerReferencesKind) FieldPath() *AttestationDomain_FieldSubPath {
@@ -497,6 +501,23 @@ func (s AttestationDomainPathSelectorMetadataOwnerReferencesRequiresOwnerReferen
 }
 
 func (s AttestationDomainPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *AttestationDomain_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
+}
+
+type AttestationDomainPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (AttestationDomainPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *AttestationDomain_FieldSubPath {
+	return &AttestationDomain_FieldSubPath{
+		selector: AttestationDomain_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s AttestationDomainPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *AttestationDomain_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AttestationDomain_FieldSubPathValue)
+}
+
+func (s AttestationDomainPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *AttestationDomain_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AttestationDomain_FieldSubPathArrayOfValues)
 }
 

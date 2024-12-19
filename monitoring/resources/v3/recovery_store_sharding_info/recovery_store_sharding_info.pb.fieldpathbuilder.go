@@ -528,6 +528,10 @@ func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) RequiresOwne
 	return RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferences) UnsetOnDelete() RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesKind) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
@@ -627,6 +631,23 @@ func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRequiresOwne
 }
 
 func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
+}
+
+type RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *RecoveryStoreShardingInfo_FieldSubPath {
+	return &RecoveryStoreShardingInfo_FieldSubPath{
+		selector: RecoveryStoreShardingInfo_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *RecoveryStoreShardingInfo_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*RecoveryStoreShardingInfo_FieldSubPathValue)
+}
+
+func (s RecoveryStoreShardingInfoPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *RecoveryStoreShardingInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RecoveryStoreShardingInfo_FieldSubPathArrayOfValues)
 }
 

@@ -398,6 +398,10 @@ func (TpmAttestationCertPathSelectorMetadataOwnerReferences) RequiresOwnerRefere
 	return TpmAttestationCertPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (TpmAttestationCertPathSelectorMetadataOwnerReferences) UnsetOnDelete() TpmAttestationCertPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return TpmAttestationCertPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type TpmAttestationCertPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (TpmAttestationCertPathSelectorMetadataOwnerReferencesKind) FieldPath() *TpmAttestationCert_FieldSubPath {
@@ -497,6 +501,23 @@ func (s TpmAttestationCertPathSelectorMetadataOwnerReferencesRequiresOwnerRefere
 }
 
 func (s TpmAttestationCertPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *TpmAttestationCert_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TpmAttestationCert_FieldSubPathArrayOfValues)
+}
+
+type TpmAttestationCertPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (TpmAttestationCertPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *TpmAttestationCert_FieldSubPath {
+	return &TpmAttestationCert_FieldSubPath{
+		selector: TpmAttestationCert_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s TpmAttestationCertPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *TpmAttestationCert_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TpmAttestationCert_FieldSubPathValue)
+}
+
+func (s TpmAttestationCertPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *TpmAttestationCert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TpmAttestationCert_FieldSubPathArrayOfValues)
 }
 

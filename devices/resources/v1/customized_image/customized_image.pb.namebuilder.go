@@ -10,12 +10,14 @@ import (
 
 // proto imports
 import (
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
 // make sure we're using proto imports
 var (
+	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
 	_ = &meta.Meta{}
 )

@@ -400,6 +400,10 @@ func (LogDescriptorPathSelectorMetadataOwnerReferences) RequiresOwnerReference()
 	return LogDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (LogDescriptorPathSelectorMetadataOwnerReferences) UnsetOnDelete() LogDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return LogDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type LogDescriptorPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (LogDescriptorPathSelectorMetadataOwnerReferencesKind) FieldPath() *LogDescriptor_FieldSubPath {
@@ -499,6 +503,23 @@ func (s LogDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) 
 }
 
 func (s LogDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *LogDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
+}
+
+type LogDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (LogDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *LogDescriptor_FieldSubPath {
+	return &LogDescriptor_FieldSubPath{
+		selector: LogDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s LogDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *LogDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LogDescriptor_FieldSubPathValue)
+}
+
+func (s LogDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *LogDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogDescriptor_FieldSubPathArrayOfValues)
 }
 

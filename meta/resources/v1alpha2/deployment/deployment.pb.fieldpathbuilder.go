@@ -397,6 +397,10 @@ func (DeploymentPathSelectorMetadataOwnerReferences) RequiresOwnerReference() De
 	return DeploymentPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (DeploymentPathSelectorMetadataOwnerReferences) UnsetOnDelete() DeploymentPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return DeploymentPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type DeploymentPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (DeploymentPathSelectorMetadataOwnerReferencesKind) FieldPath() *Deployment_FieldSubPath {
@@ -496,6 +500,23 @@ func (s DeploymentPathSelectorMetadataOwnerReferencesRequiresOwnerReference) Wit
 }
 
 func (s DeploymentPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Deployment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
+}
+
+type DeploymentPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (DeploymentPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Deployment_FieldSubPath {
+	return &Deployment_FieldSubPath{
+		selector: Deployment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s DeploymentPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Deployment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Deployment_FieldSubPathValue)
+}
+
+func (s DeploymentPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Deployment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Deployment_FieldSubPathArrayOfValues)
 }
 

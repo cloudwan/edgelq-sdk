@@ -410,6 +410,10 @@ func (PermissionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Pe
 	return PermissionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (PermissionPathSelectorMetadataOwnerReferences) UnsetOnDelete() PermissionPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return PermissionPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type PermissionPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (PermissionPathSelectorMetadataOwnerReferencesKind) FieldPath() *Permission_FieldSubPath {
@@ -509,6 +513,23 @@ func (s PermissionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) Wit
 }
 
 func (s PermissionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Permission_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
+}
+
+type PermissionPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (PermissionPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Permission_FieldSubPath {
+	return &Permission_FieldSubPath{
+		selector: Permission_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s PermissionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Permission_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Permission_FieldSubPathValue)
+}
+
+func (s PermissionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Permission_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Permission_FieldSubPathArrayOfValues)
 }
 

@@ -389,6 +389,10 @@ func (BucketPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Bucket
 	return BucketPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (BucketPathSelectorMetadataOwnerReferences) UnsetOnDelete() BucketPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return BucketPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type BucketPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (BucketPathSelectorMetadataOwnerReferencesKind) FieldPath() *Bucket_FieldSubPath {
@@ -488,6 +492,23 @@ func (s BucketPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithVal
 }
 
 func (s BucketPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Bucket_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Bucket_FieldSubPathArrayOfValues)
+}
+
+type BucketPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (BucketPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Bucket_FieldSubPath {
+	return &Bucket_FieldSubPath{
+		selector: Bucket_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s BucketPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Bucket_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Bucket_FieldSubPathValue)
+}
+
+func (s BucketPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Bucket_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Bucket_FieldSubPathArrayOfValues)
 }
 

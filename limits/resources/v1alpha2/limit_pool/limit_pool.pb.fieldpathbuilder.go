@@ -488,6 +488,10 @@ func (LimitPoolPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Lim
 	return LimitPoolPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (LimitPoolPathSelectorMetadataOwnerReferences) UnsetOnDelete() LimitPoolPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return LimitPoolPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type LimitPoolPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (LimitPoolPathSelectorMetadataOwnerReferencesKind) FieldPath() *LimitPool_FieldSubPath {
@@ -587,6 +591,23 @@ func (s LimitPoolPathSelectorMetadataOwnerReferencesRequiresOwnerReference) With
 }
 
 func (s LimitPoolPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *LimitPool_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
+}
+
+type LimitPoolPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (LimitPoolPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *LimitPool_FieldSubPath {
+	return &LimitPool_FieldSubPath{
+		selector: LimitPool_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s LimitPoolPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *LimitPool_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LimitPool_FieldSubPathValue)
+}
+
+func (s LimitPoolPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *LimitPool_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LimitPool_FieldSubPathArrayOfValues)
 }
 

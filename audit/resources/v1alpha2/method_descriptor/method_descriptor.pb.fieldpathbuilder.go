@@ -603,6 +603,10 @@ func (MethodDescriptorPathSelectorMetadataOwnerReferences) RequiresOwnerReferenc
 	return MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (MethodDescriptorPathSelectorMetadataOwnerReferences) UnsetOnDelete() MethodDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return MethodDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type MethodDescriptorPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (MethodDescriptorPathSelectorMetadataOwnerReferencesKind) FieldPath() *MethodDescriptor_FieldSubPath {
@@ -702,6 +706,23 @@ func (s MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReferenc
 }
 
 func (s MethodDescriptorPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *MethodDescriptor_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
+}
+
+type MethodDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (MethodDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *MethodDescriptor_FieldSubPath {
+	return &MethodDescriptor_FieldSubPath{
+		selector: MethodDescriptor_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *MethodDescriptor_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*MethodDescriptor_FieldSubPathValue)
+}
+
+func (s MethodDescriptorPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *MethodDescriptor_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*MethodDescriptor_FieldSubPathArrayOfValues)
 }
 

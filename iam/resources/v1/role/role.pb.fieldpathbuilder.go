@@ -416,6 +416,10 @@ func (RolePathSelectorMetadataOwnerReferences) RequiresOwnerReference() RolePath
 	return RolePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (RolePathSelectorMetadataOwnerReferences) UnsetOnDelete() RolePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return RolePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type RolePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (RolePathSelectorMetadataOwnerReferencesKind) FieldPath() *Role_FieldSubPath {
@@ -515,6 +519,23 @@ func (s RolePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValue
 }
 
 func (s RolePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (RolePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Role_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
 }
 

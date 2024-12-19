@@ -386,6 +386,10 @@ func (CustomizedImagePathSelectorMetadataOwnerReferences) RequiresOwnerReference
 	return CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (CustomizedImagePathSelectorMetadataOwnerReferences) UnsetOnDelete() CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type CustomizedImagePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (CustomizedImagePathSelectorMetadataOwnerReferencesKind) FieldPath() *CustomizedImage_FieldSubPath {
@@ -485,6 +489,23 @@ func (s CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference
 }
 
 func (s CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+type CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 

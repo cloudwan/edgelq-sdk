@@ -390,6 +390,10 @@ func (OsVersionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() OsV
 	return OsVersionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (OsVersionPathSelectorMetadataOwnerReferences) UnsetOnDelete() OsVersionPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return OsVersionPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type OsVersionPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (OsVersionPathSelectorMetadataOwnerReferencesKind) FieldPath() *OsVersion_FieldSubPath {
@@ -489,6 +493,23 @@ func (s OsVersionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) With
 }
 
 func (s OsVersionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *OsVersion_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
+}
+
+type OsVersionPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (OsVersionPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *OsVersion_FieldSubPath {
+	return &OsVersion_FieldSubPath{
+		selector: OsVersion_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s OsVersionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *OsVersion_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OsVersion_FieldSubPathValue)
+}
+
+func (s OsVersionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *OsVersion_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OsVersion_FieldSubPathArrayOfValues)
 }
 

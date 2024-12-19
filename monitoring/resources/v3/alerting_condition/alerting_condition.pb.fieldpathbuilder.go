@@ -400,6 +400,10 @@ func (AlertingConditionPathSelectorMetadataOwnerReferences) RequiresOwnerReferen
 	return AlertingConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (AlertingConditionPathSelectorMetadataOwnerReferences) UnsetOnDelete() AlertingConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return AlertingConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type AlertingConditionPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (AlertingConditionPathSelectorMetadataOwnerReferencesKind) FieldPath() *AlertingCondition_FieldSubPath {
@@ -499,6 +503,23 @@ func (s AlertingConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReferen
 }
 
 func (s AlertingConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *AlertingCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
+}
+
+type AlertingConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (AlertingConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *AlertingCondition_FieldSubPath {
+	return &AlertingCondition_FieldSubPath{
+		selector: AlertingCondition_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s AlertingConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *AlertingCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
+}
+
+func (s AlertingConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *AlertingCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
 }
 

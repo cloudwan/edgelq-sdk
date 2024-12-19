@@ -418,6 +418,10 @@ func (PlanAssignmentPathSelectorMetadataOwnerReferences) RequiresOwnerReference(
 	return PlanAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (PlanAssignmentPathSelectorMetadataOwnerReferences) UnsetOnDelete() PlanAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return PlanAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type PlanAssignmentPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (PlanAssignmentPathSelectorMetadataOwnerReferencesKind) FieldPath() *PlanAssignment_FieldSubPath {
@@ -517,6 +521,23 @@ func (s PlanAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference)
 }
 
 func (s PlanAssignmentPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *PlanAssignment_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
+}
+
+type PlanAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (PlanAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *PlanAssignment_FieldSubPath {
+	return &PlanAssignment_FieldSubPath{
+		selector: PlanAssignment_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s PlanAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *PlanAssignment_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PlanAssignment_FieldSubPathValue)
+}
+
+func (s PlanAssignmentPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *PlanAssignment_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PlanAssignment_FieldSubPathArrayOfValues)
 }
 

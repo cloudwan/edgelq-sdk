@@ -23,6 +23,7 @@ import (
 
 // proto imports
 import (
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -47,6 +48,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
 	_ = &meta.Meta{}
 )
@@ -851,17 +853,18 @@ type CustomizedImageSpec_FieldPathSelector int32
 const (
 	CustomizedImageSpec_FieldPathSelectorVersion              CustomizedImageSpec_FieldPathSelector = 0
 	CustomizedImageSpec_FieldPathSelectorDeviceType           CustomizedImageSpec_FieldPathSelector = 1
-	CustomizedImageSpec_FieldPathSelectorProvisioningPolicy   CustomizedImageSpec_FieldPathSelector = 2
-	CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator CustomizedImageSpec_FieldPathSelector = 3
-	CustomizedImageSpec_FieldPathSelectorPassword             CustomizedImageSpec_FieldPathSelector = 4
-	CustomizedImageSpec_FieldPathSelectorEncryption           CustomizedImageSpec_FieldPathSelector = 5
-	CustomizedImageSpec_FieldPathSelectorEncryptionPassword   CustomizedImageSpec_FieldPathSelector = 6
-	CustomizedImageSpec_FieldPathSelectorDiskMapping          CustomizedImageSpec_FieldPathSelector = 7
-	CustomizedImageSpec_FieldPathSelectorNetworkAgent         CustomizedImageSpec_FieldPathSelector = 8
-	CustomizedImageSpec_FieldPathSelectorNtp                  CustomizedImageSpec_FieldPathSelector = 9
-	CustomizedImageSpec_FieldPathSelectorHttpProxy            CustomizedImageSpec_FieldPathSelector = 10
-	CustomizedImageSpec_FieldPathSelectorHttpsProxy           CustomizedImageSpec_FieldPathSelector = 11
-	CustomizedImageSpec_FieldPathSelectorNoProxy              CustomizedImageSpec_FieldPathSelector = 12
+	CustomizedImageSpec_FieldPathSelectorOsVersion            CustomizedImageSpec_FieldPathSelector = 2
+	CustomizedImageSpec_FieldPathSelectorProvisioningPolicy   CustomizedImageSpec_FieldPathSelector = 3
+	CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator CustomizedImageSpec_FieldPathSelector = 4
+	CustomizedImageSpec_FieldPathSelectorPassword             CustomizedImageSpec_FieldPathSelector = 5
+	CustomizedImageSpec_FieldPathSelectorEncryption           CustomizedImageSpec_FieldPathSelector = 6
+	CustomizedImageSpec_FieldPathSelectorEncryptionPassword   CustomizedImageSpec_FieldPathSelector = 7
+	CustomizedImageSpec_FieldPathSelectorDiskMapping          CustomizedImageSpec_FieldPathSelector = 8
+	CustomizedImageSpec_FieldPathSelectorNetworkAgent         CustomizedImageSpec_FieldPathSelector = 9
+	CustomizedImageSpec_FieldPathSelectorNtp                  CustomizedImageSpec_FieldPathSelector = 10
+	CustomizedImageSpec_FieldPathSelectorHttpProxy            CustomizedImageSpec_FieldPathSelector = 11
+	CustomizedImageSpec_FieldPathSelectorHttpsProxy           CustomizedImageSpec_FieldPathSelector = 12
+	CustomizedImageSpec_FieldPathSelectorNoProxy              CustomizedImageSpec_FieldPathSelector = 13
 )
 
 func (s CustomizedImageSpec_FieldPathSelector) String() string {
@@ -870,6 +873,8 @@ func (s CustomizedImageSpec_FieldPathSelector) String() string {
 		return "version"
 	case CustomizedImageSpec_FieldPathSelectorDeviceType:
 		return "device_type"
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		return "os_version"
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return "provisioning_policy"
 	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -907,6 +912,8 @@ func BuildCustomizedImageSpec_FieldPath(fp gotenobject.RawFieldPath) (Customized
 			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorVersion}, nil
 		case "device_type", "deviceType", "device-type":
 			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorDeviceType}, nil
+		case "os_version", "osVersion", "os-version":
+			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorOsVersion}, nil
 		case "provisioning_policy", "provisioningPolicy", "provisioning-policy":
 			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorProvisioningPolicy}, nil
 		case "install_ai_accelerator", "installAiAccelerator", "install-ai-accelerator":
@@ -978,6 +985,10 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) Get(source *CustomizedImage_Spe
 			values = append(values, source.Version)
 		case CustomizedImageSpec_FieldPathSelectorDeviceType:
 			values = append(values, source.DeviceType)
+		case CustomizedImageSpec_FieldPathSelectorOsVersion:
+			if source.OsVersion != nil {
+				values = append(values, source.OsVersion)
+			}
 		case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 			values = append(values, source.ProvisioningPolicy)
 		case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -1018,6 +1029,9 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) GetSingle(source *CustomizedIma
 		return source.GetVersion(), source != nil
 	case CustomizedImageSpec_FieldPathSelectorDeviceType:
 		return source.GetDeviceType(), source != nil
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		res := source.GetOsVersion()
+		return res, res != nil
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return source.GetProvisioningPolicy(), source != nil
 	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -1056,6 +1070,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case CustomizedImageSpec_FieldPathSelectorDeviceType:
 		return ""
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		return (*os_version.Reference)(nil)
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return ""
 	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -1090,6 +1106,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) ClearValue(item *CustomizedImag
 			item.Version = ""
 		case CustomizedImageSpec_FieldPathSelectorDeviceType:
 			item.DeviceType = ""
+		case CustomizedImageSpec_FieldPathSelectorOsVersion:
+			item.OsVersion = nil
 		case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 			item.ProvisioningPolicy = ""
 		case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -1126,6 +1144,7 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) ClearValueRaw(item proto.Messag
 func (fp *CustomizedImageSpec_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CustomizedImageSpec_FieldPathSelectorVersion ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorDeviceType ||
+		fp.selector == CustomizedImageSpec_FieldPathSelectorOsVersion ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorProvisioningPolicy ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorPassword ||
@@ -1149,6 +1168,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) WithIValue(value interface{}) C
 		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(string)}
 	case CustomizedImageSpec_FieldPathSelectorDeviceType:
 		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(string)}
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(*os_version.Reference)}
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(string)}
 	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -1187,6 +1208,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]string)}
 	case CustomizedImageSpec_FieldPathSelectorDeviceType:
 		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]string)}
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]*os_version.Reference)}
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]string)}
 	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -1277,6 +1300,10 @@ func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsDeviceTypeValue() (stri
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsOsVersionValue() (*os_version.Reference, bool) {
+	res, ok := fpv.value.(*os_version.Reference)
+	return res, ok
+}
 func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsProvisioningPolicyValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -1332,6 +1359,8 @@ func (fpv *CustomizedImageSpec_FieldTerminalPathValue) SetTo(target **Customized
 		(*target).Version = fpv.value.(string)
 	case CustomizedImageSpec_FieldPathSelectorDeviceType:
 		(*target).DeviceType = fpv.value.(string)
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		(*target).OsVersion = fpv.value.(*os_version.Reference)
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		(*target).ProvisioningPolicy = fpv.value.(string)
 	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
@@ -1383,6 +1412,25 @@ func (fpv *CustomizedImageSpec_FieldTerminalPathValue) CompareWith(source *Custo
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		leftValue := fpv.value.(*os_version.Reference)
+		rightValue := source.GetOsVersion()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
 			return -1, true
 		} else {
 			return 1, true
@@ -1613,6 +1661,10 @@ func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case CustomizedImageSpec_FieldPathSelectorOsVersion:
+		for _, v := range fpaov.values.([]*os_version.Reference) {
+			values = append(values, v)
+		}
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -1666,6 +1718,10 @@ func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsVersionArrayO
 }
 func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsDeviceTypeArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsOsVersionArrayOfValues() ([]*os_version.Reference, bool) {
+	res, ok := fpaov.values.([]*os_version.Reference)
 	return res, ok
 }
 func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsProvisioningPolicyArrayOfValues() ([]string, bool) {

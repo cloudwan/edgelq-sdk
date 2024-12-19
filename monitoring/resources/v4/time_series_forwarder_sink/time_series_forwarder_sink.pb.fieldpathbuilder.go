@@ -393,6 +393,10 @@ func (TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferences) RequiresOwnerR
 	return TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferences) UnsetOnDelete() TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesKind) FieldPath() *TimeSeriesForwarderSink_FieldSubPath {
@@ -492,6 +496,23 @@ func (s TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesRequiresOwnerR
 }
 
 func (s TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *TimeSeriesForwarderSink_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesForwarderSink_FieldSubPathArrayOfValues)
+}
+
+type TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *TimeSeriesForwarderSink_FieldSubPath {
+	return &TimeSeriesForwarderSink_FieldSubPath{
+		selector: TimeSeriesForwarderSink_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *TimeSeriesForwarderSink_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesForwarderSink_FieldSubPathValue)
+}
+
+func (s TimeSeriesForwarderSinkPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *TimeSeriesForwarderSink_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesForwarderSink_FieldSubPathArrayOfValues)
 }
 

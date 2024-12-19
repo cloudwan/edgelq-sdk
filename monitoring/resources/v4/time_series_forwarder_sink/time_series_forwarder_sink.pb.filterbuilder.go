@@ -1210,6 +1210,10 @@ func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filt
 	return &filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadataOwnerReferences) UnsetOnDelete() *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete {
+	return &filterCndBuilderMetadataOwnerReferencesUnsetOnDelete{builder: b.builder}
+}
+
 type filterCndBuilderMetadataOwnerReferencesKind struct {
 	builder *FilterBuilder
 }
@@ -1561,6 +1565,65 @@ func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) compare(
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                               op,
 		TimeSeriesForwarderSink_FieldPathValue: NewTimeSeriesForwarderSinkFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataOwnerReferencesUnsetOnDelete struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		TimeSeriesForwarderSink_FieldPathArrayOfValues: NewTimeSeriesForwarderSinkFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		TimeSeriesForwarderSink_FieldPathArrayOfValues: NewTimeSeriesForwarderSinkFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewTimeSeriesForwarderSinkFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewTimeSeriesForwarderSinkFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                               op,
+		TimeSeriesForwarderSink_FieldPathValue: NewTimeSeriesForwarderSinkFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithValue(value),
 	})
 }
 

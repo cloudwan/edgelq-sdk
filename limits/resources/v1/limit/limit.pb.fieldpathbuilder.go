@@ -411,6 +411,10 @@ func (LimitPathSelectorMetadataOwnerReferences) RequiresOwnerReference() LimitPa
 	return LimitPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (LimitPathSelectorMetadataOwnerReferences) UnsetOnDelete() LimitPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return LimitPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type LimitPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (LimitPathSelectorMetadataOwnerReferencesKind) FieldPath() *Limit_FieldSubPath {
@@ -510,6 +514,23 @@ func (s LimitPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithValu
 }
 
 func (s LimitPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Limit_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Limit_FieldSubPathArrayOfValues)
+}
+
+type LimitPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (LimitPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Limit_FieldSubPath {
+	return &Limit_FieldSubPath{
+		selector: Limit_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s LimitPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Limit_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Limit_FieldSubPathValue)
+}
+
+func (s LimitPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Limit_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Limit_FieldSubPathArrayOfValues)
 }
 

@@ -389,6 +389,10 @@ func (EdgelqInstancePathSelectorMetadataOwnerReferences) RequiresOwnerReference(
 	return EdgelqInstancePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (EdgelqInstancePathSelectorMetadataOwnerReferences) UnsetOnDelete() EdgelqInstancePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return EdgelqInstancePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type EdgelqInstancePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (EdgelqInstancePathSelectorMetadataOwnerReferencesKind) FieldPath() *EdgelqInstance_FieldSubPath {
@@ -488,6 +492,23 @@ func (s EdgelqInstancePathSelectorMetadataOwnerReferencesRequiresOwnerReference)
 }
 
 func (s EdgelqInstancePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *EdgelqInstance_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*EdgelqInstance_FieldSubPathArrayOfValues)
+}
+
+type EdgelqInstancePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (EdgelqInstancePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *EdgelqInstance_FieldSubPath {
+	return &EdgelqInstance_FieldSubPath{
+		selector: EdgelqInstance_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s EdgelqInstancePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *EdgelqInstance_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*EdgelqInstance_FieldSubPathValue)
+}
+
+func (s EdgelqInstancePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *EdgelqInstance_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*EdgelqInstance_FieldSubPathArrayOfValues)
 }
 

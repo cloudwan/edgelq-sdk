@@ -6,6 +6,8 @@ package customized_image
 
 // proto imports
 import (
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -14,6 +16,8 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &device_type.DeviceType{}
+	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
@@ -386,6 +390,10 @@ func (CustomizedImagePathSelectorMetadataOwnerReferences) RequiresOwnerReference
 	return CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (CustomizedImagePathSelectorMetadataOwnerReferences) UnsetOnDelete() CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type CustomizedImagePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (CustomizedImagePathSelectorMetadataOwnerReferencesKind) FieldPath() *CustomizedImage_FieldSubPath {
@@ -485,6 +493,23 @@ func (s CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference
 }
 
 func (s CustomizedImagePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+type CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -751,6 +776,10 @@ func (CustomizedImagePathSelectorSpec) DeviceType() CustomizedImagePathSelectorS
 	return CustomizedImagePathSelectorSpecDeviceType{}
 }
 
+func (CustomizedImagePathSelectorSpec) OsVersion() CustomizedImagePathSelectorSpecOsVersion {
+	return CustomizedImagePathSelectorSpecOsVersion{}
+}
+
 func (CustomizedImagePathSelectorSpec) ProvisioningPolicy() CustomizedImagePathSelectorSpecProvisioningPolicy {
 	return CustomizedImagePathSelectorSpecProvisioningPolicy{}
 }
@@ -826,6 +855,23 @@ func (s CustomizedImagePathSelectorSpecDeviceType) WithValue(value string) *Cust
 }
 
 func (s CustomizedImagePathSelectorSpecDeviceType) WithArrayOfValues(values []string) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+type CustomizedImagePathSelectorSpecOsVersion struct{}
+
+func (CustomizedImagePathSelectorSpecOsVersion) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorSpec,
+		subPath:  NewCustomizedImageSpecFieldPathBuilder().OsVersion().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorSpecOsVersion) WithValue(value *os_version.Reference) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorSpecOsVersion) WithArrayOfValues(values []*os_version.Reference) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -1120,6 +1166,9 @@ func (CustomizedImageSpecFieldPathBuilder) Version() CustomizedImage_SpecPathSel
 func (CustomizedImageSpecFieldPathBuilder) DeviceType() CustomizedImage_SpecPathSelectorDeviceType {
 	return CustomizedImage_SpecPathSelectorDeviceType{}
 }
+func (CustomizedImageSpecFieldPathBuilder) OsVersion() CustomizedImage_SpecPathSelectorOsVersion {
+	return CustomizedImage_SpecPathSelectorOsVersion{}
+}
 func (CustomizedImageSpecFieldPathBuilder) ProvisioningPolicy() CustomizedImage_SpecPathSelectorProvisioningPolicy {
 	return CustomizedImage_SpecPathSelectorProvisioningPolicy{}
 }
@@ -1179,6 +1228,20 @@ func (s CustomizedImage_SpecPathSelectorDeviceType) WithValue(value string) *Cus
 }
 
 func (s CustomizedImage_SpecPathSelectorDeviceType) WithArrayOfValues(values []string) *CustomizedImageSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImageSpec_FieldTerminalPathArrayOfValues)
+}
+
+type CustomizedImage_SpecPathSelectorOsVersion struct{}
+
+func (CustomizedImage_SpecPathSelectorOsVersion) FieldPath() *CustomizedImageSpec_FieldTerminalPath {
+	return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorOsVersion}
+}
+
+func (s CustomizedImage_SpecPathSelectorOsVersion) WithValue(value *os_version.Reference) *CustomizedImageSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImageSpec_FieldTerminalPathValue)
+}
+
+func (s CustomizedImage_SpecPathSelectorOsVersion) WithArrayOfValues(values []*os_version.Reference) *CustomizedImageSpec_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImageSpec_FieldTerminalPathArrayOfValues)
 }
 

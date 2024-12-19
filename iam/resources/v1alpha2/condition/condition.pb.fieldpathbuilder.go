@@ -517,6 +517,10 @@ func (ConditionPathSelectorMetadataOwnerReferences) RequiresOwnerReference() Con
 	return ConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (ConditionPathSelectorMetadataOwnerReferences) UnsetOnDelete() ConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return ConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type ConditionPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (ConditionPathSelectorMetadataOwnerReferencesKind) FieldPath() *Condition_FieldSubPath {
@@ -616,6 +620,23 @@ func (s ConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) With
 }
 
 func (s ConditionPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+type ConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (ConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *Condition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
 }
 

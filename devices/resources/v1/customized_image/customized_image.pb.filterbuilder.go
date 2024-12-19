@@ -11,6 +11,8 @@ import (
 
 // proto imports
 import (
+	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
+	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -25,6 +27,8 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &device_type.DeviceType{}
+	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
@@ -1202,6 +1206,10 @@ func (b *filterCndBuilderMetadataOwnerReferences) RequiresOwnerReference() *filt
 	return &filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference{builder: b.builder}
 }
 
+func (b *filterCndBuilderMetadataOwnerReferences) UnsetOnDelete() *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete {
+	return &filterCndBuilderMetadataOwnerReferencesUnsetOnDelete{builder: b.builder}
+}
+
 type filterCndBuilderMetadataOwnerReferencesKind struct {
 	builder *FilterBuilder
 }
@@ -1553,6 +1561,65 @@ func (b *filterCndBuilderMetadataOwnerReferencesRequiresOwnerReference) compare(
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                       op,
 		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Metadata().OwnerReferences().RequiresOwnerReference().WithValue(value),
+	})
+}
+
+type filterCndBuilderMetadataOwnerReferencesUnsetOnDelete struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCustomizedImageFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCustomizedImageFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderMetadataOwnerReferencesUnsetOnDelete) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                       op,
+		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Metadata().OwnerReferences().UnsetOnDelete().WithValue(value),
 	})
 }
 
@@ -2369,6 +2436,10 @@ func (b *filterCndBuilderSpec) DeviceType() *filterCndBuilderSpecDeviceType {
 	return &filterCndBuilderSpecDeviceType{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpec) OsVersion() *filterCndBuilderSpecOsVersion {
+	return &filterCndBuilderSpecOsVersion{builder: b.builder}
+}
+
 func (b *filterCndBuilderSpec) ProvisioningPolicy() *filterCndBuilderSpecProvisioningPolicy {
 	return &filterCndBuilderSpecProvisioningPolicy{builder: b.builder}
 }
@@ -2528,6 +2599,65 @@ func (b *filterCndBuilderSpecDeviceType) compare(op gotenfilter.CompareOperator,
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                       op,
 		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Spec().DeviceType().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecOsVersion struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecOsVersion) Eq(value *os_version.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecOsVersion) Neq(value *os_version.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecOsVersion) Gt(value *os_version.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecOsVersion) Gte(value *os_version.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecOsVersion) Lt(value *os_version.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecOsVersion) Lte(value *os_version.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecOsVersion) In(values []*os_version.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().OsVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecOsVersion) NotIn(values []*os_version.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().OsVersion().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecOsVersion) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().OsVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecOsVersion) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().OsVersion().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecOsVersion) compare(op gotenfilter.CompareOperator, value *os_version.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                       op,
+		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Spec().OsVersion().WithValue(value),
 	})
 }
 

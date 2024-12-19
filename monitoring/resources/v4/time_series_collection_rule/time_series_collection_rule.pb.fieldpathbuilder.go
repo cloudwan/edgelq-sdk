@@ -415,6 +415,10 @@ func (TimeSeriesCollectionRulePathSelectorMetadataOwnerReferences) RequiresOwner
 	return TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (TimeSeriesCollectionRulePathSelectorMetadataOwnerReferences) UnsetOnDelete() TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesKind struct{}
 
 func (TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesKind) FieldPath() *TimeSeriesCollectionRule_FieldSubPath {
@@ -514,6 +518,23 @@ func (s TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesRequiresOwner
 }
 
 func (s TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *TimeSeriesCollectionRule_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesCollectionRule_FieldSubPathArrayOfValues)
+}
+
+type TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *TimeSeriesCollectionRule_FieldSubPath {
+	return &TimeSeriesCollectionRule_FieldSubPath{
+		selector: TimeSeriesCollectionRule_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *TimeSeriesCollectionRule_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TimeSeriesCollectionRule_FieldSubPathValue)
+}
+
+func (s TimeSeriesCollectionRulePathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *TimeSeriesCollectionRule_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TimeSeriesCollectionRule_FieldSubPathArrayOfValues)
 }
 

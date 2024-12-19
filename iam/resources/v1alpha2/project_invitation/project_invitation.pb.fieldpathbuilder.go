@@ -708,6 +708,10 @@ func (ProjectInvitationPathSelectorMetadataOwnerReferences) RequiresOwnerReferen
 	return ProjectInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference{}
 }
 
+func (ProjectInvitationPathSelectorMetadataOwnerReferences) UnsetOnDelete() ProjectInvitationPathSelectorMetadataOwnerReferencesUnsetOnDelete {
+	return ProjectInvitationPathSelectorMetadataOwnerReferencesUnsetOnDelete{}
+}
+
 type ProjectInvitationPathSelectorMetadataOwnerReferencesKind struct{}
 
 func (ProjectInvitationPathSelectorMetadataOwnerReferencesKind) FieldPath() *ProjectInvitation_FieldSubPath {
@@ -807,6 +811,23 @@ func (s ProjectInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReferen
 }
 
 func (s ProjectInvitationPathSelectorMetadataOwnerReferencesRequiresOwnerReference) WithArrayOfValues(values []bool) *ProjectInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
+}
+
+type ProjectInvitationPathSelectorMetadataOwnerReferencesUnsetOnDelete struct{}
+
+func (ProjectInvitationPathSelectorMetadataOwnerReferencesUnsetOnDelete) FieldPath() *ProjectInvitation_FieldSubPath {
+	return &ProjectInvitation_FieldSubPath{
+		selector: ProjectInvitation_FieldPathSelectorMetadata,
+		subPath:  meta.NewMetaFieldPathBuilder().OwnerReferences().UnsetOnDelete().FieldPath(),
+	}
+}
+
+func (s ProjectInvitationPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithValue(value bool) *ProjectInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProjectInvitation_FieldSubPathValue)
+}
+
+func (s ProjectInvitationPathSelectorMetadataOwnerReferencesUnsetOnDelete) WithArrayOfValues(values []bool) *ProjectInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProjectInvitation_FieldSubPathArrayOfValues)
 }
 
