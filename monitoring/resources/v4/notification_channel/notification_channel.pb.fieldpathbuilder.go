@@ -953,6 +953,10 @@ func (NotificationChannelPathSelectorSpecWebhook) NotificationMask() Notificatio
 	return NotificationChannelPathSelectorSpecWebhookNotificationMask{}
 }
 
+func (NotificationChannelPathSelectorSpecWebhook) MaxMessageSizeMb() NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb {
+	return NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb{}
+}
+
 type NotificationChannelPathSelectorSpecWebhookUrl struct{}
 
 func (NotificationChannelPathSelectorSpecWebhookUrl) FieldPath() *NotificationChannel_FieldSubPath {
@@ -1047,6 +1051,23 @@ func (s NotificationChannelPathSelectorSpecWebhookNotificationMask) WithValue(va
 }
 
 func (s NotificationChannelPathSelectorSpecWebhookNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb struct{}
+
+func (NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorSpec,
+		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().MaxMessageSizeMb().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb) WithValue(value float64) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb) WithArrayOfValues(values []float64) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -1395,6 +1416,10 @@ func (NotificationChannel_SpecPathSelectorWebhook) NotificationMask() Notificati
 	return NotificationChannel_SpecPathSelectorWebhookNotificationMask{}
 }
 
+func (NotificationChannel_SpecPathSelectorWebhook) MaxMessageSizeMb() NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb {
+	return NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb{}
+}
+
 type NotificationChannel_SpecPathSelectorWebhookUrl struct{}
 
 func (NotificationChannel_SpecPathSelectorWebhookUrl) FieldPath() *NotificationChannelSpec_FieldSubPath {
@@ -1489,6 +1514,23 @@ func (s NotificationChannel_SpecPathSelectorWebhookNotificationMask) WithValue(v
 }
 
 func (s NotificationChannel_SpecPathSelectorWebhookNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannelSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb struct{}
+
+func (NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb) FieldPath() *NotificationChannelSpec_FieldSubPath {
+	return &NotificationChannelSpec_FieldSubPath{
+		selector: NotificationChannelSpec_FieldPathSelectorWebhook,
+		subPath:  NewNotificationChannelSpecWebhookFieldPathBuilder().MaxMessageSizeMb().FieldPath(),
+	}
+}
+
+func (s NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb) WithValue(value float64) *NotificationChannelSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
+}
+
+func (s NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb) WithArrayOfValues(values []float64) *NotificationChannelSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
 }
 
@@ -1691,6 +1733,9 @@ func (NotificationChannelSpecWebhookFieldPathBuilder) Headers() NotificationChan
 func (NotificationChannelSpecWebhookFieldPathBuilder) NotificationMask() NotificationChannel_Spec_WebhookPathSelectorNotificationMask {
 	return NotificationChannel_Spec_WebhookPathSelectorNotificationMask{}
 }
+func (NotificationChannelSpecWebhookFieldPathBuilder) MaxMessageSizeMb() NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb {
+	return NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb{}
+}
 
 type NotificationChannel_Spec_WebhookPathSelectorUrl struct{}
 
@@ -1792,6 +1837,20 @@ func (s NotificationChannel_Spec_WebhookPathSelectorNotificationMask) WithValue(
 }
 
 func (s NotificationChannel_Spec_WebhookPathSelectorNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues)
+}
+
+type NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb struct{}
+
+func (NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb) FieldPath() *NotificationChannelSpecWebhook_FieldTerminalPath {
+	return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb}
+}
+
+func (s NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb) WithValue(value float64) *NotificationChannelSpecWebhook_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhook_FieldTerminalPathValue)
+}
+
+func (s NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb) WithArrayOfValues(values []float64) *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues)
 }
 

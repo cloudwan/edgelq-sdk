@@ -137,6 +137,12 @@ message NotificationChannel {
       // * "events.alerts.state"
       google.protobuf.FieldMask notification_mask = 3;
 
+      // default is 0 means all the alerts in a notification are sent in single
+      // request. Breaking into multiple messages may be significantly slower
+      // than sending a single message.
+      // For example, to use 250KB chunks, set 0.25 MB
+      double max_message_size_mb = 5;
+
       // Header
       message Header {
         string key = 1;

@@ -3020,6 +3020,7 @@ type NotificationStateNotificationStateProviderData_FieldPathSelector int32
 const (
 	NotificationStateNotificationStateProviderData_FieldPathSelectorSlack     NotificationStateNotificationStateProviderData_FieldPathSelector = 0
 	NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty NotificationStateNotificationStateProviderData_FieldPathSelector = 1
+	NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook   NotificationStateNotificationStateProviderData_FieldPathSelector = 2
 )
 
 func (s NotificationStateNotificationStateProviderData_FieldPathSelector) String() string {
@@ -3028,6 +3029,8 @@ func (s NotificationStateNotificationStateProviderData_FieldPathSelector) String
 		return "slack"
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		return "pager_duty"
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		return "webhook"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", s))
 	}
@@ -3043,6 +3046,8 @@ func BuildNotificationStateNotificationStateProviderData_FieldPath(fp gotenobjec
 			return &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorSlack}, nil
 		case "pager_duty", "pagerDuty", "pager-duty":
 			return &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty}, nil
+		case "webhook":
+			return &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3057,6 +3062,12 @@ func BuildNotificationStateNotificationStateProviderData_FieldPath(fp gotenobjec
 				return nil, err
 			} else {
 				return &NotificationStateNotificationStateProviderData_FieldSubPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty, subPath: subpath}, nil
+			}
+		case "webhook":
+			if subpath, err := BuildNotificationStateNotificationStateProviderDataWebHook_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &NotificationStateNotificationStateProviderData_FieldSubPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook, subPath: subpath}, nil
 			}
 		}
 	}
@@ -3111,6 +3122,10 @@ func (fp *NotificationStateNotificationStateProviderData_FieldTerminalPath) Get(
 			if source.PagerDuty != nil {
 				values = append(values, source.PagerDuty)
 			}
+		case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+			if source.Webhook != nil {
+				values = append(values, source.Webhook)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fp.selector))
 		}
@@ -3131,6 +3146,9 @@ func (fp *NotificationStateNotificationStateProviderData_FieldTerminalPath) GetS
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		res := source.GetPagerDuty()
 		return res, res != nil
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		res := source.GetWebhook()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fp.selector))
 	}
@@ -3147,6 +3165,8 @@ func (fp *NotificationStateNotificationStateProviderData_FieldTerminalPath) GetD
 		return (*Notification_State_NotificationState_ProviderData_Slack)(nil)
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		return (*Notification_State_NotificationState_ProviderData_PagerDuty)(nil)
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		return (*Notification_State_NotificationState_ProviderData_WebHook)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fp.selector))
 	}
@@ -3159,6 +3179,8 @@ func (fp *NotificationStateNotificationStateProviderData_FieldTerminalPath) Clea
 			item.Slack = nil
 		case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 			item.PagerDuty = nil
+		case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+			item.Webhook = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fp.selector))
 		}
@@ -3184,6 +3206,8 @@ func (fp *NotificationStateNotificationStateProviderData_FieldTerminalPath) With
 		return &NotificationStateNotificationStateProviderData_FieldTerminalPathValue{NotificationStateNotificationStateProviderData_FieldTerminalPath: *fp, value: value.(*Notification_State_NotificationState_ProviderData_Slack)}
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		return &NotificationStateNotificationStateProviderData_FieldTerminalPathValue{NotificationStateNotificationStateProviderData_FieldTerminalPath: *fp, value: value.(*Notification_State_NotificationState_ProviderData_PagerDuty)}
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		return &NotificationStateNotificationStateProviderData_FieldTerminalPathValue{NotificationStateNotificationStateProviderData_FieldTerminalPath: *fp, value: value.(*Notification_State_NotificationState_ProviderData_WebHook)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fp.selector))
 	}
@@ -3200,6 +3224,8 @@ func (fp *NotificationStateNotificationStateProviderData_FieldTerminalPath) With
 		return &NotificationStateNotificationStateProviderData_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderData_FieldTerminalPath: *fp, values: values.([]*Notification_State_NotificationState_ProviderData_Slack)}
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		return &NotificationStateNotificationStateProviderData_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderData_FieldTerminalPath: *fp, values: values.([]*Notification_State_NotificationState_ProviderData_PagerDuty)}
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		return &NotificationStateNotificationStateProviderData_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderData_FieldTerminalPath: *fp, values: values.([]*Notification_State_NotificationState_ProviderData_WebHook)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fp.selector))
 	}
@@ -3239,6 +3265,10 @@ func (fps *NotificationStateNotificationStateProviderData_FieldSubPath) AsPagerD
 	res, ok := fps.subPath.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPath)
 	return res, ok
 }
+func (fps *NotificationStateNotificationStateProviderData_FieldSubPath) AsWebhookSubPath() (NotificationStateNotificationStateProviderDataWebHook_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationStateNotificationStateProviderDataWebHook_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *NotificationStateNotificationStateProviderData_FieldSubPath) String() string {
@@ -3257,6 +3287,8 @@ func (fps *NotificationStateNotificationStateProviderData_FieldSubPath) Get(sour
 		values = append(values, fps.subPath.GetRaw(source.GetSlack())...)
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		values = append(values, fps.subPath.GetRaw(source.GetPagerDuty())...)
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		values = append(values, fps.subPath.GetRaw(source.GetWebhook())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fps.selector))
 	}
@@ -3280,6 +3312,11 @@ func (fps *NotificationStateNotificationStateProviderData_FieldSubPath) GetSingl
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetPagerDuty())
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		if source.GetWebhook() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetWebhook())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fps.selector))
 	}
@@ -3301,6 +3338,8 @@ func (fps *NotificationStateNotificationStateProviderData_FieldSubPath) ClearVal
 			fps.subPath.ClearValueRaw(item.Slack)
 		case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 			fps.subPath.ClearValueRaw(item.PagerDuty)
+		case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+			fps.subPath.ClearValueRaw(item.Webhook)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fps.selector))
 		}
@@ -3393,6 +3432,10 @@ func (fpv *NotificationStateNotificationStateProviderData_FieldTerminalPathValue
 	res, ok := fpv.value.(*Notification_State_NotificationState_ProviderData_PagerDuty)
 	return res, ok
 }
+func (fpv *NotificationStateNotificationStateProviderData_FieldTerminalPathValue) AsWebhookValue() (*Notification_State_NotificationState_ProviderData_WebHook, bool) {
+	res, ok := fpv.value.(*Notification_State_NotificationState_ProviderData_WebHook)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ProviderData
 func (fpv *NotificationStateNotificationStateProviderData_FieldTerminalPathValue) SetTo(target **Notification_State_NotificationState_ProviderData) {
@@ -3404,6 +3447,8 @@ func (fpv *NotificationStateNotificationStateProviderData_FieldTerminalPathValue
 		(*target).Slack = fpv.value.(*Notification_State_NotificationState_ProviderData_Slack)
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		(*target).PagerDuty = fpv.value.(*Notification_State_NotificationState_ProviderData_PagerDuty)
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		(*target).Webhook = fpv.value.(*Notification_State_NotificationState_ProviderData_WebHook)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fpv.selector))
 	}
@@ -3420,6 +3465,8 @@ func (fpv *NotificationStateNotificationStateProviderData_FieldTerminalPathValue
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorSlack:
 		return 0, false
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
+		return 0, false
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fpv.selector))
@@ -3445,6 +3492,10 @@ func (fpvs *NotificationStateNotificationStateProviderData_FieldSubPathValue) As
 	res, ok := fpvs.subPathValue.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPathValue)
 	return res, ok
 }
+func (fpvs *NotificationStateNotificationStateProviderData_FieldSubPathValue) AsWebhookPathValue() (NotificationStateNotificationStateProviderDataWebHook_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationStateNotificationStateProviderDataWebHook_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *NotificationStateNotificationStateProviderData_FieldSubPathValue) SetTo(target **Notification_State_NotificationState_ProviderData) {
 	if *target == nil {
@@ -3455,6 +3506,8 @@ func (fpvs *NotificationStateNotificationStateProviderData_FieldSubPathValue) Se
 		fpvs.subPathValue.(NotificationStateNotificationStateProviderDataSlack_FieldPathValue).SetTo(&(*target).Slack)
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		fpvs.subPathValue.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPathValue).SetTo(&(*target).PagerDuty)
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		fpvs.subPathValue.(NotificationStateNotificationStateProviderDataWebHook_FieldPathValue).SetTo(&(*target).Webhook)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fpvs.Selector()))
 	}
@@ -3475,6 +3528,8 @@ func (fpvs *NotificationStateNotificationStateProviderData_FieldSubPathValue) Co
 		return fpvs.subPathValue.(NotificationStateNotificationStateProviderDataSlack_FieldPathValue).CompareWith(source.GetSlack())
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		return fpvs.subPathValue.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPathValue).CompareWith(source.GetPagerDuty())
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		return fpvs.subPathValue.(NotificationStateNotificationStateProviderDataWebHook_FieldPathValue).CompareWith(source.GetWebhook())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fpvs.Selector()))
 	}
@@ -3565,6 +3620,10 @@ func (fpaivs *NotificationStateNotificationStateProviderData_FieldSubPathArrayIt
 	res, ok := fpaivs.subPathItemValue.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *NotificationStateNotificationStateProviderData_FieldSubPathArrayItemValue) AsWebhookPathItemValue() (NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'ProviderData'
 func (fpaivs *NotificationStateNotificationStateProviderData_FieldSubPathArrayItemValue) ContainsValue(source *Notification_State_NotificationState_ProviderData) bool {
@@ -3573,6 +3632,8 @@ func (fpaivs *NotificationStateNotificationStateProviderData_FieldSubPathArrayIt
 		return fpaivs.subPathItemValue.(NotificationStateNotificationStateProviderDataSlack_FieldPathArrayItemValue).ContainsValue(source.GetSlack())
 	case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 		return fpaivs.subPathItemValue.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPathArrayItemValue).ContainsValue(source.GetPagerDuty())
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		return fpaivs.subPathItemValue.(NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue).ContainsValue(source.GetWebhook())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData: %d", fpaivs.Selector()))
 	}
@@ -3621,6 +3682,10 @@ func (fpaov *NotificationStateNotificationStateProviderData_FieldTerminalPathArr
 		for _, v := range fpaov.values.([]*Notification_State_NotificationState_ProviderData_PagerDuty) {
 			values = append(values, v)
 		}
+	case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+		for _, v := range fpaov.values.([]*Notification_State_NotificationState_ProviderData_WebHook) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -3630,6 +3695,10 @@ func (fpaov *NotificationStateNotificationStateProviderData_FieldTerminalPathArr
 }
 func (fpaov *NotificationStateNotificationStateProviderData_FieldTerminalPathArrayOfValues) AsPagerDutyArrayOfValues() ([]*Notification_State_NotificationState_ProviderData_PagerDuty, bool) {
 	res, ok := fpaov.values.([]*Notification_State_NotificationState_ProviderData_PagerDuty)
+	return res, ok
+}
+func (fpaov *NotificationStateNotificationStateProviderData_FieldTerminalPathArrayOfValues) AsWebhookArrayOfValues() ([]*Notification_State_NotificationState_ProviderData_WebHook, bool) {
+	res, ok := fpaov.values.([]*Notification_State_NotificationState_ProviderData_WebHook)
 	return res, ok
 }
 
@@ -3649,6 +3718,10 @@ func (fpsaov *NotificationStateNotificationStateProviderData_FieldSubPathArrayOf
 }
 func (fpsaov *NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues) AsPagerDutyPathArrayOfValues() (NotificationStateNotificationStateProviderDataPagerDuty_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues) AsWebhookPathArrayOfValues() (NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -4406,6 +4479,1058 @@ func (fpaov *NotificationStateNotificationStateProviderDataPagerDuty_FieldTermin
 	return
 }
 func (fpaov *NotificationStateNotificationStateProviderDataPagerDuty_FieldTerminalPathArrayOfValues) AsIncidentKeyArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationStateNotificationStateProviderDataWebHook_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector
+	Get(source *Notification_State_NotificationState_ProviderData_WebHook) []interface{}
+	GetSingle(source *Notification_State_NotificationState_ProviderData_WebHook) (interface{}, bool)
+	ClearValue(item *Notification_State_NotificationState_ProviderData_WebHook)
+
+	// Those methods build corresponding NotificationStateNotificationStateProviderDataWebHook_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector int32
+
+const (
+	NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks  NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector = 0
+	NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector = 1
+)
+
+func (s NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector) String() string {
+	switch s {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		return "total_chunks"
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return "failed_chunks"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", s))
+	}
+}
+
+func BuildNotificationStateNotificationStateProviderDataWebHook_FieldPath(fp gotenobject.RawFieldPath) (NotificationStateNotificationStateProviderDataWebHook_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Notification_State_NotificationState_ProviderData_WebHook")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "total_chunks", "totalChunks", "total-chunks":
+			return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks}, nil
+		case "failed_chunks", "failedChunks", "failed-chunks":
+			return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "failed_chunks", "failedChunks", "failed-chunks":
+			if subpath, err := BuildNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Notification_State_NotificationState_ProviderData_WebHook", fp)
+}
+
+func ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(rawField string) (NotificationStateNotificationStateProviderDataWebHook_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationStateNotificationStateProviderDataWebHook_FieldPath(fp)
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(rawField string) NotificationStateNotificationStateProviderDataWebHook_FieldPath {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath struct {
+	selector NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHook_FieldPath = (*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath)(nil)
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) Selector() NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Notification_State_NotificationState_ProviderData_WebHook
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) Get(source *Notification_State_NotificationState_ProviderData_WebHook) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+			values = append(values, source.TotalChunks)
+		case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+			for _, value := range source.GetFailedChunks() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// GetSingle returns value pointed by specific field of from source Notification_State_NotificationState_ProviderData_WebHook
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) GetSingle(source *Notification_State_NotificationState_ProviderData_WebHook) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		return source.GetTotalChunks(), source != nil
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		res := source.GetFailedChunks()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		return int64(0)
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return ([]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) ClearValue(item *Notification_State_NotificationState_ProviderData_WebHook) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+			item.TotalChunks = int64(0)
+		case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+			item.FailedChunks = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) WithIValue(value interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathValue {
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue{NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath: *fp, value: value.(int64)}
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue{NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath: *fp, value: value.([]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues {
+	fpaov := &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath: *fp, values: values.([]int64)}
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath: *fp, values: values.([][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue {
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue{NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath: *fp, value: value.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldSubPath struct {
+	selector NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHook_FieldPath = (*NotificationStateNotificationStateProviderDataWebHook_FieldSubPath)(nil)
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) Selector() NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector {
+	return fps.selector
+}
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) AsFailedChunksSubPath() (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source Notification_State_NotificationState_ProviderData_WebHook
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) Get(source *Notification_State_NotificationState_ProviderData_WebHook) (values []interface{}) {
+	switch fps.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		for _, item := range source.GetFailedChunks() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// GetSingle returns value of selected field from source Notification_State_NotificationState_ProviderData_WebHook
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) GetSingle(source *Notification_State_NotificationState_ProviderData_WebHook) (interface{}, bool) {
+	switch fps.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		if len(source.GetFailedChunks()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetFailedChunks()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fps.selector))
+	}
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) ClearValue(item *Notification_State_NotificationState_ProviderData_WebHook) {
+	if item != nil {
+		switch fps.selector {
+		case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+			for _, subItem := range item.FailedChunks {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) WithIValue(value interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathValue {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) WithIArrayOfValues(values interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) WithIArrayItemValue(value interface{}) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// NotificationStateNotificationStateProviderDataWebHook_FieldPathValue allows storing values for WebHook fields according to their type
+type NotificationStateNotificationStateProviderDataWebHook_FieldPathValue interface {
+	NotificationStateNotificationStateProviderDataWebHook_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Notification_State_NotificationState_ProviderData_WebHook)
+	CompareWith(*Notification_State_NotificationState_ProviderData_WebHook) (cmp int, comparable bool)
+}
+
+func ParseNotificationStateNotificationStateProviderDataWebHook_FieldPathValue(pathStr, valueStr string) (NotificationStateNotificationStateProviderDataWebHook_FieldPathValue, error) {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing WebHook field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationStateNotificationStateProviderDataWebHook_FieldPathValue), nil
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHook_FieldPathValue(pathStr, valueStr string) NotificationStateNotificationStateProviderDataWebHook_FieldPathValue {
+	fpv, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue struct {
+	NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHook_FieldPathValue = (*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'WebHook' as interface{}
+func (fpv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue) AsTotalChunksValue() (int64, bool) {
+	res, ok := fpv.value.(int64)
+	return res, ok
+}
+func (fpv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue) AsFailedChunksValue() ([]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks, bool) {
+	res, ok := fpv.value.([]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object WebHook
+func (fpv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue) SetTo(target **Notification_State_NotificationState_ProviderData_WebHook) {
+	if *target == nil {
+		*target = new(Notification_State_NotificationState_ProviderData_WebHook)
+	}
+	switch fpv.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		(*target).TotalChunks = fpv.value.(int64)
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		(*target).FailedChunks = fpv.value.([]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Notification_State_NotificationState_ProviderData_WebHook)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue' with the value under path in 'Notification_State_NotificationState_ProviderData_WebHook'.
+func (fpv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue) CompareWith(source *Notification_State_NotificationState_ProviderData_WebHook) (int, bool) {
+	switch fpv.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		leftValue := fpv.value.(int64)
+		rightValue := source.GetTotalChunks()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue struct {
+	NotificationStateNotificationStateProviderDataWebHook_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHook_FieldPathValue = (*NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue)(nil)
+
+func (fpvs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue) AsFailedChunksPathValue() (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue) SetTo(target **Notification_State_NotificationState_ProviderData_WebHook) {
+	if *target == nil {
+		*target = new(Notification_State_NotificationState_ProviderData_WebHook)
+	}
+	switch fpvs.Selector() {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Notification_State_NotificationState_ProviderData_WebHook)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue) CompareWith(source *Notification_State_NotificationState_ProviderData_WebHook) (int, bool) {
+	switch fpvs.Selector() {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue allows storing single item in Path-specific values for WebHook according to their type
+// Present only for array (repeated) types.
+type NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationStateNotificationStateProviderDataWebHook_FieldPath
+	ContainsValue(*Notification_State_NotificationState_ProviderData_WebHook) bool
+}
+
+// ParseNotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing WebHook field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue(pathStr, valueStr string) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue struct {
+	NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue = (*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Notification_State_NotificationState_ProviderData_WebHook as interface{}
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue) AsFailedChunksItemValue() (*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks, bool) {
+	res, ok := fpaiv.value.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+	return res, ok
+}
+
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue) GetSingle(source *Notification_State_NotificationState_ProviderData_WebHook) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'WebHook'
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue) ContainsValue(source *Notification_State_NotificationState_ProviderData_WebHook) bool {
+	slice := fpaiv.NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayItemValue struct {
+	NotificationStateNotificationStateProviderDataWebHook_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayItemValue) AsFailedChunksPathItemValue() (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'WebHook'
+func (fpaivs *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayItemValue) ContainsValue(source *Notification_State_NotificationState_ProviderData_WebHook) bool {
+	switch fpaivs.Selector() {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook: %d", fpaivs.Selector()))
+	}
+}
+
+// NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues allows storing slice of values for WebHook fields according to their type
+type NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationStateNotificationStateProviderDataWebHook_FieldPath
+}
+
+func ParseNotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing WebHook field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues struct {
+	NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues = (*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+		for _, v := range fpaov.values.([]int64) {
+			values = append(values, v)
+		}
+	case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+		for _, v := range fpaov.values.([][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues) AsTotalChunksArrayOfValues() ([]int64, bool) {
+	res, ok := fpaov.values.([]int64)
+	return res, ok
+}
+func (fpaov *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues) AsFailedChunksArrayOfValues() ([][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks, bool) {
+	res, ok := fpaov.values.([][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+	return res, ok
+}
+
+type NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues struct {
+	NotificationStateNotificationStateProviderDataWebHook_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues = (*NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues) AsFailedChunksPathArrayOfValues() (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelector
+	Get(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) []interface{}
+	GetSingle(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) (interface{}, bool)
+	ClearValue(item *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+
+	// Those methods build corresponding NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue
+}
+
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelector int32
+
+const (
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelector = 0
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError       NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelector = 1
+)
+
+func (s NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelector) String() string {
+	switch s {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		return "alert_offset"
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		return "error"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", s))
+	}
+}
+
+func BuildNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(fp gotenobject.RawFieldPath) (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Notification_State_NotificationState_ProviderData_WebHook_FailedChunks")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "alert_offset", "alertOffset", "alert-offset":
+			return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset}, nil
+		case "error":
+			return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Notification_State_NotificationState_ProviderData_WebHook_FailedChunks", fp)
+}
+
+func ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(rawField string) (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(fp)
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(rawField string) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath struct {
+	selector NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelector
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath = (*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath)(nil)
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) Selector() NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Notification_State_NotificationState_ProviderData_WebHook_FailedChunks
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) Get(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+			values = append(values, source.AlertOffset)
+		case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+			values = append(values, source.Error)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+// GetSingle returns value pointed by specific field of from source Notification_State_NotificationState_ProviderData_WebHook_FailedChunks
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) GetSingle(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		return source.GetAlertOffset(), source != nil
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		return source.GetError(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		return int64(0)
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) ClearValue(item *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+			item.AlertOffset = int64(0)
+		case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+			item.Error = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset ||
+		fp.selector == NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) WithIValue(value interface{}) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue {
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue{NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath: *fp, value: value.(int64)}
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue{NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues {
+	fpaov := &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath: *fp, values: values.([]int64)}
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues{NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue allows storing values for FailedChunks fields according to their type
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue interface {
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+	CompareWith(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) (cmp int, comparable bool)
+}
+
+func ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue(pathStr, valueStr string) (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue, error) {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing FailedChunks field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue), nil
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue(pathStr, valueStr string) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue {
+	fpv, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue struct {
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue = (*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'FailedChunks' as interface{}
+func (fpv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue) AsAlertOffsetValue() (int64, bool) {
+	res, ok := fpv.value.(int64)
+	return res, ok
+}
+func (fpv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue) AsErrorValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object FailedChunks
+func (fpv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue) SetTo(target **Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) {
+	if *target == nil {
+		*target = new(Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+	}
+	switch fpv.selector {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		(*target).AlertOffset = fpv.value.(int64)
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		(*target).Error = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue' with the value under path in 'Notification_State_NotificationState_ProviderData_WebHook_FailedChunks'.
+func (fpv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue) CompareWith(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) (int, bool) {
+	switch fpv.selector {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		leftValue := fpv.value.(int64)
+		rightValue := source.GetAlertOffset()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetError()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Notification_State_NotificationState_ProviderData_WebHook_FailedChunks: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+// NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue allows storing single item in Path-specific values for FailedChunks according to their type
+// Present only for array (repeated) types.
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath
+	ContainsValue(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) bool
+}
+
+// ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing FailedChunks field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue(pathStr, valueStr string) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayItemValue struct {
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue = (*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Notification_State_NotificationState_ProviderData_WebHook_FailedChunks as interface{}
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayItemValue) GetSingle(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'FailedChunks'
+func (fpaiv *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayItemValue) ContainsValue(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) bool {
+	slice := fpaiv.NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues allows storing slice of values for FailedChunks fields according to their type
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath
+}
+
+func ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing FailedChunks field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues struct {
+	NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues = (*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+		for _, v := range fpaov.values.([]int64) {
+			values = append(values, v)
+		}
+	case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues) AsAlertOffsetArrayOfValues() ([]int64, bool) {
+	res, ok := fpaov.values.([]int64)
+	return res, ok
+}
+func (fpaov *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues) AsErrorArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

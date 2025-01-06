@@ -1303,6 +1303,7 @@ func FullNotification_State_NotificationState_ProviderData_FieldMask() *Notifica
 	res := &Notification_State_NotificationState_ProviderData_FieldMask{}
 	res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorSlack})
 	res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty})
+	res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook})
 	return res
 }
 
@@ -1346,7 +1347,7 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Is
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*NotificationStateNotificationStateProviderData_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1376,14 +1377,16 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Re
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Subtract(other *Notification_State_NotificationState_ProviderData_FieldMask) *Notification_State_NotificationState_ProviderData_FieldMask {
 	result := &Notification_State_NotificationState_ProviderData_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 	otherSubMasks := map[NotificationStateNotificationStateProviderData_FieldPathSelector]gotenobject.FieldMask{
 		NotificationStateNotificationStateProviderData_FieldPathSelectorSlack:     &Notification_State_NotificationState_ProviderData_Slack_FieldMask{},
 		NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty: &Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask{},
+		NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:   &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{},
 	}
 	mySubMasks := map[NotificationStateNotificationStateProviderData_FieldPathSelector]gotenobject.FieldMask{
 		NotificationStateNotificationStateProviderData_FieldPathSelectorSlack:     &Notification_State_NotificationState_ProviderData_Slack_FieldMask{},
 		NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty: &Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask{},
+		NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:   &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1403,6 +1406,8 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Su
 						mySubMasks[NotificationStateNotificationStateProviderData_FieldPathSelectorSlack] = FullNotification_State_NotificationState_ProviderData_Slack_FieldMask()
 					case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 						mySubMasks[NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty] = FullNotification_State_NotificationState_ProviderData_PagerDuty_FieldMask()
+					case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+						mySubMasks[NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook] = FullNotification_State_NotificationState_ProviderData_WebHook_FieldMask()
 					}
 				} else if tp, ok := path.(*NotificationStateNotificationStateProviderData_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1559,6 +1564,8 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Pr
 	wholeSlackAccepted := false
 	pagerDutyMask := &Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask{}
 	wholePagerDutyAccepted := false
+	webhookMask := &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{}
+	wholeWebhookAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1570,6 +1577,9 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Pr
 			case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 				result.PagerDuty = source.PagerDuty
 				wholePagerDutyAccepted = true
+			case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+				result.Webhook = source.Webhook
+				wholeWebhookAccepted = true
 			}
 		case *NotificationStateNotificationStateProviderData_FieldSubPath:
 			switch tp.selector {
@@ -1577,6 +1587,8 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Pr
 				slackMask.AppendPath(tp.subPath.(NotificationStateNotificationStateProviderDataSlack_FieldPath))
 			case NotificationStateNotificationStateProviderData_FieldPathSelectorPagerDuty:
 				pagerDutyMask.AppendPath(tp.subPath.(NotificationStateNotificationStateProviderDataPagerDuty_FieldPath))
+			case NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook:
+				webhookMask.AppendPath(tp.subPath.(NotificationStateNotificationStateProviderDataWebHook_FieldPath))
 			}
 		}
 	}
@@ -1585,6 +1597,9 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_FieldMask) Pr
 	}
 	if wholePagerDutyAccepted == false && len(pagerDutyMask.Paths) > 0 {
 		result.PagerDuty = pagerDutyMask.Project(source.GetPagerDuty())
+	}
+	if wholeWebhookAccepted == false && len(webhookMask.Paths) > 0 {
+		result.Webhook = webhookMask.Project(source.GetWebhook())
 	}
 	return result
 }
@@ -2101,6 +2116,559 @@ func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_Fie
 }
 
 func (fieldMask *Notification_State_NotificationState_ProviderData_PagerDuty_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Notification_State_NotificationState_ProviderData_WebHook_FieldMask struct {
+	Paths []NotificationStateNotificationStateProviderDataWebHook_FieldPath
+}
+
+func FullNotification_State_NotificationState_ProviderData_WebHook_FieldMask() *Notification_State_NotificationState_ProviderData_WebHook_FieldMask {
+	res := &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks})
+	res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks})
+	return res
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) Subtract(other *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) *Notification_State_NotificationState_ProviderData_WebHook_FieldMask {
+	result := &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{}
+	removedSelectors := make([]bool, 2)
+	otherSubMasks := map[NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector]gotenobject.FieldMask{
+		NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks: &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{},
+	}
+	mySubMasks := map[NotificationStateNotificationStateProviderDataWebHook_FieldPathSelector]gotenobject.FieldMask{
+		NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks: &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath); ok {
+					switch tp.selector {
+					case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+						mySubMasks[NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks] = FullNotification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask()
+					}
+				} else if tp, ok := path.(*NotificationStateNotificationStateProviderDataWebHook_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &NotificationStateNotificationStateProviderDataWebHook_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Notification_State_NotificationState_ProviderData_WebHook_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) FilterInputFields() *Notification_State_NotificationState_ProviderData_WebHook_FieldMask {
+	result := &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationStateNotificationStateProviderDataWebHook_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Notification_State_NotificationState_ProviderData_WebHook_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Notification_State_NotificationState_ProviderData_WebHook_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) AppendPath(path NotificationStateNotificationStateProviderDataWebHook_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationStateNotificationStateProviderDataWebHook_FieldPath))
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) GetPaths() []NotificationStateNotificationStateProviderDataWebHook_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationStateNotificationStateProviderDataWebHook_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) Set(target, source *Notification_State_NotificationState_ProviderData_WebHook) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Notification_State_NotificationState_ProviderData_WebHook), source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) Project(source *Notification_State_NotificationState_ProviderData_WebHook) *Notification_State_NotificationState_ProviderData_WebHook {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Notification_State_NotificationState_ProviderData_WebHook{}
+	failedChunksMask := &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{}
+	wholeFailedChunksAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks:
+				result.TotalChunks = source.TotalChunks
+			case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+				result.FailedChunks = source.FailedChunks
+				wholeFailedChunksAccepted = true
+			}
+		case *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath:
+			switch tp.selector {
+			case NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks:
+				failedChunksMask.AppendPath(tp.subPath.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath))
+			}
+		}
+	}
+	if wholeFailedChunksAccepted == false && len(failedChunksMask.Paths) > 0 {
+		for _, sourceItem := range source.GetFailedChunks() {
+			result.FailedChunks = append(result.FailedChunks, failedChunksMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask struct {
+	Paths []NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath
+}
+
+func FullNotification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask() *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask {
+	res := &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset})
+	res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError})
+	return res
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) ProtoMessage() {
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) Subtract(other *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask {
+	result := &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) FilterInputFields() *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask {
+	result := &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) AppendPath(path NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath))
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) GetPaths() []NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) Set(target, source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks), source.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) Project(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset:
+				result.AlertOffset = source.AlertOffset
+			case NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError:
+				result.Error = source.Error
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+func (fieldMask *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

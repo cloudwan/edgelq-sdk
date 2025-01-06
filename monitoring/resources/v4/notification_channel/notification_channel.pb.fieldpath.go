@@ -3550,6 +3550,7 @@ const (
 	NotificationChannelSpecWebhook_FieldPathSelectorUrl              NotificationChannelSpecWebhook_FieldPathSelector = 0
 	NotificationChannelSpecWebhook_FieldPathSelectorHeaders          NotificationChannelSpecWebhook_FieldPathSelector = 1
 	NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask NotificationChannelSpecWebhook_FieldPathSelector = 2
+	NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb NotificationChannelSpecWebhook_FieldPathSelector = 3
 )
 
 func (s NotificationChannelSpecWebhook_FieldPathSelector) String() string {
@@ -3560,6 +3561,8 @@ func (s NotificationChannelSpecWebhook_FieldPathSelector) String() string {
 		return "headers"
 	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		return "notification_mask"
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return "max_message_size_mb"
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", s))
 	}
@@ -3577,6 +3580,8 @@ func BuildNotificationChannelSpecWebhook_FieldPath(fp gotenobject.RawFieldPath) 
 			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders}, nil
 		case "notification_mask", "notificationMask", "notification-mask":
 			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask}, nil
+		case "max_message_size_mb", "maxMessageSizeMb", "max-message-size-mb":
+			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -3641,6 +3646,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) Get(source *Notifica
 			if source.NotificationMask != nil {
 				values = append(values, source.NotificationMask)
 			}
+		case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+			values = append(values, source.MaxMessageSizeMb)
 		default:
 			panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 		}
@@ -3663,6 +3670,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetSingle(source *No
 	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		res := source.GetNotificationMask()
 		return res, res != nil
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return source.GetMaxMessageSizeMb(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3681,6 +3690,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetDefault() interfa
 		return ([]*NotificationChannel_Spec_Webhook_Header)(nil)
 	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		return (*fieldmaskpb.FieldMask)(nil)
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return float64(0)
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3695,6 +3706,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) ClearValue(item *Not
 			item.Headers = nil
 		case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 			item.NotificationMask = nil
+		case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+			item.MaxMessageSizeMb = float64(0)
 		default:
 			panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 		}
@@ -3708,7 +3721,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) ClearValueRaw(item p
 // IsLeaf - whether field path is holds simple value
 func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorUrl ||
-		fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask
+		fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask ||
+		fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb
 }
 
 func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -3723,6 +3737,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithIValue(value int
 		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.([]*NotificationChannel_Spec_Webhook_Header)}
 	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.(*fieldmaskpb.FieldMask)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.(float64)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3741,6 +3757,8 @@ func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithIArrayOfValues(v
 		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([][]*NotificationChannel_Spec_Webhook_Header)}
 	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([]*fieldmaskpb.FieldMask)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([]float64)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fp.selector))
 	}
@@ -3931,6 +3949,10 @@ func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) AsNotification
 	res, ok := fpv.value.(*fieldmaskpb.FieldMask)
 	return res, ok
 }
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) AsMaxMessageSizeMbValue() (float64, bool) {
+	res, ok := fpv.value.(float64)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Webhook
 func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) SetTo(target **NotificationChannel_Spec_Webhook) {
@@ -3944,6 +3966,8 @@ func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) SetTo(target *
 		(*target).Headers = fpv.value.([]*NotificationChannel_Spec_Webhook_Header)
 	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		(*target).NotificationMask = fpv.value.(*fieldmaskpb.FieldMask)
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		(*target).MaxMessageSizeMb = fpv.value.(float64)
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fpv.selector))
 	}
@@ -3971,6 +3995,16 @@ func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) CompareWith(so
 		return 0, false
 	case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 		return 0, false
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		leftValue := fpv.value.(float64)
+		rightValue := source.GetMaxMessageSizeMb()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationChannel_Spec_Webhook: %d", fpv.selector))
 	}
@@ -4165,6 +4199,10 @@ func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) GetR
 		for _, v := range fpaov.values.([]*fieldmaskpb.FieldMask) {
 			values = append(values, v)
 		}
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		for _, v := range fpaov.values.([]float64) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -4178,6 +4216,10 @@ func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsHe
 }
 func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsNotificationMaskArrayOfValues() ([]*fieldmaskpb.FieldMask, bool) {
 	res, ok := fpaov.values.([]*fieldmaskpb.FieldMask)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsMaxMessageSizeMbArrayOfValues() ([]float64, bool) {
+	res, ok := fpaov.values.([]float64)
 	return res, ok
 }
 

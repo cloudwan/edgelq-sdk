@@ -563,6 +563,9 @@ func (o *NotificationChannel_Spec_Webhook) MakeDiffFieldMask(other *Notification
 	if !proto.Equal(o.GetNotificationMask(), other.GetNotificationMask()) {
 		res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask})
 	}
+	if o.GetMaxMessageSizeMb() != other.GetMaxMessageSizeMb() {
+		res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb})
+	}
 	return res
 }
 
@@ -581,6 +584,7 @@ func (o *NotificationChannel_Spec_Webhook) Clone() *NotificationChannel_Spec_Web
 		result.Headers[i] = sourceValue.Clone()
 	}
 	result.NotificationMask = proto.Clone(o.NotificationMask).(*fieldmaskpb.FieldMask)
+	result.MaxMessageSizeMb = o.MaxMessageSizeMb
 	return result
 }
 
@@ -614,6 +618,7 @@ func (o *NotificationChannel_Spec_Webhook) Merge(source *NotificationChannel_Spe
 		}
 		proto.Merge(o.NotificationMask, source.GetNotificationMask())
 	}
+	o.MaxMessageSizeMb = source.GetMaxMessageSizeMb()
 }
 
 func (o *NotificationChannel_Spec_Webhook) MergeRaw(source gotenobject.GotenObjectExt) {

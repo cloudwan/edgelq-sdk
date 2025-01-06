@@ -3242,6 +3242,10 @@ func (b *filterCndBuilderStateNotificationStateProviderData) PagerDuty() *filter
 	return &filterCndBuilderStateNotificationStateProviderDataPagerDuty{builder: b.builder}
 }
 
+func (b *filterCndBuilderStateNotificationStateProviderData) Webhook() *filterCndBuilderStateNotificationStateProviderDataWebhook {
+	return &filterCndBuilderStateNotificationStateProviderDataWebhook{builder: b.builder}
+}
+
 type filterCndBuilderStateNotificationStateProviderDataSlack struct {
 	builder *FilterBuilder
 }
@@ -3483,6 +3487,351 @@ func (b *filterCndBuilderStateNotificationStateProviderDataPagerDutyIncidentKey)
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().PagerDuty().IncidentKey().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateNotificationStateProviderDataWebhook struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) Eq(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) Neq(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) Gt(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) Gte(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) Lt(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) Lte(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) In(values []*Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) NotIn(values []*Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) compare(op gotenfilter.CompareOperator, value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) TotalChunks() *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks {
+	return &filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhook) FailedChunks() *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks {
+	return &filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks{builder: b.builder}
+}
+
+type filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().TotalChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().TotalChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().TotalChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().TotalChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookTotalChunks) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().TotalChunks().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Eq(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Neq(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Gt(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Gte(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Lt(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Lte(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) In(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) NotIn(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Contains(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+		Value:     NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) ContainsAnyOf(values []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) ContainsAll(values []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) compare(op gotenfilter.CompareOperator, value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) AlertOffset() *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset {
+	return &filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunks) Error() *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError {
+	return &filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError{builder: b.builder}
+}
+
+type filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateNotificationStateProviderDataWebhookFailedChunksError) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().NotificationState().ProviderData().Webhook().FailedChunks().Error().WithValue(value),
 	})
 }
 
@@ -4205,6 +4554,10 @@ func (b *filterCndBuilderStateResolutionNotificationStateProviderData) PagerDuty
 	return &filterCndBuilderStateResolutionNotificationStateProviderDataPagerDuty{builder: b.builder}
 }
 
+func (b *filterCndBuilderStateResolutionNotificationStateProviderData) Webhook() *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataWebhook{builder: b.builder}
+}
+
 type filterCndBuilderStateResolutionNotificationStateProviderDataSlack struct {
 	builder *FilterBuilder
 }
@@ -4446,6 +4799,351 @@ func (b *filterCndBuilderStateResolutionNotificationStateProviderDataPagerDutyIn
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().PagerDuty().IncidentKey().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataWebhook struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) Eq(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) Neq(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) Gt(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) Gte(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) Lt(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) Lte(value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) In(values []*Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) NotIn(values []*Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) compare(op gotenfilter.CompareOperator, value *Notification_State_NotificationState_ProviderData_WebHook) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) TotalChunks() *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhook) FailedChunks() *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks{builder: b.builder}
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().TotalChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().TotalChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().TotalChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().TotalChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookTotalChunks) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().TotalChunks().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Eq(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Neq(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Gt(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Gte(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Lt(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Lte(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) In(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) NotIn(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Contains(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+		Value:     NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) ContainsAnyOf(values []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) ContainsAll(values []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	pathSelector := NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks()
+	itemValues := make([]Notification_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) compare(op gotenfilter.CompareOperator, value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) AlertOffset() *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset{builder: b.builder}
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunks) Error() *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError {
+	return &filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError{builder: b.builder}
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) Eq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) Neq(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) Gt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) Gte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) Lt(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) Lte(value int64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) In(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) NotIn(values []int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) compare(op gotenfilter.CompareOperator, value int64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().WithValue(value),
+	})
+}
+
+type filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Notification_FieldPathArrayOfValues: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().Error().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStateResolutionNotificationStateProviderDataWebhookFailedChunksError) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Notification_FieldPathValue: NewNotificationFieldPathBuilder().State().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().Error().WithValue(value),
 	})
 }
 

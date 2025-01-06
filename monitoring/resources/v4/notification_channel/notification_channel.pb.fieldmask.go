@@ -1786,6 +1786,7 @@ func FullNotificationChannel_Spec_Webhook_FieldMask() *NotificationChannel_Spec_
 	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorUrl})
 	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders})
 	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask})
+	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb})
 	return res
 }
 
@@ -1829,7 +1830,7 @@ func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*NotificationChannelSpecWebhook_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -1859,7 +1860,7 @@ func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) Reset() {
 
 func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) Subtract(other *NotificationChannel_Spec_Webhook_FieldMask) *NotificationChannel_Spec_Webhook_FieldMask {
 	result := &NotificationChannel_Spec_Webhook_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[NotificationChannelSpecWebhook_FieldPathSelector]gotenobject.FieldMask{
 		NotificationChannelSpecWebhook_FieldPathSelectorHeaders: &NotificationChannel_Spec_Webhook_Header_FieldMask{},
 	}
@@ -2048,6 +2049,8 @@ func (fieldMask *NotificationChannel_Spec_Webhook_FieldMask) Project(source *Not
 				wholeHeadersAccepted = true
 			case NotificationChannelSpecWebhook_FieldPathSelectorNotificationMask:
 				result.NotificationMask = source.NotificationMask
+			case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+				result.MaxMessageSizeMb = source.MaxMessageSizeMb
 			}
 		case *NotificationChannelSpecWebhook_FieldSubPath:
 			switch tp.selector {

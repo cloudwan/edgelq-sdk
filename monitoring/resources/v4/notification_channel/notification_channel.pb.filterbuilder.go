@@ -2984,6 +2984,10 @@ func (b *filterCndBuilderSpecWebhook) NotificationMask() *filterCndBuilderSpecWe
 	return &filterCndBuilderSpecWebhookNotificationMask{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecWebhook) MaxMessageSizeMb() *filterCndBuilderSpecWebhookMaxMessageSizeMb {
+	return &filterCndBuilderSpecWebhookMaxMessageSizeMb{builder: b.builder}
+}
+
 type filterCndBuilderSpecWebhookUrl struct {
 	builder *FilterBuilder
 }
@@ -3318,6 +3322,65 @@ func (b *filterCndBuilderSpecWebhookNotificationMask) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Webhook().NotificationMask().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecWebhookMaxMessageSizeMb struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) Eq(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) Neq(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) Gt(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) Gte(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) Lt(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) Lte(value float64) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) In(values []float64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().MaxMessageSizeMb().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) NotIn(values []float64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().MaxMessageSizeMb().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().Webhook().MaxMessageSizeMb().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().Webhook().MaxMessageSizeMb().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecWebhookMaxMessageSizeMb) compare(op gotenfilter.CompareOperator, value float64) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                           op,
+		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Webhook().MaxMessageSizeMb().WithValue(value),
 	})
 }
 

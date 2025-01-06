@@ -1050,6 +1050,10 @@ func (NotificationPathSelectorStateNotificationStateProviderData) PagerDuty() No
 	return NotificationPathSelectorStateNotificationStateProviderDataPagerDuty{}
 }
 
+func (NotificationPathSelectorStateNotificationStateProviderData) Webhook() NotificationPathSelectorStateNotificationStateProviderDataWebhook {
+	return NotificationPathSelectorStateNotificationStateProviderDataWebhook{}
+}
+
 type NotificationPathSelectorStateNotificationStateProviderDataSlack struct{}
 
 func (NotificationPathSelectorStateNotificationStateProviderDataSlack) FieldPath() *Notification_FieldSubPath {
@@ -1123,6 +1127,111 @@ func (s NotificationPathSelectorStateNotificationStateProviderDataPagerDutyIncid
 }
 
 func (s NotificationPathSelectorStateNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationPathSelectorStateNotificationStateProviderDataWebhook struct{}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhook) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().NotificationState().ProviderData().Webhook().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhook) WithValue(value *Notification_State_NotificationState_ProviderData_WebHook) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhook) WithArrayOfValues(values []*Notification_State_NotificationState_ProviderData_WebHook) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhook) TotalChunks() NotificationPathSelectorStateNotificationStateProviderDataWebhookTotalChunks {
+	return NotificationPathSelectorStateNotificationStateProviderDataWebhookTotalChunks{}
+}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhook) FailedChunks() NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks {
+	return NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks{}
+}
+
+type NotificationPathSelectorStateNotificationStateProviderDataWebhookTotalChunks struct{}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhookTotalChunks) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().NotificationState().ProviderData().Webhook().TotalChunks().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookTotalChunks) WithValue(value int64) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookTotalChunks) WithArrayOfValues(values []int64) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks struct{}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().NotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks) WithValue(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks) WithArrayOfValues(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks) WithItemValue(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Notification_FieldSubPathArrayItemValue)
+}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks) AlertOffset() NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksAlertOffset {
+	return NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksAlertOffset{}
+}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunks) Error() NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksError {
+	return NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksError{}
+}
+
+type NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksAlertOffset struct{}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().NotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithValue(value int64) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithArrayOfValues(values []int64) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksError struct{}
+
+func (NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksError) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().NotificationState().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksError) WithValue(value string) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateNotificationStateProviderDataWebhookFailedChunksError) WithArrayOfValues(values []string) *Notification_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
 }
 
@@ -1353,6 +1462,10 @@ func (NotificationPathSelectorStateResolutionNotificationStateProviderData) Page
 	return NotificationPathSelectorStateResolutionNotificationStateProviderDataPagerDuty{}
 }
 
+func (NotificationPathSelectorStateResolutionNotificationStateProviderData) Webhook() NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook {
+	return NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook{}
+}
+
 type NotificationPathSelectorStateResolutionNotificationStateProviderDataSlack struct{}
 
 func (NotificationPathSelectorStateResolutionNotificationStateProviderDataSlack) FieldPath() *Notification_FieldSubPath {
@@ -1426,6 +1539,111 @@ func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataPage
 }
 
 func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook struct{}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().ResolutionNotificationState().ProviderData().Webhook().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook) WithValue(value *Notification_State_NotificationState_ProviderData_WebHook) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook) WithArrayOfValues(values []*Notification_State_NotificationState_ProviderData_WebHook) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook) TotalChunks() NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookTotalChunks {
+	return NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookTotalChunks{}
+}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhook) FailedChunks() NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks {
+	return NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks{}
+}
+
+type NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookTotalChunks struct{}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookTotalChunks) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().ResolutionNotificationState().ProviderData().Webhook().TotalChunks().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookTotalChunks) WithValue(value int64) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookTotalChunks) WithArrayOfValues(values []int64) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks struct{}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks) WithValue(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks) WithArrayOfValues(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks) WithItemValue(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Notification_FieldSubPathArrayItemValue)
+}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks) AlertOffset() NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset {
+	return NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset{}
+}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunks) Error() NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksError {
+	return NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksError{}
+}
+
+type NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset struct{}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithValue(value int64) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithArrayOfValues(values []int64) *Notification_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
+}
+
+type NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksError struct{}
+
+func (NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksError) FieldPath() *Notification_FieldSubPath {
+	return &Notification_FieldSubPath{
+		selector: Notification_FieldPathSelectorState,
+		subPath:  NewNotificationStateFieldPathBuilder().ResolutionNotificationState().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	}
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksError) WithValue(value string) *Notification_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Notification_FieldSubPathValue)
+}
+
+func (s NotificationPathSelectorStateResolutionNotificationStateProviderDataWebhookFailedChunksError) WithArrayOfValues(values []string) *Notification_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Notification_FieldSubPathArrayOfValues)
 }
 
@@ -1677,6 +1895,10 @@ func (Notification_StatePathSelectorNotificationStateProviderData) PagerDuty() N
 	return Notification_StatePathSelectorNotificationStateProviderDataPagerDuty{}
 }
 
+func (Notification_StatePathSelectorNotificationStateProviderData) Webhook() Notification_StatePathSelectorNotificationStateProviderDataWebhook {
+	return Notification_StatePathSelectorNotificationStateProviderDataWebhook{}
+}
+
 type Notification_StatePathSelectorNotificationStateProviderDataSlack struct{}
 
 func (Notification_StatePathSelectorNotificationStateProviderDataSlack) FieldPath() *NotificationState_FieldSubPath {
@@ -1750,6 +1972,111 @@ func (s Notification_StatePathSelectorNotificationStateProviderDataPagerDutyInci
 }
 
 func (s Notification_StatePathSelectorNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_StatePathSelectorNotificationStateProviderDataWebhook struct{}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhook) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhook) WithValue(value *Notification_State_NotificationState_ProviderData_WebHook) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhook) WithArrayOfValues(values []*Notification_State_NotificationState_ProviderData_WebHook) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhook) TotalChunks() Notification_StatePathSelectorNotificationStateProviderDataWebhookTotalChunks {
+	return Notification_StatePathSelectorNotificationStateProviderDataWebhookTotalChunks{}
+}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhook) FailedChunks() Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks {
+	return Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks{}
+}
+
+type Notification_StatePathSelectorNotificationStateProviderDataWebhookTotalChunks struct{}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhookTotalChunks) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().TotalChunks().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookTotalChunks) WithValue(value int64) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookTotalChunks) WithArrayOfValues(values []int64) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks struct{}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FailedChunks().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks) WithValue(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks) WithArrayOfValues(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks) WithItemValue(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationState_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationState_FieldSubPathArrayItemValue)
+}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks) AlertOffset() Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksAlertOffset {
+	return Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksAlertOffset{}
+}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunks) Error() Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksError {
+	return Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksError{}
+}
+
+type Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksAlertOffset struct{}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksAlertOffset) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithValue(value int64) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithArrayOfValues(values []int64) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksError struct{}
+
+func (Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksError) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksError) WithValue(value string) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorNotificationStateProviderDataWebhookFailedChunksError) WithArrayOfValues(values []string) *NotificationState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
 }
 
@@ -1999,6 +2326,10 @@ func (Notification_StatePathSelectorResolutionNotificationStateProviderData) Pag
 	return Notification_StatePathSelectorResolutionNotificationStateProviderDataPagerDuty{}
 }
 
+func (Notification_StatePathSelectorResolutionNotificationStateProviderData) Webhook() Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook {
+	return Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook{}
+}
+
 type Notification_StatePathSelectorResolutionNotificationStateProviderDataSlack struct{}
 
 func (Notification_StatePathSelectorResolutionNotificationStateProviderDataSlack) FieldPath() *NotificationState_FieldSubPath {
@@ -2072,6 +2403,111 @@ func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataPag
 }
 
 func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataPagerDutyIncidentKey) WithArrayOfValues(values []string) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook struct{}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorResolutionNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook) WithValue(value *Notification_State_NotificationState_ProviderData_WebHook) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook) WithArrayOfValues(values []*Notification_State_NotificationState_ProviderData_WebHook) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook) TotalChunks() Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookTotalChunks {
+	return Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookTotalChunks{}
+}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhook) FailedChunks() Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks {
+	return Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks{}
+}
+
+type Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookTotalChunks struct{}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookTotalChunks) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorResolutionNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().TotalChunks().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookTotalChunks) WithValue(value int64) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookTotalChunks) WithArrayOfValues(values []int64) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks struct{}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorResolutionNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FailedChunks().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks) WithValue(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks) WithArrayOfValues(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks) WithItemValue(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationState_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationState_FieldSubPathArrayItemValue)
+}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks) AlertOffset() Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset {
+	return Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset{}
+}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunks) Error() Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksError {
+	return Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksError{}
+}
+
+type Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset struct{}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorResolutionNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithValue(value int64) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksAlertOffset) WithArrayOfValues(values []int64) *NotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksError struct{}
+
+func (Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksError) FieldPath() *NotificationState_FieldSubPath {
+	return &NotificationState_FieldSubPath{
+		selector: NotificationState_FieldPathSelectorResolutionNotificationState,
+		subPath:  NewNotificationStateNotificationStateFieldPathBuilder().ProviderData().Webhook().FailedChunks().Error().FieldPath(),
+	}
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksError) WithValue(value string) *NotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationState_FieldSubPathValue)
+}
+
+func (s Notification_StatePathSelectorResolutionNotificationStateProviderDataWebhookFailedChunksError) WithArrayOfValues(values []string) *NotificationState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationState_FieldSubPathArrayOfValues)
 }
 
@@ -2207,6 +2643,10 @@ func (Notification_State_NotificationStatePathSelectorProviderData) PagerDuty() 
 	return Notification_State_NotificationStatePathSelectorProviderDataPagerDuty{}
 }
 
+func (Notification_State_NotificationStatePathSelectorProviderData) Webhook() Notification_State_NotificationStatePathSelectorProviderDataWebhook {
+	return Notification_State_NotificationStatePathSelectorProviderDataWebhook{}
+}
+
 type Notification_State_NotificationStatePathSelectorProviderDataSlack struct{}
 
 func (Notification_State_NotificationStatePathSelectorProviderDataSlack) FieldPath() *NotificationStateNotificationState_FieldSubPath {
@@ -2283,6 +2723,111 @@ func (s Notification_State_NotificationStatePathSelectorProviderDataPagerDutyInc
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationState_FieldSubPathArrayOfValues)
 }
 
+type Notification_State_NotificationStatePathSelectorProviderDataWebhook struct{}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhook) FieldPath() *NotificationStateNotificationState_FieldSubPath {
+	return &NotificationStateNotificationState_FieldSubPath{
+		selector: NotificationStateNotificationState_FieldPathSelectorProviderData,
+		subPath:  NewNotificationStateNotificationStateProviderDataFieldPathBuilder().Webhook().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhook) WithValue(value *Notification_State_NotificationState_ProviderData_WebHook) *NotificationStateNotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationState_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhook) WithArrayOfValues(values []*Notification_State_NotificationState_ProviderData_WebHook) *NotificationStateNotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationState_FieldSubPathArrayOfValues)
+}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhook) TotalChunks() Notification_State_NotificationStatePathSelectorProviderDataWebhookTotalChunks {
+	return Notification_State_NotificationStatePathSelectorProviderDataWebhookTotalChunks{}
+}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhook) FailedChunks() Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks {
+	return Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks{}
+}
+
+type Notification_State_NotificationStatePathSelectorProviderDataWebhookTotalChunks struct{}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhookTotalChunks) FieldPath() *NotificationStateNotificationState_FieldSubPath {
+	return &NotificationStateNotificationState_FieldSubPath{
+		selector: NotificationStateNotificationState_FieldPathSelectorProviderData,
+		subPath:  NewNotificationStateNotificationStateProviderDataFieldPathBuilder().Webhook().TotalChunks().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookTotalChunks) WithValue(value int64) *NotificationStateNotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationState_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookTotalChunks) WithArrayOfValues(values []int64) *NotificationStateNotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks struct{}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks) FieldPath() *NotificationStateNotificationState_FieldSubPath {
+	return &NotificationStateNotificationState_FieldSubPath{
+		selector: NotificationStateNotificationState_FieldPathSelectorProviderData,
+		subPath:  NewNotificationStateNotificationStateProviderDataFieldPathBuilder().Webhook().FailedChunks().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks) WithValue(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationState_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks) WithArrayOfValues(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationState_FieldSubPathArrayOfValues)
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks) WithItemValue(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationState_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationStateNotificationState_FieldSubPathArrayItemValue)
+}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks) AlertOffset() Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksAlertOffset {
+	return Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksAlertOffset{}
+}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunks) Error() Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksError {
+	return Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksError{}
+}
+
+type Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksAlertOffset struct{}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksAlertOffset) FieldPath() *NotificationStateNotificationState_FieldSubPath {
+	return &NotificationStateNotificationState_FieldSubPath{
+		selector: NotificationStateNotificationState_FieldPathSelectorProviderData,
+		subPath:  NewNotificationStateNotificationStateProviderDataFieldPathBuilder().Webhook().FailedChunks().AlertOffset().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksAlertOffset) WithValue(value int64) *NotificationStateNotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationState_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksAlertOffset) WithArrayOfValues(values []int64) *NotificationStateNotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationState_FieldSubPathArrayOfValues)
+}
+
+type Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksError struct{}
+
+func (Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksError) FieldPath() *NotificationStateNotificationState_FieldSubPath {
+	return &NotificationStateNotificationState_FieldSubPath{
+		selector: NotificationStateNotificationState_FieldPathSelectorProviderData,
+		subPath:  NewNotificationStateNotificationStateProviderDataFieldPathBuilder().Webhook().FailedChunks().Error().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksError) WithValue(value string) *NotificationStateNotificationState_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationState_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationStatePathSelectorProviderDataWebhookFailedChunksError) WithArrayOfValues(values []string) *NotificationStateNotificationState_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationState_FieldSubPathArrayOfValues)
+}
+
 type Notification_State_NotificationStatePathSelectorNotifyAttempts struct{}
 
 func (Notification_State_NotificationStatePathSelectorNotifyAttempts) FieldPath() *NotificationStateNotificationState_FieldTerminalPath {
@@ -2307,6 +2852,9 @@ func (NotificationStateNotificationStateProviderDataFieldPathBuilder) Slack() No
 }
 func (NotificationStateNotificationStateProviderDataFieldPathBuilder) PagerDuty() Notification_State_NotificationState_ProviderDataPathSelectorPagerDuty {
 	return Notification_State_NotificationState_ProviderDataPathSelectorPagerDuty{}
+}
+func (NotificationStateNotificationStateProviderDataFieldPathBuilder) Webhook() Notification_State_NotificationState_ProviderDataPathSelectorWebhook {
+	return Notification_State_NotificationState_ProviderDataPathSelectorWebhook{}
 }
 
 type Notification_State_NotificationState_ProviderDataPathSelectorSlack struct{}
@@ -2411,6 +2959,124 @@ func (s Notification_State_NotificationState_ProviderDataPathSelectorPagerDutyIn
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues)
 }
 
+type Notification_State_NotificationState_ProviderDataPathSelectorWebhook struct{}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhook) FieldPath() *NotificationStateNotificationStateProviderData_FieldTerminalPath {
+	return &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhook) WithValue(value *Notification_State_NotificationState_ProviderData_WebHook) *NotificationStateNotificationStateProviderData_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderData_FieldTerminalPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhook) WithArrayOfValues(values []*Notification_State_NotificationState_ProviderData_WebHook) *NotificationStateNotificationStateProviderData_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderData_FieldTerminalPathArrayOfValues)
+}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhook) WithSubPath(subPath NotificationStateNotificationStateProviderDataWebHook_FieldPath) *NotificationStateNotificationStateProviderData_FieldSubPath {
+	return &NotificationStateNotificationStateProviderData_FieldSubPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook, subPath: subPath}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhook) WithSubValue(subPathValue NotificationStateNotificationStateProviderDataWebHook_FieldPathValue) *NotificationStateNotificationStateProviderData_FieldSubPathValue {
+	return &NotificationStateNotificationStateProviderData_FieldSubPathValue{NotificationStateNotificationStateProviderData_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhook) WithSubArrayOfValues(subPathArrayOfValues NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayOfValues) *NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues {
+	return &NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues{NotificationStateNotificationStateProviderData_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhook) WithSubArrayItemValue(subPathArrayItemValue NotificationStateNotificationStateProviderDataWebHook_FieldPathArrayItemValue) *NotificationStateNotificationStateProviderData_FieldSubPathArrayItemValue {
+	return &NotificationStateNotificationStateProviderData_FieldSubPathArrayItemValue{NotificationStateNotificationStateProviderData_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhook) TotalChunks() Notification_State_NotificationState_ProviderDataPathSelectorWebhookTotalChunks {
+	return Notification_State_NotificationState_ProviderDataPathSelectorWebhookTotalChunks{}
+}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhook) FailedChunks() Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks {
+	return Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks{}
+}
+
+type Notification_State_NotificationState_ProviderDataPathSelectorWebhookTotalChunks struct{}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhookTotalChunks) FieldPath() *NotificationStateNotificationStateProviderData_FieldSubPath {
+	return &NotificationStateNotificationStateProviderData_FieldSubPath{
+		selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook,
+		subPath:  NewNotificationStateNotificationStateProviderDataWebHookFieldPathBuilder().TotalChunks().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookTotalChunks) WithValue(value int64) *NotificationStateNotificationStateProviderData_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderData_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookTotalChunks) WithArrayOfValues(values []int64) *NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues)
+}
+
+type Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks struct{}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks) FieldPath() *NotificationStateNotificationStateProviderData_FieldSubPath {
+	return &NotificationStateNotificationStateProviderData_FieldSubPath{
+		selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook,
+		subPath:  NewNotificationStateNotificationStateProviderDataWebHookFieldPathBuilder().FailedChunks().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks) WithValue(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationStateProviderData_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderData_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks) WithArrayOfValues(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues)
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks) WithItemValue(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationStateProviderData_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationStateNotificationStateProviderData_FieldSubPathArrayItemValue)
+}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks) AlertOffset() Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksAlertOffset {
+	return Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksAlertOffset{}
+}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunks) Error() Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksError {
+	return Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksError{}
+}
+
+type Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksAlertOffset struct{}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksAlertOffset) FieldPath() *NotificationStateNotificationStateProviderData_FieldSubPath {
+	return &NotificationStateNotificationStateProviderData_FieldSubPath{
+		selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook,
+		subPath:  NewNotificationStateNotificationStateProviderDataWebHookFieldPathBuilder().FailedChunks().AlertOffset().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksAlertOffset) WithValue(value int64) *NotificationStateNotificationStateProviderData_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderData_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksAlertOffset) WithArrayOfValues(values []int64) *NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues)
+}
+
+type Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksError struct{}
+
+func (Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksError) FieldPath() *NotificationStateNotificationStateProviderData_FieldSubPath {
+	return &NotificationStateNotificationStateProviderData_FieldSubPath{
+		selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook,
+		subPath:  NewNotificationStateNotificationStateProviderDataWebHookFieldPathBuilder().FailedChunks().Error().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksError) WithValue(value string) *NotificationStateNotificationStateProviderData_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderData_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderDataPathSelectorWebhookFailedChunksError) WithArrayOfValues(values []string) *NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderData_FieldSubPathArrayOfValues)
+}
+
 type NotificationStateNotificationStateProviderDataSlackFieldPathBuilder struct{}
 
 func NewNotificationStateNotificationStateProviderDataSlackFieldPathBuilder() NotificationStateNotificationStateProviderDataSlackFieldPathBuilder {
@@ -2455,4 +3121,145 @@ func (s Notification_State_NotificationState_ProviderData_PagerDutyPathSelectorI
 
 func (s Notification_State_NotificationState_ProviderData_PagerDutyPathSelectorIncidentKey) WithArrayOfValues(values []string) *NotificationStateNotificationStateProviderDataPagerDuty_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderDataPagerDuty_FieldTerminalPathArrayOfValues)
+}
+
+type NotificationStateNotificationStateProviderDataWebHookFieldPathBuilder struct{}
+
+func NewNotificationStateNotificationStateProviderDataWebHookFieldPathBuilder() NotificationStateNotificationStateProviderDataWebHookFieldPathBuilder {
+	return NotificationStateNotificationStateProviderDataWebHookFieldPathBuilder{}
+}
+func (NotificationStateNotificationStateProviderDataWebHookFieldPathBuilder) TotalChunks() Notification_State_NotificationState_ProviderData_WebHookPathSelectorTotalChunks {
+	return Notification_State_NotificationState_ProviderData_WebHookPathSelectorTotalChunks{}
+}
+func (NotificationStateNotificationStateProviderDataWebHookFieldPathBuilder) FailedChunks() Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks {
+	return Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks{}
+}
+
+type Notification_State_NotificationState_ProviderData_WebHookPathSelectorTotalChunks struct{}
+
+func (Notification_State_NotificationState_ProviderData_WebHookPathSelectorTotalChunks) FieldPath() *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorTotalChunks) WithValue(value int64) *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorTotalChunks) WithArrayOfValues(values []int64) *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues)
+}
+
+type Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks struct{}
+
+func (Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) FieldPath() *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) WithValue(value []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) WithArrayOfValues(values [][]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayOfValues)
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) WithItemValue(value *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPathArrayItemValue)
+}
+func (Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) WithSubPath(subPath NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPath) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks, subPath: subPath}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) WithSubValue(subPathValue NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathValue) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue{NotificationStateNotificationStateProviderDataWebHook_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) WithSubArrayOfValues(subPathArrayOfValues NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayOfValues) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues{NotificationStateNotificationStateProviderDataWebHook_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) WithSubArrayItemValue(subPathArrayItemValue NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathArrayItemValue) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayItemValue {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayItemValue{NotificationStateNotificationStateProviderDataWebHook_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) AlertOffset() Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksAlertOffset {
+	return Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksAlertOffset{}
+}
+
+func (Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunks) Error() Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksError {
+	return Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksError{}
+}
+
+type Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksAlertOffset struct{}
+
+func (Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksAlertOffset) FieldPath() *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPath{
+		selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks,
+		subPath:  NewNotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder().AlertOffset().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksAlertOffset) WithValue(value int64) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksAlertOffset) WithArrayOfValues(values []int64) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues)
+}
+
+type Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksError struct{}
+
+func (Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksError) FieldPath() *NotificationStateNotificationStateProviderDataWebHook_FieldSubPath {
+	return &NotificationStateNotificationStateProviderDataWebHook_FieldSubPath{
+		selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks,
+		subPath:  NewNotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder().Error().FieldPath(),
+	}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksError) WithValue(value string) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderDataWebHook_FieldSubPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHookPathSelectorFailedChunksError) WithArrayOfValues(values []string) *NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderDataWebHook_FieldSubPathArrayOfValues)
+}
+
+type NotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder struct{}
+
+func NewNotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder() NotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder {
+	return NotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder{}
+}
+func (NotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder) AlertOffset() Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorAlertOffset {
+	return Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorAlertOffset{}
+}
+func (NotificationStateNotificationStateProviderDataWebHookFailedChunksFieldPathBuilder) Error() Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorError {
+	return Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorError{}
+}
+
+type Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorAlertOffset struct{}
+
+func (Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorAlertOffset) FieldPath() *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath {
+	return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorAlertOffset) WithValue(value int64) *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorAlertOffset) WithArrayOfValues(values []int64) *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues)
+}
+
+type Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorError struct{}
+
+func (Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorError) FieldPath() *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath {
+	return &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError}
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorError) WithValue(value string) *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathValue)
+}
+
+func (s Notification_State_NotificationState_ProviderData_WebHook_FailedChunksPathSelectorError) WithArrayOfValues(values []string) *NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPathArrayOfValues)
 }

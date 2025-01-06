@@ -628,6 +628,16 @@ func (o *Notification_State_NotificationState_ProviderData) MakeDiffFieldMask(ot
 			}
 		}
 	}
+	{
+		subMask := o.GetWebhook().MakeDiffFieldMask(other.GetWebhook())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderData_FieldTerminalPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderData_FieldSubPath{selector: NotificationStateNotificationStateProviderData_FieldPathSelectorWebhook, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -642,6 +652,7 @@ func (o *Notification_State_NotificationState_ProviderData) Clone() *Notificatio
 	result := &Notification_State_NotificationState_ProviderData{}
 	result.Slack = o.Slack.Clone()
 	result.PagerDuty = o.PagerDuty.Clone()
+	result.Webhook = o.Webhook.Clone()
 	return result
 }
 
@@ -661,6 +672,12 @@ func (o *Notification_State_NotificationState_ProviderData) Merge(source *Notifi
 			o.PagerDuty = new(Notification_State_NotificationState_ProviderData_PagerDuty)
 		}
 		o.PagerDuty.Merge(source.GetPagerDuty())
+	}
+	if source.GetWebhook() != nil {
+		if o.Webhook == nil {
+			o.Webhook = new(Notification_State_NotificationState_ProviderData_WebHook)
+		}
+		o.Webhook.Merge(source.GetWebhook())
 	}
 }
 
@@ -766,4 +783,143 @@ func (o *Notification_State_NotificationState_ProviderData_PagerDuty) Merge(sour
 
 func (o *Notification_State_NotificationState_ProviderData_PagerDuty) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Notification_State_NotificationState_ProviderData_PagerDuty))
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) GotenObjectExt() {}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) MakeFullFieldMask() *Notification_State_NotificationState_ProviderData_WebHook_FieldMask {
+	return FullNotification_State_NotificationState_ProviderData_WebHook_FieldMask()
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotification_State_NotificationState_ProviderData_WebHook_FieldMask()
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) MakeDiffFieldMask(other *Notification_State_NotificationState_ProviderData_WebHook) *Notification_State_NotificationState_ProviderData_WebHook_FieldMask {
+	if o == nil && other == nil {
+		return &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotification_State_NotificationState_ProviderData_WebHook_FieldMask()
+	}
+
+	res := &Notification_State_NotificationState_ProviderData_WebHook_FieldMask{}
+	if o.GetTotalChunks() != other.GetTotalChunks() {
+		res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorTotalChunks})
+	}
+
+	if len(o.GetFailedChunks()) == len(other.GetFailedChunks()) {
+		for i, lValue := range o.GetFailedChunks() {
+			rValue := other.GetFailedChunks()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHook_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHook_FieldPathSelectorFailedChunks})
+	}
+	return res
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) Clone() *Notification_State_NotificationState_ProviderData_WebHook {
+	if o == nil {
+		return nil
+	}
+	result := &Notification_State_NotificationState_ProviderData_WebHook{}
+	result.TotalChunks = o.TotalChunks
+	result.FailedChunks = make([]*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks, len(o.FailedChunks))
+	for i, sourceValue := range o.FailedChunks {
+		result.FailedChunks[i] = sourceValue.Clone()
+	}
+	return result
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) Merge(source *Notification_State_NotificationState_ProviderData_WebHook) {
+	o.TotalChunks = source.GetTotalChunks()
+	for _, sourceValue := range source.GetFailedChunks() {
+		exists := false
+		for _, currentValue := range o.FailedChunks {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks
+			if sourceValue != nil {
+				newDstElement = new(Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)
+				newDstElement.Merge(sourceValue)
+			}
+			o.FailedChunks = append(o.FailedChunks, newDstElement)
+		}
+	}
+
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Notification_State_NotificationState_ProviderData_WebHook))
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) GotenObjectExt() {}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) MakeFullFieldMask() *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask {
+	return FullNotification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask()
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask()
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) MakeDiffFieldMask(other *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask {
+	if o == nil && other == nil {
+		return &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask()
+	}
+
+	res := &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks_FieldMask{}
+	if o.GetAlertOffset() != other.GetAlertOffset() {
+		res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorAlertOffset})
+	}
+	if o.GetError() != other.GetError() {
+		res.Paths = append(res.Paths, &NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldTerminalPath{selector: NotificationStateNotificationStateProviderDataWebHookFailedChunks_FieldPathSelectorError})
+	}
+	return res
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) Clone() *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks {
+	if o == nil {
+		return nil
+	}
+	result := &Notification_State_NotificationState_ProviderData_WebHook_FailedChunks{}
+	result.AlertOffset = o.AlertOffset
+	result.Error = o.Error
+	return result
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) Merge(source *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) {
+	o.AlertOffset = source.GetAlertOffset()
+	o.Error = source.GetError()
+}
+
+func (o *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks))
 }

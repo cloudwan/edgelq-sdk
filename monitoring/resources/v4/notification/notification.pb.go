@@ -664,6 +664,7 @@ type Notification_State_NotificationState_ProviderData struct {
 	unknownFields protoimpl.UnknownFields
 	Slack         *Notification_State_NotificationState_ProviderData_Slack     `protobuf:"bytes,3,opt,name=slack,proto3" json:"slack,omitempty" firestore:"slack"`
 	PagerDuty     *Notification_State_NotificationState_ProviderData_PagerDuty `protobuf:"bytes,4,opt,name=pager_duty,json=pagerDuty,proto3" json:"pager_duty,omitempty" firestore:"pagerDuty"`
+	Webhook       *Notification_State_NotificationState_ProviderData_WebHook   `protobuf:"bytes,5,opt,name=webhook,proto3" json:"webhook,omitempty" firestore:"webhook"`
 }
 
 func (m *Notification_State_NotificationState_ProviderData) Reset() {
@@ -730,6 +731,13 @@ func (m *Notification_State_NotificationState_ProviderData) GetPagerDuty() *Noti
 	return nil
 }
 
+func (m *Notification_State_NotificationState_ProviderData) GetWebhook() *Notification_State_NotificationState_ProviderData_WebHook {
+	if m != nil {
+		return m.Webhook
+	}
+	return nil
+}
+
 func (m *Notification_State_NotificationState_ProviderData) SetSlack(fv *Notification_State_NotificationState_ProviderData_Slack) {
 	if m == nil {
 		panic(fmt.Errorf("can't set %s on nil %s", "Slack", "Notification_State_NotificationState_ProviderData"))
@@ -742,6 +750,13 @@ func (m *Notification_State_NotificationState_ProviderData) SetPagerDuty(fv *Not
 		panic(fmt.Errorf("can't set %s on nil %s", "PagerDuty", "Notification_State_NotificationState_ProviderData"))
 	}
 	m.PagerDuty = fv
+}
+
+func (m *Notification_State_NotificationState_ProviderData) SetWebhook(fv *Notification_State_NotificationState_ProviderData_WebHook) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Webhook", "Notification_State_NotificationState_ProviderData"))
+	}
+	m.Webhook = fv
 }
 
 // Slack
@@ -888,6 +903,178 @@ func (m *Notification_State_NotificationState_ProviderData_PagerDuty) SetInciden
 	m.IncidentKey = fv
 }
 
+type Notification_State_NotificationState_ProviderData_WebHook struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	TotalChunks   int64                                                                     `protobuf:"varint,2,opt,name=total_chunks,json=totalChunks,proto3" json:"total_chunks,omitempty" firestore:"totalChunks"`
+	FailedChunks  []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks `protobuf:"bytes,1,rep,name=failed_chunks,json=failedChunks,proto3" json:"failed_chunks,omitempty" firestore:"failedChunks"`
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) Reset() {
+	*m = Notification_State_NotificationState_ProviderData_WebHook{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_monitoring_proto_v4_notification_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*Notification_State_NotificationState_ProviderData_WebHook) ProtoMessage() {}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) ProtoReflect() preflect.Message {
+	mi := &edgelq_monitoring_proto_v4_notification_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*Notification_State_NotificationState_ProviderData_WebHook) GotenMessage() {}
+
+// Deprecated, Use Notification_State_NotificationState_ProviderData_WebHook.ProtoReflect.Descriptor instead.
+func (*Notification_State_NotificationState_ProviderData_WebHook) Descriptor() ([]byte, []int) {
+	return edgelq_monitoring_proto_v4_notification_proto_rawDescGZIP(), []int{0, 1, 0, 0, 2}
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) GetTotalChunks() int64 {
+	if m != nil {
+		return m.TotalChunks
+	}
+	return int64(0)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) GetFailedChunks() []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks {
+	if m != nil {
+		return m.FailedChunks
+	}
+	return nil
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) SetTotalChunks(fv int64) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "TotalChunks", "Notification_State_NotificationState_ProviderData_WebHook"))
+	}
+	m.TotalChunks = fv
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook) SetFailedChunks(fv []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "FailedChunks", "Notification_State_NotificationState_ProviderData_WebHook"))
+	}
+	m.FailedChunks = fv
+}
+
+type Notification_State_NotificationState_ProviderData_WebHook_FailedChunks struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	AlertOffset   int64  `protobuf:"varint,1,opt,name=alert_offset,json=alertOffset,proto3" json:"alert_offset,omitempty" firestore:"alertOffset"`
+	Error         string `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty" firestore:"error"`
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) Reset() {
+	*m = Notification_State_NotificationState_ProviderData_WebHook_FailedChunks{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_monitoring_proto_v4_notification_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) ProtoMessage() {}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) ProtoReflect() preflect.Message {
+	mi := &edgelq_monitoring_proto_v4_notification_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) GotenMessage() {}
+
+// Deprecated, Use Notification_State_NotificationState_ProviderData_WebHook_FailedChunks.ProtoReflect.Descriptor instead.
+func (*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) Descriptor() ([]byte, []int) {
+	return edgelq_monitoring_proto_v4_notification_proto_rawDescGZIP(), []int{0, 1, 0, 0, 2, 0}
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) GetAlertOffset() int64 {
+	if m != nil {
+		return m.AlertOffset
+	}
+	return int64(0)
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) GetError() string {
+	if m != nil {
+		return m.Error
+	}
+	return ""
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) SetAlertOffset(fv int64) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "AlertOffset", "Notification_State_NotificationState_ProviderData_WebHook_FailedChunks"))
+	}
+	m.AlertOffset = fv
+}
+
+func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) SetError(fv string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Error", "Notification_State_NotificationState_ProviderData_WebHook_FailedChunks"))
+	}
+	m.Error = fv
+}
+
 var edgelq_monitoring_proto_v4_notification_proto preflect.FileDescriptor
 
 var edgelq_monitoring_proto_v4_notification_proto_rawDesc = []byte{
@@ -915,7 +1102,7 @@ var edgelq_monitoring_proto_v4_notification_proto_rawDesc = []byte{
 	0x74, 0x65, 0x6e, 0x2f, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2f, 0x6d, 0x65, 0x74, 0x61, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x27, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x6d, 0x6f, 0x6e,
 	0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x76, 0x34,
-	0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xd7, 0x11,
+	0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xb7, 0x14,
 	0x0a, 0x0c, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x28,
 	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x14, 0xb2, 0xda,
 	0x21, 0x10, 0x0a, 0x0e, 0x0a, 0x0c, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69,
@@ -938,7 +1125,7 @@ var edgelq_monitoring_proto_v4_notification_proto_rawDesc = []byte{
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x19, 0xb2, 0xda, 0x21, 0x15, 0x0a, 0x13, 0x0a, 0x11, 0x41,
 	0x6c, 0x65, 0x72, 0x74, 0x69, 0x6e, 0x67, 0x43, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e,
 	0x52, 0x09, 0x63, 0x6f, 0x6e, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x10, 0x0a, 0x03, 0x69,
-	0x64, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x03, 0x69, 0x64, 0x73, 0x1a, 0xa1, 0x0a,
+	0x64, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x03, 0x69, 0x64, 0x73, 0x1a, 0x81, 0x0d,
 	0x0a, 0x05, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x69, 0x73, 0x5f, 0x72, 0x65,
 	0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x69, 0x73,
 	0x52, 0x65, 0x73, 0x6f, 0x6c, 0x76, 0x65, 0x64, 0x12, 0x66, 0x0a, 0x12, 0x6e, 0x6f, 0x74, 0x69,
@@ -972,7 +1159,7 @@ var edgelq_monitoring_proto_v4_notification_proto_rawDesc = []byte{
 	0x0a, 0x13, 0x6c, 0x69, 0x66, 0x65, 0x63, 0x79, 0x63, 0x6c, 0x65, 0x5f, 0x63, 0x6f, 0x6d, 0x70,
 	0x6c, 0x65, 0x74, 0x65, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x12, 0x6c, 0x69, 0x66,
 	0x65, 0x63, 0x79, 0x63, 0x6c, 0x65, 0x43, 0x6f, 0x6d, 0x70, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x1a,
-	0x8f, 0x06, 0x0a, 0x11, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0xef, 0x08, 0x0a, 0x11, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x4e, 0x0a, 0x14, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x63, 0x68, 0x61, 0x6e, 0x6e, 0x65, 0x6c, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x09, 0x42, 0x1b, 0xb2, 0xda, 0x21, 0x17, 0x0a, 0x15, 0x0a, 0x13, 0x4e, 0x6f, 0x74,
@@ -994,7 +1181,7 @@ var edgelq_monitoring_proto_v4_notification_proto_rawDesc = []byte{
 	0x52, 0x0c, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x12, 0x27,
 	0x0a, 0x0f, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x5f, 0x61, 0x74, 0x74, 0x65, 0x6d, 0x70, 0x74,
 	0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0e, 0x6e, 0x6f, 0x74, 0x69, 0x66, 0x79, 0x41,
-	0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x73, 0x1a, 0xa8, 0x02, 0x0a, 0x0c, 0x50, 0x72, 0x6f, 0x76,
+	0x74, 0x74, 0x65, 0x6d, 0x70, 0x74, 0x73, 0x1a, 0x88, 0x05, 0x0a, 0x0c, 0x50, 0x72, 0x6f, 0x76,
 	0x69, 0x64, 0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x12, 0x60, 0x0a, 0x05, 0x73, 0x6c, 0x61, 0x63,
 	0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x4a, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f,
 	0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x34, 0x2e, 0x4e, 0x6f, 0x74, 0x69,
@@ -1008,12 +1195,34 @@ var edgelq_monitoring_proto_v4_notification_proto_rawDesc = []byte{
 	0x53, 0x74, 0x61, 0x74, 0x65, 0x2e, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69,
 	0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x2e, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72,
 	0x44, 0x61, 0x74, 0x61, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x72, 0x44, 0x75, 0x74, 0x79, 0x52, 0x09,
-	0x70, 0x61, 0x67, 0x65, 0x72, 0x44, 0x75, 0x74, 0x79, 0x1a, 0x17, 0x0a, 0x05, 0x53, 0x6c, 0x61,
-	0x63, 0x6b, 0x12, 0x0e, 0x0a, 0x02, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
-	0x74, 0x73, 0x1a, 0x2e, 0x0a, 0x09, 0x50, 0x61, 0x67, 0x65, 0x72, 0x44, 0x75, 0x74, 0x79, 0x12,
-	0x21, 0x0a, 0x0c, 0x69, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x5f, 0x6b, 0x65, 0x79, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x69, 0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x4b,
-	0x65, 0x79, 0x22, 0x7d, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x0b, 0x0a, 0x07,
+	0x70, 0x61, 0x67, 0x65, 0x72, 0x44, 0x75, 0x74, 0x79, 0x12, 0x66, 0x0a, 0x07, 0x77, 0x65, 0x62,
+	0x68, 0x6f, 0x6f, 0x6b, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x4c, 0x2e, 0x6e, 0x74, 0x74,
+	0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e, 0x67, 0x2e, 0x76, 0x34, 0x2e, 0x4e,
+	0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x53, 0x74, 0x61, 0x74,
+	0x65, 0x2e, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74,
+	0x61, 0x74, 0x65, 0x2e, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x44, 0x61, 0x74, 0x61,
+	0x2e, 0x57, 0x65, 0x62, 0x48, 0x6f, 0x6f, 0x6b, 0x52, 0x07, 0x77, 0x65, 0x62, 0x68, 0x6f, 0x6f,
+	0x6b, 0x1a, 0x17, 0x0a, 0x05, 0x53, 0x6c, 0x61, 0x63, 0x6b, 0x12, 0x0e, 0x0a, 0x02, 0x74, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x74, 0x73, 0x1a, 0x2e, 0x0a, 0x09, 0x50, 0x61,
+	0x67, 0x65, 0x72, 0x44, 0x75, 0x74, 0x79, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x6e, 0x63, 0x69, 0x64,
+	0x65, 0x6e, 0x74, 0x5f, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x69,
+	0x6e, 0x63, 0x69, 0x64, 0x65, 0x6e, 0x74, 0x4b, 0x65, 0x79, 0x1a, 0xf5, 0x01, 0x0a, 0x07, 0x57,
+	0x65, 0x62, 0x48, 0x6f, 0x6f, 0x6b, 0x12, 0x21, 0x0a, 0x0c, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f,
+	0x63, 0x68, 0x75, 0x6e, 0x6b, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x74, 0x6f,
+	0x74, 0x61, 0x6c, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x73, 0x12, 0x7e, 0x0a, 0x0d, 0x66, 0x61, 0x69,
+	0x6c, 0x65, 0x64, 0x5f, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x59, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x6d, 0x6f, 0x6e, 0x69, 0x74, 0x6f, 0x72, 0x69, 0x6e,
+	0x67, 0x2e, 0x76, 0x34, 0x2e, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x2e, 0x4e, 0x6f, 0x74, 0x69, 0x66, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x65, 0x2e, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64,
+	0x65, 0x72, 0x44, 0x61, 0x74, 0x61, 0x2e, 0x57, 0x65, 0x62, 0x48, 0x6f, 0x6f, 0x6b, 0x2e, 0x46,
+	0x61, 0x69, 0x6c, 0x65, 0x64, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x73, 0x52, 0x0c, 0x66, 0x61, 0x69,
+	0x6c, 0x65, 0x64, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x73, 0x1a, 0x47, 0x0a, 0x0c, 0x46, 0x61, 0x69,
+	0x6c, 0x65, 0x64, 0x43, 0x68, 0x75, 0x6e, 0x6b, 0x73, 0x12, 0x21, 0x0a, 0x0c, 0x61, 0x6c, 0x65,
+	0x72, 0x74, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x0b, 0x61, 0x6c, 0x65, 0x72, 0x74, 0x4f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x14, 0x0a, 0x05,
+	0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72,
+	0x6f, 0x72, 0x22, 0x7d, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x0b, 0x0a, 0x07,
 	0x55, 0x4e, 0x4b, 0x4e, 0x4f, 0x57, 0x4e, 0x10, 0x00, 0x12, 0x0b, 0x0a, 0x07, 0x50, 0x45, 0x4e,
 	0x44, 0x49, 0x4e, 0x47, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x46, 0x41, 0x49, 0x4c, 0x45, 0x44,
 	0x10, 0x02, 0x12, 0x0e, 0x0a, 0x0a, 0x53, 0x55, 0x50, 0x50, 0x52, 0x45, 0x53, 0x53, 0x45, 0x44,
@@ -1093,35 +1302,39 @@ func edgelq_monitoring_proto_v4_notification_proto_rawDescGZIP() []byte {
 }
 
 var edgelq_monitoring_proto_v4_notification_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var edgelq_monitoring_proto_v4_notification_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var edgelq_monitoring_proto_v4_notification_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var edgelq_monitoring_proto_v4_notification_proto_goTypes = []interface{}{
-	(Notification_State_NotificationState_Status)(0),                    // 0: ntt.monitoring.v4.Notification_State_NotificationState_Status
-	(*Notification)(nil),                                                // 1: ntt.monitoring.v4.Notification
-	(*Notification_AlertsSet)(nil),                                      // 2: ntt.monitoring.v4.Notification.AlertsSet
-	(*Notification_State)(nil),                                          // 3: ntt.monitoring.v4.Notification.State
-	(*Notification_State_NotificationState)(nil),                        // 4: ntt.monitoring.v4.Notification.State.NotificationState
-	(*Notification_State_NotificationState_ProviderData)(nil),           // 5: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData
-	(*Notification_State_NotificationState_ProviderData_Slack)(nil),     // 6: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.Slack
-	(*Notification_State_NotificationState_ProviderData_PagerDuty)(nil), // 7: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.PagerDuty
-	(*meta.Meta)(nil),                                                   // 8: goten.types.Meta
-	(*common.TimeRange)(nil),                                            // 9: ntt.monitoring.v4.TimeRange
+	(Notification_State_NotificationState_Status)(0),                               // 0: ntt.monitoring.v4.Notification_State_NotificationState_Status
+	(*Notification)(nil),                                                           // 1: ntt.monitoring.v4.Notification
+	(*Notification_AlertsSet)(nil),                                                 // 2: ntt.monitoring.v4.Notification.AlertsSet
+	(*Notification_State)(nil),                                                     // 3: ntt.monitoring.v4.Notification.State
+	(*Notification_State_NotificationState)(nil),                                   // 4: ntt.monitoring.v4.Notification.State.NotificationState
+	(*Notification_State_NotificationState_ProviderData)(nil),                      // 5: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData
+	(*Notification_State_NotificationState_ProviderData_Slack)(nil),                // 6: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.Slack
+	(*Notification_State_NotificationState_ProviderData_PagerDuty)(nil),            // 7: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.PagerDuty
+	(*Notification_State_NotificationState_ProviderData_WebHook)(nil),              // 8: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.WebHook
+	(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks)(nil), // 9: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.WebHook.FailedChunks
+	(*meta.Meta)(nil),        // 10: goten.types.Meta
+	(*common.TimeRange)(nil), // 11: ntt.monitoring.v4.TimeRange
 }
 var edgelq_monitoring_proto_v4_notification_proto_depIdxs = []int32{
-	8,  // 0: ntt.monitoring.v4.Notification.metadata:type_name -> goten.types.Meta
+	10, // 0: ntt.monitoring.v4.Notification.metadata:type_name -> goten.types.Meta
 	2,  // 1: ntt.monitoring.v4.Notification.alert_sets:type_name -> ntt.monitoring.v4.Notification.AlertsSet
 	3,  // 2: ntt.monitoring.v4.Notification.state:type_name -> ntt.monitoring.v4.Notification.State
 	4,  // 3: ntt.monitoring.v4.Notification.State.notification_state:type_name -> ntt.monitoring.v4.Notification.State.NotificationState
-	9,  // 4: ntt.monitoring.v4.Notification.State.alerts_lifetime:type_name -> ntt.monitoring.v4.TimeRange
+	11, // 4: ntt.monitoring.v4.Notification.State.alerts_lifetime:type_name -> ntt.monitoring.v4.TimeRange
 	4,  // 5: ntt.monitoring.v4.Notification.State.resolution_notification_state:type_name -> ntt.monitoring.v4.Notification.State.NotificationState
 	0,  // 6: ntt.monitoring.v4.Notification.State.NotificationState.status:type_name -> ntt.monitoring.v4.Notification_State_NotificationState_Status
 	5,  // 7: ntt.monitoring.v4.Notification.State.NotificationState.provider_data:type_name -> ntt.monitoring.v4.Notification.State.NotificationState.ProviderData
 	6,  // 8: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.slack:type_name -> ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.Slack
 	7,  // 9: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.pager_duty:type_name -> ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.PagerDuty
-	10, // [10:10] is the sub-list for method output_type
-	10, // [10:10] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	8,  // 10: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.webhook:type_name -> ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.WebHook
+	9,  // 11: ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.WebHook.failed_chunks:type_name -> ntt.monitoring.v4.Notification.State.NotificationState.ProviderData.WebHook.FailedChunks
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { edgelq_monitoring_proto_v4_notification_proto_init() }
@@ -1215,6 +1428,30 @@ func edgelq_monitoring_proto_v4_notification_proto_init() {
 				return nil
 			}
 		}
+		edgelq_monitoring_proto_v4_notification_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Notification_State_NotificationState_ProviderData_WebHook); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_monitoring_proto_v4_notification_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 
 	type x struct{}
@@ -1223,7 +1460,7 @@ func edgelq_monitoring_proto_v4_notification_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_monitoring_proto_v4_notification_proto_rawDesc,
 			NumEnums:      1,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

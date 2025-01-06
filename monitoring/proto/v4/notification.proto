@@ -92,11 +92,25 @@ message Notification {
 
         PagerDuty pager_duty = 4;
 
+        WebHook webhook = 5;
+
         // Slack
         message Slack { string ts = 1; }
 
         // Pager Duty
         message PagerDuty { string incident_key = 1; }
+
+        message WebHook {
+          int64 total_chunks = 2;
+
+          repeated FailedChunks failed_chunks = 1;
+
+          message FailedChunks {
+            int64 alert_offset = 1;
+
+            string error = 2;
+          }
+        }
       }
 
       enum Status {

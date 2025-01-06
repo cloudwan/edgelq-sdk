@@ -144,6 +144,11 @@ func (obj *Notification_State_NotificationState_ProviderData) GotenValidate() er
 			return gotenvalidate.NewValidationError("ProviderData", "pagerDuty", obj.PagerDuty, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.Webhook).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("ProviderData", "webhook", obj.Webhook, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -159,6 +164,31 @@ func (obj *Notification_State_NotificationState_ProviderData_Slack) GotenValidat
 	return nil
 }
 func (obj *Notification_State_NotificationState_ProviderData_PagerDuty) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Notification_State_NotificationState_ProviderData_WebHook) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.FailedChunks {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("WebHook", "failedChunks", obj.FailedChunks[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}
