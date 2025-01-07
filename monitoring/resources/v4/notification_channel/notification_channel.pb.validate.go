@@ -153,9 +153,6 @@ func (obj *NotificationChannel_Spec_Webhook) GotenValidate() error {
 			}
 		}
 	}
-	if !(obj.MaxMessageSizeMb >= 0.2) {
-		return gotenvalidate.NewValidationError("Webhook", "maxMessageSizeMb", obj.MaxMessageSizeMb, "field must be greater or equal to 0.2", nil)
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
