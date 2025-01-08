@@ -72,6 +72,10 @@ message ReportDeviceMetricsRequest {
   // device_name abd region_id are required in first message for streaming
   string name = 1;
 
+  string display_name = 3;
+
+  string serial_number = 4;
+
   DeviceMetrics device_metrics = 2;
 }
 

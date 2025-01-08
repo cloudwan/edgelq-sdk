@@ -9,15 +9,25 @@ resources:
   - key: project_id
     description: NTT Project ID
     valueType: STRING
+    disabled: true
   - key: device_id
     description: Device ID
     valueType: STRING
+  - key: device_display_name
+    description: Device Display Name
+    valueType: STRING
+    defaultValue: <undefined>
+  - key: device_serial_number
+    description: Device Serial Number
+    valueType: STRING
+    defaultValue: <undefined>
   - key: pod_id
     description: Pod ID
     valueType: STRING
   - key: region_id
     description: Region ID
     valueType: STRING
+    disabled: true
   promotedLabelKeySets:
   - labelKeys: [device_id]
   - labelKeys: [pod_id]
