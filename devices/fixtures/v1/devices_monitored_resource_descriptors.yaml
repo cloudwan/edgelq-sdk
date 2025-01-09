@@ -9,12 +9,11 @@ resources:
   - key: project_id
     description: NTT Project ID
     valueType: STRING
-    disabled: true
   - key: region_id
     description: NTT Region ID
     valueType: STRING
-    disabled: true
   promotedLabelKeySets:
+  - labelKeys: [project_id]
 
 - name: services/devices.edgelq.com/monitoredResourceDescriptors/device
   type: devices.edgelq.com/device
@@ -23,7 +22,6 @@ resources:
   - key: project_id
     description: NTT Project ID
     valueType: STRING
-    disabled: true
   - key: device_id
     description: Device ID
     valueType: STRING
@@ -38,6 +36,6 @@ resources:
   - key: region_id
     description: Region ID
     valueType: STRING
-    disabled: true
   promotedLabelKeySets:
+  - labelKeys: [project_id]
   - labelKeys: [device_id]
