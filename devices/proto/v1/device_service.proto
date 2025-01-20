@@ -422,6 +422,14 @@ service DeviceService {
     };
   }
 
+  // GetDedicatedEndpoints
+  rpc GetDedicatedEndpoints(GetDedicatedEndpointsRequest)
+      returns (GetDedicatedEndpointsResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*/regions/*/devices/*}:getDedicatedEndpoints"
+    };
+  }
+
   // ProvisionServiceAccountToDevice
   rpc ProvisionServiceAccountToDevice(ProvisionServiceAccountToDeviceRequest)
       returns (ProvisionServiceAccountToDeviceResponse) {

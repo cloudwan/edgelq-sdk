@@ -78,6 +78,9 @@ func (o *ServiceAccount) MakeDiffFieldMask(other *ServiceAccount) *ServiceAccoun
 	if o.GetEmail() != other.GetEmail() {
 		res.Paths = append(res.Paths, &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorEmail})
 	}
+	if o.GetKind() != other.GetKind() {
+		res.Paths = append(res.Paths, &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorKind})
+	}
 	return res
 }
 
@@ -104,6 +107,7 @@ func (o *ServiceAccount) Clone() *ServiceAccount {
 	result.DisplayName = o.DisplayName
 	result.Description = o.Description
 	result.Email = o.Email
+	result.Kind = o.Kind
 	return result
 }
 
@@ -133,6 +137,7 @@ func (o *ServiceAccount) Merge(source *ServiceAccount) {
 	o.DisplayName = source.GetDisplayName()
 	o.Description = source.GetDescription()
 	o.Email = source.GetEmail()
+	o.Kind = source.GetKind()
 }
 
 func (o *ServiceAccount) MergeRaw(source gotenobject.GotenObjectExt) {

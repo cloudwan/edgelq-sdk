@@ -57,6 +57,7 @@ type DeviceServiceClient interface {
 	CreateDevice(ctx context.Context, in *CreateDeviceRequest, opts ...grpc.CallOption) (*device.Device, error)
 	UpdateDevice(ctx context.Context, in *UpdateDeviceRequest, opts ...grpc.CallOption) (*device.Device, error)
 	DeleteDevice(ctx context.Context, in *DeleteDeviceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetDedicatedEndpoints(ctx context.Context, in *GetDedicatedEndpointsRequest, opts ...grpc.CallOption) (*GetDedicatedEndpointsResponse, error)
 	ProvisionServiceAccountToDevice(ctx context.Context, in *ProvisionServiceAccountToDeviceRequest, opts ...grpc.CallOption) (*ProvisionServiceAccountToDeviceResponse, error)
 	RemoveServiceAccountFromDevice(ctx context.Context, in *RemoveServiceAccountFromDeviceRequest, opts ...grpc.CallOption) (*RemoveServiceAccountFromDeviceResponse, error)
 	Heartbeat(ctx context.Context, opts ...grpc.CallOption) (HeartbeatClientStream, error)
@@ -193,6 +194,15 @@ func (c *client) UpdateDevice(ctx context.Context, in *UpdateDeviceRequest, opts
 func (c *client) DeleteDevice(ctx context.Context, in *DeleteDeviceRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.devices.v1.DeviceService/DeleteDevice", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) GetDedicatedEndpoints(ctx context.Context, in *GetDedicatedEndpointsRequest, opts ...grpc.CallOption) (*GetDedicatedEndpointsResponse, error) {
+	out := new(GetDedicatedEndpointsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.devices.v1.DeviceService/GetDedicatedEndpoints", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

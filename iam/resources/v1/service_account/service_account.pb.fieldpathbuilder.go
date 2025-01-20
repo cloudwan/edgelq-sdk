@@ -9,6 +9,7 @@ import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -21,6 +22,7 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &timestamppb.Timestamp{}
+	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -45,6 +47,9 @@ func (ServiceAccountFieldPathBuilder) Description() ServiceAccountPathSelectorDe
 }
 func (ServiceAccountFieldPathBuilder) Email() ServiceAccountPathSelectorEmail {
 	return ServiceAccountPathSelectorEmail{}
+}
+func (ServiceAccountFieldPathBuilder) Kind() ServiceAccountPathSelectorKind {
+	return ServiceAccountPathSelectorKind{}
 }
 
 type ServiceAccountPathSelectorName struct{}
@@ -782,5 +787,19 @@ func (s ServiceAccountPathSelectorEmail) WithValue(value string) *ServiceAccount
 }
 
 func (s ServiceAccountPathSelectorEmail) WithArrayOfValues(values []string) *ServiceAccount_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccount_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceAccountPathSelectorKind struct{}
+
+func (ServiceAccountPathSelectorKind) FieldPath() *ServiceAccount_FieldTerminalPath {
+	return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorKind}
+}
+
+func (s ServiceAccountPathSelectorKind) WithValue(value ServiceAccount_Kind) *ServiceAccount_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceAccount_FieldTerminalPathValue)
+}
+
+func (s ServiceAccountPathSelectorKind) WithArrayOfValues(values []ServiceAccount_Kind) *ServiceAccount_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceAccount_FieldTerminalPathArrayOfValues)
 }

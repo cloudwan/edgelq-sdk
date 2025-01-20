@@ -17,6 +17,7 @@ import (
 	accepted_plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1/accepted_plan"
 	common "github.com/cloudwan/edgelq-sdk/limits/resources/v1/common"
 	plan "github.com/cloudwan/edgelq-sdk/limits/resources/v1/plan"
+	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -39,6 +40,7 @@ var (
 	_ = &common.RegionalPlanAssignment{}
 	_ = &plan.Plan{}
 	_ = &timestamppb.Timestamp{}
+	_ = &meta_common.LabelledDomain{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

@@ -57,6 +57,8 @@ type ServiceAccountServiceClient interface {
 	CreateServiceAccount(ctx context.Context, in *CreateServiceAccountRequest, opts ...grpc.CallOption) (*service_account.ServiceAccount, error)
 	UpdateServiceAccount(ctx context.Context, in *UpdateServiceAccountRequest, opts ...grpc.CallOption) (*service_account.ServiceAccount, error)
 	DeleteServiceAccount(ctx context.Context, in *DeleteServiceAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	GetMyAgentShard(ctx context.Context, in *GetMyAgentShardRequest, opts ...grpc.CallOption) (*GetMyAgentShardResponse, error)
+	GetShardEndpoints(ctx context.Context, in *GetShardEndpointsRequest, opts ...grpc.CallOption) (*GetShardEndpointsResponse, error)
 }
 
 type client struct {
@@ -189,6 +191,24 @@ func (c *client) UpdateServiceAccount(ctx context.Context, in *UpdateServiceAcco
 func (c *client) DeleteServiceAccount(ctx context.Context, in *DeleteServiceAccountRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ServiceAccountService/DeleteServiceAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) GetMyAgentShard(ctx context.Context, in *GetMyAgentShardRequest, opts ...grpc.CallOption) (*GetMyAgentShardResponse, error) {
+	out := new(GetMyAgentShardResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ServiceAccountService/GetMyAgentShard", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) GetShardEndpoints(ctx context.Context, in *GetShardEndpointsRequest, opts ...grpc.CallOption) (*GetShardEndpointsResponse, error) {
+	out := new(GetShardEndpointsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ServiceAccountService/GetShardEndpoints", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

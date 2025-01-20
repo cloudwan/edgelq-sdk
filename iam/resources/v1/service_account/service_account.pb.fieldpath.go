@@ -75,6 +75,7 @@ const (
 	ServiceAccount_FieldPathSelectorDisplayName ServiceAccount_FieldPathSelector = 2
 	ServiceAccount_FieldPathSelectorDescription ServiceAccount_FieldPathSelector = 3
 	ServiceAccount_FieldPathSelectorEmail       ServiceAccount_FieldPathSelector = 4
+	ServiceAccount_FieldPathSelectorKind        ServiceAccount_FieldPathSelector = 5
 )
 
 func (s ServiceAccount_FieldPathSelector) String() string {
@@ -89,6 +90,8 @@ func (s ServiceAccount_FieldPathSelector) String() string {
 		return "description"
 	case ServiceAccount_FieldPathSelectorEmail:
 		return "email"
+	case ServiceAccount_FieldPathSelectorKind:
+		return "kind"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", s))
 	}
@@ -110,6 +113,8 @@ func BuildServiceAccount_FieldPath(fp gotenobject.RawFieldPath) (ServiceAccount_
 			return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorDescription}, nil
 		case "email":
 			return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorEmail}, nil
+		case "kind":
+			return &ServiceAccount_FieldTerminalPath{selector: ServiceAccount_FieldPathSelectorKind}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -178,6 +183,8 @@ func (fp *ServiceAccount_FieldTerminalPath) Get(source *ServiceAccount) (values 
 			values = append(values, source.Description)
 		case ServiceAccount_FieldPathSelectorEmail:
 			values = append(values, source.Email)
+		case ServiceAccount_FieldPathSelectorKind:
+			values = append(values, source.Kind)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", fp.selector))
 		}
@@ -204,6 +211,8 @@ func (fp *ServiceAccount_FieldTerminalPath) GetSingle(source *ServiceAccount) (i
 		return source.GetDescription(), source != nil
 	case ServiceAccount_FieldPathSelectorEmail:
 		return source.GetEmail(), source != nil
+	case ServiceAccount_FieldPathSelectorKind:
+		return source.GetKind(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", fp.selector))
 	}
@@ -226,6 +235,8 @@ func (fp *ServiceAccount_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case ServiceAccount_FieldPathSelectorEmail:
 		return ""
+	case ServiceAccount_FieldPathSelectorKind:
+		return ServiceAccount_UNSPECIFIED
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", fp.selector))
 	}
@@ -244,6 +255,8 @@ func (fp *ServiceAccount_FieldTerminalPath) ClearValue(item *ServiceAccount) {
 			item.Description = ""
 		case ServiceAccount_FieldPathSelectorEmail:
 			item.Email = ""
+		case ServiceAccount_FieldPathSelectorKind:
+			item.Kind = ServiceAccount_UNSPECIFIED
 		default:
 			panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", fp.selector))
 		}
@@ -259,7 +272,8 @@ func (fp *ServiceAccount_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ServiceAccount_FieldPathSelectorName ||
 		fp.selector == ServiceAccount_FieldPathSelectorDisplayName ||
 		fp.selector == ServiceAccount_FieldPathSelectorDescription ||
-		fp.selector == ServiceAccount_FieldPathSelectorEmail
+		fp.selector == ServiceAccount_FieldPathSelectorEmail ||
+		fp.selector == ServiceAccount_FieldPathSelectorKind
 }
 
 func (fp *ServiceAccount_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -278,6 +292,8 @@ func (fp *ServiceAccount_FieldTerminalPath) WithIValue(value interface{}) Servic
 		return &ServiceAccount_FieldTerminalPathValue{ServiceAccount_FieldTerminalPath: *fp, value: value.(string)}
 	case ServiceAccount_FieldPathSelectorEmail:
 		return &ServiceAccount_FieldTerminalPathValue{ServiceAccount_FieldTerminalPath: *fp, value: value.(string)}
+	case ServiceAccount_FieldPathSelectorKind:
+		return &ServiceAccount_FieldTerminalPathValue{ServiceAccount_FieldTerminalPath: *fp, value: value.(ServiceAccount_Kind)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", fp.selector))
 	}
@@ -300,6 +316,8 @@ func (fp *ServiceAccount_FieldTerminalPath) WithIArrayOfValues(values interface{
 		return &ServiceAccount_FieldTerminalPathArrayOfValues{ServiceAccount_FieldTerminalPath: *fp, values: values.([]string)}
 	case ServiceAccount_FieldPathSelectorEmail:
 		return &ServiceAccount_FieldTerminalPathArrayOfValues{ServiceAccount_FieldTerminalPath: *fp, values: values.([]string)}
+	case ServiceAccount_FieldPathSelectorKind:
+		return &ServiceAccount_FieldTerminalPathArrayOfValues{ServiceAccount_FieldTerminalPath: *fp, values: values.([]ServiceAccount_Kind)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", fp.selector))
 	}
@@ -492,6 +510,10 @@ func (fpv *ServiceAccount_FieldTerminalPathValue) AsEmailValue() (string, bool) 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *ServiceAccount_FieldTerminalPathValue) AsKindValue() (ServiceAccount_Kind, bool) {
+	res, ok := fpv.value.(ServiceAccount_Kind)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ServiceAccount
 func (fpv *ServiceAccount_FieldTerminalPathValue) SetTo(target **ServiceAccount) {
@@ -509,6 +531,8 @@ func (fpv *ServiceAccount_FieldTerminalPathValue) SetTo(target **ServiceAccount)
 		(*target).Description = fpv.value.(string)
 	case ServiceAccount_FieldPathSelectorEmail:
 		(*target).Email = fpv.value.(string)
+	case ServiceAccount_FieldPathSelectorKind:
+		(*target).Kind = fpv.value.(ServiceAccount_Kind)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceAccount: %d", fpv.selector))
 	}
@@ -566,6 +590,16 @@ func (fpv *ServiceAccount_FieldTerminalPathValue) CompareWith(source *ServiceAcc
 	case ServiceAccount_FieldPathSelectorEmail:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetEmail()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ServiceAccount_FieldPathSelectorKind:
+		leftValue := fpv.value.(ServiceAccount_Kind)
+		rightValue := source.GetKind()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -771,6 +805,10 @@ func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case ServiceAccount_FieldPathSelectorKind:
+		for _, v := range fpaov.values.([]ServiceAccount_Kind) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -792,6 +830,10 @@ func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) AsDescriptionArrayOf
 }
 func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) AsEmailArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ServiceAccount_FieldTerminalPathArrayOfValues) AsKindArrayOfValues() ([]ServiceAccount_Kind, bool) {
+	res, ok := fpaov.values.([]ServiceAccount_Kind)
 	return res, ok
 }
 

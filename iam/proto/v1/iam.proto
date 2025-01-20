@@ -35,6 +35,7 @@ import "edgelq-sdk/iam/proto/v1/role_binding.proto";
 import "edgelq-sdk/iam/proto/v1/role_binding_service.proto";
 import "edgelq-sdk/iam/proto/v1/role_service.proto";
 import "edgelq-sdk/iam/proto/v1/service_account.proto";
+import "edgelq-sdk/iam/proto/v1/service_account_custom.proto";
 import "edgelq-sdk/iam/proto/v1/service_account_key.proto";
 import "edgelq-sdk/iam/proto/v1/service_account_key_service.proto";
 import "edgelq-sdk/iam/proto/v1/service_account_service.proto";

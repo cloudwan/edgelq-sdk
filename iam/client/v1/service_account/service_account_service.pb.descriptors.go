@@ -41,6 +41,8 @@ var (
 	createServiceAccountDescriptor    *CreateServiceAccountDescriptor
 	updateServiceAccountDescriptor    *UpdateServiceAccountDescriptor
 	deleteServiceAccountDescriptor    *DeleteServiceAccountDescriptor
+	getMyAgentShardDescriptor         *GetMyAgentShardDescriptor
+	getShardEndpointsDescriptor       *GetShardEndpointsDescriptor
 )
 
 type GetServiceAccountDescriptor struct{}
@@ -1855,6 +1857,431 @@ func GetDeleteServiceAccountDescriptor() *DeleteServiceAccountDescriptor {
 	return deleteServiceAccountDescriptor
 }
 
+type GetMyAgentShardDescriptor struct{}
+
+type GetMyAgentShardDescriptorClientMsgHandle struct{}
+
+type GetMyAgentShardDescriptorServerMsgHandle struct{}
+
+func (d *GetMyAgentShardDescriptor) NewEmptyClientMsg() proto.Message {
+	return &GetMyAgentShardRequest{}
+}
+
+func (d *GetMyAgentShardDescriptor) NewEmptyServerMsg() proto.Message {
+	return &GetMyAgentShardResponse{}
+}
+
+func (d *GetMyAgentShardDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *GetMyAgentShardDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *GetMyAgentShardDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *GetMyAgentShardDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *GetMyAgentShardDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *GetMyAgentShardDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *GetMyAgentShardDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *GetMyAgentShardDescriptor) GetVerb() string {
+	return "getMyAgentShard"
+}
+
+func (d *GetMyAgentShardDescriptor) GetMethodName() string {
+	return "GetMyAgentShard"
+}
+
+func (d *GetMyAgentShardDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.ServiceAccountService/GetMyAgentShard"
+}
+
+func (d *GetMyAgentShardDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *GetMyAgentShardDescriptor) GetApiName() string {
+	return "ServiceAccountService"
+}
+
+func (d *GetMyAgentShardDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *GetMyAgentShardDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *GetMyAgentShardDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return serviceAccountServiceDescriptor
+}
+
+func (d *GetMyAgentShardDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return service_account.GetDescriptor()
+}
+
+func (d *GetMyAgentShardDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &GetMyAgentShardDescriptorClientMsgHandle{}
+}
+
+func (d *GetMyAgentShardDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &GetMyAgentShardDescriptorServerMsgHandle{}
+}
+
+func (h *GetMyAgentShardDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetMyAgentShardRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*GetMyAgentShardRequest) *service_account.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	{
+		if name := typedMsg.GetName(); name != nil {
+			return name
+		}
+	}
+	return (*service_account.Name)(nil)
+}
+
+func (h *GetMyAgentShardDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*GetMyAgentShardRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*GetMyAgentShardRequest) []*service_account.Name
+	})
+	if ok {
+		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetMyAgentShardRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*GetMyAgentShardRequest) *service_account.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetMyAgentShardRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetMyAgentShardRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetMyAgentShardRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetMyAgentShardRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetMyAgentShardResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*GetMyAgentShardResponse) *service_account.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*GetMyAgentShardResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*GetMyAgentShardResponse) []*service_account.Name
+	})
+	if ok {
+		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetMyAgentShardResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*GetMyAgentShardResponse) *service_account.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetMyAgentShardResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetMyAgentShardResponse) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetMyAgentShardDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetMyAgentShardResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetMyAgentShardResponse) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetGetMyAgentShardDescriptor() *GetMyAgentShardDescriptor {
+	return getMyAgentShardDescriptor
+}
+
+type GetShardEndpointsDescriptor struct{}
+
+type GetShardEndpointsDescriptorClientMsgHandle struct{}
+
+type GetShardEndpointsDescriptorServerMsgHandle struct{}
+
+func (d *GetShardEndpointsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &GetShardEndpointsRequest{}
+}
+
+func (d *GetShardEndpointsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &GetShardEndpointsResponse{}
+}
+
+func (d *GetShardEndpointsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *GetShardEndpointsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *GetShardEndpointsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *GetShardEndpointsDescriptor) IsCollection() bool {
+	return false
+}
+
+func (d *GetShardEndpointsDescriptor) IsPlural() bool {
+	return false
+}
+
+func (d *GetShardEndpointsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *GetShardEndpointsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *GetShardEndpointsDescriptor) GetVerb() string {
+	return "getShardEndpoints"
+}
+
+func (d *GetShardEndpointsDescriptor) GetMethodName() string {
+	return "GetShardEndpoints"
+}
+
+func (d *GetShardEndpointsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.ServiceAccountService/GetShardEndpoints"
+}
+
+func (d *GetShardEndpointsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *GetShardEndpointsDescriptor) GetApiName() string {
+	return "ServiceAccountService"
+}
+
+func (d *GetShardEndpointsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *GetShardEndpointsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *GetShardEndpointsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return serviceAccountServiceDescriptor
+}
+
+func (d *GetShardEndpointsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return service_account.GetDescriptor()
+}
+
+func (d *GetShardEndpointsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &GetShardEndpointsDescriptorClientMsgHandle{}
+}
+
+func (d *GetShardEndpointsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &GetShardEndpointsDescriptorServerMsgHandle{}
+}
+
+func (h *GetShardEndpointsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetShardEndpointsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*GetShardEndpointsRequest) *service_account.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*GetShardEndpointsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*GetShardEndpointsRequest) []*service_account.Name
+	})
+	if ok {
+		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetShardEndpointsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*GetShardEndpointsRequest) *service_account.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetShardEndpointsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetShardEndpointsRequest) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetShardEndpointsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetShardEndpointsRequest) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetShardEndpointsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*GetShardEndpointsResponse) *service_account.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*GetShardEndpointsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*GetShardEndpointsResponse) []*service_account.Name
+	})
+	if ok {
+		return service_account.ServiceAccountNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*GetShardEndpointsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*GetShardEndpointsResponse) *service_account.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*GetShardEndpointsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*GetShardEndpointsResponse) *service_account.ServiceAccount
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *GetShardEndpointsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*GetShardEndpointsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*GetShardEndpointsResponse) []*service_account.ServiceAccount
+	})
+	if ok {
+		return service_account.ServiceAccountList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetGetShardEndpointsDescriptor() *GetShardEndpointsDescriptor {
+	return getShardEndpointsDescriptor
+}
+
 type ServiceAccountServiceDescriptor struct{}
 
 func (d *ServiceAccountServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2294,8 @@ func (d *ServiceAccountServiceDescriptor) AllMethodDescriptors() []gotenclient.M
 		createServiceAccountDescriptor,
 		updateServiceAccountDescriptor,
 		deleteServiceAccountDescriptor,
+		getMyAgentShardDescriptor,
+		getShardEndpointsDescriptor,
 	}
 }
 
@@ -1904,6 +2333,8 @@ func initDescriptors() {
 	createServiceAccountDescriptor = &CreateServiceAccountDescriptor{}
 	updateServiceAccountDescriptor = &UpdateServiceAccountDescriptor{}
 	deleteServiceAccountDescriptor = &DeleteServiceAccountDescriptor{}
+	getMyAgentShardDescriptor = &GetMyAgentShardDescriptor{}
+	getShardEndpointsDescriptor = &GetShardEndpointsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(serviceAccountServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getServiceAccountDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetServiceAccountsDescriptor)
@@ -1913,6 +2344,8 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createServiceAccountDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateServiceAccountDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteServiceAccountDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(getMyAgentShardDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(getShardEndpointsDescriptor)
 }
 
 func init() {

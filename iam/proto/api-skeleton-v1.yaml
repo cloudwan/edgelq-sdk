@@ -130,6 +130,19 @@ resources:
   - Region
   parents:
   - Project
+  actions:
+  - name: GetMyAgentShard
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+  - name: GetShardEndpoints
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+    opResourceInfo:
+      skipResourceInRequest: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
 
 - name: ServiceAccountKey
   parents:

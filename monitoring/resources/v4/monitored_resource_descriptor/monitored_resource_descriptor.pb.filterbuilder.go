@@ -12,6 +12,7 @@ import (
 // proto imports
 import (
 	common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -30,6 +31,7 @@ var (
 	_ = &common.LabelDescriptor{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
+	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}

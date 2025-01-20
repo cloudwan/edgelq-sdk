@@ -49,6 +49,24 @@ var (
 	_ = &timestamppb.Timestamp{}
 )
 
+func (obj *GetDedicatedEndpointsRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *GetDedicatedEndpointsResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
 func (obj *ProvisionServiceAccountToDeviceRequest) GotenValidate() error {
 	if obj == nil {
 		return nil

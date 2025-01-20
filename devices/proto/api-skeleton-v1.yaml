@@ -86,6 +86,10 @@ resources:
   scopeAttributes:
   - Region
   actions:
+  - name: GetDedicatedEndpoints
+    withStoreHandle:
+      readOnly: false
+      transaction: SNAPSHOT
   - name: ProvisionServiceAccountToDevice
     verb: provision_service_account_to_device
     withStoreHandle:

@@ -13,6 +13,14 @@ option java_multiple_files = false;
 option java_outer_classname = "DeviceCustomProto";
 option java_package = "com.ntt.devices.pb.v1";
 
+// A request message of the
+// [GetDedicatedEndpoints][ntt.devices.v1.GetDedicatedEndpoints]
+message GetDedicatedEndpointsRequest { string name = 1; }
+
+// Response message for method
+// [GetDedicatedEndpoints][ntt.devices.v1.GetDedicatedEndpoints]
+message GetDedicatedEndpointsResponse { repeated string endpoints = 1; }
+
 // Request message for method
 // [ProvisionServiceAccountToDevice][ntt.devices.v1.ProvisionServiceAccountToDevice]
 message ProvisionServiceAccountToDeviceRequest {

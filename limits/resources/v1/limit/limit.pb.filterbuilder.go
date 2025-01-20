@@ -15,6 +15,7 @@ import (
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	limit_pool "github.com/cloudwan/edgelq-sdk/limits/resources/v1/limit_pool"
+	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -35,6 +36,7 @@ var (
 	_ = &iam_project.Project{}
 	_ = &limit_pool.LimitPool{}
 	_ = &timestamppb.Timestamp{}
+	_ = &meta_common.LabelledDomain{}
 	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}

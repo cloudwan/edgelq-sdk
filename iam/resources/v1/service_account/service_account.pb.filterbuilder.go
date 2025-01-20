@@ -14,6 +14,7 @@ import (
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
@@ -32,6 +33,7 @@ var (
 	_ = &organization.Organization{}
 	_ = &project.Project{}
 	_ = &timestamppb.Timestamp{}
+	_ = &meta_common.LabelledDomain{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -226,6 +228,10 @@ func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
 
 func (b *filterCndBuilder) Email() *filterCndBuilderEmail {
 	return &filterCndBuilderEmail{builder: b.builder}
+}
+
+func (b *filterCndBuilder) Kind() *filterCndBuilderKind {
+	return &filterCndBuilderKind{builder: b.builder}
 }
 
 type filterCndBuilderName struct {
@@ -2549,5 +2555,64 @@ func (b *filterCndBuilderEmail) compare(op gotenfilter.CompareOperator, value st
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		ServiceAccount_FieldPathValue: NewServiceAccountFieldPathBuilder().Email().WithValue(value),
+	})
+}
+
+type filterCndBuilderKind struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderKind) Eq(value ServiceAccount_Kind) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderKind) Neq(value ServiceAccount_Kind) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderKind) Gt(value ServiceAccount_Kind) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderKind) Gte(value ServiceAccount_Kind) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderKind) Lt(value ServiceAccount_Kind) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderKind) Lte(value ServiceAccount_Kind) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderKind) In(values []ServiceAccount_Kind) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ServiceAccount_FieldPathArrayOfValues: NewServiceAccountFieldPathBuilder().Kind().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderKind) NotIn(values []ServiceAccount_Kind) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ServiceAccount_FieldPathArrayOfValues: NewServiceAccountFieldPathBuilder().Kind().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderKind) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewServiceAccountFieldPathBuilder().Kind().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderKind) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewServiceAccountFieldPathBuilder().Kind().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderKind) compare(op gotenfilter.CompareOperator, value ServiceAccount_Kind) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                      op,
+		ServiceAccount_FieldPathValue: NewServiceAccountFieldPathBuilder().Kind().WithValue(value),
 	})
 }

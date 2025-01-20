@@ -152,6 +152,9 @@ resources:
 - name: services/devices.edgelq.com/permissions/devices.get
   title: Devices Device GetDevice
   description: Allows for performing GetDevice method on Device resource.
+- name: services/devices.edgelq.com/permissions/devices.getDedicatedEndpoints
+  title: Devices Device GetDedicatedEndpoints
+  description: Allows for performing GetDedicatedEndpoints method on Device resource.
 - name: services/devices.edgelq.com/permissions/devices.heartbeat
   title: Devices Device Heartbeat
   description: Allows for performing Heartbeat method on Device resource.
