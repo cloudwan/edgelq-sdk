@@ -432,6 +432,7 @@ func FullProvisioningPolicy_Spec_FieldMask() *ProvisioningPolicy_Spec_FieldMask 
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams})
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorCondition})
 	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorConditionParams})
+	res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions})
 	return res
 }
 
@@ -475,7 +476,7 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 12)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ProvisioningPolicySpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -505,14 +506,16 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Reset() {
 
 func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Subtract(other *ProvisioningPolicy_Spec_FieldMask) *ProvisioningPolicy_Spec_FieldMask {
 	result := &ProvisioningPolicy_Spec_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 12)
 	otherSubMasks := map[ProvisioningPolicySpec_FieldPathSelector]gotenobject.FieldMask{
-		ProvisioningPolicySpec_FieldPathSelectorTemplate:    &ProvisioningPolicy_Spec_Template_FieldMask{},
-		ProvisioningPolicySpec_FieldPathSelectorScopeParams: &iam_role.ScopeParam_FieldMask{},
+		ProvisioningPolicySpec_FieldPathSelectorTemplate:        &ProvisioningPolicy_Spec_Template_FieldMask{},
+		ProvisioningPolicySpec_FieldPathSelectorScopeParams:     &iam_role.ScopeParam_FieldMask{},
+		ProvisioningPolicySpec_FieldPathSelectorExtraConditions: &iam_condition.ExecutableCondition_FieldMask{},
 	}
 	mySubMasks := map[ProvisioningPolicySpec_FieldPathSelector]gotenobject.FieldMask{
-		ProvisioningPolicySpec_FieldPathSelectorTemplate:    &ProvisioningPolicy_Spec_Template_FieldMask{},
-		ProvisioningPolicySpec_FieldPathSelectorScopeParams: &iam_role.ScopeParam_FieldMask{},
+		ProvisioningPolicySpec_FieldPathSelectorTemplate:        &ProvisioningPolicy_Spec_Template_FieldMask{},
+		ProvisioningPolicySpec_FieldPathSelectorScopeParams:     &iam_role.ScopeParam_FieldMask{},
+		ProvisioningPolicySpec_FieldPathSelectorExtraConditions: &iam_condition.ExecutableCondition_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -532,6 +535,8 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Subtract(other *Provisioning
 						mySubMasks[ProvisioningPolicySpec_FieldPathSelectorTemplate] = FullProvisioningPolicy_Spec_Template_FieldMask()
 					case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
 						mySubMasks[ProvisioningPolicySpec_FieldPathSelectorScopeParams] = iam_role.FullScopeParam_FieldMask()
+					case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+						mySubMasks[ProvisioningPolicySpec_FieldPathSelectorExtraConditions] = iam_condition.FullExecutableCondition_FieldMask()
 					}
 				} else if tp, ok := path.(*ProvisioningPolicySpec_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -706,6 +711,8 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Project(source *Provisioning
 	wholeTemplateAccepted := false
 	scopeParamsMask := &iam_role.ScopeParam_FieldMask{}
 	wholeScopeParamsAccepted := false
+	extraConditionsMask := &iam_condition.ExecutableCondition_FieldMask{}
+	wholeExtraConditionsAccepted := false
 	var labelsMapKeys []string
 	wholeLabelsAccepted := false
 
@@ -738,6 +745,9 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Project(source *Provisioning
 				result.Condition = source.Condition
 			case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 				result.ConditionParams = source.ConditionParams
+			case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+				result.ExtraConditions = source.ExtraConditions
+				wholeExtraConditionsAccepted = true
 			}
 		case *ProvisioningPolicySpec_FieldSubPath:
 			switch tp.selector {
@@ -745,6 +755,8 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Project(source *Provisioning
 				templateMask.AppendPath(tp.subPath.(ProvisioningPolicySpecTemplate_FieldPath))
 			case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
 				scopeParamsMask.AppendPath(tp.subPath.(iam_role.ScopeParam_FieldPath))
+			case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+				extraConditionsMask.AppendPath(tp.subPath.(iam_condition.ExecutableCondition_FieldPath))
 			}
 		case *ProvisioningPolicySpec_FieldPathMap:
 			switch tp.selector {
@@ -767,6 +779,11 @@ func (fieldMask *ProvisioningPolicy_Spec_FieldMask) Project(source *Provisioning
 	if wholeScopeParamsAccepted == false && len(scopeParamsMask.Paths) > 0 {
 		for _, sourceItem := range source.GetScopeParams() {
 			result.ScopeParams = append(result.ScopeParams, scopeParamsMask.Project(sourceItem))
+		}
+	}
+	if wholeExtraConditionsAccepted == false && len(extraConditionsMask.Paths) > 0 {
+		for _, sourceItem := range source.GetExtraConditions() {
+			result.ExtraConditions = append(result.ExtraConditions, extraConditionsMask.Project(sourceItem))
 		}
 	}
 	return result

@@ -16,7 +16,9 @@ import (
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -36,7 +38,9 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &organization.Organization{}
+	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &structpb.Struct{}
 	_ = &meta_service.Service{}
@@ -81,6 +85,38 @@ func (o *Condition) MakeDiffFieldMask(other *Condition) *Condition_FieldMask {
 	if o.GetDescription() != other.GetDescription() {
 		res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorDescription})
 	}
+	{
+		_, leftSelected := o.Condition.(*Condition_IpCondition_)
+		_, rightSelected := other.Condition.(*Condition_IpCondition_)
+		if leftSelected == rightSelected {
+			subMask := o.GetIpCondition().MakeDiffFieldMask(other.GetIpCondition())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorIpCondition})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &Condition_FieldSubPath{selector: Condition_FieldPathSelectorIpCondition, subPath: subpath})
+				}
+			}
+		} else {
+			res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorIpCondition})
+		}
+	}
+	{
+		_, leftSelected := o.Condition.(*Condition_AttestationCondition_)
+		_, rightSelected := other.Condition.(*Condition_AttestationCondition_)
+		if leftSelected == rightSelected {
+			subMask := o.GetAttestationCondition().MakeDiffFieldMask(other.GetAttestationCondition())
+			if subMask.IsFull() {
+				res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorAttestationCondition})
+			} else {
+				for _, subpath := range subMask.Paths {
+					res.Paths = append(res.Paths, &Condition_FieldSubPath{selector: Condition_FieldPathSelectorAttestationCondition, subPath: subpath})
+				}
+			}
+		} else {
+			res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorAttestationCondition})
+		}
+	}
 	if o.GetExpression() != other.GetExpression() {
 		res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorExpression})
 	}
@@ -121,6 +157,22 @@ func (o *Condition) Clone() *Condition {
 	result.Metadata = o.Metadata.Clone()
 	result.DisplayName = o.DisplayName
 	result.Description = o.Description
+	if o, ok := o.Condition.(*Condition_IpCondition_); ok {
+		result.Condition = (*Condition_IpCondition_)(nil)
+		if o != nil {
+			result.Condition = &Condition_IpCondition_{}
+			result := result.Condition.(*Condition_IpCondition_)
+			result.IpCondition = o.IpCondition.Clone()
+		}
+	}
+	if o, ok := o.Condition.(*Condition_AttestationCondition_); ok {
+		result.Condition = (*Condition_AttestationCondition_)(nil)
+		if o != nil {
+			result.Condition = &Condition_AttestationCondition_{}
+			result := result.Condition.(*Condition_AttestationCondition_)
+			result.AttestationCondition = o.AttestationCondition.Clone()
+		}
+	}
 	result.Expression = o.Expression
 	result.ParameterDeclarations = make([]*Condition_ParameterDeclaration, len(o.ParameterDeclarations))
 	for i, sourceValue := range o.ParameterDeclarations {
@@ -154,6 +206,34 @@ func (o *Condition) Merge(source *Condition) {
 	}
 	o.DisplayName = source.GetDisplayName()
 	o.Description = source.GetDescription()
+	if source, ok := source.GetCondition().(*Condition_IpCondition_); ok {
+		if dstOneOf, ok := o.Condition.(*Condition_IpCondition_); !ok || dstOneOf == nil {
+			o.Condition = &Condition_IpCondition_{}
+		}
+		if source != nil {
+			o := o.Condition.(*Condition_IpCondition_)
+			if source.IpCondition != nil {
+				if o.IpCondition == nil {
+					o.IpCondition = new(Condition_IpCondition)
+				}
+				o.IpCondition.Merge(source.IpCondition)
+			}
+		}
+	}
+	if source, ok := source.GetCondition().(*Condition_AttestationCondition_); ok {
+		if dstOneOf, ok := o.Condition.(*Condition_AttestationCondition_); !ok || dstOneOf == nil {
+			o.Condition = &Condition_AttestationCondition_{}
+		}
+		if source != nil {
+			o := o.Condition.(*Condition_AttestationCondition_)
+			if source.AttestationCondition != nil {
+				if o.AttestationCondition == nil {
+					o.AttestationCondition = new(Condition_AttestationCondition)
+				}
+				o.AttestationCondition.Merge(source.AttestationCondition)
+			}
+		}
+	}
 	o.Expression = source.GetExpression()
 	for _, sourceValue := range source.GetParameterDeclarations() {
 		exists := false
@@ -232,6 +312,234 @@ func (o *Condition_ParameterDeclaration) Merge(source *Condition_ParameterDeclar
 
 func (o *Condition_ParameterDeclaration) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Condition_ParameterDeclaration))
+}
+
+func (o *Condition_IpCondition) GotenObjectExt() {}
+
+func (o *Condition_IpCondition) MakeFullFieldMask() *Condition_IpCondition_FieldMask {
+	return FullCondition_IpCondition_FieldMask()
+}
+
+func (o *Condition_IpCondition) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullCondition_IpCondition_FieldMask()
+}
+
+func (o *Condition_IpCondition) MakeDiffFieldMask(other *Condition_IpCondition) *Condition_IpCondition_FieldMask {
+	if o == nil && other == nil {
+		return &Condition_IpCondition_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullCondition_IpCondition_FieldMask()
+	}
+
+	res := &Condition_IpCondition_FieldMask{}
+
+	if len(o.GetAllowedCidrs()) == len(other.GetAllowedCidrs()) {
+		for i, lValue := range o.GetAllowedCidrs() {
+			rValue := other.GetAllowedCidrs()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorAllowedCidrs})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorAllowedCidrs})
+	}
+
+	if len(o.GetDisabledCidrs()) == len(other.GetDisabledCidrs()) {
+		for i, lValue := range o.GetDisabledCidrs() {
+			rValue := other.GetDisabledCidrs()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorDisabledCidrs})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorDisabledCidrs})
+	}
+	return res
+}
+
+func (o *Condition_IpCondition) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Condition_IpCondition))
+}
+
+func (o *Condition_IpCondition) Clone() *Condition_IpCondition {
+	if o == nil {
+		return nil
+	}
+	result := &Condition_IpCondition{}
+	result.AllowedCidrs = make([]string, len(o.AllowedCidrs))
+	for i, sourceValue := range o.AllowedCidrs {
+		result.AllowedCidrs[i] = sourceValue
+	}
+	result.DisabledCidrs = make([]string, len(o.DisabledCidrs))
+	for i, sourceValue := range o.DisabledCidrs {
+		result.DisabledCidrs[i] = sourceValue
+	}
+	return result
+}
+
+func (o *Condition_IpCondition) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Condition_IpCondition) Merge(source *Condition_IpCondition) {
+	for _, sourceValue := range source.GetAllowedCidrs() {
+		exists := false
+		for _, currentValue := range o.AllowedCidrs {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.AllowedCidrs = append(o.AllowedCidrs, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetDisabledCidrs() {
+		exists := false
+		for _, currentValue := range o.DisabledCidrs {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.DisabledCidrs = append(o.DisabledCidrs, newDstElement)
+		}
+	}
+
+}
+
+func (o *Condition_IpCondition) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Condition_IpCondition))
+}
+
+func (o *Condition_AttestationCondition) GotenObjectExt() {}
+
+func (o *Condition_AttestationCondition) MakeFullFieldMask() *Condition_AttestationCondition_FieldMask {
+	return FullCondition_AttestationCondition_FieldMask()
+}
+
+func (o *Condition_AttestationCondition) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullCondition_AttestationCondition_FieldMask()
+}
+
+func (o *Condition_AttestationCondition) MakeDiffFieldMask(other *Condition_AttestationCondition) *Condition_AttestationCondition_FieldMask {
+	if o == nil && other == nil {
+		return &Condition_AttestationCondition_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullCondition_AttestationCondition_FieldMask()
+	}
+
+	res := &Condition_AttestationCondition_FieldMask{}
+	if o.GetDomain().String() != other.GetDomain().String() {
+		res.Paths = append(res.Paths, &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorDomain})
+	}
+
+	if len(o.GetExceptPermissions()) == len(other.GetExceptPermissions()) {
+		for i, lValue := range o.GetExceptPermissions() {
+			rValue := other.GetExceptPermissions()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorExceptPermissions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorExceptPermissions})
+	}
+	return res
+}
+
+func (o *Condition_AttestationCondition) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Condition_AttestationCondition))
+}
+
+func (o *Condition_AttestationCondition) Clone() *Condition_AttestationCondition {
+	if o == nil {
+		return nil
+	}
+	result := &Condition_AttestationCondition{}
+	if o.Domain == nil {
+		result.Domain = nil
+	} else if data, err := o.Domain.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.Domain = &attestation_domain.Reference{}
+		if err := result.Domain.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	result.ExceptPermissions = make([]*permission.Reference, len(o.ExceptPermissions))
+	for i, sourceValue := range o.ExceptPermissions {
+		if sourceValue == nil {
+			result.ExceptPermissions[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.ExceptPermissions[i] = &permission.Reference{}
+			if err := result.ExceptPermissions[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
+	return result
+}
+
+func (o *Condition_AttestationCondition) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Condition_AttestationCondition) Merge(source *Condition_AttestationCondition) {
+	if source.GetDomain() != nil {
+		if data, err := source.GetDomain().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.Domain = &attestation_domain.Reference{}
+			if err := o.Domain.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.Domain = nil
+	}
+	for _, sourceValue := range source.GetExceptPermissions() {
+		exists := false
+		for _, currentValue := range o.ExceptPermissions {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *permission.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &permission.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.ExceptPermissions = append(o.ExceptPermissions, newDstElement)
+		}
+	}
+
+}
+
+func (o *Condition_AttestationCondition) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Condition_AttestationCondition))
 }
 
 func (o *ExecutableCondition) GotenObjectExt() {}

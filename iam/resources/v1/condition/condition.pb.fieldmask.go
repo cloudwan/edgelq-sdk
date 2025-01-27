@@ -20,7 +20,9 @@ import (
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -44,7 +46,9 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &organization.Organization{}
+	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &structpb.Struct{}
 	_ = &meta_service.Service{}
@@ -61,6 +65,8 @@ func FullCondition_FieldMask() *Condition_FieldMask {
 	res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorDisplayName})
 	res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorDescription})
+	res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorIpCondition})
+	res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorAttestationCondition})
 	res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorExpression})
 	res.Paths = append(res.Paths, &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorParameterDeclarations})
 	return res
@@ -106,7 +112,7 @@ func (fieldMask *Condition_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Condition_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -136,13 +142,17 @@ func (fieldMask *Condition_FieldMask) Reset() {
 
 func (fieldMask *Condition_FieldMask) Subtract(other *Condition_FieldMask) *Condition_FieldMask {
 	result := &Condition_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[Condition_FieldPathSelector]gotenobject.FieldMask{
 		Condition_FieldPathSelectorMetadata:              &meta.Meta_FieldMask{},
+		Condition_FieldPathSelectorIpCondition:           &Condition_IpCondition_FieldMask{},
+		Condition_FieldPathSelectorAttestationCondition:  &Condition_AttestationCondition_FieldMask{},
 		Condition_FieldPathSelectorParameterDeclarations: &Condition_ParameterDeclaration_FieldMask{},
 	}
 	mySubMasks := map[Condition_FieldPathSelector]gotenobject.FieldMask{
 		Condition_FieldPathSelectorMetadata:              &meta.Meta_FieldMask{},
+		Condition_FieldPathSelectorIpCondition:           &Condition_IpCondition_FieldMask{},
+		Condition_FieldPathSelectorAttestationCondition:  &Condition_AttestationCondition_FieldMask{},
 		Condition_FieldPathSelectorParameterDeclarations: &Condition_ParameterDeclaration_FieldMask{},
 	}
 
@@ -161,6 +171,10 @@ func (fieldMask *Condition_FieldMask) Subtract(other *Condition_FieldMask) *Cond
 					switch tp.selector {
 					case Condition_FieldPathSelectorMetadata:
 						mySubMasks[Condition_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
+					case Condition_FieldPathSelectorIpCondition:
+						mySubMasks[Condition_FieldPathSelectorIpCondition] = FullCondition_IpCondition_FieldMask()
+					case Condition_FieldPathSelectorAttestationCondition:
+						mySubMasks[Condition_FieldPathSelectorAttestationCondition] = FullCondition_AttestationCondition_FieldMask()
 					case Condition_FieldPathSelectorParameterDeclarations:
 						mySubMasks[Condition_FieldPathSelectorParameterDeclarations] = FullCondition_ParameterDeclaration_FieldMask()
 					}
@@ -335,6 +349,10 @@ func (fieldMask *Condition_FieldMask) Project(source *Condition) *Condition {
 	result := &Condition{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
+	ipConditionMask := &Condition_IpCondition_FieldMask{}
+	wholeIpConditionAccepted := false
+	attestationConditionMask := &Condition_AttestationCondition_FieldMask{}
+	wholeAttestationConditionAccepted := false
 	parameterDeclarationsMask := &Condition_ParameterDeclaration_FieldMask{}
 	wholeParameterDeclarationsAccepted := false
 
@@ -351,6 +369,20 @@ func (fieldMask *Condition_FieldMask) Project(source *Condition) *Condition {
 				result.DisplayName = source.DisplayName
 			case Condition_FieldPathSelectorDescription:
 				result.Description = source.Description
+			case Condition_FieldPathSelectorIpCondition:
+				if source, ok := source.Condition.(*Condition_IpCondition_); ok {
+					result.Condition = &Condition_IpCondition_{
+						IpCondition: source.IpCondition,
+					}
+				}
+				wholeIpConditionAccepted = true
+			case Condition_FieldPathSelectorAttestationCondition:
+				if source, ok := source.Condition.(*Condition_AttestationCondition_); ok {
+					result.Condition = &Condition_AttestationCondition_{
+						AttestationCondition: source.AttestationCondition,
+					}
+				}
+				wholeAttestationConditionAccepted = true
 			case Condition_FieldPathSelectorExpression:
 				result.Expression = source.Expression
 			case Condition_FieldPathSelectorParameterDeclarations:
@@ -361,6 +393,10 @@ func (fieldMask *Condition_FieldMask) Project(source *Condition) *Condition {
 			switch tp.selector {
 			case Condition_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
+			case Condition_FieldPathSelectorIpCondition:
+				ipConditionMask.AppendPath(tp.subPath.(ConditionIpCondition_FieldPath))
+			case Condition_FieldPathSelectorAttestationCondition:
+				attestationConditionMask.AppendPath(tp.subPath.(ConditionAttestationCondition_FieldPath))
 			case Condition_FieldPathSelectorParameterDeclarations:
 				parameterDeclarationsMask.AppendPath(tp.subPath.(ConditionParameterDeclaration_FieldPath))
 			}
@@ -368,6 +404,26 @@ func (fieldMask *Condition_FieldMask) Project(source *Condition) *Condition {
 	}
 	if wholeMetadataAccepted == false && len(metadataMask.Paths) > 0 {
 		result.Metadata = metadataMask.Project(source.GetMetadata())
+	}
+	if wholeIpConditionAccepted == false && len(ipConditionMask.Paths) > 0 {
+		if asOneOf, ok := source.Condition.(*Condition_IpCondition_); ok {
+			result.Condition = (*Condition_IpCondition_)(nil)
+			if asOneOf != nil {
+				oneOfRes := &Condition_IpCondition_{}
+				oneOfRes.IpCondition = ipConditionMask.Project(asOneOf.IpCondition)
+				result.Condition = oneOfRes
+			}
+		}
+	}
+	if wholeAttestationConditionAccepted == false && len(attestationConditionMask.Paths) > 0 {
+		if asOneOf, ok := source.Condition.(*Condition_AttestationCondition_); ok {
+			result.Condition = (*Condition_AttestationCondition_)(nil)
+			if asOneOf != nil {
+				oneOfRes := &Condition_AttestationCondition_{}
+				oneOfRes.AttestationCondition = attestationConditionMask.Project(asOneOf.AttestationCondition)
+				result.Condition = oneOfRes
+			}
+		}
 	}
 	if wholeParameterDeclarationsAccepted == false && len(parameterDeclarationsMask.Paths) > 0 {
 		for _, sourceItem := range source.GetParameterDeclarations() {
@@ -638,6 +694,518 @@ func (fieldMask *Condition_ParameterDeclaration_FieldMask) ProjectRaw(source got
 }
 
 func (fieldMask *Condition_ParameterDeclaration_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Condition_IpCondition_FieldMask struct {
+	Paths []ConditionIpCondition_FieldPath
+}
+
+func FullCondition_IpCondition_FieldMask() *Condition_IpCondition_FieldMask {
+	res := &Condition_IpCondition_FieldMask{}
+	res.Paths = append(res.Paths, &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorAllowedCidrs})
+	res.Paths = append(res.Paths, &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorDisabledCidrs})
+	return res
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Condition_IpCondition_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseConditionIpCondition_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ConditionIpCondition_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseConditionIpCondition_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Condition_IpCondition_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) Subtract(other *Condition_IpCondition_FieldMask) *Condition_IpCondition_FieldMask {
+	result := &Condition_IpCondition_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ConditionIpCondition_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Condition_IpCondition_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Condition_IpCondition_FieldMask) FilterInputFields() *Condition_IpCondition_FieldMask {
+	result := &Condition_IpCondition_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Condition_IpCondition_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ConditionIpCondition_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseConditionIpCondition_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Condition_IpCondition_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Condition_IpCondition_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) AppendPath(path ConditionIpCondition_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ConditionIpCondition_FieldPath))
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) GetPaths() []ConditionIpCondition_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseConditionIpCondition_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) Set(target, source *Condition_IpCondition) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Condition_IpCondition), source.(*Condition_IpCondition))
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) Project(source *Condition_IpCondition) *Condition_IpCondition {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Condition_IpCondition{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ConditionIpCondition_FieldTerminalPath:
+			switch tp.selector {
+			case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+				result.AllowedCidrs = source.AllowedCidrs
+			case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+				result.DisabledCidrs = source.DisabledCidrs
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Condition_IpCondition))
+}
+
+func (fieldMask *Condition_IpCondition_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Condition_AttestationCondition_FieldMask struct {
+	Paths []ConditionAttestationCondition_FieldPath
+}
+
+func FullCondition_AttestationCondition_FieldMask() *Condition_AttestationCondition_FieldMask {
+	res := &Condition_AttestationCondition_FieldMask{}
+	res.Paths = append(res.Paths, &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorDomain})
+	res.Paths = append(res.Paths, &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorExceptPermissions})
+	return res
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+// firestore encoding/decoding integration
+func (fieldMask *Condition_AttestationCondition_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
+	if fieldMask == nil {
+		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
+	}
+	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.GetPaths() {
+		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
+	}
+	return &firestorepb.Value{
+		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
+	}, nil
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
+	for _, value := range fpbv.GetArrayValue().GetValues() {
+		parsedPath, err := ParseConditionAttestationCondition_FieldPath(value.GetStringValue())
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
+	}
+	return nil
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*ConditionAttestationCondition_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseConditionAttestationCondition_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) Subtract(other *Condition_AttestationCondition_FieldMask) *Condition_AttestationCondition_FieldMask {
+	result := &Condition_AttestationCondition_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *ConditionAttestationCondition_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Condition_AttestationCondition_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Condition_AttestationCondition_FieldMask) FilterInputFields() *Condition_AttestationCondition_FieldMask {
+	result := &Condition_AttestationCondition_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Condition_AttestationCondition_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]ConditionAttestationCondition_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseConditionAttestationCondition_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Condition_AttestationCondition_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Condition_AttestationCondition_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) AppendPath(path ConditionAttestationCondition_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(ConditionAttestationCondition_FieldPath))
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) GetPaths() []ConditionAttestationCondition_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseConditionAttestationCondition_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) Set(target, source *Condition_AttestationCondition) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Condition_AttestationCondition), source.(*Condition_AttestationCondition))
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) Project(source *Condition_AttestationCondition) *Condition_AttestationCondition {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Condition_AttestationCondition{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *ConditionAttestationCondition_FieldTerminalPath:
+			switch tp.selector {
+			case ConditionAttestationCondition_FieldPathSelectorDomain:
+				result.Domain = source.Domain
+			case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+				result.ExceptPermissions = source.ExceptPermissions
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Condition_AttestationCondition))
+}
+
+func (fieldMask *Condition_AttestationCondition_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

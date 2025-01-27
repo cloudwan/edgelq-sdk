@@ -11,6 +11,7 @@ import (
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
@@ -33,6 +34,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
@@ -230,10 +232,6 @@ func (b *filterCndBuilder) Role() *filterCndBuilderRole {
 	return &filterCndBuilderRole{builder: b.builder}
 }
 
-func (b *filterCndBuilder) OwnedObjects() *filterCndBuilderOwnedObjects {
-	return &filterCndBuilderOwnedObjects{builder: b.builder}
-}
-
 func (b *filterCndBuilder) Member() *filterCndBuilderMember {
 	return &filterCndBuilderMember{builder: b.builder}
 }
@@ -244,6 +242,10 @@ func (b *filterCndBuilder) ScopeParams() *filterCndBuilderScopeParams {
 
 func (b *filterCndBuilder) ExecutableConditions() *filterCndBuilderExecutableConditions {
 	return &filterCndBuilderExecutableConditions{builder: b.builder}
+}
+
+func (b *filterCndBuilder) OwnedObjects() *filterCndBuilderOwnedObjects {
+	return &filterCndBuilderOwnedObjects{builder: b.builder}
 }
 
 func (b *filterCndBuilder) MemberType() *filterCndBuilderMemberType {
@@ -2480,99 +2482,6 @@ func (b *filterCndBuilderRole) compare(op gotenfilter.CompareOperator, value *ro
 	})
 }
 
-type filterCndBuilderOwnedObjects struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderOwnedObjects) Eq(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderOwnedObjects) Neq(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderOwnedObjects) Gt(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderOwnedObjects) Gte(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderOwnedObjects) Lt(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderOwnedObjects) Lte(value []string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderOwnedObjects) In(values [][]string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().OwnedObjects().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderOwnedObjects) NotIn(values [][]string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().OwnedObjects().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderOwnedObjects) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderOwnedObjects) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderOwnedObjects) Contains(value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeValue,
-		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
-		Value:     NewRoleBindingFieldPathBuilder().OwnedObjects().WithItemValue(value),
-	})
-}
-
-func (b *filterCndBuilderOwnedObjects) ContainsAnyOf(values []string) *FilterBuilder {
-	pathSelector := NewRoleBindingFieldPathBuilder().OwnedObjects()
-	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAny,
-		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderOwnedObjects) ContainsAll(values []string) *FilterBuilder {
-	pathSelector := NewRoleBindingFieldPathBuilder().OwnedObjects()
-	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAll,
-		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderOwnedObjects) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                   op,
-		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().OwnedObjects().WithValue(value),
-	})
-}
-
 type filterCndBuilderMember struct {
 	builder *FilterBuilder
 }
@@ -3479,6 +3388,99 @@ func (b *filterCndBuilderExecutableConditionsParams) compare(op gotenfilter.Comp
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().ExecutableConditions().Params().WithValue(value),
+	})
+}
+
+type filterCndBuilderOwnedObjects struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderOwnedObjects) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderOwnedObjects) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderOwnedObjects) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderOwnedObjects) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderOwnedObjects) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderOwnedObjects) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderOwnedObjects) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().OwnedObjects().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOwnedObjects) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		RoleBinding_FieldPathArrayOfValues: NewRoleBindingFieldPathBuilder().OwnedObjects().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderOwnedObjects) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOwnedObjects) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderOwnedObjects) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
+		Value:     NewRoleBindingFieldPathBuilder().OwnedObjects().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderOwnedObjects) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewRoleBindingFieldPathBuilder().OwnedObjects()
+	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOwnedObjects) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewRoleBindingFieldPathBuilder().OwnedObjects()
+	itemValues := make([]RoleBinding_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewRoleBindingFieldPathBuilder().OwnedObjects().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderOwnedObjects) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                   op,
+		RoleBinding_FieldPathValue: NewRoleBindingFieldPathBuilder().OwnedObjects().WithValue(value),
 	})
 }
 

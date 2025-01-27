@@ -264,6 +264,18 @@ func (o *ProvisioningPolicy_Spec) MakeDiffFieldMask(other *ProvisioningPolicy_Sp
 	if !proto.Equal(o.GetConditionParams(), other.GetConditionParams()) {
 		res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorConditionParams})
 	}
+
+	if len(o.GetExtraConditions()) == len(other.GetExtraConditions()) {
+		for i, lValue := range o.GetExtraConditions() {
+			rValue := other.GetExtraConditions()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions})
+	}
 	return res
 }
 
@@ -323,6 +335,10 @@ func (o *ProvisioningPolicy_Spec) Clone() *ProvisioningPolicy_Spec {
 		}
 	}
 	result.ConditionParams = proto.Clone(o.ConditionParams).(*structpb.Struct)
+	result.ExtraConditions = make([]*iam_condition.ExecutableCondition, len(o.ExtraConditions))
+	for i, sourceValue := range o.ExtraConditions {
+		result.ExtraConditions[i] = sourceValue.Clone()
+	}
 	return result
 }
 
@@ -423,6 +439,24 @@ func (o *ProvisioningPolicy_Spec) Merge(source *ProvisioningPolicy_Spec) {
 		}
 		proto.Merge(o.ConditionParams, source.GetConditionParams())
 	}
+	for _, sourceValue := range source.GetExtraConditions() {
+		exists := false
+		for _, currentValue := range o.ExtraConditions {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *iam_condition.ExecutableCondition
+			if sourceValue != nil {
+				newDstElement = new(iam_condition.ExecutableCondition)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ExtraConditions = append(o.ExtraConditions, newDstElement)
+		}
+	}
+
 }
 
 func (o *ProvisioningPolicy_Spec) MergeRaw(source gotenobject.GotenObjectExt) {

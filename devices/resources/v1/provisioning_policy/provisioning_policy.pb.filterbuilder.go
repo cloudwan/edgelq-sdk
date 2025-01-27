@@ -2634,6 +2634,10 @@ func (b *filterCndBuilderSpec) ConditionParams() *filterCndBuilderSpecConditionP
 	return &filterCndBuilderSpecConditionParams{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpec) ExtraConditions() *filterCndBuilderSpecExtraConditions {
+	return &filterCndBuilderSpecExtraConditions{builder: b.builder}
+}
+
 type filterCndBuilderSpecMode struct {
 	builder *FilterBuilder
 }
@@ -10351,6 +10355,225 @@ func (b *filterCndBuilderSpecConditionParams) compare(op gotenfilter.CompareOper
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ConditionParams().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecExtraConditions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Eq(value []*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Neq(value []*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Gt(value []*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Gte(value []*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Lt(value []*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Lte(value []*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditions) In(values [][]*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) NotIn(values [][]*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Contains(value *iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().FieldPath(),
+		Value:     NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) ContainsAnyOf(values []*iam_condition.ExecutableCondition) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) ContainsAll(values []*iam_condition.ExecutableCondition) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) compare(op gotenfilter.CompareOperator, value []*iam_condition.ExecutableCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Condition() *filterCndBuilderSpecExtraConditionsCondition {
+	return &filterCndBuilderSpecExtraConditionsCondition{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecExtraConditions) Params() *filterCndBuilderSpecExtraConditionsParams {
+	return &filterCndBuilderSpecExtraConditionsParams{builder: b.builder}
+}
+
+type filterCndBuilderSpecExtraConditionsCondition struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) Eq(value *iam_condition.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) Neq(value *iam_condition.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) Gt(value *iam_condition.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) Gte(value *iam_condition.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) Lt(value *iam_condition.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) Lte(value *iam_condition.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) In(values []*iam_condition.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Condition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) NotIn(values []*iam_condition.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Condition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Condition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Condition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsCondition) compare(op gotenfilter.CompareOperator, value *iam_condition.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Condition().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecExtraConditionsParams struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) Eq(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) Neq(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) Gt(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) Gte(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) Lt(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) Lte(value *structpb.Struct) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) In(values []*structpb.Struct) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Params().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) NotIn(values []*structpb.Struct) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Params().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Params().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Params().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecExtraConditionsParams) compare(op gotenfilter.CompareOperator, value *structpb.Struct) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().ExtraConditions().Params().WithValue(value),
 	})
 }
 

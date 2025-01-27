@@ -62,10 +62,10 @@ func FullRoleBinding_FieldMask() *RoleBinding_FieldMask {
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMetadata})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorRole})
-	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMember})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorScopeParams})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorExecutableConditions})
+	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMemberType})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorCategory})
 	res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorAncestryPath})
@@ -377,8 +377,6 @@ func (fieldMask *RoleBinding_FieldMask) Project(source *RoleBinding) *RoleBindin
 				wholeMetadataAccepted = true
 			case RoleBinding_FieldPathSelectorRole:
 				result.Role = source.Role
-			case RoleBinding_FieldPathSelectorOwnedObjects:
-				result.OwnedObjects = source.OwnedObjects
 			case RoleBinding_FieldPathSelectorMember:
 				result.Member = source.Member
 			case RoleBinding_FieldPathSelectorScopeParams:
@@ -387,6 +385,8 @@ func (fieldMask *RoleBinding_FieldMask) Project(source *RoleBinding) *RoleBindin
 			case RoleBinding_FieldPathSelectorExecutableConditions:
 				result.ExecutableConditions = source.ExecutableConditions
 				wholeExecutableConditionsAccepted = true
+			case RoleBinding_FieldPathSelectorOwnedObjects:
+				result.OwnedObjects = source.OwnedObjects
 			case RoleBinding_FieldPathSelectorMemberType:
 				result.MemberType = source.MemberType
 			case RoleBinding_FieldPathSelectorCategory:

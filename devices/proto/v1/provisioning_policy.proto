@@ -3,6 +3,7 @@ syntax = "proto3";
 package ntt.devices.v1;
 
 import "edgelq-sdk/devices/proto/v1/device.proto";
+import "edgelq-sdk/iam/proto/v1/condition.proto";
 import "edgelq-sdk/iam/proto/v1/role.proto";
 import "google/api/resource.proto";
 import "google/protobuf/struct.proto";
@@ -74,7 +75,7 @@ message ProvisioningPolicy {
 
     // Role that the newly created service account should be bound to.
     // If not specified, will use the default value of
-    // "services/devices.edgelq.com/roles/device-agent".
+    // "services/devices.edgelq.com/roles/v1-device-agent".
     string role = 7 [ (google.api.resource_reference) = {type : "Role"} ];
 
     // List of scope params to add IF role is specified. Ignored if role is
@@ -82,11 +83,16 @@ message ProvisioningPolicy {
     repeated ntt.iam.v1.ScopeParam scope_params = 9;
 
     // Optional condition for the role binding.
+    // DEPRECATED, use extra_conditions
     string condition = 8
         [ (google.api.resource_reference) = {type : "Condition"} ];
 
     // Condition params
+    // DEPRECATED, use extra_conditions
     google.protobuf.Struct condition_params = 10;
+
+    // Optional extra conditions to be attached for a role.
+    repeated ntt.iam.v1.ExecutableCondition extra_conditions = 12;
 
     message Template {
       goten.types.Meta metadata = 1;

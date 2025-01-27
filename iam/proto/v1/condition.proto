@@ -11,11 +11,9 @@ option java_multiple_files = true;
 option java_outer_classname = "ConditionProto";
 option java_package = "com.ntt.iam.pb.v1";
 
-// Condition Resource represents executable condition template in Google CEL
-// language, as specified in
-// https://github.com/google/cel-spec/blob/v0.4.0/doc/intro.md. It may be used
-// for more advanced cases compared to the resource/request conditions available
-// in Role grant definitions.
+// Condition Resource represents additional that is not
+// built-in into the role. It can be attached to role grant
+// or RoleBinding (applies to all grants then).
 message Condition {
   option (google.api.resource) = {
     type : "iam.edgelq.com/Condition"
@@ -44,6 +42,12 @@ message Condition {
   // Description
   string description = 3;
 
+  oneof condition {
+    IpCondition ip_condition = 7;
+
+    AttestationCondition attestation_condition = 8;
+  }
+
   // Condition expression in [Google
   // CEL](https://github.com/google/cel-spec/blob/v0.4.0/doc/intro.md), syntax,
   // e.g. `resource.name == "projects/xyz/instances/abc"`
@@ -67,10 +71,13 @@ message Condition {
   //
   // Access is determined by the return value. Return `true` to grant access or
   // `false` to deny. Any execution error results in access denied.
+  // DEPRECATED: This should not be actually used at all, as CEL conditions
+  // are obsolete.
   string expression = 4;
 
   // Typed parameters declarations. When binding a Condition passed parameters
   // must correspond to declarations.
+  // DEPRECATED: Along with expression, CEL conditions are gone.
   repeated ParameterDeclaration parameter_declarations = 5;
 
   // Parameter Declarations used
@@ -82,6 +89,40 @@ message Condition {
 
     // Parameter value type
     ParameterType type = 2;
+  }
+
+  // IpCondition presents list of allowed/disallowed source IP
+  // addresses.
+  message IpCondition {
+    // Allowed IP cidrs in v4 or v6 format.
+    // If specified, at least one must be satisfied during execution.
+    repeated string allowed_cidrs = 1;
+
+    // Disallowed IP cidrs in v4 or v6 format.
+    // If specified, client IP must not be in any specified range.
+    repeated string disabled_cidrs = 2;
+  }
+
+  // AttestationCondition requires that associated roles/grants
+  // are authorized only if caller attaches proper attestation token
+  // next to authorization one.
+  message AttestationCondition {
+    // Domain name that must be present in attestation token.
+    string domain = 1;
+
+    // List of permissions excepted from this condition.
+    // By default, it contains:
+    // * services/iam.edgelq.com/permissions/attestationDomains.get
+    // * services/iam.edgelq.com/permissions/attestationDomains.verify
+    // * services/iam.edgelq.com/permissions/serviceAccounts.get
+    // * services/iam.edgelq.com/permissions/serviceAccountKeys.get
+    // * services/devices.edgelq.com/permissions/devices.list
+    // * services/devices.edgelq.com/permissions/provisioningPolicies.list
+    // * services/devices.edgelq.com/permissions/provisioningPolicies.provisionDeviceViaPolicy
+    // * services/devices.edgelq.com/permissions/provisioningPolicies.requestProvisioningApproval
+    // Those are necessary to obtain attestation token in the first
+    // place.
+    repeated string except_permissions = 2;
   }
 
   // Parameter Type.
@@ -116,6 +157,7 @@ message ExecutableCondition {
 
   // Parameters in string form. Parameters must match
   // [declarations][ntt.iam.v1.Condition.parameter_declarations]
+  // TODO: Only used by deprecated CEL conditions.
   google.protobuf.Struct params = 3;
 
   reserved 2;

@@ -6,6 +6,7 @@ package project_invitation
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1/invitation"
@@ -25,6 +26,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &iam_invitation.Actor{}

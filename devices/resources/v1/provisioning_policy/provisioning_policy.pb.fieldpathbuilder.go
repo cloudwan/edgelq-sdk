@@ -882,6 +882,10 @@ func (ProvisioningPolicyPathSelectorSpec) ConditionParams() ProvisioningPolicyPa
 	return ProvisioningPolicyPathSelectorSpecConditionParams{}
 }
 
+func (ProvisioningPolicyPathSelectorSpec) ExtraConditions() ProvisioningPolicyPathSelectorSpecExtraConditions {
+	return ProvisioningPolicyPathSelectorSpecExtraConditions{}
+}
+
 type ProvisioningPolicyPathSelectorSpecMode struct{}
 
 func (ProvisioningPolicyPathSelectorSpecMode) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -3308,6 +3312,69 @@ func (s ProvisioningPolicyPathSelectorSpecConditionParams) WithArrayOfValues(val
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicyPathSelectorSpecExtraConditions struct{}
+
+func (ProvisioningPolicyPathSelectorSpecExtraConditions) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ExtraConditions().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecExtraConditions) WithValue(value []*iam_condition.ExecutableCondition) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecExtraConditions) WithArrayOfValues(values [][]*iam_condition.ExecutableCondition) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecExtraConditions) WithItemValue(value *iam_condition.ExecutableCondition) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
+}
+
+func (ProvisioningPolicyPathSelectorSpecExtraConditions) Condition() ProvisioningPolicyPathSelectorSpecExtraConditionsCondition {
+	return ProvisioningPolicyPathSelectorSpecExtraConditionsCondition{}
+}
+
+func (ProvisioningPolicyPathSelectorSpecExtraConditions) Params() ProvisioningPolicyPathSelectorSpecExtraConditionsParams {
+	return ProvisioningPolicyPathSelectorSpecExtraConditionsParams{}
+}
+
+type ProvisioningPolicyPathSelectorSpecExtraConditionsCondition struct{}
+
+func (ProvisioningPolicyPathSelectorSpecExtraConditionsCondition) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ExtraConditions().Condition().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecExtraConditionsCondition) WithValue(value *iam_condition.Reference) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecExtraConditionsCondition) WithArrayOfValues(values []*iam_condition.Reference) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecExtraConditionsParams struct{}
+
+func (ProvisioningPolicyPathSelectorSpecExtraConditionsParams) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().ExtraConditions().Params().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecExtraConditionsParams) WithValue(value *structpb.Struct) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecExtraConditionsParams) WithArrayOfValues(values []*structpb.Struct) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicyPathSelectorStatus struct{}
 
 func (ProvisioningPolicyPathSelectorStatus) FieldPath() *ProvisioningPolicy_FieldTerminalPath {
@@ -3375,6 +3442,9 @@ func (ProvisioningPolicySpecFieldPathBuilder) Condition() ProvisioningPolicy_Spe
 }
 func (ProvisioningPolicySpecFieldPathBuilder) ConditionParams() ProvisioningPolicy_SpecPathSelectorConditionParams {
 	return ProvisioningPolicy_SpecPathSelectorConditionParams{}
+}
+func (ProvisioningPolicySpecFieldPathBuilder) ExtraConditions() ProvisioningPolicy_SpecPathSelectorExtraConditions {
+	return ProvisioningPolicy_SpecPathSelectorExtraConditions{}
 }
 
 type ProvisioningPolicy_SpecPathSelectorMode struct{}
@@ -5796,6 +5866,81 @@ func (s ProvisioningPolicy_SpecPathSelectorConditionParams) WithValue(value *str
 
 func (s ProvisioningPolicy_SpecPathSelectorConditionParams) WithArrayOfValues(values []*structpb.Struct) *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldTerminalPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorExtraConditions struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorExtraConditions) FieldPath() *ProvisioningPolicySpec_FieldTerminalPath {
+	return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditions) WithValue(value []*iam_condition.ExecutableCondition) *ProvisioningPolicySpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldTerminalPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditions) WithArrayOfValues(values [][]*iam_condition.ExecutableCondition) *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldTerminalPathArrayOfValues)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditions) WithItemValue(value *iam_condition.ExecutableCondition) *ProvisioningPolicySpec_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldTerminalPathArrayItemValue)
+}
+func (ProvisioningPolicy_SpecPathSelectorExtraConditions) WithSubPath(subPath iam_condition.ExecutableCondition_FieldPath) *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions, subPath: subPath}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditions) WithSubValue(subPathValue iam_condition.ExecutableCondition_FieldPathValue) *ProvisioningPolicySpec_FieldSubPathValue {
+	return &ProvisioningPolicySpec_FieldSubPathValue{ProvisioningPolicySpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditions) WithSubArrayOfValues(subPathArrayOfValues iam_condition.ExecutableCondition_FieldPathArrayOfValues) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return &ProvisioningPolicySpec_FieldSubPathArrayOfValues{ProvisioningPolicySpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditions) WithSubArrayItemValue(subPathArrayItemValue iam_condition.ExecutableCondition_FieldPathArrayItemValue) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
+	return &ProvisioningPolicySpec_FieldSubPathArrayItemValue{ProvisioningPolicySpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorExtraConditions) Condition() ProvisioningPolicy_SpecPathSelectorExtraConditionsCondition {
+	return ProvisioningPolicy_SpecPathSelectorExtraConditionsCondition{}
+}
+
+func (ProvisioningPolicy_SpecPathSelectorExtraConditions) Params() ProvisioningPolicy_SpecPathSelectorExtraConditionsParams {
+	return ProvisioningPolicy_SpecPathSelectorExtraConditionsParams{}
+}
+
+type ProvisioningPolicy_SpecPathSelectorExtraConditionsCondition struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorExtraConditionsCondition) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions,
+		subPath:  iam_condition.NewExecutableConditionFieldPathBuilder().Condition().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditionsCondition) WithValue(value *iam_condition.Reference) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditionsCondition) WithArrayOfValues(values []*iam_condition.Reference) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_SpecPathSelectorExtraConditionsParams struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorExtraConditionsParams) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions,
+		subPath:  iam_condition.NewExecutableConditionFieldPathBuilder().Params().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditionsParams) WithValue(value *structpb.Struct) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorExtraConditionsParams) WithArrayOfValues(values []*structpb.Struct) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningPolicyStatusFieldPathBuilder struct{}

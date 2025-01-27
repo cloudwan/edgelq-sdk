@@ -80,18 +80,6 @@ func (o *RoleBinding) MakeDiffFieldMask(other *RoleBinding) *RoleBinding_FieldMa
 	if o.GetRole().String() != other.GetRole().String() {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorRole})
 	}
-
-	if len(o.GetOwnedObjects()) == len(other.GetOwnedObjects()) {
-		for i, lValue := range o.GetOwnedObjects() {
-			rValue := other.GetOwnedObjects()[i]
-			if lValue != rValue {
-				res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects})
-	}
 	if o.GetMember() != other.GetMember() {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMember})
 	}
@@ -118,6 +106,18 @@ func (o *RoleBinding) MakeDiffFieldMask(other *RoleBinding) *RoleBinding_FieldMa
 		}
 	} else {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorExecutableConditions})
+	}
+
+	if len(o.GetOwnedObjects()) == len(other.GetOwnedObjects()) {
+		for i, lValue := range o.GetOwnedObjects() {
+			rValue := other.GetOwnedObjects()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects})
 	}
 	if o.GetMemberType() != other.GetMemberType() {
 		res.Paths = append(res.Paths, &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorMemberType})
@@ -182,10 +182,6 @@ func (o *RoleBinding) Clone() *RoleBinding {
 			panic(err)
 		}
 	}
-	result.OwnedObjects = make([]string, len(o.OwnedObjects))
-	for i, sourceValue := range o.OwnedObjects {
-		result.OwnedObjects[i] = sourceValue
-	}
 	result.Member = o.Member
 	result.ScopeParams = make([]*role.ScopeParam, len(o.ScopeParams))
 	for i, sourceValue := range o.ScopeParams {
@@ -194,6 +190,10 @@ func (o *RoleBinding) Clone() *RoleBinding {
 	result.ExecutableConditions = make([]*condition.ExecutableCondition, len(o.ExecutableConditions))
 	for i, sourceValue := range o.ExecutableConditions {
 		result.ExecutableConditions[i] = sourceValue.Clone()
+	}
+	result.OwnedObjects = make([]string, len(o.OwnedObjects))
+	for i, sourceValue := range o.OwnedObjects {
+		result.OwnedObjects[i] = sourceValue
 	}
 	result.MemberType = o.MemberType
 	result.Category = o.Category
@@ -252,21 +252,6 @@ func (o *RoleBinding) Merge(source *RoleBinding) {
 	} else {
 		o.Role = nil
 	}
-	for _, sourceValue := range source.GetOwnedObjects() {
-		exists := false
-		for _, currentValue := range o.OwnedObjects {
-			if currentValue == sourceValue {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement string
-			newDstElement = sourceValue
-			o.OwnedObjects = append(o.OwnedObjects, newDstElement)
-		}
-	}
-
 	o.Member = source.GetMember()
 	for _, sourceValue := range source.GetScopeParams() {
 		exists := false
@@ -301,6 +286,21 @@ func (o *RoleBinding) Merge(source *RoleBinding) {
 				newDstElement.Merge(sourceValue)
 			}
 			o.ExecutableConditions = append(o.ExecutableConditions, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetOwnedObjects() {
+		exists := false
+		for _, currentValue := range o.OwnedObjects {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.OwnedObjects = append(o.OwnedObjects, newDstElement)
 		}
 	}
 

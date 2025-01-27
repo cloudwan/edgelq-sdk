@@ -6,8 +6,10 @@ package condition
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
@@ -19,8 +21,10 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
@@ -46,6 +50,12 @@ func (ConditionFieldPathBuilder) DisplayName() ConditionPathSelectorDisplayName 
 }
 func (ConditionFieldPathBuilder) Description() ConditionPathSelectorDescription {
 	return ConditionPathSelectorDescription{}
+}
+func (ConditionFieldPathBuilder) IpCondition() ConditionPathSelectorIpCondition {
+	return ConditionPathSelectorIpCondition{}
+}
+func (ConditionFieldPathBuilder) AttestationCondition() ConditionPathSelectorAttestationCondition {
+	return ConditionPathSelectorAttestationCondition{}
 }
 func (ConditionFieldPathBuilder) Expression() ConditionPathSelectorExpression {
 	return ConditionPathSelectorExpression{}
@@ -778,6 +788,162 @@ func (s ConditionPathSelectorDescription) WithArrayOfValues(values []string) *Co
 	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldTerminalPathArrayOfValues)
 }
 
+type ConditionPathSelectorIpCondition struct{}
+
+func (ConditionPathSelectorIpCondition) FieldPath() *Condition_FieldTerminalPath {
+	return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorIpCondition}
+}
+
+func (s ConditionPathSelectorIpCondition) WithValue(value *Condition_IpCondition) *Condition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldTerminalPathValue)
+}
+
+func (s ConditionPathSelectorIpCondition) WithArrayOfValues(values []*Condition_IpCondition) *Condition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldTerminalPathArrayOfValues)
+}
+
+func (ConditionPathSelectorIpCondition) WithSubPath(subPath ConditionIpCondition_FieldPath) *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{selector: Condition_FieldPathSelectorIpCondition, subPath: subPath}
+}
+
+func (s ConditionPathSelectorIpCondition) WithSubValue(subPathValue ConditionIpCondition_FieldPathValue) *Condition_FieldSubPathValue {
+	return &Condition_FieldSubPathValue{Condition_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ConditionPathSelectorIpCondition) WithSubArrayOfValues(subPathArrayOfValues ConditionIpCondition_FieldPathArrayOfValues) *Condition_FieldSubPathArrayOfValues {
+	return &Condition_FieldSubPathArrayOfValues{Condition_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ConditionPathSelectorIpCondition) WithSubArrayItemValue(subPathArrayItemValue ConditionIpCondition_FieldPathArrayItemValue) *Condition_FieldSubPathArrayItemValue {
+	return &Condition_FieldSubPathArrayItemValue{Condition_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ConditionPathSelectorIpCondition) AllowedCidrs() ConditionPathSelectorIpConditionAllowedCidrs {
+	return ConditionPathSelectorIpConditionAllowedCidrs{}
+}
+
+func (ConditionPathSelectorIpCondition) DisabledCidrs() ConditionPathSelectorIpConditionDisabledCidrs {
+	return ConditionPathSelectorIpConditionDisabledCidrs{}
+}
+
+type ConditionPathSelectorIpConditionAllowedCidrs struct{}
+
+func (ConditionPathSelectorIpConditionAllowedCidrs) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorIpCondition,
+		subPath:  NewConditionIpConditionFieldPathBuilder().AllowedCidrs().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorIpConditionAllowedCidrs) WithValue(value []string) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorIpConditionAllowedCidrs) WithArrayOfValues(values [][]string) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+func (s ConditionPathSelectorIpConditionAllowedCidrs) WithItemValue(value string) *Condition_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Condition_FieldSubPathArrayItemValue)
+}
+
+type ConditionPathSelectorIpConditionDisabledCidrs struct{}
+
+func (ConditionPathSelectorIpConditionDisabledCidrs) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorIpCondition,
+		subPath:  NewConditionIpConditionFieldPathBuilder().DisabledCidrs().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorIpConditionDisabledCidrs) WithValue(value []string) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorIpConditionDisabledCidrs) WithArrayOfValues(values [][]string) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+func (s ConditionPathSelectorIpConditionDisabledCidrs) WithItemValue(value string) *Condition_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Condition_FieldSubPathArrayItemValue)
+}
+
+type ConditionPathSelectorAttestationCondition struct{}
+
+func (ConditionPathSelectorAttestationCondition) FieldPath() *Condition_FieldTerminalPath {
+	return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorAttestationCondition}
+}
+
+func (s ConditionPathSelectorAttestationCondition) WithValue(value *Condition_AttestationCondition) *Condition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldTerminalPathValue)
+}
+
+func (s ConditionPathSelectorAttestationCondition) WithArrayOfValues(values []*Condition_AttestationCondition) *Condition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldTerminalPathArrayOfValues)
+}
+
+func (ConditionPathSelectorAttestationCondition) WithSubPath(subPath ConditionAttestationCondition_FieldPath) *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{selector: Condition_FieldPathSelectorAttestationCondition, subPath: subPath}
+}
+
+func (s ConditionPathSelectorAttestationCondition) WithSubValue(subPathValue ConditionAttestationCondition_FieldPathValue) *Condition_FieldSubPathValue {
+	return &Condition_FieldSubPathValue{Condition_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s ConditionPathSelectorAttestationCondition) WithSubArrayOfValues(subPathArrayOfValues ConditionAttestationCondition_FieldPathArrayOfValues) *Condition_FieldSubPathArrayOfValues {
+	return &Condition_FieldSubPathArrayOfValues{Condition_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s ConditionPathSelectorAttestationCondition) WithSubArrayItemValue(subPathArrayItemValue ConditionAttestationCondition_FieldPathArrayItemValue) *Condition_FieldSubPathArrayItemValue {
+	return &Condition_FieldSubPathArrayItemValue{Condition_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (ConditionPathSelectorAttestationCondition) Domain() ConditionPathSelectorAttestationConditionDomain {
+	return ConditionPathSelectorAttestationConditionDomain{}
+}
+
+func (ConditionPathSelectorAttestationCondition) ExceptPermissions() ConditionPathSelectorAttestationConditionExceptPermissions {
+	return ConditionPathSelectorAttestationConditionExceptPermissions{}
+}
+
+type ConditionPathSelectorAttestationConditionDomain struct{}
+
+func (ConditionPathSelectorAttestationConditionDomain) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorAttestationCondition,
+		subPath:  NewConditionAttestationConditionFieldPathBuilder().Domain().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorAttestationConditionDomain) WithValue(value *attestation_domain.Reference) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorAttestationConditionDomain) WithArrayOfValues(values []*attestation_domain.Reference) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+type ConditionPathSelectorAttestationConditionExceptPermissions struct{}
+
+func (ConditionPathSelectorAttestationConditionExceptPermissions) FieldPath() *Condition_FieldSubPath {
+	return &Condition_FieldSubPath{
+		selector: Condition_FieldPathSelectorAttestationCondition,
+		subPath:  NewConditionAttestationConditionFieldPathBuilder().ExceptPermissions().FieldPath(),
+	}
+}
+
+func (s ConditionPathSelectorAttestationConditionExceptPermissions) WithValue(value []*permission.Reference) *Condition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Condition_FieldSubPathValue)
+}
+
+func (s ConditionPathSelectorAttestationConditionExceptPermissions) WithArrayOfValues(values [][]*permission.Reference) *Condition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Condition_FieldSubPathArrayOfValues)
+}
+
+func (s ConditionPathSelectorAttestationConditionExceptPermissions) WithItemValue(value *permission.Reference) *Condition_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Condition_FieldSubPathArrayItemValue)
+}
+
 type ConditionPathSelectorExpression struct{}
 
 func (ConditionPathSelectorExpression) FieldPath() *Condition_FieldTerminalPath {
@@ -905,6 +1071,98 @@ func (s Condition_ParameterDeclarationPathSelectorType) WithValue(value Conditio
 
 func (s Condition_ParameterDeclarationPathSelectorType) WithArrayOfValues(values []Condition_ParameterType) *ConditionParameterDeclaration_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ConditionParameterDeclaration_FieldTerminalPathArrayOfValues)
+}
+
+type ConditionIpConditionFieldPathBuilder struct{}
+
+func NewConditionIpConditionFieldPathBuilder() ConditionIpConditionFieldPathBuilder {
+	return ConditionIpConditionFieldPathBuilder{}
+}
+func (ConditionIpConditionFieldPathBuilder) AllowedCidrs() Condition_IpConditionPathSelectorAllowedCidrs {
+	return Condition_IpConditionPathSelectorAllowedCidrs{}
+}
+func (ConditionIpConditionFieldPathBuilder) DisabledCidrs() Condition_IpConditionPathSelectorDisabledCidrs {
+	return Condition_IpConditionPathSelectorDisabledCidrs{}
+}
+
+type Condition_IpConditionPathSelectorAllowedCidrs struct{}
+
+func (Condition_IpConditionPathSelectorAllowedCidrs) FieldPath() *ConditionIpCondition_FieldTerminalPath {
+	return &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorAllowedCidrs}
+}
+
+func (s Condition_IpConditionPathSelectorAllowedCidrs) WithValue(value []string) *ConditionIpCondition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConditionIpCondition_FieldTerminalPathValue)
+}
+
+func (s Condition_IpConditionPathSelectorAllowedCidrs) WithArrayOfValues(values [][]string) *ConditionIpCondition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConditionIpCondition_FieldTerminalPathArrayOfValues)
+}
+
+func (s Condition_IpConditionPathSelectorAllowedCidrs) WithItemValue(value string) *ConditionIpCondition_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ConditionIpCondition_FieldTerminalPathArrayItemValue)
+}
+
+type Condition_IpConditionPathSelectorDisabledCidrs struct{}
+
+func (Condition_IpConditionPathSelectorDisabledCidrs) FieldPath() *ConditionIpCondition_FieldTerminalPath {
+	return &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorDisabledCidrs}
+}
+
+func (s Condition_IpConditionPathSelectorDisabledCidrs) WithValue(value []string) *ConditionIpCondition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConditionIpCondition_FieldTerminalPathValue)
+}
+
+func (s Condition_IpConditionPathSelectorDisabledCidrs) WithArrayOfValues(values [][]string) *ConditionIpCondition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConditionIpCondition_FieldTerminalPathArrayOfValues)
+}
+
+func (s Condition_IpConditionPathSelectorDisabledCidrs) WithItemValue(value string) *ConditionIpCondition_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ConditionIpCondition_FieldTerminalPathArrayItemValue)
+}
+
+type ConditionAttestationConditionFieldPathBuilder struct{}
+
+func NewConditionAttestationConditionFieldPathBuilder() ConditionAttestationConditionFieldPathBuilder {
+	return ConditionAttestationConditionFieldPathBuilder{}
+}
+func (ConditionAttestationConditionFieldPathBuilder) Domain() Condition_AttestationConditionPathSelectorDomain {
+	return Condition_AttestationConditionPathSelectorDomain{}
+}
+func (ConditionAttestationConditionFieldPathBuilder) ExceptPermissions() Condition_AttestationConditionPathSelectorExceptPermissions {
+	return Condition_AttestationConditionPathSelectorExceptPermissions{}
+}
+
+type Condition_AttestationConditionPathSelectorDomain struct{}
+
+func (Condition_AttestationConditionPathSelectorDomain) FieldPath() *ConditionAttestationCondition_FieldTerminalPath {
+	return &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorDomain}
+}
+
+func (s Condition_AttestationConditionPathSelectorDomain) WithValue(value *attestation_domain.Reference) *ConditionAttestationCondition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConditionAttestationCondition_FieldTerminalPathValue)
+}
+
+func (s Condition_AttestationConditionPathSelectorDomain) WithArrayOfValues(values []*attestation_domain.Reference) *ConditionAttestationCondition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConditionAttestationCondition_FieldTerminalPathArrayOfValues)
+}
+
+type Condition_AttestationConditionPathSelectorExceptPermissions struct{}
+
+func (Condition_AttestationConditionPathSelectorExceptPermissions) FieldPath() *ConditionAttestationCondition_FieldTerminalPath {
+	return &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorExceptPermissions}
+}
+
+func (s Condition_AttestationConditionPathSelectorExceptPermissions) WithValue(value []*permission.Reference) *ConditionAttestationCondition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ConditionAttestationCondition_FieldTerminalPathValue)
+}
+
+func (s Condition_AttestationConditionPathSelectorExceptPermissions) WithArrayOfValues(values [][]*permission.Reference) *ConditionAttestationCondition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ConditionAttestationCondition_FieldTerminalPathArrayOfValues)
+}
+
+func (s Condition_AttestationConditionPathSelectorExceptPermissions) WithItemValue(value *permission.Reference) *ConditionAttestationCondition_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ConditionAttestationCondition_FieldTerminalPathArrayItemValue)
 }
 
 type ExecutableConditionFieldPathBuilder struct{}

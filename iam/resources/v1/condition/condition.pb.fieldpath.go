@@ -23,7 +23,9 @@ import (
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -50,7 +52,9 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &organization.Organization{}
+	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &structpb.Struct{}
 	_ = &meta_service.Service{}
@@ -80,8 +84,10 @@ const (
 	Condition_FieldPathSelectorMetadata              Condition_FieldPathSelector = 1
 	Condition_FieldPathSelectorDisplayName           Condition_FieldPathSelector = 2
 	Condition_FieldPathSelectorDescription           Condition_FieldPathSelector = 3
-	Condition_FieldPathSelectorExpression            Condition_FieldPathSelector = 4
-	Condition_FieldPathSelectorParameterDeclarations Condition_FieldPathSelector = 5
+	Condition_FieldPathSelectorIpCondition           Condition_FieldPathSelector = 4
+	Condition_FieldPathSelectorAttestationCondition  Condition_FieldPathSelector = 5
+	Condition_FieldPathSelectorExpression            Condition_FieldPathSelector = 6
+	Condition_FieldPathSelectorParameterDeclarations Condition_FieldPathSelector = 7
 )
 
 func (s Condition_FieldPathSelector) String() string {
@@ -94,6 +100,10 @@ func (s Condition_FieldPathSelector) String() string {
 		return "display_name"
 	case Condition_FieldPathSelectorDescription:
 		return "description"
+	case Condition_FieldPathSelectorIpCondition:
+		return "ip_condition"
+	case Condition_FieldPathSelectorAttestationCondition:
+		return "attestation_condition"
 	case Condition_FieldPathSelectorExpression:
 		return "expression"
 	case Condition_FieldPathSelectorParameterDeclarations:
@@ -117,6 +127,10 @@ func BuildCondition_FieldPath(fp gotenobject.RawFieldPath) (Condition_FieldPath,
 			return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorDisplayName}, nil
 		case "description":
 			return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorDescription}, nil
+		case "ip_condition", "ipCondition", "ip-condition":
+			return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorIpCondition}, nil
+		case "attestation_condition", "attestationCondition", "attestation-condition":
+			return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorAttestationCondition}, nil
 		case "expression":
 			return &Condition_FieldTerminalPath{selector: Condition_FieldPathSelectorExpression}, nil
 		case "parameter_declarations", "parameterDeclarations", "parameter-declarations":
@@ -129,6 +143,18 @@ func BuildCondition_FieldPath(fp gotenobject.RawFieldPath) (Condition_FieldPath,
 				return nil, err
 			} else {
 				return &Condition_FieldSubPath{selector: Condition_FieldPathSelectorMetadata, subPath: subpath}, nil
+			}
+		case "ip_condition", "ipCondition", "ip-condition":
+			if subpath, err := BuildConditionIpCondition_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Condition_FieldSubPath{selector: Condition_FieldPathSelectorIpCondition, subPath: subpath}, nil
+			}
+		case "attestation_condition", "attestationCondition", "attestation-condition":
+			if subpath, err := BuildConditionAttestationCondition_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Condition_FieldSubPath{selector: Condition_FieldPathSelectorAttestationCondition, subPath: subpath}, nil
 			}
 		case "parameter_declarations", "parameterDeclarations", "parameter-declarations":
 			if subpath, err := BuildConditionParameterDeclaration_FieldPath(fp[1:]); err != nil {
@@ -193,6 +219,18 @@ func (fp *Condition_FieldTerminalPath) Get(source *Condition) (values []interfac
 			values = append(values, source.DisplayName)
 		case Condition_FieldPathSelectorDescription:
 			values = append(values, source.Description)
+		case Condition_FieldPathSelectorIpCondition:
+			if source, ok := source.Condition.(*Condition_IpCondition_); ok && source != nil {
+				if source.IpCondition != nil {
+					values = append(values, source.IpCondition)
+				}
+			}
+		case Condition_FieldPathSelectorAttestationCondition:
+			if source, ok := source.Condition.(*Condition_AttestationCondition_); ok && source != nil {
+				if source.AttestationCondition != nil {
+					values = append(values, source.AttestationCondition)
+				}
+			}
 		case Condition_FieldPathSelectorExpression:
 			values = append(values, source.Expression)
 		case Condition_FieldPathSelectorParameterDeclarations:
@@ -223,6 +261,28 @@ func (fp *Condition_FieldTerminalPath) GetSingle(source *Condition) (interface{}
 		return source.GetDisplayName(), source != nil
 	case Condition_FieldPathSelectorDescription:
 		return source.GetDescription(), source != nil
+	case Condition_FieldPathSelectorIpCondition:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetIpCondition(), false
+		}
+		_, oneOfSelected := source.Condition.(*Condition_IpCondition_)
+		if !oneOfSelected {
+			return source.GetIpCondition(), false // to return "type" information
+		}
+		res := source.GetIpCondition()
+		return res, res != nil
+	case Condition_FieldPathSelectorAttestationCondition:
+		// if object nil or oneof not active, return "default" type with false flag.
+		if source == nil {
+			return source.GetAttestationCondition(), false
+		}
+		_, oneOfSelected := source.Condition.(*Condition_AttestationCondition_)
+		if !oneOfSelected {
+			return source.GetAttestationCondition(), false // to return "type" information
+		}
+		res := source.GetAttestationCondition()
+		return res, res != nil
 	case Condition_FieldPathSelectorExpression:
 		return source.GetExpression(), source != nil
 	case Condition_FieldPathSelectorParameterDeclarations:
@@ -248,6 +308,10 @@ func (fp *Condition_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case Condition_FieldPathSelectorDescription:
 		return ""
+	case Condition_FieldPathSelectorIpCondition:
+		return (*Condition_IpCondition)(nil)
+	case Condition_FieldPathSelectorAttestationCondition:
+		return (*Condition_AttestationCondition)(nil)
 	case Condition_FieldPathSelectorExpression:
 		return ""
 	case Condition_FieldPathSelectorParameterDeclarations:
@@ -268,6 +332,14 @@ func (fp *Condition_FieldTerminalPath) ClearValue(item *Condition) {
 			item.DisplayName = ""
 		case Condition_FieldPathSelectorDescription:
 			item.Description = ""
+		case Condition_FieldPathSelectorIpCondition:
+			if item, ok := item.Condition.(*Condition_IpCondition_); ok {
+				item.IpCondition = nil
+			}
+		case Condition_FieldPathSelectorAttestationCondition:
+			if item, ok := item.Condition.(*Condition_AttestationCondition_); ok {
+				item.AttestationCondition = nil
+			}
 		case Condition_FieldPathSelectorExpression:
 			item.Expression = ""
 		case Condition_FieldPathSelectorParameterDeclarations:
@@ -304,6 +376,10 @@ func (fp *Condition_FieldTerminalPath) WithIValue(value interface{}) Condition_F
 		return &Condition_FieldTerminalPathValue{Condition_FieldTerminalPath: *fp, value: value.(string)}
 	case Condition_FieldPathSelectorDescription:
 		return &Condition_FieldTerminalPathValue{Condition_FieldTerminalPath: *fp, value: value.(string)}
+	case Condition_FieldPathSelectorIpCondition:
+		return &Condition_FieldTerminalPathValue{Condition_FieldTerminalPath: *fp, value: value.(*Condition_IpCondition)}
+	case Condition_FieldPathSelectorAttestationCondition:
+		return &Condition_FieldTerminalPathValue{Condition_FieldTerminalPath: *fp, value: value.(*Condition_AttestationCondition)}
 	case Condition_FieldPathSelectorExpression:
 		return &Condition_FieldTerminalPathValue{Condition_FieldTerminalPath: *fp, value: value.(string)}
 	case Condition_FieldPathSelectorParameterDeclarations:
@@ -328,6 +404,10 @@ func (fp *Condition_FieldTerminalPath) WithIArrayOfValues(values interface{}) Co
 		return &Condition_FieldTerminalPathArrayOfValues{Condition_FieldTerminalPath: *fp, values: values.([]string)}
 	case Condition_FieldPathSelectorDescription:
 		return &Condition_FieldTerminalPathArrayOfValues{Condition_FieldTerminalPath: *fp, values: values.([]string)}
+	case Condition_FieldPathSelectorIpCondition:
+		return &Condition_FieldTerminalPathArrayOfValues{Condition_FieldTerminalPath: *fp, values: values.([]*Condition_IpCondition)}
+	case Condition_FieldPathSelectorAttestationCondition:
+		return &Condition_FieldTerminalPathArrayOfValues{Condition_FieldTerminalPath: *fp, values: values.([]*Condition_AttestationCondition)}
 	case Condition_FieldPathSelectorExpression:
 		return &Condition_FieldTerminalPathArrayOfValues{Condition_FieldTerminalPath: *fp, values: values.([]string)}
 	case Condition_FieldPathSelectorParameterDeclarations:
@@ -369,6 +449,14 @@ func (fps *Condition_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, boo
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
+func (fps *Condition_FieldSubPath) AsIpConditionSubPath() (ConditionIpCondition_FieldPath, bool) {
+	res, ok := fps.subPath.(ConditionIpCondition_FieldPath)
+	return res, ok
+}
+func (fps *Condition_FieldSubPath) AsAttestationConditionSubPath() (ConditionAttestationCondition_FieldPath, bool) {
+	res, ok := fps.subPath.(ConditionAttestationCondition_FieldPath)
+	return res, ok
+}
 func (fps *Condition_FieldSubPath) AsParameterDeclarationsSubPath() (ConditionParameterDeclaration_FieldPath, bool) {
 	res, ok := fps.subPath.(ConditionParameterDeclaration_FieldPath)
 	return res, ok
@@ -389,6 +477,10 @@ func (fps *Condition_FieldSubPath) Get(source *Condition) (values []interface{})
 	switch fps.selector {
 	case Condition_FieldPathSelectorMetadata:
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
+	case Condition_FieldPathSelectorIpCondition:
+		values = append(values, fps.subPath.GetRaw(source.GetIpCondition())...)
+	case Condition_FieldPathSelectorAttestationCondition:
+		values = append(values, fps.subPath.GetRaw(source.GetAttestationCondition())...)
 	case Condition_FieldPathSelectorParameterDeclarations:
 		for _, item := range source.GetParameterDeclarations() {
 			values = append(values, fps.subPath.GetRaw(item)...)
@@ -411,6 +503,16 @@ func (fps *Condition_FieldSubPath) GetSingle(source *Condition) (interface{}, bo
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetMetadata())
+	case Condition_FieldPathSelectorIpCondition:
+		if source.GetIpCondition() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetIpCondition())
+	case Condition_FieldPathSelectorAttestationCondition:
+		if source.GetAttestationCondition() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetAttestationCondition())
 	case Condition_FieldPathSelectorParameterDeclarations:
 		if len(source.GetParameterDeclarations()) == 0 {
 			return nil, false
@@ -435,6 +537,18 @@ func (fps *Condition_FieldSubPath) ClearValue(item *Condition) {
 		switch fps.selector {
 		case Condition_FieldPathSelectorMetadata:
 			fps.subPath.ClearValueRaw(item.Metadata)
+		case Condition_FieldPathSelectorIpCondition:
+			if item.Condition != nil {
+				if item, ok := item.Condition.(*Condition_IpCondition_); ok {
+					fps.subPath.ClearValueRaw(item.IpCondition)
+				}
+			}
+		case Condition_FieldPathSelectorAttestationCondition:
+			if item.Condition != nil {
+				if item, ok := item.Condition.(*Condition_AttestationCondition_); ok {
+					fps.subPath.ClearValueRaw(item.AttestationCondition)
+				}
+			}
 		case Condition_FieldPathSelectorParameterDeclarations:
 			for _, subItem := range item.ParameterDeclarations {
 				fps.subPath.ClearValueRaw(subItem)
@@ -539,6 +653,14 @@ func (fpv *Condition_FieldTerminalPathValue) AsDescriptionValue() (string, bool)
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Condition_FieldTerminalPathValue) AsIpConditionValue() (*Condition_IpCondition, bool) {
+	res, ok := fpv.value.(*Condition_IpCondition)
+	return res, ok
+}
+func (fpv *Condition_FieldTerminalPathValue) AsAttestationConditionValue() (*Condition_AttestationCondition, bool) {
+	res, ok := fpv.value.(*Condition_AttestationCondition)
+	return res, ok
+}
 func (fpv *Condition_FieldTerminalPathValue) AsExpressionValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -562,6 +684,16 @@ func (fpv *Condition_FieldTerminalPathValue) SetTo(target **Condition) {
 		(*target).DisplayName = fpv.value.(string)
 	case Condition_FieldPathSelectorDescription:
 		(*target).Description = fpv.value.(string)
+	case Condition_FieldPathSelectorIpCondition:
+		if _, ok := (*target).Condition.(*Condition_IpCondition_); !ok {
+			(*target).Condition = &Condition_IpCondition_{}
+		}
+		(*target).Condition.(*Condition_IpCondition_).IpCondition = fpv.value.(*Condition_IpCondition)
+	case Condition_FieldPathSelectorAttestationCondition:
+		if _, ok := (*target).Condition.(*Condition_AttestationCondition_); !ok {
+			(*target).Condition = &Condition_AttestationCondition_{}
+		}
+		(*target).Condition.(*Condition_AttestationCondition_).AttestationCondition = fpv.value.(*Condition_AttestationCondition)
 	case Condition_FieldPathSelectorExpression:
 		(*target).Expression = fpv.value.(string)
 	case Condition_FieldPathSelectorParameterDeclarations:
@@ -620,6 +752,10 @@ func (fpv *Condition_FieldTerminalPathValue) CompareWith(source *Condition) (int
 		} else {
 			return 1, true
 		}
+	case Condition_FieldPathSelectorIpCondition:
+		return 0, false
+	case Condition_FieldPathSelectorAttestationCondition:
+		return 0, false
 	case Condition_FieldPathSelectorExpression:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetExpression()
@@ -652,6 +788,14 @@ func (fpvs *Condition_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_FieldP
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Condition_FieldSubPathValue) AsIpConditionPathValue() (ConditionIpCondition_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ConditionIpCondition_FieldPathValue)
+	return res, ok
+}
+func (fpvs *Condition_FieldSubPathValue) AsAttestationConditionPathValue() (ConditionAttestationCondition_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ConditionAttestationCondition_FieldPathValue)
+	return res, ok
+}
 func (fpvs *Condition_FieldSubPathValue) AsParameterDeclarationsPathValue() (ConditionParameterDeclaration_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(ConditionParameterDeclaration_FieldPathValue)
 	return res, ok
@@ -664,6 +808,16 @@ func (fpvs *Condition_FieldSubPathValue) SetTo(target **Condition) {
 	switch fpvs.Selector() {
 	case Condition_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
+	case Condition_FieldPathSelectorIpCondition:
+		if _, ok := (*target).Condition.(*Condition_IpCondition_); !ok {
+			(*target).Condition = &Condition_IpCondition_{}
+		}
+		fpvs.subPathValue.(ConditionIpCondition_FieldPathValue).SetTo(&(*target).Condition.(*Condition_IpCondition_).IpCondition)
+	case Condition_FieldPathSelectorAttestationCondition:
+		if _, ok := (*target).Condition.(*Condition_AttestationCondition_); !ok {
+			(*target).Condition = &Condition_AttestationCondition_{}
+		}
+		fpvs.subPathValue.(ConditionAttestationCondition_FieldPathValue).SetTo(&(*target).Condition.(*Condition_AttestationCondition_).AttestationCondition)
 	case Condition_FieldPathSelectorParameterDeclarations:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
@@ -684,6 +838,10 @@ func (fpvs *Condition_FieldSubPathValue) CompareWith(source *Condition) (int, bo
 	switch fpvs.Selector() {
 	case Condition_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
+	case Condition_FieldPathSelectorIpCondition:
+		return fpvs.subPathValue.(ConditionIpCondition_FieldPathValue).CompareWith(source.GetIpCondition())
+	case Condition_FieldPathSelectorAttestationCondition:
+		return fpvs.subPathValue.(ConditionAttestationCondition_FieldPathValue).CompareWith(source.GetAttestationCondition())
 	case Condition_FieldPathSelectorParameterDeclarations:
 		return 0, false // repeated field
 	default:
@@ -776,6 +934,14 @@ func (fpaivs *Condition_FieldSubPathArrayItemValue) AsMetadataPathItemValue() (m
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Condition_FieldSubPathArrayItemValue) AsIpConditionPathItemValue() (ConditionIpCondition_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ConditionIpCondition_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *Condition_FieldSubPathArrayItemValue) AsAttestationConditionPathItemValue() (ConditionAttestationCondition_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ConditionAttestationCondition_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *Condition_FieldSubPathArrayItemValue) AsParameterDeclarationsPathItemValue() (ConditionParameterDeclaration_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(ConditionParameterDeclaration_FieldPathArrayItemValue)
 	return res, ok
@@ -786,6 +952,10 @@ func (fpaivs *Condition_FieldSubPathArrayItemValue) ContainsValue(source *Condit
 	switch fpaivs.Selector() {
 	case Condition_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
+	case Condition_FieldPathSelectorIpCondition:
+		return fpaivs.subPathItemValue.(ConditionIpCondition_FieldPathArrayItemValue).ContainsValue(source.GetIpCondition())
+	case Condition_FieldPathSelectorAttestationCondition:
+		return fpaivs.subPathItemValue.(ConditionAttestationCondition_FieldPathArrayItemValue).ContainsValue(source.GetAttestationCondition())
 	case Condition_FieldPathSelectorParameterDeclarations:
 		return false // repeated/map field
 	default:
@@ -844,6 +1014,14 @@ func (fpaov *Condition_FieldTerminalPathArrayOfValues) GetRawValues() (values []
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Condition_FieldPathSelectorIpCondition:
+		for _, v := range fpaov.values.([]*Condition_IpCondition) {
+			values = append(values, v)
+		}
+	case Condition_FieldPathSelectorAttestationCondition:
+		for _, v := range fpaov.values.([]*Condition_AttestationCondition) {
+			values = append(values, v)
+		}
 	case Condition_FieldPathSelectorExpression:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -871,6 +1049,14 @@ func (fpaov *Condition_FieldTerminalPathArrayOfValues) AsDescriptionArrayOfValue
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
+func (fpaov *Condition_FieldTerminalPathArrayOfValues) AsIpConditionArrayOfValues() ([]*Condition_IpCondition, bool) {
+	res, ok := fpaov.values.([]*Condition_IpCondition)
+	return res, ok
+}
+func (fpaov *Condition_FieldTerminalPathArrayOfValues) AsAttestationConditionArrayOfValues() ([]*Condition_AttestationCondition, bool) {
+	res, ok := fpaov.values.([]*Condition_AttestationCondition)
+	return res, ok
+}
 func (fpaov *Condition_FieldTerminalPathArrayOfValues) AsExpressionArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
@@ -892,6 +1078,14 @@ func (fpsaov *Condition_FieldSubPathArrayOfValues) GetRawValues() []interface{} 
 }
 func (fpsaov *Condition_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (meta.Meta_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Condition_FieldSubPathArrayOfValues) AsIpConditionPathArrayOfValues() (ConditionIpCondition_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ConditionIpCondition_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Condition_FieldSubPathArrayOfValues) AsAttestationConditionPathArrayOfValues() (ConditionAttestationCondition_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ConditionAttestationCondition_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Condition_FieldSubPathArrayOfValues) AsParameterDeclarationsPathArrayOfValues() (ConditionParameterDeclaration_FieldPathArrayOfValues, bool) {
@@ -1317,6 +1511,863 @@ func (fpaov *ConditionParameterDeclaration_FieldTerminalPathArrayOfValues) AsKey
 }
 func (fpaov *ConditionParameterDeclaration_FieldTerminalPathArrayOfValues) AsTypeArrayOfValues() ([]Condition_ParameterType, bool) {
 	res, ok := fpaov.values.([]Condition_ParameterType)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ConditionIpCondition_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ConditionIpCondition_FieldPathSelector
+	Get(source *Condition_IpCondition) []interface{}
+	GetSingle(source *Condition_IpCondition) (interface{}, bool)
+	ClearValue(item *Condition_IpCondition)
+
+	// Those methods build corresponding ConditionIpCondition_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ConditionIpCondition_FieldPathValue
+	WithIArrayOfValues(values interface{}) ConditionIpCondition_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ConditionIpCondition_FieldPathArrayItemValue
+}
+
+type ConditionIpCondition_FieldPathSelector int32
+
+const (
+	ConditionIpCondition_FieldPathSelectorAllowedCidrs  ConditionIpCondition_FieldPathSelector = 0
+	ConditionIpCondition_FieldPathSelectorDisabledCidrs ConditionIpCondition_FieldPathSelector = 1
+)
+
+func (s ConditionIpCondition_FieldPathSelector) String() string {
+	switch s {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		return "allowed_cidrs"
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		return "disabled_cidrs"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", s))
+	}
+}
+
+func BuildConditionIpCondition_FieldPath(fp gotenobject.RawFieldPath) (ConditionIpCondition_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Condition_IpCondition")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "allowed_cidrs", "allowedCidrs", "allowed-cidrs":
+			return &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorAllowedCidrs}, nil
+		case "disabled_cidrs", "disabledCidrs", "disabled-cidrs":
+			return &ConditionIpCondition_FieldTerminalPath{selector: ConditionIpCondition_FieldPathSelectorDisabledCidrs}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Condition_IpCondition", fp)
+}
+
+func ParseConditionIpCondition_FieldPath(rawField string) (ConditionIpCondition_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildConditionIpCondition_FieldPath(fp)
+}
+
+func MustParseConditionIpCondition_FieldPath(rawField string) ConditionIpCondition_FieldPath {
+	fp, err := ParseConditionIpCondition_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ConditionIpCondition_FieldTerminalPath struct {
+	selector ConditionIpCondition_FieldPathSelector
+}
+
+var _ ConditionIpCondition_FieldPath = (*ConditionIpCondition_FieldTerminalPath)(nil)
+
+func (fp *ConditionIpCondition_FieldTerminalPath) Selector() ConditionIpCondition_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ConditionIpCondition_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ConditionIpCondition_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Condition_IpCondition
+func (fp *ConditionIpCondition_FieldTerminalPath) Get(source *Condition_IpCondition) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+			for _, value := range source.GetAllowedCidrs() {
+				values = append(values, value)
+			}
+		case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+			for _, value := range source.GetDisabledCidrs() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Condition_IpCondition))
+}
+
+// GetSingle returns value pointed by specific field of from source Condition_IpCondition
+func (fp *ConditionIpCondition_FieldTerminalPath) GetSingle(source *Condition_IpCondition) (interface{}, bool) {
+	switch fp.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		res := source.GetAllowedCidrs()
+		return res, res != nil
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		res := source.GetDisabledCidrs()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Condition_IpCondition))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ConditionIpCondition_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		return ([]string)(nil)
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) ClearValue(item *Condition_IpCondition) {
+	if item != nil {
+		switch fp.selector {
+		case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+			item.AllowedCidrs = nil
+		case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+			item.DisabledCidrs = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Condition_IpCondition))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ConditionIpCondition_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ConditionIpCondition_FieldPathSelectorAllowedCidrs ||
+		fp.selector == ConditionIpCondition_FieldPathSelectorDisabledCidrs
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) WithIValue(value interface{}) ConditionIpCondition_FieldPathValue {
+	switch fp.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		return &ConditionIpCondition_FieldTerminalPathValue{ConditionIpCondition_FieldTerminalPath: *fp, value: value.([]string)}
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		return &ConditionIpCondition_FieldTerminalPathValue{ConditionIpCondition_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) WithIArrayOfValues(values interface{}) ConditionIpCondition_FieldPathArrayOfValues {
+	fpaov := &ConditionIpCondition_FieldTerminalPathArrayOfValues{ConditionIpCondition_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		return &ConditionIpCondition_FieldTerminalPathArrayOfValues{ConditionIpCondition_FieldTerminalPath: *fp, values: values.([][]string)}
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		return &ConditionIpCondition_FieldTerminalPathArrayOfValues{ConditionIpCondition_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) WithIArrayItemValue(value interface{}) ConditionIpCondition_FieldPathArrayItemValue {
+	switch fp.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		return &ConditionIpCondition_FieldTerminalPathArrayItemValue{ConditionIpCondition_FieldTerminalPath: *fp, value: value.(string)}
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		return &ConditionIpCondition_FieldTerminalPathArrayItemValue{ConditionIpCondition_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionIpCondition_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ConditionIpCondition_FieldPathValue allows storing values for IpCondition fields according to their type
+type ConditionIpCondition_FieldPathValue interface {
+	ConditionIpCondition_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Condition_IpCondition)
+	CompareWith(*Condition_IpCondition) (cmp int, comparable bool)
+}
+
+func ParseConditionIpCondition_FieldPathValue(pathStr, valueStr string) (ConditionIpCondition_FieldPathValue, error) {
+	fp, err := ParseConditionIpCondition_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IpCondition field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ConditionIpCondition_FieldPathValue), nil
+}
+
+func MustParseConditionIpCondition_FieldPathValue(pathStr, valueStr string) ConditionIpCondition_FieldPathValue {
+	fpv, err := ParseConditionIpCondition_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ConditionIpCondition_FieldTerminalPathValue struct {
+	ConditionIpCondition_FieldTerminalPath
+	value interface{}
+}
+
+var _ ConditionIpCondition_FieldPathValue = (*ConditionIpCondition_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'IpCondition' as interface{}
+func (fpv *ConditionIpCondition_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ConditionIpCondition_FieldTerminalPathValue) AsAllowedCidrsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+func (fpv *ConditionIpCondition_FieldTerminalPathValue) AsDisabledCidrsValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object IpCondition
+func (fpv *ConditionIpCondition_FieldTerminalPathValue) SetTo(target **Condition_IpCondition) {
+	if *target == nil {
+		*target = new(Condition_IpCondition)
+	}
+	switch fpv.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		(*target).AllowedCidrs = fpv.value.([]string)
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		(*target).DisabledCidrs = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fpv.selector))
+	}
+}
+
+func (fpv *ConditionIpCondition_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Condition_IpCondition)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ConditionIpCondition_FieldTerminalPathValue' with the value under path in 'Condition_IpCondition'.
+func (fpv *ConditionIpCondition_FieldTerminalPathValue) CompareWith(source *Condition_IpCondition) (int, bool) {
+	switch fpv.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		return 0, false
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_IpCondition: %d", fpv.selector))
+	}
+}
+
+func (fpv *ConditionIpCondition_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Condition_IpCondition))
+}
+
+// ConditionIpCondition_FieldPathArrayItemValue allows storing single item in Path-specific values for IpCondition according to their type
+// Present only for array (repeated) types.
+type ConditionIpCondition_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ConditionIpCondition_FieldPath
+	ContainsValue(*Condition_IpCondition) bool
+}
+
+// ParseConditionIpCondition_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseConditionIpCondition_FieldPathArrayItemValue(pathStr, valueStr string) (ConditionIpCondition_FieldPathArrayItemValue, error) {
+	fp, err := ParseConditionIpCondition_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IpCondition field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ConditionIpCondition_FieldPathArrayItemValue), nil
+}
+
+func MustParseConditionIpCondition_FieldPathArrayItemValue(pathStr, valueStr string) ConditionIpCondition_FieldPathArrayItemValue {
+	fpaiv, err := ParseConditionIpCondition_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ConditionIpCondition_FieldTerminalPathArrayItemValue struct {
+	ConditionIpCondition_FieldTerminalPath
+	value interface{}
+}
+
+var _ ConditionIpCondition_FieldPathArrayItemValue = (*ConditionIpCondition_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Condition_IpCondition as interface{}
+func (fpaiv *ConditionIpCondition_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *ConditionIpCondition_FieldTerminalPathArrayItemValue) AsAllowedCidrsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+func (fpaiv *ConditionIpCondition_FieldTerminalPathArrayItemValue) AsDisabledCidrsItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *ConditionIpCondition_FieldTerminalPathArrayItemValue) GetSingle(source *Condition_IpCondition) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ConditionIpCondition_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Condition_IpCondition))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'IpCondition'
+func (fpaiv *ConditionIpCondition_FieldTerminalPathArrayItemValue) ContainsValue(source *Condition_IpCondition) bool {
+	slice := fpaiv.ConditionIpCondition_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ConditionIpCondition_FieldPathArrayOfValues allows storing slice of values for IpCondition fields according to their type
+type ConditionIpCondition_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ConditionIpCondition_FieldPath
+}
+
+func ParseConditionIpCondition_FieldPathArrayOfValues(pathStr, valuesStr string) (ConditionIpCondition_FieldPathArrayOfValues, error) {
+	fp, err := ParseConditionIpCondition_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing IpCondition field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ConditionIpCondition_FieldPathArrayOfValues), nil
+}
+
+func MustParseConditionIpCondition_FieldPathArrayOfValues(pathStr, valuesStr string) ConditionIpCondition_FieldPathArrayOfValues {
+	fpaov, err := ParseConditionIpCondition_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ConditionIpCondition_FieldTerminalPathArrayOfValues struct {
+	ConditionIpCondition_FieldTerminalPath
+	values interface{}
+}
+
+var _ ConditionIpCondition_FieldPathArrayOfValues = (*ConditionIpCondition_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ConditionIpCondition_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ConditionIpCondition_FieldPathSelectorAllowedCidrs:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	case ConditionIpCondition_FieldPathSelectorDisabledCidrs:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ConditionIpCondition_FieldTerminalPathArrayOfValues) AsAllowedCidrsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+func (fpaov *ConditionIpCondition_FieldTerminalPathArrayOfValues) AsDisabledCidrsArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type ConditionAttestationCondition_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() ConditionAttestationCondition_FieldPathSelector
+	Get(source *Condition_AttestationCondition) []interface{}
+	GetSingle(source *Condition_AttestationCondition) (interface{}, bool)
+	ClearValue(item *Condition_AttestationCondition)
+
+	// Those methods build corresponding ConditionAttestationCondition_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) ConditionAttestationCondition_FieldPathValue
+	WithIArrayOfValues(values interface{}) ConditionAttestationCondition_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) ConditionAttestationCondition_FieldPathArrayItemValue
+}
+
+type ConditionAttestationCondition_FieldPathSelector int32
+
+const (
+	ConditionAttestationCondition_FieldPathSelectorDomain            ConditionAttestationCondition_FieldPathSelector = 0
+	ConditionAttestationCondition_FieldPathSelectorExceptPermissions ConditionAttestationCondition_FieldPathSelector = 1
+)
+
+func (s ConditionAttestationCondition_FieldPathSelector) String() string {
+	switch s {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		return "domain"
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		return "except_permissions"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", s))
+	}
+}
+
+func BuildConditionAttestationCondition_FieldPath(fp gotenobject.RawFieldPath) (ConditionAttestationCondition_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Condition_AttestationCondition")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "domain":
+			return &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorDomain}, nil
+		case "except_permissions", "exceptPermissions", "except-permissions":
+			return &ConditionAttestationCondition_FieldTerminalPath{selector: ConditionAttestationCondition_FieldPathSelectorExceptPermissions}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Condition_AttestationCondition", fp)
+}
+
+func ParseConditionAttestationCondition_FieldPath(rawField string) (ConditionAttestationCondition_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildConditionAttestationCondition_FieldPath(fp)
+}
+
+func MustParseConditionAttestationCondition_FieldPath(rawField string) ConditionAttestationCondition_FieldPath {
+	fp, err := ParseConditionAttestationCondition_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type ConditionAttestationCondition_FieldTerminalPath struct {
+	selector ConditionAttestationCondition_FieldPathSelector
+}
+
+var _ ConditionAttestationCondition_FieldPath = (*ConditionAttestationCondition_FieldTerminalPath)(nil)
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) Selector() ConditionAttestationCondition_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *ConditionAttestationCondition_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *ConditionAttestationCondition_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Condition_AttestationCondition
+func (fp *ConditionAttestationCondition_FieldTerminalPath) Get(source *Condition_AttestationCondition) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case ConditionAttestationCondition_FieldPathSelectorDomain:
+			if source.Domain != nil {
+				values = append(values, source.Domain)
+			}
+		case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+			for _, value := range source.GetExceptPermissions() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Condition_AttestationCondition))
+}
+
+// GetSingle returns value pointed by specific field of from source Condition_AttestationCondition
+func (fp *ConditionAttestationCondition_FieldTerminalPath) GetSingle(source *Condition_AttestationCondition) (interface{}, bool) {
+	switch fp.selector {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		res := source.GetDomain()
+		return res, res != nil
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		res := source.GetExceptPermissions()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Condition_AttestationCondition))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *ConditionAttestationCondition_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		return (*attestation_domain.Reference)(nil)
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		return ([]*permission.Reference)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) ClearValue(item *Condition_AttestationCondition) {
+	if item != nil {
+		switch fp.selector {
+		case ConditionAttestationCondition_FieldPathSelectorDomain:
+			item.Domain = nil
+		case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+			item.ExceptPermissions = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Condition_AttestationCondition))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *ConditionAttestationCondition_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == ConditionAttestationCondition_FieldPathSelectorDomain ||
+		fp.selector == ConditionAttestationCondition_FieldPathSelectorExceptPermissions
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) WithIValue(value interface{}) ConditionAttestationCondition_FieldPathValue {
+	switch fp.selector {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		return &ConditionAttestationCondition_FieldTerminalPathValue{ConditionAttestationCondition_FieldTerminalPath: *fp, value: value.(*attestation_domain.Reference)}
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		return &ConditionAttestationCondition_FieldTerminalPathValue{ConditionAttestationCondition_FieldTerminalPath: *fp, value: value.([]*permission.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) WithIArrayOfValues(values interface{}) ConditionAttestationCondition_FieldPathArrayOfValues {
+	fpaov := &ConditionAttestationCondition_FieldTerminalPathArrayOfValues{ConditionAttestationCondition_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		return &ConditionAttestationCondition_FieldTerminalPathArrayOfValues{ConditionAttestationCondition_FieldTerminalPath: *fp, values: values.([]*attestation_domain.Reference)}
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		return &ConditionAttestationCondition_FieldTerminalPathArrayOfValues{ConditionAttestationCondition_FieldTerminalPath: *fp, values: values.([][]*permission.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) WithIArrayItemValue(value interface{}) ConditionAttestationCondition_FieldPathArrayItemValue {
+	switch fp.selector {
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		return &ConditionAttestationCondition_FieldTerminalPathArrayItemValue{ConditionAttestationCondition_FieldTerminalPath: *fp, value: value.(*permission.Reference)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fp.selector))
+	}
+}
+
+func (fp *ConditionAttestationCondition_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// ConditionAttestationCondition_FieldPathValue allows storing values for AttestationCondition fields according to their type
+type ConditionAttestationCondition_FieldPathValue interface {
+	ConditionAttestationCondition_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Condition_AttestationCondition)
+	CompareWith(*Condition_AttestationCondition) (cmp int, comparable bool)
+}
+
+func ParseConditionAttestationCondition_FieldPathValue(pathStr, valueStr string) (ConditionAttestationCondition_FieldPathValue, error) {
+	fp, err := ParseConditionAttestationCondition_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AttestationCondition field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(ConditionAttestationCondition_FieldPathValue), nil
+}
+
+func MustParseConditionAttestationCondition_FieldPathValue(pathStr, valueStr string) ConditionAttestationCondition_FieldPathValue {
+	fpv, err := ParseConditionAttestationCondition_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type ConditionAttestationCondition_FieldTerminalPathValue struct {
+	ConditionAttestationCondition_FieldTerminalPath
+	value interface{}
+}
+
+var _ ConditionAttestationCondition_FieldPathValue = (*ConditionAttestationCondition_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'AttestationCondition' as interface{}
+func (fpv *ConditionAttestationCondition_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *ConditionAttestationCondition_FieldTerminalPathValue) AsDomainValue() (*attestation_domain.Reference, bool) {
+	res, ok := fpv.value.(*attestation_domain.Reference)
+	return res, ok
+}
+func (fpv *ConditionAttestationCondition_FieldTerminalPathValue) AsExceptPermissionsValue() ([]*permission.Reference, bool) {
+	res, ok := fpv.value.([]*permission.Reference)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object AttestationCondition
+func (fpv *ConditionAttestationCondition_FieldTerminalPathValue) SetTo(target **Condition_AttestationCondition) {
+	if *target == nil {
+		*target = new(Condition_AttestationCondition)
+	}
+	switch fpv.selector {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		(*target).Domain = fpv.value.(*attestation_domain.Reference)
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		(*target).ExceptPermissions = fpv.value.([]*permission.Reference)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fpv.selector))
+	}
+}
+
+func (fpv *ConditionAttestationCondition_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Condition_AttestationCondition)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'ConditionAttestationCondition_FieldTerminalPathValue' with the value under path in 'Condition_AttestationCondition'.
+func (fpv *ConditionAttestationCondition_FieldTerminalPathValue) CompareWith(source *Condition_AttestationCondition) (int, bool) {
+	switch fpv.selector {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		leftValue := fpv.value.(*attestation_domain.Reference)
+		rightValue := source.GetDomain()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for Condition_AttestationCondition: %d", fpv.selector))
+	}
+}
+
+func (fpv *ConditionAttestationCondition_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Condition_AttestationCondition))
+}
+
+// ConditionAttestationCondition_FieldPathArrayItemValue allows storing single item in Path-specific values for AttestationCondition according to their type
+// Present only for array (repeated) types.
+type ConditionAttestationCondition_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	ConditionAttestationCondition_FieldPath
+	ContainsValue(*Condition_AttestationCondition) bool
+}
+
+// ParseConditionAttestationCondition_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseConditionAttestationCondition_FieldPathArrayItemValue(pathStr, valueStr string) (ConditionAttestationCondition_FieldPathArrayItemValue, error) {
+	fp, err := ParseConditionAttestationCondition_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AttestationCondition field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(ConditionAttestationCondition_FieldPathArrayItemValue), nil
+}
+
+func MustParseConditionAttestationCondition_FieldPathArrayItemValue(pathStr, valueStr string) ConditionAttestationCondition_FieldPathArrayItemValue {
+	fpaiv, err := ParseConditionAttestationCondition_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type ConditionAttestationCondition_FieldTerminalPathArrayItemValue struct {
+	ConditionAttestationCondition_FieldTerminalPath
+	value interface{}
+}
+
+var _ ConditionAttestationCondition_FieldPathArrayItemValue = (*ConditionAttestationCondition_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Condition_AttestationCondition as interface{}
+func (fpaiv *ConditionAttestationCondition_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *ConditionAttestationCondition_FieldTerminalPathArrayItemValue) AsExceptPermissionsItemValue() (*permission.Reference, bool) {
+	res, ok := fpaiv.value.(*permission.Reference)
+	return res, ok
+}
+
+func (fpaiv *ConditionAttestationCondition_FieldTerminalPathArrayItemValue) GetSingle(source *Condition_AttestationCondition) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *ConditionAttestationCondition_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Condition_AttestationCondition))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'AttestationCondition'
+func (fpaiv *ConditionAttestationCondition_FieldTerminalPathArrayItemValue) ContainsValue(source *Condition_AttestationCondition) bool {
+	slice := fpaiv.ConditionAttestationCondition_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// ConditionAttestationCondition_FieldPathArrayOfValues allows storing slice of values for AttestationCondition fields according to their type
+type ConditionAttestationCondition_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	ConditionAttestationCondition_FieldPath
+}
+
+func ParseConditionAttestationCondition_FieldPathArrayOfValues(pathStr, valuesStr string) (ConditionAttestationCondition_FieldPathArrayOfValues, error) {
+	fp, err := ParseConditionAttestationCondition_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing AttestationCondition field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(ConditionAttestationCondition_FieldPathArrayOfValues), nil
+}
+
+func MustParseConditionAttestationCondition_FieldPathArrayOfValues(pathStr, valuesStr string) ConditionAttestationCondition_FieldPathArrayOfValues {
+	fpaov, err := ParseConditionAttestationCondition_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type ConditionAttestationCondition_FieldTerminalPathArrayOfValues struct {
+	ConditionAttestationCondition_FieldTerminalPath
+	values interface{}
+}
+
+var _ ConditionAttestationCondition_FieldPathArrayOfValues = (*ConditionAttestationCondition_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *ConditionAttestationCondition_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case ConditionAttestationCondition_FieldPathSelectorDomain:
+		for _, v := range fpaov.values.([]*attestation_domain.Reference) {
+			values = append(values, v)
+		}
+	case ConditionAttestationCondition_FieldPathSelectorExceptPermissions:
+		for _, v := range fpaov.values.([][]*permission.Reference) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *ConditionAttestationCondition_FieldTerminalPathArrayOfValues) AsDomainArrayOfValues() ([]*attestation_domain.Reference, bool) {
+	res, ok := fpaov.values.([]*attestation_domain.Reference)
+	return res, ok
+}
+func (fpaov *ConditionAttestationCondition_FieldTerminalPathArrayOfValues) AsExceptPermissionsArrayOfValues() ([][]*permission.Reference, bool) {
+	res, ok := fpaov.values.([][]*permission.Reference)
 	return res, ok
 }
 

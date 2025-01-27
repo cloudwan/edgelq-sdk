@@ -114,6 +114,13 @@ func (obj *ProvisioningPolicy_Spec) GotenValidate() error {
 			}
 		}
 	}
+	for idx, elem := range obj.ExtraConditions {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Spec", "extraConditions", obj.ExtraConditions[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}

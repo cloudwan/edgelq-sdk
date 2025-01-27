@@ -6,6 +6,7 @@ package role_binding
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
@@ -22,6 +23,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
 	_ = &organization.Organization{}
@@ -50,9 +52,6 @@ func (RoleBindingFieldPathBuilder) Metadata() RoleBindingPathSelectorMetadata {
 func (RoleBindingFieldPathBuilder) Role() RoleBindingPathSelectorRole {
 	return RoleBindingPathSelectorRole{}
 }
-func (RoleBindingFieldPathBuilder) OwnedObjects() RoleBindingPathSelectorOwnedObjects {
-	return RoleBindingPathSelectorOwnedObjects{}
-}
 func (RoleBindingFieldPathBuilder) Member() RoleBindingPathSelectorMember {
 	return RoleBindingPathSelectorMember{}
 }
@@ -61,6 +60,9 @@ func (RoleBindingFieldPathBuilder) ScopeParams() RoleBindingPathSelectorScopePar
 }
 func (RoleBindingFieldPathBuilder) ExecutableConditions() RoleBindingPathSelectorExecutableConditions {
 	return RoleBindingPathSelectorExecutableConditions{}
+}
+func (RoleBindingFieldPathBuilder) OwnedObjects() RoleBindingPathSelectorOwnedObjects {
+	return RoleBindingPathSelectorOwnedObjects{}
 }
 func (RoleBindingFieldPathBuilder) MemberType() RoleBindingPathSelectorMemberType {
 	return RoleBindingPathSelectorMemberType{}
@@ -794,24 +796,6 @@ func (s RoleBindingPathSelectorRole) WithArrayOfValues(values []*role.Reference)
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
 }
 
-type RoleBindingPathSelectorOwnedObjects struct{}
-
-func (RoleBindingPathSelectorOwnedObjects) FieldPath() *RoleBinding_FieldTerminalPath {
-	return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects}
-}
-
-func (s RoleBindingPathSelectorOwnedObjects) WithValue(value []string) *RoleBinding_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldTerminalPathValue)
-}
-
-func (s RoleBindingPathSelectorOwnedObjects) WithArrayOfValues(values [][]string) *RoleBinding_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
-}
-
-func (s RoleBindingPathSelectorOwnedObjects) WithItemValue(value string) *RoleBinding_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*RoleBinding_FieldTerminalPathArrayItemValue)
-}
-
 type RoleBindingPathSelectorMember struct{}
 
 func (RoleBindingPathSelectorMember) FieldPath() *RoleBinding_FieldTerminalPath {
@@ -1104,6 +1088,24 @@ func (s RoleBindingPathSelectorExecutableConditionsParams) WithValue(value *stru
 
 func (s RoleBindingPathSelectorExecutableConditionsParams) WithArrayOfValues(values []*structpb.Struct) *RoleBinding_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldSubPathArrayOfValues)
+}
+
+type RoleBindingPathSelectorOwnedObjects struct{}
+
+func (RoleBindingPathSelectorOwnedObjects) FieldPath() *RoleBinding_FieldTerminalPath {
+	return &RoleBinding_FieldTerminalPath{selector: RoleBinding_FieldPathSelectorOwnedObjects}
+}
+
+func (s RoleBindingPathSelectorOwnedObjects) WithValue(value []string) *RoleBinding_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*RoleBinding_FieldTerminalPathValue)
+}
+
+func (s RoleBindingPathSelectorOwnedObjects) WithArrayOfValues(values [][]string) *RoleBinding_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*RoleBinding_FieldTerminalPathArrayOfValues)
+}
+
+func (s RoleBindingPathSelectorOwnedObjects) WithItemValue(value string) *RoleBinding_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*RoleBinding_FieldTerminalPathArrayItemValue)
 }
 
 type RoleBindingPathSelectorMemberType struct{}

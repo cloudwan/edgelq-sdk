@@ -954,6 +954,7 @@ const (
 	ProvisioningPolicySpec_FieldPathSelectorScopeParams             ProvisioningPolicySpec_FieldPathSelector = 8
 	ProvisioningPolicySpec_FieldPathSelectorCondition               ProvisioningPolicySpec_FieldPathSelector = 9
 	ProvisioningPolicySpec_FieldPathSelectorConditionParams         ProvisioningPolicySpec_FieldPathSelector = 10
+	ProvisioningPolicySpec_FieldPathSelectorExtraConditions         ProvisioningPolicySpec_FieldPathSelector = 11
 )
 
 func (s ProvisioningPolicySpec_FieldPathSelector) String() string {
@@ -980,6 +981,8 @@ func (s ProvisioningPolicySpec_FieldPathSelector) String() string {
 		return "condition"
 	case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 		return "condition_params"
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		return "extra_conditions"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", s))
 	}
@@ -1013,6 +1016,8 @@ func BuildProvisioningPolicySpec_FieldPath(fp gotenobject.RawFieldPath) (Provisi
 			return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorCondition}, nil
 		case "condition_params", "conditionParams", "condition-params":
 			return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorConditionParams}, nil
+		case "extra_conditions", "extraConditions", "extra-conditions":
+			return &ProvisioningPolicySpec_FieldTerminalPath{selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1027,6 +1032,12 @@ func BuildProvisioningPolicySpec_FieldPath(fp gotenobject.RawFieldPath) (Provisi
 				return nil, err
 			} else {
 				return &ProvisioningPolicySpec_FieldSubPath{selector: ProvisioningPolicySpec_FieldPathSelectorScopeParams, subPath: subpath}, nil
+			}
+		case "extra_conditions", "extraConditions", "extra-conditions":
+			if subpath, err := iam_condition.BuildExecutableCondition_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &ProvisioningPolicySpec_FieldSubPath{selector: ProvisioningPolicySpec_FieldPathSelectorExtraConditions, subPath: subpath}, nil
 			}
 		case "labels":
 			if len(fp) > 2 {
@@ -1114,6 +1125,10 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) Get(source *ProvisioningPoli
 			if source.ConditionParams != nil {
 				values = append(values, source.ConditionParams)
 			}
+		case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+			for _, value := range source.GetExtraConditions() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fp.selector))
 		}
@@ -1158,6 +1173,9 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) GetSingle(source *Provisioni
 	case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 		res := source.GetConditionParams()
 		return res, res != nil
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		res := source.GetExtraConditions()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fp.selector))
 	}
@@ -1192,6 +1210,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*iam_condition.Reference)(nil)
 	case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 		return (*structpb.Struct)(nil)
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		return ([]*iam_condition.ExecutableCondition)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fp.selector))
 	}
@@ -1222,6 +1242,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) ClearValue(item *Provisionin
 			item.Condition = nil
 		case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 			item.ConditionParams = nil
+		case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+			item.ExtraConditions = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fp.selector))
 		}
@@ -1273,6 +1295,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) WithIValue(value interface{}
 		return &ProvisioningPolicySpec_FieldTerminalPathValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(*iam_condition.Reference)}
 	case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 		return &ProvisioningPolicySpec_FieldTerminalPathValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(*structpb.Struct)}
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		return &ProvisioningPolicySpec_FieldTerminalPathValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.([]*iam_condition.ExecutableCondition)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fp.selector))
 	}
@@ -1307,6 +1331,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) WithIArrayOfValues(values in
 		return &ProvisioningPolicySpec_FieldTerminalPathArrayOfValues{ProvisioningPolicySpec_FieldTerminalPath: *fp, values: values.([]*iam_condition.Reference)}
 	case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 		return &ProvisioningPolicySpec_FieldTerminalPathArrayOfValues{ProvisioningPolicySpec_FieldTerminalPath: *fp, values: values.([]*structpb.Struct)}
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		return &ProvisioningPolicySpec_FieldTerminalPathArrayOfValues{ProvisioningPolicySpec_FieldTerminalPath: *fp, values: values.([][]*iam_condition.ExecutableCondition)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fp.selector))
 	}
@@ -1323,6 +1349,8 @@ func (fp *ProvisioningPolicySpec_FieldTerminalPath) WithIArrayItemValue(value in
 		return &ProvisioningPolicySpec_FieldTerminalPathArrayItemValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(string)}
 	case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
 		return &ProvisioningPolicySpec_FieldTerminalPathArrayItemValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(*iam_role.ScopeParam)}
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		return &ProvisioningPolicySpec_FieldTerminalPathArrayItemValue{ProvisioningPolicySpec_FieldTerminalPath: *fp, value: value.(*iam_condition.ExecutableCondition)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fp.selector))
 	}
@@ -1482,6 +1510,10 @@ func (fps *ProvisioningPolicySpec_FieldSubPath) AsScopeParamsSubPath() (iam_role
 	res, ok := fps.subPath.(iam_role.ScopeParam_FieldPath)
 	return res, ok
 }
+func (fps *ProvisioningPolicySpec_FieldSubPath) AsExtraConditionsSubPath() (iam_condition.ExecutableCondition_FieldPath, bool) {
+	res, ok := fps.subPath.(iam_condition.ExecutableCondition_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *ProvisioningPolicySpec_FieldSubPath) String() string {
@@ -1500,6 +1532,10 @@ func (fps *ProvisioningPolicySpec_FieldSubPath) Get(source *ProvisioningPolicy_S
 		values = append(values, fps.subPath.GetRaw(source.GetTemplate())...)
 	case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
 		for _, item := range source.GetScopeParams() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		for _, item := range source.GetExtraConditions() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	default:
@@ -1525,6 +1561,11 @@ func (fps *ProvisioningPolicySpec_FieldSubPath) GetSingle(source *ProvisioningPo
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetScopeParams()[0])
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		if len(source.GetExtraConditions()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetExtraConditions()[0])
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fps.selector))
 	}
@@ -1546,6 +1587,10 @@ func (fps *ProvisioningPolicySpec_FieldSubPath) ClearValue(item *ProvisioningPol
 			fps.subPath.ClearValueRaw(item.Template)
 		case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
 			for _, subItem := range item.ScopeParams {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+			for _, subItem := range item.ExtraConditions {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		default:
@@ -1676,6 +1721,10 @@ func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) AsConditionParamsValue
 	res, ok := fpv.value.(*structpb.Struct)
 	return res, ok
 }
+func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) AsExtraConditionsValue() ([]*iam_condition.ExecutableCondition, bool) {
+	res, ok := fpv.value.([]*iam_condition.ExecutableCondition)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) SetTo(target **ProvisioningPolicy_Spec) {
@@ -1705,6 +1754,8 @@ func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) SetTo(target **Provisi
 		(*target).Condition = fpv.value.(*iam_condition.Reference)
 	case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 		(*target).ConditionParams = fpv.value.(*structpb.Struct)
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		(*target).ExtraConditions = fpv.value.([]*iam_condition.ExecutableCondition)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fpv.selector))
 	}
@@ -1815,6 +1866,8 @@ func (fpv *ProvisioningPolicySpec_FieldTerminalPathValue) CompareWith(source *Pr
 		}
 	case ProvisioningPolicySpec_FieldPathSelectorConditionParams:
 		return 0, false
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fpv.selector))
 	}
@@ -1898,6 +1951,10 @@ func (fpvs *ProvisioningPolicySpec_FieldSubPathValue) AsScopeParamsPathValue() (
 	res, ok := fpvs.subPathValue.(iam_role.ScopeParam_FieldPathValue)
 	return res, ok
 }
+func (fpvs *ProvisioningPolicySpec_FieldSubPathValue) AsExtraConditionsPathValue() (iam_condition.ExecutableCondition_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(iam_condition.ExecutableCondition_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *ProvisioningPolicySpec_FieldSubPathValue) SetTo(target **ProvisioningPolicy_Spec) {
 	if *target == nil {
@@ -1907,6 +1964,8 @@ func (fpvs *ProvisioningPolicySpec_FieldSubPathValue) SetTo(target **Provisionin
 	case ProvisioningPolicySpec_FieldPathSelectorTemplate:
 		fpvs.subPathValue.(ProvisioningPolicySpecTemplate_FieldPathValue).SetTo(&(*target).Template)
 	case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
 		panic("FieldPath setter is unsupported for array subpaths")
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fpvs.Selector()))
@@ -1927,6 +1986,8 @@ func (fpvs *ProvisioningPolicySpec_FieldSubPathValue) CompareWith(source *Provis
 	case ProvisioningPolicySpec_FieldPathSelectorTemplate:
 		return fpvs.subPathValue.(ProvisioningPolicySpecTemplate_FieldPathValue).CompareWith(source.GetTemplate())
 	case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
+		return 0, false // repeated field
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
 		return 0, false // repeated field
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fpvs.Selector()))
@@ -1985,6 +2046,10 @@ func (fpaiv *ProvisioningPolicySpec_FieldTerminalPathArrayItemValue) AsScopePara
 	res, ok := fpaiv.value.(*iam_role.ScopeParam)
 	return res, ok
 }
+func (fpaiv *ProvisioningPolicySpec_FieldTerminalPathArrayItemValue) AsExtraConditionsItemValue() (*iam_condition.ExecutableCondition, bool) {
+	res, ok := fpaiv.value.(*iam_condition.ExecutableCondition)
+	return res, ok
+}
 
 func (fpaiv *ProvisioningPolicySpec_FieldTerminalPathArrayItemValue) GetSingle(source *ProvisioningPolicy_Spec) (interface{}, bool) {
 	return nil, false
@@ -2026,6 +2091,10 @@ func (fpaivs *ProvisioningPolicySpec_FieldSubPathArrayItemValue) AsScopeParamsPa
 	res, ok := fpaivs.subPathItemValue.(iam_role.ScopeParam_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *ProvisioningPolicySpec_FieldSubPathArrayItemValue) AsExtraConditionsPathItemValue() (iam_condition.ExecutableCondition_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(iam_condition.ExecutableCondition_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Spec'
 func (fpaivs *ProvisioningPolicySpec_FieldSubPathArrayItemValue) ContainsValue(source *ProvisioningPolicy_Spec) bool {
@@ -2033,6 +2102,8 @@ func (fpaivs *ProvisioningPolicySpec_FieldSubPathArrayItemValue) ContainsValue(s
 	case ProvisioningPolicySpec_FieldPathSelectorTemplate:
 		return fpaivs.subPathItemValue.(ProvisioningPolicySpecTemplate_FieldPathArrayItemValue).ContainsValue(source.GetTemplate())
 	case ProvisioningPolicySpec_FieldPathSelectorScopeParams:
+		return false // repeated/map field
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
 		return false // repeated/map field
 	default:
 		panic(fmt.Sprintf("Invalid selector for ProvisioningPolicy_Spec: %d", fpaivs.Selector()))
@@ -2118,6 +2189,10 @@ func (fpaov *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues) GetRawValues
 		for _, v := range fpaov.values.([]*structpb.Struct) {
 			values = append(values, v)
 		}
+	case ProvisioningPolicySpec_FieldPathSelectorExtraConditions:
+		for _, v := range fpaov.values.([][]*iam_condition.ExecutableCondition) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2165,6 +2240,10 @@ func (fpaov *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues) AsConditionP
 	res, ok := fpaov.values.([]*structpb.Struct)
 	return res, ok
 }
+func (fpaov *ProvisioningPolicySpec_FieldTerminalPathArrayOfValues) AsExtraConditionsArrayOfValues() ([][]*iam_condition.ExecutableCondition, bool) {
+	res, ok := fpaov.values.([][]*iam_condition.ExecutableCondition)
+	return res, ok
+}
 
 type ProvisioningPolicySpec_FieldPathMapArrayOfValues struct {
 	ProvisioningPolicySpec_FieldPathMap
@@ -2203,6 +2282,10 @@ func (fpsaov *ProvisioningPolicySpec_FieldSubPathArrayOfValues) AsTemplatePathAr
 }
 func (fpsaov *ProvisioningPolicySpec_FieldSubPathArrayOfValues) AsScopeParamsPathArrayOfValues() (iam_role.ScopeParam_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(iam_role.ScopeParam_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *ProvisioningPolicySpec_FieldSubPathArrayOfValues) AsExtraConditionsPathArrayOfValues() (iam_condition.ExecutableCondition_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(iam_condition.ExecutableCondition_FieldPathArrayOfValues)
 	return res, ok
 }
 

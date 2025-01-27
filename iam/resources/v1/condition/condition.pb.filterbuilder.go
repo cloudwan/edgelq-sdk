@@ -11,8 +11,10 @@ import (
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
@@ -30,8 +32,10 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &organization.Organization{}
+	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
@@ -226,6 +230,14 @@ func (b *filterCndBuilder) DisplayName() *filterCndBuilderDisplayName {
 
 func (b *filterCndBuilder) Description() *filterCndBuilderDescription {
 	return &filterCndBuilderDescription{builder: b.builder}
+}
+
+func (b *filterCndBuilder) IpCondition() *filterCndBuilderIpCondition {
+	return &filterCndBuilderIpCondition{builder: b.builder}
+}
+
+func (b *filterCndBuilder) AttestationCondition() *filterCndBuilderAttestationCondition {
+	return &filterCndBuilderAttestationCondition{builder: b.builder}
 }
 
 func (b *filterCndBuilder) Expression() *filterCndBuilderExpression {
@@ -2498,6 +2510,478 @@ func (b *filterCndBuilderDescription) compare(op gotenfilter.CompareOperator, va
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                 op,
 		Condition_FieldPathValue: NewConditionFieldPathBuilder().Description().WithValue(value),
+	})
+}
+
+type filterCndBuilderIpCondition struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIpCondition) Eq(value *Condition_IpCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIpCondition) Neq(value *Condition_IpCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIpCondition) Gt(value *Condition_IpCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIpCondition) Gte(value *Condition_IpCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIpCondition) Lt(value *Condition_IpCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIpCondition) Lte(value *Condition_IpCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIpCondition) In(values []*Condition_IpCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().IpCondition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIpCondition) NotIn(values []*Condition_IpCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().IpCondition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIpCondition) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIpCondition) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIpCondition) compare(op gotenfilter.CompareOperator, value *Condition_IpCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Condition_FieldPathValue: NewConditionFieldPathBuilder().IpCondition().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderIpCondition) AllowedCidrs() *filterCndBuilderIpConditionAllowedCidrs {
+	return &filterCndBuilderIpConditionAllowedCidrs{builder: b.builder}
+}
+
+func (b *filterCndBuilderIpCondition) DisabledCidrs() *filterCndBuilderIpConditionDisabledCidrs {
+	return &filterCndBuilderIpConditionDisabledCidrs{builder: b.builder}
+}
+
+type filterCndBuilderIpConditionAllowedCidrs struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().FieldPath(),
+		Value:     NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewConditionFieldPathBuilder().IpCondition().AllowedCidrs()
+	itemValues := make([]Condition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewConditionFieldPathBuilder().IpCondition().AllowedCidrs()
+	itemValues := make([]Condition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIpConditionAllowedCidrs) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Condition_FieldPathValue: NewConditionFieldPathBuilder().IpCondition().AllowedCidrs().WithValue(value),
+	})
+}
+
+type filterCndBuilderIpConditionDisabledCidrs struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().FieldPath(),
+		Value:     NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewConditionFieldPathBuilder().IpCondition().DisabledCidrs()
+	itemValues := make([]Condition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewConditionFieldPathBuilder().IpCondition().DisabledCidrs()
+	itemValues := make([]Condition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderIpConditionDisabledCidrs) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Condition_FieldPathValue: NewConditionFieldPathBuilder().IpCondition().DisabledCidrs().WithValue(value),
+	})
+}
+
+type filterCndBuilderAttestationCondition struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAttestationCondition) Eq(value *Condition_AttestationCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAttestationCondition) Neq(value *Condition_AttestationCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAttestationCondition) Gt(value *Condition_AttestationCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAttestationCondition) Gte(value *Condition_AttestationCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAttestationCondition) Lt(value *Condition_AttestationCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAttestationCondition) Lte(value *Condition_AttestationCondition) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAttestationCondition) In(values []*Condition_AttestationCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().AttestationCondition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAttestationCondition) NotIn(values []*Condition_AttestationCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().AttestationCondition().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAttestationCondition) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAttestationCondition) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAttestationCondition) compare(op gotenfilter.CompareOperator, value *Condition_AttestationCondition) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Condition_FieldPathValue: NewConditionFieldPathBuilder().AttestationCondition().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderAttestationCondition) Domain() *filterCndBuilderAttestationConditionDomain {
+	return &filterCndBuilderAttestationConditionDomain{builder: b.builder}
+}
+
+func (b *filterCndBuilderAttestationCondition) ExceptPermissions() *filterCndBuilderAttestationConditionExceptPermissions {
+	return &filterCndBuilderAttestationConditionExceptPermissions{builder: b.builder}
+}
+
+type filterCndBuilderAttestationConditionDomain struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) Eq(value *attestation_domain.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) Neq(value *attestation_domain.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) Gt(value *attestation_domain.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) Gte(value *attestation_domain.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) Lt(value *attestation_domain.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) Lte(value *attestation_domain.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) In(values []*attestation_domain.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().AttestationCondition().Domain().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) NotIn(values []*attestation_domain.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().AttestationCondition().Domain().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().Domain().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().Domain().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionDomain) compare(op gotenfilter.CompareOperator, value *attestation_domain.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Condition_FieldPathValue: NewConditionFieldPathBuilder().AttestationCondition().Domain().WithValue(value),
+	})
+}
+
+type filterCndBuilderAttestationConditionExceptPermissions struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) Eq(value []*permission.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) Neq(value []*permission.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) Gt(value []*permission.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) Gte(value []*permission.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) Lt(value []*permission.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) Lte(value []*permission.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) In(values [][]*permission.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) NotIn(values [][]*permission.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Condition_FieldPathArrayOfValues: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) Contains(value *permission.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().FieldPath(),
+		Value:     NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) ContainsAnyOf(values []*permission.Reference) *FilterBuilder {
+	pathSelector := NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions()
+	itemValues := make([]Condition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) ContainsAll(values []*permission.Reference) *FilterBuilder {
+	pathSelector := NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions()
+	itemValues := make([]Condition_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderAttestationConditionExceptPermissions) compare(op gotenfilter.CompareOperator, value []*permission.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                 op,
+		Condition_FieldPathValue: NewConditionFieldPathBuilder().AttestationCondition().ExceptPermissions().WithValue(value),
 	})
 }
 

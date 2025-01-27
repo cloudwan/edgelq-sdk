@@ -35,14 +35,6 @@ message RoleBinding {
   // Applied role.
   string role = 2;
 
-  // List of owned objects WITHIN role binding scope - for example
-  // if role binding is a child of project and owner_objects contain some
-  // device, member has all possible permissions for this device in project,
-  // regardless of method. In case ownership is for whole role binding scope, it
-  // will contain "-" string. This is computed based on a role with
-  // wildcard grants.
-  repeated string owned_objects = 3;
-
   // Binding members
   // Format of the string is one of:
   // - "allUsers" (anyone)
@@ -63,6 +55,14 @@ message RoleBinding {
   // but not in any role grant, then executable condition is applied to
   // all role grants.
   repeated ExecutableCondition executable_conditions = 6;
+
+  // List of owned objects WITHIN role binding scope - for example
+  // if role binding is a child of project and owner_objects contain some
+  // device, member has all possible permissions for this device in project,
+  // regardless of method. In case ownership is for whole role binding scope, it
+  // will contain "-" string. This is computed based on a role with
+  // wildcard grants.
+  repeated string owned_objects = 3;
 
   // Member type, its prefix from member before ':' rune, fo example "user".
   // If member has no ':' (like allUsers), then it will contain same value.

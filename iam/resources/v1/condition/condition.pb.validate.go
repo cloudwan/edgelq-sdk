@@ -20,7 +20,9 @@ import (
 
 // proto imports
 import (
+	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -42,7 +44,9 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &attestation_domain.AttestationDomain{}
 	_ = &organization.Organization{}
+	_ = &permission.Permission{}
 	_ = &project.Project{}
 	_ = &structpb.Struct{}
 	_ = &meta_service.Service{}
@@ -66,8 +70,8 @@ func (obj *Condition) GotenValidate() error {
 	}
 	{
 		rlen := utf8.RuneCountInString(obj.Description)
-		if rlen > 256 {
-			return gotenvalidate.NewValidationError("Condition", "description", obj.Description, "field must contain at most 256 characters", nil)
+		if rlen > 1024 {
+			return gotenvalidate.NewValidationError("Condition", "description", obj.Description, "field must contain at most 1024 characters", nil)
 		}
 	}
 	for idx, elem := range obj.ParameterDeclarations {
@@ -76,6 +80,22 @@ func (obj *Condition) GotenValidate() error {
 				return gotenvalidate.NewValidationError("Condition", "parameterDeclarations", obj.ParameterDeclarations[idx], "nested object validation failed", err)
 			}
 		}
+	}
+	switch opt := obj.Condition.(type) {
+	case *Condition_IpCondition_:
+		if subobj, ok := interface{}(opt.IpCondition).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Condition", "ipCondition", opt.IpCondition, "nested object validation failed", err)
+			}
+		}
+	case *Condition_AttestationCondition_:
+		if subobj, ok := interface{}(opt.AttestationCondition).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Condition", "attestationCondition", opt.AttestationCondition, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -91,6 +111,24 @@ func (obj *Condition_ParameterDeclaration) GotenValidate() error {
 	}
 	if _, ok := Condition_ParameterType_name[int32(obj.Type)]; !ok {
 		return gotenvalidate.NewValidationError("ParameterDeclaration", "type", obj.Type, "field must be a defined enum value", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Condition_IpCondition) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Condition_AttestationCondition) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
