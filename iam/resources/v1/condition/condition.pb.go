@@ -651,7 +651,13 @@ type Condition_AttestationCondition struct {
 	// By default, it contains:
 	// * services/iam.edgelq.com/permissions/attestationDomains.get
 	// * services/iam.edgelq.com/permissions/attestationDomains.verify
-	// Those 2 are necessary to obtain attestation token in the first
+	// * services/iam.edgelq.com/permissions/serviceAccounts.get
+	// * services/iam.edgelq.com/permissions/serviceAccountKeys.get
+	// * services/devices.edgelq.com/permissions/devices.list
+	// * services/devices.edgelq.com/permissions/provisioningPolicies.list
+	// * services/devices.edgelq.com/permissions/provisioningPolicies.provisionDeviceViaPolicy
+	// * services/devices.edgelq.com/permissions/provisioningPolicies.requestProvisioningApproval
+	// Those are necessary to obtain attestation token in the first
 	// place.
 	ExceptPermissions []*permission.Reference `protobuf:"bytes,2,rep,customtype=Reference,name=except_permissions,json=exceptPermissions,proto3" json:"except_permissions,omitempty" firestore:"exceptPermissions"`
 }
