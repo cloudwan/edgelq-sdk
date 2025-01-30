@@ -5,7 +5,7 @@ go 1.22.7
 toolchain go1.22.10
 
 require (
-	github.com/cloudwan/goten-sdk v1.9.5
+	github.com/cloudwan/goten-sdk v1.9.6
 	github.com/google/cel-go v0.20.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/spf13/pflag v1.0.5
