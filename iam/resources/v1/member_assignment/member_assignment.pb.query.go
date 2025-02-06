@@ -166,6 +166,27 @@ func (q *WatchQuery) SetStartingTime(startingTime *timestamppb.Timestamp) {
 	q.StartingTime = startingTime
 }
 
+type SearchQuery struct {
+	ListQuery
+	Phrase string
+}
+
+func (q *SearchQuery) String() string {
+	return gotenresource.MakeSQLSearchString(q)
+}
+
+func (q *SearchQuery) GetPhrase() string {
+	return q.Phrase
+}
+
+func (q *SearchQuery) SetPhrase(phrase string) {
+	q.Phrase = phrase
+}
+
+func (q *SearchQuery) GetWithPagingInfo() bool {
+	return true
+}
+
 type QueryResultSnapshot struct {
 	MemberAssignments []*MemberAssignment
 	PrevPageCursor    *PagerCursor

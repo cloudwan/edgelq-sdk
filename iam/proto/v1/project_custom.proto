@@ -62,3 +62,57 @@ message ListMyProjectsResponse {
 
   int32 cursor_offset = 6;
 }
+
+// Request message for method [SearchMyProjects][ntt.iam.v1.SearchMyProjects]
+message SearchMyProjectsRequest {
+  // Requested page size. Server may return fewer Projects than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // [SearchProjectsResponse.next_page_token][ntt.iam.v1.SearchMyProjectsResponse.next_page_token]
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A FieldMask used to filter response fields. When present, only requested
+  // fields will be present in each response item. Omitting field_mask results
+  // will cause response items to contain all present fields.
+  google.protobuf.FieldMask field_mask = 6;
+
+  bool include_paging_info = 7;
+
+  string phrase = 8;
+}
+
+// Response message for method [SearchMyProjects][ntt.iam.v1.SearchMyProjects]
+message SearchMyProjectsResponse {
+  // The list of Projects
+  repeated Project projects = 1;
+
+  // A token to retrieve previous page of results. Pass this value in the
+  // [SearchMyProjectsRequest.page_token][ntt.iam.v1.SearchMyProjectsRequest.page_token]
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results. Pass this value in the
+  // [SearchMyProjectsRequest.page_token][ntt.iam.v1.SearchMyProjectsRequest.page_token]
+  string next_page_token = 4;
+
+  int32 total_count = 5;
+
+  int32 cursor_offset = 6;
+}

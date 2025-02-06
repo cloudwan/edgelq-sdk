@@ -349,6 +349,67 @@ message DeleteOrganizationRequest {
   string name = 1;
 }
 
+// A request message of the SearchOrganizations method.
+message SearchOrganizationsRequest {
+  // Requested page size. Server may return fewer Organizations than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // SearchOrganizationsResponse.next_page_token.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 7;
+
+  // Optional search phrase used to further filter results.
+  string phrase = 8;
+}
+
+// A response message of the SearchOrganizations method.
+message SearchOrganizationsResponse {
+  // The list of Organizations
+  repeated Organization organizations = 1;
+
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the SearchOrganizationsRequest.page_token.
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the SearchOrganizationsRequest.page_token.
+  string next_page_token = 4;
+
+  // Current offset from the first page (0 if no page tokens were given). Page
+  // index can be computed from offset and limit provided in a request
+  int32 current_offset = 5;
+
+  // Number of total Organizations across all pages.
+  int32 total_results_count = 6;
+}
+
 // Organization service API for IAM
 service OrganizationService {
   option (google.api.default_host) = "iam.edgelq.com";
@@ -417,11 +478,27 @@ service OrganizationService {
     };
   }
 
+  // SearchOrganizations
+  rpc SearchOrganizations(SearchOrganizationsRequest)
+      returns (SearchOrganizationsResponse) {
+    option (google.api.http) = {
+      get : "/v1/organizations:search"
+    };
+  }
+
   // ListMyOrganizations
   rpc ListMyOrganizations(ListMyOrganizationsRequest)
       returns (ListMyOrganizationsResponse) {
     option (google.api.http) = {
       post : "/v1/organizations:listMy"
+    };
+  }
+
+  // SearchMyOrganizations
+  rpc SearchMyOrganizations(SearchMyOrganizationsRequest)
+      returns (SearchMyOrganizationsResponse) {
+    option (google.api.http) = {
+      post : "/v1/organizations:searchMy"
     };
   }
 }

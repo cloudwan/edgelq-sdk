@@ -49,6 +49,7 @@ type ProjectAccess interface {
 	GetProject(context.Context, *GetQuery, ...gotenresource.GetOption) (*Project, error)
 	BatchGetProjects(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryProjects(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchProjects(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchProject(context.Context, *GetQuery, func(*ProjectChange) error) error
 	WatchProjects(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveProject(context.Context, *Project, ...gotenresource.SaveOption) error
@@ -82,7 +83,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Project")
+	if asProjectQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchProjects(ctx, asProjectQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Project, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

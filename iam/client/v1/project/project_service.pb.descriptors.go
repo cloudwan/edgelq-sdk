@@ -41,7 +41,9 @@ var (
 	createProjectDescriptor    *CreateProjectDescriptor
 	updateProjectDescriptor    *UpdateProjectDescriptor
 	deleteProjectDescriptor    *DeleteProjectDescriptor
+	searchProjectsDescriptor   *SearchProjectsDescriptor
 	listMyProjectsDescriptor   *ListMyProjectsDescriptor
+	searchMyProjectsDescriptor *SearchMyProjectsDescriptor
 )
 
 type GetProjectDescriptor struct{}
@@ -1713,6 +1715,214 @@ func GetDeleteProjectDescriptor() *DeleteProjectDescriptor {
 	return deleteProjectDescriptor
 }
 
+type SearchProjectsDescriptor struct{}
+
+type SearchProjectsDescriptorClientMsgHandle struct{}
+
+type SearchProjectsDescriptorServerMsgHandle struct{}
+
+func (d *SearchProjectsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchProjectsRequest{}
+}
+
+func (d *SearchProjectsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchProjectsResponse{}
+}
+
+func (d *SearchProjectsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchProjectsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchProjectsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchProjectsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchProjectsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchProjectsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchProjectsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchProjectsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchProjectsDescriptor) GetMethodName() string {
+	return "SearchProjects"
+}
+
+func (d *SearchProjectsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.ProjectService/SearchProjects"
+}
+
+func (d *SearchProjectsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchProjectsDescriptor) GetApiName() string {
+	return "ProjectService"
+}
+
+func (d *SearchProjectsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchProjectsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchProjectsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return projectServiceDescriptor
+}
+
+func (d *SearchProjectsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return project.GetDescriptor()
+}
+
+func (d *SearchProjectsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchProjectsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchProjectsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchProjectsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchProjectsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchProjectsRequest) *project.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProjectsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchProjectsRequest) []*project.Name
+	})
+	if ok {
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchProjectsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchProjectsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchProjectsRequest) *project.Project
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProjectsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchProjectsRequest) []*project.Project
+	})
+	if ok {
+		return project.ProjectList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchProjectsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchProjectsResponse) *project.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProjectsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchProjectsResponse) []*project.Name
+	})
+	if ok {
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProjects(); len(resources) > 0 {
+			list := make(project.ProjectNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (project.ProjectNameList)(nil)
+}
+
+func (h *SearchProjectsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchProjectsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchProjectsResponse) *project.Project
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchProjectsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchProjectsResponse) []*project.Project
+	})
+	if ok {
+		return project.ProjectList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProjects(); len(resources) > 0 {
+			return project.ProjectList(resources)
+		}
+	}
+	return (project.ProjectList)(nil)
+}
+
+func GetSearchProjectsDescriptor() *SearchProjectsDescriptor {
+	return searchProjectsDescriptor
+}
+
 type ListMyProjectsDescriptor struct{}
 
 type ListMyProjectsDescriptorClientMsgHandle struct{}
@@ -1921,6 +2131,214 @@ func GetListMyProjectsDescriptor() *ListMyProjectsDescriptor {
 	return listMyProjectsDescriptor
 }
 
+type SearchMyProjectsDescriptor struct{}
+
+type SearchMyProjectsDescriptorClientMsgHandle struct{}
+
+type SearchMyProjectsDescriptorServerMsgHandle struct{}
+
+func (d *SearchMyProjectsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchMyProjectsRequest{}
+}
+
+func (d *SearchMyProjectsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchMyProjectsResponse{}
+}
+
+func (d *SearchMyProjectsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchMyProjectsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchMyProjectsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchMyProjectsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchMyProjectsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchMyProjectsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchMyProjectsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchMyProjectsDescriptor) GetVerb() string {
+	return "searchMy"
+}
+
+func (d *SearchMyProjectsDescriptor) GetMethodName() string {
+	return "SearchMyProjects"
+}
+
+func (d *SearchMyProjectsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.ProjectService/SearchMyProjects"
+}
+
+func (d *SearchMyProjectsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchMyProjectsDescriptor) GetApiName() string {
+	return "ProjectService"
+}
+
+func (d *SearchMyProjectsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchMyProjectsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchMyProjectsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return projectServiceDescriptor
+}
+
+func (d *SearchMyProjectsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return project.GetDescriptor()
+}
+
+func (d *SearchMyProjectsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchMyProjectsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchMyProjectsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchMyProjectsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchMyProjectsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMyProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchMyProjectsRequest) *project.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchMyProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchMyProjectsRequest) []*project.Name
+	})
+	if ok {
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchMyProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchMyProjectsRequest) *project.Project
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchMyProjectsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchMyProjectsRequest) []*project.Project
+	})
+	if ok {
+		return project.ProjectList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMyProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchMyProjectsResponse) *project.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchMyProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchMyProjectsResponse) []*project.Name
+	})
+	if ok {
+		return project.ProjectNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProjects(); len(resources) > 0 {
+			list := make(project.ProjectNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (project.ProjectNameList)(nil)
+}
+
+func (h *SearchMyProjectsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchMyProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchMyProjectsResponse) *project.Project
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyProjectsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchMyProjectsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchMyProjectsResponse) []*project.Project
+	})
+	if ok {
+		return project.ProjectList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetProjects(); len(resources) > 0 {
+			return project.ProjectList(resources)
+		}
+	}
+	return (project.ProjectList)(nil)
+}
+
+func GetSearchMyProjectsDescriptor() *SearchMyProjectsDescriptor {
+	return searchMyProjectsDescriptor
+}
+
 type ProjectServiceDescriptor struct{}
 
 func (d *ProjectServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1933,7 +2351,9 @@ func (d *ProjectServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDe
 		createProjectDescriptor,
 		updateProjectDescriptor,
 		deleteProjectDescriptor,
+		searchProjectsDescriptor,
 		listMyProjectsDescriptor,
+		searchMyProjectsDescriptor,
 	}
 }
 
@@ -1971,7 +2391,9 @@ func initDescriptors() {
 	createProjectDescriptor = &CreateProjectDescriptor{}
 	updateProjectDescriptor = &UpdateProjectDescriptor{}
 	deleteProjectDescriptor = &DeleteProjectDescriptor{}
+	searchProjectsDescriptor = &SearchProjectsDescriptor{}
 	listMyProjectsDescriptor = &ListMyProjectsDescriptor{}
+	searchMyProjectsDescriptor = &SearchMyProjectsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(projectServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getProjectDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetProjectsDescriptor)
@@ -1981,7 +2403,9 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createProjectDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateProjectDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteProjectDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchProjectsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listMyProjectsDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchMyProjectsDescriptor)
 }
 
 func init() {

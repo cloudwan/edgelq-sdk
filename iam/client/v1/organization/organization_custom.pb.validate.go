@@ -71,3 +71,31 @@ func (obj *ListMyOrganizationsResponse) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *SearchMyOrganizationsRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if !(obj.PageSize >= 0) {
+		return gotenvalidate.NewValidationError("SearchMyOrganizationsRequest", "pageSize", obj.PageSize, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *SearchMyOrganizationsResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Organizations {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("SearchMyOrganizationsResponse", "organizations", obj.Organizations[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

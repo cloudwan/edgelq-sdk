@@ -57,7 +57,9 @@ type OrganizationServiceClient interface {
 	CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*organization.Organization, error)
 	UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*organization.Organization, error)
 	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchOrganizations(ctx context.Context, in *SearchOrganizationsRequest, opts ...grpc.CallOption) (*SearchOrganizationsResponse, error)
 	ListMyOrganizations(ctx context.Context, in *ListMyOrganizationsRequest, opts ...grpc.CallOption) (*ListMyOrganizationsResponse, error)
+	SearchMyOrganizations(ctx context.Context, in *SearchMyOrganizationsRequest, opts ...grpc.CallOption) (*SearchMyOrganizationsResponse, error)
 }
 
 type client struct {
@@ -196,9 +198,27 @@ func (c *client) DeleteOrganization(ctx context.Context, in *DeleteOrganizationR
 	return out, nil
 }
 
+func (c *client) SearchOrganizations(ctx context.Context, in *SearchOrganizationsRequest, opts ...grpc.CallOption) (*SearchOrganizationsResponse, error) {
+	out := new(SearchOrganizationsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.OrganizationService/SearchOrganizations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *client) ListMyOrganizations(ctx context.Context, in *ListMyOrganizationsRequest, opts ...grpc.CallOption) (*ListMyOrganizationsResponse, error) {
 	out := new(ListMyOrganizationsResponse)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.OrganizationService/ListMyOrganizations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchMyOrganizations(ctx context.Context, in *SearchMyOrganizationsRequest, opts ...grpc.CallOption) (*SearchMyOrganizationsResponse, error) {
+	out := new(SearchMyOrganizationsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.OrganizationService/SearchMyOrganizations", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

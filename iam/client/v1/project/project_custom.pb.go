@@ -349,6 +349,324 @@ func (m *ListMyProjectsResponse) SetCursorOffset(fv int32) {
 	m.CursorOffset = fv
 }
 
+// Request message for method [SearchMyProjects][ntt.iam.v1.SearchMyProjects]
+type SearchMyProjectsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// Requested page size. Server may return fewer Projects than requested.
+	// If unspecified, server will pick an appropriate default.
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	// A token identifying a page of results the server should return.
+	// Typically, this is the value of
+	// [SearchProjectsResponse.next_page_token][ntt.iam.v1.SearchMyProjectsResponse.next_page_token]
+	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	// Order By -
+	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
+	// of field path with order directive, either 'asc' or 'desc'. If direction is
+	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+	// state.something.else desc, theme"
+	OrderBy *project.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	// Filter - filter results by field criteria. Simplified SQL-like syntax with
+	// following operators:
+	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+	// CONTAINS "severity:important" OR (state.last_error_time >
+	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+	Filter *project.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	// A FieldMask used to filter response fields. When present, only requested
+	// fields will be present in each response item. Omitting field_mask results
+	// will cause response items to contain all present fields.
+	FieldMask         *project.Project_FieldMask `protobuf:"bytes,6,opt,customtype=Project_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	IncludePagingInfo bool                       `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
+	Phrase            string                     `protobuf:"bytes,8,opt,name=phrase,proto3" json:"phrase,omitempty" firestore:"phrase"`
+}
+
+func (m *SearchMyProjectsRequest) Reset() {
+	*m = SearchMyProjectsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_project_custom_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *SearchMyProjectsRequest) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*SearchMyProjectsRequest) ProtoMessage() {}
+
+func (m *SearchMyProjectsRequest) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_project_custom_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*SearchMyProjectsRequest) GotenMessage() {}
+
+// Deprecated, Use SearchMyProjectsRequest.ProtoReflect.Descriptor instead.
+func (*SearchMyProjectsRequest) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_project_custom_proto_rawDescGZIP(), []int{2}
+}
+
+func (m *SearchMyProjectsRequest) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *SearchMyProjectsRequest) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *SearchMyProjectsRequest) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *SearchMyProjectsRequest) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *SearchMyProjectsRequest) GetPageSize() int32 {
+	if m != nil {
+		return m.PageSize
+	}
+	return int32(0)
+}
+
+func (m *SearchMyProjectsRequest) GetPageToken() *project.PagerCursor {
+	if m != nil {
+		return m.PageToken
+	}
+	return nil
+}
+
+func (m *SearchMyProjectsRequest) GetOrderBy() *project.OrderBy {
+	if m != nil {
+		return m.OrderBy
+	}
+	return nil
+}
+
+func (m *SearchMyProjectsRequest) GetFilter() *project.Filter {
+	if m != nil {
+		return m.Filter
+	}
+	return nil
+}
+
+func (m *SearchMyProjectsRequest) GetFieldMask() *project.Project_FieldMask {
+	if m != nil {
+		return m.FieldMask
+	}
+	return nil
+}
+
+func (m *SearchMyProjectsRequest) GetIncludePagingInfo() bool {
+	if m != nil {
+		return m.IncludePagingInfo
+	}
+	return false
+}
+
+func (m *SearchMyProjectsRequest) GetPhrase() string {
+	if m != nil {
+		return m.Phrase
+	}
+	return ""
+}
+
+func (m *SearchMyProjectsRequest) SetPageSize(fv int32) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "PageSize", "SearchMyProjectsRequest"))
+	}
+	m.PageSize = fv
+}
+
+func (m *SearchMyProjectsRequest) SetPageToken(fv *project.PagerCursor) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "PageToken", "SearchMyProjectsRequest"))
+	}
+	m.PageToken = fv
+}
+
+func (m *SearchMyProjectsRequest) SetOrderBy(fv *project.OrderBy) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "OrderBy", "SearchMyProjectsRequest"))
+	}
+	m.OrderBy = fv
+}
+
+func (m *SearchMyProjectsRequest) SetFilter(fv *project.Filter) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Filter", "SearchMyProjectsRequest"))
+	}
+	m.Filter = fv
+}
+
+func (m *SearchMyProjectsRequest) SetFieldMask(fv *project.Project_FieldMask) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "FieldMask", "SearchMyProjectsRequest"))
+	}
+	m.FieldMask = fv
+}
+
+func (m *SearchMyProjectsRequest) SetIncludePagingInfo(fv bool) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "IncludePagingInfo", "SearchMyProjectsRequest"))
+	}
+	m.IncludePagingInfo = fv
+}
+
+func (m *SearchMyProjectsRequest) SetPhrase(fv string) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Phrase", "SearchMyProjectsRequest"))
+	}
+	m.Phrase = fv
+}
+
+// Response message for method [SearchMyProjects][ntt.iam.v1.SearchMyProjects]
+type SearchMyProjectsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+	// The list of Projects
+	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty" firestore:"projects"`
+	// A token to retrieve previous page of results. Pass this value in the
+	// [SearchMyProjectsRequest.page_token][ntt.iam.v1.SearchMyProjectsRequest.page_token]
+	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	// A token to retrieve next page of results. Pass this value in the
+	// [SearchMyProjectsRequest.page_token][ntt.iam.v1.SearchMyProjectsRequest.page_token]
+	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	TotalCount    int32                `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty" firestore:"totalCount"`
+	CursorOffset  int32                `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty" firestore:"cursorOffset"`
+}
+
+func (m *SearchMyProjectsResponse) Reset() {
+	*m = SearchMyProjectsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &edgelq_iam_proto_v1_project_custom_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (m *SearchMyProjectsResponse) String() string {
+	return protoimpl.X.MessageStringOf(m)
+}
+
+func (*SearchMyProjectsResponse) ProtoMessage() {}
+
+func (m *SearchMyProjectsResponse) ProtoReflect() preflect.Message {
+	mi := &edgelq_iam_proto_v1_project_custom_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && m != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(m)
+}
+
+func (*SearchMyProjectsResponse) GotenMessage() {}
+
+// Deprecated, Use SearchMyProjectsResponse.ProtoReflect.Descriptor instead.
+func (*SearchMyProjectsResponse) Descriptor() ([]byte, []int) {
+	return edgelq_iam_proto_v1_project_custom_proto_rawDescGZIP(), []int{3}
+}
+
+func (m *SearchMyProjectsResponse) Unmarshal(b []byte) error {
+	return proto.Unmarshal(b, m)
+}
+
+func (m *SearchMyProjectsResponse) Marshal() ([]byte, error) {
+	return proto.Marshal(m)
+}
+
+func (m *SearchMyProjectsResponse) MarshalJSON() ([]byte, error) {
+	return protojson.MarshalOptions{}.Marshal(m)
+}
+
+func (m *SearchMyProjectsResponse) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, m)
+}
+
+func (m *SearchMyProjectsResponse) GetProjects() []*project.Project {
+	if m != nil {
+		return m.Projects
+	}
+	return nil
+}
+
+func (m *SearchMyProjectsResponse) GetPrevPageToken() *project.PagerCursor {
+	if m != nil {
+		return m.PrevPageToken
+	}
+	return nil
+}
+
+func (m *SearchMyProjectsResponse) GetNextPageToken() *project.PagerCursor {
+	if m != nil {
+		return m.NextPageToken
+	}
+	return nil
+}
+
+func (m *SearchMyProjectsResponse) GetTotalCount() int32 {
+	if m != nil {
+		return m.TotalCount
+	}
+	return int32(0)
+}
+
+func (m *SearchMyProjectsResponse) GetCursorOffset() int32 {
+	if m != nil {
+		return m.CursorOffset
+	}
+	return int32(0)
+}
+
+func (m *SearchMyProjectsResponse) SetProjects(fv []*project.Project) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "Projects", "SearchMyProjectsResponse"))
+	}
+	m.Projects = fv
+}
+
+func (m *SearchMyProjectsResponse) SetPrevPageToken(fv *project.PagerCursor) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "PrevPageToken", "SearchMyProjectsResponse"))
+	}
+	m.PrevPageToken = fv
+}
+
+func (m *SearchMyProjectsResponse) SetNextPageToken(fv *project.PagerCursor) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "NextPageToken", "SearchMyProjectsResponse"))
+	}
+	m.NextPageToken = fv
+}
+
+func (m *SearchMyProjectsResponse) SetTotalCount(fv int32) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "TotalCount", "SearchMyProjectsResponse"))
+	}
+	m.TotalCount = fv
+}
+
+func (m *SearchMyProjectsResponse) SetCursorOffset(fv int32) {
+	if m == nil {
+		panic(fmt.Errorf("can't set %s on nil %s", "CursorOffset", "SearchMyProjectsResponse"))
+	}
+	m.CursorOffset = fv
+}
+
 var edgelq_iam_proto_v1_project_custom_proto preflect.FileDescriptor
 
 var edgelq_iam_proto_v1_project_custom_proto_rawDesc = []byte{
@@ -407,14 +725,52 @@ var edgelq_iam_proto_v1_project_custom_proto_rawDesc = []byte{
 	0x28, 0x05, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x23,
 	0x0a, 0x0d, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18,
 	0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x4f, 0x66, 0x66,
-	0x73, 0x65, 0x74, 0x42, 0x6e, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x11, 0x63, 0x6f, 0x6d, 0x2e, 0x6e,
-	0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x12, 0x50, 0x72,
-	0x6f, 0x6a, 0x65, 0x63, 0x74, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f,
-	0x50, 0x00, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63,
-	0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x69,
-	0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x72, 0x6f,
-	0x6a, 0x65, 0x63, 0x74, 0x3b, 0x70, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x5f, 0x63, 0x6c, 0x69,
-	0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x65, 0x74, 0x22, 0xd9, 0x02, 0x0a, 0x17, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4d, 0x79,
+	0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
+	0x25, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x05, 0x42, 0x08, 0xca, 0xc6, 0x27, 0x04, 0x12, 0x02, 0x2a, 0x00, 0x52, 0x08, 0x70, 0x61,
+	0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x2e, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74,
+	0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0f, 0xb2, 0xda, 0x21, 0x0b,
+	0x22, 0x09, 0x0a, 0x07, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x09, 0x70, 0x61, 0x67,
+	0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x2a, 0x0a, 0x08, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x5f,
+	0x62, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0f, 0xb2, 0xda, 0x21, 0x0b, 0x2a, 0x09,
+	0x0a, 0x07, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x07, 0x6f, 0x72, 0x64, 0x65, 0x72,
+	0x42, 0x79, 0x12, 0x27, 0x0a, 0x06, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x18, 0x05, 0x20, 0x01,
+	0x28, 0x09, 0x42, 0x0f, 0xb2, 0xda, 0x21, 0x0b, 0x1a, 0x09, 0x0a, 0x07, 0x50, 0x72, 0x6f, 0x6a,
+	0x65, 0x63, 0x74, 0x52, 0x06, 0x66, 0x69, 0x6c, 0x74, 0x65, 0x72, 0x12, 0x4a, 0x0a, 0x0a, 0x66,
+	0x69, 0x65, 0x6c, 0x64, 0x5f, 0x6d, 0x61, 0x73, 0x6b, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x42, 0x0f, 0xb2, 0xda, 0x21,
+	0x0b, 0x32, 0x09, 0x0a, 0x07, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x09, 0x66, 0x69,
+	0x65, 0x6c, 0x64, 0x4d, 0x61, 0x73, 0x6b, 0x12, 0x2e, 0x0a, 0x13, 0x69, 0x6e, 0x63, 0x6c, 0x75,
+	0x64, 0x65, 0x5f, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x67, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x07,
+	0x20, 0x01, 0x28, 0x08, 0x52, 0x11, 0x69, 0x6e, 0x63, 0x6c, 0x75, 0x64, 0x65, 0x50, 0x61, 0x67,
+	0x69, 0x6e, 0x67, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x16, 0x0a, 0x06, 0x70, 0x68, 0x72, 0x61, 0x73,
+	0x65, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x70, 0x68, 0x72, 0x61, 0x73, 0x65, 0x22,
+	0x83, 0x02, 0x0a, 0x18, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4d, 0x79, 0x50, 0x72, 0x6f, 0x6a,
+	0x65, 0x63, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2f, 0x0a, 0x08,
+	0x70, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x13,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x6a,
+	0x65, 0x63, 0x74, 0x52, 0x08, 0x70, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x73, 0x12, 0x37, 0x0a,
+	0x0f, 0x70, 0x72, 0x65, 0x76, 0x5f, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e,
+	0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0f, 0xb2, 0xda, 0x21, 0x0b, 0x22, 0x09, 0x0a, 0x07,
+	0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x52, 0x0d, 0x70, 0x72, 0x65, 0x76, 0x50, 0x61, 0x67,
+	0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x37, 0x0a, 0x0f, 0x6e, 0x65, 0x78, 0x74, 0x5f, 0x70,
+	0x61, 0x67, 0x65, 0x5f, 0x74, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x42,
+	0x0f, 0xb2, 0xda, 0x21, 0x0b, 0x22, 0x09, 0x0a, 0x07, 0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74,
+	0x52, 0x0d, 0x6e, 0x65, 0x78, 0x74, 0x50, 0x61, 0x67, 0x65, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12,
+	0x1f, 0x0a, 0x0b, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x0a, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x43, 0x6f, 0x75, 0x6e, 0x74,
+	0x12, 0x23, 0x0a, 0x0d, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x5f, 0x6f, 0x66, 0x66, 0x73, 0x65,
+	0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x63, 0x75, 0x72, 0x73, 0x6f, 0x72, 0x4f,
+	0x66, 0x66, 0x73, 0x65, 0x74, 0x42, 0x6e, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x11, 0x63, 0x6f, 0x6d,
+	0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42, 0x12,
+	0x50, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f,
+	0x74, 0x6f, 0x50, 0x00, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71,
+	0x2f, 0x69, 0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x70,
+	0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x3b, 0x70, 0x72, 0x6f, 0x6a, 0x65, 0x63, 0x74, 0x5f, 0x63,
+	0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -429,21 +785,25 @@ func edgelq_iam_proto_v1_project_custom_proto_rawDescGZIP() []byte {
 	return edgelq_iam_proto_v1_project_custom_proto_rawDescData
 }
 
-var edgelq_iam_proto_v1_project_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var edgelq_iam_proto_v1_project_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var edgelq_iam_proto_v1_project_custom_proto_goTypes = []interface{}{
 	(*ListMyProjectsRequest)(nil),     // 0: ntt.iam.v1.ListMyProjectsRequest
 	(*ListMyProjectsResponse)(nil),    // 1: ntt.iam.v1.ListMyProjectsResponse
-	(*project.Project_FieldMask)(nil), // 2: ntt.iam.v1.Project_FieldMask
-	(*project.Project)(nil),           // 3: ntt.iam.v1.Project
+	(*SearchMyProjectsRequest)(nil),   // 2: ntt.iam.v1.SearchMyProjectsRequest
+	(*SearchMyProjectsResponse)(nil),  // 3: ntt.iam.v1.SearchMyProjectsResponse
+	(*project.Project_FieldMask)(nil), // 4: ntt.iam.v1.Project_FieldMask
+	(*project.Project)(nil),           // 5: ntt.iam.v1.Project
 }
 var edgelq_iam_proto_v1_project_custom_proto_depIdxs = []int32{
-	2, // 0: ntt.iam.v1.ListMyProjectsRequest.field_mask:type_name -> ntt.iam.v1.Project_FieldMask
-	3, // 1: ntt.iam.v1.ListMyProjectsResponse.projects:type_name -> ntt.iam.v1.Project
-	2, // [2:2] is the sub-list for method output_type
-	2, // [2:2] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	4, // 0: ntt.iam.v1.ListMyProjectsRequest.field_mask:type_name -> ntt.iam.v1.Project_FieldMask
+	5, // 1: ntt.iam.v1.ListMyProjectsResponse.projects:type_name -> ntt.iam.v1.Project
+	4, // 2: ntt.iam.v1.SearchMyProjectsRequest.field_mask:type_name -> ntt.iam.v1.Project_FieldMask
+	5, // 3: ntt.iam.v1.SearchMyProjectsResponse.projects:type_name -> ntt.iam.v1.Project
+	4, // [4:4] is the sub-list for method output_type
+	4, // [4:4] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { edgelq_iam_proto_v1_project_custom_proto_init() }
@@ -477,6 +837,30 @@ func edgelq_iam_proto_v1_project_custom_proto_init() {
 				return nil
 			}
 		}
+		edgelq_iam_proto_v1_project_custom_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchMyProjectsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		edgelq_iam_proto_v1_project_custom_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchMyProjectsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 
 	type x struct{}
@@ -485,7 +869,7 @@ func edgelq_iam_proto_v1_project_custom_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_iam_proto_v1_project_custom_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

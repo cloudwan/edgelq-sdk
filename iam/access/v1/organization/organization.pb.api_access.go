@@ -145,6 +145,39 @@ func (a *apiOrganizationAccess) QueryOrganizations(ctx context.Context, query *o
 	}, nil
 }
 
+func (a *apiOrganizationAccess) SearchOrganizations(ctx context.Context, query *organization.SearchQuery, opts ...gotenresource.QueryOption) (*organization.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &organization_client.SearchOrganizationsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	resp, err := a.client.SearchOrganizations(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &organization.QueryResultSnapshot{
+		Organizations:     resp.Organizations,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiOrganizationAccess) WatchOrganization(ctx context.Context, query *organization.GetQuery, observerCb func(*organization.OrganizationChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

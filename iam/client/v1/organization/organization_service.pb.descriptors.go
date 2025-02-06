@@ -41,7 +41,9 @@ var (
 	createOrganizationDescriptor    *CreateOrganizationDescriptor
 	updateOrganizationDescriptor    *UpdateOrganizationDescriptor
 	deleteOrganizationDescriptor    *DeleteOrganizationDescriptor
+	searchOrganizationsDescriptor   *SearchOrganizationsDescriptor
 	listMyOrganizationsDescriptor   *ListMyOrganizationsDescriptor
+	searchMyOrganizationsDescriptor *SearchMyOrganizationsDescriptor
 )
 
 type GetOrganizationDescriptor struct{}
@@ -1713,6 +1715,214 @@ func GetDeleteOrganizationDescriptor() *DeleteOrganizationDescriptor {
 	return deleteOrganizationDescriptor
 }
 
+type SearchOrganizationsDescriptor struct{}
+
+type SearchOrganizationsDescriptorClientMsgHandle struct{}
+
+type SearchOrganizationsDescriptorServerMsgHandle struct{}
+
+func (d *SearchOrganizationsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchOrganizationsRequest{}
+}
+
+func (d *SearchOrganizationsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchOrganizationsResponse{}
+}
+
+func (d *SearchOrganizationsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchOrganizationsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchOrganizationsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchOrganizationsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchOrganizationsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchOrganizationsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchOrganizationsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchOrganizationsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchOrganizationsDescriptor) GetMethodName() string {
+	return "SearchOrganizations"
+}
+
+func (d *SearchOrganizationsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.OrganizationService/SearchOrganizations"
+}
+
+func (d *SearchOrganizationsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchOrganizationsDescriptor) GetApiName() string {
+	return "OrganizationService"
+}
+
+func (d *SearchOrganizationsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchOrganizationsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchOrganizationsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return organizationServiceDescriptor
+}
+
+func (d *SearchOrganizationsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return organization.GetDescriptor()
+}
+
+func (d *SearchOrganizationsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchOrganizationsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchOrganizationsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchOrganizationsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchOrganizationsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchOrganizationsRequest) *organization.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchOrganizationsRequest) []*organization.Name
+	})
+	if ok {
+		return organization.OrganizationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchOrganizationsRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchOrganizationsRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchOrganizationsResponse) *organization.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchOrganizationsResponse) []*organization.Name
+	})
+	if ok {
+		return organization.OrganizationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizations(); len(resources) > 0 {
+			list := make(organization.OrganizationNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (organization.OrganizationNameList)(nil)
+}
+
+func (h *SearchOrganizationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchOrganizationsResponse) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchOrganizationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchOrganizationsResponse) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizations(); len(resources) > 0 {
+			return organization.OrganizationList(resources)
+		}
+	}
+	return (organization.OrganizationList)(nil)
+}
+
+func GetSearchOrganizationsDescriptor() *SearchOrganizationsDescriptor {
+	return searchOrganizationsDescriptor
+}
+
 type ListMyOrganizationsDescriptor struct{}
 
 type ListMyOrganizationsDescriptorClientMsgHandle struct{}
@@ -1921,6 +2131,214 @@ func GetListMyOrganizationsDescriptor() *ListMyOrganizationsDescriptor {
 	return listMyOrganizationsDescriptor
 }
 
+type SearchMyOrganizationsDescriptor struct{}
+
+type SearchMyOrganizationsDescriptorClientMsgHandle struct{}
+
+type SearchMyOrganizationsDescriptorServerMsgHandle struct{}
+
+func (d *SearchMyOrganizationsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchMyOrganizationsRequest{}
+}
+
+func (d *SearchMyOrganizationsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchMyOrganizationsResponse{}
+}
+
+func (d *SearchMyOrganizationsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchMyOrganizationsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchMyOrganizationsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchMyOrganizationsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchMyOrganizationsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchMyOrganizationsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchMyOrganizationsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetVerb() string {
+	return "searchMy"
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetMethodName() string {
+	return "SearchMyOrganizations"
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.OrganizationService/SearchMyOrganizations"
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetApiName() string {
+	return "OrganizationService"
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return organizationServiceDescriptor
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return organization.GetDescriptor()
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchMyOrganizationsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchMyOrganizationsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchMyOrganizationsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchMyOrganizationsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMyOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchMyOrganizationsRequest) *organization.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchMyOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchMyOrganizationsRequest) []*organization.Name
+	})
+	if ok {
+		return organization.OrganizationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchMyOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchMyOrganizationsRequest) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchMyOrganizationsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchMyOrganizationsRequest) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMyOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchMyOrganizationsResponse) *organization.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchMyOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchMyOrganizationsResponse) []*organization.Name
+	})
+	if ok {
+		return organization.OrganizationNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizations(); len(resources) > 0 {
+			list := make(organization.OrganizationNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (organization.OrganizationNameList)(nil)
+}
+
+func (h *SearchMyOrganizationsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchMyOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchMyOrganizationsResponse) *organization.Organization
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMyOrganizationsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchMyOrganizationsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchMyOrganizationsResponse) []*organization.Organization
+	})
+	if ok {
+		return organization.OrganizationList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetOrganizations(); len(resources) > 0 {
+			return organization.OrganizationList(resources)
+		}
+	}
+	return (organization.OrganizationList)(nil)
+}
+
+func GetSearchMyOrganizationsDescriptor() *SearchMyOrganizationsDescriptor {
+	return searchMyOrganizationsDescriptor
+}
+
 type OrganizationServiceDescriptor struct{}
 
 func (d *OrganizationServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1933,7 +2351,9 @@ func (d *OrganizationServiceDescriptor) AllMethodDescriptors() []gotenclient.Met
 		createOrganizationDescriptor,
 		updateOrganizationDescriptor,
 		deleteOrganizationDescriptor,
+		searchOrganizationsDescriptor,
 		listMyOrganizationsDescriptor,
+		searchMyOrganizationsDescriptor,
 	}
 }
 
@@ -1971,7 +2391,9 @@ func initDescriptors() {
 	createOrganizationDescriptor = &CreateOrganizationDescriptor{}
 	updateOrganizationDescriptor = &UpdateOrganizationDescriptor{}
 	deleteOrganizationDescriptor = &DeleteOrganizationDescriptor{}
+	searchOrganizationsDescriptor = &SearchOrganizationsDescriptor{}
 	listMyOrganizationsDescriptor = &ListMyOrganizationsDescriptor{}
+	searchMyOrganizationsDescriptor = &SearchMyOrganizationsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(organizationServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getOrganizationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetOrganizationsDescriptor)
@@ -1981,7 +2403,9 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createOrganizationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateOrganizationDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteOrganizationDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchOrganizationsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(listMyOrganizationsDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchMyOrganizationsDescriptor)
 }
 
 func init() {

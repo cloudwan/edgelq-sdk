@@ -148,6 +148,42 @@ func (a *apiMemberAssignmentAccess) QueryMemberAssignments(ctx context.Context, 
 	}, nil
 }
 
+func (a *apiMemberAssignmentAccess) SearchMemberAssignments(ctx context.Context, query *member_assignment.SearchQuery, opts ...gotenresource.QueryOption) (*member_assignment.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &member_assignment_client.SearchMemberAssignmentsRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchMemberAssignments(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &member_assignment.QueryResultSnapshot{
+		MemberAssignments: resp.MemberAssignments,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiMemberAssignmentAccess) WatchMemberAssignment(ctx context.Context, query *member_assignment.GetQuery, observerCb func(*member_assignment.MemberAssignmentChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

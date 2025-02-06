@@ -41,8 +41,22 @@ resources:
       transaction: NONE
     multiRegionRouting:
       skipCodeGenBasedRouting: true
+  - name: SearchMyOrganizations
+    verb: searchMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "organizations" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
   multiRegion:
     isPolicyHolder: true
+  optIns:
+    searchable: true
 
 - name: OrganizationInvitation
   parents:
@@ -81,8 +95,22 @@ resources:
       transaction: NONE
     multiRegionRouting:
       skipCodeGenBasedRouting: true
+  - name: SearchMyProjects
+    verb: searchMy
+    opResourceInfo:
+      isCollection: true
+      isPlural: true
+      responsePaths:
+        resourceBody: [ "projects" ]
+    withStoreHandle:
+      readOnly: true
+      transaction: NONE
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
   multiRegion:
     isPolicyHolder: true
+  optIns:
+    searchable: true
 
 - name: ProjectInvitation
   parents:
@@ -265,6 +293,8 @@ resources:
       transaction: SNAPSHOT
 
 - name: MemberAssignment
+  optIns:
+    searchable: true
   optOuts:
     basicActions:
     - CreateMemberAssignment

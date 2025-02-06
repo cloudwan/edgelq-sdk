@@ -40,6 +40,7 @@ var (
 	watchMemberAssignmentsDescriptor    *WatchMemberAssignmentsDescriptor
 	updateMemberAssignmentDescriptor    *UpdateMemberAssignmentDescriptor
 	deleteMemberAssignmentDescriptor    *DeleteMemberAssignmentDescriptor
+	searchMemberAssignmentsDescriptor   *SearchMemberAssignmentsDescriptor
 )
 
 type GetMemberAssignmentDescriptor struct{}
@@ -1633,6 +1634,235 @@ func GetDeleteMemberAssignmentDescriptor() *DeleteMemberAssignmentDescriptor {
 	return deleteMemberAssignmentDescriptor
 }
 
+type SearchMemberAssignmentsDescriptor struct{}
+
+type SearchMemberAssignmentsDescriptorClientMsgHandle struct{}
+
+type SearchMemberAssignmentsDescriptorServerMsgHandle struct{}
+
+func (d *SearchMemberAssignmentsDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchMemberAssignmentsRequest{}
+}
+
+func (d *SearchMemberAssignmentsDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchMemberAssignmentsResponse{}
+}
+
+func (d *SearchMemberAssignmentsDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchMemberAssignmentsDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchMemberAssignmentsDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchMemberAssignmentsDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchMemberAssignmentsDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchMemberAssignmentsDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchMemberAssignmentsDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetMethodName() string {
+	return "SearchMemberAssignments"
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.MemberAssignmentService/SearchMemberAssignments"
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetApiName() string {
+	return "MemberAssignmentService"
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return memberAssignmentServiceDescriptor
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return member_assignment.GetDescriptor()
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchMemberAssignmentsDescriptorClientMsgHandle{}
+}
+
+func (d *SearchMemberAssignmentsDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchMemberAssignmentsDescriptorServerMsgHandle{}
+}
+
+func (h *SearchMemberAssignmentsDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMemberAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchMemberAssignmentsRequest) *member_assignment.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMemberAssignmentsDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchMemberAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchMemberAssignmentsRequest) []*member_assignment.Name
+	})
+	if ok {
+		return member_assignment.MemberAssignmentNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchMemberAssignmentsDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMemberAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchMemberAssignmentsRequest) *member_assignment.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*member_assignment.ParentName)(nil)
+}
+
+func (h *SearchMemberAssignmentsDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchMemberAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchMemberAssignmentsRequest) *member_assignment.MemberAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMemberAssignmentsDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchMemberAssignmentsRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchMemberAssignmentsRequest) []*member_assignment.MemberAssignment
+	})
+	if ok {
+		return member_assignment.MemberAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchMemberAssignmentsDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMemberAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchMemberAssignmentsResponse) *member_assignment.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMemberAssignmentsDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchMemberAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchMemberAssignmentsResponse) []*member_assignment.Name
+	})
+	if ok {
+		return member_assignment.MemberAssignmentNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetMemberAssignments(); len(resources) > 0 {
+			list := make(member_assignment.MemberAssignmentNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (member_assignment.MemberAssignmentNameList)(nil)
+}
+
+func (h *SearchMemberAssignmentsDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchMemberAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchMemberAssignmentsResponse) *member_assignment.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMemberAssignmentsDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchMemberAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchMemberAssignmentsResponse) *member_assignment.MemberAssignment
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchMemberAssignmentsDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchMemberAssignmentsResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchMemberAssignmentsResponse) []*member_assignment.MemberAssignment
+	})
+	if ok {
+		return member_assignment.MemberAssignmentList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetMemberAssignments(); len(resources) > 0 {
+			return member_assignment.MemberAssignmentList(resources)
+		}
+	}
+	return (member_assignment.MemberAssignmentList)(nil)
+}
+
+func GetSearchMemberAssignmentsDescriptor() *SearchMemberAssignmentsDescriptor {
+	return searchMemberAssignmentsDescriptor
+}
+
 type MemberAssignmentServiceDescriptor struct{}
 
 func (d *MemberAssignmentServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1644,6 +1874,7 @@ func (d *MemberAssignmentServiceDescriptor) AllMethodDescriptors() []gotenclient
 		watchMemberAssignmentsDescriptor,
 		updateMemberAssignmentDescriptor,
 		deleteMemberAssignmentDescriptor,
+		searchMemberAssignmentsDescriptor,
 	}
 }
 
@@ -1680,6 +1911,7 @@ func initDescriptors() {
 	watchMemberAssignmentsDescriptor = &WatchMemberAssignmentsDescriptor{}
 	updateMemberAssignmentDescriptor = &UpdateMemberAssignmentDescriptor{}
 	deleteMemberAssignmentDescriptor = &DeleteMemberAssignmentDescriptor{}
+	searchMemberAssignmentsDescriptor = &SearchMemberAssignmentsDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(memberAssignmentServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getMemberAssignmentDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetMemberAssignmentsDescriptor)
@@ -1688,6 +1920,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(watchMemberAssignmentsDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateMemberAssignmentDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteMemberAssignmentDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchMemberAssignmentsDescriptor)
 }
 
 func init() {

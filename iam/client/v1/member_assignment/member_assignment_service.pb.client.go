@@ -56,6 +56,7 @@ type MemberAssignmentServiceClient interface {
 	WatchMemberAssignments(ctx context.Context, in *WatchMemberAssignmentsRequest, opts ...grpc.CallOption) (WatchMemberAssignmentsClientStream, error)
 	UpdateMemberAssignment(ctx context.Context, in *UpdateMemberAssignmentRequest, opts ...grpc.CallOption) (*member_assignment.MemberAssignment, error)
 	DeleteMemberAssignment(ctx context.Context, in *DeleteMemberAssignmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchMemberAssignments(ctx context.Context, in *SearchMemberAssignmentsRequest, opts ...grpc.CallOption) (*SearchMemberAssignmentsResponse, error)
 }
 
 type client struct {
@@ -179,6 +180,15 @@ func (c *client) UpdateMemberAssignment(ctx context.Context, in *UpdateMemberAss
 func (c *client) DeleteMemberAssignment(ctx context.Context, in *DeleteMemberAssignmentRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.MemberAssignmentService/DeleteMemberAssignment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchMemberAssignments(ctx context.Context, in *SearchMemberAssignmentsRequest, opts ...grpc.CallOption) (*SearchMemberAssignmentsResponse, error) {
+	out := new(SearchMemberAssignmentsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.MemberAssignmentService/SearchMemberAssignments", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

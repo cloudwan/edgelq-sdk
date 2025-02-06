@@ -47,6 +47,7 @@ type OrganizationAccess interface {
 	GetOrganization(context.Context, *GetQuery, ...gotenresource.GetOption) (*Organization, error)
 	BatchGetOrganizations(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryOrganizations(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchOrganizations(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchOrganization(context.Context, *GetQuery, func(*OrganizationChange) error) error
 	WatchOrganizations(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveOrganization(context.Context, *Organization, ...gotenresource.SaveOption) error
@@ -80,7 +81,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for Organization")
+	if asOrganizationQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchOrganizations(ctx, asOrganizationQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected Organization, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

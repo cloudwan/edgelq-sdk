@@ -57,7 +57,9 @@ type ProjectServiceClient interface {
 	CreateProject(ctx context.Context, in *CreateProjectRequest, opts ...grpc.CallOption) (*project.Project, error)
 	UpdateProject(ctx context.Context, in *UpdateProjectRequest, opts ...grpc.CallOption) (*project.Project, error)
 	DeleteProject(ctx context.Context, in *DeleteProjectRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchProjects(ctx context.Context, in *SearchProjectsRequest, opts ...grpc.CallOption) (*SearchProjectsResponse, error)
 	ListMyProjects(ctx context.Context, in *ListMyProjectsRequest, opts ...grpc.CallOption) (*ListMyProjectsResponse, error)
+	SearchMyProjects(ctx context.Context, in *SearchMyProjectsRequest, opts ...grpc.CallOption) (*SearchMyProjectsResponse, error)
 }
 
 type client struct {
@@ -196,9 +198,27 @@ func (c *client) DeleteProject(ctx context.Context, in *DeleteProjectRequest, op
 	return out, nil
 }
 
+func (c *client) SearchProjects(ctx context.Context, in *SearchProjectsRequest, opts ...grpc.CallOption) (*SearchProjectsResponse, error) {
+	out := new(SearchProjectsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ProjectService/SearchProjects", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *client) ListMyProjects(ctx context.Context, in *ListMyProjectsRequest, opts ...grpc.CallOption) (*ListMyProjectsResponse, error) {
 	out := new(ListMyProjectsResponse)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ProjectService/ListMyProjects", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchMyProjects(ctx context.Context, in *SearchMyProjectsRequest, opts ...grpc.CallOption) (*SearchMyProjectsResponse, error) {
+	out := new(SearchMyProjectsResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.ProjectService/SearchMyProjects", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
