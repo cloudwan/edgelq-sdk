@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.applications.v1;
 
+import "edgelq-sdk/common/api/healthcheck.proto";
 import "edgelq-sdk/devices/proto/v1/device.proto";
 import "google/api/field_behavior.proto";
 import "google/api/resource.proto";
@@ -46,6 +47,10 @@ message PodSpec {
   // HostVolumeMounts defines volumes to be mounted to the host file system.
   repeated VolumeMount host_volume_mounts = 8;
 
+  // Health checks for services defined in the compose.
+  // map of serviceName to HealthCheck
+  map<string, ContainerHealthChecks> compose_health_checks = 9;
+
   // Container defines configuration of a Container.
   message Container {
     // args to run the command.
@@ -83,12 +88,20 @@ message PodSpec {
     // key will take precedence. Cannot be updated.
     EnvFromSource envFrom = 19;
 
+    // Health check for container
+    repeated ntt.api.HealthCheckSpec health_check = 20;
+
     message ResourceRequirements {
       // todo: change to k8s.io.apimachinery.pkg.api.resource.
       map<string, int64> limits = 1;
 
       map<string, int64> requests = 2;
     }
+  }
+
+  // There can be more than 1 health check for a container
+  message ContainerHealthChecks {
+    repeated ntt.api.HealthCheckSpec health_checks = 1;
   }
 
   enum RestartPolicy {

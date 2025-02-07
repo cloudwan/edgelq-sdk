@@ -23,6 +23,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -56,6 +57,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -1038,6 +1040,7 @@ const (
 	DeviceSpec_FieldPathSelectorProxyConfig            DeviceSpec_FieldPathSelector = 11
 	DeviceSpec_FieldPathSelectorLocation               DeviceSpec_FieldPathSelector = 12
 	DeviceSpec_FieldPathSelectorUsbGuard               DeviceSpec_FieldPathSelector = 13
+	DeviceSpec_FieldPathSelectorHealthChecks           DeviceSpec_FieldPathSelector = 14
 )
 
 func (s DeviceSpec_FieldPathSelector) String() string {
@@ -1070,6 +1073,8 @@ func (s DeviceSpec_FieldPathSelector) String() string {
 		return "location"
 	case DeviceSpec_FieldPathSelectorUsbGuard:
 		return "usb_guard"
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		return "health_checks"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", s))
 	}
@@ -1109,6 +1114,8 @@ func BuildDeviceSpec_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpec_FieldPat
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLocation}, nil
 		case "usb_guard", "usbGuard", "usb-guard":
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorUsbGuard}, nil
+		case "health_checks", "healthChecks", "health-checks":
+			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1239,6 +1246,10 @@ func (fp *DeviceSpec_FieldTerminalPath) Get(source *Device_Spec) (values []inter
 			if source.UsbGuard != nil {
 				values = append(values, source.UsbGuard)
 			}
+		case DeviceSpec_FieldPathSelectorHealthChecks:
+			for _, value := range source.GetHealthChecks() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1290,6 +1301,9 @@ func (fp *DeviceSpec_FieldTerminalPath) GetSingle(source *Device_Spec) (interfac
 	case DeviceSpec_FieldPathSelectorUsbGuard:
 		res := source.GetUsbGuard()
 		return res, res != nil
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		res := source.GetHealthChecks()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1330,6 +1344,8 @@ func (fp *DeviceSpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*Device_Spec_Location)(nil)
 	case DeviceSpec_FieldPathSelectorUsbGuard:
 		return (*Device_Spec_USBGuard)(nil)
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		return ([]*api.HealthCheckSpec)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1366,6 +1382,8 @@ func (fp *DeviceSpec_FieldTerminalPath) ClearValue(item *Device_Spec) {
 			item.Location = nil
 		case DeviceSpec_FieldPathSelectorUsbGuard:
 			item.UsbGuard = nil
+		case DeviceSpec_FieldPathSelectorHealthChecks:
+			item.HealthChecks = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1385,7 +1403,8 @@ func (fp *DeviceSpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpec_FieldPathSelectorNetplanYamlConfig ||
 		fp.selector == DeviceSpec_FieldPathSelectorNetplanApiConfigMode ||
 		fp.selector == DeviceSpec_FieldPathSelectorOsImageUrl ||
-		fp.selector == DeviceSpec_FieldPathSelectorDisableDeviceDiscovery
+		fp.selector == DeviceSpec_FieldPathSelectorDisableDeviceDiscovery ||
+		fp.selector == DeviceSpec_FieldPathSelectorHealthChecks
 }
 
 func (fp *DeviceSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1422,6 +1441,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIValue(value interface{}) DeviceSpec
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*Device_Spec_Location)}
 	case DeviceSpec_FieldPathSelectorUsbGuard:
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*Device_Spec_USBGuard)}
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.([]*api.HealthCheckSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1462,6 +1483,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]*Device_Spec_Location)}
 	case DeviceSpec_FieldPathSelectorUsbGuard:
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]*Device_Spec_USBGuard)}
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([][]*api.HealthCheckSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1474,6 +1497,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithRawIArrayOfValues(values interface{}
 
 func (fp *DeviceSpec_FieldTerminalPath) WithIArrayItemValue(value interface{}) DeviceSpec_FieldPathArrayItemValue {
 	switch fp.selector {
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		return &DeviceSpec_FieldTerminalPathArrayItemValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*api.HealthCheckSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1755,6 +1780,10 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) AsUsbGuardValue() (*Device_Spec_US
 	res, ok := fpv.value.(*Device_Spec_USBGuard)
 	return res, ok
 }
+func (fpv *DeviceSpec_FieldTerminalPathValue) AsHealthChecksValue() ([]*api.HealthCheckSpec, bool) {
+	res, ok := fpv.value.([]*api.HealthCheckSpec)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
@@ -1790,6 +1819,8 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
 		(*target).Location = fpv.value.(*Device_Spec_Location)
 	case DeviceSpec_FieldPathSelectorUsbGuard:
 		(*target).UsbGuard = fpv.value.(*Device_Spec_USBGuard)
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		(*target).HealthChecks = fpv.value.([]*api.HealthCheckSpec)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
 	}
@@ -1921,6 +1952,8 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) CompareWith(source *Device_Spec) (
 	case DeviceSpec_FieldPathSelectorLocation:
 		return 0, false
 	case DeviceSpec_FieldPathSelectorUsbGuard:
+		return 0, false
+	case DeviceSpec_FieldPathSelectorHealthChecks:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
@@ -2056,6 +2089,10 @@ var _ DeviceSpec_FieldPathArrayItemValue = (*DeviceSpec_FieldTerminalPathArrayIt
 // GetRawValue returns stored element value for array in object Device_Spec as interface{}
 func (fpaiv *DeviceSpec_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
+}
+func (fpaiv *DeviceSpec_FieldTerminalPathArrayItemValue) AsHealthChecksItemValue() (*api.HealthCheckSpec, bool) {
+	res, ok := fpaiv.value.(*api.HealthCheckSpec)
+	return res, ok
 }
 
 func (fpaiv *DeviceSpec_FieldTerminalPathArrayItemValue) GetSingle(source *Device_Spec) (interface{}, bool) {
@@ -2226,6 +2263,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]*Device_Spec_USBGuard) {
 			values = append(values, v)
 		}
+	case DeviceSpec_FieldPathSelectorHealthChecks:
+		for _, v := range fpaov.values.([][]*api.HealthCheckSpec) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2283,6 +2324,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsLocationArrayOfValues(
 }
 func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsUsbGuardArrayOfValues() ([]*Device_Spec_USBGuard, bool) {
 	res, ok := fpaov.values.([]*Device_Spec_USBGuard)
+	return res, ok
+}
+func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsHealthChecksArrayOfValues() ([][]*api.HealthCheckSpec, bool) {
+	res, ok := fpaov.values.([][]*api.HealthCheckSpec)
 	return res, ok
 }
 

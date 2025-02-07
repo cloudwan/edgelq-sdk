@@ -13,6 +13,7 @@ import (
 import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1/project"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -47,6 +48,7 @@ var (
 var (
 	_ = &common.PodSpec{}
 	_ = &project.Project{}
+	_ = &api.HealthCheckSpec{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -5354,6 +5356,10 @@ func (b *filterCndBuilderSpecTemplateSpec) HostVolumeMounts() *filterCndBuilderS
 	return &filterCndBuilderSpecTemplateSpecHostVolumeMounts{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateSpec) ComposeHealthChecks() *filterCndBuilderSpecTemplateSpecComposeHealthChecks {
+	return &filterCndBuilderSpecTemplateSpecComposeHealthChecks{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateSpecNode struct {
 	builder *FilterBuilder
 }
@@ -5544,6 +5550,10 @@ func (b *filterCndBuilderSpecTemplateSpecContainers) VolumeMounts() *filterCndBu
 
 func (b *filterCndBuilderSpecTemplateSpecContainers) EnvFrom() *filterCndBuilderSpecTemplateSpecContainersEnvFrom {
 	return &filterCndBuilderSpecTemplateSpecContainersEnvFrom{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainers) HealthCheck() *filterCndBuilderSpecTemplateSpecContainersHealthCheck {
+	return &filterCndBuilderSpecTemplateSpecContainersHealthCheck{builder: b.builder}
 }
 
 type filterCndBuilderSpecTemplateSpecContainersArgs struct {
@@ -7975,6 +7985,99 @@ func (b *filterCndBuilderSpecTemplateSpecContainersEnvFromSecretRefOptional) com
 	})
 }
 
+type filterCndBuilderSpecTemplateSpecContainersHealthCheck struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) Eq(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) Neq(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) Gt(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) Gte(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) Lt(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) Lte(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) In(values [][]*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) NotIn(values [][]*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) Contains(value *api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().FieldPath(),
+		Value:     NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) ContainsAnyOf(values []*api.HealthCheckSpec) *FilterBuilder {
+	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck()
+	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) ContainsAll(values []*api.HealthCheckSpec) *FilterBuilder {
+	pathSelector := NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck()
+	itemValues := make([]Distribution_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecContainersHealthCheck) compare(op gotenfilter.CompareOperator, value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().Containers().HealthCheck().WithValue(value),
+	})
+}
+
 type filterCndBuilderSpecTemplateSpecHostNetwork struct {
 	builder *FilterBuilder
 }
@@ -10071,6 +10174,129 @@ func (b *filterCndBuilderSpecTemplateSpecHostVolumeMountsSubPath) compare(op got
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                    op,
 		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().HostVolumeMounts().SubPath().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecComposeHealthChecks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) Eq(value map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) Neq(value map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) Gt(value map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) Gte(value map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) Lt(value map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) Lte(value map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) In(values []map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) NotIn(values []map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) compare(op gotenfilter.CompareOperator, value map[string]*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecComposeHealthChecks) WithKey(key string) *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks {
+	return &mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks{builder: b.builder, key: key}
+}
+
+type mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks struct {
+	builder *FilterBuilder
+	key     string
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) Eq(value *common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) Neq(value *common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) Gt(value *common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) Gte(value *common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) Lt(value *common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) Lte(value *common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) In(values []*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) NotIn(values []*common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Distribution_FieldPathArrayOfValues: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithKey(b.key).WithArrayOfValues(values),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithKey(b.key).FieldPath(),
+	})
+}
+
+func (b *mapFilterCndBuilderSpecTemplateSpecComposeHealthChecks) compare(op gotenfilter.CompareOperator, value *common.PodSpec_ContainerHealthChecks) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                    op,
+		Distribution_FieldPathValue: NewDistributionFieldPathBuilder().Spec().Template().Spec().ComposeHealthChecks().WithKey(b.key).WithValue(value),
 	})
 }
 

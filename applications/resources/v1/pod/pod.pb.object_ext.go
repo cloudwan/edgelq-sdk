@@ -239,6 +239,9 @@ func (o *Pod_Status) MakeDiffFieldMask(other *Pod_Status) *Pod_Status_FieldMask 
 	if o.GetFailureCount() != other.GetFailureCount() {
 		res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorFailureCount})
 	}
+	if o.GetHealthStatus() != other.GetHealthStatus() {
+		res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorHealthStatus})
+	}
 	return res
 }
 
@@ -258,6 +261,7 @@ func (o *Pod_Status) Clone() *Pod_Status {
 	}
 	result.Error = o.Error
 	result.FailureCount = o.FailureCount
+	result.HealthStatus = o.HealthStatus
 	return result
 }
 
@@ -287,6 +291,7 @@ func (o *Pod_Status) Merge(source *Pod_Status) {
 
 	o.Error = source.GetError()
 	o.FailureCount = source.GetFailureCount()
+	o.HealthStatus = source.GetHealthStatus()
 }
 
 func (o *Pod_Status) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -348,6 +353,18 @@ func (o *Pod_Status_Container) MakeDiffFieldMask(other *Pod_Status_Container) *P
 			}
 		}
 	}
+	if o.GetHealthStatus() != other.GetHealthStatus() {
+		res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorHealthStatus})
+	}
+	if o.GetServiceName() != other.GetServiceName() {
+		res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorServiceName})
+	}
+	if o.GetContainerIp() != other.GetContainerIp() {
+		res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorContainerIp})
+	}
+	if o.GetContainerId() != other.GetContainerId() {
+		res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorContainerId})
+	}
 	return res
 }
 
@@ -365,6 +382,10 @@ func (o *Pod_Status_Container) Clone() *Pod_Status_Container {
 	result.Waiting = o.Waiting.Clone()
 	result.Running = o.Running.Clone()
 	result.Terminated = o.Terminated.Clone()
+	result.HealthStatus = o.HealthStatus
+	result.ServiceName = o.ServiceName
+	result.ContainerIp = o.ContainerIp
+	result.ContainerId = o.ContainerId
 	return result
 }
 
@@ -393,6 +414,10 @@ func (o *Pod_Status_Container) Merge(source *Pod_Status_Container) {
 		}
 		o.Terminated.Merge(source.GetTerminated())
 	}
+	o.HealthStatus = source.GetHealthStatus()
+	o.ServiceName = source.GetServiceName()
+	o.ContainerIp = source.GetContainerIp()
+	o.ContainerId = source.GetContainerId()
 }
 
 func (o *Pod_Status_Container) MergeRaw(source gotenobject.GotenObjectExt) {

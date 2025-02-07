@@ -23,6 +23,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 )
@@ -47,6 +48,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &devices_device.Device{}
 	_ = &secrets_secret.Secret{}
 )
@@ -70,14 +72,15 @@ type PodSpec_FieldPath interface {
 type PodSpec_FieldPathSelector int32
 
 const (
-	PodSpec_FieldPathSelectorNode             PodSpec_FieldPathSelector = 0
-	PodSpec_FieldPathSelectorContainers       PodSpec_FieldPathSelector = 1
-	PodSpec_FieldPathSelectorHostNetwork      PodSpec_FieldPathSelector = 2
-	PodSpec_FieldPathSelectorRestartPolicy    PodSpec_FieldPathSelector = 3
-	PodSpec_FieldPathSelectorImagePullSecrets PodSpec_FieldPathSelector = 4
-	PodSpec_FieldPathSelectorVolumes          PodSpec_FieldPathSelector = 5
-	PodSpec_FieldPathSelectorCompose          PodSpec_FieldPathSelector = 6
-	PodSpec_FieldPathSelectorHostVolumeMounts PodSpec_FieldPathSelector = 7
+	PodSpec_FieldPathSelectorNode                PodSpec_FieldPathSelector = 0
+	PodSpec_FieldPathSelectorContainers          PodSpec_FieldPathSelector = 1
+	PodSpec_FieldPathSelectorHostNetwork         PodSpec_FieldPathSelector = 2
+	PodSpec_FieldPathSelectorRestartPolicy       PodSpec_FieldPathSelector = 3
+	PodSpec_FieldPathSelectorImagePullSecrets    PodSpec_FieldPathSelector = 4
+	PodSpec_FieldPathSelectorVolumes             PodSpec_FieldPathSelector = 5
+	PodSpec_FieldPathSelectorCompose             PodSpec_FieldPathSelector = 6
+	PodSpec_FieldPathSelectorHostVolumeMounts    PodSpec_FieldPathSelector = 7
+	PodSpec_FieldPathSelectorComposeHealthChecks PodSpec_FieldPathSelector = 8
 )
 
 func (s PodSpec_FieldPathSelector) String() string {
@@ -98,6 +101,8 @@ func (s PodSpec_FieldPathSelector) String() string {
 		return "compose"
 	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		return "host_volume_mounts"
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return "compose_health_checks"
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", s))
 	}
@@ -125,6 +130,8 @@ func BuildPodSpec_FieldPath(fp gotenobject.RawFieldPath) (PodSpec_FieldPath, err
 			return &PodSpec_FieldTerminalPath{selector: PodSpec_FieldPathSelectorCompose}, nil
 		case "host_volume_mounts", "hostVolumeMounts", "host-volume-mounts":
 			return &PodSpec_FieldTerminalPath{selector: PodSpec_FieldPathSelectorHostVolumeMounts}, nil
+		case "compose_health_checks", "composeHealthChecks", "compose-health-checks":
+			return &PodSpec_FieldTerminalPath{selector: PodSpec_FieldPathSelectorComposeHealthChecks}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -152,6 +159,11 @@ func BuildPodSpec_FieldPath(fp gotenobject.RawFieldPath) (PodSpec_FieldPath, err
 			} else {
 				return &PodSpec_FieldSubPath{selector: PodSpec_FieldPathSelectorHostVolumeMounts, subPath: subpath}, nil
 			}
+		case "compose_health_checks", "composeHealthChecks", "compose-health-checks":
+			if len(fp) > 2 {
+				return nil, status.Errorf(codes.InvalidArgument, "sub path for maps ('%s') are not supported (object PodSpec)", fp)
+			}
+			return &PodSpec_FieldPathMap{selector: PodSpec_FieldPathSelectorComposeHealthChecks, key: fp[1]}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PodSpec", fp)
@@ -223,6 +235,10 @@ func (fp *PodSpec_FieldTerminalPath) Get(source *PodSpec) (values []interface{})
 			for _, value := range source.GetHostVolumeMounts() {
 				values = append(values, value)
 			}
+		case PodSpec_FieldPathSelectorComposeHealthChecks:
+			if source.ComposeHealthChecks != nil {
+				values = append(values, source.ComposeHealthChecks)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fp.selector))
 		}
@@ -258,6 +274,9 @@ func (fp *PodSpec_FieldTerminalPath) GetSingle(source *PodSpec) (interface{}, bo
 	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		res := source.GetHostVolumeMounts()
 		return res, res != nil
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		res := source.GetComposeHealthChecks()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fp.selector))
 	}
@@ -286,6 +305,8 @@ func (fp *PodSpec_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		return ([]*VolumeMount)(nil)
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return (map[string]*PodSpec_ContainerHealthChecks)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fp.selector))
 	}
@@ -310,6 +331,8 @@ func (fp *PodSpec_FieldTerminalPath) ClearValue(item *PodSpec) {
 			item.Compose = ""
 		case PodSpec_FieldPathSelectorHostVolumeMounts:
 			item.HostVolumeMounts = nil
+		case PodSpec_FieldPathSelectorComposeHealthChecks:
+			item.ComposeHealthChecks = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fp.selector))
 		}
@@ -350,6 +373,8 @@ func (fp *PodSpec_FieldTerminalPath) WithIValue(value interface{}) PodSpec_Field
 		return &PodSpec_FieldTerminalPathValue{PodSpec_FieldTerminalPath: *fp, value: value.(string)}
 	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		return &PodSpec_FieldTerminalPathValue{PodSpec_FieldTerminalPath: *fp, value: value.([]*VolumeMount)}
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return &PodSpec_FieldTerminalPathValue{PodSpec_FieldTerminalPath: *fp, value: value.(map[string]*PodSpec_ContainerHealthChecks)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fp.selector))
 	}
@@ -378,6 +403,8 @@ func (fp *PodSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) PodS
 		return &PodSpec_FieldTerminalPathArrayOfValues{PodSpec_FieldTerminalPath: *fp, values: values.([]string)}
 	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		return &PodSpec_FieldTerminalPathArrayOfValues{PodSpec_FieldTerminalPath: *fp, values: values.([][]*VolumeMount)}
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return &PodSpec_FieldTerminalPathArrayOfValues{PodSpec_FieldTerminalPath: *fp, values: values.([]map[string]*PodSpec_ContainerHealthChecks)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fp.selector))
 	}
@@ -405,6 +432,138 @@ func (fp *PodSpec_FieldTerminalPath) WithIArrayItemValue(value interface{}) PodS
 
 func (fp *PodSpec_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
+}
+
+// FieldPath for map type with additional Key information
+type PodSpec_FieldPathMap struct {
+	key      string
+	selector PodSpec_FieldPathSelector
+}
+
+var _ PodSpec_FieldPath = (*PodSpec_FieldPathMap)(nil)
+
+func (fpm *PodSpec_FieldPathMap) Selector() PodSpec_FieldPathSelector {
+	return fpm.selector
+}
+
+func (fpm *PodSpec_FieldPathMap) Key() string {
+	return fpm.key
+}
+
+// String returns path representation in proto convention
+func (fpm *PodSpec_FieldPathMap) String() string {
+	return fpm.selector.String() + "." + fpm.key
+}
+
+// JSONString returns path representation is JSON convention. Note that map keys are not transformed
+func (fpm *PodSpec_FieldPathMap) JSONString() string {
+	return strcase.ToLowerCamel(fpm.selector.String()) + "." + fpm.key
+}
+
+// Get returns all values pointed by selected field map key from source PodSpec
+func (fpm *PodSpec_FieldPathMap) Get(source *PodSpec) (values []interface{}) {
+	switch fpm.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		if value, ok := source.GetComposeHealthChecks()[fpm.key]; ok {
+			values = append(values, value)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpm.selector))
+	}
+	return
+}
+
+func (fpm *PodSpec_FieldPathMap) GetRaw(source proto.Message) []interface{} {
+	return fpm.Get(source.(*PodSpec))
+}
+
+// GetSingle returns value by selected field map key from source PodSpec
+func (fpm *PodSpec_FieldPathMap) GetSingle(source *PodSpec) (interface{}, bool) {
+	switch fpm.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		res, ok := source.GetComposeHealthChecks()[fpm.key]
+		return res, ok
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpm.selector))
+	}
+}
+
+func (fpm *PodSpec_FieldPathMap) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpm.GetSingle(source.(*PodSpec))
+}
+
+// GetDefault returns a default value of the field type
+func (fpm *PodSpec_FieldPathMap) GetDefault() interface{} {
+	switch fpm.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		var v *PodSpec_ContainerHealthChecks
+		return v
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpm.selector))
+	}
+}
+
+func (fpm *PodSpec_FieldPathMap) ClearValue(item *PodSpec) {
+	if item != nil {
+		switch fpm.selector {
+		case PodSpec_FieldPathSelectorComposeHealthChecks:
+			delete(item.ComposeHealthChecks, fpm.key)
+		default:
+			panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpm.selector))
+		}
+	}
+}
+
+func (fpm *PodSpec_FieldPathMap) ClearValueRaw(item proto.Message) {
+	fpm.ClearValue(item.(*PodSpec))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fpm *PodSpec_FieldPathMap) IsLeaf() bool {
+	switch fpm.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpm.selector))
+	}
+}
+
+func (fpm *PodSpec_FieldPathMap) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fpm}
+}
+
+func (fpm *PodSpec_FieldPathMap) WithIValue(value interface{}) PodSpec_FieldPathValue {
+	switch fpm.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return &PodSpec_FieldPathMapValue{PodSpec_FieldPathMap: *fpm, value: value.(*PodSpec_ContainerHealthChecks)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpm.selector))
+	}
+}
+
+func (fpm *PodSpec_FieldPathMap) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fpm.WithIValue(value)
+}
+
+func (fpm *PodSpec_FieldPathMap) WithIArrayOfValues(values interface{}) PodSpec_FieldPathArrayOfValues {
+	switch fpm.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return &PodSpec_FieldPathMapArrayOfValues{PodSpec_FieldPathMap: *fpm, values: values.([]*PodSpec_ContainerHealthChecks)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpm.selector))
+	}
+}
+
+func (fpm *PodSpec_FieldPathMap) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fpm.WithIArrayOfValues(values)
+}
+
+func (fpm *PodSpec_FieldPathMap) WithIArrayItemValue(value interface{}) PodSpec_FieldPathArrayItemValue {
+	panic("Cannot create array item value from map fieldpath")
+}
+
+func (fpm *PodSpec_FieldPathMap) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fpm.WithIArrayItemValue(value)
 }
 
 type PodSpec_FieldSubPath struct {
@@ -645,6 +804,10 @@ func (fpv *PodSpec_FieldTerminalPathValue) AsHostVolumeMountsValue() ([]*VolumeM
 	res, ok := fpv.value.([]*VolumeMount)
 	return res, ok
 }
+func (fpv *PodSpec_FieldTerminalPathValue) AsComposeHealthChecksValue() (map[string]*PodSpec_ContainerHealthChecks, bool) {
+	res, ok := fpv.value.(map[string]*PodSpec_ContainerHealthChecks)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object PodSpec
 func (fpv *PodSpec_FieldTerminalPathValue) SetTo(target **PodSpec) {
@@ -668,6 +831,8 @@ func (fpv *PodSpec_FieldTerminalPathValue) SetTo(target **PodSpec) {
 		(*target).Compose = fpv.value.(string)
 	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		(*target).HostVolumeMounts = fpv.value.([]*VolumeMount)
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		(*target).ComposeHealthChecks = fpv.value.(map[string]*PodSpec_ContainerHealthChecks)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpv.selector))
 	}
@@ -738,6 +903,8 @@ func (fpv *PodSpec_FieldTerminalPathValue) CompareWith(source *PodSpec) (int, bo
 		}
 	case PodSpec_FieldPathSelectorHostVolumeMounts:
 		return 0, false
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpv.selector))
 	}
@@ -745,6 +912,57 @@ func (fpv *PodSpec_FieldTerminalPathValue) CompareWith(source *PodSpec) (int, bo
 
 func (fpv *PodSpec_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
 	return fpv.CompareWith(source.(*PodSpec))
+}
+
+type PodSpec_FieldPathMapValue struct {
+	PodSpec_FieldPathMap
+	value interface{}
+}
+
+var _ PodSpec_FieldPathValue = (*PodSpec_FieldPathMapValue)(nil)
+
+// GetValue returns value stored under selected field in PodSpec as interface{}
+func (fpmv *PodSpec_FieldPathMapValue) GetRawValue() interface{} {
+	return fpmv.value
+}
+func (fpmv *PodSpec_FieldPathMapValue) AsComposeHealthChecksElementValue() (*PodSpec_ContainerHealthChecks, bool) {
+	res, ok := fpmv.value.(*PodSpec_ContainerHealthChecks)
+	return res, ok
+}
+
+// SetTo stores value for selected field in PodSpec
+func (fpmv *PodSpec_FieldPathMapValue) SetTo(target **PodSpec) {
+	if *target == nil {
+		*target = new(PodSpec)
+	}
+	switch fpmv.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		if (*target).ComposeHealthChecks == nil {
+			(*target).ComposeHealthChecks = make(map[string]*PodSpec_ContainerHealthChecks)
+		}
+		(*target).ComposeHealthChecks[fpmv.key] = fpmv.value.(*PodSpec_ContainerHealthChecks)
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *PodSpec_FieldPathMapValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PodSpec)
+	fpmv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'PodSpec_FieldPathMapValue' with the value under path in 'PodSpec'.
+func (fpmv *PodSpec_FieldPathMapValue) CompareWith(source *PodSpec) (int, bool) {
+	switch fpmv.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec: %d", fpmv.selector))
+	}
+}
+
+func (fpmv *PodSpec_FieldPathMapValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpmv.CompareWith(source.(*PodSpec))
 }
 
 type PodSpec_FieldSubPathValue struct {
@@ -1006,6 +1224,10 @@ func (fpaov *PodSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values []in
 		for _, v := range fpaov.values.([][]*VolumeMount) {
 			values = append(values, v)
 		}
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		for _, v := range fpaov.values.([]map[string]*PodSpec_ContainerHealthChecks) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1039,6 +1261,31 @@ func (fpaov *PodSpec_FieldTerminalPathArrayOfValues) AsComposeArrayOfValues() ([
 }
 func (fpaov *PodSpec_FieldTerminalPathArrayOfValues) AsHostVolumeMountsArrayOfValues() ([][]*VolumeMount, bool) {
 	res, ok := fpaov.values.([][]*VolumeMount)
+	return res, ok
+}
+func (fpaov *PodSpec_FieldTerminalPathArrayOfValues) AsComposeHealthChecksArrayOfValues() ([]map[string]*PodSpec_ContainerHealthChecks, bool) {
+	res, ok := fpaov.values.([]map[string]*PodSpec_ContainerHealthChecks)
+	return res, ok
+}
+
+type PodSpec_FieldPathMapArrayOfValues struct {
+	PodSpec_FieldPathMap
+	values interface{}
+}
+
+var _ PodSpec_FieldPathArrayOfValues = (*PodSpec_FieldPathMapArrayOfValues)(nil)
+
+func (fpmaov *PodSpec_FieldPathMapArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpmaov.selector {
+	case PodSpec_FieldPathSelectorComposeHealthChecks:
+		for _, v := range fpmaov.values.([]*PodSpec_ContainerHealthChecks) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpmaov *PodSpec_FieldPathMapArrayOfValues) AsComposeHealthChecksArrayOfElementValues() ([]*PodSpec_ContainerHealthChecks, bool) {
+	res, ok := fpmaov.values.([]*PodSpec_ContainerHealthChecks)
 	return res, ok
 }
 
@@ -1098,6 +1345,7 @@ const (
 	PodSpecContainer_FieldPathSelectorSecurityContext PodSpecContainer_FieldPathSelector = 7
 	PodSpecContainer_FieldPathSelectorVolumeMounts    PodSpecContainer_FieldPathSelector = 8
 	PodSpecContainer_FieldPathSelectorEnvFrom         PodSpecContainer_FieldPathSelector = 9
+	PodSpecContainer_FieldPathSelectorHealthCheck     PodSpecContainer_FieldPathSelector = 10
 )
 
 func (s PodSpecContainer_FieldPathSelector) String() string {
@@ -1122,6 +1370,8 @@ func (s PodSpecContainer_FieldPathSelector) String() string {
 		return "volume_mounts"
 	case PodSpecContainer_FieldPathSelectorEnvFrom:
 		return "env_from"
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		return "health_check"
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", s))
 	}
@@ -1153,6 +1403,8 @@ func BuildPodSpecContainer_FieldPath(fp gotenobject.RawFieldPath) (PodSpecContai
 			return &PodSpecContainer_FieldTerminalPath{selector: PodSpecContainer_FieldPathSelectorVolumeMounts}, nil
 		case "env_from", "envFrom", "env-from":
 			return &PodSpecContainer_FieldTerminalPath{selector: PodSpecContainer_FieldPathSelectorEnvFrom}, nil
+		case "health_check", "healthCheck", "health-check":
+			return &PodSpecContainer_FieldTerminalPath{selector: PodSpecContainer_FieldPathSelectorHealthCheck}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1265,6 +1517,10 @@ func (fp *PodSpecContainer_FieldTerminalPath) Get(source *PodSpec_Container) (va
 			if source.EnvFrom != nil {
 				values = append(values, source.EnvFrom)
 			}
+		case PodSpecContainer_FieldPathSelectorHealthCheck:
+			for _, value := range source.GetHealthCheck() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fp.selector))
 		}
@@ -1306,6 +1562,9 @@ func (fp *PodSpecContainer_FieldTerminalPath) GetSingle(source *PodSpec_Containe
 	case PodSpecContainer_FieldPathSelectorEnvFrom:
 		res := source.GetEnvFrom()
 		return res, res != nil
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		res := source.GetHealthCheck()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fp.selector))
 	}
@@ -1338,6 +1597,8 @@ func (fp *PodSpecContainer_FieldTerminalPath) GetDefault() interface{} {
 		return ([]*VolumeMount)(nil)
 	case PodSpecContainer_FieldPathSelectorEnvFrom:
 		return (*EnvFromSource)(nil)
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		return ([]*api.HealthCheckSpec)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fp.selector))
 	}
@@ -1366,6 +1627,8 @@ func (fp *PodSpecContainer_FieldTerminalPath) ClearValue(item *PodSpec_Container
 			item.VolumeMounts = nil
 		case PodSpecContainer_FieldPathSelectorEnvFrom:
 			item.EnvFrom = nil
+		case PodSpecContainer_FieldPathSelectorHealthCheck:
+			item.HealthCheck = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fp.selector))
 		}
@@ -1382,7 +1645,8 @@ func (fp *PodSpecContainer_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == PodSpecContainer_FieldPathSelectorCommand ||
 		fp.selector == PodSpecContainer_FieldPathSelectorImage ||
 		fp.selector == PodSpecContainer_FieldPathSelectorImagePullPolicy ||
-		fp.selector == PodSpecContainer_FieldPathSelectorName
+		fp.selector == PodSpecContainer_FieldPathSelectorName ||
+		fp.selector == PodSpecContainer_FieldPathSelectorHealthCheck
 }
 
 func (fp *PodSpecContainer_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1411,6 +1675,8 @@ func (fp *PodSpecContainer_FieldTerminalPath) WithIValue(value interface{}) PodS
 		return &PodSpecContainer_FieldTerminalPathValue{PodSpecContainer_FieldTerminalPath: *fp, value: value.([]*VolumeMount)}
 	case PodSpecContainer_FieldPathSelectorEnvFrom:
 		return &PodSpecContainer_FieldTerminalPathValue{PodSpecContainer_FieldTerminalPath: *fp, value: value.(*EnvFromSource)}
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		return &PodSpecContainer_FieldTerminalPathValue{PodSpecContainer_FieldTerminalPath: *fp, value: value.([]*api.HealthCheckSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fp.selector))
 	}
@@ -1443,6 +1709,8 @@ func (fp *PodSpecContainer_FieldTerminalPath) WithIArrayOfValues(values interfac
 		return &PodSpecContainer_FieldTerminalPathArrayOfValues{PodSpecContainer_FieldTerminalPath: *fp, values: values.([][]*VolumeMount)}
 	case PodSpecContainer_FieldPathSelectorEnvFrom:
 		return &PodSpecContainer_FieldTerminalPathArrayOfValues{PodSpecContainer_FieldTerminalPath: *fp, values: values.([]*EnvFromSource)}
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		return &PodSpecContainer_FieldTerminalPathArrayOfValues{PodSpecContainer_FieldTerminalPath: *fp, values: values.([][]*api.HealthCheckSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fp.selector))
 	}
@@ -1463,6 +1731,8 @@ func (fp *PodSpecContainer_FieldTerminalPath) WithIArrayItemValue(value interfac
 		return &PodSpecContainer_FieldTerminalPathArrayItemValue{PodSpecContainer_FieldTerminalPath: *fp, value: value.(*EnvVar)}
 	case PodSpecContainer_FieldPathSelectorVolumeMounts:
 		return &PodSpecContainer_FieldTerminalPathArrayItemValue{PodSpecContainer_FieldTerminalPath: *fp, value: value.(*VolumeMount)}
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		return &PodSpecContainer_FieldTerminalPathArrayItemValue{PodSpecContainer_FieldTerminalPath: *fp, value: value.(*api.HealthCheckSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fp.selector))
 	}
@@ -1723,6 +1993,10 @@ func (fpv *PodSpecContainer_FieldTerminalPathValue) AsEnvFromValue() (*EnvFromSo
 	res, ok := fpv.value.(*EnvFromSource)
 	return res, ok
 }
+func (fpv *PodSpecContainer_FieldTerminalPathValue) AsHealthCheckValue() ([]*api.HealthCheckSpec, bool) {
+	res, ok := fpv.value.([]*api.HealthCheckSpec)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Container
 func (fpv *PodSpecContainer_FieldTerminalPathValue) SetTo(target **PodSpec_Container) {
@@ -1750,6 +2024,8 @@ func (fpv *PodSpecContainer_FieldTerminalPathValue) SetTo(target **PodSpec_Conta
 		(*target).VolumeMounts = fpv.value.([]*VolumeMount)
 	case PodSpecContainer_FieldPathSelectorEnvFrom:
 		(*target).EnvFrom = fpv.value.(*EnvFromSource)
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		(*target).HealthCheck = fpv.value.([]*api.HealthCheckSpec)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fpv.selector))
 	}
@@ -1806,6 +2082,8 @@ func (fpv *PodSpecContainer_FieldTerminalPathValue) CompareWith(source *PodSpec_
 	case PodSpecContainer_FieldPathSelectorVolumeMounts:
 		return 0, false
 	case PodSpecContainer_FieldPathSelectorEnvFrom:
+		return 0, false
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for PodSpec_Container: %d", fpv.selector))
@@ -1948,6 +2226,10 @@ func (fpaiv *PodSpecContainer_FieldTerminalPathArrayItemValue) AsEnvItemValue() 
 }
 func (fpaiv *PodSpecContainer_FieldTerminalPathArrayItemValue) AsVolumeMountsItemValue() (*VolumeMount, bool) {
 	res, ok := fpaiv.value.(*VolumeMount)
+	return res, ok
+}
+func (fpaiv *PodSpecContainer_FieldTerminalPathArrayItemValue) AsHealthCheckItemValue() (*api.HealthCheckSpec, bool) {
+	res, ok := fpaiv.value.(*api.HealthCheckSpec)
 	return res, ok
 }
 
@@ -2097,6 +2379,10 @@ func (fpaov *PodSpecContainer_FieldTerminalPathArrayOfValues) GetRawValues() (va
 		for _, v := range fpaov.values.([]*EnvFromSource) {
 			values = append(values, v)
 		}
+	case PodSpecContainer_FieldPathSelectorHealthCheck:
+		for _, v := range fpaov.values.([][]*api.HealthCheckSpec) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2140,6 +2426,10 @@ func (fpaov *PodSpecContainer_FieldTerminalPathArrayOfValues) AsEnvFromArrayOfVa
 	res, ok := fpaov.values.([]*EnvFromSource)
 	return res, ok
 }
+func (fpaov *PodSpecContainer_FieldTerminalPathArrayOfValues) AsHealthCheckArrayOfValues() ([][]*api.HealthCheckSpec, bool) {
+	res, ok := fpaov.values.([][]*api.HealthCheckSpec)
+	return res, ok
+}
 
 type PodSpecContainer_FieldSubPathArrayOfValues struct {
 	PodSpecContainer_FieldPath
@@ -2169,6 +2459,386 @@ func (fpsaov *PodSpecContainer_FieldSubPathArrayOfValues) AsVolumeMountsPathArra
 }
 func (fpsaov *PodSpecContainer_FieldSubPathArrayOfValues) AsEnvFromPathArrayOfValues() (EnvFromSource_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(EnvFromSource_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type PodSpecContainerHealthChecks_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() PodSpecContainerHealthChecks_FieldPathSelector
+	Get(source *PodSpec_ContainerHealthChecks) []interface{}
+	GetSingle(source *PodSpec_ContainerHealthChecks) (interface{}, bool)
+	ClearValue(item *PodSpec_ContainerHealthChecks)
+
+	// Those methods build corresponding PodSpecContainerHealthChecks_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) PodSpecContainerHealthChecks_FieldPathValue
+	WithIArrayOfValues(values interface{}) PodSpecContainerHealthChecks_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PodSpecContainerHealthChecks_FieldPathArrayItemValue
+}
+
+type PodSpecContainerHealthChecks_FieldPathSelector int32
+
+const (
+	PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks PodSpecContainerHealthChecks_FieldPathSelector = 0
+)
+
+func (s PodSpecContainerHealthChecks_FieldPathSelector) String() string {
+	switch s {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		return "health_checks"
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", s))
+	}
+}
+
+func BuildPodSpecContainerHealthChecks_FieldPath(fp gotenobject.RawFieldPath) (PodSpecContainerHealthChecks_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object PodSpec_ContainerHealthChecks")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "health_checks", "healthChecks", "health-checks":
+			return &PodSpecContainerHealthChecks_FieldTerminalPath{selector: PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PodSpec_ContainerHealthChecks", fp)
+}
+
+func ParsePodSpecContainerHealthChecks_FieldPath(rawField string) (PodSpecContainerHealthChecks_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildPodSpecContainerHealthChecks_FieldPath(fp)
+}
+
+func MustParsePodSpecContainerHealthChecks_FieldPath(rawField string) PodSpecContainerHealthChecks_FieldPath {
+	fp, err := ParsePodSpecContainerHealthChecks_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type PodSpecContainerHealthChecks_FieldTerminalPath struct {
+	selector PodSpecContainerHealthChecks_FieldPathSelector
+}
+
+var _ PodSpecContainerHealthChecks_FieldPath = (*PodSpecContainerHealthChecks_FieldTerminalPath)(nil)
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) Selector() PodSpecContainerHealthChecks_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source PodSpec_ContainerHealthChecks
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) Get(source *PodSpec_ContainerHealthChecks) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+			for _, value := range source.GetHealthChecks() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*PodSpec_ContainerHealthChecks))
+}
+
+// GetSingle returns value pointed by specific field of from source PodSpec_ContainerHealthChecks
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) GetSingle(source *PodSpec_ContainerHealthChecks) (interface{}, bool) {
+	switch fp.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		res := source.GetHealthChecks()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fp.selector))
+	}
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*PodSpec_ContainerHealthChecks))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		return ([]*api.HealthCheckSpec)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fp.selector))
+	}
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) ClearValue(item *PodSpec_ContainerHealthChecks) {
+	if item != nil {
+		switch fp.selector {
+		case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+			item.HealthChecks = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*PodSpec_ContainerHealthChecks))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) WithIValue(value interface{}) PodSpecContainerHealthChecks_FieldPathValue {
+	switch fp.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		return &PodSpecContainerHealthChecks_FieldTerminalPathValue{PodSpecContainerHealthChecks_FieldTerminalPath: *fp, value: value.([]*api.HealthCheckSpec)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fp.selector))
+	}
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) WithIArrayOfValues(values interface{}) PodSpecContainerHealthChecks_FieldPathArrayOfValues {
+	fpaov := &PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues{PodSpecContainerHealthChecks_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		return &PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues{PodSpecContainerHealthChecks_FieldTerminalPath: *fp, values: values.([][]*api.HealthCheckSpec)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) WithIArrayItemValue(value interface{}) PodSpecContainerHealthChecks_FieldPathArrayItemValue {
+	switch fp.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		return &PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue{PodSpecContainerHealthChecks_FieldTerminalPath: *fp, value: value.(*api.HealthCheckSpec)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fp.selector))
+	}
+}
+
+func (fp *PodSpecContainerHealthChecks_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// PodSpecContainerHealthChecks_FieldPathValue allows storing values for ContainerHealthChecks fields according to their type
+type PodSpecContainerHealthChecks_FieldPathValue interface {
+	PodSpecContainerHealthChecks_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **PodSpec_ContainerHealthChecks)
+	CompareWith(*PodSpec_ContainerHealthChecks) (cmp int, comparable bool)
+}
+
+func ParsePodSpecContainerHealthChecks_FieldPathValue(pathStr, valueStr string) (PodSpecContainerHealthChecks_FieldPathValue, error) {
+	fp, err := ParsePodSpecContainerHealthChecks_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ContainerHealthChecks field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(PodSpecContainerHealthChecks_FieldPathValue), nil
+}
+
+func MustParsePodSpecContainerHealthChecks_FieldPathValue(pathStr, valueStr string) PodSpecContainerHealthChecks_FieldPathValue {
+	fpv, err := ParsePodSpecContainerHealthChecks_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type PodSpecContainerHealthChecks_FieldTerminalPathValue struct {
+	PodSpecContainerHealthChecks_FieldTerminalPath
+	value interface{}
+}
+
+var _ PodSpecContainerHealthChecks_FieldPathValue = (*PodSpecContainerHealthChecks_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'ContainerHealthChecks' as interface{}
+func (fpv *PodSpecContainerHealthChecks_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *PodSpecContainerHealthChecks_FieldTerminalPathValue) AsHealthChecksValue() ([]*api.HealthCheckSpec, bool) {
+	res, ok := fpv.value.([]*api.HealthCheckSpec)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object ContainerHealthChecks
+func (fpv *PodSpecContainerHealthChecks_FieldTerminalPathValue) SetTo(target **PodSpec_ContainerHealthChecks) {
+	if *target == nil {
+		*target = new(PodSpec_ContainerHealthChecks)
+	}
+	switch fpv.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		(*target).HealthChecks = fpv.value.([]*api.HealthCheckSpec)
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fpv.selector))
+	}
+}
+
+func (fpv *PodSpecContainerHealthChecks_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*PodSpec_ContainerHealthChecks)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'PodSpecContainerHealthChecks_FieldTerminalPathValue' with the value under path in 'PodSpec_ContainerHealthChecks'.
+func (fpv *PodSpecContainerHealthChecks_FieldTerminalPathValue) CompareWith(source *PodSpec_ContainerHealthChecks) (int, bool) {
+	switch fpv.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for PodSpec_ContainerHealthChecks: %d", fpv.selector))
+	}
+}
+
+func (fpv *PodSpecContainerHealthChecks_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*PodSpec_ContainerHealthChecks))
+}
+
+// PodSpecContainerHealthChecks_FieldPathArrayItemValue allows storing single item in Path-specific values for ContainerHealthChecks according to their type
+// Present only for array (repeated) types.
+type PodSpecContainerHealthChecks_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	PodSpecContainerHealthChecks_FieldPath
+	ContainsValue(*PodSpec_ContainerHealthChecks) bool
+}
+
+// ParsePodSpecContainerHealthChecks_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePodSpecContainerHealthChecks_FieldPathArrayItemValue(pathStr, valueStr string) (PodSpecContainerHealthChecks_FieldPathArrayItemValue, error) {
+	fp, err := ParsePodSpecContainerHealthChecks_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ContainerHealthChecks field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(PodSpecContainerHealthChecks_FieldPathArrayItemValue), nil
+}
+
+func MustParsePodSpecContainerHealthChecks_FieldPathArrayItemValue(pathStr, valueStr string) PodSpecContainerHealthChecks_FieldPathArrayItemValue {
+	fpaiv, err := ParsePodSpecContainerHealthChecks_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue struct {
+	PodSpecContainerHealthChecks_FieldTerminalPath
+	value interface{}
+}
+
+var _ PodSpecContainerHealthChecks_FieldPathArrayItemValue = (*PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object PodSpec_ContainerHealthChecks as interface{}
+func (fpaiv *PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue) AsHealthChecksItemValue() (*api.HealthCheckSpec, bool) {
+	res, ok := fpaiv.value.(*api.HealthCheckSpec)
+	return res, ok
+}
+
+func (fpaiv *PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue) GetSingle(source *PodSpec_ContainerHealthChecks) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*PodSpec_ContainerHealthChecks))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'ContainerHealthChecks'
+func (fpaiv *PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue) ContainsValue(source *PodSpec_ContainerHealthChecks) bool {
+	slice := fpaiv.PodSpecContainerHealthChecks_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// PodSpecContainerHealthChecks_FieldPathArrayOfValues allows storing slice of values for ContainerHealthChecks fields according to their type
+type PodSpecContainerHealthChecks_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	PodSpecContainerHealthChecks_FieldPath
+}
+
+func ParsePodSpecContainerHealthChecks_FieldPathArrayOfValues(pathStr, valuesStr string) (PodSpecContainerHealthChecks_FieldPathArrayOfValues, error) {
+	fp, err := ParsePodSpecContainerHealthChecks_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing ContainerHealthChecks field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(PodSpecContainerHealthChecks_FieldPathArrayOfValues), nil
+}
+
+func MustParsePodSpecContainerHealthChecks_FieldPathArrayOfValues(pathStr, valuesStr string) PodSpecContainerHealthChecks_FieldPathArrayOfValues {
+	fpaov, err := ParsePodSpecContainerHealthChecks_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues struct {
+	PodSpecContainerHealthChecks_FieldTerminalPath
+	values interface{}
+}
+
+var _ PodSpecContainerHealthChecks_FieldPathArrayOfValues = (*PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks:
+		for _, v := range fpaov.values.([][]*api.HealthCheckSpec) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues) AsHealthChecksArrayOfValues() ([][]*api.HealthCheckSpec, bool) {
+	res, ok := fpaov.values.([][]*api.HealthCheckSpec)
 	return res, ok
 }
 

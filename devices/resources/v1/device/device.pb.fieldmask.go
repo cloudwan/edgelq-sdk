@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -50,6 +51,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -458,6 +460,7 @@ func FullDevice_Spec_FieldMask() *Device_Spec_FieldMask {
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorProxyConfig})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLocation})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorUsbGuard})
+	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks})
 	return res
 }
 
@@ -501,7 +504,7 @@ func (fieldMask *Device_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 14)
+	presentSelectors := make([]bool, 15)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -531,7 +534,7 @@ func (fieldMask *Device_Spec_FieldMask) Reset() {
 
 func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *Device_Spec_FieldMask {
 	result := &Device_Spec_FieldMask{}
-	removedSelectors := make([]bool, 14)
+	removedSelectors := make([]bool, 15)
 	otherSubMasks := map[DeviceSpec_FieldPathSelector]gotenobject.FieldMask{
 		DeviceSpec_FieldPathSelectorSshConfig:         &Device_Spec_SSHConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorAttestationConfig: &Device_Spec_AttestationConfig_FieldMask{},
@@ -784,6 +787,8 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 			case DeviceSpec_FieldPathSelectorUsbGuard:
 				result.UsbGuard = source.UsbGuard
 				wholeUsbGuardAccepted = true
+			case DeviceSpec_FieldPathSelectorHealthChecks:
+				result.HealthChecks = source.HealthChecks
 			}
 		case *DeviceSpec_FieldSubPath:
 			switch tp.selector {

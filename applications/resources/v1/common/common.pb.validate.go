@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 )
@@ -39,6 +40,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &devices_device.Device{}
 	_ = &secrets_secret.Secret{}
 )
@@ -111,6 +113,29 @@ func (obj *PodSpec_Container) GotenValidate() error {
 	if subobj, ok := interface{}(obj.EnvFrom).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Container", "envFrom", obj.EnvFrom, "nested object validation failed", err)
+		}
+	}
+	for idx, elem := range obj.HealthCheck {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Container", "healthCheck", obj.HealthCheck[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *PodSpec_ContainerHealthChecks) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.HealthChecks {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ContainerHealthChecks", "healthChecks", obj.HealthChecks[idx], "nested object validation failed", err)
+			}
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {

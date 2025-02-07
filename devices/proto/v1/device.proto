@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.devices.v1;
 
+import "edgelq-sdk/common/api/healthcheck.proto";
 import "edgelq-sdk/iam/proto/v1/common.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
@@ -99,6 +100,9 @@ message Device {
     Location location = 13;
 
     USBGuard usb_guard = 16;
+
+    // Custom Health checks for device
+    repeated ntt.api.HealthCheckSpec health_checks = 18;
 
     // SSHConfig defines the ssh configuration for the Device.
     message SSHConfig {

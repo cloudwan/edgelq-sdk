@@ -1,0 +1,182 @@
+syntax = "proto3";
+
+package ntt.api;
+
+import "google/protobuf/duration.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/common/api;api";
+option java_multiple_files = true;
+option java_package = "com.ntt.api.pb";
+
+// HealthCheck describes a health check to be performed in the context of a
+// device or a container. Only the exec check can be truly executed inside a
+// container. All the other checks are run on the host device.
+// When run for device health check, host/IP address is mandatory for
+// connectivity checks. For container health checks, host/IP is optional and
+// would default to IP address of the container. It is important to note that a
+// health check for https://endpoint.com/api defined for a container would be
+// run from the host device and not from withthin the container
+message HealthCheckSpec {
+  // http_get_check specifies the http request to perform.
+  HTTPGetCheck http_get_check = 1;
+
+  // tcp_check specifies an action involving a TCP port.
+  TCPCheck tcp_check = 2;
+
+  // icmp_check specifies an icmp health check
+  ICMPCheck icmp_check = 3;
+
+  // GRPC specifies an action involving a GRPC port.
+  // It is essential that the grpc server inplements this api
+  // https://github.com/grpc/grpc/blob/master/doc/health-checking.md
+  // If not, tcp_check should be used.
+  GRPCCheck grpc_check = 4;
+
+  // Exec specifies the command to execute in the container to determine its
+  // health
+  ExecCheck exec = 5;
+
+  // device_file_check is only available for device.
+  // It can be configured to ensure specific hardware is connected
+  // (eg modem /dev/cdc-wdm0, RFID reader device /dev/ttyACM0 etc)
+  DeviceFileCheck device_file_check = 6;
+
+  // Timeout for the HealthCheck.
+  // Defaults to 1 second, greater than 5 seconds is not allowed
+  google.protobuf.Duration timeout = 7;
+
+  // Interval for health check, 60 seconds minimum interval
+  google.protobuf.Duration interval = 8;
+
+  // name for the health check. A meaningful name for this might be useful as a
+  // metrics label
+  string name = 9;
+}
+
+// HTTPGetCheck describes health check based on HTTP Get requests.
+message HTTPGetCheck {
+  // http_url field has to be used when the IP to perform health check is a
+  // container IP that cannot not be known beforehand,  In all other cases,
+  // simple url string can be used
+  // Although not explicitly declared as oneof, url and http_url is oneof type
+  string url = 1;
+
+  HTTPUrl http_url = 2;
+
+  // Custom headers to set in the request. HTTP allows repeated headers.
+  // optional
+  repeated HTTPHeader httpHeaders = 3;
+
+  bool skip_tls_check = 4;
+
+  // optional. By default any response code >= 400 or response code == 300 are
+  // considered as failure Sometimes, the health check might actually expect
+  // 401/403/511 without proper authentication setting expected_response_code
+  // will help to consider this as successful for health check
+  int32 expected_response_code = 5;
+
+  // By default only Success or Failure metric will be generated.
+  // This field can be used to enable response time metric and network metrics
+  // if supported
+  bool enable_detailed_metrics = 6;
+
+  message HTTPUrl {
+    // Path to access on the HTTP server, defaults to /
+    string path = 1;
+
+    // port to access on the container. defaults to 80 for http and 443 for
+    // https Number must be in the range 1 to 65535.
+    int32 port = 2;
+
+    // Host name to connect to.
+    // For containers this defaults to the container IP or wan interface IP in
+    // host mode networking For device, this is a mandatory parameter
+    string host = 3;
+
+    // Scheme to use for connecting to the host.
+    // optional, defaults to HTTP.
+    string scheme = 4;
+  }
+
+  // HTTPHeader describes a custom header to be used in HTTP HealthChecks
+  message HTTPHeader {
+    // The header field name.
+    // This will be canonicalized upon output, so case-variant names will be
+    // understood as the same header.
+    string name = 1;
+
+    // The header field value
+    string value = 2;
+  }
+}
+
+message ICMPCheck {
+  // domain name or IP Addres to perform ICMP check
+  string host = 1;
+
+  // By default only Success or Failure metric will be generated.
+  // This field can be used to enable network metrics such as latency/jitter
+  bool enable_detailed_metrics = 2;
+}
+
+// TCPCheck performs a TCP connect check.
+// Only TCP handshake is performed. No data is sent
+message TCPCheck {
+  // Port number to access on the container or given destination.
+  // Number must be in the range 1 to 65535.
+  int32 port = 1;
+
+  // Host name to connect to.
+  // For containers this defaults to the container IP or wan interface IP in
+  // host mode networking For device, this is a mandatory parameter
+  string host = 2;
+}
+
+message GRPCCheck {
+  // Port number of the gRPC service. Number must be in the range 1 to
+  // 65535.
+  int32 port = 1;
+
+  // Service is the name of the service to place in the gRPC
+  // HealthCheckRequest (see
+  // https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+  //
+  // If this is not specified, the default behavior is defined by gRPC.
+  string service = 2;
+
+  // Host name to connect to.
+  // For containers this defaults to the container IP or wan interface IP in
+  // host mode networking For device, this is a mandatory parameter
+  string host = 3;
+
+  bool skip_tls_check = 4;
+}
+
+// ExecCheck describes a "run in container" action.
+message ExecCheck {
+  // Command is the command line to execute inside the container, the
+  // working directory for the command  is root ('/') in the container's
+  // filesystem. The command is simply exec'd, it is not run inside a shell,
+  // so traditional shell instructions ('|', etc) won't work. To use a
+  // shell, you need to explicitly call out to that shell. Exit status of 0
+  // is treated as live/healthy and non-zero is unhealthy.
+  repeated string command = 1;
+}
+
+message DeviceFileCheck {
+  FileTypeOneOf file_type = 1;
+
+  string device_file_name = 2;
+
+  message FileTypeOneOf {
+    bool is_directory = 1;
+
+    bool is_block_device = 2;
+
+    bool is_char_device = 3;
+
+    bool is_fifo = 4;
+
+    bool is_regular_file = 5;
+  }
+}

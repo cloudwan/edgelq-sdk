@@ -11,6 +11,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -45,6 +46,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -5271,6 +5273,10 @@ func (b *filterCndBuilderSpecTemplateSpec) UsbGuard() *filterCndBuilderSpecTempl
 	return &filterCndBuilderSpecTemplateSpecUsbGuard{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateSpec) HealthChecks() *filterCndBuilderSpecTemplateSpecHealthChecks {
+	return &filterCndBuilderSpecTemplateSpecHealthChecks{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -9269,6 +9275,99 @@ func (b *filterCndBuilderSpecTemplateSpecUsbGuardWhiteListWithConnectType) compa
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().UsbGuard().WhiteList().WithConnectType().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecHealthChecks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) Eq(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) Neq(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) Gt(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) Gte(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) Lt(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) Lte(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) In(values [][]*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) NotIn(values [][]*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) Contains(value *api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().FieldPath(),
+		Value:     NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) ContainsAnyOf(values []*api.HealthCheckSpec) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) ContainsAll(values []*api.HealthCheckSpec) *FilterBuilder {
+	pathSelector := NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks()
+	itemValues := make([]ProvisioningPolicy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecHealthChecks) compare(op gotenfilter.CompareOperator, value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().WithValue(value),
 	})
 }
 

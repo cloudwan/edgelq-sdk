@@ -11,6 +11,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -40,6 +41,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -2638,6 +2640,10 @@ func (b *filterCndBuilderSpec) Location() *filterCndBuilderSpecLocation {
 
 func (b *filterCndBuilderSpec) UsbGuard() *filterCndBuilderSpecUsbGuard {
 	return &filterCndBuilderSpecUsbGuard{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpec) HealthChecks() *filterCndBuilderSpecHealthChecks {
+	return &filterCndBuilderSpecHealthChecks{builder: b.builder}
 }
 
 type filterCndBuilderSpecServiceAccount struct {
@@ -6638,6 +6644,99 @@ func (b *filterCndBuilderSpecUsbGuardWhiteListWithConnectType) compare(op gotenf
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().UsbGuard().WhiteList().WithConnectType().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecHealthChecks struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecHealthChecks) Eq(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecHealthChecks) Neq(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecHealthChecks) Gt(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecHealthChecks) Gte(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecHealthChecks) Lt(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecHealthChecks) Lte(value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecHealthChecks) In(values [][]*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().HealthChecks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecHealthChecks) NotIn(values [][]*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().HealthChecks().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecHealthChecks) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().HealthChecks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecHealthChecks) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().HealthChecks().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecHealthChecks) Contains(value *api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewDeviceFieldPathBuilder().Spec().HealthChecks().FieldPath(),
+		Value:     NewDeviceFieldPathBuilder().Spec().HealthChecks().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecHealthChecks) ContainsAnyOf(values []*api.HealthCheckSpec) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Spec().HealthChecks()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewDeviceFieldPathBuilder().Spec().HealthChecks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecHealthChecks) ContainsAll(values []*api.HealthCheckSpec) *FilterBuilder {
+	pathSelector := NewDeviceFieldPathBuilder().Spec().HealthChecks()
+	itemValues := make([]Device_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewDeviceFieldPathBuilder().Spec().HealthChecks().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecHealthChecks) compare(op gotenfilter.CompareOperator, value []*api.HealthCheckSpec) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().HealthChecks().WithValue(value),
 	})
 }
 

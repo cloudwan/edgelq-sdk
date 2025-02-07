@@ -139,6 +139,11 @@ message DeviceMetrics {
   // is sent
   repeated PodMetricLabel pod_metrics_labels = 16;
 
+  repeated HealthCheckMetricLabel health_check_metric_labels = 19;
+
+  // should match order in health_check_metric_labels
+  map<uint32, HealthCheckMetric> health_check_metrics = 20;
+
   message MemoryStats {
     uint64 buffered_memory = 1;
 
@@ -253,6 +258,28 @@ message DeviceMetrics {
     uint64 pod_status = 1;
 
     bool is_healthy = 2;
+  }
+
+  // Ideally labels should not change continuously.
+  // TODO: Check if status_summary and destination_host are an issue
+  message HealthCheckMetricLabel {
+    string health_check_name = 1;
+
+    string status_summary = 2;
+
+    string destination_host = 3;
+
+    string container_name = 4;
+
+    string pod_id = 5;
+  }
+
+  message HealthCheckMetric {
+    bool is_succeessful = 1;
+
+    uint64 http_response_time_micro_seconds = 2;
+
+    uint64 rtt_microseconds = 3;
   }
 }
 

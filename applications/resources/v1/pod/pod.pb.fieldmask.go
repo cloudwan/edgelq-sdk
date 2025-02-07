@@ -411,6 +411,7 @@ func FullPod_Status_FieldMask() *Pod_Status_FieldMask {
 	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorContainerStatuses})
 	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorError})
 	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorFailureCount})
+	res.Paths = append(res.Paths, &PodStatus_FieldTerminalPath{selector: PodStatus_FieldPathSelectorHealthStatus})
 	return res
 }
 
@@ -454,7 +455,7 @@ func (fieldMask *Pod_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 4)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*PodStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -484,7 +485,7 @@ func (fieldMask *Pod_Status_FieldMask) Reset() {
 
 func (fieldMask *Pod_Status_FieldMask) Subtract(other *Pod_Status_FieldMask) *Pod_Status_FieldMask {
 	result := &Pod_Status_FieldMask{}
-	removedSelectors := make([]bool, 4)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[PodStatus_FieldPathSelector]gotenobject.FieldMask{
 		PodStatus_FieldPathSelectorContainerStatuses: &Pod_Status_Container_FieldMask{},
 	}
@@ -675,6 +676,8 @@ func (fieldMask *Pod_Status_FieldMask) Project(source *Pod_Status) *Pod_Status {
 				result.Error = source.Error
 			case PodStatus_FieldPathSelectorFailureCount:
 				result.FailureCount = source.FailureCount
+			case PodStatus_FieldPathSelectorHealthStatus:
+				result.HealthStatus = source.HealthStatus
 			}
 		case *PodStatus_FieldSubPath:
 			switch tp.selector {
@@ -713,6 +716,10 @@ func FullPod_Status_Container_FieldMask() *Pod_Status_Container_FieldMask {
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorWaiting})
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorRunning})
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorTerminated})
+	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorHealthStatus})
+	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorServiceName})
+	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorContainerIp})
+	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorContainerId})
 	return res
 }
 
@@ -756,7 +763,7 @@ func (fieldMask *Pod_Status_Container_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*PodStatusContainer_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -786,7 +793,7 @@ func (fieldMask *Pod_Status_Container_FieldMask) Reset() {
 
 func (fieldMask *Pod_Status_Container_FieldMask) Subtract(other *Pod_Status_Container_FieldMask) *Pod_Status_Container_FieldMask {
 	result := &Pod_Status_Container_FieldMask{}
-	removedSelectors := make([]bool, 5)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[PodStatusContainer_FieldPathSelector]gotenobject.FieldMask{
 		PodStatusContainer_FieldPathSelectorWaiting:    &Pod_Status_Container_StateWaiting_FieldMask{},
 		PodStatusContainer_FieldPathSelectorRunning:    &Pod_Status_Container_StateRunning_FieldMask{},
@@ -993,6 +1000,14 @@ func (fieldMask *Pod_Status_Container_FieldMask) Project(source *Pod_Status_Cont
 			case PodStatusContainer_FieldPathSelectorTerminated:
 				result.Terminated = source.Terminated
 				wholeTerminatedAccepted = true
+			case PodStatusContainer_FieldPathSelectorHealthStatus:
+				result.HealthStatus = source.HealthStatus
+			case PodStatusContainer_FieldPathSelectorServiceName:
+				result.ServiceName = source.ServiceName
+			case PodStatusContainer_FieldPathSelectorContainerIp:
+				result.ContainerIp = source.ContainerIp
+			case PodStatusContainer_FieldPathSelectorContainerId:
+				result.ContainerId = source.ContainerId
 			}
 		case *PodStatusContainer_FieldSubPath:
 			switch tp.selector {

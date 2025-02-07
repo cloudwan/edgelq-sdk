@@ -16,6 +16,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -42,6 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -306,6 +308,18 @@ func (o *Device_Spec) MakeDiffFieldMask(other *Device_Spec) *Device_Spec_FieldMa
 			}
 		}
 	}
+
+	if len(o.GetHealthChecks()) == len(other.GetHealthChecks()) {
+		for i, lValue := range o.GetHealthChecks() {
+			rValue := other.GetHealthChecks()[i]
+			if !proto.Equal(lValue, rValue) {
+				res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks})
+	}
 	return res
 }
 
@@ -359,6 +373,10 @@ func (o *Device_Spec) Clone() *Device_Spec {
 	result.ProxyConfig = o.ProxyConfig.Clone()
 	result.Location = o.Location.Clone()
 	result.UsbGuard = o.UsbGuard.Clone()
+	result.HealthChecks = make([]*api.HealthCheckSpec, len(o.HealthChecks))
+	for i, sourceValue := range o.HealthChecks {
+		result.HealthChecks[i] = proto.Clone(sourceValue).(*api.HealthCheckSpec)
+	}
 	return result
 }
 
@@ -444,6 +462,24 @@ func (o *Device_Spec) Merge(source *Device_Spec) {
 		}
 		o.UsbGuard.Merge(source.GetUsbGuard())
 	}
+	for _, sourceValue := range source.GetHealthChecks() {
+		exists := false
+		for _, currentValue := range o.HealthChecks {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *api.HealthCheckSpec
+			if sourceValue != nil {
+				newDstElement = new(api.HealthCheckSpec)
+				proto.Merge(newDstElement, sourceValue)
+			}
+			o.HealthChecks = append(o.HealthChecks, newDstElement)
+		}
+	}
+
 }
 
 func (o *Device_Spec) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -160,6 +160,10 @@ resources:
 - name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/health
   type: applications.edgelq.com/pod/health
   displayName: Pod Health Status
+  description: |
+   This gives a quick overview of pod health. 0 for Unhealthy and 1 for Healthy.
+   Value 1 indicates all the containers are Good (Running/Exited gracefully) and all health checks are successful.
+   Even if a single container failed or any health check fails, pod health would be set to 0 (Unhealthy)
   metricKind: GAUGE
   valueType: INT64
   unit: "1"
@@ -206,3 +210,96 @@ resources:
       owningService: applications.edgelq.com
       allowedServices:
       - applications.edgelq.com
+
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/healthcheck/status
+  type: applications.edgelq.com/pod/healthcheck/status
+  displayName: Results of health checks configured for a pod
+  description: |
+   This gives a quick overview of a health result for a container. 0 for Unhealthy and 1 for Healthy.
+   Value 1 indicates the health check is successful. 0 indicates failure.
+   This is a granular time series of each health check status as compared to consolidated metric
+   applications.edgelq.com/pod/health
+  metricKind: GAUGE
+  valueType: INT64
+  unit: "1"
+  labels:
+  - key: container_id
+    description: Container ID
+    valueType: STRING
+  - key: healthcheck_name
+    description: Health Check Name
+    valueType: STRING
+  - key: status_summary
+    description: Status Details # error message from HTTP API might be helpful, whereas ICMP check would not have any useful status label
+    valueType: STRING
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "pod-nonaggregated"
+        resourceTypes: [ applications.edgelq.com/pod ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/healthcheck/http/responsetime
+  type: applications.edgelq.com/pod/healthcheck/http/responsetime
+  displayName: HTTP Response time for Pod Health Check
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "ms"
+  labels:
+  - key: container_id
+    description: Container ID
+    valueType: STRING
+  - key: healthcheck_name
+    description: Health Check Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "pod-nonaggregated"
+        resourceTypes: [ applications.edgelq.com/pod ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+
+- name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/healthcheck/network/rtt
+  type: applications.edgelq.com/pod/healthcheck/network/rtt
+  description: Optional for HTTP/ICMP health checks
+  displayName: Round Trip Time for packets during Pod health check
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "ms"
+  labels:
+  - key: container_id
+    description: Container ID
+    valueType: STRING
+  - key: healthcheck_name
+    description: Health Check Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: applications.edgelq.com
+      allowedServices:
+      - applications.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "pod-nonaggregated"
+        resourceTypes: [ applications.edgelq.com/pod ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]

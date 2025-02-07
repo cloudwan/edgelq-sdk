@@ -6,6 +6,7 @@ package device
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -29,6 +30,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
 	_ = &iam_iam_common.PCR{}
@@ -885,6 +887,10 @@ func (DevicePathSelectorSpec) Location() DevicePathSelectorSpecLocation {
 
 func (DevicePathSelectorSpec) UsbGuard() DevicePathSelectorSpecUsbGuard {
 	return DevicePathSelectorSpecUsbGuard{}
+}
+
+func (DevicePathSelectorSpec) HealthChecks() DevicePathSelectorSpecHealthChecks {
+	return DevicePathSelectorSpecHealthChecks{}
 }
 
 type DevicePathSelectorSpecServiceAccount struct{}
@@ -2108,6 +2114,27 @@ func (s DevicePathSelectorSpecUsbGuardWhiteListWithConnectType) WithValue(value 
 
 func (s DevicePathSelectorSpecUsbGuardWhiteListWithConnectType) WithArrayOfValues(values []string) *Device_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+type DevicePathSelectorSpecHealthChecks struct{}
+
+func (DevicePathSelectorSpecHealthChecks) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().HealthChecks().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecHealthChecks) WithValue(value []*api.HealthCheckSpec) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecHealthChecks) WithArrayOfValues(values [][]*api.HealthCheckSpec) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
+}
+
+func (s DevicePathSelectorSpecHealthChecks) WithItemValue(value *api.HealthCheckSpec) *Device_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
 }
 
 type DevicePathSelectorStatus struct{}
@@ -7660,6 +7687,9 @@ func (DeviceSpecFieldPathBuilder) Location() Device_SpecPathSelectorLocation {
 func (DeviceSpecFieldPathBuilder) UsbGuard() Device_SpecPathSelectorUsbGuard {
 	return Device_SpecPathSelectorUsbGuard{}
 }
+func (DeviceSpecFieldPathBuilder) HealthChecks() Device_SpecPathSelectorHealthChecks {
+	return Device_SpecPathSelectorHealthChecks{}
+}
 
 type Device_SpecPathSelectorServiceAccount struct{}
 
@@ -8936,6 +8966,24 @@ func (s Device_SpecPathSelectorUsbGuardWhiteListWithConnectType) WithValue(value
 
 func (s Device_SpecPathSelectorUsbGuardWhiteListWithConnectType) WithArrayOfValues(values []string) *DeviceSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldSubPathArrayOfValues)
+}
+
+type Device_SpecPathSelectorHealthChecks struct{}
+
+func (Device_SpecPathSelectorHealthChecks) FieldPath() *DeviceSpec_FieldTerminalPath {
+	return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks}
+}
+
+func (s Device_SpecPathSelectorHealthChecks) WithValue(value []*api.HealthCheckSpec) *DeviceSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldTerminalPathValue)
+}
+
+func (s Device_SpecPathSelectorHealthChecks) WithArrayOfValues(values [][]*api.HealthCheckSpec) *DeviceSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldTerminalPathArrayOfValues)
+}
+
+func (s Device_SpecPathSelectorHealthChecks) WithItemValue(value *api.HealthCheckSpec) *DeviceSpec_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpec_FieldTerminalPathArrayItemValue)
 }
 
 type DeviceStatusFieldPathBuilder struct{}

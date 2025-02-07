@@ -8,6 +8,7 @@ package distribution
 import (
 	common "github.com/cloudwan/edgelq-sdk/applications/resources/v1/common"
 	project "github.com/cloudwan/edgelq-sdk/applications/resources/v1/project"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -36,6 +37,7 @@ import (
 var (
 	_ = &common.PodSpec{}
 	_ = &project.Project{}
+	_ = &api.HealthCheckSpec{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -1746,6 +1748,10 @@ func (DistributionPathSelectorSpecTemplateSpec) HostVolumeMounts() DistributionP
 	return DistributionPathSelectorSpecTemplateSpecHostVolumeMounts{}
 }
 
+func (DistributionPathSelectorSpecTemplateSpec) ComposeHealthChecks() DistributionPathSelectorSpecTemplateSpecComposeHealthChecks {
+	return DistributionPathSelectorSpecTemplateSpecComposeHealthChecks{}
+}
+
 type DistributionPathSelectorSpecTemplateSpecNode struct{}
 
 func (DistributionPathSelectorSpecTemplateSpecNode) FieldPath() *Distribution_FieldSubPath {
@@ -1822,6 +1828,10 @@ func (DistributionPathSelectorSpecTemplateSpecContainers) VolumeMounts() Distrib
 
 func (DistributionPathSelectorSpecTemplateSpecContainers) EnvFrom() DistributionPathSelectorSpecTemplateSpecContainersEnvFrom {
 	return DistributionPathSelectorSpecTemplateSpecContainersEnvFrom{}
+}
+
+func (DistributionPathSelectorSpecTemplateSpecContainers) HealthCheck() DistributionPathSelectorSpecTemplateSpecContainersHealthCheck {
+	return DistributionPathSelectorSpecTemplateSpecContainersHealthCheck{}
 }
 
 type DistributionPathSelectorSpecTemplateSpecContainersArgs struct{}
@@ -2581,6 +2591,27 @@ func (s DistributionPathSelectorSpecTemplateSpecContainersEnvFromSecretRefOption
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
+type DistributionPathSelectorSpecTemplateSpecContainersHealthCheck struct{}
+
+func (DistributionPathSelectorSpecTemplateSpecContainersHealthCheck) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().Template().Spec().Containers().HealthCheck().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorSpecTemplateSpecContainersHealthCheck) WithValue(value []*api.HealthCheckSpec) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorSpecTemplateSpecContainersHealthCheck) WithArrayOfValues(values [][]*api.HealthCheckSpec) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+func (s DistributionPathSelectorSpecTemplateSpecContainersHealthCheck) WithItemValue(value *api.HealthCheckSpec) *Distribution_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Distribution_FieldSubPathArrayItemValue)
+}
+
 type DistributionPathSelectorSpecTemplateSpecHostNetwork struct{}
 
 func (DistributionPathSelectorSpecTemplateSpecHostNetwork) FieldPath() *Distribution_FieldSubPath {
@@ -3225,6 +3256,46 @@ func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMountsSubPath) WithVal
 }
 
 func (s DistributionPathSelectorSpecTemplateSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+type DistributionPathSelectorSpecTemplateSpecComposeHealthChecks struct{}
+
+func (DistributionPathSelectorSpecTemplateSpecComposeHealthChecks) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().Template().Spec().ComposeHealthChecks().FieldPath(),
+	}
+}
+
+func (s DistributionPathSelectorSpecTemplateSpecComposeHealthChecks) WithValue(value map[string]*common.PodSpec_ContainerHealthChecks) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionPathSelectorSpecTemplateSpecComposeHealthChecks) WithArrayOfValues(values []map[string]*common.PodSpec_ContainerHealthChecks) *Distribution_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
+}
+
+func (DistributionPathSelectorSpecTemplateSpecComposeHealthChecks) WithKey(key string) DistributionMapPathSelectorSpecTemplateSpecComposeHealthChecks {
+	return DistributionMapPathSelectorSpecTemplateSpecComposeHealthChecks{key: key}
+}
+
+type DistributionMapPathSelectorSpecTemplateSpecComposeHealthChecks struct {
+	key string
+}
+
+func (s DistributionMapPathSelectorSpecTemplateSpecComposeHealthChecks) FieldPath() *Distribution_FieldSubPath {
+	return &Distribution_FieldSubPath{
+		selector: Distribution_FieldPathSelectorSpec,
+		subPath:  NewDistributionSpecFieldPathBuilder().Template().Spec().ComposeHealthChecks().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s DistributionMapPathSelectorSpecTemplateSpecComposeHealthChecks) WithValue(value *common.PodSpec_ContainerHealthChecks) *Distribution_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Distribution_FieldSubPathValue)
+}
+
+func (s DistributionMapPathSelectorSpecTemplateSpecComposeHealthChecks) WithArrayOfValues(values []*common.PodSpec_ContainerHealthChecks) *Distribution_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Distribution_FieldSubPathArrayOfValues)
 }
 
@@ -4212,6 +4283,10 @@ func (Distribution_SpecPathSelectorTemplateSpec) HostVolumeMounts() Distribution
 	return Distribution_SpecPathSelectorTemplateSpecHostVolumeMounts{}
 }
 
+func (Distribution_SpecPathSelectorTemplateSpec) ComposeHealthChecks() Distribution_SpecPathSelectorTemplateSpecComposeHealthChecks {
+	return Distribution_SpecPathSelectorTemplateSpecComposeHealthChecks{}
+}
+
 type Distribution_SpecPathSelectorTemplateSpecNode struct{}
 
 func (Distribution_SpecPathSelectorTemplateSpecNode) FieldPath() *DistributionSpec_FieldSubPath {
@@ -4288,6 +4363,10 @@ func (Distribution_SpecPathSelectorTemplateSpecContainers) VolumeMounts() Distri
 
 func (Distribution_SpecPathSelectorTemplateSpecContainers) EnvFrom() Distribution_SpecPathSelectorTemplateSpecContainersEnvFrom {
 	return Distribution_SpecPathSelectorTemplateSpecContainersEnvFrom{}
+}
+
+func (Distribution_SpecPathSelectorTemplateSpecContainers) HealthCheck() Distribution_SpecPathSelectorTemplateSpecContainersHealthCheck {
+	return Distribution_SpecPathSelectorTemplateSpecContainersHealthCheck{}
 }
 
 type Distribution_SpecPathSelectorTemplateSpecContainersArgs struct{}
@@ -5047,6 +5126,27 @@ func (s Distribution_SpecPathSelectorTemplateSpecContainersEnvFromSecretRefOptio
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
+type Distribution_SpecPathSelectorTemplateSpecContainersHealthCheck struct{}
+
+func (Distribution_SpecPathSelectorTemplateSpecContainersHealthCheck) FieldPath() *DistributionSpec_FieldSubPath {
+	return &DistributionSpec_FieldSubPath{
+		selector: DistributionSpec_FieldPathSelectorTemplate,
+		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Spec().Containers().HealthCheck().FieldPath(),
+	}
+}
+
+func (s Distribution_SpecPathSelectorTemplateSpecContainersHealthCheck) WithValue(value []*api.HealthCheckSpec) *DistributionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
+}
+
+func (s Distribution_SpecPathSelectorTemplateSpecContainersHealthCheck) WithArrayOfValues(values [][]*api.HealthCheckSpec) *DistributionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+func (s Distribution_SpecPathSelectorTemplateSpecContainersHealthCheck) WithItemValue(value *api.HealthCheckSpec) *DistributionSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpec_FieldSubPathArrayItemValue)
+}
+
 type Distribution_SpecPathSelectorTemplateSpecHostNetwork struct{}
 
 func (Distribution_SpecPathSelectorTemplateSpecHostNetwork) FieldPath() *DistributionSpec_FieldSubPath {
@@ -5691,6 +5791,46 @@ func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMountsSubPath) WithVa
 }
 
 func (s Distribution_SpecPathSelectorTemplateSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *DistributionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+type Distribution_SpecPathSelectorTemplateSpecComposeHealthChecks struct{}
+
+func (Distribution_SpecPathSelectorTemplateSpecComposeHealthChecks) FieldPath() *DistributionSpec_FieldSubPath {
+	return &DistributionSpec_FieldSubPath{
+		selector: DistributionSpec_FieldPathSelectorTemplate,
+		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Spec().ComposeHealthChecks().FieldPath(),
+	}
+}
+
+func (s Distribution_SpecPathSelectorTemplateSpecComposeHealthChecks) WithValue(value map[string]*common.PodSpec_ContainerHealthChecks) *DistributionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
+}
+
+func (s Distribution_SpecPathSelectorTemplateSpecComposeHealthChecks) WithArrayOfValues(values []map[string]*common.PodSpec_ContainerHealthChecks) *DistributionSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
+}
+
+func (Distribution_SpecPathSelectorTemplateSpecComposeHealthChecks) WithKey(key string) Distribution_SpecMapPathSelectorTemplateSpecComposeHealthChecks {
+	return Distribution_SpecMapPathSelectorTemplateSpecComposeHealthChecks{key: key}
+}
+
+type Distribution_SpecMapPathSelectorTemplateSpecComposeHealthChecks struct {
+	key string
+}
+
+func (s Distribution_SpecMapPathSelectorTemplateSpecComposeHealthChecks) FieldPath() *DistributionSpec_FieldSubPath {
+	return &DistributionSpec_FieldSubPath{
+		selector: DistributionSpec_FieldPathSelectorTemplate,
+		subPath:  NewDistributionSpecTemplateFieldPathBuilder().Spec().ComposeHealthChecks().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Distribution_SpecMapPathSelectorTemplateSpecComposeHealthChecks) WithValue(value *common.PodSpec_ContainerHealthChecks) *DistributionSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpec_FieldSubPathValue)
+}
+
+func (s Distribution_SpecMapPathSelectorTemplateSpecComposeHealthChecks) WithArrayOfValues(values []*common.PodSpec_ContainerHealthChecks) *DistributionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -6470,6 +6610,10 @@ func (Distribution_Spec_TemplatePathSelectorSpec) HostVolumeMounts() Distributio
 	return Distribution_Spec_TemplatePathSelectorSpecHostVolumeMounts{}
 }
 
+func (Distribution_Spec_TemplatePathSelectorSpec) ComposeHealthChecks() Distribution_Spec_TemplatePathSelectorSpecComposeHealthChecks {
+	return Distribution_Spec_TemplatePathSelectorSpecComposeHealthChecks{}
+}
+
 type Distribution_Spec_TemplatePathSelectorSpecNode struct{}
 
 func (Distribution_Spec_TemplatePathSelectorSpecNode) FieldPath() *DistributionSpecTemplate_FieldSubPath {
@@ -6546,6 +6690,10 @@ func (Distribution_Spec_TemplatePathSelectorSpecContainers) VolumeMounts() Distr
 
 func (Distribution_Spec_TemplatePathSelectorSpecContainers) EnvFrom() Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom {
 	return Distribution_Spec_TemplatePathSelectorSpecContainersEnvFrom{}
+}
+
+func (Distribution_Spec_TemplatePathSelectorSpecContainers) HealthCheck() Distribution_Spec_TemplatePathSelectorSpecContainersHealthCheck {
+	return Distribution_Spec_TemplatePathSelectorSpecContainersHealthCheck{}
 }
 
 type Distribution_Spec_TemplatePathSelectorSpecContainersArgs struct{}
@@ -7305,6 +7453,27 @@ func (s Distribution_Spec_TemplatePathSelectorSpecContainersEnvFromSecretRefOpti
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 
+type Distribution_Spec_TemplatePathSelectorSpecContainersHealthCheck struct{}
+
+func (Distribution_Spec_TemplatePathSelectorSpecContainersHealthCheck) FieldPath() *DistributionSpecTemplate_FieldSubPath {
+	return &DistributionSpecTemplate_FieldSubPath{
+		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
+		subPath:  common.NewPodSpecFieldPathBuilder().Containers().HealthCheck().FieldPath(),
+	}
+}
+
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersHealthCheck) WithValue(value []*api.HealthCheckSpec) *DistributionSpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersHealthCheck) WithArrayOfValues(values [][]*api.HealthCheckSpec) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorSpecContainersHealthCheck) WithItemValue(value *api.HealthCheckSpec) *DistributionSpecTemplate_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*DistributionSpecTemplate_FieldSubPathArrayItemValue)
+}
+
 type Distribution_Spec_TemplatePathSelectorSpecHostNetwork struct{}
 
 func (Distribution_Spec_TemplatePathSelectorSpecHostNetwork) FieldPath() *DistributionSpecTemplate_FieldSubPath {
@@ -7949,6 +8118,46 @@ func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsSubPath) WithV
 }
 
 func (s Distribution_Spec_TemplatePathSelectorSpecHostVolumeMountsSubPath) WithArrayOfValues(values []string) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type Distribution_Spec_TemplatePathSelectorSpecComposeHealthChecks struct{}
+
+func (Distribution_Spec_TemplatePathSelectorSpecComposeHealthChecks) FieldPath() *DistributionSpecTemplate_FieldSubPath {
+	return &DistributionSpecTemplate_FieldSubPath{
+		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
+		subPath:  common.NewPodSpecFieldPathBuilder().ComposeHealthChecks().FieldPath(),
+	}
+}
+
+func (s Distribution_Spec_TemplatePathSelectorSpecComposeHealthChecks) WithValue(value map[string]*common.PodSpec_ContainerHealthChecks) *DistributionSpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
+}
+
+func (s Distribution_Spec_TemplatePathSelectorSpecComposeHealthChecks) WithArrayOfValues(values []map[string]*common.PodSpec_ContainerHealthChecks) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (Distribution_Spec_TemplatePathSelectorSpecComposeHealthChecks) WithKey(key string) Distribution_Spec_TemplateMapPathSelectorSpecComposeHealthChecks {
+	return Distribution_Spec_TemplateMapPathSelectorSpecComposeHealthChecks{key: key}
+}
+
+type Distribution_Spec_TemplateMapPathSelectorSpecComposeHealthChecks struct {
+	key string
+}
+
+func (s Distribution_Spec_TemplateMapPathSelectorSpecComposeHealthChecks) FieldPath() *DistributionSpecTemplate_FieldSubPath {
+	return &DistributionSpecTemplate_FieldSubPath{
+		selector: DistributionSpecTemplate_FieldPathSelectorSpec,
+		subPath:  common.NewPodSpecFieldPathBuilder().ComposeHealthChecks().WithKey(s.key).FieldPath(),
+	}
+}
+
+func (s Distribution_Spec_TemplateMapPathSelectorSpecComposeHealthChecks) WithValue(value *common.PodSpec_ContainerHealthChecks) *DistributionSpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*DistributionSpecTemplate_FieldSubPathValue)
+}
+
+func (s Distribution_Spec_TemplateMapPathSelectorSpecComposeHealthChecks) WithArrayOfValues(values []*common.PodSpec_ContainerHealthChecks) *DistributionSpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DistributionSpecTemplate_FieldSubPathArrayOfValues)
 }
 

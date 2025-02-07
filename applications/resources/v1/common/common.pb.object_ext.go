@@ -16,6 +16,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 )
@@ -33,6 +34,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &devices_device.Device{}
 	_ = &secrets_secret.Secret{}
 )
@@ -116,6 +118,18 @@ func (o *PodSpec) MakeDiffFieldMask(other *PodSpec) *PodSpec_FieldMask {
 	} else {
 		res.Paths = append(res.Paths, &PodSpec_FieldTerminalPath{selector: PodSpec_FieldPathSelectorHostVolumeMounts})
 	}
+
+	if len(o.GetComposeHealthChecks()) == len(other.GetComposeHealthChecks()) {
+		for i, lValue := range o.GetComposeHealthChecks() {
+			rValue := other.GetComposeHealthChecks()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &PodSpec_FieldTerminalPath{selector: PodSpec_FieldPathSelectorComposeHealthChecks})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &PodSpec_FieldTerminalPath{selector: PodSpec_FieldPathSelectorComposeHealthChecks})
+	}
 	return res
 }
 
@@ -156,6 +170,10 @@ func (o *PodSpec) Clone() *PodSpec {
 	result.HostVolumeMounts = make([]*VolumeMount, len(o.HostVolumeMounts))
 	for i, sourceValue := range o.HostVolumeMounts {
 		result.HostVolumeMounts[i] = sourceValue.Clone()
+	}
+	result.ComposeHealthChecks = map[string]*PodSpec_ContainerHealthChecks{}
+	for key, sourceValue := range o.ComposeHealthChecks {
+		result.ComposeHealthChecks[key] = sourceValue.Clone()
 	}
 	return result
 }
@@ -252,6 +270,19 @@ func (o *PodSpec) Merge(source *PodSpec) {
 		}
 	}
 
+	if source.GetComposeHealthChecks() != nil {
+		if o.ComposeHealthChecks == nil {
+			o.ComposeHealthChecks = make(map[string]*PodSpec_ContainerHealthChecks, len(source.GetComposeHealthChecks()))
+		}
+		for key, sourceValue := range source.GetComposeHealthChecks() {
+			if sourceValue != nil {
+				if o.ComposeHealthChecks[key] == nil {
+					o.ComposeHealthChecks[key] = new(PodSpec_ContainerHealthChecks)
+				}
+				o.ComposeHealthChecks[key].Merge(sourceValue)
+			}
+		}
+	}
 }
 
 func (o *PodSpec) MergeRaw(source gotenobject.GotenObjectExt) {
@@ -364,6 +395,18 @@ func (o *PodSpec_Container) MakeDiffFieldMask(other *PodSpec_Container) *PodSpec
 			}
 		}
 	}
+
+	if len(o.GetHealthCheck()) == len(other.GetHealthCheck()) {
+		for i, lValue := range o.GetHealthCheck() {
+			rValue := other.GetHealthCheck()[i]
+			if !proto.Equal(lValue, rValue) {
+				res.Paths = append(res.Paths, &PodSpecContainer_FieldTerminalPath{selector: PodSpecContainer_FieldPathSelectorHealthCheck})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &PodSpecContainer_FieldTerminalPath{selector: PodSpecContainer_FieldPathSelectorHealthCheck})
+	}
 	return res
 }
 
@@ -398,6 +441,10 @@ func (o *PodSpec_Container) Clone() *PodSpec_Container {
 		result.VolumeMounts[i] = sourceValue.Clone()
 	}
 	result.EnvFrom = o.EnvFrom.Clone()
+	result.HealthCheck = make([]*api.HealthCheckSpec, len(o.HealthCheck))
+	for i, sourceValue := range o.HealthCheck {
+		result.HealthCheck[i] = proto.Clone(sourceValue).(*api.HealthCheckSpec)
+	}
 	return result
 }
 
@@ -493,10 +540,107 @@ func (o *PodSpec_Container) Merge(source *PodSpec_Container) {
 		}
 		o.EnvFrom.Merge(source.GetEnvFrom())
 	}
+	for _, sourceValue := range source.GetHealthCheck() {
+		exists := false
+		for _, currentValue := range o.HealthCheck {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *api.HealthCheckSpec
+			if sourceValue != nil {
+				newDstElement = new(api.HealthCheckSpec)
+				proto.Merge(newDstElement, sourceValue)
+			}
+			o.HealthCheck = append(o.HealthCheck, newDstElement)
+		}
+	}
+
 }
 
 func (o *PodSpec_Container) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*PodSpec_Container))
+}
+
+func (o *PodSpec_ContainerHealthChecks) GotenObjectExt() {}
+
+func (o *PodSpec_ContainerHealthChecks) MakeFullFieldMask() *PodSpec_ContainerHealthChecks_FieldMask {
+	return FullPodSpec_ContainerHealthChecks_FieldMask()
+}
+
+func (o *PodSpec_ContainerHealthChecks) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPodSpec_ContainerHealthChecks_FieldMask()
+}
+
+func (o *PodSpec_ContainerHealthChecks) MakeDiffFieldMask(other *PodSpec_ContainerHealthChecks) *PodSpec_ContainerHealthChecks_FieldMask {
+	if o == nil && other == nil {
+		return &PodSpec_ContainerHealthChecks_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullPodSpec_ContainerHealthChecks_FieldMask()
+	}
+
+	res := &PodSpec_ContainerHealthChecks_FieldMask{}
+
+	if len(o.GetHealthChecks()) == len(other.GetHealthChecks()) {
+		for i, lValue := range o.GetHealthChecks() {
+			rValue := other.GetHealthChecks()[i]
+			if !proto.Equal(lValue, rValue) {
+				res.Paths = append(res.Paths, &PodSpecContainerHealthChecks_FieldTerminalPath{selector: PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &PodSpecContainerHealthChecks_FieldTerminalPath{selector: PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks})
+	}
+	return res
+}
+
+func (o *PodSpec_ContainerHealthChecks) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*PodSpec_ContainerHealthChecks))
+}
+
+func (o *PodSpec_ContainerHealthChecks) Clone() *PodSpec_ContainerHealthChecks {
+	if o == nil {
+		return nil
+	}
+	result := &PodSpec_ContainerHealthChecks{}
+	result.HealthChecks = make([]*api.HealthCheckSpec, len(o.HealthChecks))
+	for i, sourceValue := range o.HealthChecks {
+		result.HealthChecks[i] = proto.Clone(sourceValue).(*api.HealthCheckSpec)
+	}
+	return result
+}
+
+func (o *PodSpec_ContainerHealthChecks) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *PodSpec_ContainerHealthChecks) Merge(source *PodSpec_ContainerHealthChecks) {
+	for _, sourceValue := range source.GetHealthChecks() {
+		exists := false
+		for _, currentValue := range o.HealthChecks {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *api.HealthCheckSpec
+			if sourceValue != nil {
+				newDstElement = new(api.HealthCheckSpec)
+				proto.Merge(newDstElement, sourceValue)
+			}
+			o.HealthChecks = append(o.HealthChecks, newDstElement)
+		}
+	}
+
+}
+
+func (o *PodSpec_ContainerHealthChecks) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*PodSpec_ContainerHealthChecks))
 }
 
 func (o *PodSpec_Container_ResourceRequirements) GotenObjectExt() {}

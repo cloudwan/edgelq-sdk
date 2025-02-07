@@ -251,6 +251,13 @@ func (obj *DeviceMetrics) GotenValidate() error {
 			}
 		}
 	}
+	for idx, elem := range obj.HealthCheckMetricLabels {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "healthCheckMetricLabels", obj.HealthCheckMetricLabels[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -365,6 +372,24 @@ func (obj *DeviceMetrics_PodMetricLabel) GotenValidate() error {
 	return nil
 }
 func (obj *DeviceMetrics_PodMetric) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_HealthCheckMetricLabel) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_HealthCheckMetric) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

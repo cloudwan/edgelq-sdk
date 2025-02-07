@@ -1199,3 +1199,84 @@ resources:
           metricKeys: [ ]
           resourceKeys: [ ]
           closingStatus: <legacy_device_indices_closing_status>
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/healthcheck/status
+  type: devices.edgelq.com/device/healthcheck/status
+  displayName: Results of health checks configured for the device
+  metricKind: GAUGE
+  valueType: INT64
+  unit: "1"
+  labels:
+  - key: healthcheck_name
+    description: Health Check Name
+    valueType: STRING
+  - key: status_summary
+    description: Status Details # error message from HTTP API might be helpful, whereas ICMP check would not have any useful status label
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "healthcheckstatus-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          metricKeys: [ ]
+          resourceKeys: [device_id]
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/healthcheck/http/responsetime
+  type: devices.edgelq.com/device/healthcheck/http/responsetime
+  displayName: HTTP Response time for Health Check
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "ms"
+  labels:
+  - key: healthcheck_name
+    description: Health Check name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "healthcheckstatus-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          metricKeys: [ ]
+          resourceKeys: [device_id]
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/healthcheck/network/rtt
+  type: devices.edgelq.com/device/healthcheck/network/rtt
+  displayName: Round Trip Time for packets during health check. Can be enabled for HTTP/ICMP health checks
+  metricKind: GAUGE
+  valueType: DOUBLE
+  unit: "ms"
+  labels:
+  - key: healthcheck_name
+    description: Health Check name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "healthcheckstatus-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          metricKeys: [ ]
+          resourceKeys: [device_id]

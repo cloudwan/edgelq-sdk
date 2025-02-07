@@ -6,6 +6,7 @@ package common
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	devices_device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	devices_project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -32,6 +33,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &devices_device.Device{}
 	_ = &devices_project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -84,6 +86,9 @@ func (PodSpecFieldPathBuilder) Compose() PodSpecPathSelectorCompose {
 }
 func (PodSpecFieldPathBuilder) HostVolumeMounts() PodSpecPathSelectorHostVolumeMounts {
 	return PodSpecPathSelectorHostVolumeMounts{}
+}
+func (PodSpecFieldPathBuilder) ComposeHealthChecks() PodSpecPathSelectorComposeHealthChecks {
+	return PodSpecPathSelectorComposeHealthChecks{}
 }
 
 type PodSpecPathSelectorNode struct{}
@@ -171,6 +176,10 @@ func (PodSpecPathSelectorContainers) VolumeMounts() PodSpecPathSelectorContainer
 
 func (PodSpecPathSelectorContainers) EnvFrom() PodSpecPathSelectorContainersEnvFrom {
 	return PodSpecPathSelectorContainersEnvFrom{}
+}
+
+func (PodSpecPathSelectorContainers) HealthCheck() PodSpecPathSelectorContainersHealthCheck {
+	return PodSpecPathSelectorContainersHealthCheck{}
 }
 
 type PodSpecPathSelectorContainersArgs struct{}
@@ -930,6 +939,27 @@ func (s PodSpecPathSelectorContainersEnvFromSecretRefOptional) WithArrayOfValues
 	return s.FieldPath().WithIArrayOfValues(values).(*PodSpec_FieldSubPathArrayOfValues)
 }
 
+type PodSpecPathSelectorContainersHealthCheck struct{}
+
+func (PodSpecPathSelectorContainersHealthCheck) FieldPath() *PodSpec_FieldSubPath {
+	return &PodSpec_FieldSubPath{
+		selector: PodSpec_FieldPathSelectorContainers,
+		subPath:  NewPodSpecContainerFieldPathBuilder().HealthCheck().FieldPath(),
+	}
+}
+
+func (s PodSpecPathSelectorContainersHealthCheck) WithValue(value []*api.HealthCheckSpec) *PodSpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PodSpec_FieldSubPathValue)
+}
+
+func (s PodSpecPathSelectorContainersHealthCheck) WithArrayOfValues(values [][]*api.HealthCheckSpec) *PodSpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodSpec_FieldSubPathArrayOfValues)
+}
+
+func (s PodSpecPathSelectorContainersHealthCheck) WithItemValue(value *api.HealthCheckSpec) *PodSpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PodSpec_FieldSubPathArrayItemValue)
+}
+
 type PodSpecPathSelectorHostNetwork struct{}
 
 func (PodSpecPathSelectorHostNetwork) FieldPath() *PodSpec_FieldTerminalPath {
@@ -1604,6 +1634,40 @@ func (s PodSpecPathSelectorHostVolumeMountsSubPath) WithArrayOfValues(values []s
 	return s.FieldPath().WithIArrayOfValues(values).(*PodSpec_FieldSubPathArrayOfValues)
 }
 
+type PodSpecPathSelectorComposeHealthChecks struct{}
+
+func (PodSpecPathSelectorComposeHealthChecks) FieldPath() *PodSpec_FieldTerminalPath {
+	return &PodSpec_FieldTerminalPath{selector: PodSpec_FieldPathSelectorComposeHealthChecks}
+}
+
+func (s PodSpecPathSelectorComposeHealthChecks) WithValue(value map[string]*PodSpec_ContainerHealthChecks) *PodSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodSpec_FieldTerminalPathValue)
+}
+
+func (s PodSpecPathSelectorComposeHealthChecks) WithArrayOfValues(values []map[string]*PodSpec_ContainerHealthChecks) *PodSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodSpec_FieldTerminalPathArrayOfValues)
+}
+
+func (PodSpecPathSelectorComposeHealthChecks) WithKey(key string) PodSpecMapPathSelectorComposeHealthChecks {
+	return PodSpecMapPathSelectorComposeHealthChecks{key: key}
+}
+
+type PodSpecMapPathSelectorComposeHealthChecks struct {
+	key string
+}
+
+func (s PodSpecMapPathSelectorComposeHealthChecks) FieldPath() *PodSpec_FieldPathMap {
+	return &PodSpec_FieldPathMap{selector: PodSpec_FieldPathSelectorComposeHealthChecks, key: s.key}
+}
+
+func (s PodSpecMapPathSelectorComposeHealthChecks) WithValue(value *PodSpec_ContainerHealthChecks) *PodSpec_FieldPathMapValue {
+	return s.FieldPath().WithIValue(value).(*PodSpec_FieldPathMapValue)
+}
+
+func (s PodSpecMapPathSelectorComposeHealthChecks) WithArrayOfValues(values []*PodSpec_ContainerHealthChecks) *PodSpec_FieldPathMapArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodSpec_FieldPathMapArrayOfValues)
+}
+
 type PodSpecContainerFieldPathBuilder struct{}
 
 func NewPodSpecContainerFieldPathBuilder() PodSpecContainerFieldPathBuilder {
@@ -1638,6 +1702,9 @@ func (PodSpecContainerFieldPathBuilder) VolumeMounts() PodSpec_ContainerPathSele
 }
 func (PodSpecContainerFieldPathBuilder) EnvFrom() PodSpec_ContainerPathSelectorEnvFrom {
 	return PodSpec_ContainerPathSelectorEnvFrom{}
+}
+func (PodSpecContainerFieldPathBuilder) HealthCheck() PodSpec_ContainerPathSelectorHealthCheck {
+	return PodSpec_ContainerPathSelectorHealthCheck{}
 }
 
 type PodSpec_ContainerPathSelectorArgs struct{}
@@ -2443,6 +2510,51 @@ func (s PodSpec_ContainerPathSelectorEnvFromSecretRefOptional) WithValue(value b
 
 func (s PodSpec_ContainerPathSelectorEnvFromSecretRefOptional) WithArrayOfValues(values []bool) *PodSpecContainer_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodSpecContainer_FieldSubPathArrayOfValues)
+}
+
+type PodSpec_ContainerPathSelectorHealthCheck struct{}
+
+func (PodSpec_ContainerPathSelectorHealthCheck) FieldPath() *PodSpecContainer_FieldTerminalPath {
+	return &PodSpecContainer_FieldTerminalPath{selector: PodSpecContainer_FieldPathSelectorHealthCheck}
+}
+
+func (s PodSpec_ContainerPathSelectorHealthCheck) WithValue(value []*api.HealthCheckSpec) *PodSpecContainer_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodSpecContainer_FieldTerminalPathValue)
+}
+
+func (s PodSpec_ContainerPathSelectorHealthCheck) WithArrayOfValues(values [][]*api.HealthCheckSpec) *PodSpecContainer_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodSpecContainer_FieldTerminalPathArrayOfValues)
+}
+
+func (s PodSpec_ContainerPathSelectorHealthCheck) WithItemValue(value *api.HealthCheckSpec) *PodSpecContainer_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PodSpecContainer_FieldTerminalPathArrayItemValue)
+}
+
+type PodSpecContainerHealthChecksFieldPathBuilder struct{}
+
+func NewPodSpecContainerHealthChecksFieldPathBuilder() PodSpecContainerHealthChecksFieldPathBuilder {
+	return PodSpecContainerHealthChecksFieldPathBuilder{}
+}
+func (PodSpecContainerHealthChecksFieldPathBuilder) HealthChecks() PodSpec_ContainerHealthChecksPathSelectorHealthChecks {
+	return PodSpec_ContainerHealthChecksPathSelectorHealthChecks{}
+}
+
+type PodSpec_ContainerHealthChecksPathSelectorHealthChecks struct{}
+
+func (PodSpec_ContainerHealthChecksPathSelectorHealthChecks) FieldPath() *PodSpecContainerHealthChecks_FieldTerminalPath {
+	return &PodSpecContainerHealthChecks_FieldTerminalPath{selector: PodSpecContainerHealthChecks_FieldPathSelectorHealthChecks}
+}
+
+func (s PodSpec_ContainerHealthChecksPathSelectorHealthChecks) WithValue(value []*api.HealthCheckSpec) *PodSpecContainerHealthChecks_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodSpecContainerHealthChecks_FieldTerminalPathValue)
+}
+
+func (s PodSpec_ContainerHealthChecksPathSelectorHealthChecks) WithArrayOfValues(values [][]*api.HealthCheckSpec) *PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodSpecContainerHealthChecks_FieldTerminalPathArrayOfValues)
+}
+
+func (s PodSpec_ContainerHealthChecksPathSelectorHealthChecks) WithItemValue(value *api.HealthCheckSpec) *PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*PodSpecContainerHealthChecks_FieldTerminalPathArrayItemValue)
 }
 
 type PodSpecContainerResourceRequirementsFieldPathBuilder struct{}

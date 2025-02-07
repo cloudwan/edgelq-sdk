@@ -6,6 +6,7 @@ package provisioning_policy
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	iam_attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
@@ -34,6 +35,7 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &iam_attestation_domain.AttestationDomain{}
@@ -1765,6 +1767,10 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpec) UsbGuard() ProvisioningPol
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuard{}
 }
 
+func (ProvisioningPolicyPathSelectorSpecTemplateSpec) HealthChecks() ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks{}
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -2986,6 +2992,27 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListWithConne
 
 func (s ProvisioningPolicyPathSelectorSpecTemplateSpecUsbGuardWhiteListWithConnectType) WithArrayOfValues(values []string) *ProvisioningPolicy_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().HealthChecks().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks) WithValue(value []*api.HealthCheckSpec) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks) WithArrayOfValues(values [][]*api.HealthCheckSpec) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks) WithItemValue(value *api.HealthCheckSpec) *ProvisioningPolicy_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
 }
 
 type ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec struct{}
@@ -4321,6 +4348,10 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) UsbGuard() ProvisioningPo
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuard{}
 }
 
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) HealthChecks() ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks{}
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplateSpecServiceAccount struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpecServiceAccount) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -5544,6 +5575,27 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecUsbGuardWhiteListWithConn
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
 }
 
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().HealthChecks().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks) WithValue(value []*api.HealthCheckSpec) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks) WithArrayOfValues(values [][]*api.HealthCheckSpec) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks) WithItemValue(value *api.HealthCheckSpec) *ProvisioningPolicySpec_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldSubPathArrayItemValue)
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -6730,6 +6782,10 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) Location() ProvisioningP
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) UsbGuard() ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard {
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuard{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) HealthChecks() ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks{}
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpecServiceAccount struct{}
@@ -7953,6 +8009,27 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListWithCon
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecUsbGuardWhiteListWithConnectType) WithArrayOfValues(values []string) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().HealthChecks().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks) WithValue(value []*api.HealthCheckSpec) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks) WithArrayOfValues(values [][]*api.HealthCheckSpec) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks) WithItemValue(value *api.HealthCheckSpec) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue)
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorPublicListingSpec struct{}

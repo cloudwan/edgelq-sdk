@@ -11,6 +11,7 @@ import (
 
 // proto imports
 import (
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	device_hardware "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_hardware"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
@@ -47,6 +48,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &api.HealthCheckSpec{}
 	_ = &device.Device{}
 	_ = &device_hardware.DeviceHardware{}
 	_ = &project.Project{}

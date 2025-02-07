@@ -60,6 +60,11 @@ message Pod {
     // is reported here
     int32 failure_count = 4;
 
+    // This is a consolidated summary of all containers health
+    // UNHEALTHY as long as one container is UNHEALTHY
+    // HEALTHY as long as atleast one container has health status
+    HealthStatus health_status = 5;
+
     // Container defines status of a Container.
     message Container {
       // name is the name of the container
@@ -72,6 +77,15 @@ message Pod {
       StateRunning running = 5;
 
       StateTerminated terminated = 6;
+
+      HealthStatus health_status = 7;
+
+      // service name in case of compose pod
+      string service_name = 8;
+
+      string container_ip = 9;
+
+      string container_id = 10;
 
       message StateWaiting {
         // reason explains why the container is waiting now.
@@ -163,6 +177,14 @@ message Pod {
       // The failure could be wrong or could be caused by docker errors or
       // keyword errors
       POD_CREATE_FAILED = 8;
+    }
+
+    enum HealthStatus {
+      HEALTH_STATUS_UNKNOWN = 0;
+
+      HEALTHY = 1;
+
+      UNHEALTHY = 2;
     }
   }
 }
