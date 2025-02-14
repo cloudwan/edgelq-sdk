@@ -22,6 +22,8 @@ import (
 import (
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
+	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
+	iam_service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
@@ -44,6 +46,8 @@ var (
 var (
 	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
+	_ = &iam_service_account.ServiceAccount{}
+	_ = &iam_service_account_key.ServiceAccountKey{}
 	_ = &meta.Meta{}
 )
 
@@ -398,7 +402,8 @@ func FullCustomizedImage_Spec_FieldMask() *CustomizedImage_Spec_FieldMask {
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorDeviceType})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorOsVersion})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorProvisioningPolicy})
-	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator})
+	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccount})
+	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccountKey})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorPassword})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorEncryption})
 	res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorEncryptionPassword})
@@ -451,7 +456,7 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 14)
+	presentSelectors := make([]bool, 15)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CustomizedImageSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -481,7 +486,7 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) Reset() {
 
 func (fieldMask *CustomizedImage_Spec_FieldMask) Subtract(other *CustomizedImage_Spec_FieldMask) *CustomizedImage_Spec_FieldMask {
 	result := &CustomizedImage_Spec_FieldMask{}
-	removedSelectors := make([]bool, 14)
+	removedSelectors := make([]bool, 15)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -643,8 +648,10 @@ func (fieldMask *CustomizedImage_Spec_FieldMask) Project(source *CustomizedImage
 				result.OsVersion = source.OsVersion
 			case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 				result.ProvisioningPolicy = source.ProvisioningPolicy
-			case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
-				result.InstallAiAccelerator = source.InstallAiAccelerator
+			case CustomizedImageSpec_FieldPathSelectorServiceAccount:
+				result.ServiceAccount = source.ServiceAccount
+			case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
+				result.ServiceAccountKey = source.ServiceAccountKey
 			case CustomizedImageSpec_FieldPathSelectorPassword:
 				result.Password = source.Password
 			case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -689,6 +696,7 @@ func FullCustomizedImage_Status_FieldMask() *CustomizedImage_Status_FieldMask {
 	res.Paths = append(res.Paths, &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorState})
 	res.Paths = append(res.Paths, &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorLog})
 	res.Paths = append(res.Paths, &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorFile})
+	res.Paths = append(res.Paths, &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorMd5Sum})
 	return res
 }
 
@@ -732,7 +740,7 @@ func (fieldMask *CustomizedImage_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 3)
+	presentSelectors := make([]bool, 4)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*CustomizedImageStatus_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -762,7 +770,7 @@ func (fieldMask *CustomizedImage_Status_FieldMask) Reset() {
 
 func (fieldMask *CustomizedImage_Status_FieldMask) Subtract(other *CustomizedImage_Status_FieldMask) *CustomizedImage_Status_FieldMask {
 	result := &CustomizedImage_Status_FieldMask{}
-	removedSelectors := make([]bool, 3)
+	removedSelectors := make([]bool, 4)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -922,6 +930,8 @@ func (fieldMask *CustomizedImage_Status_FieldMask) Project(source *CustomizedIma
 				result.Log = source.Log
 			case CustomizedImageStatus_FieldPathSelectorFile:
 				result.File = source.File
+			case CustomizedImageStatus_FieldPathSelectorMd5Sum:
+				result.Md5Sum = source.Md5Sum
 			}
 		}
 	}
