@@ -48,8 +48,8 @@ github.com/chzyer/logex v1.1.10/go.mod h1:+Ywpsq7O8HXn0nuIou7OrIPyXbp3wmkHB+jjWR
 github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e/go.mod h1:nSuG5e5PlCu98SY8svDHJxuZscDgtXS6KTTbou5AhLI=
 github.com/chzyer/test v0.0.0-20180213035817-a1ea475d72b1/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
-github.com/cloudwan/goten-sdk v1.9.12 h1:gIkPdajWFH4wYrNKSQRIqI4eOOUjVWrtSIWVq88VVGQ=
-github.com/cloudwan/goten-sdk v1.9.12/go.mod h1:Pf1OxXlNxzjmHqkDx45YcSQiyYn0bO0EPsXXP6zxYjA=
+github.com/cloudwan/goten-sdk v1.9.13 h1:gCJFVgEHeSiJMHX2EAMIlHsaZnHU4xYyiY2eAai5YDs=
+github.com/cloudwan/goten-sdk v1.9.13/go.mod h1:Pf1OxXlNxzjmHqkDx45YcSQiyYn0bO0EPsXXP6zxYjA=
 github.com/cloudwan/protobuf-go v1.34.2 h1:AUIkLWv6amn4xgDHra+d+0E+3Lqu0Viy4v5H2K4ofe0=
 github.com/cloudwan/protobuf-go v1.34.2/go.mod h1:qYOHts0dSfpeUzUFpOMr/WGzszTmLH+DiWniOlNbLDw=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
