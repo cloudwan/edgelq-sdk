@@ -45,23 +45,14 @@ message CustomizedImage {
 
     string os_version = 14;
 
-    // Either provisioning_policy or service_account must be specified
     string provisioning_policy = 3;
 
-    string service_account = 15;
+    bool install_ai_accelerator = 4;
 
-    string service_account_key = 16;
-
-    // Password for 'admin' user in the image.
-    // Please generate it using bcrypt (e.g. `mkpasswd --method=bcrypt`) and
-    // provide the hashed value ref:
-    // https://www.usenix.org/legacy/event/usenix99/provos/provos.pdf
     string password = 5;
 
     bool encryption = 6;
 
-    // Unlike password field, encryption_password  must be plain text
-    // This field will be set to "" after the image is ready
     string encryption_password = 7;
 
     string disk_mapping = 8;
@@ -75,8 +66,6 @@ message CustomizedImage {
     string https_proxy = 12;
 
     string no_proxy = 13;
-
-    reserved 4;
   }
 
   message Status {
@@ -87,10 +76,7 @@ message CustomizedImage {
     string log = 2;
 
     // TODO hide this from client
-    string file = 5 [ deprecated = true ];
-
-    // base64 encoded
-    string md5sum = 3;
+    string file = 5;
 
     enum State {
       // Initial state

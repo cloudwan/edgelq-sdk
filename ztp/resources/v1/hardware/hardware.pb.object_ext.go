@@ -92,6 +92,9 @@ func (o *Hardware) MakeDiffFieldMask(other *Hardware) *Hardware_FieldMask {
 	if o.GetAssociatedDeviceName() != other.GetAssociatedDeviceName() {
 		res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedDeviceName})
 	}
+	if o.GetAssociatedSimCardName() != other.GetAssociatedSimCardName() {
+		res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedSimCardName})
+	}
 	if o.GetSimIccid() != other.GetSimIccid() {
 		res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorSimIccid})
 	}
@@ -137,6 +140,7 @@ func (o *Hardware) Clone() *Hardware {
 	result.AssociatedProject = o.AssociatedProject
 	result.AssociatedProvisioningPolicyName = o.AssociatedProvisioningPolicyName
 	result.AssociatedDeviceName = o.AssociatedDeviceName
+	result.AssociatedSimCardName = o.AssociatedSimCardName
 	result.SimIccid = o.SimIccid
 	result.Imei = o.Imei
 	return result
@@ -183,6 +187,7 @@ func (o *Hardware) Merge(source *Hardware) {
 	o.AssociatedProject = source.GetAssociatedProject()
 	o.AssociatedProvisioningPolicyName = source.GetAssociatedProvisioningPolicyName()
 	o.AssociatedDeviceName = source.GetAssociatedDeviceName()
+	o.AssociatedSimCardName = source.GetAssociatedSimCardName()
 	o.SimIccid = source.GetSimIccid()
 	o.Imei = source.GetImei()
 }

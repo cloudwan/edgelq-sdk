@@ -65,7 +65,7 @@ message HTTPGetCheck {
 
   // Custom headers to set in the request. HTTP allows repeated headers.
   // optional
-  repeated HTTPHeader http_headers = 3;
+  repeated HTTPHeader httpHeaders = 3;
 
   bool skip_tls_check = 4;
 

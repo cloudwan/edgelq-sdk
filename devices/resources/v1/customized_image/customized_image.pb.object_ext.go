@@ -18,8 +18,6 @@ import (
 import (
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
-	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
-	iam_service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
@@ -38,8 +36,6 @@ var (
 var (
 	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
-	_ = &iam_service_account.ServiceAccount{}
-	_ = &iam_service_account_key.ServiceAccountKey{}
 	_ = &meta.Meta{}
 )
 
@@ -195,11 +191,8 @@ func (o *CustomizedImage_Spec) MakeDiffFieldMask(other *CustomizedImage_Spec) *C
 	if o.GetProvisioningPolicy() != other.GetProvisioningPolicy() {
 		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorProvisioningPolicy})
 	}
-	if o.GetServiceAccount().String() != other.GetServiceAccount().String() {
-		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccount})
-	}
-	if o.GetServiceAccountKey().String() != other.GetServiceAccountKey().String() {
-		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccountKey})
+	if o.GetInstallAiAccelerator() != other.GetInstallAiAccelerator() {
+		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator})
 	}
 	if o.GetPassword() != other.GetPassword() {
 		res.Paths = append(res.Paths, &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorPassword})
@@ -253,26 +246,7 @@ func (o *CustomizedImage_Spec) Clone() *CustomizedImage_Spec {
 		}
 	}
 	result.ProvisioningPolicy = o.ProvisioningPolicy
-	if o.ServiceAccount == nil {
-		result.ServiceAccount = nil
-	} else if data, err := o.ServiceAccount.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.ServiceAccount = &iam_service_account.Reference{}
-		if err := result.ServiceAccount.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
-	if o.ServiceAccountKey == nil {
-		result.ServiceAccountKey = nil
-	} else if data, err := o.ServiceAccountKey.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.ServiceAccountKey = &iam_service_account_key.Reference{}
-		if err := result.ServiceAccountKey.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
+	result.InstallAiAccelerator = o.InstallAiAccelerator
 	result.Password = o.Password
 	result.Encryption = o.Encryption
 	result.EncryptionPassword = o.EncryptionPassword
@@ -305,30 +279,7 @@ func (o *CustomizedImage_Spec) Merge(source *CustomizedImage_Spec) {
 		o.OsVersion = nil
 	}
 	o.ProvisioningPolicy = source.GetProvisioningPolicy()
-	if source.GetServiceAccount() != nil {
-		if data, err := source.GetServiceAccount().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.ServiceAccount = &iam_service_account.Reference{}
-			if err := o.ServiceAccount.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.ServiceAccount = nil
-	}
-	if source.GetServiceAccountKey() != nil {
-		if data, err := source.GetServiceAccountKey().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.ServiceAccountKey = &iam_service_account_key.Reference{}
-			if err := o.ServiceAccountKey.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.ServiceAccountKey = nil
-	}
+	o.InstallAiAccelerator = source.GetInstallAiAccelerator()
 	o.Password = source.GetPassword()
 	o.Encryption = source.GetEncryption()
 	o.EncryptionPassword = source.GetEncryptionPassword()
@@ -372,9 +323,6 @@ func (o *CustomizedImage_Status) MakeDiffFieldMask(other *CustomizedImage_Status
 	if o.GetFile() != other.GetFile() {
 		res.Paths = append(res.Paths, &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorFile})
 	}
-	if o.GetMd5Sum() != other.GetMd5Sum() {
-		res.Paths = append(res.Paths, &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorMd5Sum})
-	}
 	return res
 }
 
@@ -390,7 +338,6 @@ func (o *CustomizedImage_Status) Clone() *CustomizedImage_Status {
 	result.State = o.State
 	result.Log = o.Log
 	result.File = o.File
-	result.Md5Sum = o.Md5Sum
 	return result
 }
 
@@ -402,7 +349,6 @@ func (o *CustomizedImage_Status) Merge(source *CustomizedImage_Status) {
 	o.State = source.GetState()
 	o.Log = source.GetLog()
 	o.File = source.GetFile()
-	o.Md5Sum = source.GetMd5Sum()
 }
 
 func (o *CustomizedImage_Status) MergeRaw(source gotenobject.GotenObjectExt) {

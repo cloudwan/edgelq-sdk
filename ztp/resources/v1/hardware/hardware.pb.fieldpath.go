@@ -81,8 +81,9 @@ const (
 	Hardware_FieldPathSelectorAssociatedProject                Hardware_FieldPathSelector = 6
 	Hardware_FieldPathSelectorAssociatedProvisioningPolicyName Hardware_FieldPathSelector = 7
 	Hardware_FieldPathSelectorAssociatedDeviceName             Hardware_FieldPathSelector = 8
-	Hardware_FieldPathSelectorSimIccid                         Hardware_FieldPathSelector = 9
-	Hardware_FieldPathSelectorImei                             Hardware_FieldPathSelector = 10
+	Hardware_FieldPathSelectorAssociatedSimCardName            Hardware_FieldPathSelector = 9
+	Hardware_FieldPathSelectorSimIccid                         Hardware_FieldPathSelector = 10
+	Hardware_FieldPathSelectorImei                             Hardware_FieldPathSelector = 11
 )
 
 func (s Hardware_FieldPathSelector) String() string {
@@ -105,6 +106,8 @@ func (s Hardware_FieldPathSelector) String() string {
 		return "associated_provisioning_policy_name"
 	case Hardware_FieldPathSelectorAssociatedDeviceName:
 		return "associated_device_name"
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
+		return "associated_sim_card_name"
 	case Hardware_FieldPathSelectorSimIccid:
 		return "sim_iccid"
 	case Hardware_FieldPathSelectorImei:
@@ -138,6 +141,8 @@ func BuildHardware_FieldPath(fp gotenobject.RawFieldPath) (Hardware_FieldPath, e
 			return &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedProvisioningPolicyName}, nil
 		case "associated_device_name", "associatedDeviceName", "associated-device-name":
 			return &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedDeviceName}, nil
+		case "associated_sim_card_name", "associatedSimCardName", "associated-sim-card-name":
+			return &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedSimCardName}, nil
 		case "sim_iccid", "simIccid", "sim-iccid":
 			return &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorSimIccid}, nil
 		case "imei":
@@ -220,6 +225,8 @@ func (fp *Hardware_FieldTerminalPath) Get(source *Hardware) (values []interface{
 			values = append(values, source.AssociatedProvisioningPolicyName)
 		case Hardware_FieldPathSelectorAssociatedDeviceName:
 			values = append(values, source.AssociatedDeviceName)
+		case Hardware_FieldPathSelectorAssociatedSimCardName:
+			values = append(values, source.AssociatedSimCardName)
 		case Hardware_FieldPathSelectorSimIccid:
 			values = append(values, source.SimIccid)
 		case Hardware_FieldPathSelectorImei:
@@ -259,6 +266,8 @@ func (fp *Hardware_FieldTerminalPath) GetSingle(source *Hardware) (interface{}, 
 		return source.GetAssociatedProvisioningPolicyName(), source != nil
 	case Hardware_FieldPathSelectorAssociatedDeviceName:
 		return source.GetAssociatedDeviceName(), source != nil
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
+		return source.GetAssociatedSimCardName(), source != nil
 	case Hardware_FieldPathSelectorSimIccid:
 		return source.GetSimIccid(), source != nil
 	case Hardware_FieldPathSelectorImei:
@@ -293,6 +302,8 @@ func (fp *Hardware_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case Hardware_FieldPathSelectorAssociatedDeviceName:
 		return ""
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
+		return ""
 	case Hardware_FieldPathSelectorSimIccid:
 		return ""
 	case Hardware_FieldPathSelectorImei:
@@ -323,6 +334,8 @@ func (fp *Hardware_FieldTerminalPath) ClearValue(item *Hardware) {
 			item.AssociatedProvisioningPolicyName = ""
 		case Hardware_FieldPathSelectorAssociatedDeviceName:
 			item.AssociatedDeviceName = ""
+		case Hardware_FieldPathSelectorAssociatedSimCardName:
+			item.AssociatedSimCardName = ""
 		case Hardware_FieldPathSelectorSimIccid:
 			item.SimIccid = ""
 		case Hardware_FieldPathSelectorImei:
@@ -347,6 +360,7 @@ func (fp *Hardware_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Hardware_FieldPathSelectorAssociatedProject ||
 		fp.selector == Hardware_FieldPathSelectorAssociatedProvisioningPolicyName ||
 		fp.selector == Hardware_FieldPathSelectorAssociatedDeviceName ||
+		fp.selector == Hardware_FieldPathSelectorAssociatedSimCardName ||
 		fp.selector == Hardware_FieldPathSelectorSimIccid ||
 		fp.selector == Hardware_FieldPathSelectorImei
 }
@@ -374,6 +388,8 @@ func (fp *Hardware_FieldTerminalPath) WithIValue(value interface{}) Hardware_Fie
 	case Hardware_FieldPathSelectorAssociatedProvisioningPolicyName:
 		return &Hardware_FieldTerminalPathValue{Hardware_FieldTerminalPath: *fp, value: value.(string)}
 	case Hardware_FieldPathSelectorAssociatedDeviceName:
+		return &Hardware_FieldTerminalPathValue{Hardware_FieldTerminalPath: *fp, value: value.(string)}
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
 		return &Hardware_FieldTerminalPathValue{Hardware_FieldTerminalPath: *fp, value: value.(string)}
 	case Hardware_FieldPathSelectorSimIccid:
 		return &Hardware_FieldTerminalPathValue{Hardware_FieldTerminalPath: *fp, value: value.(string)}
@@ -408,6 +424,8 @@ func (fp *Hardware_FieldTerminalPath) WithIArrayOfValues(values interface{}) Har
 	case Hardware_FieldPathSelectorAssociatedProvisioningPolicyName:
 		return &Hardware_FieldTerminalPathArrayOfValues{Hardware_FieldTerminalPath: *fp, values: values.([]string)}
 	case Hardware_FieldPathSelectorAssociatedDeviceName:
+		return &Hardware_FieldTerminalPathArrayOfValues{Hardware_FieldTerminalPath: *fp, values: values.([]string)}
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
 		return &Hardware_FieldTerminalPathArrayOfValues{Hardware_FieldTerminalPath: *fp, values: values.([]string)}
 	case Hardware_FieldPathSelectorSimIccid:
 		return &Hardware_FieldTerminalPathArrayOfValues{Hardware_FieldTerminalPath: *fp, values: values.([]string)}
@@ -621,6 +639,10 @@ func (fpv *Hardware_FieldTerminalPathValue) AsAssociatedDeviceNameValue() (strin
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *Hardware_FieldTerminalPathValue) AsAssociatedSimCardNameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 func (fpv *Hardware_FieldTerminalPathValue) AsSimIccidValue() (string, bool) {
 	res, ok := fpv.value.(string)
 	return res, ok
@@ -654,6 +676,8 @@ func (fpv *Hardware_FieldTerminalPathValue) SetTo(target **Hardware) {
 		(*target).AssociatedProvisioningPolicyName = fpv.value.(string)
 	case Hardware_FieldPathSelectorAssociatedDeviceName:
 		(*target).AssociatedDeviceName = fpv.value.(string)
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
+		(*target).AssociatedSimCardName = fpv.value.(string)
 	case Hardware_FieldPathSelectorSimIccid:
 		(*target).SimIccid = fpv.value.(string)
 	case Hardware_FieldPathSelectorImei:
@@ -764,6 +788,16 @@ func (fpv *Hardware_FieldTerminalPathValue) CompareWith(source *Hardware) (int, 
 	case Hardware_FieldPathSelectorAssociatedDeviceName:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetAssociatedDeviceName()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetAssociatedSimCardName()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1005,6 +1039,10 @@ func (fpaov *Hardware_FieldTerminalPathArrayOfValues) GetRawValues() (values []i
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case Hardware_FieldPathSelectorAssociatedSimCardName:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	case Hardware_FieldPathSelectorSimIccid:
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
@@ -1049,6 +1087,10 @@ func (fpaov *Hardware_FieldTerminalPathArrayOfValues) AsAssociatedProvisioningPo
 	return res, ok
 }
 func (fpaov *Hardware_FieldTerminalPathArrayOfValues) AsAssociatedDeviceNameArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *Hardware_FieldTerminalPathArrayOfValues) AsAssociatedSimCardNameArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

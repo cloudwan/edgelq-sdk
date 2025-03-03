@@ -54,6 +54,9 @@ func (HardwareFieldPathBuilder) AssociatedProvisioningPolicyName() HardwarePathS
 func (HardwareFieldPathBuilder) AssociatedDeviceName() HardwarePathSelectorAssociatedDeviceName {
 	return HardwarePathSelectorAssociatedDeviceName{}
 }
+func (HardwareFieldPathBuilder) AssociatedSimCardName() HardwarePathSelectorAssociatedSimCardName {
+	return HardwarePathSelectorAssociatedSimCardName{}
+}
 func (HardwareFieldPathBuilder) SimIccid() HardwarePathSelectorSimIccid {
 	return HardwarePathSelectorSimIccid{}
 }
@@ -852,6 +855,20 @@ func (s HardwarePathSelectorAssociatedDeviceName) WithValue(value string) *Hardw
 }
 
 func (s HardwarePathSelectorAssociatedDeviceName) WithArrayOfValues(values []string) *Hardware_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Hardware_FieldTerminalPathArrayOfValues)
+}
+
+type HardwarePathSelectorAssociatedSimCardName struct{}
+
+func (HardwarePathSelectorAssociatedSimCardName) FieldPath() *Hardware_FieldTerminalPath {
+	return &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedSimCardName}
+}
+
+func (s HardwarePathSelectorAssociatedSimCardName) WithValue(value string) *Hardware_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Hardware_FieldTerminalPathValue)
+}
+
+func (s HardwarePathSelectorAssociatedSimCardName) WithArrayOfValues(values []string) *Hardware_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Hardware_FieldTerminalPathArrayOfValues)
 }
 
