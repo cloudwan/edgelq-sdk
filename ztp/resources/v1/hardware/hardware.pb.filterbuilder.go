@@ -240,10 +240,6 @@ func (b *filterCndBuilder) AssociatedDeviceName() *filterCndBuilderAssociatedDev
 	return &filterCndBuilderAssociatedDeviceName{builder: b.builder}
 }
 
-func (b *filterCndBuilder) AssociatedSimCardName() *filterCndBuilderAssociatedSimCardName {
-	return &filterCndBuilderAssociatedSimCardName{builder: b.builder}
-}
-
 func (b *filterCndBuilder) SimIccid() *filterCndBuilderSimIccid {
 	return &filterCndBuilderSimIccid{builder: b.builder}
 }
@@ -2809,65 +2805,6 @@ func (b *filterCndBuilderAssociatedDeviceName) compare(op gotenfilter.CompareOpe
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                op,
 		Hardware_FieldPathValue: NewHardwareFieldPathBuilder().AssociatedDeviceName().WithValue(value),
-	})
-}
-
-type filterCndBuilderAssociatedSimCardName struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Hardware_FieldPathArrayOfValues: NewHardwareFieldPathBuilder().AssociatedSimCardName().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Hardware_FieldPathArrayOfValues: NewHardwareFieldPathBuilder().AssociatedSimCardName().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewHardwareFieldPathBuilder().AssociatedSimCardName().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewHardwareFieldPathBuilder().AssociatedSimCardName().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderAssociatedSimCardName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                op,
-		Hardware_FieldPathValue: NewHardwareFieldPathBuilder().AssociatedSimCardName().WithValue(value),
 	})
 }
 

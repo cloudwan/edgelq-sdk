@@ -9,6 +9,13 @@ import (
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
+	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
+	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
+	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
+	iam_service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
+	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
+	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -19,7 +26,14 @@ var (
 	_ = &device_type.DeviceType{}
 	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
+	_ = &iam_iam_common.PCR{}
+	_ = &iam_organization.Organization{}
+	_ = &iam_project.Project{}
+	_ = &iam_service_account.ServiceAccount{}
+	_ = &iam_service_account_key.ServiceAccountKey{}
 	_ = &timestamppb.Timestamp{}
+	_ = &meta_common.LabelledDomain{}
+	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
@@ -784,8 +798,12 @@ func (CustomizedImagePathSelectorSpec) ProvisioningPolicy() CustomizedImagePathS
 	return CustomizedImagePathSelectorSpecProvisioningPolicy{}
 }
 
-func (CustomizedImagePathSelectorSpec) InstallAiAccelerator() CustomizedImagePathSelectorSpecInstallAiAccelerator {
-	return CustomizedImagePathSelectorSpecInstallAiAccelerator{}
+func (CustomizedImagePathSelectorSpec) ServiceAccount() CustomizedImagePathSelectorSpecServiceAccount {
+	return CustomizedImagePathSelectorSpecServiceAccount{}
+}
+
+func (CustomizedImagePathSelectorSpec) ServiceAccountKey() CustomizedImagePathSelectorSpecServiceAccountKey {
+	return CustomizedImagePathSelectorSpecServiceAccountKey{}
 }
 
 func (CustomizedImagePathSelectorSpec) Password() CustomizedImagePathSelectorSpecPassword {
@@ -892,20 +910,37 @@ func (s CustomizedImagePathSelectorSpecProvisioningPolicy) WithArrayOfValues(val
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
-type CustomizedImagePathSelectorSpecInstallAiAccelerator struct{}
+type CustomizedImagePathSelectorSpecServiceAccount struct{}
 
-func (CustomizedImagePathSelectorSpecInstallAiAccelerator) FieldPath() *CustomizedImage_FieldSubPath {
+func (CustomizedImagePathSelectorSpecServiceAccount) FieldPath() *CustomizedImage_FieldSubPath {
 	return &CustomizedImage_FieldSubPath{
 		selector: CustomizedImage_FieldPathSelectorSpec,
-		subPath:  NewCustomizedImageSpecFieldPathBuilder().InstallAiAccelerator().FieldPath(),
+		subPath:  NewCustomizedImageSpecFieldPathBuilder().ServiceAccount().FieldPath(),
 	}
 }
 
-func (s CustomizedImagePathSelectorSpecInstallAiAccelerator) WithValue(value bool) *CustomizedImage_FieldSubPathValue {
+func (s CustomizedImagePathSelectorSpecServiceAccount) WithValue(value *iam_service_account.Reference) *CustomizedImage_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
 }
 
-func (s CustomizedImagePathSelectorSpecInstallAiAccelerator) WithArrayOfValues(values []bool) *CustomizedImage_FieldSubPathArrayOfValues {
+func (s CustomizedImagePathSelectorSpecServiceAccount) WithArrayOfValues(values []*iam_service_account.Reference) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
+type CustomizedImagePathSelectorSpecServiceAccountKey struct{}
+
+func (CustomizedImagePathSelectorSpecServiceAccountKey) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorSpec,
+		subPath:  NewCustomizedImageSpecFieldPathBuilder().ServiceAccountKey().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorSpecServiceAccountKey) WithValue(value *iam_service_account_key.Reference) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorSpecServiceAccountKey) WithArrayOfValues(values []*iam_service_account_key.Reference) *CustomizedImage_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
@@ -1104,6 +1139,10 @@ func (CustomizedImagePathSelectorStatus) File() CustomizedImagePathSelectorStatu
 	return CustomizedImagePathSelectorStatusFile{}
 }
 
+func (CustomizedImagePathSelectorStatus) Md5Sum() CustomizedImagePathSelectorStatusMd5Sum {
+	return CustomizedImagePathSelectorStatusMd5Sum{}
+}
+
 type CustomizedImagePathSelectorStatusState struct{}
 
 func (CustomizedImagePathSelectorStatusState) FieldPath() *CustomizedImage_FieldSubPath {
@@ -1155,6 +1194,23 @@ func (s CustomizedImagePathSelectorStatusFile) WithArrayOfValues(values []string
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
 }
 
+type CustomizedImagePathSelectorStatusMd5Sum struct{}
+
+func (CustomizedImagePathSelectorStatusMd5Sum) FieldPath() *CustomizedImage_FieldSubPath {
+	return &CustomizedImage_FieldSubPath{
+		selector: CustomizedImage_FieldPathSelectorStatus,
+		subPath:  NewCustomizedImageStatusFieldPathBuilder().Md5Sum().FieldPath(),
+	}
+}
+
+func (s CustomizedImagePathSelectorStatusMd5Sum) WithValue(value string) *CustomizedImage_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImage_FieldSubPathValue)
+}
+
+func (s CustomizedImagePathSelectorStatusMd5Sum) WithArrayOfValues(values []string) *CustomizedImage_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImage_FieldSubPathArrayOfValues)
+}
+
 type CustomizedImageSpecFieldPathBuilder struct{}
 
 func NewCustomizedImageSpecFieldPathBuilder() CustomizedImageSpecFieldPathBuilder {
@@ -1172,8 +1228,11 @@ func (CustomizedImageSpecFieldPathBuilder) OsVersion() CustomizedImage_SpecPathS
 func (CustomizedImageSpecFieldPathBuilder) ProvisioningPolicy() CustomizedImage_SpecPathSelectorProvisioningPolicy {
 	return CustomizedImage_SpecPathSelectorProvisioningPolicy{}
 }
-func (CustomizedImageSpecFieldPathBuilder) InstallAiAccelerator() CustomizedImage_SpecPathSelectorInstallAiAccelerator {
-	return CustomizedImage_SpecPathSelectorInstallAiAccelerator{}
+func (CustomizedImageSpecFieldPathBuilder) ServiceAccount() CustomizedImage_SpecPathSelectorServiceAccount {
+	return CustomizedImage_SpecPathSelectorServiceAccount{}
+}
+func (CustomizedImageSpecFieldPathBuilder) ServiceAccountKey() CustomizedImage_SpecPathSelectorServiceAccountKey {
+	return CustomizedImage_SpecPathSelectorServiceAccountKey{}
 }
 func (CustomizedImageSpecFieldPathBuilder) Password() CustomizedImage_SpecPathSelectorPassword {
 	return CustomizedImage_SpecPathSelectorPassword{}
@@ -1259,17 +1318,31 @@ func (s CustomizedImage_SpecPathSelectorProvisioningPolicy) WithArrayOfValues(va
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImageSpec_FieldTerminalPathArrayOfValues)
 }
 
-type CustomizedImage_SpecPathSelectorInstallAiAccelerator struct{}
+type CustomizedImage_SpecPathSelectorServiceAccount struct{}
 
-func (CustomizedImage_SpecPathSelectorInstallAiAccelerator) FieldPath() *CustomizedImageSpec_FieldTerminalPath {
-	return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator}
+func (CustomizedImage_SpecPathSelectorServiceAccount) FieldPath() *CustomizedImageSpec_FieldTerminalPath {
+	return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccount}
 }
 
-func (s CustomizedImage_SpecPathSelectorInstallAiAccelerator) WithValue(value bool) *CustomizedImageSpec_FieldTerminalPathValue {
+func (s CustomizedImage_SpecPathSelectorServiceAccount) WithValue(value *iam_service_account.Reference) *CustomizedImageSpec_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*CustomizedImageSpec_FieldTerminalPathValue)
 }
 
-func (s CustomizedImage_SpecPathSelectorInstallAiAccelerator) WithArrayOfValues(values []bool) *CustomizedImageSpec_FieldTerminalPathArrayOfValues {
+func (s CustomizedImage_SpecPathSelectorServiceAccount) WithArrayOfValues(values []*iam_service_account.Reference) *CustomizedImageSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImageSpec_FieldTerminalPathArrayOfValues)
+}
+
+type CustomizedImage_SpecPathSelectorServiceAccountKey struct{}
+
+func (CustomizedImage_SpecPathSelectorServiceAccountKey) FieldPath() *CustomizedImageSpec_FieldTerminalPath {
+	return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccountKey}
+}
+
+func (s CustomizedImage_SpecPathSelectorServiceAccountKey) WithValue(value *iam_service_account_key.Reference) *CustomizedImageSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImageSpec_FieldTerminalPathValue)
+}
+
+func (s CustomizedImage_SpecPathSelectorServiceAccountKey) WithArrayOfValues(values []*iam_service_account_key.Reference) *CustomizedImageSpec_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImageSpec_FieldTerminalPathArrayOfValues)
 }
 
@@ -1413,6 +1486,9 @@ func (CustomizedImageStatusFieldPathBuilder) Log() CustomizedImage_StatusPathSel
 func (CustomizedImageStatusFieldPathBuilder) File() CustomizedImage_StatusPathSelectorFile {
 	return CustomizedImage_StatusPathSelectorFile{}
 }
+func (CustomizedImageStatusFieldPathBuilder) Md5Sum() CustomizedImage_StatusPathSelectorMd5Sum {
+	return CustomizedImage_StatusPathSelectorMd5Sum{}
+}
 
 type CustomizedImage_StatusPathSelectorState struct{}
 
@@ -1453,5 +1529,19 @@ func (s CustomizedImage_StatusPathSelectorFile) WithValue(value string) *Customi
 }
 
 func (s CustomizedImage_StatusPathSelectorFile) WithArrayOfValues(values []string) *CustomizedImageStatus_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImageStatus_FieldTerminalPathArrayOfValues)
+}
+
+type CustomizedImage_StatusPathSelectorMd5Sum struct{}
+
+func (CustomizedImage_StatusPathSelectorMd5Sum) FieldPath() *CustomizedImageStatus_FieldTerminalPath {
+	return &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorMd5Sum}
+}
+
+func (s CustomizedImage_StatusPathSelectorMd5Sum) WithValue(value string) *CustomizedImageStatus_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*CustomizedImageStatus_FieldTerminalPathValue)
+}
+
+func (s CustomizedImage_StatusPathSelectorMd5Sum) WithArrayOfValues(values []string) *CustomizedImageStatus_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*CustomizedImageStatus_FieldTerminalPathArrayOfValues)
 }

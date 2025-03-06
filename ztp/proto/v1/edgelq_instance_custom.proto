@@ -33,8 +33,6 @@ message AssociateHardwareRequest {
 
   string associated_device_name = 7;
 
-  string associated_sim_card_name = 10;
-
   string sim_iccid = 8;
 
   string imei = 9;
