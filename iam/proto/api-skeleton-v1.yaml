@@ -152,6 +152,16 @@ resources:
 - name: GroupMember
   parents:
   - Group
+  actions:
+  - name: ListGroupMembersWithMembers
+    opResourceInfo:
+      isPlural: true
+      isCollection: true
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
 
 - name: ServiceAccount
   scopeAttributes:
@@ -185,6 +195,16 @@ resources:
   idPattern : "[\\w.|-]{1,128}"
   multiRegion:
     syncType: ALWAYS_IN_SCOPE
+  actions:
+  - name: ListRoleBindingsWithMembers
+    opResourceInfo:
+      isPlural: true
+      isCollection: true
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
 
 - name: Condition
   parents:
@@ -289,6 +309,13 @@ resources:
       isPlural: false
     skipResponseMsgGen: true
     responseName: google.protobuf.Empty
+    withStoreHandle:
+      transaction: SNAPSHOT
+
+  - name: DeleteUsersByCriteria
+    verb: deleteUsersByCriteria
+    opResourceInfo:
+      skipResourceInRequest: true
     withStoreHandle:
       transaction: SNAPSHOT
 

@@ -24,6 +24,7 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
@@ -51,6 +52,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
+	_ = &group.Group{}
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
@@ -527,9 +529,10 @@ const (
 	Invitation_FieldPathSelectorInviterEmail    Invitation_FieldPathSelector = 3
 	Invitation_FieldPathSelectorLanguageCode    Invitation_FieldPathSelector = 4
 	Invitation_FieldPathSelectorBindingRoles    Invitation_FieldPathSelector = 5
-	Invitation_FieldPathSelectorExpirationDate  Invitation_FieldPathSelector = 6
-	Invitation_FieldPathSelectorExtras          Invitation_FieldPathSelector = 7
-	Invitation_FieldPathSelectorState           Invitation_FieldPathSelector = 8
+	Invitation_FieldPathSelectorGroups          Invitation_FieldPathSelector = 6
+	Invitation_FieldPathSelectorExpirationDate  Invitation_FieldPathSelector = 7
+	Invitation_FieldPathSelectorExtras          Invitation_FieldPathSelector = 8
+	Invitation_FieldPathSelectorState           Invitation_FieldPathSelector = 9
 )
 
 func (s Invitation_FieldPathSelector) String() string {
@@ -546,6 +549,8 @@ func (s Invitation_FieldPathSelector) String() string {
 		return "language_code"
 	case Invitation_FieldPathSelectorBindingRoles:
 		return "binding_roles"
+	case Invitation_FieldPathSelectorGroups:
+		return "groups"
 	case Invitation_FieldPathSelectorExpirationDate:
 		return "expiration_date"
 	case Invitation_FieldPathSelectorExtras:
@@ -575,6 +580,8 @@ func BuildInvitation_FieldPath(fp gotenobject.RawFieldPath) (Invitation_FieldPat
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode}, nil
 		case "binding_roles", "bindingRoles", "binding-roles":
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorBindingRoles}, nil
+		case "groups":
+			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorGroups}, nil
 		case "expiration_date", "expirationDate", "expiration-date":
 			return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate}, nil
 		case "extras":
@@ -662,6 +669,10 @@ func (fp *Invitation_FieldTerminalPath) Get(source *Invitation) (values []interf
 			for _, value := range source.GetBindingRoles() {
 				values = append(values, value)
 			}
+		case Invitation_FieldPathSelectorGroups:
+			for _, value := range source.GetGroups() {
+				values = append(values, value)
+			}
 		case Invitation_FieldPathSelectorExpirationDate:
 			if source.ExpirationDate != nil {
 				values = append(values, source.ExpirationDate)
@@ -698,6 +709,9 @@ func (fp *Invitation_FieldTerminalPath) GetSingle(source *Invitation) (interface
 	case Invitation_FieldPathSelectorBindingRoles:
 		res := source.GetBindingRoles()
 		return res, res != nil
+	case Invitation_FieldPathSelectorGroups:
+		res := source.GetGroups()
+		return res, res != nil
 	case Invitation_FieldPathSelectorExpirationDate:
 		res := source.GetExpirationDate()
 		return res, res != nil
@@ -730,6 +744,8 @@ func (fp *Invitation_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case Invitation_FieldPathSelectorBindingRoles:
 		return ([]*Invitation_BindingRole)(nil)
+	case Invitation_FieldPathSelectorGroups:
+		return ([]*group.Reference)(nil)
 	case Invitation_FieldPathSelectorExpirationDate:
 		return (*timestamppb.Timestamp)(nil)
 	case Invitation_FieldPathSelectorExtras:
@@ -756,6 +772,8 @@ func (fp *Invitation_FieldTerminalPath) ClearValue(item *Invitation) {
 			item.LanguageCode = ""
 		case Invitation_FieldPathSelectorBindingRoles:
 			item.BindingRoles = nil
+		case Invitation_FieldPathSelectorGroups:
+			item.Groups = nil
 		case Invitation_FieldPathSelectorExpirationDate:
 			item.ExpirationDate = nil
 		case Invitation_FieldPathSelectorExtras:
@@ -778,6 +796,7 @@ func (fp *Invitation_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == Invitation_FieldPathSelectorInviterFullName ||
 		fp.selector == Invitation_FieldPathSelectorInviterEmail ||
 		fp.selector == Invitation_FieldPathSelectorLanguageCode ||
+		fp.selector == Invitation_FieldPathSelectorGroups ||
 		fp.selector == Invitation_FieldPathSelectorExpirationDate ||
 		fp.selector == Invitation_FieldPathSelectorExtras ||
 		fp.selector == Invitation_FieldPathSelectorState
@@ -801,6 +820,8 @@ func (fp *Invitation_FieldTerminalPath) WithIValue(value interface{}) Invitation
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(string)}
 	case Invitation_FieldPathSelectorBindingRoles:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.([]*Invitation_BindingRole)}
+	case Invitation_FieldPathSelectorGroups:
+		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.([]*group.Reference)}
 	case Invitation_FieldPathSelectorExpirationDate:
 		return &Invitation_FieldTerminalPathValue{Invitation_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	case Invitation_FieldPathSelectorExtras:
@@ -831,6 +852,8 @@ func (fp *Invitation_FieldTerminalPath) WithIArrayOfValues(values interface{}) I
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]string)}
 	case Invitation_FieldPathSelectorBindingRoles:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([][]*Invitation_BindingRole)}
+	case Invitation_FieldPathSelectorGroups:
+		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([][]*group.Reference)}
 	case Invitation_FieldPathSelectorExpirationDate:
 		return &Invitation_FieldTerminalPathArrayOfValues{Invitation_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	case Invitation_FieldPathSelectorExtras:
@@ -851,6 +874,8 @@ func (fp *Invitation_FieldTerminalPath) WithIArrayItemValue(value interface{}) I
 	switch fp.selector {
 	case Invitation_FieldPathSelectorBindingRoles:
 		return &Invitation_FieldTerminalPathArrayItemValue{Invitation_FieldTerminalPath: *fp, value: value.(*Invitation_BindingRole)}
+	case Invitation_FieldPathSelectorGroups:
+		return &Invitation_FieldTerminalPathArrayItemValue{Invitation_FieldTerminalPath: *fp, value: value.(*group.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Invitation: %d", fp.selector))
 	}
@@ -1184,6 +1209,10 @@ func (fpv *Invitation_FieldTerminalPathValue) AsBindingRolesValue() ([]*Invitati
 	res, ok := fpv.value.([]*Invitation_BindingRole)
 	return res, ok
 }
+func (fpv *Invitation_FieldTerminalPathValue) AsGroupsValue() ([]*group.Reference, bool) {
+	res, ok := fpv.value.([]*group.Reference)
+	return res, ok
+}
 func (fpv *Invitation_FieldTerminalPathValue) AsExpirationDateValue() (*timestamppb.Timestamp, bool) {
 	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
@@ -1215,6 +1244,8 @@ func (fpv *Invitation_FieldTerminalPathValue) SetTo(target **Invitation) {
 		(*target).LanguageCode = fpv.value.(string)
 	case Invitation_FieldPathSelectorBindingRoles:
 		(*target).BindingRoles = fpv.value.([]*Invitation_BindingRole)
+	case Invitation_FieldPathSelectorGroups:
+		(*target).Groups = fpv.value.([]*group.Reference)
 	case Invitation_FieldPathSelectorExpirationDate:
 		(*target).ExpirationDate = fpv.value.(*timestamppb.Timestamp)
 	case Invitation_FieldPathSelectorExtras:
@@ -1277,6 +1308,8 @@ func (fpv *Invitation_FieldTerminalPathValue) CompareWith(source *Invitation) (i
 			return 1, true
 		}
 	case Invitation_FieldPathSelectorBindingRoles:
+		return 0, false
+	case Invitation_FieldPathSelectorGroups:
 		return 0, false
 	case Invitation_FieldPathSelectorExpirationDate:
 		leftValue := fpv.value.(*timestamppb.Timestamp)
@@ -1475,6 +1508,10 @@ func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) AsBindingRolesItemValue
 	res, ok := fpaiv.value.(*Invitation_BindingRole)
 	return res, ok
 }
+func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) AsGroupsItemValue() (*group.Reference, bool) {
+	res, ok := fpaiv.value.(*group.Reference)
+	return res, ok
+}
 
 func (fpaiv *Invitation_FieldTerminalPathArrayItemValue) GetSingle(source *Invitation) (interface{}, bool) {
 	return nil, false
@@ -1588,6 +1625,10 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([][]*Invitation_BindingRole) {
 			values = append(values, v)
 		}
+	case Invitation_FieldPathSelectorGroups:
+		for _, v := range fpaov.values.([][]*group.Reference) {
+			values = append(values, v)
+		}
 	case Invitation_FieldPathSelectorExpirationDate:
 		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
@@ -1625,6 +1666,10 @@ func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsLanguageCodeArrayOfVal
 }
 func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsBindingRolesArrayOfValues() ([][]*Invitation_BindingRole, bool) {
 	res, ok := fpaov.values.([][]*Invitation_BindingRole)
+	return res, ok
+}
+func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsGroupsArrayOfValues() ([][]*group.Reference, bool) {
+	res, ok := fpaov.values.([][]*group.Reference)
 	return res, ok
 }
 func (fpaov *Invitation_FieldTerminalPathArrayOfValues) AsExpirationDateArrayOfValues() ([]*timestamppb.Timestamp, bool) {

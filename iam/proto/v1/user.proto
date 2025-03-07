@@ -47,11 +47,19 @@ message User {
 
   google.protobuf.Timestamp refreshed_time = 6;
 
+  // Internal status used by controller.
+  WorkStatus ctrl_status = 9;
+
   message AuthInfo {
     // auth provider
     string provider = 1;
 
     // auth provider id
     string id = 2;
+  }
+
+  message WorkStatus {
+    // if controller has some work on this resource
+    bool pending = 1;
   }
 }

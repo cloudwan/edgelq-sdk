@@ -17,6 +17,7 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
@@ -37,6 +38,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
+	_ = &group.Group{}
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
@@ -191,6 +193,18 @@ func (o *Invitation) MakeDiffFieldMask(other *Invitation) *Invitation_FieldMask 
 	} else {
 		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorBindingRoles})
 	}
+
+	if len(o.GetGroups()) == len(other.GetGroups()) {
+		for i, lValue := range o.GetGroups() {
+			rValue := other.GetGroups()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorGroups})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorGroups})
+	}
 	if !proto.Equal(o.GetExpirationDate(), other.GetExpirationDate()) {
 		res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate})
 	}
@@ -229,6 +243,19 @@ func (o *Invitation) Clone() *Invitation {
 	result.BindingRoles = make([]*Invitation_BindingRole, len(o.BindingRoles))
 	for i, sourceValue := range o.BindingRoles {
 		result.BindingRoles[i] = sourceValue.Clone()
+	}
+	result.Groups = make([]*group.Reference, len(o.Groups))
+	for i, sourceValue := range o.Groups {
+		if sourceValue == nil {
+			result.Groups[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.Groups[i] = &group.Reference{}
+			if err := result.Groups[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
 	}
 	result.ExpirationDate = proto.Clone(o.ExpirationDate).(*timestamppb.Timestamp)
 	result.Extras = map[string]string{}
@@ -269,6 +296,32 @@ func (o *Invitation) Merge(source *Invitation) {
 				newDstElement.Merge(sourceValue)
 			}
 			o.BindingRoles = append(o.BindingRoles, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetGroups() {
+		exists := false
+		for _, currentValue := range o.Groups {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *group.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &group.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.Groups = append(o.Groups, newDstElement)
 		}
 	}
 

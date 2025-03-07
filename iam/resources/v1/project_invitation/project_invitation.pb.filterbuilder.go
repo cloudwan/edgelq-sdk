@@ -14,6 +14,7 @@ import (
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
@@ -40,6 +41,7 @@ var (
 	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &group.Group{}
 	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
@@ -2531,6 +2533,10 @@ func (b *filterCndBuilderInvitation) BindingRoles() *filterCndBuilderInvitationB
 	return &filterCndBuilderInvitationBindingRoles{builder: b.builder}
 }
 
+func (b *filterCndBuilderInvitation) Groups() *filterCndBuilderInvitationGroups {
+	return &filterCndBuilderInvitationGroups{builder: b.builder}
+}
+
 func (b *filterCndBuilderInvitation) ExpirationDate() *filterCndBuilderInvitationExpirationDate {
 	return &filterCndBuilderInvitationExpirationDate{builder: b.builder}
 }
@@ -3975,6 +3981,99 @@ func (b *filterCndBuilderInvitationBindingRolesScopeParamsValueFromPath) compare
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().BindingRoles().ScopeParams().ValueFrom().Path().WithValue(value),
+	})
+}
+
+type filterCndBuilderInvitationGroups struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderInvitationGroups) Eq(value []*group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderInvitationGroups) Neq(value []*group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderInvitationGroups) Gt(value []*group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderInvitationGroups) Gte(value []*group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderInvitationGroups) Lt(value []*group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderInvitationGroups) Lte(value []*group.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderInvitationGroups) In(values [][]*group.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().Groups().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInvitationGroups) NotIn(values [][]*group.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProjectInvitation_FieldPathArrayOfValues: NewProjectInvitationFieldPathBuilder().Invitation().Groups().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderInvitationGroups) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().Groups().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInvitationGroups) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().Groups().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderInvitationGroups) Contains(value *group.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().Groups().FieldPath(),
+		Value:     NewProjectInvitationFieldPathBuilder().Invitation().Groups().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderInvitationGroups) ContainsAnyOf(values []*group.Reference) *FilterBuilder {
+	pathSelector := NewProjectInvitationFieldPathBuilder().Invitation().Groups()
+	itemValues := make([]ProjectInvitation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().Groups().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderInvitationGroups) ContainsAll(values []*group.Reference) *FilterBuilder {
+	pathSelector := NewProjectInvitationFieldPathBuilder().Invitation().Groups()
+	itemValues := make([]ProjectInvitation_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewProjectInvitationFieldPathBuilder().Invitation().Groups().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderInvitationGroups) compare(op gotenfilter.CompareOperator, value []*group.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ProjectInvitation_FieldPathValue: NewProjectInvitationFieldPathBuilder().Invitation().Groups().WithValue(value),
 	})
 }
 

@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/common_client.proto";
+import "edgelq-sdk/iam/proto/v1/role_binding.proto";
+import "edgelq-sdk/iam/proto/v1/role_binding_change.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/types/view.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/role_binding;role_binding_client";
+option java_multiple_files = false;
+option java_outer_classname = "RoleBindingCustomProto";
+option java_package = "com.ntt.iam.pb.v1";
+
+// A request message of the ListRoleBindingsWithMembers method.
+message ListRoleBindingsWithMembersRequest {
+  // Parent name of ntt.iam.v1.RoleBinding
+  string parent = 1;
+
+  // Requested page size. Server may return fewer RoleBindings than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // ListRoleBindingsWithMembersResponse.next_page_token.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask and user_mask.
+  goten.types.View view = 7;
+
+  // Defines field masks applied to member resources (Users, Service accounts,
+  // Groups).
+  MembersMasks members_masks = 9;
+
+  // Indicates if list response should contain total count and offset (fields
+  // current_offset and total_results_count).
+  bool include_paging_info = 8;
+}
+
+// A response message of the ListRoleBindingsWithMembers method.
+message ListRoleBindingsWithMembersResponse {
+  // The list of RoleBindings
+  repeated RoleBinding role_bindings = 1;
+
+  // List of matching members per each received role binding.
+  repeated MembersInfo matching_members = 2;
+
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListRoleBindingsWithMembersRequest.page_token.
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListRoleBindingsWithMembersRequest.page_token.
+  string next_page_token = 4;
+
+  // Current offset from the first page or 0 if no page tokens were given,
+  // paging info was not requested or there was an error while trying to get
+  // it). Page index can be computed from offset and limit provided in a
+  // request.
+  int32 current_offset = 5;
+
+  // Number of total RoleBindings across all pages or 0, if there are no items,
+  // paging info was not requested or there was an error while trying to get it.
+  int32 total_results_count = 6;
+}

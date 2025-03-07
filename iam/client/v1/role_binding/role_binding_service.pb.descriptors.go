@@ -31,16 +31,17 @@ var (
 )
 
 var (
-	descriptorsInitialized         bool
-	roleBindingServiceDescriptor   *RoleBindingServiceDescriptor
-	getRoleBindingDescriptor       *GetRoleBindingDescriptor
-	batchGetRoleBindingsDescriptor *BatchGetRoleBindingsDescriptor
-	listRoleBindingsDescriptor     *ListRoleBindingsDescriptor
-	watchRoleBindingDescriptor     *WatchRoleBindingDescriptor
-	watchRoleBindingsDescriptor    *WatchRoleBindingsDescriptor
-	createRoleBindingDescriptor    *CreateRoleBindingDescriptor
-	updateRoleBindingDescriptor    *UpdateRoleBindingDescriptor
-	deleteRoleBindingDescriptor    *DeleteRoleBindingDescriptor
+	descriptorsInitialized                bool
+	roleBindingServiceDescriptor          *RoleBindingServiceDescriptor
+	getRoleBindingDescriptor              *GetRoleBindingDescriptor
+	batchGetRoleBindingsDescriptor        *BatchGetRoleBindingsDescriptor
+	listRoleBindingsDescriptor            *ListRoleBindingsDescriptor
+	watchRoleBindingDescriptor            *WatchRoleBindingDescriptor
+	watchRoleBindingsDescriptor           *WatchRoleBindingsDescriptor
+	createRoleBindingDescriptor           *CreateRoleBindingDescriptor
+	updateRoleBindingDescriptor           *UpdateRoleBindingDescriptor
+	deleteRoleBindingDescriptor           *DeleteRoleBindingDescriptor
+	listRoleBindingsWithMembersDescriptor *ListRoleBindingsWithMembersDescriptor
 )
 
 type GetRoleBindingDescriptor struct{}
@@ -1855,6 +1856,221 @@ func GetDeleteRoleBindingDescriptor() *DeleteRoleBindingDescriptor {
 	return deleteRoleBindingDescriptor
 }
 
+type ListRoleBindingsWithMembersDescriptor struct{}
+
+type ListRoleBindingsWithMembersDescriptorClientMsgHandle struct{}
+
+type ListRoleBindingsWithMembersDescriptorServerMsgHandle struct{}
+
+func (d *ListRoleBindingsWithMembersDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ListRoleBindingsWithMembersRequest{}
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ListRoleBindingsWithMembersResponse{}
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetVerb() string {
+	return "listRoleBindingsWithMembers"
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetMethodName() string {
+	return "ListRoleBindingsWithMembers"
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.RoleBindingService/ListRoleBindingsWithMembers"
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetApiName() string {
+	return "RoleBindingService"
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return roleBindingServiceDescriptor
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return role_binding.GetDescriptor()
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListRoleBindingsWithMembersDescriptorClientMsgHandle{}
+}
+
+func (d *ListRoleBindingsWithMembersDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListRoleBindingsWithMembersDescriptorServerMsgHandle{}
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListRoleBindingsWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListRoleBindingsWithMembersRequest) *role_binding.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListRoleBindingsWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListRoleBindingsWithMembersRequest) []*role_binding.Name
+	})
+	if ok {
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListRoleBindingsWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListRoleBindingsWithMembersRequest) *role_binding.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*role_binding.ParentName)(nil)
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListRoleBindingsWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListRoleBindingsWithMembersRequest) *role_binding.RoleBinding
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListRoleBindingsWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListRoleBindingsWithMembersRequest) []*role_binding.RoleBinding
+	})
+	if ok {
+		return role_binding.RoleBindingList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListRoleBindingsWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListRoleBindingsWithMembersResponse) *role_binding.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListRoleBindingsWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListRoleBindingsWithMembersResponse) []*role_binding.Name
+	})
+	if ok {
+		return role_binding.RoleBindingNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListRoleBindingsWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListRoleBindingsWithMembersResponse) *role_binding.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListRoleBindingsWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListRoleBindingsWithMembersResponse) *role_binding.RoleBinding
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListRoleBindingsWithMembersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListRoleBindingsWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListRoleBindingsWithMembersResponse) []*role_binding.RoleBinding
+	})
+	if ok {
+		return role_binding.RoleBindingList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetListRoleBindingsWithMembersDescriptor() *ListRoleBindingsWithMembersDescriptor {
+	return listRoleBindingsWithMembersDescriptor
+}
+
 type RoleBindingServiceDescriptor struct{}
 
 func (d *RoleBindingServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2083,7 @@ func (d *RoleBindingServiceDescriptor) AllMethodDescriptors() []gotenclient.Meth
 		createRoleBindingDescriptor,
 		updateRoleBindingDescriptor,
 		deleteRoleBindingDescriptor,
+		listRoleBindingsWithMembersDescriptor,
 	}
 }
 
@@ -1904,6 +2121,7 @@ func initDescriptors() {
 	createRoleBindingDescriptor = &CreateRoleBindingDescriptor{}
 	updateRoleBindingDescriptor = &UpdateRoleBindingDescriptor{}
 	deleteRoleBindingDescriptor = &DeleteRoleBindingDescriptor{}
+	listRoleBindingsWithMembersDescriptor = &ListRoleBindingsWithMembersDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(roleBindingServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetRoleBindingsDescriptor)
@@ -1913,6 +2131,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateRoleBindingDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteRoleBindingDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(listRoleBindingsWithMembersDescriptor)
 }
 
 func init() {

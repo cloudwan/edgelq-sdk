@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package ntt.iam.v1;
+
+import "edgelq-sdk/iam/proto/v1/group.proto";
+import "edgelq-sdk/iam/proto/v1/service_account.proto";
+import "edgelq-sdk/iam/proto/v1/user.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/meta-service/proto/v1/service.proto";
+import "goten-sdk/types/view.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/iam/client/v1/common;iam_common";
+option java_multiple_files = true;
+option java_package = "com.ntt.iam.pb.v1";
+
+// MembersMasks determines what fields should be obtained for matching
+// members to GroupMembers.
+message MembersMasks {
+  // View defines list of standard response fields present in member items.
+  // Additional fields can be amended by specific field masks.
+  goten.types.View view = 1;
+
+  // A list of extra fields to be obtained for each member User on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask user_mask = 2;
+
+  // A list of extra fields to be obtained for each member ServiceAccount on
+  // top of fields defined by request field view
+  google.protobuf.FieldMask service_account_mask = 3;
+
+  // A list of extra fields to be obtained for each member Group on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask group_mask = 4;
+}
+
+// MembersInfo maps Users, ServiceAccounts or Groups to specific
+// member data.
+message MembersInfo {
+  // Member identifier - as in format used in RoleBindings/GroupMembers.
+  string member = 1;
+
+  // List of users. May contain more than 1 item, if there are
+  // multiple users sharing same email.
+  // Array may be empty if member is for service account or
+  // group type, or if no user exists with specified email.
+  repeated User users = 2;
+
+  // List of service accounts. It will be empty if member
+  // matches user or group type, or if no matching ServiceAccount
+  // was found. Length of this array is from 0 to 1.
+  repeated ServiceAccount service_accounts = 3;
+
+  // List of groups. It will be empty if member matches
+  // user or service account type, or if no matching Group
+  // was found. Length of this array is from 0 to 1.
+  repeated Group groups = 4;
+}

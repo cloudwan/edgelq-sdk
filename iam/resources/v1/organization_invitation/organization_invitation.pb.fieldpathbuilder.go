@@ -9,6 +9,7 @@ import (
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	iam_invitation "github.com/cloudwan/edgelq-sdk/iam/resources/v1/invitation"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
@@ -29,6 +30,7 @@ var (
 	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &group.Group{}
 	_ = &iam_invitation.Actor{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
@@ -809,6 +811,10 @@ func (OrganizationInvitationPathSelectorInvitation) BindingRoles() OrganizationI
 	return OrganizationInvitationPathSelectorInvitationBindingRoles{}
 }
 
+func (OrganizationInvitationPathSelectorInvitation) Groups() OrganizationInvitationPathSelectorInvitationGroups {
+	return OrganizationInvitationPathSelectorInvitationGroups{}
+}
+
 func (OrganizationInvitationPathSelectorInvitation) ExpirationDate() OrganizationInvitationPathSelectorInvitationExpirationDate {
 	return OrganizationInvitationPathSelectorInvitationExpirationDate{}
 }
@@ -1252,6 +1258,27 @@ func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValue
 
 func (s OrganizationInvitationPathSelectorInvitationBindingRolesScopeParamsValueFromPath) WithArrayOfValues(values []string) *OrganizationInvitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+type OrganizationInvitationPathSelectorInvitationGroups struct{}
+
+func (OrganizationInvitationPathSelectorInvitationGroups) FieldPath() *OrganizationInvitation_FieldSubPath {
+	return &OrganizationInvitation_FieldSubPath{
+		selector: OrganizationInvitation_FieldPathSelectorInvitation,
+		subPath:  iam_invitation.NewInvitationFieldPathBuilder().Groups().FieldPath(),
+	}
+}
+
+func (s OrganizationInvitationPathSelectorInvitationGroups) WithValue(value []*group.Reference) *OrganizationInvitation_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*OrganizationInvitation_FieldSubPathValue)
+}
+
+func (s OrganizationInvitationPathSelectorInvitationGroups) WithArrayOfValues(values [][]*group.Reference) *OrganizationInvitation_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*OrganizationInvitation_FieldSubPathArrayOfValues)
+}
+
+func (s OrganizationInvitationPathSelectorInvitationGroups) WithItemValue(value *group.Reference) *OrganizationInvitation_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*OrganizationInvitation_FieldSubPathArrayItemValue)
 }
 
 type OrganizationInvitationPathSelectorInvitationExpirationDate struct{}
