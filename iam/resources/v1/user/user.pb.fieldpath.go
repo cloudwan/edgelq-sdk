@@ -78,7 +78,6 @@ const (
 	User_FieldPathSelectorAuthInfo      User_FieldPathSelector = 5
 	User_FieldPathSelectorSettings      User_FieldPathSelector = 6
 	User_FieldPathSelectorRefreshedTime User_FieldPathSelector = 7
-	User_FieldPathSelectorCtrlStatus    User_FieldPathSelector = 8
 )
 
 func (s User_FieldPathSelector) String() string {
@@ -99,8 +98,6 @@ func (s User_FieldPathSelector) String() string {
 		return "settings"
 	case User_FieldPathSelectorRefreshedTime:
 		return "refreshed_time"
-	case User_FieldPathSelectorCtrlStatus:
-		return "ctrl_status"
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", s))
 	}
@@ -128,8 +125,6 @@ func BuildUser_FieldPath(fp gotenobject.RawFieldPath) (User_FieldPath, error) {
 			return &User_FieldTerminalPath{selector: User_FieldPathSelectorSettings}, nil
 		case "refreshed_time", "refreshedTime", "refreshed-time":
 			return &User_FieldTerminalPath{selector: User_FieldPathSelectorRefreshedTime}, nil
-		case "ctrl_status", "ctrlStatus", "ctrl-status":
-			return &User_FieldTerminalPath{selector: User_FieldPathSelectorCtrlStatus}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -144,12 +139,6 @@ func BuildUser_FieldPath(fp gotenobject.RawFieldPath) (User_FieldPath, error) {
 				return nil, err
 			} else {
 				return &User_FieldSubPath{selector: User_FieldPathSelectorAuthInfo, subPath: subpath}, nil
-			}
-		case "ctrl_status", "ctrlStatus", "ctrl-status":
-			if subpath, err := BuildUserWorkStatus_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &User_FieldSubPath{selector: User_FieldPathSelectorCtrlStatus, subPath: subpath}, nil
 			}
 		case "settings":
 			if len(fp) > 2 {
@@ -225,10 +214,6 @@ func (fp *User_FieldTerminalPath) Get(source *User) (values []interface{}) {
 			if source.RefreshedTime != nil {
 				values = append(values, source.RefreshedTime)
 			}
-		case User_FieldPathSelectorCtrlStatus:
-			if source.CtrlStatus != nil {
-				values = append(values, source.CtrlStatus)
-			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 		}
@@ -264,9 +249,6 @@ func (fp *User_FieldTerminalPath) GetSingle(source *User) (interface{}, bool) {
 	case User_FieldPathSelectorRefreshedTime:
 		res := source.GetRefreshedTime()
 		return res, res != nil
-	case User_FieldPathSelectorCtrlStatus:
-		res := source.GetCtrlStatus()
-		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 	}
@@ -295,8 +277,6 @@ func (fp *User_FieldTerminalPath) GetDefault() interface{} {
 		return (map[string]string)(nil)
 	case User_FieldPathSelectorRefreshedTime:
 		return (*timestamppb.Timestamp)(nil)
-	case User_FieldPathSelectorCtrlStatus:
-		return (*User_WorkStatus)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 	}
@@ -321,8 +301,6 @@ func (fp *User_FieldTerminalPath) ClearValue(item *User) {
 			item.Settings = nil
 		case User_FieldPathSelectorRefreshedTime:
 			item.RefreshedTime = nil
-		case User_FieldPathSelectorCtrlStatus:
-			item.CtrlStatus = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 		}
@@ -365,8 +343,6 @@ func (fp *User_FieldTerminalPath) WithIValue(value interface{}) User_FieldPathVa
 		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(map[string]string)}
 	case User_FieldPathSelectorRefreshedTime:
 		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
-	case User_FieldPathSelectorCtrlStatus:
-		return &User_FieldTerminalPathValue{User_FieldTerminalPath: *fp, value: value.(*User_WorkStatus)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 	}
@@ -395,8 +371,6 @@ func (fp *User_FieldTerminalPath) WithIArrayOfValues(values interface{}) User_Fi
 		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]map[string]string)}
 	case User_FieldPathSelectorRefreshedTime:
 		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
-	case User_FieldPathSelectorCtrlStatus:
-		return &User_FieldTerminalPathArrayOfValues{User_FieldTerminalPath: *fp, values: values.([]*User_WorkStatus)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fp.selector))
 	}
@@ -568,10 +542,6 @@ func (fps *User_FieldSubPath) AsAuthInfoSubPath() (UserAuthInfo_FieldPath, bool)
 	res, ok := fps.subPath.(UserAuthInfo_FieldPath)
 	return res, ok
 }
-func (fps *User_FieldSubPath) AsCtrlStatusSubPath() (UserWorkStatus_FieldPath, bool) {
-	res, ok := fps.subPath.(UserWorkStatus_FieldPath)
-	return res, ok
-}
 
 // String returns path representation in proto convention
 func (fps *User_FieldSubPath) String() string {
@@ -590,8 +560,6 @@ func (fps *User_FieldSubPath) Get(source *User) (values []interface{}) {
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
 	case User_FieldPathSelectorAuthInfo:
 		values = append(values, fps.subPath.GetRaw(source.GetAuthInfo())...)
-	case User_FieldPathSelectorCtrlStatus:
-		values = append(values, fps.subPath.GetRaw(source.GetCtrlStatus())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fps.selector))
 	}
@@ -615,11 +583,6 @@ func (fps *User_FieldSubPath) GetSingle(source *User) (interface{}, bool) {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetAuthInfo())
-	case User_FieldPathSelectorCtrlStatus:
-		if source.GetCtrlStatus() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetCtrlStatus())
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fps.selector))
 	}
@@ -641,8 +604,6 @@ func (fps *User_FieldSubPath) ClearValue(item *User) {
 			fps.subPath.ClearValueRaw(item.Metadata)
 		case User_FieldPathSelectorAuthInfo:
 			fps.subPath.ClearValueRaw(item.AuthInfo)
-		case User_FieldPathSelectorCtrlStatus:
-			fps.subPath.ClearValueRaw(item.CtrlStatus)
 		default:
 			panic(fmt.Sprintf("Invalid selector for User: %d", fps.selector))
 		}
@@ -759,10 +720,6 @@ func (fpv *User_FieldTerminalPathValue) AsRefreshedTimeValue() (*timestamppb.Tim
 	res, ok := fpv.value.(*timestamppb.Timestamp)
 	return res, ok
 }
-func (fpv *User_FieldTerminalPathValue) AsCtrlStatusValue() (*User_WorkStatus, bool) {
-	res, ok := fpv.value.(*User_WorkStatus)
-	return res, ok
-}
 
 // SetTo stores value for selected field for object User
 func (fpv *User_FieldTerminalPathValue) SetTo(target **User) {
@@ -786,8 +743,6 @@ func (fpv *User_FieldTerminalPathValue) SetTo(target **User) {
 		(*target).Settings = fpv.value.(map[string]string)
 	case User_FieldPathSelectorRefreshedTime:
 		(*target).RefreshedTime = fpv.value.(*timestamppb.Timestamp)
-	case User_FieldPathSelectorCtrlStatus:
-		(*target).CtrlStatus = fpv.value.(*User_WorkStatus)
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fpv.selector))
 	}
@@ -875,8 +830,6 @@ func (fpv *User_FieldTerminalPathValue) CompareWith(source *User) (int, bool) {
 		} else {
 			return 1, true
 		}
-	case User_FieldPathSelectorCtrlStatus:
-		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fpv.selector))
 	}
@@ -960,10 +913,6 @@ func (fpvs *User_FieldSubPathValue) AsAuthInfoPathValue() (UserAuthInfo_FieldPat
 	res, ok := fpvs.subPathValue.(UserAuthInfo_FieldPathValue)
 	return res, ok
 }
-func (fpvs *User_FieldSubPathValue) AsCtrlStatusPathValue() (UserWorkStatus_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(UserWorkStatus_FieldPathValue)
-	return res, ok
-}
 
 func (fpvs *User_FieldSubPathValue) SetTo(target **User) {
 	if *target == nil {
@@ -974,8 +923,6 @@ func (fpvs *User_FieldSubPathValue) SetTo(target **User) {
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case User_FieldPathSelectorAuthInfo:
 		fpvs.subPathValue.(UserAuthInfo_FieldPathValue).SetTo(&(*target).AuthInfo)
-	case User_FieldPathSelectorCtrlStatus:
-		fpvs.subPathValue.(UserWorkStatus_FieldPathValue).SetTo(&(*target).CtrlStatus)
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fpvs.Selector()))
 	}
@@ -996,8 +943,6 @@ func (fpvs *User_FieldSubPathValue) CompareWith(source *User) (int, bool) {
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case User_FieldPathSelectorAuthInfo:
 		return fpvs.subPathValue.(UserAuthInfo_FieldPathValue).CompareWith(source.GetAuthInfo())
-	case User_FieldPathSelectorCtrlStatus:
-		return fpvs.subPathValue.(UserWorkStatus_FieldPathValue).CompareWith(source.GetCtrlStatus())
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fpvs.Selector()))
 	}
@@ -1088,10 +1033,6 @@ func (fpaivs *User_FieldSubPathArrayItemValue) AsAuthInfoPathItemValue() (UserAu
 	res, ok := fpaivs.subPathItemValue.(UserAuthInfo_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *User_FieldSubPathArrayItemValue) AsCtrlStatusPathItemValue() (UserWorkStatus_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(UserWorkStatus_FieldPathArrayItemValue)
-	return res, ok
-}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'User'
 func (fpaivs *User_FieldSubPathArrayItemValue) ContainsValue(source *User) bool {
@@ -1100,8 +1041,6 @@ func (fpaivs *User_FieldSubPathArrayItemValue) ContainsValue(source *User) bool 
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case User_FieldPathSelectorAuthInfo:
 		return fpaivs.subPathItemValue.(UserAuthInfo_FieldPathArrayItemValue).ContainsValue(source.GetAuthInfo())
-	case User_FieldPathSelectorCtrlStatus:
-		return fpaivs.subPathItemValue.(UserWorkStatus_FieldPathArrayItemValue).ContainsValue(source.GetCtrlStatus())
 	default:
 		panic(fmt.Sprintf("Invalid selector for User: %d", fpaivs.Selector()))
 	}
@@ -1174,10 +1113,6 @@ func (fpaov *User_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 		for _, v := range fpaov.values.([]*timestamppb.Timestamp) {
 			values = append(values, v)
 		}
-	case User_FieldPathSelectorCtrlStatus:
-		for _, v := range fpaov.values.([]*User_WorkStatus) {
-			values = append(values, v)
-		}
 	}
 	return
 }
@@ -1211,10 +1146,6 @@ func (fpaov *User_FieldTerminalPathArrayOfValues) AsSettingsArrayOfValues() ([]m
 }
 func (fpaov *User_FieldTerminalPathArrayOfValues) AsRefreshedTimeArrayOfValues() ([]*timestamppb.Timestamp, bool) {
 	res, ok := fpaov.values.([]*timestamppb.Timestamp)
-	return res, ok
-}
-func (fpaov *User_FieldTerminalPathArrayOfValues) AsCtrlStatusArrayOfValues() ([]*User_WorkStatus, bool) {
-	res, ok := fpaov.values.([]*User_WorkStatus)
 	return res, ok
 }
 
@@ -1255,10 +1186,6 @@ func (fpsaov *User_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (met
 }
 func (fpsaov *User_FieldSubPathArrayOfValues) AsAuthInfoPathArrayOfValues() (UserAuthInfo_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(UserAuthInfo_FieldPathArrayOfValues)
-	return res, ok
-}
-func (fpsaov *User_FieldSubPathArrayOfValues) AsCtrlStatusPathArrayOfValues() (UserWorkStatus_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(UserWorkStatus_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -1680,384 +1607,5 @@ func (fpaov *UserAuthInfo_FieldTerminalPathArrayOfValues) AsProviderArrayOfValue
 }
 func (fpaov *UserAuthInfo_FieldTerminalPathArrayOfValues) AsIdArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type UserWorkStatus_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() UserWorkStatus_FieldPathSelector
-	Get(source *User_WorkStatus) []interface{}
-	GetSingle(source *User_WorkStatus) (interface{}, bool)
-	ClearValue(item *User_WorkStatus)
-
-	// Those methods build corresponding UserWorkStatus_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) UserWorkStatus_FieldPathValue
-	WithIArrayOfValues(values interface{}) UserWorkStatus_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) UserWorkStatus_FieldPathArrayItemValue
-}
-
-type UserWorkStatus_FieldPathSelector int32
-
-const (
-	UserWorkStatus_FieldPathSelectorPending UserWorkStatus_FieldPathSelector = 0
-)
-
-func (s UserWorkStatus_FieldPathSelector) String() string {
-	switch s {
-	case UserWorkStatus_FieldPathSelectorPending:
-		return "pending"
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", s))
-	}
-}
-
-func BuildUserWorkStatus_FieldPath(fp gotenobject.RawFieldPath) (UserWorkStatus_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object User_WorkStatus")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "pending":
-			return &UserWorkStatus_FieldTerminalPath{selector: UserWorkStatus_FieldPathSelectorPending}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object User_WorkStatus", fp)
-}
-
-func ParseUserWorkStatus_FieldPath(rawField string) (UserWorkStatus_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildUserWorkStatus_FieldPath(fp)
-}
-
-func MustParseUserWorkStatus_FieldPath(rawField string) UserWorkStatus_FieldPath {
-	fp, err := ParseUserWorkStatus_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type UserWorkStatus_FieldTerminalPath struct {
-	selector UserWorkStatus_FieldPathSelector
-}
-
-var _ UserWorkStatus_FieldPath = (*UserWorkStatus_FieldTerminalPath)(nil)
-
-func (fp *UserWorkStatus_FieldTerminalPath) Selector() UserWorkStatus_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *UserWorkStatus_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *UserWorkStatus_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source User_WorkStatus
-func (fp *UserWorkStatus_FieldTerminalPath) Get(source *User_WorkStatus) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case UserWorkStatus_FieldPathSelectorPending:
-			values = append(values, source.Pending)
-		default:
-			panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*User_WorkStatus))
-}
-
-// GetSingle returns value pointed by specific field of from source User_WorkStatus
-func (fp *UserWorkStatus_FieldTerminalPath) GetSingle(source *User_WorkStatus) (interface{}, bool) {
-	switch fp.selector {
-	case UserWorkStatus_FieldPathSelectorPending:
-		return source.GetPending(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fp.selector))
-	}
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*User_WorkStatus))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *UserWorkStatus_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case UserWorkStatus_FieldPathSelectorPending:
-		return false
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fp.selector))
-	}
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) ClearValue(item *User_WorkStatus) {
-	if item != nil {
-		switch fp.selector {
-		case UserWorkStatus_FieldPathSelectorPending:
-			item.Pending = false
-		default:
-			panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*User_WorkStatus))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *UserWorkStatus_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == UserWorkStatus_FieldPathSelectorPending
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) WithIValue(value interface{}) UserWorkStatus_FieldPathValue {
-	switch fp.selector {
-	case UserWorkStatus_FieldPathSelectorPending:
-		return &UserWorkStatus_FieldTerminalPathValue{UserWorkStatus_FieldTerminalPath: *fp, value: value.(bool)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fp.selector))
-	}
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) WithIArrayOfValues(values interface{}) UserWorkStatus_FieldPathArrayOfValues {
-	fpaov := &UserWorkStatus_FieldTerminalPathArrayOfValues{UserWorkStatus_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case UserWorkStatus_FieldPathSelectorPending:
-		return &UserWorkStatus_FieldTerminalPathArrayOfValues{UserWorkStatus_FieldTerminalPath: *fp, values: values.([]bool)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) WithIArrayItemValue(value interface{}) UserWorkStatus_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fp.selector))
-	}
-}
-
-func (fp *UserWorkStatus_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// UserWorkStatus_FieldPathValue allows storing values for WorkStatus fields according to their type
-type UserWorkStatus_FieldPathValue interface {
-	UserWorkStatus_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **User_WorkStatus)
-	CompareWith(*User_WorkStatus) (cmp int, comparable bool)
-}
-
-func ParseUserWorkStatus_FieldPathValue(pathStr, valueStr string) (UserWorkStatus_FieldPathValue, error) {
-	fp, err := ParseUserWorkStatus_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing WorkStatus field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(UserWorkStatus_FieldPathValue), nil
-}
-
-func MustParseUserWorkStatus_FieldPathValue(pathStr, valueStr string) UserWorkStatus_FieldPathValue {
-	fpv, err := ParseUserWorkStatus_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type UserWorkStatus_FieldTerminalPathValue struct {
-	UserWorkStatus_FieldTerminalPath
-	value interface{}
-}
-
-var _ UserWorkStatus_FieldPathValue = (*UserWorkStatus_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'WorkStatus' as interface{}
-func (fpv *UserWorkStatus_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *UserWorkStatus_FieldTerminalPathValue) AsPendingValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object WorkStatus
-func (fpv *UserWorkStatus_FieldTerminalPathValue) SetTo(target **User_WorkStatus) {
-	if *target == nil {
-		*target = new(User_WorkStatus)
-	}
-	switch fpv.selector {
-	case UserWorkStatus_FieldPathSelectorPending:
-		(*target).Pending = fpv.value.(bool)
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fpv.selector))
-	}
-}
-
-func (fpv *UserWorkStatus_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*User_WorkStatus)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'UserWorkStatus_FieldTerminalPathValue' with the value under path in 'User_WorkStatus'.
-func (fpv *UserWorkStatus_FieldTerminalPathValue) CompareWith(source *User_WorkStatus) (int, bool) {
-	switch fpv.selector {
-	case UserWorkStatus_FieldPathSelectorPending:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetPending()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for User_WorkStatus: %d", fpv.selector))
-	}
-}
-
-func (fpv *UserWorkStatus_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*User_WorkStatus))
-}
-
-// UserWorkStatus_FieldPathArrayItemValue allows storing single item in Path-specific values for WorkStatus according to their type
-// Present only for array (repeated) types.
-type UserWorkStatus_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	UserWorkStatus_FieldPath
-	ContainsValue(*User_WorkStatus) bool
-}
-
-// ParseUserWorkStatus_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseUserWorkStatus_FieldPathArrayItemValue(pathStr, valueStr string) (UserWorkStatus_FieldPathArrayItemValue, error) {
-	fp, err := ParseUserWorkStatus_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing WorkStatus field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(UserWorkStatus_FieldPathArrayItemValue), nil
-}
-
-func MustParseUserWorkStatus_FieldPathArrayItemValue(pathStr, valueStr string) UserWorkStatus_FieldPathArrayItemValue {
-	fpaiv, err := ParseUserWorkStatus_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type UserWorkStatus_FieldTerminalPathArrayItemValue struct {
-	UserWorkStatus_FieldTerminalPath
-	value interface{}
-}
-
-var _ UserWorkStatus_FieldPathArrayItemValue = (*UserWorkStatus_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object User_WorkStatus as interface{}
-func (fpaiv *UserWorkStatus_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *UserWorkStatus_FieldTerminalPathArrayItemValue) GetSingle(source *User_WorkStatus) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *UserWorkStatus_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*User_WorkStatus))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'WorkStatus'
-func (fpaiv *UserWorkStatus_FieldTerminalPathArrayItemValue) ContainsValue(source *User_WorkStatus) bool {
-	slice := fpaiv.UserWorkStatus_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// UserWorkStatus_FieldPathArrayOfValues allows storing slice of values for WorkStatus fields according to their type
-type UserWorkStatus_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	UserWorkStatus_FieldPath
-}
-
-func ParseUserWorkStatus_FieldPathArrayOfValues(pathStr, valuesStr string) (UserWorkStatus_FieldPathArrayOfValues, error) {
-	fp, err := ParseUserWorkStatus_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing WorkStatus field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(UserWorkStatus_FieldPathArrayOfValues), nil
-}
-
-func MustParseUserWorkStatus_FieldPathArrayOfValues(pathStr, valuesStr string) UserWorkStatus_FieldPathArrayOfValues {
-	fpaov, err := ParseUserWorkStatus_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type UserWorkStatus_FieldTerminalPathArrayOfValues struct {
-	UserWorkStatus_FieldTerminalPath
-	values interface{}
-}
-
-var _ UserWorkStatus_FieldPathArrayOfValues = (*UserWorkStatus_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *UserWorkStatus_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case UserWorkStatus_FieldPathSelectorPending:
-		for _, v := range fpaov.values.([]bool) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *UserWorkStatus_FieldTerminalPathArrayOfValues) AsPendingArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
 	return res, ok
 }

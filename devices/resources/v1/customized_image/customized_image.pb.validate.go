@@ -22,8 +22,6 @@ import (
 import (
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
-	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
-	iam_service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
@@ -44,8 +42,6 @@ var (
 var (
 	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
-	_ = &iam_service_account.ServiceAccount{}
-	_ = &iam_service_account_key.ServiceAccountKey{}
 	_ = &meta.Meta{}
 )
 

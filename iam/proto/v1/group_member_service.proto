@@ -4,7 +4,6 @@ package ntt.iam.v1;
 
 import "edgelq-sdk/iam/proto/v1/group_member.proto";
 import "edgelq-sdk/iam/proto/v1/group_member_change.proto";
-import "edgelq-sdk/iam/proto/v1/group_member_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -485,26 +484,6 @@ service GroupMemberService {
       >
       additional_bindings : <
         delete : "/v1/{name=services/*/groups/*/groupMembers/*}"
-      >
-    };
-  }
-
-  // ListGroupMembersWithMembers
-  rpc ListGroupMembersWithMembers(ListGroupMembersWithMembersRequest)
-      returns (ListGroupMembersWithMembersResponse) {
-    option (google.api.http) = {
-      post : "/v1/{parent=groups/*}/groupMembers:listGroupMembersWithMembers"
-      additional_bindings : <
-        post : "/v1/{parent=projects/*/groups/*}/"
-               "groupMembers:listGroupMembersWithMembers"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*/groups/*}/"
-               "groupMembers:listGroupMembersWithMembers"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=services/*/groups/*}/"
-               "groupMembers:listGroupMembersWithMembers"
       >
     };
   }

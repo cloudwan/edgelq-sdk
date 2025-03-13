@@ -57,7 +57,6 @@ type GroupMemberServiceClient interface {
 	CreateGroupMember(ctx context.Context, in *CreateGroupMemberRequest, opts ...grpc.CallOption) (*group_member.GroupMember, error)
 	UpdateGroupMember(ctx context.Context, in *UpdateGroupMemberRequest, opts ...grpc.CallOption) (*group_member.GroupMember, error)
 	DeleteGroupMember(ctx context.Context, in *DeleteGroupMemberRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	ListGroupMembersWithMembers(ctx context.Context, in *ListGroupMembersWithMembersRequest, opts ...grpc.CallOption) (*ListGroupMembersWithMembersResponse, error)
 }
 
 type client struct {
@@ -190,15 +189,6 @@ func (c *client) UpdateGroupMember(ctx context.Context, in *UpdateGroupMemberReq
 func (c *client) DeleteGroupMember(ctx context.Context, in *DeleteGroupMemberRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.GroupMemberService/DeleteGroupMember", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) ListGroupMembersWithMembers(ctx context.Context, in *ListGroupMembersWithMembersRequest, opts ...grpc.CallOption) (*ListGroupMembersWithMembersResponse, error) {
-	out := new(ListGroupMembersWithMembersResponse)
-	err := c.cc.Invoke(ctx, "/ntt.iam.v1.GroupMemberService/ListGroupMembersWithMembers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -984,366 +984,6 @@ func (m *SetUsersNameInAuth0Request) UnmarshalJSON(data []byte) error {
 	return protojson.Unmarshal(data, m)
 }
 
-// Request message for method
-// [DeleteUsersByCriteria][ntt.iam.v1.DeleteUsersByCriteria]
-type DeleteUsersByCriteriaRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-	// Auth info provider type. Optional. If provided, it must match
-	// deleted user instances - field auth_info.provider must exactly
-	// match specified value.
-	AuthInfoProvider string `protobuf:"bytes,3,opt,name=auth_info_provider,json=authInfoProvider,proto3" json:"auth_info_provider,omitempty" firestore:"authInfoProvider"`
-	// Auth info ID prefix. Optional. If provided, it must match
-	// deleted user instances - field auth_info.id must begin
-	// with specified prefix.
-	AuthInfoIdPrefix string `protobuf:"bytes,4,opt,name=auth_info_id_prefix,json=authInfoIdPrefix,proto3" json:"auth_info_id_prefix,omitempty" firestore:"authInfoIdPrefix"`
-	// Types that are valid to be assigned to ToDelete:
-	//	*DeleteUsersByCriteriaRequest_ByEmail
-	//	*DeleteUsersByCriteriaRequest_ByName
-	ToDelete isDeleteUsersByCriteriaRequest_ToDelete `protobuf_oneof:"to_delete"`
-}
-
-func (m *DeleteUsersByCriteriaRequest) Reset() {
-	*m = DeleteUsersByCriteriaRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (m *DeleteUsersByCriteriaRequest) String() string {
-	return protoimpl.X.MessageStringOf(m)
-}
-
-func (*DeleteUsersByCriteriaRequest) ProtoMessage() {}
-
-func (m *DeleteUsersByCriteriaRequest) ProtoReflect() preflect.Message {
-	mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(m)
-}
-
-func (*DeleteUsersByCriteriaRequest) GotenMessage() {}
-
-// Deprecated, Use DeleteUsersByCriteriaRequest.ProtoReflect.Descriptor instead.
-func (*DeleteUsersByCriteriaRequest) Descriptor() ([]byte, []int) {
-	return edgelq_iam_proto_v1_user_custom_proto_rawDescGZIP(), []int{12}
-}
-
-func (m *DeleteUsersByCriteriaRequest) Unmarshal(b []byte) error {
-	return proto.Unmarshal(b, m)
-}
-
-func (m *DeleteUsersByCriteriaRequest) Marshal() ([]byte, error) {
-	return proto.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaRequest) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{}.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaRequest) UnmarshalJSON(data []byte) error {
-	return protojson.Unmarshal(data, m)
-}
-
-type isDeleteUsersByCriteriaRequest_ToDelete interface {
-	isDeleteUsersByCriteriaRequest_ToDelete()
-}
-
-type DeleteUsersByCriteriaRequest_ByEmail struct {
-	// Delete by email criteria
-	ByEmail *DeleteUsersByCriteriaRequest_UserEmails `protobuf:"bytes,1,opt,name=by_email,json=byEmail,proto3,oneof" firestore:"byEmail"`
-}
-type DeleteUsersByCriteriaRequest_ByName struct {
-	// Delete by name criteria
-	ByName *DeleteUsersByCriteriaRequest_UserNames `protobuf:"bytes,2,opt,name=by_name,json=byName,proto3,oneof" firestore:"byName"`
-}
-
-func (*DeleteUsersByCriteriaRequest_ByEmail) isDeleteUsersByCriteriaRequest_ToDelete() {}
-func (*DeleteUsersByCriteriaRequest_ByName) isDeleteUsersByCriteriaRequest_ToDelete()  {}
-func (m *DeleteUsersByCriteriaRequest) GetAuthInfoProvider() string {
-	if m != nil {
-		return m.AuthInfoProvider
-	}
-	return ""
-}
-
-func (m *DeleteUsersByCriteriaRequest) GetAuthInfoIdPrefix() string {
-	if m != nil {
-		return m.AuthInfoIdPrefix
-	}
-	return ""
-}
-
-func (m *DeleteUsersByCriteriaRequest) GetToDelete() isDeleteUsersByCriteriaRequest_ToDelete {
-	if m != nil {
-		return m.ToDelete
-	}
-	return nil
-}
-func (m *DeleteUsersByCriteriaRequest) GetByEmail() *DeleteUsersByCriteriaRequest_UserEmails {
-	if x, ok := m.GetToDelete().(*DeleteUsersByCriteriaRequest_ByEmail); ok {
-		return x.ByEmail
-	}
-	return nil
-}
-func (m *DeleteUsersByCriteriaRequest) GetByName() *DeleteUsersByCriteriaRequest_UserNames {
-	if x, ok := m.GetToDelete().(*DeleteUsersByCriteriaRequest_ByName); ok {
-		return x.ByName
-	}
-	return nil
-}
-func (m *DeleteUsersByCriteriaRequest) SetAuthInfoProvider(fv string) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "AuthInfoProvider", "DeleteUsersByCriteriaRequest"))
-	}
-	m.AuthInfoProvider = fv
-}
-
-func (m *DeleteUsersByCriteriaRequest) SetAuthInfoIdPrefix(fv string) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "AuthInfoIdPrefix", "DeleteUsersByCriteriaRequest"))
-	}
-	m.AuthInfoIdPrefix = fv
-}
-
-func (m *DeleteUsersByCriteriaRequest) SetToDelete(ofv isDeleteUsersByCriteriaRequest_ToDelete) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "isDeleteUsersByCriteriaRequest_ToDelete", "DeleteUsersByCriteriaRequest"))
-	}
-	m.ToDelete = ofv
-}
-func (m *DeleteUsersByCriteriaRequest) SetByEmail(fv *DeleteUsersByCriteriaRequest_UserEmails) {
-	m.SetToDelete(&DeleteUsersByCriteriaRequest_ByEmail{ByEmail: fv})
-}
-func (m *DeleteUsersByCriteriaRequest) SetByName(fv *DeleteUsersByCriteriaRequest_UserNames) {
-	m.SetToDelete(&DeleteUsersByCriteriaRequest_ByName{ByName: fv})
-}
-
-// Response message for method
-// [DeleteUserByCriteria][ntt.iam.v1.DeleteUserByCriteria]
-type DeleteUsersByCriteriaResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-	// List of deleted user resources
-	DeletedUsers []*user.Name `protobuf:"bytes,1,rep,customtype=Name,name=deleted_users,json=deletedUsers,proto3" json:"deleted_users,omitempty" firestore:"deletedUsers"`
-}
-
-func (m *DeleteUsersByCriteriaResponse) Reset() {
-	*m = DeleteUsersByCriteriaResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (m *DeleteUsersByCriteriaResponse) String() string {
-	return protoimpl.X.MessageStringOf(m)
-}
-
-func (*DeleteUsersByCriteriaResponse) ProtoMessage() {}
-
-func (m *DeleteUsersByCriteriaResponse) ProtoReflect() preflect.Message {
-	mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(m)
-}
-
-func (*DeleteUsersByCriteriaResponse) GotenMessage() {}
-
-// Deprecated, Use DeleteUsersByCriteriaResponse.ProtoReflect.Descriptor instead.
-func (*DeleteUsersByCriteriaResponse) Descriptor() ([]byte, []int) {
-	return edgelq_iam_proto_v1_user_custom_proto_rawDescGZIP(), []int{13}
-}
-
-func (m *DeleteUsersByCriteriaResponse) Unmarshal(b []byte) error {
-	return proto.Unmarshal(b, m)
-}
-
-func (m *DeleteUsersByCriteriaResponse) Marshal() ([]byte, error) {
-	return proto.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaResponse) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{}.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaResponse) UnmarshalJSON(data []byte) error {
-	return protojson.Unmarshal(data, m)
-}
-
-func (m *DeleteUsersByCriteriaResponse) GetDeletedUsers() []*user.Name {
-	if m != nil {
-		return m.DeletedUsers
-	}
-	return nil
-}
-
-func (m *DeleteUsersByCriteriaResponse) SetDeletedUsers(fv []*user.Name) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "DeletedUsers", "DeleteUsersByCriteriaResponse"))
-	}
-	m.DeletedUsers = fv
-}
-
-type DeleteUsersByCriteriaRequest_UserEmails struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-	Values        []string `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty" firestore:"values"`
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) Reset() {
-	*m = DeleteUsersByCriteriaRequest_UserEmails{}
-	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[16]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) String() string {
-	return protoimpl.X.MessageStringOf(m)
-}
-
-func (*DeleteUsersByCriteriaRequest_UserEmails) ProtoMessage() {}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) ProtoReflect() preflect.Message {
-	mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[16]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(m)
-}
-
-func (*DeleteUsersByCriteriaRequest_UserEmails) GotenMessage() {}
-
-// Deprecated, Use DeleteUsersByCriteriaRequest_UserEmails.ProtoReflect.Descriptor instead.
-func (*DeleteUsersByCriteriaRequest_UserEmails) Descriptor() ([]byte, []int) {
-	return edgelq_iam_proto_v1_user_custom_proto_rawDescGZIP(), []int{12, 0}
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) Unmarshal(b []byte) error {
-	return proto.Unmarshal(b, m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) Marshal() ([]byte, error) {
-	return proto.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{}.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) UnmarshalJSON(data []byte) error {
-	return protojson.Unmarshal(data, m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) GetValues() []string {
-	if m != nil {
-		return m.Values
-	}
-	return nil
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserEmails) SetValues(fv []string) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "Values", "DeleteUsersByCriteriaRequest_UserEmails"))
-	}
-	m.Values = fv
-}
-
-type DeleteUsersByCriteriaRequest_UserNames struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-	Values        []*user.Name `protobuf:"bytes,1,rep,customtype=Name,name=values,proto3" json:"values,omitempty" firestore:"values"`
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) Reset() {
-	*m = DeleteUsersByCriteriaRequest_UserNames{}
-	if protoimpl.UnsafeEnabled {
-		mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[17]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) String() string {
-	return protoimpl.X.MessageStringOf(m)
-}
-
-func (*DeleteUsersByCriteriaRequest_UserNames) ProtoMessage() {}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) ProtoReflect() preflect.Message {
-	mi := &edgelq_iam_proto_v1_user_custom_proto_msgTypes[17]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(m)
-}
-
-func (*DeleteUsersByCriteriaRequest_UserNames) GotenMessage() {}
-
-// Deprecated, Use DeleteUsersByCriteriaRequest_UserNames.ProtoReflect.Descriptor instead.
-func (*DeleteUsersByCriteriaRequest_UserNames) Descriptor() ([]byte, []int) {
-	return edgelq_iam_proto_v1_user_custom_proto_rawDescGZIP(), []int{12, 1}
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) Unmarshal(b []byte) error {
-	return proto.Unmarshal(b, m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) Marshal() ([]byte, error) {
-	return proto.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) MarshalJSON() ([]byte, error) {
-	return protojson.MarshalOptions{}.Marshal(m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) UnmarshalJSON(data []byte) error {
-	return protojson.Unmarshal(data, m)
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) GetValues() []*user.Name {
-	if m != nil {
-		return m.Values
-	}
-	return nil
-}
-
-func (m *DeleteUsersByCriteriaRequest_UserNames) SetValues(fv []*user.Name) {
-	if m == nil {
-		panic(fmt.Errorf("can't set %s on nil %s", "Values", "DeleteUsersByCriteriaRequest_UserNames"))
-	}
-	m.Values = fv
-}
-
 var edgelq_iam_proto_v1_user_custom_proto preflect.FileDescriptor
 
 var edgelq_iam_proto_v1_user_custom_proto_rawDesc = []byte{
@@ -1438,45 +1078,14 @@ var edgelq_iam_proto_v1_user_custom_proto_rawDesc = []byte{
 	0x41, 0x49, 0x66, 0x52, 0x65, 0x63, 0x6f, 0x76, 0x65, 0x72, 0x79, 0x4b, 0x65, 0x79, 0x55, 0x73,
 	0x65, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x1c, 0x0a, 0x1a, 0x53, 0x65, 0x74,
 	0x55, 0x73, 0x65, 0x72, 0x73, 0x4e, 0x61, 0x6d, 0x65, 0x49, 0x6e, 0x41, 0x75, 0x74, 0x68, 0x30,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x98, 0x03, 0x0a, 0x1c, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x73, 0x42, 0x79, 0x43, 0x72, 0x69, 0x74, 0x65, 0x72, 0x69,
-	0x61, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x50, 0x0a, 0x08, 0x62, 0x79, 0x5f, 0x65,
-	0x6d, 0x61, 0x69, 0x6c, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x33, 0x2e, 0x6e, 0x74, 0x74,
-	0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73,
-	0x65, 0x72, 0x73, 0x42, 0x79, 0x43, 0x72, 0x69, 0x74, 0x65, 0x72, 0x69, 0x61, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x73, 0x48,
-	0x00, 0x52, 0x07, 0x62, 0x79, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x4d, 0x0a, 0x07, 0x62, 0x79,
-	0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x32, 0x2e, 0x6e, 0x74,
-	0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x76, 0x31, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55,
-	0x73, 0x65, 0x72, 0x73, 0x42, 0x79, 0x43, 0x72, 0x69, 0x74, 0x65, 0x72, 0x69, 0x61, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x73, 0x48,
-	0x00, 0x52, 0x06, 0x62, 0x79, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x2c, 0x0a, 0x12, 0x61, 0x75, 0x74,
-	0x68, 0x5f, 0x69, 0x6e, 0x66, 0x6f, 0x5f, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x61, 0x75, 0x74, 0x68, 0x49, 0x6e, 0x66, 0x6f, 0x50,
-	0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x12, 0x2d, 0x0a, 0x13, 0x61, 0x75, 0x74, 0x68, 0x5f,
-	0x69, 0x6e, 0x66, 0x6f, 0x5f, 0x69, 0x64, 0x5f, 0x70, 0x72, 0x65, 0x66, 0x69, 0x78, 0x18, 0x04,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x10, 0x61, 0x75, 0x74, 0x68, 0x49, 0x6e, 0x66, 0x6f, 0x49, 0x64,
-	0x50, 0x72, 0x65, 0x66, 0x69, 0x78, 0x1a, 0x30, 0x0a, 0x0a, 0x55, 0x73, 0x65, 0x72, 0x45, 0x6d,
-	0x61, 0x69, 0x6c, 0x73, 0x12, 0x22, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18, 0x01,
-	0x20, 0x03, 0x28, 0x09, 0x42, 0x0a, 0xca, 0xc6, 0x27, 0x06, 0x42, 0x04, 0x12, 0x02, 0x08, 0x19,
-	0x52, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x1a, 0x3b, 0x0a, 0x09, 0x55, 0x73, 0x65, 0x72,
-	0x4e, 0x61, 0x6d, 0x65, 0x73, 0x12, 0x2e, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x73, 0x18,
-	0x01, 0x20, 0x03, 0x28, 0x09, 0x42, 0x16, 0xb2, 0xda, 0x21, 0x08, 0x0a, 0x06, 0x0a, 0x04, 0x55,
-	0x73, 0x65, 0x72, 0xca, 0xc6, 0x27, 0x06, 0x42, 0x04, 0x12, 0x02, 0x08, 0x19, 0x52, 0x06, 0x76,
-	0x61, 0x6c, 0x75, 0x65, 0x73, 0x42, 0x0b, 0x0a, 0x09, 0x74, 0x6f, 0x5f, 0x64, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x22, 0x52, 0x0a, 0x1d, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72,
-	0x73, 0x42, 0x79, 0x43, 0x72, 0x69, 0x74, 0x65, 0x72, 0x69, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x31, 0x0a, 0x0d, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x64, 0x5f, 0x75,
-	0x73, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x42, 0x0c, 0xb2, 0xda, 0x21, 0x08,
-	0x0a, 0x06, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x52, 0x0c, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65,
-	0x64, 0x55, 0x73, 0x65, 0x72, 0x73, 0x42, 0x65, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x11, 0x63, 0x6f,
-	0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31, 0x42,
-	0x0f, 0x55, 0x73, 0x65, 0x72, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74, 0x6f,
-	0x50, 0x00, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x63,
-	0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f, 0x69,
-	0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73, 0x65,
-	0x72, 0x3b, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x42, 0x65, 0xe8, 0xde, 0x21, 0x00, 0x0a, 0x11, 0x63,
+	0x6f, 0x6d, 0x2e, 0x6e, 0x74, 0x74, 0x2e, 0x69, 0x61, 0x6d, 0x2e, 0x70, 0x62, 0x2e, 0x76, 0x31,
+	0x42, 0x0f, 0x55, 0x73, 0x65, 0x72, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x50, 0x72, 0x6f, 0x74,
+	0x6f, 0x50, 0x00, 0x5a, 0x39, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f,
+	0x63, 0x6c, 0x6f, 0x75, 0x64, 0x77, 0x61, 0x6e, 0x2f, 0x65, 0x64, 0x67, 0x65, 0x6c, 0x71, 0x2f,
+	0x69, 0x61, 0x6d, 0x2f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x2f, 0x76, 0x31, 0x2f, 0x75, 0x73,
+	0x65, 0x72, 0x3b, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x63, 0x6c, 0x69, 0x65, 0x6e, 0x74, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1491,45 +1100,39 @@ func edgelq_iam_proto_v1_user_custom_proto_rawDescGZIP() []byte {
 	return edgelq_iam_proto_v1_user_custom_proto_rawDescData
 }
 
-var edgelq_iam_proto_v1_user_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 18)
+var edgelq_iam_proto_v1_user_custom_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var edgelq_iam_proto_v1_user_custom_proto_goTypes = []interface{}{
-	(*GetUserByEmailRequest)(nil),                   // 0: ntt.iam.v1.GetUserByEmailRequest
-	(*BatchGetUsersByEmailRequest)(nil),             // 1: ntt.iam.v1.BatchGetUsersByEmailRequest
-	(*BatchGetUsersByEmailResponse)(nil),            // 2: ntt.iam.v1.BatchGetUsersByEmailResponse
-	(*GetMySettingsRequest)(nil),                    // 3: ntt.iam.v1.GetMySettingsRequest
-	(*GetMySettingsResponse)(nil),                   // 4: ntt.iam.v1.GetMySettingsResponse
-	(*SetMySettingsRequest)(nil),                    // 5: ntt.iam.v1.SetMySettingsRequest
-	(*RefreshUserFromIdTokenRequest)(nil),           // 6: ntt.iam.v1.RefreshUserFromIdTokenRequest
-	(*RefreshUserFromIdTokenResponse)(nil),          // 7: ntt.iam.v1.RefreshUserFromIdTokenResponse
-	(*ResendVerificationEmailRequest)(nil),          // 8: ntt.iam.v1.ResendVerificationEmailRequest
-	(*IsUserVerifiedRequest)(nil),                   // 9: ntt.iam.v1.IsUserVerifiedRequest
-	(*ResetMFAIfRecoveryKeyUsedRequest)(nil),        // 10: ntt.iam.v1.ResetMFAIfRecoveryKeyUsedRequest
-	(*SetUsersNameInAuth0Request)(nil),              // 11: ntt.iam.v1.SetUsersNameInAuth0Request
-	(*DeleteUsersByCriteriaRequest)(nil),            // 12: ntt.iam.v1.DeleteUsersByCriteriaRequest
-	(*DeleteUsersByCriteriaResponse)(nil),           // 13: ntt.iam.v1.DeleteUsersByCriteriaResponse
-	nil,                                             // 14: ntt.iam.v1.GetMySettingsResponse.SettingsEntry
-	nil,                                             // 15: ntt.iam.v1.SetMySettingsRequest.SettingsEntry
-	(*DeleteUsersByCriteriaRequest_UserEmails)(nil), // 16: ntt.iam.v1.DeleteUsersByCriteriaRequest.UserEmails
-	(*DeleteUsersByCriteriaRequest_UserNames)(nil),  // 17: ntt.iam.v1.DeleteUsersByCriteriaRequest.UserNames
-	(*user.User_FieldMask)(nil),                     // 18: ntt.iam.v1.User_FieldMask
-	(view.View)(0),                                  // 19: goten.types.View
-	(*user.User)(nil),                               // 20: ntt.iam.v1.User
+	(*GetUserByEmailRequest)(nil),            // 0: ntt.iam.v1.GetUserByEmailRequest
+	(*BatchGetUsersByEmailRequest)(nil),      // 1: ntt.iam.v1.BatchGetUsersByEmailRequest
+	(*BatchGetUsersByEmailResponse)(nil),     // 2: ntt.iam.v1.BatchGetUsersByEmailResponse
+	(*GetMySettingsRequest)(nil),             // 3: ntt.iam.v1.GetMySettingsRequest
+	(*GetMySettingsResponse)(nil),            // 4: ntt.iam.v1.GetMySettingsResponse
+	(*SetMySettingsRequest)(nil),             // 5: ntt.iam.v1.SetMySettingsRequest
+	(*RefreshUserFromIdTokenRequest)(nil),    // 6: ntt.iam.v1.RefreshUserFromIdTokenRequest
+	(*RefreshUserFromIdTokenResponse)(nil),   // 7: ntt.iam.v1.RefreshUserFromIdTokenResponse
+	(*ResendVerificationEmailRequest)(nil),   // 8: ntt.iam.v1.ResendVerificationEmailRequest
+	(*IsUserVerifiedRequest)(nil),            // 9: ntt.iam.v1.IsUserVerifiedRequest
+	(*ResetMFAIfRecoveryKeyUsedRequest)(nil), // 10: ntt.iam.v1.ResetMFAIfRecoveryKeyUsedRequest
+	(*SetUsersNameInAuth0Request)(nil),       // 11: ntt.iam.v1.SetUsersNameInAuth0Request
+	nil,                                      // 12: ntt.iam.v1.GetMySettingsResponse.SettingsEntry
+	nil,                                      // 13: ntt.iam.v1.SetMySettingsRequest.SettingsEntry
+	(*user.User_FieldMask)(nil),              // 14: ntt.iam.v1.User_FieldMask
+	(view.View)(0),                           // 15: goten.types.View
+	(*user.User)(nil),                        // 16: ntt.iam.v1.User
 }
 var edgelq_iam_proto_v1_user_custom_proto_depIdxs = []int32{
-	18, // 0: ntt.iam.v1.GetUserByEmailRequest.field_mask:type_name -> ntt.iam.v1.User_FieldMask
-	19, // 1: ntt.iam.v1.GetUserByEmailRequest.view:type_name -> goten.types.View
-	18, // 2: ntt.iam.v1.BatchGetUsersByEmailRequest.field_mask:type_name -> ntt.iam.v1.User_FieldMask
-	19, // 3: ntt.iam.v1.BatchGetUsersByEmailRequest.view:type_name -> goten.types.View
-	20, // 4: ntt.iam.v1.BatchGetUsersByEmailResponse.users:type_name -> ntt.iam.v1.User
-	14, // 5: ntt.iam.v1.GetMySettingsResponse.settings:type_name -> ntt.iam.v1.GetMySettingsResponse.SettingsEntry
-	15, // 6: ntt.iam.v1.SetMySettingsRequest.settings:type_name -> ntt.iam.v1.SetMySettingsRequest.SettingsEntry
-	16, // 7: ntt.iam.v1.DeleteUsersByCriteriaRequest.by_email:type_name -> ntt.iam.v1.DeleteUsersByCriteriaRequest.UserEmails
-	17, // 8: ntt.iam.v1.DeleteUsersByCriteriaRequest.by_name:type_name -> ntt.iam.v1.DeleteUsersByCriteriaRequest.UserNames
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	14, // 0: ntt.iam.v1.GetUserByEmailRequest.field_mask:type_name -> ntt.iam.v1.User_FieldMask
+	15, // 1: ntt.iam.v1.GetUserByEmailRequest.view:type_name -> goten.types.View
+	14, // 2: ntt.iam.v1.BatchGetUsersByEmailRequest.field_mask:type_name -> ntt.iam.v1.User_FieldMask
+	15, // 3: ntt.iam.v1.BatchGetUsersByEmailRequest.view:type_name -> goten.types.View
+	16, // 4: ntt.iam.v1.BatchGetUsersByEmailResponse.users:type_name -> ntt.iam.v1.User
+	12, // 5: ntt.iam.v1.GetMySettingsResponse.settings:type_name -> ntt.iam.v1.GetMySettingsResponse.SettingsEntry
+	13, // 6: ntt.iam.v1.SetMySettingsRequest.settings:type_name -> ntt.iam.v1.SetMySettingsRequest.SettingsEntry
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { edgelq_iam_proto_v1_user_custom_proto_init() }
@@ -1683,67 +1286,15 @@ func edgelq_iam_proto_v1_user_custom_proto_init() {
 				return nil
 			}
 		}
-		edgelq_iam_proto_v1_user_custom_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUsersByCriteriaRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		edgelq_iam_proto_v1_user_custom_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUsersByCriteriaResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		edgelq_iam_proto_v1_user_custom_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUsersByCriteriaRequest_UserEmails); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		edgelq_iam_proto_v1_user_custom_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUsersByCriteriaRequest_UserNames); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 
-	edgelq_iam_proto_v1_user_custom_proto_msgTypes[12].OneofWrappers = []interface{}{
-		(*DeleteUsersByCriteriaRequest_ByEmail)(nil),
-		(*DeleteUsersByCriteriaRequest_ByName)(nil),
-	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: edgelq_iam_proto_v1_user_custom_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   18,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

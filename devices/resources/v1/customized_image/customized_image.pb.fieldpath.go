@@ -25,8 +25,6 @@ import (
 import (
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
-	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
-	iam_service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
@@ -52,8 +50,6 @@ var (
 var (
 	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
-	_ = &iam_service_account.ServiceAccount{}
-	_ = &iam_service_account_key.ServiceAccountKey{}
 	_ = &meta.Meta{}
 )
 
@@ -855,21 +851,20 @@ type CustomizedImageSpec_FieldPath interface {
 type CustomizedImageSpec_FieldPathSelector int32
 
 const (
-	CustomizedImageSpec_FieldPathSelectorVersion            CustomizedImageSpec_FieldPathSelector = 0
-	CustomizedImageSpec_FieldPathSelectorDeviceType         CustomizedImageSpec_FieldPathSelector = 1
-	CustomizedImageSpec_FieldPathSelectorOsVersion          CustomizedImageSpec_FieldPathSelector = 2
-	CustomizedImageSpec_FieldPathSelectorProvisioningPolicy CustomizedImageSpec_FieldPathSelector = 3
-	CustomizedImageSpec_FieldPathSelectorServiceAccount     CustomizedImageSpec_FieldPathSelector = 4
-	CustomizedImageSpec_FieldPathSelectorServiceAccountKey  CustomizedImageSpec_FieldPathSelector = 5
-	CustomizedImageSpec_FieldPathSelectorPassword           CustomizedImageSpec_FieldPathSelector = 6
-	CustomizedImageSpec_FieldPathSelectorEncryption         CustomizedImageSpec_FieldPathSelector = 7
-	CustomizedImageSpec_FieldPathSelectorEncryptionPassword CustomizedImageSpec_FieldPathSelector = 8
-	CustomizedImageSpec_FieldPathSelectorDiskMapping        CustomizedImageSpec_FieldPathSelector = 9
-	CustomizedImageSpec_FieldPathSelectorNetworkAgent       CustomizedImageSpec_FieldPathSelector = 10
-	CustomizedImageSpec_FieldPathSelectorNtp                CustomizedImageSpec_FieldPathSelector = 11
-	CustomizedImageSpec_FieldPathSelectorHttpProxy          CustomizedImageSpec_FieldPathSelector = 12
-	CustomizedImageSpec_FieldPathSelectorHttpsProxy         CustomizedImageSpec_FieldPathSelector = 13
-	CustomizedImageSpec_FieldPathSelectorNoProxy            CustomizedImageSpec_FieldPathSelector = 14
+	CustomizedImageSpec_FieldPathSelectorVersion              CustomizedImageSpec_FieldPathSelector = 0
+	CustomizedImageSpec_FieldPathSelectorDeviceType           CustomizedImageSpec_FieldPathSelector = 1
+	CustomizedImageSpec_FieldPathSelectorOsVersion            CustomizedImageSpec_FieldPathSelector = 2
+	CustomizedImageSpec_FieldPathSelectorProvisioningPolicy   CustomizedImageSpec_FieldPathSelector = 3
+	CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator CustomizedImageSpec_FieldPathSelector = 4
+	CustomizedImageSpec_FieldPathSelectorPassword             CustomizedImageSpec_FieldPathSelector = 5
+	CustomizedImageSpec_FieldPathSelectorEncryption           CustomizedImageSpec_FieldPathSelector = 6
+	CustomizedImageSpec_FieldPathSelectorEncryptionPassword   CustomizedImageSpec_FieldPathSelector = 7
+	CustomizedImageSpec_FieldPathSelectorDiskMapping          CustomizedImageSpec_FieldPathSelector = 8
+	CustomizedImageSpec_FieldPathSelectorNetworkAgent         CustomizedImageSpec_FieldPathSelector = 9
+	CustomizedImageSpec_FieldPathSelectorNtp                  CustomizedImageSpec_FieldPathSelector = 10
+	CustomizedImageSpec_FieldPathSelectorHttpProxy            CustomizedImageSpec_FieldPathSelector = 11
+	CustomizedImageSpec_FieldPathSelectorHttpsProxy           CustomizedImageSpec_FieldPathSelector = 12
+	CustomizedImageSpec_FieldPathSelectorNoProxy              CustomizedImageSpec_FieldPathSelector = 13
 )
 
 func (s CustomizedImageSpec_FieldPathSelector) String() string {
@@ -882,10 +877,8 @@ func (s CustomizedImageSpec_FieldPathSelector) String() string {
 		return "os_version"
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return "provisioning_policy"
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		return "service_account"
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		return "service_account_key"
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		return "install_ai_accelerator"
 	case CustomizedImageSpec_FieldPathSelectorPassword:
 		return "password"
 	case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -923,10 +916,8 @@ func BuildCustomizedImageSpec_FieldPath(fp gotenobject.RawFieldPath) (Customized
 			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorOsVersion}, nil
 		case "provisioning_policy", "provisioningPolicy", "provisioning-policy":
 			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorProvisioningPolicy}, nil
-		case "service_account", "serviceAccount", "service-account":
-			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccount}, nil
-		case "service_account_key", "serviceAccountKey", "service-account-key":
-			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorServiceAccountKey}, nil
+		case "install_ai_accelerator", "installAiAccelerator", "install-ai-accelerator":
+			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator}, nil
 		case "password":
 			return &CustomizedImageSpec_FieldTerminalPath{selector: CustomizedImageSpec_FieldPathSelectorPassword}, nil
 		case "encryption":
@@ -1000,14 +991,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) Get(source *CustomizedImage_Spe
 			}
 		case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 			values = append(values, source.ProvisioningPolicy)
-		case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-			if source.ServiceAccount != nil {
-				values = append(values, source.ServiceAccount)
-			}
-		case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-			if source.ServiceAccountKey != nil {
-				values = append(values, source.ServiceAccountKey)
-			}
+		case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+			values = append(values, source.InstallAiAccelerator)
 		case CustomizedImageSpec_FieldPathSelectorPassword:
 			values = append(values, source.Password)
 		case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -1049,12 +1034,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) GetSingle(source *CustomizedIma
 		return res, res != nil
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return source.GetProvisioningPolicy(), source != nil
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		res := source.GetServiceAccount()
-		return res, res != nil
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		res := source.GetServiceAccountKey()
-		return res, res != nil
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		return source.GetInstallAiAccelerator(), source != nil
 	case CustomizedImageSpec_FieldPathSelectorPassword:
 		return source.GetPassword(), source != nil
 	case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -1093,10 +1074,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*os_version.Reference)(nil)
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return ""
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		return (*iam_service_account.Reference)(nil)
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		return (*iam_service_account_key.Reference)(nil)
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		return false
 	case CustomizedImageSpec_FieldPathSelectorPassword:
 		return ""
 	case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -1131,10 +1110,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) ClearValue(item *CustomizedImag
 			item.OsVersion = nil
 		case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 			item.ProvisioningPolicy = ""
-		case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-			item.ServiceAccount = nil
-		case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-			item.ServiceAccountKey = nil
+		case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+			item.InstallAiAccelerator = false
 		case CustomizedImageSpec_FieldPathSelectorPassword:
 			item.Password = ""
 		case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -1169,8 +1146,7 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == CustomizedImageSpec_FieldPathSelectorDeviceType ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorOsVersion ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorProvisioningPolicy ||
-		fp.selector == CustomizedImageSpec_FieldPathSelectorServiceAccount ||
-		fp.selector == CustomizedImageSpec_FieldPathSelectorServiceAccountKey ||
+		fp.selector == CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorPassword ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorEncryption ||
 		fp.selector == CustomizedImageSpec_FieldPathSelectorEncryptionPassword ||
@@ -1196,10 +1172,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) WithIValue(value interface{}) C
 		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(*os_version.Reference)}
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(string)}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(*iam_service_account.Reference)}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(*iam_service_account_key.Reference)}
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(bool)}
 	case CustomizedImageSpec_FieldPathSelectorPassword:
 		return &CustomizedImageSpec_FieldTerminalPathValue{CustomizedImageSpec_FieldTerminalPath: *fp, value: value.(string)}
 	case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -1238,10 +1212,8 @@ func (fp *CustomizedImageSpec_FieldTerminalPath) WithIArrayOfValues(values inter
 		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]*os_version.Reference)}
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]string)}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]*iam_service_account.Reference)}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]*iam_service_account_key.Reference)}
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]bool)}
 	case CustomizedImageSpec_FieldPathSelectorPassword:
 		return &CustomizedImageSpec_FieldTerminalPathArrayOfValues{CustomizedImageSpec_FieldTerminalPath: *fp, values: values.([]string)}
 	case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -1336,12 +1308,8 @@ func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsProvisioningPolicyValue
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsServiceAccountValue() (*iam_service_account.Reference, bool) {
-	res, ok := fpv.value.(*iam_service_account.Reference)
-	return res, ok
-}
-func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsServiceAccountKeyValue() (*iam_service_account_key.Reference, bool) {
-	res, ok := fpv.value.(*iam_service_account_key.Reference)
+func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsInstallAiAcceleratorValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
 	return res, ok
 }
 func (fpv *CustomizedImageSpec_FieldTerminalPathValue) AsPasswordValue() (string, bool) {
@@ -1395,10 +1363,8 @@ func (fpv *CustomizedImageSpec_FieldTerminalPathValue) SetTo(target **Customized
 		(*target).OsVersion = fpv.value.(*os_version.Reference)
 	case CustomizedImageSpec_FieldPathSelectorProvisioningPolicy:
 		(*target).ProvisioningPolicy = fpv.value.(string)
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		(*target).ServiceAccount = fpv.value.(*iam_service_account.Reference)
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		(*target).ServiceAccountKey = fpv.value.(*iam_service_account_key.Reference)
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		(*target).InstallAiAccelerator = fpv.value.(bool)
 	case CustomizedImageSpec_FieldPathSelectorPassword:
 		(*target).Password = fpv.value.(string)
 	case CustomizedImageSpec_FieldPathSelectorEncryption:
@@ -1479,40 +1445,12 @@ func (fpv *CustomizedImageSpec_FieldTerminalPathValue) CompareWith(source *Custo
 		} else {
 			return 1, true
 		}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		leftValue := fpv.value.(*iam_service_account.Reference)
-		rightValue := source.GetServiceAccount()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetInstallAiAccelerator()
+		if (leftValue) == (rightValue) {
 			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		leftValue := fpv.value.(*iam_service_account_key.Reference)
-		rightValue := source.GetServiceAccountKey()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
+		} else if !(leftValue) && (rightValue) {
 			return -1, true
 		} else {
 			return 1, true
@@ -1731,12 +1669,8 @@ func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) GetRawValues() 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccount:
-		for _, v := range fpaov.values.([]*iam_service_account.Reference) {
-			values = append(values, v)
-		}
-	case CustomizedImageSpec_FieldPathSelectorServiceAccountKey:
-		for _, v := range fpaov.values.([]*iam_service_account_key.Reference) {
+	case CustomizedImageSpec_FieldPathSelectorInstallAiAccelerator:
+		for _, v := range fpaov.values.([]bool) {
 			values = append(values, v)
 		}
 	case CustomizedImageSpec_FieldPathSelectorPassword:
@@ -1794,12 +1728,8 @@ func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsProvisioningP
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsServiceAccountArrayOfValues() ([]*iam_service_account.Reference, bool) {
-	res, ok := fpaov.values.([]*iam_service_account.Reference)
-	return res, ok
-}
-func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsServiceAccountKeyArrayOfValues() ([]*iam_service_account_key.Reference, bool) {
-	res, ok := fpaov.values.([]*iam_service_account_key.Reference)
+func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsInstallAiAcceleratorArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 func (fpaov *CustomizedImageSpec_FieldTerminalPathArrayOfValues) AsPasswordArrayOfValues() ([]string, bool) {
@@ -1858,10 +1788,9 @@ type CustomizedImageStatus_FieldPath interface {
 type CustomizedImageStatus_FieldPathSelector int32
 
 const (
-	CustomizedImageStatus_FieldPathSelectorState  CustomizedImageStatus_FieldPathSelector = 0
-	CustomizedImageStatus_FieldPathSelectorLog    CustomizedImageStatus_FieldPathSelector = 1
-	CustomizedImageStatus_FieldPathSelectorFile   CustomizedImageStatus_FieldPathSelector = 2
-	CustomizedImageStatus_FieldPathSelectorMd5Sum CustomizedImageStatus_FieldPathSelector = 3
+	CustomizedImageStatus_FieldPathSelectorState CustomizedImageStatus_FieldPathSelector = 0
+	CustomizedImageStatus_FieldPathSelectorLog   CustomizedImageStatus_FieldPathSelector = 1
+	CustomizedImageStatus_FieldPathSelectorFile  CustomizedImageStatus_FieldPathSelector = 2
 )
 
 func (s CustomizedImageStatus_FieldPathSelector) String() string {
@@ -1872,8 +1801,6 @@ func (s CustomizedImageStatus_FieldPathSelector) String() string {
 		return "log"
 	case CustomizedImageStatus_FieldPathSelectorFile:
 		return "file"
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-		return "md5sum"
 	default:
 		panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", s))
 	}
@@ -1891,8 +1818,6 @@ func BuildCustomizedImageStatus_FieldPath(fp gotenobject.RawFieldPath) (Customiz
 			return &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorLog}, nil
 		case "file":
 			return &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorFile}, nil
-		case "md5sum", "md_5_sum", "md5Sum", "md-5-sum":
-			return &CustomizedImageStatus_FieldTerminalPath{selector: CustomizedImageStatus_FieldPathSelectorMd5Sum}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object CustomizedImage_Status", fp)
@@ -1944,8 +1869,6 @@ func (fp *CustomizedImageStatus_FieldTerminalPath) Get(source *CustomizedImage_S
 			values = append(values, source.Log)
 		case CustomizedImageStatus_FieldPathSelectorFile:
 			values = append(values, source.File)
-		case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-			values = append(values, source.Md5Sum)
 		default:
 			panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", fp.selector))
 		}
@@ -1966,8 +1889,6 @@ func (fp *CustomizedImageStatus_FieldTerminalPath) GetSingle(source *CustomizedI
 		return source.GetLog(), source != nil
 	case CustomizedImageStatus_FieldPathSelectorFile:
 		return source.GetFile(), source != nil
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-		return source.GetMd5Sum(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", fp.selector))
 	}
@@ -1986,8 +1907,6 @@ func (fp *CustomizedImageStatus_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case CustomizedImageStatus_FieldPathSelectorFile:
 		return ""
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", fp.selector))
 	}
@@ -2002,8 +1921,6 @@ func (fp *CustomizedImageStatus_FieldTerminalPath) ClearValue(item *CustomizedIm
 			item.Log = ""
 		case CustomizedImageStatus_FieldPathSelectorFile:
 			item.File = ""
-		case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-			item.Md5Sum = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", fp.selector))
 		}
@@ -2018,8 +1935,7 @@ func (fp *CustomizedImageStatus_FieldTerminalPath) ClearValueRaw(item proto.Mess
 func (fp *CustomizedImageStatus_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == CustomizedImageStatus_FieldPathSelectorState ||
 		fp.selector == CustomizedImageStatus_FieldPathSelectorLog ||
-		fp.selector == CustomizedImageStatus_FieldPathSelectorFile ||
-		fp.selector == CustomizedImageStatus_FieldPathSelectorMd5Sum
+		fp.selector == CustomizedImageStatus_FieldPathSelectorFile
 }
 
 func (fp *CustomizedImageStatus_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -2033,8 +1949,6 @@ func (fp *CustomizedImageStatus_FieldTerminalPath) WithIValue(value interface{})
 	case CustomizedImageStatus_FieldPathSelectorLog:
 		return &CustomizedImageStatus_FieldTerminalPathValue{CustomizedImageStatus_FieldTerminalPath: *fp, value: value.(string)}
 	case CustomizedImageStatus_FieldPathSelectorFile:
-		return &CustomizedImageStatus_FieldTerminalPathValue{CustomizedImageStatus_FieldTerminalPath: *fp, value: value.(string)}
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
 		return &CustomizedImageStatus_FieldTerminalPathValue{CustomizedImageStatus_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", fp.selector))
@@ -2053,8 +1967,6 @@ func (fp *CustomizedImageStatus_FieldTerminalPath) WithIArrayOfValues(values int
 	case CustomizedImageStatus_FieldPathSelectorLog:
 		return &CustomizedImageStatus_FieldTerminalPathArrayOfValues{CustomizedImageStatus_FieldTerminalPath: *fp, values: values.([]string)}
 	case CustomizedImageStatus_FieldPathSelectorFile:
-		return &CustomizedImageStatus_FieldTerminalPathArrayOfValues{CustomizedImageStatus_FieldTerminalPath: *fp, values: values.([]string)}
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
 		return &CustomizedImageStatus_FieldTerminalPathArrayOfValues{CustomizedImageStatus_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", fp.selector))
@@ -2128,10 +2040,6 @@ func (fpv *CustomizedImageStatus_FieldTerminalPathValue) AsFileValue() (string, 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *CustomizedImageStatus_FieldTerminalPathValue) AsMd5SumValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
 
 // SetTo stores value for selected field for object Status
 func (fpv *CustomizedImageStatus_FieldTerminalPathValue) SetTo(target **CustomizedImage_Status) {
@@ -2145,8 +2053,6 @@ func (fpv *CustomizedImageStatus_FieldTerminalPathValue) SetTo(target **Customiz
 		(*target).Log = fpv.value.(string)
 	case CustomizedImageStatus_FieldPathSelectorFile:
 		(*target).File = fpv.value.(string)
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-		(*target).Md5Sum = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for CustomizedImage_Status: %d", fpv.selector))
 	}
@@ -2183,16 +2089,6 @@ func (fpv *CustomizedImageStatus_FieldTerminalPathValue) CompareWith(source *Cus
 	case CustomizedImageStatus_FieldPathSelectorFile:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetFile()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetMd5Sum()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -2320,10 +2216,6 @@ func (fpaov *CustomizedImageStatus_FieldTerminalPathArrayOfValues) GetRawValues(
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
-	case CustomizedImageStatus_FieldPathSelectorMd5Sum:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
 	}
 	return
 }
@@ -2336,10 +2228,6 @@ func (fpaov *CustomizedImageStatus_FieldTerminalPathArrayOfValues) AsLogArrayOfV
 	return res, ok
 }
 func (fpaov *CustomizedImageStatus_FieldTerminalPathArrayOfValues) AsFileArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *CustomizedImageStatus_FieldTerminalPathArrayOfValues) AsMd5SumArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

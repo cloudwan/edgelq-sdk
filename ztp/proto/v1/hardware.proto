@@ -45,6 +45,8 @@ message Hardware {
 
   string associated_device_name = 9;
 
+  string associated_sim_card_name = 12;
+
   string sim_iccid = 10;
 
   string imei = 11;

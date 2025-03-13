@@ -14,13 +14,6 @@ import (
 	device_type "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device_type"
 	os_version "github.com/cloudwan/edgelq-sdk/devices/resources/v1/os_version"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
-	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
-	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
-	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
-	iam_service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
-	iam_service_account_key "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account_key"
-	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
-	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -37,14 +30,7 @@ var (
 	_ = &device_type.DeviceType{}
 	_ = &os_version.OsVersion{}
 	_ = &project.Project{}
-	_ = &iam_iam_common.PCR{}
-	_ = &iam_organization.Organization{}
-	_ = &iam_project.Project{}
-	_ = &iam_service_account.ServiceAccount{}
-	_ = &iam_service_account_key.ServiceAccountKey{}
 	_ = &timestamppb.Timestamp{}
-	_ = &meta_common.LabelledDomain{}
-	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
 )
@@ -2458,12 +2444,8 @@ func (b *filterCndBuilderSpec) ProvisioningPolicy() *filterCndBuilderSpecProvisi
 	return &filterCndBuilderSpecProvisioningPolicy{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpec) ServiceAccount() *filterCndBuilderSpecServiceAccount {
-	return &filterCndBuilderSpecServiceAccount{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpec) ServiceAccountKey() *filterCndBuilderSpecServiceAccountKey {
-	return &filterCndBuilderSpecServiceAccountKey{builder: b.builder}
+func (b *filterCndBuilderSpec) InstallAiAccelerator() *filterCndBuilderSpecInstallAiAccelerator {
+	return &filterCndBuilderSpecInstallAiAccelerator{builder: b.builder}
 }
 
 func (b *filterCndBuilderSpec) Password() *filterCndBuilderSpecPassword {
@@ -2738,121 +2720,62 @@ func (b *filterCndBuilderSpecProvisioningPolicy) compare(op gotenfilter.CompareO
 	})
 }
 
-type filterCndBuilderSpecServiceAccount struct {
+type filterCndBuilderSpecInstallAiAccelerator struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecServiceAccount) Eq(value *iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) Eq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecServiceAccount) Neq(value *iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) Neq(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecServiceAccount) Gt(value *iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) Gt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecServiceAccount) Gte(value *iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) Gte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecServiceAccount) Lt(value *iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) Lt(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecServiceAccount) Lte(value *iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) Lte(value bool) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecServiceAccount) In(values []*iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) In(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
-		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccount().WithArrayOfValues(values),
+		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().InstallAiAccelerator().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecServiceAccount) NotIn(values []*iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) NotIn(values []bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
-		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccount().WithArrayOfValues(values),
+		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().InstallAiAccelerator().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecServiceAccount) IsNull() *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) IsNull() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccount().FieldPath(),
+		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().InstallAiAccelerator().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecServiceAccount) IsNan() *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) IsNan() *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccount().FieldPath(),
+		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().InstallAiAccelerator().FieldPath(),
 	})
 }
 
-func (b *filterCndBuilderSpecServiceAccount) compare(op gotenfilter.CompareOperator, value *iam_service_account.Reference) *FilterBuilder {
+func (b *filterCndBuilderSpecInstallAiAccelerator) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                       op,
-		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccount().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecServiceAccountKey struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) Eq(value *iam_service_account_key.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) Neq(value *iam_service_account_key.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) Gt(value *iam_service_account_key.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) Gte(value *iam_service_account_key.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) Lt(value *iam_service_account_key.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) Lte(value *iam_service_account_key.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) In(values []*iam_service_account_key.Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccountKey().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) NotIn(values []*iam_service_account_key.Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccountKey().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccountKey().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccountKey().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecServiceAccountKey) compare(op gotenfilter.CompareOperator, value *iam_service_account_key.Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                       op,
-		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Spec().ServiceAccountKey().WithValue(value),
+		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Spec().InstallAiAccelerator().WithValue(value),
 	})
 }
 
@@ -3458,10 +3381,6 @@ func (b *filterCndBuilderStatus) File() *filterCndBuilderStatusFile {
 	return &filterCndBuilderStatusFile{builder: b.builder}
 }
 
-func (b *filterCndBuilderStatus) Md5Sum() *filterCndBuilderStatusMd5Sum {
-	return &filterCndBuilderStatusMd5Sum{builder: b.builder}
-}
-
 type filterCndBuilderStatusState struct {
 	builder *FilterBuilder
 }
@@ -3636,64 +3555,5 @@ func (b *filterCndBuilderStatusFile) compare(op gotenfilter.CompareOperator, val
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                       op,
 		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Status().File().WithValue(value),
-	})
-}
-
-type filterCndBuilderStatusMd5Sum struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderStatusMd5Sum) Eq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderStatusMd5Sum) Neq(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderStatusMd5Sum) Gt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderStatusMd5Sum) Gte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderStatusMd5Sum) Lt(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderStatusMd5Sum) Lte(value string) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderStatusMd5Sum) In(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Status().Md5Sum().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusMd5Sum) NotIn(values []string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		CustomizedImage_FieldPathArrayOfValues: NewCustomizedImageFieldPathBuilder().Status().Md5Sum().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderStatusMd5Sum) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewCustomizedImageFieldPathBuilder().Status().Md5Sum().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusMd5Sum) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewCustomizedImageFieldPathBuilder().Status().Md5Sum().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderStatusMd5Sum) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                       op,
-		CustomizedImage_FieldPathValue: NewCustomizedImageFieldPathBuilder().Status().Md5Sum().WithValue(value),
 	})
 }

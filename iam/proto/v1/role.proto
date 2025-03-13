@@ -164,51 +164,29 @@ message Role {
 }
 
 message ScopeParam {
-  // Name of the variable to be used in conditions/scope values.
   string name = 1;
 
   oneof value {
-    // Value is a single string
     StringValue string = 2;
 
-    // List of alternative values.
     ArrayOfStringsValue strings = 3;
 
-    // Value is extracted dynamically from pointed object type.
     FromValue value_from = 4;
   }
 
-  // StringValue represents single value
   message StringValue { string value = 1; }
 
-  // ArrayOfStringsValue represents array of strings value
   message ArrayOfStringsValue { repeated string values = 1; }
 
-  // FromValue represents a value(s) from specific dynamic object.
   message FromValue {
-    // Source indicates type of dynamic object from where we take value(s).
     Source source = 1;
 
-    // Path within specified object from which exactly we get value(s).
     string path = 2;
 
-    // Source indicates which dynamic object is used to extract value from.
     enum Source {
       UNDEFINED = 0;
 
-      // Object from which value is taken is metadata.
-      // Valid for Service Accounts and user types.
       PRINCIPAL_METADATA = 1;
-
-      // Object from which value is taken is User principal.
-      // If principal executing an Action is not a User, then
-      // value will be empty.
-      PRINCIPAL_USER = 2;
-
-      // Object from which value is taken is ServiceAccount principal.
-      // If principal executing an Action is not a ServiceAccount, then
-      // value will be empty.
-      PRINCIPAL_SVCACC = 3;
     }
   }
 }

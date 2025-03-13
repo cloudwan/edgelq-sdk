@@ -21,7 +21,6 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
-	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
@@ -44,7 +43,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
-	_ = &group.Group{}
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}

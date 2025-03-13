@@ -479,12 +479,4 @@ service UserService {
       post : "/v1/users:setUsersNameInAuth0"
     };
   }
-
-  // DeleteUsersByCriteria
-  rpc DeleteUsersByCriteria(DeleteUsersByCriteriaRequest)
-      returns (DeleteUsersByCriteriaResponse) {
-    option (google.api.http) = {
-      post : "/v1:deleteUsersByCriteria"
-    };
-  }
 }

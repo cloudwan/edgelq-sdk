@@ -66,7 +66,6 @@ type UserServiceClient interface {
 	IsUserVerified(ctx context.Context, in *IsUserVerifiedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRecoveryKeyUsedRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	DeleteUsersByCriteria(ctx context.Context, in *DeleteUsersByCriteriaRequest, opts ...grpc.CallOption) (*DeleteUsersByCriteriaResponse, error)
 }
 
 type client struct {
@@ -280,15 +279,6 @@ func (c *client) ResetMFAIfRecoveryKeyUsed(ctx context.Context, in *ResetMFAIfRe
 func (c *client) SetUsersNameInAuth0(ctx context.Context, in *SetUsersNameInAuth0Request, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.UserService/SetUsersNameInAuth0", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *client) DeleteUsersByCriteria(ctx context.Context, in *DeleteUsersByCriteriaRequest, opts ...grpc.CallOption) (*DeleteUsersByCriteriaResponse, error) {
-	out := new(DeleteUsersByCriteriaResponse)
-	err := c.cc.Invoke(ctx, "/ntt.iam.v1.UserService/DeleteUsersByCriteria", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

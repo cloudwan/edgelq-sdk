@@ -59,7 +59,6 @@ func FullUser_FieldMask() *User_FieldMask {
 	res.Paths = append(res.Paths, &User_FieldTerminalPath{selector: User_FieldPathSelectorAuthInfo})
 	res.Paths = append(res.Paths, &User_FieldTerminalPath{selector: User_FieldPathSelectorSettings})
 	res.Paths = append(res.Paths, &User_FieldTerminalPath{selector: User_FieldPathSelectorRefreshedTime})
-	res.Paths = append(res.Paths, &User_FieldTerminalPath{selector: User_FieldPathSelectorCtrlStatus})
 	return res
 }
 
@@ -103,7 +102,7 @@ func (fieldMask *User_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*User_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -133,16 +132,14 @@ func (fieldMask *User_FieldMask) Reset() {
 
 func (fieldMask *User_FieldMask) Subtract(other *User_FieldMask) *User_FieldMask {
 	result := &User_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[User_FieldPathSelector]gotenobject.FieldMask{
-		User_FieldPathSelectorMetadata:   &meta.Meta_FieldMask{},
-		User_FieldPathSelectorAuthInfo:   &User_AuthInfo_FieldMask{},
-		User_FieldPathSelectorCtrlStatus: &User_WorkStatus_FieldMask{},
+		User_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		User_FieldPathSelectorAuthInfo: &User_AuthInfo_FieldMask{},
 	}
 	mySubMasks := map[User_FieldPathSelector]gotenobject.FieldMask{
-		User_FieldPathSelectorMetadata:   &meta.Meta_FieldMask{},
-		User_FieldPathSelectorAuthInfo:   &User_AuthInfo_FieldMask{},
-		User_FieldPathSelectorCtrlStatus: &User_WorkStatus_FieldMask{},
+		User_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
+		User_FieldPathSelectorAuthInfo: &User_AuthInfo_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -162,8 +159,6 @@ func (fieldMask *User_FieldMask) Subtract(other *User_FieldMask) *User_FieldMask
 						mySubMasks[User_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case User_FieldPathSelectorAuthInfo:
 						mySubMasks[User_FieldPathSelectorAuthInfo] = FullUser_AuthInfo_FieldMask()
-					case User_FieldPathSelectorCtrlStatus:
-						mySubMasks[User_FieldPathSelectorCtrlStatus] = FullUser_WorkStatus_FieldMask()
 					}
 				} else if tp, ok := path.(*User_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -339,8 +334,6 @@ func (fieldMask *User_FieldMask) Project(source *User) *User {
 	wholeMetadataAccepted := false
 	authInfoMask := &User_AuthInfo_FieldMask{}
 	wholeAuthInfoAccepted := false
-	ctrlStatusMask := &User_WorkStatus_FieldMask{}
-	wholeCtrlStatusAccepted := false
 	var settingsMapKeys []string
 	wholeSettingsAccepted := false
 
@@ -367,9 +360,6 @@ func (fieldMask *User_FieldMask) Project(source *User) *User {
 				wholeSettingsAccepted = true
 			case User_FieldPathSelectorRefreshedTime:
 				result.RefreshedTime = source.RefreshedTime
-			case User_FieldPathSelectorCtrlStatus:
-				result.CtrlStatus = source.CtrlStatus
-				wholeCtrlStatusAccepted = true
 			}
 		case *User_FieldSubPath:
 			switch tp.selector {
@@ -377,8 +367,6 @@ func (fieldMask *User_FieldMask) Project(source *User) *User {
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case User_FieldPathSelectorAuthInfo:
 				authInfoMask.AppendPath(tp.subPath.(UserAuthInfo_FieldPath))
-			case User_FieldPathSelectorCtrlStatus:
-				ctrlStatusMask.AppendPath(tp.subPath.(UserWorkStatus_FieldPath))
 			}
 		case *User_FieldPathMap:
 			switch tp.selector {
@@ -400,9 +388,6 @@ func (fieldMask *User_FieldMask) Project(source *User) *User {
 			copiedMap[key] = sourceMap[key]
 		}
 		result.Settings = copiedMap
-	}
-	if wholeCtrlStatusAccepted == false && len(ctrlStatusMask.Paths) > 0 {
-		result.CtrlStatus = ctrlStatusMask.Project(source.GetCtrlStatus())
 	}
 	return result
 }
@@ -668,259 +653,6 @@ func (fieldMask *User_AuthInfo_FieldMask) ProjectRaw(source gotenobject.GotenObj
 }
 
 func (fieldMask *User_AuthInfo_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type User_WorkStatus_FieldMask struct {
-	Paths []UserWorkStatus_FieldPath
-}
-
-func FullUser_WorkStatus_FieldMask() *User_WorkStatus_FieldMask {
-	res := &User_WorkStatus_FieldMask{}
-	res.Paths = append(res.Paths, &UserWorkStatus_FieldTerminalPath{selector: UserWorkStatus_FieldPathSelectorPending})
-	return res
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *User_WorkStatus_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseUserWorkStatus_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 1)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*UserWorkStatus_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseUserWorkStatus_FieldPath(raw)
-	})
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) ProtoMessage() {}
-
-func (fieldMask *User_WorkStatus_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) Subtract(other *User_WorkStatus_FieldMask) *User_WorkStatus_FieldMask {
-	result := &User_WorkStatus_FieldMask{}
-	removedSelectors := make([]bool, 1)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *UserWorkStatus_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*User_WorkStatus_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *User_WorkStatus_FieldMask) FilterInputFields() *User_WorkStatus_FieldMask {
-	result := &User_WorkStatus_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *User_WorkStatus_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]UserWorkStatus_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseUserWorkStatus_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask User_WorkStatus_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask User_WorkStatus_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) AppendPath(path UserWorkStatus_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(UserWorkStatus_FieldPath))
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) GetPaths() []UserWorkStatus_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseUserWorkStatus_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) Set(target, source *User_WorkStatus) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*User_WorkStatus), source.(*User_WorkStatus))
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) Project(source *User_WorkStatus) *User_WorkStatus {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &User_WorkStatus{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *UserWorkStatus_FieldTerminalPath:
-			switch tp.selector {
-			case UserWorkStatus_FieldPathSelectorPending:
-				result.Pending = source.Pending
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*User_WorkStatus))
-}
-
-func (fieldMask *User_WorkStatus_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

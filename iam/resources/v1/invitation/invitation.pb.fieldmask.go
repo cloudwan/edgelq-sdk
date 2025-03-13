@@ -21,7 +21,6 @@ import (
 // proto imports
 import (
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
-	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	role "github.com/cloudwan/edgelq-sdk/iam/resources/v1/role"
 	service_account "github.com/cloudwan/edgelq-sdk/iam/resources/v1/service_account"
 	user "github.com/cloudwan/edgelq-sdk/iam/resources/v1/user"
@@ -46,7 +45,6 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &condition.Condition{}
-	_ = &group.Group{}
 	_ = &role.Role{}
 	_ = &service_account.ServiceAccount{}
 	_ = &user.User{}
@@ -321,7 +319,6 @@ func FullInvitation_FieldMask() *Invitation_FieldMask {
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorInviterEmail})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorLanguageCode})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorBindingRoles})
-	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorGroups})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExpirationDate})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorExtras})
 	res.Paths = append(res.Paths, &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorState})
@@ -368,7 +365,7 @@ func (fieldMask *Invitation_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Invitation_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -398,7 +395,7 @@ func (fieldMask *Invitation_FieldMask) Reset() {
 
 func (fieldMask *Invitation_FieldMask) Subtract(other *Invitation_FieldMask) *Invitation_FieldMask {
 	result := &Invitation_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[Invitation_FieldPathSelector]gotenobject.FieldMask{
 		Invitation_FieldPathSelectorInviterActor: &Actor_FieldMask{},
 		Invitation_FieldPathSelectorBindingRoles: &Invitation_BindingRole_FieldMask{},
@@ -610,8 +607,6 @@ func (fieldMask *Invitation_FieldMask) Project(source *Invitation) *Invitation {
 			case Invitation_FieldPathSelectorBindingRoles:
 				result.BindingRoles = source.BindingRoles
 				wholeBindingRolesAccepted = true
-			case Invitation_FieldPathSelectorGroups:
-				result.Groups = source.Groups
 			case Invitation_FieldPathSelectorExpirationDate:
 				result.ExpirationDate = source.ExpirationDate
 			case Invitation_FieldPathSelectorExtras:

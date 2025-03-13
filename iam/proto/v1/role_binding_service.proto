@@ -4,7 +4,6 @@ package ntt.iam.v1;
 
 import "edgelq-sdk/iam/proto/v1/role_binding.proto";
 import "edgelq-sdk/iam/proto/v1/role_binding_change.proto";
-import "edgelq-sdk/iam/proto/v1/role_binding_custom.proto";
 import "google/api/annotations.proto";
 import "google/api/client.proto";
 import "google/protobuf/empty.proto";
@@ -464,26 +463,6 @@ service RoleBindingService {
         delete : "/v1/{name=organizations/*/roleBindings/*}"
       >
       additional_bindings : <delete : "/v1/{name=services/*/roleBindings/*}">
-    };
-  }
-
-  // ListRoleBindingsWithMembers
-  rpc ListRoleBindingsWithMembers(ListRoleBindingsWithMembersRequest)
-      returns (ListRoleBindingsWithMembersResponse) {
-    option (google.api.http) = {
-      post : "/v1/roleBindings:listRoleBindingsWithMembers"
-      additional_bindings : <
-        post : "/v1/{parent=projects/*}/"
-               "roleBindings:listRoleBindingsWithMembers"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=organizations/*}/"
-               "roleBindings:listRoleBindingsWithMembers"
-      >
-      additional_bindings : <
-        post : "/v1/{parent=services/*}/"
-               "roleBindings:listRoleBindingsWithMembers"
-      >
     };
   }
 }

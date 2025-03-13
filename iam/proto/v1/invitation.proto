@@ -44,9 +44,6 @@ message Invitation {
   // of proper RoleBinding resources.
   repeated BindingRole binding_roles = 13;
 
-  // List of groups where invitee should join after accepting invitation
-  repeated string groups = 14;
-
   // Expiration date
   google.protobuf.Timestamp expiration_date = 8;
 

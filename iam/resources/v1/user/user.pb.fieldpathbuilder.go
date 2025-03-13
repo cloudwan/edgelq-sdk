@@ -45,9 +45,6 @@ func (UserFieldPathBuilder) Settings() UserPathSelectorSettings {
 func (UserFieldPathBuilder) RefreshedTime() UserPathSelectorRefreshedTime {
 	return UserPathSelectorRefreshedTime{}
 }
-func (UserFieldPathBuilder) CtrlStatus() UserPathSelectorCtrlStatus {
-	return UserPathSelectorCtrlStatus{}
-}
 
 type UserPathSelectorName struct{}
 
@@ -907,57 +904,6 @@ func (s UserPathSelectorRefreshedTime) WithArrayOfValues(values []*timestamppb.T
 	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldTerminalPathArrayOfValues)
 }
 
-type UserPathSelectorCtrlStatus struct{}
-
-func (UserPathSelectorCtrlStatus) FieldPath() *User_FieldTerminalPath {
-	return &User_FieldTerminalPath{selector: User_FieldPathSelectorCtrlStatus}
-}
-
-func (s UserPathSelectorCtrlStatus) WithValue(value *User_WorkStatus) *User_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*User_FieldTerminalPathValue)
-}
-
-func (s UserPathSelectorCtrlStatus) WithArrayOfValues(values []*User_WorkStatus) *User_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldTerminalPathArrayOfValues)
-}
-
-func (UserPathSelectorCtrlStatus) WithSubPath(subPath UserWorkStatus_FieldPath) *User_FieldSubPath {
-	return &User_FieldSubPath{selector: User_FieldPathSelectorCtrlStatus, subPath: subPath}
-}
-
-func (s UserPathSelectorCtrlStatus) WithSubValue(subPathValue UserWorkStatus_FieldPathValue) *User_FieldSubPathValue {
-	return &User_FieldSubPathValue{User_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s UserPathSelectorCtrlStatus) WithSubArrayOfValues(subPathArrayOfValues UserWorkStatus_FieldPathArrayOfValues) *User_FieldSubPathArrayOfValues {
-	return &User_FieldSubPathArrayOfValues{User_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s UserPathSelectorCtrlStatus) WithSubArrayItemValue(subPathArrayItemValue UserWorkStatus_FieldPathArrayItemValue) *User_FieldSubPathArrayItemValue {
-	return &User_FieldSubPathArrayItemValue{User_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (UserPathSelectorCtrlStatus) Pending() UserPathSelectorCtrlStatusPending {
-	return UserPathSelectorCtrlStatusPending{}
-}
-
-type UserPathSelectorCtrlStatusPending struct{}
-
-func (UserPathSelectorCtrlStatusPending) FieldPath() *User_FieldSubPath {
-	return &User_FieldSubPath{
-		selector: User_FieldPathSelectorCtrlStatus,
-		subPath:  NewUserWorkStatusFieldPathBuilder().Pending().FieldPath(),
-	}
-}
-
-func (s UserPathSelectorCtrlStatusPending) WithValue(value bool) *User_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*User_FieldSubPathValue)
-}
-
-func (s UserPathSelectorCtrlStatusPending) WithArrayOfValues(values []bool) *User_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*User_FieldSubPathArrayOfValues)
-}
-
 type UserAuthInfoFieldPathBuilder struct{}
 
 func NewUserAuthInfoFieldPathBuilder() UserAuthInfoFieldPathBuilder {
@@ -996,27 +942,4 @@ func (s User_AuthInfoPathSelectorId) WithValue(value string) *UserAuthInfo_Field
 
 func (s User_AuthInfoPathSelectorId) WithArrayOfValues(values []string) *UserAuthInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*UserAuthInfo_FieldTerminalPathArrayOfValues)
-}
-
-type UserWorkStatusFieldPathBuilder struct{}
-
-func NewUserWorkStatusFieldPathBuilder() UserWorkStatusFieldPathBuilder {
-	return UserWorkStatusFieldPathBuilder{}
-}
-func (UserWorkStatusFieldPathBuilder) Pending() User_WorkStatusPathSelectorPending {
-	return User_WorkStatusPathSelectorPending{}
-}
-
-type User_WorkStatusPathSelectorPending struct{}
-
-func (User_WorkStatusPathSelectorPending) FieldPath() *UserWorkStatus_FieldTerminalPath {
-	return &UserWorkStatus_FieldTerminalPath{selector: UserWorkStatus_FieldPathSelectorPending}
-}
-
-func (s User_WorkStatusPathSelectorPending) WithValue(value bool) *UserWorkStatus_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*UserWorkStatus_FieldTerminalPathValue)
-}
-
-func (s User_WorkStatusPathSelectorPending) WithArrayOfValues(values []bool) *UserWorkStatus_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*UserWorkStatus_FieldTerminalPathArrayOfValues)
 }

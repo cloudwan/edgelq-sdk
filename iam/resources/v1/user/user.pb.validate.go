@@ -60,26 +60,12 @@ func (obj *User) GotenValidate() error {
 			return gotenvalidate.NewValidationError("User", "authInfo", obj.AuthInfo, "nested object validation failed", err)
 		}
 	}
-	if subobj, ok := interface{}(obj.CtrlStatus).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("User", "ctrlStatus", obj.CtrlStatus, "nested object validation failed", err)
-		}
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
 	return nil
 }
 func (obj *User_AuthInfo) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *User_WorkStatus) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

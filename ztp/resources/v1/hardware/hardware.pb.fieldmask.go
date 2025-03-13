@@ -62,6 +62,7 @@ func FullHardware_FieldMask() *Hardware_FieldMask {
 	res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedProject})
 	res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedProvisioningPolicyName})
 	res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedDeviceName})
+	res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorAssociatedSimCardName})
 	res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorSimIccid})
 	res.Paths = append(res.Paths, &Hardware_FieldTerminalPath{selector: Hardware_FieldPathSelectorImei})
 	return res
@@ -107,7 +108,7 @@ func (fieldMask *Hardware_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 11)
+	presentSelectors := make([]bool, 12)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Hardware_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -137,7 +138,7 @@ func (fieldMask *Hardware_FieldMask) Reset() {
 
 func (fieldMask *Hardware_FieldMask) Subtract(other *Hardware_FieldMask) *Hardware_FieldMask {
 	result := &Hardware_FieldMask{}
-	removedSelectors := make([]bool, 11)
+	removedSelectors := make([]bool, 12)
 	otherSubMasks := map[Hardware_FieldPathSelector]gotenobject.FieldMask{
 		Hardware_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 	}
@@ -356,6 +357,8 @@ func (fieldMask *Hardware_FieldMask) Project(source *Hardware) *Hardware {
 				result.AssociatedProvisioningPolicyName = source.AssociatedProvisioningPolicyName
 			case Hardware_FieldPathSelectorAssociatedDeviceName:
 				result.AssociatedDeviceName = source.AssociatedDeviceName
+			case Hardware_FieldPathSelectorAssociatedSimCardName:
+				result.AssociatedSimCardName = source.AssociatedSimCardName
 			case Hardware_FieldPathSelectorSimIccid:
 				result.SimIccid = source.SimIccid
 			case Hardware_FieldPathSelectorImei:

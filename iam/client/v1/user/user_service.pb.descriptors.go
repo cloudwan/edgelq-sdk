@@ -50,7 +50,6 @@ var (
 	isUserVerifiedDescriptor            *IsUserVerifiedDescriptor
 	resetMFAIfRecoveryKeyUsedDescriptor *ResetMFAIfRecoveryKeyUsedDescriptor
 	setUsersNameInAuth0Descriptor       *SetUsersNameInAuth0Descriptor
-	deleteUsersByCriteriaDescriptor     *DeleteUsersByCriteriaDescriptor
 )
 
 type GetUserDescriptor struct{}
@@ -3460,200 +3459,6 @@ func GetSetUsersNameInAuth0Descriptor() *SetUsersNameInAuth0Descriptor {
 	return setUsersNameInAuth0Descriptor
 }
 
-type DeleteUsersByCriteriaDescriptor struct{}
-
-type DeleteUsersByCriteriaDescriptorClientMsgHandle struct{}
-
-type DeleteUsersByCriteriaDescriptorServerMsgHandle struct{}
-
-func (d *DeleteUsersByCriteriaDescriptor) NewEmptyClientMsg() proto.Message {
-	return &DeleteUsersByCriteriaRequest{}
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) NewEmptyServerMsg() proto.Message {
-	return &DeleteUsersByCriteriaResponse{}
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) IsUnary() bool {
-	return true
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) IsClientStream() bool {
-	return false
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) IsServerStream() bool {
-	return false
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) IsCollection() bool {
-	return false
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) IsPlural() bool {
-	return false
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) HasResource() bool {
-	return true
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) RequestHasResourceBody() bool {
-	return false
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetVerb() string {
-	return "deleteUsersByCriteria"
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetMethodName() string {
-	return "DeleteUsersByCriteria"
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetFullMethodName() string {
-	return "/ntt.iam.v1.UserService/DeleteUsersByCriteria"
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetProtoPkgName() string {
-	return "ntt.iam.v1"
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetApiName() string {
-	return "UserService"
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetServiceDomain() string {
-	return "iam.edgelq.com"
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetServiceVersion() string {
-	return "v1"
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
-	return userServiceDescriptor
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
-	return user.GetDescriptor()
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &DeleteUsersByCriteriaDescriptorClientMsgHandle{}
-}
-
-func (d *DeleteUsersByCriteriaDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
-	return &DeleteUsersByCriteriaDescriptorServerMsgHandle{}
-}
-
-func (h *DeleteUsersByCriteriaDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*DeleteUsersByCriteriaRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*DeleteUsersByCriteriaRequest) *user.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*DeleteUsersByCriteriaRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*DeleteUsersByCriteriaRequest) []*user.Name
-	})
-	if ok {
-		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
-	typedMsg := msg.(*DeleteUsersByCriteriaRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBody(*DeleteUsersByCriteriaRequest) *user.User
-	})
-	if ok {
-		return override.OverrideExtractResourceBody(typedMsg)
-	}
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
-	typedMsg := msg.(*DeleteUsersByCriteriaRequest)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBodies(*DeleteUsersByCriteriaRequest) []*user.User
-	})
-	if ok {
-		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
-	}
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
-	typedMsg := msg.(*DeleteUsersByCriteriaResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceName(*DeleteUsersByCriteriaResponse) *user.Name
-	})
-	if ok {
-		return override.OverrideExtractResourceName(typedMsg)
-	}
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
-	typedMsg := msg.(*DeleteUsersByCriteriaResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceNames(*DeleteUsersByCriteriaResponse) []*user.Name
-	})
-	if ok {
-		return user.UserNameList(override.OverrideExtractResourceNames(typedMsg))
-	}
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
-	typedMsg := msg.(*DeleteUsersByCriteriaResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBody(*DeleteUsersByCriteriaResponse) *user.User
-	})
-	if ok {
-		return override.OverrideExtractResourceBody(typedMsg)
-	}
-	return nil
-}
-
-func (h *DeleteUsersByCriteriaDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
-	typedMsg := msg.(*DeleteUsersByCriteriaResponse)
-	var asInterface interface{} = h
-	override, ok := asInterface.(interface {
-		OverrideExtractResourceBodies(*DeleteUsersByCriteriaResponse) []*user.User
-	})
-	if ok {
-		return user.UserList(override.OverrideExtractResourceBodies(typedMsg))
-	}
-	return nil
-}
-
-func GetDeleteUsersByCriteriaDescriptor() *DeleteUsersByCriteriaDescriptor {
-	return deleteUsersByCriteriaDescriptor
-}
-
 type UserServiceDescriptor struct{}
 
 func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -3675,7 +3480,6 @@ func (d *UserServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescr
 		isUserVerifiedDescriptor,
 		resetMFAIfRecoveryKeyUsedDescriptor,
 		setUsersNameInAuth0Descriptor,
-		deleteUsersByCriteriaDescriptor,
 	}
 }
 
@@ -3722,7 +3526,6 @@ func initDescriptors() {
 	isUserVerifiedDescriptor = &IsUserVerifiedDescriptor{}
 	resetMFAIfRecoveryKeyUsedDescriptor = &ResetMFAIfRecoveryKeyUsedDescriptor{}
 	setUsersNameInAuth0Descriptor = &SetUsersNameInAuth0Descriptor{}
-	deleteUsersByCriteriaDescriptor = &DeleteUsersByCriteriaDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(userServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getUserDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetUsersDescriptor)
@@ -3741,7 +3544,6 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(isUserVerifiedDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(resetMFAIfRecoveryKeyUsedDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(setUsersNameInAuth0Descriptor)
-	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteUsersByCriteriaDescriptor)
 }
 
 func init() {
