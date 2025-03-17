@@ -6,6 +6,9 @@ package device_hardware
 
 // proto imports
 import (
+	carrier "github.com/cloudwan/edgelq-sdk/cellular-api/carrier"
+	cellular_api_contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
+	cellular_api_sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
@@ -23,6 +26,8 @@ import (
 	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_bucket "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/bucket"
 	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/project"
+	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -36,6 +41,9 @@ import (
 
 // make sure we're using proto imports
 var (
+	_ = &carrier.TransatelAccount{}
+	_ = &cellular_api_contract.Contract{}
+	_ = &cellular_api_sim_card.SimCard{}
 	_ = &api.HealthCheckSpec{}
 	_ = &device.Device{}
 	_ = &project.Project{}
@@ -53,6 +61,8 @@ var (
 	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_bucket.Bucket{}
 	_ = &monitoring_project.Project{}
+	_ = &secrets_project.Project{}
+	_ = &secrets_secret.Secret{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &structpb.Struct{}
@@ -101,6 +111,9 @@ func (DeviceHardwareFieldPathBuilder) AssociatedProvisioningPolicyName() DeviceH
 }
 func (DeviceHardwareFieldPathBuilder) AssociatedDevice() DeviceHardwarePathSelectorAssociatedDevice {
 	return DeviceHardwarePathSelectorAssociatedDevice{}
+}
+func (DeviceHardwareFieldPathBuilder) AssociatedSimCard() DeviceHardwarePathSelectorAssociatedSimCard {
+	return DeviceHardwarePathSelectorAssociatedSimCard{}
 }
 func (DeviceHardwareFieldPathBuilder) Status() DeviceHardwarePathSelectorStatus {
 	return DeviceHardwarePathSelectorStatus{}
@@ -929,6 +942,20 @@ func (s DeviceHardwarePathSelectorAssociatedDevice) WithValue(value *device.Refe
 }
 
 func (s DeviceHardwarePathSelectorAssociatedDevice) WithArrayOfValues(values []*device.Reference) *DeviceHardware_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceHardware_FieldTerminalPathArrayOfValues)
+}
+
+type DeviceHardwarePathSelectorAssociatedSimCard struct{}
+
+func (DeviceHardwarePathSelectorAssociatedSimCard) FieldPath() *DeviceHardware_FieldTerminalPath {
+	return &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedSimCard}
+}
+
+func (s DeviceHardwarePathSelectorAssociatedSimCard) WithValue(value *cellular_api_sim_card.Reference) *DeviceHardware_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceHardware_FieldTerminalPathValue)
+}
+
+func (s DeviceHardwarePathSelectorAssociatedSimCard) WithArrayOfValues(values []*cellular_api_sim_card.Reference) *DeviceHardware_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*DeviceHardware_FieldTerminalPathArrayOfValues)
 }
 

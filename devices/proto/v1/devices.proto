@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.devices.v1;
 
+import "edgelq-sdk/cellular-api/proto/v1/cellular_api.proto";
 import "edgelq-sdk/devices/proto/v1/customized_image.proto";
 import "edgelq-sdk/devices/proto/v1/customized_image_custom.proto";
 import "edgelq-sdk/devices/proto/v1/customized_image_service.proto";

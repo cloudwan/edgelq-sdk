@@ -104,3 +104,36 @@ message ResetMFAIfRecoveryKeyUsedRequest {}
 // Request message for method
 // [SetUsersNameInAuth0][ntt.iam.v1.SetUsersNameInAuth0]
 message SetUsersNameInAuth0Request {}
+
+// Request message for method
+// [DeleteUsersByCriteria][ntt.iam.v1.DeleteUsersByCriteria]
+message DeleteUsersByCriteriaRequest {
+  oneof to_delete {
+    // Delete by email criteria
+    UserEmails by_email = 1;
+
+    // Delete by name criteria
+    UserNames by_name = 2;
+  }
+
+  // Auth info provider type. Optional. If provided, it must match
+  // deleted user instances - field auth_info.provider must exactly
+  // match specified value.
+  string auth_info_provider = 3;
+
+  // Auth info ID prefix. Optional. If provided, it must match
+  // deleted user instances - field auth_info.id must begin
+  // with specified prefix.
+  string auth_info_id_prefix = 4;
+
+  message UserEmails { repeated string values = 1; }
+
+  message UserNames { repeated string values = 1; }
+}
+
+// Response message for method
+// [DeleteUserByCriteria][ntt.iam.v1.DeleteUserByCriteria]
+message DeleteUsersByCriteriaResponse {
+  // List of deleted user resources
+  repeated string deleted_users = 1;
+}

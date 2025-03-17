@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package ntt.cellular_api.v1;
+
+import "edgelq-sdk/cellular-api/carrier/carrier.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_stock.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_stock_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/sim_card_stock;sim_card_stock_client";
+option java_multiple_files = false;
+option java_outer_classname = "SimCardStockCustomProto";
+option java_package = "com.ntt.cellular_api.pb.v1";
+
+// A request message of the Allocate method.
+message AllocateRequest {
+  // Name of ntt.cellular_api.v1.SimCardStock
+  string name = 1;
+
+  string project = 2;
+
+  string region_id = 3;
+
+  // expected state just after allocated
+  // if unspecified, will try to transit to ACTIVE
+  ntt.cellular_api.carrier.SimState state = 4;
+}
+
+// A request message of the Deallocate method.
+message DeallocateRequest {
+  // Name of ntt.cellular_api.v1.SimCardStock
+  string name = 1;
+
+  string sim_card = 2;
+
+  // expected state just after deallocated
+  // if unspecified, will try to transit to SUSPENDED
+  ntt.cellular_api.carrier.SimState state = 3;
+}

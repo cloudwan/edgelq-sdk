@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package ntt.cellular_api.v1;
+
+import "edgelq-sdk/cellular-api/proto/v1/sim_card.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_change.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/sim_card;sim_card_client";
+option java_multiple_files = false;
+option java_outer_classname = "SimCardCustomProto";
+option java_package = "com.ntt.cellular_api.pb.v1";
+
+// A request message of the Activate method.
+message ActivateRequest {
+  // Name of ntt.cellular_api.v1.SimCard
+  string name = 1;
+
+  string project = 2;
+}
+
+// A request message of the Suspend method.
+message SuspendRequest {
+  // Name of ntt.cellular_api.v1.SimCard
+  string name = 1;
+
+  string project = 2;
+}
+
+// A request message of the Terminate method.
+message TerminateRequest {
+  // Name of ntt.cellular_api.v1.SimCard
+  string name = 1;
+
+  string project = 2;
+}
+
+// A request message of the Reactivate method.
+message ReactivateRequest {
+  // Name of ntt.cellular_api.v1.SimCard
+  string name = 1;
+
+  string project = 2;
+}

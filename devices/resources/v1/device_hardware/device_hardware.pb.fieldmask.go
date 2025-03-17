@@ -20,6 +20,7 @@ import (
 
 // proto imports
 import (
+	cellular_api_sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy"
@@ -43,6 +44,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &cellular_api_sim_card.SimCard{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
@@ -66,6 +68,7 @@ func FullDeviceHardware_FieldMask() *DeviceHardware_FieldMask {
 	res.Paths = append(res.Paths, &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorImei})
 	res.Paths = append(res.Paths, &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedProvisioningPolicyName})
 	res.Paths = append(res.Paths, &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedDevice})
+	res.Paths = append(res.Paths, &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedSimCard})
 	res.Paths = append(res.Paths, &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorStatus})
 	return res
 }
@@ -110,7 +113,7 @@ func (fieldMask *DeviceHardware_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 12)
+	presentSelectors := make([]bool, 13)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceHardware_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -140,7 +143,7 @@ func (fieldMask *DeviceHardware_FieldMask) Reset() {
 
 func (fieldMask *DeviceHardware_FieldMask) Subtract(other *DeviceHardware_FieldMask) *DeviceHardware_FieldMask {
 	result := &DeviceHardware_FieldMask{}
-	removedSelectors := make([]bool, 12)
+	removedSelectors := make([]bool, 13)
 	otherSubMasks := map[DeviceHardware_FieldPathSelector]gotenobject.FieldMask{
 		DeviceHardware_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
 		DeviceHardware_FieldPathSelectorStatus:   &DeviceHardware_Status_FieldMask{},
@@ -369,6 +372,8 @@ func (fieldMask *DeviceHardware_FieldMask) Project(source *DeviceHardware) *Devi
 				result.AssociatedProvisioningPolicyName = source.AssociatedProvisioningPolicyName
 			case DeviceHardware_FieldPathSelectorAssociatedDevice:
 				result.AssociatedDevice = source.AssociatedDevice
+			case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+				result.AssociatedSimCard = source.AssociatedSimCard
 			case DeviceHardware_FieldPathSelectorStatus:
 				result.Status = source.Status
 				wholeStatusAccepted = true

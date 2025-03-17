@@ -136,6 +136,10 @@ func (d *DevicesDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 func (d *DevicesDescriptor) AllImportedServiceInfos() []gotenclient.ServiceImportInfo {
 	return []gotenclient.ServiceImportInfo{
 		{
+			Domain:  "cellular-api.edgelq.com",
+			Version: "v1",
+		},
+		{
 			Domain:  "iam.edgelq.com",
 			Version: "v1",
 		},

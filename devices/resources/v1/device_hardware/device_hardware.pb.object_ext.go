@@ -16,6 +16,7 @@ import (
 
 // proto imports
 import (
+	cellular_api_sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy"
@@ -35,6 +36,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &cellular_api_sim_card.SimCard{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
@@ -109,6 +111,9 @@ func (o *DeviceHardware) MakeDiffFieldMask(other *DeviceHardware) *DeviceHardwar
 	if o.GetAssociatedDevice().String() != other.GetAssociatedDevice().String() {
 		res.Paths = append(res.Paths, &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedDevice})
 	}
+	if o.GetAssociatedSimCard().String() != other.GetAssociatedSimCard().String() {
+		res.Paths = append(res.Paths, &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedSimCard})
+	}
 	{
 		subMask := o.GetStatus().MakeDiffFieldMask(other.GetStatus())
 		if subMask.IsFull() {
@@ -169,6 +174,16 @@ func (o *DeviceHardware) Clone() *DeviceHardware {
 	} else {
 		result.AssociatedDevice = &device.Reference{}
 		if err := result.AssociatedDevice.ParseProtoString(data); err != nil {
+			panic(err)
+		}
+	}
+	if o.AssociatedSimCard == nil {
+		result.AssociatedSimCard = nil
+	} else if data, err := o.AssociatedSimCard.ProtoString(); err != nil {
+		panic(err)
+	} else {
+		result.AssociatedSimCard = &cellular_api_sim_card.Reference{}
+		if err := result.AssociatedSimCard.ParseProtoString(data); err != nil {
 			panic(err)
 		}
 	}
@@ -243,6 +258,18 @@ func (o *DeviceHardware) Merge(source *DeviceHardware) {
 		}
 	} else {
 		o.AssociatedDevice = nil
+	}
+	if source.GetAssociatedSimCard() != nil {
+		if data, err := source.GetAssociatedSimCard().ProtoString(); err != nil {
+			panic(err)
+		} else {
+			o.AssociatedSimCard = &cellular_api_sim_card.Reference{}
+			if err := o.AssociatedSimCard.ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	} else {
+		o.AssociatedSimCard = nil
 	}
 	if source.GetStatus() != nil {
 		if o.Status == nil {

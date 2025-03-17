@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package ntt.cellular_api.v1;
+
+import "edgelq-sdk/cellular-api/proto/v1/contract.proto";
+import "edgelq-sdk/cellular-api/proto/v1/contract_service.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_custom.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_service.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_stock.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_stock_custom.proto";
+import "edgelq-sdk/cellular-api/proto/v1/sim_card_stock_service.proto";
+import "edgelq-sdk/iam/proto/v1/iam.proto";
+import "edgelq-sdk/secrets/proto/v1/secrets.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "goten-sdk/meta-service/proto/v1/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/client/v1/cellular_api;cellular_api_client";
+option java_multiple_files = true;
+option java_outer_classname = "CellularApiProto";
+option java_package = "com.ntt.cellular_api.pb.v1";

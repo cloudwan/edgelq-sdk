@@ -11,6 +11,9 @@ import (
 
 // proto imports
 import (
+	carrier "github.com/cloudwan/edgelq-sdk/cellular-api/carrier"
+	cellular_api_contract "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/contract"
+	cellular_api_sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
@@ -28,6 +31,8 @@ import (
 	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_bucket "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/bucket"
 	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	secrets_project "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/project"
+	secrets_secret "github.com/cloudwan/edgelq-sdk/secrets/resources/v1/secret"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -47,6 +52,9 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &carrier.TransatelAccount{}
+	_ = &cellular_api_contract.Contract{}
+	_ = &cellular_api_sim_card.SimCard{}
 	_ = &api.HealthCheckSpec{}
 	_ = &device.Device{}
 	_ = &project.Project{}
@@ -64,6 +72,8 @@ var (
 	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_bucket.Bucket{}
 	_ = &monitoring_project.Project{}
+	_ = &secrets_project.Project{}
+	_ = &secrets_secret.Secret{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &structpb.Struct{}
@@ -288,6 +298,10 @@ func (b *filterCndBuilder) AssociatedProvisioningPolicyName() *filterCndBuilderA
 
 func (b *filterCndBuilder) AssociatedDevice() *filterCndBuilderAssociatedDevice {
 	return &filterCndBuilderAssociatedDevice{builder: b.builder}
+}
+
+func (b *filterCndBuilder) AssociatedSimCard() *filterCndBuilderAssociatedSimCard {
+	return &filterCndBuilderAssociatedSimCard{builder: b.builder}
 }
 
 func (b *filterCndBuilder) Status() *filterCndBuilderStatus {
@@ -3003,6 +3017,65 @@ func (b *filterCndBuilderAssociatedDevice) compare(op gotenfilter.CompareOperato
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		DeviceHardware_FieldPathValue: NewDeviceHardwareFieldPathBuilder().AssociatedDevice().WithValue(value),
+	})
+}
+
+type filterCndBuilderAssociatedSimCard struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderAssociatedSimCard) Eq(value *cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderAssociatedSimCard) Neq(value *cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderAssociatedSimCard) Gt(value *cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderAssociatedSimCard) Gte(value *cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderAssociatedSimCard) Lt(value *cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderAssociatedSimCard) Lte(value *cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderAssociatedSimCard) In(values []*cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		DeviceHardware_FieldPathArrayOfValues: NewDeviceHardwareFieldPathBuilder().AssociatedSimCard().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAssociatedSimCard) NotIn(values []*cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		DeviceHardware_FieldPathArrayOfValues: NewDeviceHardwareFieldPathBuilder().AssociatedSimCard().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderAssociatedSimCard) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceHardwareFieldPathBuilder().AssociatedSimCard().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAssociatedSimCard) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceHardwareFieldPathBuilder().AssociatedSimCard().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderAssociatedSimCard) compare(op gotenfilter.CompareOperator, value *cellular_api_sim_card.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                      op,
+		DeviceHardware_FieldPathValue: NewDeviceHardwareFieldPathBuilder().AssociatedSimCard().WithValue(value),
 	})
 }
 

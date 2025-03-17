@@ -1,0 +1,69 @@
+name: cellular-api.edgelq.com
+proto:
+  package:
+    name: ntt.cellular_api
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/cellular-api
+    protoImportPathPrefix: edgelq/cellular-api/proto
+  service:
+    name: CellularApi
+    defaultHost: cellular-api.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+imports:
+- meta.goten.com
+- iam.edgelq.com
+- secrets.edgelq.com
+
+resources:
+- name: Contract
+  multiRegion:
+    syncType: ALWAYS_GLOBALLY
+- name: SimCardStock
+  idPattern: "\\\\d{19}"
+  multiRegion:
+    syncType: ALWAYS_GLOBALLY
+  actions:
+  - name: Allocate
+    verb: allocate
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: MANUAL
+  - name: Deallocate
+    verb: deallocate
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: MANUAL
+- name: SimCard
+  parents:
+  - iam.edgelq.com/Project
+  scopeAttributes:
+  - Region
+  idPattern: "\\\\d{19}"
+  actions:
+  - name: Activate
+    verb: activate
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: Suspend
+    verb: suspend
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: Terminate
+    verb: terminate
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+  - name: Reactivate
+    verb: reactivate
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT

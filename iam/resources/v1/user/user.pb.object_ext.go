@@ -103,6 +103,16 @@ func (o *User) MakeDiffFieldMask(other *User) *User_FieldMask {
 	if !proto.Equal(o.GetRefreshedTime(), other.GetRefreshedTime()) {
 		res.Paths = append(res.Paths, &User_FieldTerminalPath{selector: User_FieldPathSelectorRefreshedTime})
 	}
+	{
+		subMask := o.GetCtrlStatus().MakeDiffFieldMask(other.GetCtrlStatus())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &User_FieldTerminalPath{selector: User_FieldPathSelectorCtrlStatus})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &User_FieldSubPath{selector: User_FieldPathSelectorCtrlStatus, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -135,6 +145,7 @@ func (o *User) Clone() *User {
 		result.Settings[key] = sourceValue
 	}
 	result.RefreshedTime = proto.Clone(o.RefreshedTime).(*timestamppb.Timestamp)
+	result.CtrlStatus = o.CtrlStatus.Clone()
 	return result
 }
 
@@ -183,6 +194,12 @@ func (o *User) Merge(source *User) {
 			o.RefreshedTime = new(timestamppb.Timestamp)
 		}
 		proto.Merge(o.RefreshedTime, source.GetRefreshedTime())
+	}
+	if source.GetCtrlStatus() != nil {
+		if o.CtrlStatus == nil {
+			o.CtrlStatus = new(User_WorkStatus)
+		}
+		o.CtrlStatus.Merge(source.GetCtrlStatus())
 	}
 }
 
@@ -243,4 +260,54 @@ func (o *User_AuthInfo) Merge(source *User_AuthInfo) {
 
 func (o *User_AuthInfo) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*User_AuthInfo))
+}
+
+func (o *User_WorkStatus) GotenObjectExt() {}
+
+func (o *User_WorkStatus) MakeFullFieldMask() *User_WorkStatus_FieldMask {
+	return FullUser_WorkStatus_FieldMask()
+}
+
+func (o *User_WorkStatus) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullUser_WorkStatus_FieldMask()
+}
+
+func (o *User_WorkStatus) MakeDiffFieldMask(other *User_WorkStatus) *User_WorkStatus_FieldMask {
+	if o == nil && other == nil {
+		return &User_WorkStatus_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullUser_WorkStatus_FieldMask()
+	}
+
+	res := &User_WorkStatus_FieldMask{}
+	if o.GetPending() != other.GetPending() {
+		res.Paths = append(res.Paths, &UserWorkStatus_FieldTerminalPath{selector: UserWorkStatus_FieldPathSelectorPending})
+	}
+	return res
+}
+
+func (o *User_WorkStatus) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*User_WorkStatus))
+}
+
+func (o *User_WorkStatus) Clone() *User_WorkStatus {
+	if o == nil {
+		return nil
+	}
+	result := &User_WorkStatus{}
+	result.Pending = o.Pending
+	return result
+}
+
+func (o *User_WorkStatus) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *User_WorkStatus) Merge(source *User_WorkStatus) {
+	o.Pending = source.GetPending()
+}
+
+func (o *User_WorkStatus) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*User_WorkStatus))
 }

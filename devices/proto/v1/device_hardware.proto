@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.devices.v1;
 
+import "edgelq-sdk/cellular-api/proto/v1/sim_card.proto";
 import "google/api/resource.proto";
 import "goten-sdk/types/meta.proto";
 
@@ -42,13 +43,19 @@ message DeviceHardware {
 
   repeated string mac_address = 7;
 
+  // Result of activating sim card,
+  // which is specified by associated_sim_card field
   string sim_iccid = 8;
 
+  // Result of activating sim card,
+  // which is specified by associated_sim_card field
   string imei = 9;
 
   string associated_provisioning_policy_name = 10;
 
   string associated_device = 11;
+
+  string associated_sim_card = 13;
 
   Status status = 12;
 
@@ -59,8 +66,19 @@ message DeviceHardware {
       // Hardware was deregistered, so device state cannot be tracked
       UNKNOWN = 0;
 
-      // Device has not tried to provision or provisioning could have failed
-      NOT_PROVISIONED = 1;
+      // The SIM card is being activated.
+      SIM_ACTIVATING = 4;
+
+      // The device would be connecting to ZTP
+      // as the attached SIM card was activated.
+      // If SIM card is not attached, this is the first status.
+      // If stuck at this value, provisioning could have failed.
+      CONNECTING = 5;
+
+      // Deprecated:
+      // This has been replaced by splitting into
+      // SIM_ACTIVATING and ZTP_CONNECTING
+      NOT_PROVISIONED = 1 [ deprecated = true ];
 
       // Device passed attestation and service account is created
       // Could be either provisioning policy scope for device scope account

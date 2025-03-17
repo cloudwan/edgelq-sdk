@@ -12,6 +12,7 @@ import (
 
 // proto imports
 import (
+	cellular_api_sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy"
@@ -27,6 +28,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &cellular_api_sim_card.SimCard{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
@@ -42,7 +44,7 @@ func ResourceViewFieldMask(viewName view.View, extraMask *DeviceHardware_FieldMa
 	case view.View_FULL:
 		return nil
 	case view.View_BASIC:
-		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "serial_number", "product_name", "sim_iccid", "associated_provisioning_policy_name", "associated_device", "status.provisioning_state")
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "serial_number", "product_name", "sim_iccid", "associated_provisioning_policy_name", "associated_device", "associated_sim_card", "status.provisioning_state")
 		break
 	case view.View_NAME:
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name")

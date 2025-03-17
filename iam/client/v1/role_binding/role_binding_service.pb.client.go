@@ -57,6 +57,7 @@ type RoleBindingServiceClient interface {
 	CreateRoleBinding(ctx context.Context, in *CreateRoleBindingRequest, opts ...grpc.CallOption) (*role_binding.RoleBinding, error)
 	UpdateRoleBinding(ctx context.Context, in *UpdateRoleBindingRequest, opts ...grpc.CallOption) (*role_binding.RoleBinding, error)
 	DeleteRoleBinding(ctx context.Context, in *DeleteRoleBindingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	ListRoleBindingsWithMembers(ctx context.Context, in *ListRoleBindingsWithMembersRequest, opts ...grpc.CallOption) (*ListRoleBindingsWithMembersResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateRoleBinding(ctx context.Context, in *UpdateRoleBindingReq
 func (c *client) DeleteRoleBinding(ctx context.Context, in *DeleteRoleBindingRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.iam.v1.RoleBindingService/DeleteRoleBinding", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) ListRoleBindingsWithMembers(ctx context.Context, in *ListRoleBindingsWithMembersRequest, opts ...grpc.CallOption) (*ListRoleBindingsWithMembersResponse, error) {
+	out := new(ListRoleBindingsWithMembersResponse)
+	err := c.cc.Invoke(ctx, "/ntt.iam.v1.RoleBindingService/ListRoleBindingsWithMembers", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package ntt.cellular_api.v1;
+
+import "edgelq-sdk/cellular-api/carrier/carrier.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card;sim_card";
+option java_multiple_files = true;
+option java_outer_classname = "SimCardProto";
+option java_package = "com.ntt.cellular_api.pb.v1";
+
+// SimCard Resource
+message SimCard {
+  option (google.api.resource) = {
+    type : "cellular-api.edgelq.com/SimCard"
+    pattern : "projects/{project}/regions/{region}/simCards/{sim_card}"
+  };
+
+  // Name of SimCard
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: \\d{19}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  string contract = 3;
+  // this introduces 'import cycle not allowed'
+  // string sim_card_stock = 4 [ (goten.annotations.type).reference = {
+  //   resource : "SimCardStock"
+  //   target_delete_behavior : ALLOW_DANGLING
+  // } ];
+
+  string imsi = 5;
+
+  string rate_plan = 6;
+
+  Status status = 7;
+
+  message Status {
+    ntt.cellular_api.carrier.SimState state = 1;
+
+    string error = 2;
+  }
+}

@@ -10,6 +10,7 @@ import (
 
 // proto imports
 import (
+	cellular_api_sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy"
@@ -23,6 +24,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &cellular_api_sim_card.SimCard{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}

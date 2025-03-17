@@ -230,6 +230,10 @@ func (b *filterCndBuilder) RefreshedTime() *filterCndBuilderRefreshedTime {
 	return &filterCndBuilderRefreshedTime{builder: b.builder}
 }
 
+func (b *filterCndBuilder) CtrlStatus() *filterCndBuilderCtrlStatus {
+	return &filterCndBuilderCtrlStatus{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -2918,5 +2922,127 @@ func (b *filterCndBuilderRefreshedTime) compare(op gotenfilter.CompareOperator, 
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:            op,
 		User_FieldPathValue: NewUserFieldPathBuilder().RefreshedTime().WithValue(value),
+	})
+}
+
+type filterCndBuilderCtrlStatus struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCtrlStatus) Eq(value *User_WorkStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCtrlStatus) Neq(value *User_WorkStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCtrlStatus) Gt(value *User_WorkStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCtrlStatus) Gte(value *User_WorkStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCtrlStatus) Lt(value *User_WorkStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCtrlStatus) Lte(value *User_WorkStatus) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCtrlStatus) In(values []*User_WorkStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		User_FieldPathArrayOfValues: NewUserFieldPathBuilder().CtrlStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatus) NotIn(values []*User_WorkStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		User_FieldPathArrayOfValues: NewUserFieldPathBuilder().CtrlStatus().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatus) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewUserFieldPathBuilder().CtrlStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatus) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewUserFieldPathBuilder().CtrlStatus().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatus) compare(op gotenfilter.CompareOperator, value *User_WorkStatus) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		User_FieldPathValue: NewUserFieldPathBuilder().CtrlStatus().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatus) Pending() *filterCndBuilderCtrlStatusPending {
+	return &filterCndBuilderCtrlStatusPending{builder: b.builder}
+}
+
+type filterCndBuilderCtrlStatusPending struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderCtrlStatusPending) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderCtrlStatusPending) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderCtrlStatusPending) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderCtrlStatusPending) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderCtrlStatusPending) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderCtrlStatusPending) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderCtrlStatusPending) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		User_FieldPathArrayOfValues: NewUserFieldPathBuilder().CtrlStatus().Pending().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatusPending) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		User_FieldPathArrayOfValues: NewUserFieldPathBuilder().CtrlStatus().Pending().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatusPending) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewUserFieldPathBuilder().CtrlStatus().Pending().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatusPending) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewUserFieldPathBuilder().CtrlStatus().Pending().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderCtrlStatusPending) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		User_FieldPathValue: NewUserFieldPathBuilder().CtrlStatus().Pending().WithValue(value),
 	})
 }

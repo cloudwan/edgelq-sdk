@@ -160,3 +160,61 @@ func (obj *SetUsersNameInAuth0Request) GotenValidate() error {
 	}
 	return nil
 }
+func (obj *DeleteUsersByCriteriaRequest) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	switch opt := obj.ToDelete.(type) {
+	case *DeleteUsersByCriteriaRequest_ByEmail:
+		if subobj, ok := interface{}(opt.ByEmail).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeleteUsersByCriteriaRequest", "byEmail", opt.ByEmail, "nested object validation failed", err)
+			}
+		}
+	case *DeleteUsersByCriteriaRequest_ByName:
+		if subobj, ok := interface{}(opt.ByName).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeleteUsersByCriteriaRequest", "byName", opt.ByName, "nested object validation failed", err)
+			}
+		}
+	default:
+		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeleteUsersByCriteriaRequest_UserEmails) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if len(obj.Values) > 25 {
+		return gotenvalidate.NewValidationError("UserEmails", "values", obj.Values, "field must have at most 25 items", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeleteUsersByCriteriaRequest_UserNames) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if len(obj.Values) > 25 {
+		return gotenvalidate.NewValidationError("UserNames", "values", obj.Values, "field must have at most 25 items", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeleteUsersByCriteriaResponse) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}

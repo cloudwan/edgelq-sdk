@@ -9,6 +9,7 @@ import (
 	attestation_domain "github.com/cloudwan/edgelq-sdk/iam/resources/v1/attestation_domain"
 	iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	condition "github.com/cloudwan/edgelq-sdk/iam/resources/v1/condition"
+	group "github.com/cloudwan/edgelq-sdk/iam/resources/v1/group"
 	organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	permission "github.com/cloudwan/edgelq-sdk/iam/resources/v1/permission"
 	project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -28,6 +29,7 @@ var (
 	_ = &attestation_domain.AttestationDomain{}
 	_ = &iam_common.PCR{}
 	_ = &condition.Condition{}
+	_ = &group.Group{}
 	_ = &organization.Organization{}
 	_ = &permission.Permission{}
 	_ = &project.Project{}
@@ -104,6 +106,9 @@ func (InvitationFieldPathBuilder) LanguageCode() InvitationPathSelectorLanguageC
 }
 func (InvitationFieldPathBuilder) BindingRoles() InvitationPathSelectorBindingRoles {
 	return InvitationPathSelectorBindingRoles{}
+}
+func (InvitationFieldPathBuilder) Groups() InvitationPathSelectorGroups {
+	return InvitationPathSelectorGroups{}
 }
 func (InvitationFieldPathBuilder) ExpirationDate() InvitationPathSelectorExpirationDate {
 	return InvitationPathSelectorExpirationDate{}
@@ -559,6 +564,24 @@ func (s InvitationPathSelectorBindingRolesScopeParamsValueFromPath) WithValue(va
 
 func (s InvitationPathSelectorBindingRolesScopeParamsValueFromPath) WithArrayOfValues(values []string) *Invitation_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldSubPathArrayOfValues)
+}
+
+type InvitationPathSelectorGroups struct{}
+
+func (InvitationPathSelectorGroups) FieldPath() *Invitation_FieldTerminalPath {
+	return &Invitation_FieldTerminalPath{selector: Invitation_FieldPathSelectorGroups}
+}
+
+func (s InvitationPathSelectorGroups) WithValue(value []*group.Reference) *Invitation_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Invitation_FieldTerminalPathValue)
+}
+
+func (s InvitationPathSelectorGroups) WithArrayOfValues(values [][]*group.Reference) *Invitation_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Invitation_FieldTerminalPathArrayOfValues)
+}
+
+func (s InvitationPathSelectorGroups) WithItemValue(value *group.Reference) *Invitation_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Invitation_FieldTerminalPathArrayItemValue)
 }
 
 type InvitationPathSelectorExpirationDate struct{}

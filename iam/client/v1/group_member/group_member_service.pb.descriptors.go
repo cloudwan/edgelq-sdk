@@ -31,16 +31,17 @@ var (
 )
 
 var (
-	descriptorsInitialized         bool
-	groupMemberServiceDescriptor   *GroupMemberServiceDescriptor
-	getGroupMemberDescriptor       *GetGroupMemberDescriptor
-	batchGetGroupMembersDescriptor *BatchGetGroupMembersDescriptor
-	listGroupMembersDescriptor     *ListGroupMembersDescriptor
-	watchGroupMemberDescriptor     *WatchGroupMemberDescriptor
-	watchGroupMembersDescriptor    *WatchGroupMembersDescriptor
-	createGroupMemberDescriptor    *CreateGroupMemberDescriptor
-	updateGroupMemberDescriptor    *UpdateGroupMemberDescriptor
-	deleteGroupMemberDescriptor    *DeleteGroupMemberDescriptor
+	descriptorsInitialized                bool
+	groupMemberServiceDescriptor          *GroupMemberServiceDescriptor
+	getGroupMemberDescriptor              *GetGroupMemberDescriptor
+	batchGetGroupMembersDescriptor        *BatchGetGroupMembersDescriptor
+	listGroupMembersDescriptor            *ListGroupMembersDescriptor
+	watchGroupMemberDescriptor            *WatchGroupMemberDescriptor
+	watchGroupMembersDescriptor           *WatchGroupMembersDescriptor
+	createGroupMemberDescriptor           *CreateGroupMemberDescriptor
+	updateGroupMemberDescriptor           *UpdateGroupMemberDescriptor
+	deleteGroupMemberDescriptor           *DeleteGroupMemberDescriptor
+	listGroupMembersWithMembersDescriptor *ListGroupMembersWithMembersDescriptor
 )
 
 type GetGroupMemberDescriptor struct{}
@@ -1855,6 +1856,221 @@ func GetDeleteGroupMemberDescriptor() *DeleteGroupMemberDescriptor {
 	return deleteGroupMemberDescriptor
 }
 
+type ListGroupMembersWithMembersDescriptor struct{}
+
+type ListGroupMembersWithMembersDescriptorClientMsgHandle struct{}
+
+type ListGroupMembersWithMembersDescriptorServerMsgHandle struct{}
+
+func (d *ListGroupMembersWithMembersDescriptor) NewEmptyClientMsg() proto.Message {
+	return &ListGroupMembersWithMembersRequest{}
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) NewEmptyServerMsg() proto.Message {
+	return &ListGroupMembersWithMembersResponse{}
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetVerb() string {
+	return "listGroupMembersWithMembers"
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetMethodName() string {
+	return "ListGroupMembersWithMembers"
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetFullMethodName() string {
+	return "/ntt.iam.v1.GroupMemberService/ListGroupMembersWithMembers"
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetProtoPkgName() string {
+	return "ntt.iam.v1"
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetApiName() string {
+	return "GroupMemberService"
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetServiceDomain() string {
+	return "iam.edgelq.com"
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return groupMemberServiceDescriptor
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return group_member.GetDescriptor()
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListGroupMembersWithMembersDescriptorClientMsgHandle{}
+}
+
+func (d *ListGroupMembersWithMembersDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &ListGroupMembersWithMembersDescriptorServerMsgHandle{}
+}
+
+func (h *ListGroupMembersWithMembersDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListGroupMembersWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListGroupMembersWithMembersRequest) *group_member.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListGroupMembersWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListGroupMembersWithMembersRequest) []*group_member.Name
+	})
+	if ok {
+		return group_member.GroupMemberNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListGroupMembersWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListGroupMembersWithMembersRequest) *group_member.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*group_member.ParentName)(nil)
+}
+
+func (h *ListGroupMembersWithMembersDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListGroupMembersWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListGroupMembersWithMembersRequest) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListGroupMembersWithMembersRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListGroupMembersWithMembersRequest) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListGroupMembersWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*ListGroupMembersWithMembersResponse) *group_member.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*ListGroupMembersWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*ListGroupMembersWithMembersResponse) []*group_member.Name
+	})
+	if ok {
+		return group_member.GroupMemberNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*ListGroupMembersWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*ListGroupMembersWithMembersResponse) *group_member.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*ListGroupMembersWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*ListGroupMembersWithMembersResponse) *group_member.GroupMember
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *ListGroupMembersWithMembersDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*ListGroupMembersWithMembersResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*ListGroupMembersWithMembersResponse) []*group_member.GroupMember
+	})
+	if ok {
+		return group_member.GroupMemberList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func GetListGroupMembersWithMembersDescriptor() *ListGroupMembersWithMembersDescriptor {
+	return listGroupMembersWithMembersDescriptor
+}
+
 type GroupMemberServiceDescriptor struct{}
 
 func (d *GroupMemberServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2083,7 @@ func (d *GroupMemberServiceDescriptor) AllMethodDescriptors() []gotenclient.Meth
 		createGroupMemberDescriptor,
 		updateGroupMemberDescriptor,
 		deleteGroupMemberDescriptor,
+		listGroupMembersWithMembersDescriptor,
 	}
 }
 
@@ -1904,6 +2121,7 @@ func initDescriptors() {
 	createGroupMemberDescriptor = &CreateGroupMemberDescriptor{}
 	updateGroupMemberDescriptor = &UpdateGroupMemberDescriptor{}
 	deleteGroupMemberDescriptor = &DeleteGroupMemberDescriptor{}
+	listGroupMembersWithMembersDescriptor = &ListGroupMembersWithMembersDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(groupMemberServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getGroupMemberDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetGroupMembersDescriptor)
@@ -1913,6 +2131,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createGroupMemberDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateGroupMemberDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteGroupMemberDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(listGroupMembersWithMembersDescriptor)
 }
 
 func init() {

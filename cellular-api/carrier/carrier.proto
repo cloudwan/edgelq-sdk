@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package ntt.cellular_api.carrier;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/cellular-api/carrier";
+
+message TransatelAccount {
+  string client_id = 1;
+
+  string client_secret = 2;
+}
+
+enum SimState {
+  SIM_STATE_UNSPECIFIED = 0;
+
+  AVAILABLE = 1;
+
+  ACTIVE = 2;
+
+  SUSPENDED = 3;
+
+  TERMINATED = 4;
+}
+
+enum SimAction {
+  SIM_ACTION_UNSPECIFIED = 0;
+
+  ACTIVATE = 1;
+
+  REACTIVATE = 2;
+
+  SUSPEND = 3;
+
+  TERMINATE = 4;
+}

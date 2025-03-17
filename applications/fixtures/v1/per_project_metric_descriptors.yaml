@@ -159,7 +159,7 @@ resources:
 
 - name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/health
   type: applications.edgelq.com/pod/health
-  displayName: Pod Health Status
+  displayName: Pod Health
   description: |
    This gives a quick overview of pod health. 0 for Unhealthy and 1 for Healthy.
    Value 1 indicates all the containers are Good (Running/Exited gracefully) and all health checks are successful.
@@ -213,7 +213,7 @@ resources:
 
 - name: projects/<project>/metricDescriptors/applications.edgelq.com/pod/healthcheck/status
   type: applications.edgelq.com/pod/healthcheck/status
-  displayName: Results of health checks configured for a pod
+  displayName: Pod Health Check Result
   description: |
    This gives a quick overview of a health result for a container. 0 for Unhealthy and 1 for Healthy.
    Value 1 indicates the health check is successful. 0 indicates failure.

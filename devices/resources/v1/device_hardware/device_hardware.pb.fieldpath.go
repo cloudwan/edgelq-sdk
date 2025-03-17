@@ -23,6 +23,7 @@ import (
 
 // proto imports
 import (
+	cellular_api_sim_card "github.com/cloudwan/edgelq-sdk/cellular-api/resources/v1/sim_card"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
 	provisioning_policy "github.com/cloudwan/edgelq-sdk/devices/resources/v1/provisioning_policy"
@@ -49,6 +50,7 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &cellular_api_sim_card.SimCard{}
 	_ = &device.Device{}
 	_ = &project.Project{}
 	_ = &provisioning_policy.ProvisioningPolicy{}
@@ -85,7 +87,8 @@ const (
 	DeviceHardware_FieldPathSelectorImei                             DeviceHardware_FieldPathSelector = 8
 	DeviceHardware_FieldPathSelectorAssociatedProvisioningPolicyName DeviceHardware_FieldPathSelector = 9
 	DeviceHardware_FieldPathSelectorAssociatedDevice                 DeviceHardware_FieldPathSelector = 10
-	DeviceHardware_FieldPathSelectorStatus                           DeviceHardware_FieldPathSelector = 11
+	DeviceHardware_FieldPathSelectorAssociatedSimCard                DeviceHardware_FieldPathSelector = 11
+	DeviceHardware_FieldPathSelectorStatus                           DeviceHardware_FieldPathSelector = 12
 )
 
 func (s DeviceHardware_FieldPathSelector) String() string {
@@ -112,6 +115,8 @@ func (s DeviceHardware_FieldPathSelector) String() string {
 		return "associated_provisioning_policy_name"
 	case DeviceHardware_FieldPathSelectorAssociatedDevice:
 		return "associated_device"
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		return "associated_sim_card"
 	case DeviceHardware_FieldPathSelectorStatus:
 		return "status"
 	default:
@@ -147,6 +152,8 @@ func BuildDeviceHardware_FieldPath(fp gotenobject.RawFieldPath) (DeviceHardware_
 			return &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedProvisioningPolicyName}, nil
 		case "associated_device", "associatedDevice", "associated-device":
 			return &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedDevice}, nil
+		case "associated_sim_card", "associatedSimCard", "associated-sim-card":
+			return &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorAssociatedSimCard}, nil
 		case "status":
 			return &DeviceHardware_FieldTerminalPath{selector: DeviceHardware_FieldPathSelectorStatus}, nil
 		}
@@ -241,6 +248,10 @@ func (fp *DeviceHardware_FieldTerminalPath) Get(source *DeviceHardware) (values 
 			if source.AssociatedDevice != nil {
 				values = append(values, source.AssociatedDevice)
 			}
+		case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+			if source.AssociatedSimCard != nil {
+				values = append(values, source.AssociatedSimCard)
+			}
 		case DeviceHardware_FieldPathSelectorStatus:
 			if source.Status != nil {
 				values = append(values, source.Status)
@@ -286,6 +297,9 @@ func (fp *DeviceHardware_FieldTerminalPath) GetSingle(source *DeviceHardware) (i
 	case DeviceHardware_FieldPathSelectorAssociatedDevice:
 		res := source.GetAssociatedDevice()
 		return res, res != nil
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		res := source.GetAssociatedSimCard()
+		return res, res != nil
 	case DeviceHardware_FieldPathSelectorStatus:
 		res := source.GetStatus()
 		return res, res != nil
@@ -323,6 +337,8 @@ func (fp *DeviceHardware_FieldTerminalPath) GetDefault() interface{} {
 		return (*provisioning_policy.Reference)(nil)
 	case DeviceHardware_FieldPathSelectorAssociatedDevice:
 		return (*device.Reference)(nil)
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		return (*cellular_api_sim_card.Reference)(nil)
 	case DeviceHardware_FieldPathSelectorStatus:
 		return (*DeviceHardware_Status)(nil)
 	default:
@@ -355,6 +371,8 @@ func (fp *DeviceHardware_FieldTerminalPath) ClearValue(item *DeviceHardware) {
 			item.AssociatedProvisioningPolicyName = nil
 		case DeviceHardware_FieldPathSelectorAssociatedDevice:
 			item.AssociatedDevice = nil
+		case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+			item.AssociatedSimCard = nil
 		case DeviceHardware_FieldPathSelectorStatus:
 			item.Status = nil
 		default:
@@ -378,7 +396,8 @@ func (fp *DeviceHardware_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceHardware_FieldPathSelectorSimIccid ||
 		fp.selector == DeviceHardware_FieldPathSelectorImei ||
 		fp.selector == DeviceHardware_FieldPathSelectorAssociatedProvisioningPolicyName ||
-		fp.selector == DeviceHardware_FieldPathSelectorAssociatedDevice
+		fp.selector == DeviceHardware_FieldPathSelectorAssociatedDevice ||
+		fp.selector == DeviceHardware_FieldPathSelectorAssociatedSimCard
 }
 
 func (fp *DeviceHardware_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -409,6 +428,8 @@ func (fp *DeviceHardware_FieldTerminalPath) WithIValue(value interface{}) Device
 		return &DeviceHardware_FieldTerminalPathValue{DeviceHardware_FieldTerminalPath: *fp, value: value.(*provisioning_policy.Reference)}
 	case DeviceHardware_FieldPathSelectorAssociatedDevice:
 		return &DeviceHardware_FieldTerminalPathValue{DeviceHardware_FieldTerminalPath: *fp, value: value.(*device.Reference)}
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		return &DeviceHardware_FieldTerminalPathValue{DeviceHardware_FieldTerminalPath: *fp, value: value.(*cellular_api_sim_card.Reference)}
 	case DeviceHardware_FieldPathSelectorStatus:
 		return &DeviceHardware_FieldTerminalPathValue{DeviceHardware_FieldTerminalPath: *fp, value: value.(*DeviceHardware_Status)}
 	default:
@@ -445,6 +466,8 @@ func (fp *DeviceHardware_FieldTerminalPath) WithIArrayOfValues(values interface{
 		return &DeviceHardware_FieldTerminalPathArrayOfValues{DeviceHardware_FieldTerminalPath: *fp, values: values.([]*provisioning_policy.Reference)}
 	case DeviceHardware_FieldPathSelectorAssociatedDevice:
 		return &DeviceHardware_FieldTerminalPathArrayOfValues{DeviceHardware_FieldTerminalPath: *fp, values: values.([]*device.Reference)}
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		return &DeviceHardware_FieldTerminalPathArrayOfValues{DeviceHardware_FieldTerminalPath: *fp, values: values.([]*cellular_api_sim_card.Reference)}
 	case DeviceHardware_FieldPathSelectorStatus:
 		return &DeviceHardware_FieldTerminalPathArrayOfValues{DeviceHardware_FieldTerminalPath: *fp, values: values.([]*DeviceHardware_Status)}
 	default:
@@ -678,6 +701,10 @@ func (fpv *DeviceHardware_FieldTerminalPathValue) AsAssociatedDeviceValue() (*de
 	res, ok := fpv.value.(*device.Reference)
 	return res, ok
 }
+func (fpv *DeviceHardware_FieldTerminalPathValue) AsAssociatedSimCardValue() (*cellular_api_sim_card.Reference, bool) {
+	res, ok := fpv.value.(*cellular_api_sim_card.Reference)
+	return res, ok
+}
 func (fpv *DeviceHardware_FieldTerminalPathValue) AsStatusValue() (*DeviceHardware_Status, bool) {
 	res, ok := fpv.value.(*DeviceHardware_Status)
 	return res, ok
@@ -711,6 +738,8 @@ func (fpv *DeviceHardware_FieldTerminalPathValue) SetTo(target **DeviceHardware)
 		(*target).AssociatedProvisioningPolicyName = fpv.value.(*provisioning_policy.Reference)
 	case DeviceHardware_FieldPathSelectorAssociatedDevice:
 		(*target).AssociatedDevice = fpv.value.(*device.Reference)
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		(*target).AssociatedSimCard = fpv.value.(*cellular_api_sim_card.Reference)
 	case DeviceHardware_FieldPathSelectorStatus:
 		(*target).Status = fpv.value.(*DeviceHardware_Status)
 	default:
@@ -831,6 +860,25 @@ func (fpv *DeviceHardware_FieldTerminalPathValue) CompareWith(source *DeviceHard
 	case DeviceHardware_FieldPathSelectorAssociatedDevice:
 		leftValue := fpv.value.(*device.Reference)
 		rightValue := source.GetAssociatedDevice()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
+			return 0, true
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		leftValue := fpv.value.(*cellular_api_sim_card.Reference)
+		rightValue := source.GetAssociatedSimCard()
 		if leftValue == nil {
 			if rightValue != nil {
 				return -1, true
@@ -1089,6 +1137,10 @@ func (fpaov *DeviceHardware_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 		for _, v := range fpaov.values.([]*device.Reference) {
 			values = append(values, v)
 		}
+	case DeviceHardware_FieldPathSelectorAssociatedSimCard:
+		for _, v := range fpaov.values.([]*cellular_api_sim_card.Reference) {
+			values = append(values, v)
+		}
 	case DeviceHardware_FieldPathSelectorStatus:
 		for _, v := range fpaov.values.([]*DeviceHardware_Status) {
 			values = append(values, v)
@@ -1138,6 +1190,10 @@ func (fpaov *DeviceHardware_FieldTerminalPathArrayOfValues) AsAssociatedProvisio
 }
 func (fpaov *DeviceHardware_FieldTerminalPathArrayOfValues) AsAssociatedDeviceArrayOfValues() ([]*device.Reference, bool) {
 	res, ok := fpaov.values.([]*device.Reference)
+	return res, ok
+}
+func (fpaov *DeviceHardware_FieldTerminalPathArrayOfValues) AsAssociatedSimCardArrayOfValues() ([]*cellular_api_sim_card.Reference, bool) {
+	res, ok := fpaov.values.([]*cellular_api_sim_card.Reference)
 	return res, ok
 }
 func (fpaov *DeviceHardware_FieldTerminalPathArrayOfValues) AsStatusArrayOfValues() ([]*DeviceHardware_Status, bool) {
