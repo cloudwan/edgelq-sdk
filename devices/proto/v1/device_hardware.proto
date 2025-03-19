@@ -47,8 +47,6 @@ message DeviceHardware {
   // which is specified by associated_sim_card field
   string sim_iccid = 8;
 
-  // Result of activating sim card,
-  // which is specified by associated_sim_card field
   string imei = 9;
 
   string associated_provisioning_policy_name = 10;

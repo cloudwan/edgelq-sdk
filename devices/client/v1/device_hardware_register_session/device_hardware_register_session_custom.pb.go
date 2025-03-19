@@ -60,8 +60,7 @@ type RegisterHardwareRequest struct {
 	ProductName string   `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
 	MacAddress  []string `protobuf:"bytes,6,rep,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty" firestore:"macAddress"`
 	SimIccid    string   `protobuf:"bytes,7,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty" firestore:"simIccid"`
-	// deprecated
-	Imei string `protobuf:"bytes,8,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
+	Imei        string   `protobuf:"bytes,8,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
 	// MD5 HMAC of '{"ICCID":"<>","MODEL":"<>","SN":"<>"}'
 	Md5HmacDigest string `protobuf:"bytes,9,opt,name=md5_hmac_digest,json=md5HmacDigest,proto3" json:"md5_hmac_digest,omitempty" firestore:"md5HmacDigest"`
 }

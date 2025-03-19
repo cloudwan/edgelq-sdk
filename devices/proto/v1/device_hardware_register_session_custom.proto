@@ -28,7 +28,6 @@ message RegisterHardwareRequest {
 
   string sim_iccid = 7;
 
-  // deprecated
   string imei = 8;
 
   // MD5 HMAC of '{"ICCID":"<>","MODEL":"<>","SN":"<>"}'

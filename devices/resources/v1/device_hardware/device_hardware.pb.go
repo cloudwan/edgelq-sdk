@@ -149,8 +149,6 @@ type DeviceHardware struct {
 	// Result of activating sim card,
 	// which is specified by associated_sim_card field
 	SimIccid string `protobuf:"bytes,8,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty" firestore:"simIccid"`
-	// Result of activating sim card,
-	// which is specified by associated_sim_card field
 	Imei                             string                           `protobuf:"bytes,9,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
 	AssociatedProvisioningPolicyName *provisioning_policy.Reference   `protobuf:"bytes,10,opt,customtype=Reference,name=associated_provisioning_policy_name,json=associatedProvisioningPolicyName,proto3" json:"associated_provisioning_policy_name,omitempty" firestore:"associatedProvisioningPolicyName"`
 	AssociatedDevice                 *device.Reference                `protobuf:"bytes,11,opt,customtype=Reference,name=associated_device,json=associatedDevice,proto3" json:"associated_device,omitempty" firestore:"associatedDevice"`
