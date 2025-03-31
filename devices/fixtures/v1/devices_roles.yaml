@@ -64,7 +64,7 @@ resources:
     - path: spec.service_account
       value: projects/{project}/regions/{region}/serviceAccounts/{serviceAccount}
 
-  - subScope: regions/{region}/provisioningApprovalRequests/-
+  - subScope: regions/{region}/provisioningPolicies/-/provisioningApprovalRequests/-
     permissions:
     - services/devices.edgelq.com/permissions/provisioningApprovalRequests.get
     - services/devices.edgelq.com/permissions/provisioningApprovalRequests.provisionDeviceForApprovedRequest
