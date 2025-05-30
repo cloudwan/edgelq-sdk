@@ -2646,6 +2646,10 @@ func (b *filterCndBuilderSpec) HealthChecks() *filterCndBuilderSpecHealthChecks 
 	return &filterCndBuilderSpecHealthChecks{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpec) DisableNetworkConfigFallback() *filterCndBuilderSpecDisableNetworkConfigFallback {
+	return &filterCndBuilderSpecDisableNetworkConfigFallback{builder: b.builder}
+}
+
 type filterCndBuilderSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -6737,6 +6741,65 @@ func (b *filterCndBuilderSpecHealthChecks) compare(op gotenfilter.CompareOperato
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().HealthChecks().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecDisableNetworkConfigFallback struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().DisableNetworkConfigFallback().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Device_FieldPathArrayOfValues: NewDeviceFieldPathBuilder().Spec().DisableNetworkConfigFallback().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().DisableNetworkConfigFallback().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewDeviceFieldPathBuilder().Spec().DisableNetworkConfigFallback().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecDisableNetworkConfigFallback) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Device_FieldPathValue: NewDeviceFieldPathBuilder().Spec().DisableNetworkConfigFallback().WithValue(value),
 	})
 }
 

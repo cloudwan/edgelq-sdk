@@ -5277,6 +5277,10 @@ func (b *filterCndBuilderSpecTemplateSpec) HealthChecks() *filterCndBuilderSpecT
 	return &filterCndBuilderSpecTemplateSpecHealthChecks{builder: b.builder}
 }
 
+func (b *filterCndBuilderSpecTemplateSpec) DisableNetworkConfigFallback() *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback {
+	return &filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback{builder: b.builder}
+}
+
 type filterCndBuilderSpecTemplateSpecServiceAccount struct {
 	builder *FilterBuilder
 }
@@ -9368,6 +9372,65 @@ func (b *filterCndBuilderSpecTemplateSpecHealthChecks) compare(op gotenfilter.Co
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                          op,
 		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().HealthChecks().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableNetworkConfigFallback().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ProvisioningPolicy_FieldPathArrayOfValues: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableNetworkConfigFallback().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableNetworkConfigFallback().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableNetworkConfigFallback().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecTemplateSpecDisableNetworkConfigFallback) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                          op,
+		ProvisioningPolicy_FieldPathValue: NewProvisioningPolicyFieldPathBuilder().Spec().Template().Spec().DisableNetworkConfigFallback().WithValue(value),
 	})
 }
 

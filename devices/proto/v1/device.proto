@@ -104,6 +104,12 @@ message Device {
     // Custom Health checks for device
     repeated ntt.api.HealthCheckSpec health_checks = 18;
 
+    // If enabled, the default network configuration that was part of the
+    // initial disk image will never be used. This needs to be used with caution
+    // because clearing this flag would require access to device over console
+    // port or by connecting a Monitor to it.
+    bool disable_network_config_fallback = 19;
+
     // SSHConfig defines the ssh configuration for the Device.
     message SSHConfig {
       bool disable_ssh_server = 1;

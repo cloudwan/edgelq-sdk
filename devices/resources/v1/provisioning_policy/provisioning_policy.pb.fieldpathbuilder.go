@@ -1771,6 +1771,10 @@ func (ProvisioningPolicyPathSelectorSpecTemplateSpec) HealthChecks() Provisionin
 	return ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks{}
 }
 
+func (ProvisioningPolicyPathSelectorSpecTemplateSpec) DisableNetworkConfigFallback() ProvisioningPolicyPathSelectorSpecTemplateSpecDisableNetworkConfigFallback {
+	return ProvisioningPolicyPathSelectorSpecTemplateSpecDisableNetworkConfigFallback{}
+}
+
 type ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount struct{}
 
 func (ProvisioningPolicyPathSelectorSpecTemplateSpecServiceAccount) FieldPath() *ProvisioningPolicy_FieldSubPath {
@@ -3013,6 +3017,23 @@ func (s ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks) WithArrayOfV
 
 func (s ProvisioningPolicyPathSelectorSpecTemplateSpecHealthChecks) WithItemValue(value *api.HealthCheckSpec) *ProvisioningPolicy_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicy_FieldSubPathArrayItemValue)
+}
+
+type ProvisioningPolicyPathSelectorSpecTemplateSpecDisableNetworkConfigFallback struct{}
+
+func (ProvisioningPolicyPathSelectorSpecTemplateSpecDisableNetworkConfigFallback) FieldPath() *ProvisioningPolicy_FieldSubPath {
+	return &ProvisioningPolicy_FieldSubPath{
+		selector: ProvisioningPolicy_FieldPathSelectorSpec,
+		subPath:  NewProvisioningPolicySpecFieldPathBuilder().Template().Spec().DisableNetworkConfigFallback().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecDisableNetworkConfigFallback) WithValue(value bool) *ProvisioningPolicy_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicy_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicyPathSelectorSpecTemplateSpecDisableNetworkConfigFallback) WithArrayOfValues(values []bool) *ProvisioningPolicy_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicy_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningPolicyPathSelectorSpecTemplatePublicListingSpec struct{}
@@ -4352,6 +4373,10 @@ func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) HealthChecks() Provisioni
 	return ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks{}
 }
 
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpec) DisableNetworkConfigFallback() ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableNetworkConfigFallback {
+	return ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableNetworkConfigFallback{}
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplateSpecServiceAccount struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplateSpecServiceAccount) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -5596,6 +5621,23 @@ func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecHealthChecks) WithItemVal
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpec_FieldSubPathArrayItemValue)
 }
 
+type ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableNetworkConfigFallback struct{}
+
+func (ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableNetworkConfigFallback) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
+	return &ProvisioningPolicySpec_FieldSubPath{
+		selector: ProvisioningPolicySpec_FieldPathSelectorTemplate,
+		subPath:  NewProvisioningPolicySpecTemplateFieldPathBuilder().Spec().DisableNetworkConfigFallback().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableNetworkConfigFallback) WithValue(value bool) *ProvisioningPolicySpec_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpec_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_SpecPathSelectorTemplateSpecDisableNetworkConfigFallback) WithArrayOfValues(values []bool) *ProvisioningPolicySpec_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpec_FieldSubPathArrayOfValues)
+}
+
 type ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec struct{}
 
 func (ProvisioningPolicy_SpecPathSelectorTemplatePublicListingSpec) FieldPath() *ProvisioningPolicySpec_FieldSubPath {
@@ -6786,6 +6828,10 @@ func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) UsbGuard() ProvisioningP
 
 func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) HealthChecks() ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks {
 	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks{}
+}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpec) DisableNetworkConfigFallback() ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableNetworkConfigFallback {
+	return ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableNetworkConfigFallback{}
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorSpecServiceAccount struct{}
@@ -8030,6 +8076,23 @@ func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks) WithArrayO
 
 func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecHealthChecks) WithItemValue(value *api.HealthCheckSpec) *ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayItemValue)
+}
+
+type ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableNetworkConfigFallback struct{}
+
+func (ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableNetworkConfigFallback) FieldPath() *ProvisioningPolicySpecTemplate_FieldSubPath {
+	return &ProvisioningPolicySpecTemplate_FieldSubPath{
+		selector: ProvisioningPolicySpecTemplate_FieldPathSelectorSpec,
+		subPath:  device.NewDeviceSpecFieldPathBuilder().DisableNetworkConfigFallback().FieldPath(),
+	}
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableNetworkConfigFallback) WithValue(value bool) *ProvisioningPolicySpecTemplate_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ProvisioningPolicySpecTemplate_FieldSubPathValue)
+}
+
+func (s ProvisioningPolicy_Spec_TemplatePathSelectorSpecDisableNetworkConfigFallback) WithArrayOfValues(values []bool) *ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ProvisioningPolicySpecTemplate_FieldSubPathArrayOfValues)
 }
 
 type ProvisioningPolicy_Spec_TemplatePathSelectorPublicListingSpec struct{}

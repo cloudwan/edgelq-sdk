@@ -893,6 +893,10 @@ func (DevicePathSelectorSpec) HealthChecks() DevicePathSelectorSpecHealthChecks 
 	return DevicePathSelectorSpecHealthChecks{}
 }
 
+func (DevicePathSelectorSpec) DisableNetworkConfigFallback() DevicePathSelectorSpecDisableNetworkConfigFallback {
+	return DevicePathSelectorSpecDisableNetworkConfigFallback{}
+}
+
 type DevicePathSelectorSpecServiceAccount struct{}
 
 func (DevicePathSelectorSpecServiceAccount) FieldPath() *Device_FieldSubPath {
@@ -2135,6 +2139,23 @@ func (s DevicePathSelectorSpecHealthChecks) WithArrayOfValues(values [][]*api.He
 
 func (s DevicePathSelectorSpecHealthChecks) WithItemValue(value *api.HealthCheckSpec) *Device_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*Device_FieldSubPathArrayItemValue)
+}
+
+type DevicePathSelectorSpecDisableNetworkConfigFallback struct{}
+
+func (DevicePathSelectorSpecDisableNetworkConfigFallback) FieldPath() *Device_FieldSubPath {
+	return &Device_FieldSubPath{
+		selector: Device_FieldPathSelectorSpec,
+		subPath:  NewDeviceSpecFieldPathBuilder().DisableNetworkConfigFallback().FieldPath(),
+	}
+}
+
+func (s DevicePathSelectorSpecDisableNetworkConfigFallback) WithValue(value bool) *Device_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Device_FieldSubPathValue)
+}
+
+func (s DevicePathSelectorSpecDisableNetworkConfigFallback) WithArrayOfValues(values []bool) *Device_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Device_FieldSubPathArrayOfValues)
 }
 
 type DevicePathSelectorStatus struct{}
@@ -7690,6 +7711,9 @@ func (DeviceSpecFieldPathBuilder) UsbGuard() Device_SpecPathSelectorUsbGuard {
 func (DeviceSpecFieldPathBuilder) HealthChecks() Device_SpecPathSelectorHealthChecks {
 	return Device_SpecPathSelectorHealthChecks{}
 }
+func (DeviceSpecFieldPathBuilder) DisableNetworkConfigFallback() Device_SpecPathSelectorDisableNetworkConfigFallback {
+	return Device_SpecPathSelectorDisableNetworkConfigFallback{}
+}
 
 type Device_SpecPathSelectorServiceAccount struct{}
 
@@ -8984,6 +9008,20 @@ func (s Device_SpecPathSelectorHealthChecks) WithArrayOfValues(values [][]*api.H
 
 func (s Device_SpecPathSelectorHealthChecks) WithItemValue(value *api.HealthCheckSpec) *DeviceSpec_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*DeviceSpec_FieldTerminalPathArrayItemValue)
+}
+
+type Device_SpecPathSelectorDisableNetworkConfigFallback struct{}
+
+func (Device_SpecPathSelectorDisableNetworkConfigFallback) FieldPath() *DeviceSpec_FieldTerminalPath {
+	return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback}
+}
+
+func (s Device_SpecPathSelectorDisableNetworkConfigFallback) WithValue(value bool) *DeviceSpec_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*DeviceSpec_FieldTerminalPathValue)
+}
+
+func (s Device_SpecPathSelectorDisableNetworkConfigFallback) WithArrayOfValues(values []bool) *DeviceSpec_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*DeviceSpec_FieldTerminalPathArrayOfValues)
 }
 
 type DeviceStatusFieldPathBuilder struct{}

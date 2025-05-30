@@ -320,6 +320,9 @@ func (o *Device_Spec) MakeDiffFieldMask(other *Device_Spec) *Device_Spec_FieldMa
 	} else {
 		res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks})
 	}
+	if o.GetDisableNetworkConfigFallback() != other.GetDisableNetworkConfigFallback() {
+		res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback})
+	}
 	return res
 }
 
@@ -377,6 +380,7 @@ func (o *Device_Spec) Clone() *Device_Spec {
 	for i, sourceValue := range o.HealthChecks {
 		result.HealthChecks[i] = proto.Clone(sourceValue).(*api.HealthCheckSpec)
 	}
+	result.DisableNetworkConfigFallback = o.DisableNetworkConfigFallback
 	return result
 }
 
@@ -480,6 +484,7 @@ func (o *Device_Spec) Merge(source *Device_Spec) {
 		}
 	}
 
+	o.DisableNetworkConfigFallback = source.GetDisableNetworkConfigFallback()
 }
 
 func (o *Device_Spec) MergeRaw(source gotenobject.GotenObjectExt) {

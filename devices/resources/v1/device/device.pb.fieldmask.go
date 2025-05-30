@@ -434,6 +434,7 @@ func FullDevice_Spec_FieldMask() *Device_Spec_FieldMask {
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorLocation})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorUsbGuard})
 	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks})
+	res.Paths = append(res.Paths, &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback})
 	return res
 }
 
@@ -452,7 +453,7 @@ func (fieldMask *Device_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 15)
+	presentSelectors := make([]bool, 16)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*DeviceSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -482,7 +483,7 @@ func (fieldMask *Device_Spec_FieldMask) Reset() {
 
 func (fieldMask *Device_Spec_FieldMask) Subtract(other *Device_Spec_FieldMask) *Device_Spec_FieldMask {
 	result := &Device_Spec_FieldMask{}
-	removedSelectors := make([]bool, 15)
+	removedSelectors := make([]bool, 16)
 	otherSubMasks := map[DeviceSpec_FieldPathSelector]gotenobject.FieldMask{
 		DeviceSpec_FieldPathSelectorSshConfig:         &Device_Spec_SSHConfig_FieldMask{},
 		DeviceSpec_FieldPathSelectorAttestationConfig: &Device_Spec_AttestationConfig_FieldMask{},
@@ -737,6 +738,8 @@ func (fieldMask *Device_Spec_FieldMask) Project(source *Device_Spec) *Device_Spe
 				wholeUsbGuardAccepted = true
 			case DeviceSpec_FieldPathSelectorHealthChecks:
 				result.HealthChecks = source.HealthChecks
+			case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+				result.DisableNetworkConfigFallback = source.DisableNetworkConfigFallback
 			}
 		case *DeviceSpec_FieldSubPath:
 			switch tp.selector {

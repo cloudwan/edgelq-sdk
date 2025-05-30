@@ -1026,21 +1026,22 @@ type DeviceSpec_FieldPath interface {
 type DeviceSpec_FieldPathSelector int32
 
 const (
-	DeviceSpec_FieldPathSelectorServiceAccount         DeviceSpec_FieldPathSelector = 0
-	DeviceSpec_FieldPathSelectorLogBucket              DeviceSpec_FieldPathSelector = 1
-	DeviceSpec_FieldPathSelectorMetricsBucket          DeviceSpec_FieldPathSelector = 2
-	DeviceSpec_FieldPathSelectorOsVersion              DeviceSpec_FieldPathSelector = 3
-	DeviceSpec_FieldPathSelectorNetplanYamlConfig      DeviceSpec_FieldPathSelector = 4
-	DeviceSpec_FieldPathSelectorNetplanApiConfigMode   DeviceSpec_FieldPathSelector = 5
-	DeviceSpec_FieldPathSelectorOsImageUrl             DeviceSpec_FieldPathSelector = 6
-	DeviceSpec_FieldPathSelectorSshConfig              DeviceSpec_FieldPathSelector = 7
-	DeviceSpec_FieldPathSelectorAttestationConfig      DeviceSpec_FieldPathSelector = 8
-	DeviceSpec_FieldPathSelectorDisableDeviceDiscovery DeviceSpec_FieldPathSelector = 9
-	DeviceSpec_FieldPathSelectorLoggingConfig          DeviceSpec_FieldPathSelector = 10
-	DeviceSpec_FieldPathSelectorProxyConfig            DeviceSpec_FieldPathSelector = 11
-	DeviceSpec_FieldPathSelectorLocation               DeviceSpec_FieldPathSelector = 12
-	DeviceSpec_FieldPathSelectorUsbGuard               DeviceSpec_FieldPathSelector = 13
-	DeviceSpec_FieldPathSelectorHealthChecks           DeviceSpec_FieldPathSelector = 14
+	DeviceSpec_FieldPathSelectorServiceAccount               DeviceSpec_FieldPathSelector = 0
+	DeviceSpec_FieldPathSelectorLogBucket                    DeviceSpec_FieldPathSelector = 1
+	DeviceSpec_FieldPathSelectorMetricsBucket                DeviceSpec_FieldPathSelector = 2
+	DeviceSpec_FieldPathSelectorOsVersion                    DeviceSpec_FieldPathSelector = 3
+	DeviceSpec_FieldPathSelectorNetplanYamlConfig            DeviceSpec_FieldPathSelector = 4
+	DeviceSpec_FieldPathSelectorNetplanApiConfigMode         DeviceSpec_FieldPathSelector = 5
+	DeviceSpec_FieldPathSelectorOsImageUrl                   DeviceSpec_FieldPathSelector = 6
+	DeviceSpec_FieldPathSelectorSshConfig                    DeviceSpec_FieldPathSelector = 7
+	DeviceSpec_FieldPathSelectorAttestationConfig            DeviceSpec_FieldPathSelector = 8
+	DeviceSpec_FieldPathSelectorDisableDeviceDiscovery       DeviceSpec_FieldPathSelector = 9
+	DeviceSpec_FieldPathSelectorLoggingConfig                DeviceSpec_FieldPathSelector = 10
+	DeviceSpec_FieldPathSelectorProxyConfig                  DeviceSpec_FieldPathSelector = 11
+	DeviceSpec_FieldPathSelectorLocation                     DeviceSpec_FieldPathSelector = 12
+	DeviceSpec_FieldPathSelectorUsbGuard                     DeviceSpec_FieldPathSelector = 13
+	DeviceSpec_FieldPathSelectorHealthChecks                 DeviceSpec_FieldPathSelector = 14
+	DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback DeviceSpec_FieldPathSelector = 15
 )
 
 func (s DeviceSpec_FieldPathSelector) String() string {
@@ -1075,6 +1076,8 @@ func (s DeviceSpec_FieldPathSelector) String() string {
 		return "usb_guard"
 	case DeviceSpec_FieldPathSelectorHealthChecks:
 		return "health_checks"
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		return "disable_network_config_fallback"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", s))
 	}
@@ -1116,6 +1119,8 @@ func BuildDeviceSpec_FieldPath(fp gotenobject.RawFieldPath) (DeviceSpec_FieldPat
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorUsbGuard}, nil
 		case "health_checks", "healthChecks", "health-checks":
 			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorHealthChecks}, nil
+		case "disable_network_config_fallback", "disableNetworkConfigFallback", "disable-network-config-fallback":
+			return &DeviceSpec_FieldTerminalPath{selector: DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -1250,6 +1255,8 @@ func (fp *DeviceSpec_FieldTerminalPath) Get(source *Device_Spec) (values []inter
 			for _, value := range source.GetHealthChecks() {
 				values = append(values, value)
 			}
+		case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+			values = append(values, source.DisableNetworkConfigFallback)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1304,6 +1311,8 @@ func (fp *DeviceSpec_FieldTerminalPath) GetSingle(source *Device_Spec) (interfac
 	case DeviceSpec_FieldPathSelectorHealthChecks:
 		res := source.GetHealthChecks()
 		return res, res != nil
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		return source.GetDisableNetworkConfigFallback(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1346,6 +1355,8 @@ func (fp *DeviceSpec_FieldTerminalPath) GetDefault() interface{} {
 		return (*Device_Spec_USBGuard)(nil)
 	case DeviceSpec_FieldPathSelectorHealthChecks:
 		return ([]*api.HealthCheckSpec)(nil)
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		return false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1384,6 +1395,8 @@ func (fp *DeviceSpec_FieldTerminalPath) ClearValue(item *Device_Spec) {
 			item.UsbGuard = nil
 		case DeviceSpec_FieldPathSelectorHealthChecks:
 			item.HealthChecks = nil
+		case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+			item.DisableNetworkConfigFallback = false
 		default:
 			panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 		}
@@ -1404,7 +1417,8 @@ func (fp *DeviceSpec_FieldTerminalPath) IsLeaf() bool {
 		fp.selector == DeviceSpec_FieldPathSelectorNetplanApiConfigMode ||
 		fp.selector == DeviceSpec_FieldPathSelectorOsImageUrl ||
 		fp.selector == DeviceSpec_FieldPathSelectorDisableDeviceDiscovery ||
-		fp.selector == DeviceSpec_FieldPathSelectorHealthChecks
+		fp.selector == DeviceSpec_FieldPathSelectorHealthChecks ||
+		fp.selector == DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback
 }
 
 func (fp *DeviceSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1443,6 +1457,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIValue(value interface{}) DeviceSpec
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(*Device_Spec_USBGuard)}
 	case DeviceSpec_FieldPathSelectorHealthChecks:
 		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.([]*api.HealthCheckSpec)}
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		return &DeviceSpec_FieldTerminalPathValue{DeviceSpec_FieldTerminalPath: *fp, value: value.(bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1485,6 +1501,8 @@ func (fp *DeviceSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) D
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]*Device_Spec_USBGuard)}
 	case DeviceSpec_FieldPathSelectorHealthChecks:
 		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([][]*api.HealthCheckSpec)}
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		return &DeviceSpec_FieldTerminalPathArrayOfValues{DeviceSpec_FieldTerminalPath: *fp, values: values.([]bool)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fp.selector))
 	}
@@ -1784,6 +1802,10 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) AsHealthChecksValue() ([]*api.Heal
 	res, ok := fpv.value.([]*api.HealthCheckSpec)
 	return res, ok
 }
+func (fpv *DeviceSpec_FieldTerminalPathValue) AsDisableNetworkConfigFallbackValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
@@ -1821,6 +1843,8 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) SetTo(target **Device_Spec) {
 		(*target).UsbGuard = fpv.value.(*Device_Spec_USBGuard)
 	case DeviceSpec_FieldPathSelectorHealthChecks:
 		(*target).HealthChecks = fpv.value.([]*api.HealthCheckSpec)
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		(*target).DisableNetworkConfigFallback = fpv.value.(bool)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
 	}
@@ -1955,6 +1979,16 @@ func (fpv *DeviceSpec_FieldTerminalPathValue) CompareWith(source *Device_Spec) (
 		return 0, false
 	case DeviceSpec_FieldPathSelectorHealthChecks:
 		return 0, false
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetDisableNetworkConfigFallback()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Device_Spec: %d", fpv.selector))
 	}
@@ -2267,6 +2301,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([][]*api.HealthCheckSpec) {
 			values = append(values, v)
 		}
+	case DeviceSpec_FieldPathSelectorDisableNetworkConfigFallback:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -2328,6 +2366,10 @@ func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsUsbGuardArrayOfValues(
 }
 func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsHealthChecksArrayOfValues() ([][]*api.HealthCheckSpec, bool) {
 	res, ok := fpaov.values.([][]*api.HealthCheckSpec)
+	return res, ok
+}
+func (fpaov *DeviceSpec_FieldTerminalPathArrayOfValues) AsDisableNetworkConfigFallbackArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 
