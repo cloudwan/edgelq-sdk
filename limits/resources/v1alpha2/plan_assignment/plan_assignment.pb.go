@@ -72,20 +72,20 @@ type PlanAssignment struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Plan with basic set of limits
-	Plan *plan.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty" firestore:"plan"`
+	Plan *plan.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty"`
 	// Service associated with plan
-	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Additional extensions (but may be negative) on top of regular plan.
-	Extensions []*common.Allowance `protobuf:"bytes,4,rep,name=extensions,proto3" json:"extensions,omitempty" firestore:"extensions"`
+	Extensions []*common.Allowance `protobuf:"bytes,4,rep,name=extensions,proto3" json:"extensions,omitempty"`
 	// Regional distributions across regions. This field makes sense only
 	// for projects, because limit pools are regionless.
-	RegionalDistributions []*common.RegionalDistribution `protobuf:"bytes,5,rep,name=regional_distributions,json=regionalDistributions,proto3" json:"regional_distributions,omitempty" firestore:"regionalDistributions"`
+	RegionalDistributions []*common.RegionalDistribution `protobuf:"bytes,5,rep,name=regional_distributions,json=regionalDistributions,proto3" json:"regional_distributions,omitempty"`
 	// Source with which this PlanAssignment is synchronized.
-	Source *accepted_plan.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=source,proto3" json:"source,omitempty" firestore:"source"`
+	Source *accepted_plan.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=source,proto3" json:"source,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *PlanAssignment) Reset() {

@@ -55,13 +55,13 @@ type ServiceAccount struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-_]{0,55}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Display Name
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Email
-	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty" firestore:"email"`
+	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
 	// Additional meta information about service account
-	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *ServiceAccount) Reset() {

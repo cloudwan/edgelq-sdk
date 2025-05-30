@@ -55,19 +55,19 @@ type User struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [\\w.@|_-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Full Name
-	FullName string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty" firestore:"fullName"`
+	FullName string `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Email
-	Email string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty" firestore:"email"`
+	Email string `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	// Is email verified
-	EmailVerified bool           `protobuf:"varint,4,opt,name=email_verified,json=emailVerified,proto3" json:"email_verified,omitempty" firestore:"emailVerified"`
-	AuthInfo      *User_AuthInfo `protobuf:"bytes,5,opt,name=auth_info,json=authInfo,proto3" json:"auth_info,omitempty" firestore:"authInfo"`
+	EmailVerified bool           `protobuf:"varint,4,opt,name=email_verified,json=emailVerified,proto3" json:"email_verified,omitempty"`
+	AuthInfo      *User_AuthInfo `protobuf:"bytes,5,opt,name=auth_info,json=authInfo,proto3" json:"auth_info,omitempty"`
 	// User settings and preferences
-	Settings      map[string]string      `protobuf:"bytes,7,rep,name=settings,proto3" json:"settings,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"settings"`
-	RefreshedTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=refreshed_time,json=refreshedTime,proto3" json:"refreshed_time,omitempty" firestore:"refreshedTime"`
+	Settings      map[string]string      `protobuf:"bytes,7,rep,name=settings,proto3" json:"settings,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	RefreshedTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=refreshed_time,json=refreshedTime,proto3" json:"refreshed_time,omitempty"`
 }
 
 func (m *User) Reset() {
@@ -237,9 +237,9 @@ type User_AuthInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// auth provider
-	Provider string `protobuf:"bytes,1,opt,name=provider,proto3" json:"provider,omitempty" firestore:"provider"`
+	Provider string `protobuf:"bytes,1,opt,name=provider,proto3" json:"provider,omitempty"`
 	// auth provider id
-	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty" firestore:"id"`
+	Id string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (m *User_AuthInfo) Reset() {

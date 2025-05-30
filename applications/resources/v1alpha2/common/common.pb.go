@@ -182,27 +182,27 @@ type PodSpec struct {
 	unknownFields protoimpl.UnknownFields
 	// node is the name of the target node that the Pod is meant to be deployed
 	// to.
-	Node *devices_device.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=node,proto3" json:"node,omitempty" firestore:"node"`
+	Node *devices_device.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=node,proto3" json:"node,omitempty"`
 	// containers defines list of containers that the Pod launches.
-	Containers []*PodSpec_Container `protobuf:"bytes,2,rep,name=containers,proto3" json:"containers,omitempty" firestore:"containers"`
+	Containers []*PodSpec_Container `protobuf:"bytes,2,rep,name=containers,proto3" json:"containers,omitempty"`
 	// Containers use the host network.
-	HostNetwork   bool                  `protobuf:"varint,3,opt,name=host_network,json=hostNetwork,proto3" json:"host_network,omitempty" firestore:"hostNetwork"`
-	RestartPolicy PodSpec_RestartPolicy `protobuf:"varint,4,opt,name=restart_policy,json=restartPolicy,proto3,enum=ntt.applications.v1alpha2.PodSpec_RestartPolicy" json:"restart_policy,omitempty" firestore:"restartPolicy"`
+	HostNetwork   bool                  `protobuf:"varint,3,opt,name=host_network,json=hostNetwork,proto3" json:"host_network,omitempty"`
+	RestartPolicy PodSpec_RestartPolicy `protobuf:"varint,4,opt,name=restart_policy,json=restartPolicy,proto3,enum=ntt.applications.v1alpha2.PodSpec_RestartPolicy" json:"restart_policy,omitempty"`
 	// ImagePullSecrets is an optional list of references to secrets in the same
 	// namespace to use for pulling any of the images used by this PodSpec. If
 	// specified, these secrets will be passed to individual puller
 	// implementations for them to use. For example, in the case of docker, only
 	// DockerConfig type secrets are honored.
-	ImagePullSecrets []*LocalObjectReferenceSecret `protobuf:"bytes,5,rep,name=image_pull_secrets,json=imagePullSecrets,proto3" json:"image_pull_secrets,omitempty" firestore:"imagePullSecrets"`
+	ImagePullSecrets []*LocalObjectReferenceSecret `protobuf:"bytes,5,rep,name=image_pull_secrets,json=imagePullSecrets,proto3" json:"image_pull_secrets,omitempty"`
 	// List of volumes that can be mounted by containers belonging to the pod.
-	Volumes []*Volume `protobuf:"bytes,6,rep,name=volumes,proto3" json:"volumes,omitempty" firestore:"volumes"`
+	Volumes []*Volume `protobuf:"bytes,6,rep,name=volumes,proto3" json:"volumes,omitempty"`
 	// Compose file as a string.
 	// When this value is provided, you can manage containers directlry
 	// using Docker Compose. Other values in the Spec expect `node` will be
 	// ignored.
-	Compose string `protobuf:"bytes,7,opt,name=compose,proto3" json:"compose,omitempty" firestore:"compose"`
+	Compose string `protobuf:"bytes,7,opt,name=compose,proto3" json:"compose,omitempty"`
 	// HostVolumeMounts defines volumes to be mounted to the host file system.
-	HostVolumeMounts []*VolumeMount `protobuf:"bytes,8,rep,name=host_volume_mounts,json=hostVolumeMounts,proto3" json:"host_volume_mounts,omitempty" firestore:"hostVolumeMounts"`
+	HostVolumeMounts []*VolumeMount `protobuf:"bytes,8,rep,name=host_volume_mounts,json=hostVolumeMounts,proto3" json:"host_volume_mounts,omitempty"`
 }
 
 func (m *PodSpec) Reset() {
@@ -374,11 +374,11 @@ type EnvFromSource struct {
 	unknownFields protoimpl.UnknownFields
 	// An optional identifier to prepend to each key in the ConfigMap. Must be a
 	// C_IDENTIFIER.
-	Prefix string `protobuf:"bytes,1,opt,name=prefix,proto3" json:"prefix,omitempty" firestore:"prefix"`
+	Prefix string `protobuf:"bytes,1,opt,name=prefix,proto3" json:"prefix,omitempty"`
 	// The ConfigMap to select from
-	ConfigMapRef *ConfigMapEnvSource `protobuf:"bytes,2,opt,name=config_map_ref,json=configMapRef,proto3" json:"config_map_ref,omitempty" firestore:"configMapRef"`
+	ConfigMapRef *ConfigMapEnvSource `protobuf:"bytes,2,opt,name=config_map_ref,json=configMapRef,proto3" json:"config_map_ref,omitempty"`
 	// The Secret to select from
-	SecretRef *SecretEnvSource `protobuf:"bytes,3,opt,name=secret_ref,json=secretRef,proto3" json:"secret_ref,omitempty" firestore:"secretRef"`
+	SecretRef *SecretEnvSource `protobuf:"bytes,3,opt,name=secret_ref,json=secretRef,proto3" json:"secret_ref,omitempty"`
 }
 
 func (m *EnvFromSource) Reset() {
@@ -479,12 +479,12 @@ type EnvVar struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// name is the name of the environment variable.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// value is the value of the environment variable.
-	Value string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Value string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 	// Source for the environment variable's value. Cannot be used if value is not
 	// empty.
-	ValueFrom *EnvVarSource `protobuf:"bytes,3,opt,name=value_from,json=valueFrom,proto3" json:"value_from,omitempty" firestore:"valueFrom"`
+	ValueFrom *EnvVarSource `protobuf:"bytes,3,opt,name=value_from,json=valueFrom,proto3" json:"value_from,omitempty"`
 }
 
 func (m *EnvVar) Reset() {
@@ -589,9 +589,9 @@ type ConfigMapEnvSource struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The ConfigMap to select from.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Specify whether the ConfigMap must be defined
-	Optional bool `protobuf:"varint,2,opt,name=optional,proto3" json:"optional,omitempty" firestore:"optional"`
+	Optional bool `protobuf:"varint,2,opt,name=optional,proto3" json:"optional,omitempty"`
 }
 
 func (m *ConfigMapEnvSource) Reset() {
@@ -682,9 +682,9 @@ type SecretEnvSource struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The Secret to select from.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Specify whether the Secret must be defined
-	Optional bool `protobuf:"varint,2,opt,name=optional,proto3" json:"optional,omitempty" firestore:"optional"`
+	Optional bool `protobuf:"varint,2,opt,name=optional,proto3" json:"optional,omitempty"`
 }
 
 func (m *SecretEnvSource) Reset() {
@@ -771,9 +771,9 @@ type EnvVarSource struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Selects a key of a ConfigMap.
-	ConfigMapKeyRef *ConfigMapKeySelector `protobuf:"bytes,3,opt,name=config_map_key_ref,json=configMapKeyRef,proto3" json:"config_map_key_ref,omitempty" firestore:"configMapKeyRef"`
+	ConfigMapKeyRef *ConfigMapKeySelector `protobuf:"bytes,3,opt,name=config_map_key_ref,json=configMapKeyRef,proto3" json:"config_map_key_ref,omitempty"`
 	// Selects a key of a secret in the pod's namespace
-	SecretKeyRef *SecretKeySelector `protobuf:"bytes,4,opt,name=secret_key_ref,json=secretKeyRef,proto3" json:"secret_key_ref,omitempty" firestore:"secretKeyRef"`
+	SecretKeyRef *SecretKeySelector `protobuf:"bytes,4,opt,name=secret_key_ref,json=secretKeyRef,proto3" json:"secret_key_ref,omitempty"`
 }
 
 func (m *EnvVarSource) Reset() {
@@ -859,11 +859,11 @@ type ConfigMapKeySelector struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The ConfigMap to select from.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The key to select.
-	Key string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
 	// Specify whether the ConfigMap or its key must be defined
-	Optional bool `protobuf:"varint,3,opt,name=optional,proto3" json:"optional,omitempty" firestore:"optional"`
+	Optional bool `protobuf:"varint,3,opt,name=optional,proto3" json:"optional,omitempty"`
 }
 
 func (m *ConfigMapKeySelector) Reset() {
@@ -964,11 +964,11 @@ type SecretKeySelector struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The name of the secret in the pod's namespace to select from.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The key of the secret to select from.  Must be a valid secret key.
-	Key string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
 	// Specify whether the Secret or its key must be defined
-	Optional bool `protobuf:"varint,3,opt,name=optional,proto3" json:"optional,omitempty" firestore:"optional"`
+	Optional bool `protobuf:"varint,3,opt,name=optional,proto3" json:"optional,omitempty"`
 }
 
 func (m *SecretKeySelector) Reset() {
@@ -1070,7 +1070,7 @@ type LocalObjectReferenceSecret struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the referent.
-	Name *secrets_secret.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *secrets_secret.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *LocalObjectReferenceSecret) Reset() {
@@ -1148,7 +1148,7 @@ type SecurityContext struct {
 	// Run container in privileged mode.
 	// Processes in privileged containers are essentially equivalent to root on
 	// the host. Defaults to false.
-	Privileged bool `protobuf:"varint,2,opt,name=privileged,proto3" json:"privileged,omitempty" firestore:"privileged"`
+	Privileged bool `protobuf:"varint,2,opt,name=privileged,proto3" json:"privileged,omitempty"`
 }
 
 func (m *SecurityContext) Reset() {
@@ -1223,17 +1223,17 @@ type Volume struct {
 	unknownFields protoimpl.UnknownFields
 	// Volume's name.
 	// Must be a DNS_LABEL and unique within the pod.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// HostPath represents a pre-existing file or directory on the host
 	// machine that is directly exposed to the container. This is generally
 	// used for system agents or other privileged things that are allowed
 	// to see the host machine. Most containers will NOT need this.
-	HostPath *HostPathVolumeSource `protobuf:"bytes,101,opt,name=host_path,json=hostPath,proto3" json:"host_path,omitempty" firestore:"hostPath"`
+	HostPath *HostPathVolumeSource `protobuf:"bytes,101,opt,name=host_path,json=hostPath,proto3" json:"host_path,omitempty"`
 	// Secret represents a secret that should populate this volume.
 	// More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-	Secret *SecretVolumeSource `protobuf:"bytes,106,opt,name=secret,proto3" json:"secret,omitempty" firestore:"secret"`
+	Secret *SecretVolumeSource `protobuf:"bytes,106,opt,name=secret,proto3" json:"secret,omitempty"`
 	// ConfigMap represents a configMap that should populate this volume
-	ConfigMap *ConfigMapVolumeSource `protobuf:"bytes,119,opt,name=config_map,json=configMap,proto3" json:"config_map,omitempty" firestore:"configMap"`
+	ConfigMap *ConfigMapVolumeSource `protobuf:"bytes,119,opt,name=config_map,json=configMap,proto3" json:"config_map,omitempty"`
 }
 
 func (m *Volume) Reset() {
@@ -1348,16 +1348,16 @@ type VolumeMount struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// This must match the Name of a Volume.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Mounted read-only if true, read-write otherwise (false or unspecified).
 	// Defaults to false.
-	ReadOnly bool `protobuf:"varint,2,opt,name=read_only,json=readOnly,proto3" json:"read_only,omitempty" firestore:"readOnly"`
+	ReadOnly bool `protobuf:"varint,2,opt,name=read_only,json=readOnly,proto3" json:"read_only,omitempty"`
 	// Path within the container at which the volume should be mounted.  Must
 	// not contain ':'.
-	MountPath string `protobuf:"bytes,3,opt,name=mount_path,json=mountPath,proto3" json:"mount_path,omitempty" firestore:"mountPath"`
+	MountPath string `protobuf:"bytes,3,opt,name=mount_path,json=mountPath,proto3" json:"mount_path,omitempty"`
 	// Path within the volume from which the container's volume should be mounted.
 	// Defaults to "" (volume's root).
-	SubPath string `protobuf:"bytes,4,opt,name=sub_path,json=subPath,proto3" json:"sub_path,omitempty" firestore:"subPath"`
+	SubPath string `protobuf:"bytes,4,opt,name=sub_path,json=subPath,proto3" json:"sub_path,omitempty"`
 }
 
 func (m *VolumeMount) Reset() {
@@ -1473,9 +1473,9 @@ type HostPathVolumeSource struct {
 	unknownFields protoimpl.UnknownFields
 	// Path of the directory on the host.
 	// If the path is a symlink, it will follow the link to the real path.
-	Path string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
+	Path string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	// Type for HostPath Volume
-	Type HostPathVolumeSource_Type `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.applications.v1alpha2.HostPathVolumeSource_Type" json:"type,omitempty" firestore:"type"`
+	Type HostPathVolumeSource_Type `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.applications.v1alpha2.HostPathVolumeSource_Type" json:"type,omitempty"`
 }
 
 func (m *HostPathVolumeSource) Reset() {
@@ -1567,7 +1567,7 @@ type SecretVolumeSource struct {
 	unknownFields protoimpl.UnknownFields
 	// Name of the secret in the pod's namespace to use.
 	// More info: https://kubernetes.io/docs/concepts/storage/volumes#secret
-	SecretName string `protobuf:"bytes,1,opt,name=secret_name,json=secretName,proto3" json:"secret_name,omitempty" firestore:"secretName"`
+	SecretName string `protobuf:"bytes,1,opt,name=secret_name,json=secretName,proto3" json:"secret_name,omitempty"`
 	// If unspecified, each key-value pair in the Data field of the referenced
 	// Secret will be projected into the volume as a file whose name is the
 	// key and content is the value. If specified, the listed keys will be
@@ -1576,7 +1576,7 @@ type SecretVolumeSource struct {
 	// the volume setup will error unless it is marked optional. Paths must be
 	// relative and may not contain the '..' path or start with '..'.
 	// +optional
-	Items []*KeyToPath `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty" firestore:"items"`
+	Items []*KeyToPath `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	// Optional: mode bits used to set permissions on created files by default.
 	// Must be an octal value between 0000 and 0777 or a decimal value between 0
 	// and 511. YAML accepts both octal and decimal values, JSON requires decimal
@@ -1584,9 +1584,9 @@ type SecretVolumeSource struct {
 	// affected by this setting. This might be in conflict with other options that
 	// affect the file mode, like fsGroup, and the result can be other mode bits
 	// set.
-	DefaultMode int32 `protobuf:"varint,3,opt,name=default_mode,json=defaultMode,proto3" json:"default_mode,omitempty" firestore:"defaultMode"`
+	DefaultMode int32 `protobuf:"varint,3,opt,name=default_mode,json=defaultMode,proto3" json:"default_mode,omitempty"`
 	// Specify whether the Secret or its keys must be defined
-	Optional bool `protobuf:"varint,4,opt,name=optional,proto3" json:"optional,omitempty" firestore:"optional"`
+	Optional bool `protobuf:"varint,4,opt,name=optional,proto3" json:"optional,omitempty"`
 }
 
 func (m *SecretVolumeSource) Reset() {
@@ -1701,19 +1701,19 @@ type KeyToPath struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The key to project.
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// The relative path of the file to map the key to.
 	// May not be an absolute path.
 	// May not contain the path element '..'.
 	// May not start with the string '..'.
-	Path string `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
+	Path string `protobuf:"bytes,2,opt,name=path,proto3" json:"path,omitempty"`
 	// Optional: mode bits used to set permissions on this file.
 	// Must be an octal value between 0000 and 0777 or a decimal value between 0
 	// and 511. YAML accepts both octal and decimal values, JSON requires decimal
 	// values for mode bits. If not specified, the volume defaultMode will be
 	// used. This might be in conflict with other options that affect the file
 	// mode, like fsGroup, and the result can be other mode bits set.
-	Mode int32 `protobuf:"varint,3,opt,name=mode,proto3" json:"mode,omitempty" firestore:"mode"`
+	Mode int32 `protobuf:"varint,3,opt,name=mode,proto3" json:"mode,omitempty"`
 }
 
 func (m *KeyToPath) Reset() {
@@ -1818,7 +1818,7 @@ type ConfigMapVolumeSource struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// If unspecified, each key-value pair in the Data field of the referenced
 	// ConfigMap will be projected into the volume as a file whose name is the
 	// key and content is the value. If specified, the listed keys will be
@@ -1826,7 +1826,7 @@ type ConfigMapVolumeSource struct {
 	// present. If a key is specified which is not present in the ConfigMap,
 	// the volume setup will error unless it is marked optional. Paths must be
 	// relative and may not contain the '..' path or start with '..'.
-	Items []*KeyToPath `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty" firestore:"items"`
+	Items []*KeyToPath `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
 	// Optional: mode bits used to set permissions on created files by default.
 	// Must be an octal value between 0000 and 0777 or a decimal value between 0
 	// and 511. YAML accepts both octal and decimal values, JSON requires decimal
@@ -1834,9 +1834,9 @@ type ConfigMapVolumeSource struct {
 	// affected by this setting. This might be in conflict with other options that
 	// affect the file mode, like fsGroup, and the result can be other mode bits
 	// set.
-	DefaultMode int32 `protobuf:"varint,3,opt,name=default_mode,json=defaultMode,proto3" json:"default_mode,omitempty" firestore:"defaultMode"`
+	DefaultMode int32 `protobuf:"varint,3,opt,name=default_mode,json=defaultMode,proto3" json:"default_mode,omitempty"`
 	// Specify whether the ConfigMap or its keys must be defined
-	Optional bool `protobuf:"varint,4,opt,name=optional,proto3" json:"optional,omitempty" firestore:"optional"`
+	Optional bool `protobuf:"varint,4,opt,name=optional,proto3" json:"optional,omitempty"`
 }
 
 func (m *ConfigMapVolumeSource) Reset() {
@@ -1951,30 +1951,30 @@ type PodSpec_Container struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// args to run the command.
-	Args []string `protobuf:"bytes,1,rep,name=args,proto3" json:"args,omitempty" firestore:"args"`
+	Args []string `protobuf:"bytes,1,rep,name=args,proto3" json:"args,omitempty"`
 	// command to run the container.
 	// The image default command will be used when it's not given.
-	Command []string `protobuf:"bytes,2,rep,name=command,proto3" json:"command,omitempty" firestore:"command"`
+	Command []string `protobuf:"bytes,2,rep,name=command,proto3" json:"command,omitempty"`
 	// env is additional environment variables passed to the container.
-	Env []*EnvVar `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty" firestore:"env"`
+	Env []*EnvVar `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty"`
 	// image is the URL of the container image.
-	Image           string `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty" firestore:"image"`
-	ImagePullPolicy string `protobuf:"bytes,5,opt,name=image_pull_policy,json=imagePullPolicy,proto3" json:"image_pull_policy,omitempty" firestore:"imagePullPolicy"`
+	Image           string `protobuf:"bytes,4,opt,name=image,proto3" json:"image,omitempty"`
+	ImagePullPolicy string `protobuf:"bytes,5,opt,name=image_pull_policy,json=imagePullPolicy,proto3" json:"image_pull_policy,omitempty"`
 	// name is the name of the container. Must be unique in the Pod.
-	Name      string                                  `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Resources *PodSpec_Container_ResourceRequirements `protobuf:"bytes,7,opt,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
+	Name      string                                  `protobuf:"bytes,6,opt,name=name,proto3" json:"name,omitempty"`
+	Resources *PodSpec_Container_ResourceRequirements `protobuf:"bytes,7,opt,name=resources,proto3" json:"resources,omitempty"`
 	// Security options the pod should run with.
-	SecurityContext *SecurityContext `protobuf:"bytes,8,opt,name=security_context,json=securityContext,proto3" json:"security_context,omitempty" firestore:"securityContext"`
+	SecurityContext *SecurityContext `protobuf:"bytes,8,opt,name=security_context,json=securityContext,proto3" json:"security_context,omitempty"`
 	// Pod volumes to mount into the container's filesystem.
 	// Cannot be updated.
-	VolumeMounts []*VolumeMount `protobuf:"bytes,9,rep,name=volume_mounts,json=volumeMounts,proto3" json:"volume_mounts,omitempty" firestore:"volumeMounts"`
+	VolumeMounts []*VolumeMount `protobuf:"bytes,9,rep,name=volume_mounts,json=volumeMounts,proto3" json:"volume_mounts,omitempty"`
 	// List of sources to populate environment variables in the container.
 	// The keys defined within a source must be a C_IDENTIFIER. All invalid
 	// keys will be reported as an event when the container is starting. When
 	// a key exists in multiple sources, the value associated with the last
 	// source will take precedence. Values defined by an Env with a duplicate
 	// key will take precedence. Cannot be updated.
-	EnvFrom *EnvFromSource `protobuf:"bytes,19,opt,name=envFrom,proto3" json:"envFrom,omitempty" firestore:"envFrom"`
+	EnvFrom *EnvFromSource `protobuf:"bytes,19,opt,name=envFrom,proto3" json:"envFrom,omitempty"`
 }
 
 func (m *PodSpec_Container) Reset() {
@@ -2172,8 +2172,8 @@ type PodSpec_Container_ResourceRequirements struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// todo: change to k8s.io.apimachinery.pkg.api.resource.
-	Limits   map[string]int64 `protobuf:"bytes,1,rep,name=limits,proto3" json:"limits,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3" firestore:"limits"`
-	Requests map[string]int64 `protobuf:"bytes,2,rep,name=requests,proto3" json:"requests,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3" firestore:"requests"`
+	Limits   map[string]int64 `protobuf:"bytes,1,rep,name=limits,proto3" json:"limits,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
+	Requests map[string]int64 `protobuf:"bytes,2,rep,name=requests,proto3" json:"requests,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
 }
 
 func (m *PodSpec_Container_ResourceRequirements) Reset() {

@@ -116,28 +116,28 @@ type isConnectRequest_Message interface {
 
 type ConnectRequest_OpenRequest_ struct {
 	// The initiation message to open a channel to a device.
-	OpenRequest *ConnectRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof" firestore:"openRequest"`
+	OpenRequest *ConnectRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof"`
 }
 type ConnectRequest_ResumeRequest_ struct {
 	// Attempt to resume stream of data
-	ResumeRequest *ConnectRequest_ResumeRequest `protobuf:"bytes,2,opt,name=resume_request,json=resumeRequest,proto3,oneof" firestore:"resumeRequest"`
+	ResumeRequest *ConnectRequest_ResumeRequest `protobuf:"bytes,2,opt,name=resume_request,json=resumeRequest,proto3,oneof"`
 }
 type ConnectRequest_Ack struct {
 	// ACK message
-	Ack *Ack `protobuf:"bytes,3,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,3,opt,name=ack,proto3,oneof"`
 }
 type ConnectRequest_Data struct {
 	// Any data sent to the device through the endpoint.
-	Data *Data `protobuf:"bytes,4,opt,name=data,proto3,oneof" firestore:"data"`
+	Data *Data `protobuf:"bytes,4,opt,name=data,proto3,oneof"`
 }
 type ConnectRequest_Close struct {
-	Close *Close `protobuf:"bytes,5,opt,name=close,proto3,oneof" firestore:"close"`
+	Close *Close `protobuf:"bytes,5,opt,name=close,proto3,oneof"`
 }
 type ConnectRequest_Error struct {
-	Error *Error `protobuf:"bytes,6,opt,name=error,proto3,oneof" firestore:"error"`
+	Error *Error `protobuf:"bytes,6,opt,name=error,proto3,oneof"`
 }
 type ConnectRequest_Ping struct {
-	Ping *Ping `protobuf:"bytes,7,opt,name=ping,proto3,oneof" firestore:"ping"`
+	Ping *Ping `protobuf:"bytes,7,opt,name=ping,proto3,oneof"`
 }
 
 func (*ConnectRequest_OpenRequest_) isConnectRequest_Message()   {}
@@ -296,30 +296,30 @@ type isConnectResponse_Message interface {
 
 type ConnectResponse_OpenResponse_ struct {
 	// Notification from the agent (endpoint) to the channel has been opened.
-	OpenResponse *ConnectResponse_OpenResponse `protobuf:"bytes,1,opt,name=open_response,json=openResponse,proto3,oneof" firestore:"openResponse"`
+	OpenResponse *ConnectResponse_OpenResponse `protobuf:"bytes,1,opt,name=open_response,json=openResponse,proto3,oneof"`
 }
 type ConnectResponse_ResumeResponse_ struct {
-	ResumeResponse *ConnectResponse_ResumeResponse `protobuf:"bytes,2,opt,name=resume_response,json=resumeResponse,proto3,oneof" firestore:"resumeResponse"`
+	ResumeResponse *ConnectResponse_ResumeResponse `protobuf:"bytes,2,opt,name=resume_response,json=resumeResponse,proto3,oneof"`
 }
 type ConnectResponse_ChannelOpenError_ struct {
-	ChannelOpenError *ConnectResponse_ChannelOpenError `protobuf:"bytes,3,opt,name=channel_open_error,json=channelOpenError,proto3,oneof" firestore:"channelOpenError"`
+	ChannelOpenError *ConnectResponse_ChannelOpenError `protobuf:"bytes,3,opt,name=channel_open_error,json=channelOpenError,proto3,oneof"`
 }
 type ConnectResponse_Ack struct {
 	// ACK message
-	Ack *Ack `protobuf:"bytes,4,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,4,opt,name=ack,proto3,oneof"`
 }
 type ConnectResponse_Data struct {
 	// Any data from the device (endpoint) to the client.
-	Data *Data `protobuf:"bytes,5,opt,name=data,proto3,oneof" firestore:"data"`
+	Data *Data `protobuf:"bytes,5,opt,name=data,proto3,oneof"`
 }
 type ConnectResponse_Close struct {
-	Close *Close `protobuf:"bytes,6,opt,name=close,proto3,oneof" firestore:"close"`
+	Close *Close `protobuf:"bytes,6,opt,name=close,proto3,oneof"`
 }
 type ConnectResponse_Error struct {
-	Error *Error `protobuf:"bytes,7,opt,name=error,proto3,oneof" firestore:"error"`
+	Error *Error `protobuf:"bytes,7,opt,name=error,proto3,oneof"`
 }
 type ConnectResponse_Pong struct {
-	Pong *Pong `protobuf:"bytes,8,opt,name=pong,proto3,oneof" firestore:"pong"`
+	Pong *Pong `protobuf:"bytes,8,opt,name=pong,proto3,oneof"`
 }
 
 func (*ConnectResponse_OpenResponse_) isConnectResponse_Message()     {}
@@ -484,18 +484,18 @@ type isListenRequest_Message interface {
 
 type ListenRequest_OpenRequest_ struct {
 	// This is a hello message from the agent with its name.
-	OpenRequest *ListenRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof" firestore:"openRequest"`
+	OpenRequest *ListenRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof"`
 }
 type ListenRequest_ResumeRequest_ struct {
-	ResumeRequest *ListenRequest_ResumeRequest `protobuf:"bytes,2,opt,name=resume_request,json=resumeRequest,proto3,oneof" firestore:"resumeRequest"`
+	ResumeRequest *ListenRequest_ResumeRequest `protobuf:"bytes,2,opt,name=resume_request,json=resumeRequest,proto3,oneof"`
 }
 type ListenRequest_ChannelOpenError_ struct {
 	// When the agent failed to open a requested channel, this message will be
 	// sent from the agent to the endpoint.
-	ChannelOpenError *ListenRequest_ChannelOpenError `protobuf:"bytes,3,opt,name=channel_open_error,json=channelOpenError,proto3,oneof" firestore:"channelOpenError"`
+	ChannelOpenError *ListenRequest_ChannelOpenError `protobuf:"bytes,3,opt,name=channel_open_error,json=channelOpenError,proto3,oneof"`
 }
 type ListenRequest_Ping struct {
-	Ping *Ping `protobuf:"bytes,4,opt,name=ping,proto3,oneof" firestore:"ping"`
+	Ping *Ping `protobuf:"bytes,4,opt,name=ping,proto3,oneof"`
 }
 
 func (*ListenRequest_OpenRequest_) isListenRequest_Message()      {}
@@ -619,18 +619,18 @@ type isListenResponse_Message interface {
 }
 
 type ListenResponse_Listening_ struct {
-	Listening *ListenResponse_Listening `protobuf:"bytes,1,opt,name=listening,proto3,oneof" firestore:"listening"`
+	Listening *ListenResponse_Listening `protobuf:"bytes,1,opt,name=listening,proto3,oneof"`
 }
 type ListenResponse_OpenChannelResponse_ struct {
 	// Notifies a new channel has been requested by a client.
-	OpenChannelResponse *ListenResponse_OpenChannelResponse `protobuf:"bytes,2,opt,name=open_channel_response,json=openChannelResponse,proto3,oneof" firestore:"openChannelResponse"`
+	OpenChannelResponse *ListenResponse_OpenChannelResponse `protobuf:"bytes,2,opt,name=open_channel_response,json=openChannelResponse,proto3,oneof"`
 }
 type ListenResponse_ResumeChannelResponse_ struct {
 	// Notifies a channel was asked to be resumed by a client
-	ResumeChannelResponse *ListenResponse_ResumeChannelResponse `protobuf:"bytes,3,opt,name=resume_channel_response,json=resumeChannelResponse,proto3,oneof" firestore:"resumeChannelResponse"`
+	ResumeChannelResponse *ListenResponse_ResumeChannelResponse `protobuf:"bytes,3,opt,name=resume_channel_response,json=resumeChannelResponse,proto3,oneof"`
 }
 type ListenResponse_Pong struct {
-	Pong *Pong `protobuf:"bytes,4,opt,name=pong,proto3,oneof" firestore:"pong"`
+	Pong *Pong `protobuf:"bytes,4,opt,name=pong,proto3,oneof"`
 }
 
 func (*ListenResponse_Listening_) isListenResponse_Message()             {}
@@ -758,27 +758,27 @@ type isAcceptRequest_Message interface {
 
 type AcceptRequest_OpenRequest_ struct {
 	// Registers a new socket on the endpoint.
-	OpenRequest *AcceptRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof" firestore:"openRequest"`
+	OpenRequest *AcceptRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof"`
 }
 type AcceptRequest_ResumeRequest_ struct {
-	ResumeRequest *AcceptRequest_ResumeRequest `protobuf:"bytes,2,opt,name=resume_request,json=resumeRequest,proto3,oneof" firestore:"resumeRequest"`
+	ResumeRequest *AcceptRequest_ResumeRequest `protobuf:"bytes,2,opt,name=resume_request,json=resumeRequest,proto3,oneof"`
 }
 type AcceptRequest_Data struct {
 	// Data from the agent to the endpoint (client).
-	Data *Data `protobuf:"bytes,3,opt,name=data,proto3,oneof" firestore:"data"`
+	Data *Data `protobuf:"bytes,3,opt,name=data,proto3,oneof"`
 }
 type AcceptRequest_Ack struct {
 	// ACK message
-	Ack *Ack `protobuf:"bytes,4,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,4,opt,name=ack,proto3,oneof"`
 }
 type AcceptRequest_Close struct {
-	Close *Close `protobuf:"bytes,5,opt,name=close,proto3,oneof" firestore:"close"`
+	Close *Close `protobuf:"bytes,5,opt,name=close,proto3,oneof"`
 }
 type AcceptRequest_Error struct {
-	Error *Error `protobuf:"bytes,6,opt,name=error,proto3,oneof" firestore:"error"`
+	Error *Error `protobuf:"bytes,6,opt,name=error,proto3,oneof"`
 }
 type AcceptRequest_Ping struct {
-	Ping *Ping `protobuf:"bytes,7,opt,name=ping,proto3,oneof" firestore:"ping"`
+	Ping *Ping `protobuf:"bytes,7,opt,name=ping,proto3,oneof"`
 }
 
 func (*AcceptRequest_OpenRequest_) isAcceptRequest_Message()   {}
@@ -934,20 +934,20 @@ type isAcceptResponse_Message interface {
 
 type AcceptResponse_Data struct {
 	// Data from the endpoint (client) to the agent.
-	Data *Data `protobuf:"bytes,1,opt,name=data,proto3,oneof" firestore:"data"`
+	Data *Data `protobuf:"bytes,1,opt,name=data,proto3,oneof"`
 }
 type AcceptResponse_Ack struct {
 	// ACK message
-	Ack *Ack `protobuf:"bytes,2,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,2,opt,name=ack,proto3,oneof"`
 }
 type AcceptResponse_Close struct {
-	Close *Close `protobuf:"bytes,3,opt,name=close,proto3,oneof" firestore:"close"`
+	Close *Close `protobuf:"bytes,3,opt,name=close,proto3,oneof"`
 }
 type AcceptResponse_Error struct {
-	Error *Error `protobuf:"bytes,4,opt,name=error,proto3,oneof" firestore:"error"`
+	Error *Error `protobuf:"bytes,4,opt,name=error,proto3,oneof"`
 }
 type AcceptResponse_Pong struct {
-	Pong *Pong `protobuf:"bytes,5,opt,name=pong,proto3,oneof" firestore:"pong"`
+	Pong *Pong `protobuf:"bytes,5,opt,name=pong,proto3,oneof"`
 }
 
 func (*AcceptResponse_Data) isAcceptResponse_Message()  {}
@@ -1129,9 +1129,9 @@ type Data struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" firestore:"id"`
-	Bytes         []byte `protobuf:"bytes,2,opt,name=bytes,proto3" json:"bytes,omitempty" firestore:"bytes"`
-	AckRequired   bool   `protobuf:"varint,3,opt,name=ack_required,json=ackRequired,proto3" json:"ack_required,omitempty" firestore:"ackRequired"`
+	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Bytes         []byte `protobuf:"bytes,2,opt,name=bytes,proto3" json:"bytes,omitempty"`
+	AckRequired   bool   `protobuf:"varint,3,opt,name=ack_required,json=ackRequired,proto3" json:"ack_required,omitempty"`
 }
 
 func (m *Data) Reset() {
@@ -1230,7 +1230,7 @@ type Ack struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" firestore:"id"`
+	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (m *Ack) Reset() {
@@ -1301,7 +1301,7 @@ type Close struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" firestore:"id"`
+	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
 func (m *Close) Reset() {
@@ -1372,8 +1372,8 @@ type Error struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" firestore:"id"`
-	Message       string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Id            uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Message       string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *Error) Reset() {
@@ -1458,15 +1458,15 @@ type ConnectRequest_OpenRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
-	RegionId      string        `protobuf:"bytes,6,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
-	Name          string        `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
+	RegionId      string        `protobuf:"bytes,6,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
+	Name          string        `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// name to connect.
-	ProviderName string `protobuf:"bytes,3,opt,name=provider_name,json=providerName,proto3" json:"provider_name,omitempty" firestore:"providerName"`
+	ProviderName string `protobuf:"bytes,3,opt,name=provider_name,json=providerName,proto3" json:"provider_name,omitempty"`
 	// Device service
-	Service string `protobuf:"bytes,4,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,4,opt,name=service,proto3" json:"service,omitempty"`
 	// Initial argument (optional)
-	Arg []byte `protobuf:"bytes,5,opt,name=arg,proto3" json:"arg,omitempty" firestore:"arg"`
+	Arg []byte `protobuf:"bytes,5,opt,name=arg,proto3" json:"arg,omitempty"`
 }
 
 func (m *ConnectRequest_OpenRequest) Reset() {
@@ -1607,14 +1607,14 @@ type ConnectRequest_ResumeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
-	RegionId      string        `protobuf:"bytes,7,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
-	Name          string        `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
+	RegionId      string        `protobuf:"bytes,7,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
+	Name          string        `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// name to connect.
-	ProviderName  string `protobuf:"bytes,3,opt,name=provider_name,json=providerName,proto3" json:"provider_name,omitempty" firestore:"providerName"`
-	SessionId     uint64 `protobuf:"varint,4,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty" firestore:"sessionId"`
-	ChannelId     uint64 `protobuf:"varint,5,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
-	LastMessageId uint64 `protobuf:"varint,6,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty" firestore:"lastMessageId"`
+	ProviderName  string `protobuf:"bytes,3,opt,name=provider_name,json=providerName,proto3" json:"provider_name,omitempty"`
+	SessionId     uint64 `protobuf:"varint,4,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	ChannelId     uint64 `protobuf:"varint,5,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
+	LastMessageId uint64 `protobuf:"varint,6,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty"`
 }
 
 func (m *ConnectRequest_ResumeRequest) Reset() {
@@ -1769,8 +1769,8 @@ type ConnectResponse_OpenResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	SessionId     uint64 `protobuf:"varint,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty" firestore:"sessionId"`
-	ChannelId     uint64 `protobuf:"varint,2,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
+	SessionId     uint64 `protobuf:"varint,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	ChannelId     uint64 `protobuf:"varint,2,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
 }
 
 func (m *ConnectResponse_OpenResponse) Reset() {
@@ -1855,9 +1855,9 @@ type ConnectResponse_ResumeResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	SessionId     uint64 `protobuf:"varint,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty" firestore:"sessionId"`
-	ChannelId     uint64 `protobuf:"varint,2,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
-	LastMessageId uint64 `protobuf:"varint,4,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty" firestore:"lastMessageId"`
+	SessionId     uint64 `protobuf:"varint,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
+	ChannelId     uint64 `protobuf:"varint,2,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
+	LastMessageId uint64 `protobuf:"varint,4,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty"`
 }
 
 func (m *ConnectResponse_ResumeResponse) Reset() {
@@ -1957,9 +1957,9 @@ type ConnectResponse_ChannelOpenError struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// ID of the channel failed to open.
-	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
+	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
 	// Error message.
-	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *ConnectResponse_ChannelOpenError) Reset() {
@@ -2044,10 +2044,10 @@ type ListenRequest_OpenRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
-	RegionId      string        `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
+	RegionId      string        `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// The self-declared device name, used for authentication/authorization.
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *ListenRequest_OpenRequest) Reset() {
@@ -2146,11 +2146,11 @@ type ListenRequest_ResumeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
-	RegionId      string        `protobuf:"bytes,4,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
+	RegionId      string        `protobuf:"bytes,4,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// The self-declared device name, used for authentication/authorization.
-	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SessionId uint64 `protobuf:"varint,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty" firestore:"sessionId"`
+	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	SessionId uint64 `protobuf:"varint,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 }
 
 func (m *ListenRequest_ResumeRequest) Reset() {
@@ -2264,9 +2264,9 @@ type ListenRequest_ChannelOpenError struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// ID of the channel failed to open.
-	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
+	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
 	// Error message.
-	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *ListenRequest_ChannelOpenError) Reset() {
@@ -2351,7 +2351,7 @@ type ListenResponse_Listening struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	SessionId     uint64 `protobuf:"varint,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty" firestore:"sessionId"`
+	SessionId     uint64 `protobuf:"varint,1,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 }
 
 func (m *ListenResponse_Listening) Reset() {
@@ -2423,11 +2423,11 @@ type ListenResponse_OpenChannelResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Channel ID
-	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
+	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
 	// Device service;
-	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
 	// Initial argument (optional)
-	Arg []byte `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty" firestore:"arg"`
+	Arg []byte `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty"`
 }
 
 func (m *ListenResponse_OpenChannelResponse) Reset() {
@@ -2527,12 +2527,12 @@ type ListenResponse_ResumeChannelResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Channel ID
-	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
+	ChannelId uint64 `protobuf:"varint,1,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
 	// Device service;
-	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
 	// Initial argument (optional)
-	Arg           []byte `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty" firestore:"arg"`
-	LastMessageId uint64 `protobuf:"varint,4,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty" firestore:"lastMessageId"`
+	Arg           []byte `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty"`
+	LastMessageId uint64 `protobuf:"varint,4,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty"`
 }
 
 func (m *ListenResponse_ResumeChannelResponse) Reset() {
@@ -2645,13 +2645,13 @@ type AcceptRequest_OpenRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
-	RegionId      string        `protobuf:"bytes,5,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
+	RegionId      string        `protobuf:"bytes,5,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// Name, to be authenticated/authorized.
-	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SessionId uint64 `protobuf:"varint,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty" firestore:"sessionId"`
+	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	SessionId uint64 `protobuf:"varint,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	// Channel ID, requested by the endpoint in the ChannelRequested message.
-	ChannelId uint64 `protobuf:"varint,4,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
+	ChannelId uint64 `protobuf:"varint,4,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
 }
 
 func (m *AcceptRequest_OpenRequest) Reset() {
@@ -2778,14 +2778,14 @@ type AcceptRequest_ResumeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
-	RegionId      string        `protobuf:"bytes,6,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
+	RegionId      string        `protobuf:"bytes,6,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// Name, to be authenticated/authorized.
-	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SessionId uint64 `protobuf:"varint,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty" firestore:"sessionId"`
+	Name      string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	SessionId uint64 `protobuf:"varint,3,opt,name=session_id,json=sessionId,proto3" json:"session_id,omitempty"`
 	// Channel ID, requested by the endpoint in the ChannelRequested message.
-	ChannelId     uint64 `protobuf:"varint,4,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty" firestore:"channelId"`
-	LastMessageId uint64 `protobuf:"varint,5,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty" firestore:"lastMessageId"`
+	ChannelId     uint64 `protobuf:"varint,4,opt,name=channel_id,json=channelId,proto3" json:"channel_id,omitempty"`
+	LastMessageId uint64 `protobuf:"varint,5,opt,name=last_message_id,json=lastMessageId,proto3" json:"last_message_id,omitempty"`
 }
 
 func (m *AcceptRequest_ResumeRequest) Reset() {

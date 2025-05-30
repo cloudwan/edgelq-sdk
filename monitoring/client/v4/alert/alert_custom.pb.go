@@ -52,8 +52,8 @@ type BulkCreateAlertsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent name of ntt.monitoring.v4.Alert
-	Parent *alert.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
-	Alerts []*alert.Alert    `protobuf:"bytes,2,rep,name=alerts,proto3" json:"alerts,omitempty" firestore:"alerts"`
+	Parent *alert.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
+	Alerts []*alert.Alert    `protobuf:"bytes,2,rep,name=alerts,proto3" json:"alerts,omitempty"`
 }
 
 func (m *BulkCreateAlertsRequest) Reset() {
@@ -197,9 +197,9 @@ type BulkUpdateAlertsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent name of ntt.monitoring.v4.Alert
-	Parent     *alert.ParentName      `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
-	UpdateMask *alert.Alert_FieldMask `protobuf:"bytes,2,opt,customtype=Alert_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty" firestore:"updateMask"`
-	Alerts     []*alert.Alert         `protobuf:"bytes,3,rep,name=alerts,proto3" json:"alerts,omitempty" firestore:"alerts"`
+	Parent     *alert.ParentName      `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
+	UpdateMask *alert.Alert_FieldMask `protobuf:"bytes,2,opt,customtype=Alert_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
+	Alerts     []*alert.Alert         `protobuf:"bytes,3,rep,name=alerts,proto3" json:"alerts,omitempty"`
 }
 
 func (m *BulkUpdateAlertsRequest) Reset() {

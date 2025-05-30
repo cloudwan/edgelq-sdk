@@ -144,6 +144,14 @@ message DeviceMetrics {
   // should match order in health_check_metric_labels
   map<uint32, HealthCheckMetric> health_check_metrics = 20;
 
+  // Sent only if there is some change
+  repeated string interface_name_labels = 21;
+
+  // Sent only if there is some change
+  repeated google.protobuf.Timestamp interface_counter_start_time = 22;
+
+  repeated InterfaceMetric interface_metrics = 23;
+
   message MemoryStats {
     uint64 buffered_memory = 1;
 
@@ -280,6 +288,22 @@ message DeviceMetrics {
     uint64 http_response_time_micro_seconds = 2;
 
     uint64 rtt_microseconds = 3;
+  }
+
+  message InterfaceMetric {
+    uint64 bytes_sent = 1;
+
+    uint64 bytes_recvd = 2;
+
+    uint64 packets_sent = 3;
+
+    uint64 packets_recvd = 4;
+
+    // in_errors - Sum of Errin, Dropin and Fifoin
+    uint64 in_err = 5;
+
+    // out errors - Sum of Errout, Dropout and Fifoout
+    uint64 out_err = 6;
   }
 }
 

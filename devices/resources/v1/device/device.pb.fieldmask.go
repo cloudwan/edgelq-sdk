@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"strings"
 
-	firestorepb "google.golang.org/genproto/googleapis/firestore/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -39,7 +38,6 @@ var (
 	_ = new(json.Marshaler)
 	_ = strings.Builder{}
 
-	_ = firestorepb.Value{}
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = new(proto.Message)
@@ -90,31 +88,6 @@ func (fieldMask *Device_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDevice_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_FieldMask) IsFull() bool {
@@ -473,31 +446,6 @@ func (fieldMask *Device_Spec_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpec_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Spec_FieldMask) IsFull() bool {
@@ -868,31 +816,6 @@ func (fieldMask *Device_Status_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatus_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -1253,31 +1176,6 @@ func (fieldMask *Device_PublicListingSpec_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_PublicListingSpec_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_PublicListingSpec_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDevicePublicListingSpec_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_PublicListingSpec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -1512,31 +1410,6 @@ func (fieldMask *Device_Spec_SSHConfig_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_SSHConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_SSHConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecSSHConfig_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Spec_SSHConfig_FieldMask) IsFull() bool {
@@ -1819,31 +1692,6 @@ func (fieldMask *Device_Spec_AttestationConfig_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_AttestationConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_AttestationConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecAttestationConfig_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Spec_AttestationConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -2075,31 +1923,6 @@ func (fieldMask *Device_Spec_LoggingConfig_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_LoggingConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_LoggingConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecLoggingConfig_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Spec_LoggingConfig_FieldMask) IsFull() bool {
@@ -2376,31 +2199,6 @@ func (fieldMask *Device_Spec_ProxyConfig_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_ProxyConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_ProxyConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecProxyConfig_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Spec_ProxyConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -2636,31 +2434,6 @@ func (fieldMask *Device_Spec_Location_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_Location_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_Location_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecLocation_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Spec_Location_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -2890,31 +2663,6 @@ func (fieldMask *Device_Spec_USBGuard_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_USBGuard_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_USBGuard_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecUSBGuard_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Spec_USBGuard_FieldMask) IsFull() bool {
@@ -3199,31 +2947,6 @@ func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecSSHConfigAuthKey_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Spec_SSHConfig_AuthKey_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -3478,31 +3201,6 @@ func (fieldMask *Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask) Str
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecLoggingConfigContainerLoggingConfig_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Spec_LoggingConfig_ContainerLoggingConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -3730,31 +3428,6 @@ func (fieldMask *Device_Spec_USBGuard_Port_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_USBGuard_Port_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_USBGuard_Port_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecUSBGuardPort_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Spec_USBGuard_Port_FieldMask) IsFull() bool {
@@ -3986,31 +3659,6 @@ func (fieldMask *Device_Spec_USBGuard_Interface_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_USBGuard_Interface_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_USBGuard_Interface_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecUSBGuardInterface_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Spec_USBGuard_Interface_FieldMask) IsFull() bool {
@@ -4245,31 +3893,6 @@ func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceSpecUSBGuardWhiteList_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Spec_USBGuard_WhiteList_FieldMask) IsFull() bool {
@@ -4558,31 +4181,6 @@ func (fieldMask *Device_Status_Address_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_Address_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_Address_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusAddress_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_Address_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -4816,31 +4414,6 @@ func (fieldMask *Device_Status_Condition_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_Condition_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_Condition_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusCondition_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_Condition_FieldMask) IsFull() bool {
@@ -5086,31 +4659,6 @@ func (fieldMask *Device_Status_NetworkConfigState_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_NetworkConfigState_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_NetworkConfigState_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusNetworkConfigState_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_NetworkConfigState_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -5352,31 +4900,6 @@ func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusProxyConfigStatus_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_ProxyConfigStatus_FieldMask) IsFull() bool {
@@ -5686,31 +5209,6 @@ func (fieldMask *Device_Status_DeviceInfo_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_FieldMask) IsFull() bool {
@@ -6042,31 +5540,6 @@ func (fieldMask *Device_Status_NormalizedAddress_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_NormalizedAddress_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_NormalizedAddress_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusNormalizedAddress_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_NormalizedAddress_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -6335,31 +5808,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) String(
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformation_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_FieldMask) IsFull() bool {
@@ -6775,31 +6223,6 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) String() s
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoNetworkInterface_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -7091,31 +6514,6 @@ func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) S
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoControlPlaneInterfaceInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -7349,31 +6747,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMa
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationCapability_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Capability_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -7605,31 +6978,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) Stri
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationOS_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_OS_FieldMask) IsFull() bool {
@@ -7868,31 +7216,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) St
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationBIOS_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_BIOS_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -8127,31 +7450,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) 
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationSystem_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_FieldMask) IsFull() bool {
@@ -8427,31 +7725,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) Str
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationCPU_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -8717,31 +7990,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) S
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationBlock_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_FieldMask) IsFull() bool {
@@ -9011,31 +8259,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask)
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationNetwork_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -9301,31 +8524,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) Str
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationGPU_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_FieldMask) IsFull() bool {
@@ -9599,31 +8797,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMas
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationPCIDevice_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_PCIDevice_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -9860,31 +9033,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMa
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_FieldMask) IsFull() bool {
@@ -10158,31 +9306,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMas
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_FieldMask) IsFull() bool {
@@ -10459,31 +9582,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMa
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -10757,31 +9855,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldM
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatus_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -11050,31 +10123,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configurati
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationSystemConfiguration_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_System_Configuration_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -11321,31 +10369,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Fiel
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationCPUProcessor_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_FieldMask) IsFull() bool {
@@ -11657,31 +10680,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cach
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationCPUProcessorCache_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -11918,31 +10916,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMa
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationBlockDisk_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_FieldMask) IsFull() bool {
@@ -12229,31 +11202,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partiti
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationBlockDiskPartition_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -12494,31 +11442,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldM
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationNetworkNIC_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_Network_NIC_FieldMask) IsFull() bool {
@@ -12778,31 +11701,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_Fi
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationGPUGraphicCard_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard_FieldMask) IsFull() bool {
@@ -13080,31 +11978,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryB
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationMemoryInfoMemoryBank_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -13356,31 +12229,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoMod
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationHailoInfoHailoModuleInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -13627,31 +12475,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationNvidiaInfoGpuInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -13884,31 +12707,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Regist
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusRegistrationSettings_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -14138,31 +12936,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGN
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusFiveGNr_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr_FieldMask) IsFull() bool {
@@ -14434,31 +13207,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settin
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSettings_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -14693,31 +13441,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Initia
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusInitialBearer_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer_FieldMask) IsFull() bool {
@@ -14987,31 +13710,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_Fi
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusEps_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps_FieldMask) IsFull() bool {
@@ -15288,31 +13986,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeG
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusThreeGpp_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp_FieldMask) IsFull() bool {
@@ -15615,31 +14288,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_F
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusCdma_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -15880,31 +14528,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Signal
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSignalQuality_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality_FieldMask) IsFull() bool {
@@ -16167,31 +14790,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generi
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusGeneric_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic_FieldMask) IsFull() bool {
@@ -16534,31 +15132,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimSta
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusSimStatus_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -16814,31 +15387,6 @@ func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoHardwareInformationModemStatusModem_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem_FieldMask) IsFull() bool {
@@ -17159,31 +15707,6 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) Str
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoNetworkInterfaceASInfo_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_ASInfo_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -17421,31 +15944,6 @@ func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) St
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseDeviceStatusDeviceInfoNetworkInterfaceCarrier_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Device_Status_DeviceInfo_NetworkInterface_Carrier_FieldMask) IsFull() bool {

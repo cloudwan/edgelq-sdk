@@ -11,9 +11,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/google/cel-go/common/types"
-	"github.com/google/cel-go/common/types/ref"
-	"github.com/google/cel-go/common/types/traits"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -531,59 +528,6 @@ func (name *ParentReference) Matches(other interface{}) bool {
 		return false
 	}
 	return name.ParentName.Matches(&other1.ParentName)
-}
-
-// Google CEL integration Type
-var celParentName = types.NewTypeValue("ParentName", traits.ReceiverType)
-
-func (name *ParentName) TypeName() string {
-	return ".ntt.devices.v1.DeviceDistributionCounter.ParentName"
-}
-
-func (name *ParentName) HasTrait(trait int) bool {
-	return trait == traits.ReceiverType
-}
-
-func (name *ParentName) Equal(other ref.Val) ref.Val {
-	return types.Bool(false)
-}
-
-func (name *ParentName) Value() interface{} {
-	return name
-}
-
-func (name *ParentName) Match(pattern ref.Val) ref.Val {
-	return types.Bool(true)
-}
-
-func (name *ParentName) Receive(function string, overload string, args []ref.Val) ref.Val {
-	switch function {
-	case "satisfies":
-		rhsName, err := ParseParentName(string(args[0].(types.String)))
-		if err != nil {
-			return types.ValOrErr(celParentName, "function %s name parse error: %s", function, err)
-		}
-		return types.Bool(rhsName.Matches(name))
-	default:
-		return types.ValOrErr(celParentName, "no such function - %s", function)
-	}
-}
-
-func (name *ParentName) ConvertToNative(typeDesc reflect.Type) (interface{}, error) {
-	panic("not required")
-}
-
-func (name *ParentName) ConvertToType(typeVal ref.Type) ref.Val {
-	switch typeVal.TypeName() {
-	case types.StringType.TypeName():
-		return types.String(name.String())
-	default:
-		panic(fmt.Errorf("unable to convert %s to CEL type %s", "ParentName", typeVal.TypeName()))
-	}
-}
-
-func (name *ParentName) Type() ref.Type {
-	return celParentName
 }
 
 // implement CustomTypeCliValue method

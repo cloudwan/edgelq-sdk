@@ -193,35 +193,35 @@ type DeviceIdentity struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	SerialNumber  string `protobuf:"bytes,1,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Manufacturer  string `protobuf:"bytes,2,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
-	ProductName   string `protobuf:"bytes,3,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
+	SerialNumber  string `protobuf:"bytes,1,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Manufacturer  string `protobuf:"bytes,2,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
+	ProductName   string `protobuf:"bytes,3,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
 	// Only TPM2.0 is supported
-	TpmVersion TpmVersion `protobuf:"varint,4,opt,name=tpm_version,json=tpmVersion,proto3,enum=ntt.api.TpmVersion" json:"tpm_version,omitempty" firestore:"tpmVersion"`
+	TpmVersion TpmVersion `protobuf:"varint,4,opt,name=tpm_version,json=tpmVersion,proto3,enum=ntt.api.TpmVersion" json:"tpm_version,omitempty"`
 	// TPM_PUBLIC format object obtained by tpm2.ReadPublic
-	EkTpmPub []byte `protobuf:"bytes,5,opt,name=ek_tpm_pub,json=ekTpmPub,proto3" json:"ek_tpm_pub,omitempty" firestore:"ekTpmPub"`
+	EkTpmPub []byte `protobuf:"bytes,5,opt,name=ek_tpm_pub,json=ekTpmPub,proto3" json:"ek_tpm_pub,omitempty"`
 	// ASN.1 DER encoded EK certificate.
-	Ekcert []byte `protobuf:"bytes,6,opt,name=ekcert,proto3" json:"ekcert,omitempty" firestore:"ekcert"`
+	Ekcert []byte `protobuf:"bytes,6,opt,name=ekcert,proto3" json:"ekcert,omitempty"`
 	// For Intel TPMs, Intel hosts certificates at a public URL derived from the
 	// Public key. Clients or servers can perform an HTTP GET to this URL, and
 	// use ParseEKCertificate on the response body.
-	Ekcerturl string `protobuf:"bytes,7,opt,name=ekcerturl,proto3" json:"ekcerturl,omitempty" firestore:"ekcerturl"`
+	Ekcerturl string `protobuf:"bytes,7,opt,name=ekcerturl,proto3" json:"ekcerturl,omitempty"`
 	// TPM_PUBLIC format object obtained by tpm2.ReadPublic
-	IdevidCertTpmPub []byte `protobuf:"bytes,8,opt,name=idevid_cert_tpm_pub,json=idevidCertTpmPub,proto3" json:"idevid_cert_tpm_pub,omitempty" firestore:"idevidCertTpmPub"`
+	IdevidCertTpmPub []byte `protobuf:"bytes,8,opt,name=idevid_cert_tpm_pub,json=idevidCertTpmPub,proto3" json:"idevid_cert_tpm_pub,omitempty"`
 	// ASN.1 DER encoded IDevID certificate.
-	IdevidCert []byte `protobuf:"bytes,9,opt,name=idevid_cert,json=idevidCert,proto3" json:"idevid_cert,omitempty" firestore:"idevidCert"`
+	IdevidCert []byte `protobuf:"bytes,9,opt,name=idevid_cert,json=idevidCert,proto3" json:"idevid_cert,omitempty"`
 	// TPM_PUBLIC format object obtained by tpm2.ReadPublic
-	LdevidCertTpmPub []byte `protobuf:"bytes,10,opt,name=ldevid_cert_tpm_pub,json=ldevidCertTpmPub,proto3" json:"ldevid_cert_tpm_pub,omitempty" firestore:"ldevidCertTpmPub"`
+	LdevidCertTpmPub []byte `protobuf:"bytes,10,opt,name=ldevid_cert_tpm_pub,json=ldevidCertTpmPub,proto3" json:"ldevid_cert_tpm_pub,omitempty"`
 	// ASN.1 DER encoded LDevID certificate.
-	LdevidCert []byte                            `protobuf:"bytes,11,opt,name=ldevid_cert,json=ldevidCert,proto3" json:"ldevid_cert,omitempty" firestore:"ldevidCert"`
-	AkParams   *DeviceIdentity_AttestationParams `protobuf:"bytes,12,opt,name=ak_params,json=akParams,proto3" json:"ak_params,omitempty" firestore:"akParams"`
+	LdevidCert []byte                            `protobuf:"bytes,11,opt,name=ldevid_cert,json=ldevidCert,proto3" json:"ldevid_cert,omitempty"`
+	AkParams   *DeviceIdentity_AttestationParams `protobuf:"bytes,12,opt,name=ak_params,json=akParams,proto3" json:"ak_params,omitempty"`
 	// ChallengeFormat defines the method of generating identity activation
 	// challenge by the Verifier (server). It should affect the interpretation
 	// ChallengeResponse fields cred_encrypted_by_ekpub and
 	// secret_encrypted_by_cred. Attestor (client) is responsible for chosing
 	// the right format depending on TPM version and the presence of TrouSerS
 	// daemon.
-	ChallengeFormat DeviceIdentity_ChallengeFormat `protobuf:"varint,13,opt,name=challenge_format,json=challengeFormat,proto3,enum=ntt.api.DeviceIdentity_ChallengeFormat" json:"challenge_format,omitempty" firestore:"challengeFormat"`
+	ChallengeFormat DeviceIdentity_ChallengeFormat `protobuf:"varint,13,opt,name=challenge_format,json=challengeFormat,proto3,enum=ntt.api.DeviceIdentity_ChallengeFormat" json:"challenge_format,omitempty"`
 }
 
 func (m *DeviceIdentity) Reset() {
@@ -465,24 +465,24 @@ type IdentityChallenge struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Platform attestation
-	PlatformAttestationNonce []byte `protobuf:"bytes,1,opt,name=platform_attestation_nonce,json=platformAttestationNonce,proto3" json:"platform_attestation_nonce,omitempty" firestore:"platformAttestationNonce"`
+	PlatformAttestationNonce []byte `protobuf:"bytes,1,opt,name=platform_attestation_nonce,json=platformAttestationNonce,proto3" json:"platform_attestation_nonce,omitempty"`
 	// AK TPM Residency check
-	CredEncryptedByEkpub    []byte `protobuf:"bytes,2,opt,name=cred_encrypted_by_ekpub,json=credEncryptedByEkpub,proto3" json:"cred_encrypted_by_ekpub,omitempty" firestore:"credEncryptedByEkpub"`
-	SecretEncryptedByEkcred []byte `protobuf:"bytes,3,opt,name=secret_encrypted_by_ekcred,json=secretEncryptedByEkcred,proto3" json:"secret_encrypted_by_ekcred,omitempty" firestore:"secretEncryptedByEkcred"`
+	CredEncryptedByEkpub    []byte `protobuf:"bytes,2,opt,name=cred_encrypted_by_ekpub,json=credEncryptedByEkpub,proto3" json:"cred_encrypted_by_ekpub,omitempty"`
+	SecretEncryptedByEkcred []byte `protobuf:"bytes,3,opt,name=secret_encrypted_by_ekcred,json=secretEncryptedByEkcred,proto3" json:"secret_encrypted_by_ekcred,omitempty"`
 	// IDevID TPM Residency check
-	CredEncryptedByIdevidPub    []byte `protobuf:"bytes,4,opt,name=cred_encrypted_by_idevid_pub,json=credEncryptedByIdevidPub,proto3" json:"cred_encrypted_by_idevid_pub,omitempty" firestore:"credEncryptedByIdevidPub"`
-	SecretEncryptedByIdevidCred []byte `protobuf:"bytes,5,opt,name=secret_encrypted_by_idevid_cred,json=secretEncryptedByIdevidCred,proto3" json:"secret_encrypted_by_idevid_cred,omitempty" firestore:"secretEncryptedByIdevidCred"`
+	CredEncryptedByIdevidPub    []byte `protobuf:"bytes,4,opt,name=cred_encrypted_by_idevid_pub,json=credEncryptedByIdevidPub,proto3" json:"cred_encrypted_by_idevid_pub,omitempty"`
+	SecretEncryptedByIdevidCred []byte `protobuf:"bytes,5,opt,name=secret_encrypted_by_idevid_cred,json=secretEncryptedByIdevidCred,proto3" json:"secret_encrypted_by_idevid_cred,omitempty"`
 	// LDevID TPM Residency check
-	CredEncryptedByLdevidPub    []byte `protobuf:"bytes,6,opt,name=cred_encrypted_by_ldevid_pub,json=credEncryptedByLdevidPub,proto3" json:"cred_encrypted_by_ldevid_pub,omitempty" firestore:"credEncryptedByLdevidPub"`
-	SecretEncryptedByLdevidCred []byte `protobuf:"bytes,7,opt,name=secret_encrypted_by_ldevid_cred,json=secretEncryptedByLdevidCred,proto3" json:"secret_encrypted_by_ldevid_cred,omitempty" firestore:"secretEncryptedByLdevidCred"`
+	CredEncryptedByLdevidPub    []byte `protobuf:"bytes,6,opt,name=cred_encrypted_by_ldevid_pub,json=credEncryptedByLdevidPub,proto3" json:"cred_encrypted_by_ldevid_pub,omitempty"`
+	SecretEncryptedByLdevidCred []byte `protobuf:"bytes,7,opt,name=secret_encrypted_by_ldevid_cred,json=secretEncryptedByLdevidCred,proto3" json:"secret_encrypted_by_ldevid_cred,omitempty"`
 	// IDevID verification when key is signing
-	DigestToSignWithIdevid []byte `protobuf:"bytes,8,opt,name=digest_to_sign_with_idevid,json=digestToSignWithIdevid,proto3" json:"digest_to_sign_with_idevid,omitempty" firestore:"digestToSignWithIdevid"`
+	DigestToSignWithIdevid []byte `protobuf:"bytes,8,opt,name=digest_to_sign_with_idevid,json=digestToSignWithIdevid,proto3" json:"digest_to_sign_with_idevid,omitempty"`
 	// IDevID verification when key is decrypt
-	RsaSecretToDecryptWithIdevid []byte `protobuf:"bytes,9,opt,name=rsa_secret_to_decrypt_with_idevid,json=rsaSecretToDecryptWithIdevid,proto3" json:"rsa_secret_to_decrypt_with_idevid,omitempty" firestore:"rsaSecretToDecryptWithIdevid"`
+	RsaSecretToDecryptWithIdevid []byte `protobuf:"bytes,9,opt,name=rsa_secret_to_decrypt_with_idevid,json=rsaSecretToDecryptWithIdevid,proto3" json:"rsa_secret_to_decrypt_with_idevid,omitempty"`
 	// LDevID verification when key is signing
-	DigestToSignWithLdevid []byte `protobuf:"bytes,10,opt,name=digest_to_sign_with_ldevid,json=digestToSignWithLdevid,proto3" json:"digest_to_sign_with_ldevid,omitempty" firestore:"digestToSignWithLdevid"`
+	DigestToSignWithLdevid []byte `protobuf:"bytes,10,opt,name=digest_to_sign_with_ldevid,json=digestToSignWithLdevid,proto3" json:"digest_to_sign_with_ldevid,omitempty"`
 	// LDevID verification when key is decrypt
-	RsaSecretToDecryptWithLdevid []byte `protobuf:"bytes,11,opt,name=rsa_secret_to_decrypt_with_ldevid,json=rsaSecretToDecryptWithLdevid,proto3" json:"rsa_secret_to_decrypt_with_ldevid,omitempty" firestore:"rsaSecretToDecryptWithLdevid"`
+	RsaSecretToDecryptWithLdevid []byte `protobuf:"bytes,11,opt,name=rsa_secret_to_decrypt_with_ldevid,json=rsaSecretToDecryptWithLdevid,proto3" json:"rsa_secret_to_decrypt_with_ldevid,omitempty"`
 }
 
 func (m *IdentityChallenge) Reset() {
@@ -693,17 +693,17 @@ type IdentityChallengeResponse struct {
 	state                           protoimpl.MessageState
 	sizeCache                       protoimpl.SizeCache
 	unknownFields                   protoimpl.UnknownFields
-	AkActivationDecryptedSecret     []byte                             `protobuf:"bytes,1,opt,name=ak_activation_decrypted_secret,json=akActivationDecryptedSecret,proto3" json:"ak_activation_decrypted_secret,omitempty" firestore:"akActivationDecryptedSecret"`
-	IdevidActivationDecryptedSecret []byte                             `protobuf:"bytes,2,opt,name=idevid_activation_decrypted_secret,json=idevidActivationDecryptedSecret,proto3" json:"idevid_activation_decrypted_secret,omitempty" firestore:"idevidActivationDecryptedSecret"`
-	LdevidActivationDecryptedSecret []byte                             `protobuf:"bytes,3,opt,name=ldevid_activation_decrypted_secret,json=ldevidActivationDecryptedSecret,proto3" json:"ldevid_activation_decrypted_secret,omitempty" firestore:"ldevidActivationDecryptedSecret"`
-	DigestSignedByIdevid            []byte                             `protobuf:"bytes,4,opt,name=digest_signed_by_idevid,json=digestSignedByIdevid,proto3" json:"digest_signed_by_idevid,omitempty" firestore:"digestSignedByIdevid"`
-	DigestSignedByLdevid            []byte                             `protobuf:"bytes,5,opt,name=digest_signed_by_ldevid,json=digestSignedByLdevid,proto3" json:"digest_signed_by_ldevid,omitempty" firestore:"digestSignedByLdevid"`
-	RsaDecryptedWithIdevid          []byte                             `protobuf:"bytes,6,opt,name=rsa_decrypted_with_idevid,json=rsaDecryptedWithIdevid,proto3" json:"rsa_decrypted_with_idevid,omitempty" firestore:"rsaDecryptedWithIdevid"`
-	RsaDecryptedWithLdevid          []byte                             `protobuf:"bytes,7,opt,name=rsa_decrypted_with_ldevid,json=rsaDecryptedWithLdevid,proto3" json:"rsa_decrypted_with_ldevid,omitempty" firestore:"rsaDecryptedWithLdevid"`
-	Quotes                          []*IdentityChallengeResponse_Quote `protobuf:"bytes,8,rep,name=quotes,proto3" json:"quotes,omitempty" firestore:"quotes"`
-	Pcrs                            []*PCR                             `protobuf:"bytes,9,rep,name=pcrs,proto3" json:"pcrs,omitempty" firestore:"pcrs"`
+	AkActivationDecryptedSecret     []byte                             `protobuf:"bytes,1,opt,name=ak_activation_decrypted_secret,json=akActivationDecryptedSecret,proto3" json:"ak_activation_decrypted_secret,omitempty"`
+	IdevidActivationDecryptedSecret []byte                             `protobuf:"bytes,2,opt,name=idevid_activation_decrypted_secret,json=idevidActivationDecryptedSecret,proto3" json:"idevid_activation_decrypted_secret,omitempty"`
+	LdevidActivationDecryptedSecret []byte                             `protobuf:"bytes,3,opt,name=ldevid_activation_decrypted_secret,json=ldevidActivationDecryptedSecret,proto3" json:"ldevid_activation_decrypted_secret,omitempty"`
+	DigestSignedByIdevid            []byte                             `protobuf:"bytes,4,opt,name=digest_signed_by_idevid,json=digestSignedByIdevid,proto3" json:"digest_signed_by_idevid,omitempty"`
+	DigestSignedByLdevid            []byte                             `protobuf:"bytes,5,opt,name=digest_signed_by_ldevid,json=digestSignedByLdevid,proto3" json:"digest_signed_by_ldevid,omitempty"`
+	RsaDecryptedWithIdevid          []byte                             `protobuf:"bytes,6,opt,name=rsa_decrypted_with_idevid,json=rsaDecryptedWithIdevid,proto3" json:"rsa_decrypted_with_idevid,omitempty"`
+	RsaDecryptedWithLdevid          []byte                             `protobuf:"bytes,7,opt,name=rsa_decrypted_with_ldevid,json=rsaDecryptedWithLdevid,proto3" json:"rsa_decrypted_with_ldevid,omitempty"`
+	Quotes                          []*IdentityChallengeResponse_Quote `protobuf:"bytes,8,rep,name=quotes,proto3" json:"quotes,omitempty"`
+	Pcrs                            []*PCR                             `protobuf:"bytes,9,rep,name=pcrs,proto3" json:"pcrs,omitempty"`
 	// Binary contents of /sys/kernel/security/tpm0/binary_bios_measurements
-	Eventlog []byte `protobuf:"bytes,10,opt,name=eventlog,proto3" json:"eventlog,omitempty" firestore:"eventlog"`
+	Eventlog []byte `protobuf:"bytes,10,opt,name=eventlog,proto3" json:"eventlog,omitempty"`
 }
 
 func (m *IdentityChallengeResponse) Reset() {
@@ -900,12 +900,12 @@ type PCR struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Index         uint32 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty" firestore:"index"`
+	Index         uint32 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
 	// Hex-encoded digest string (without 0x prefix, e.g. "DEADBEEF")
-	DigestHex string    `protobuf:"bytes,2,opt,name=digest_hex,json=digestHex,proto3" json:"digest_hex,omitempty" firestore:"digestHex"`
-	DigestAlg DigestAlg `protobuf:"varint,3,opt,name=digest_alg,json=digestAlg,proto3,enum=ntt.api.DigestAlg" json:"digest_alg,omitempty" firestore:"digestAlg"`
+	DigestHex string    `protobuf:"bytes,2,opt,name=digest_hex,json=digestHex,proto3" json:"digest_hex,omitempty"`
+	DigestAlg DigestAlg `protobuf:"varint,3,opt,name=digest_alg,json=digestAlg,proto3,enum=ntt.api.DigestAlg" json:"digest_alg,omitempty"`
 	// User's comments for this entry
-	Comment string `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty" firestore:"comment"`
+	Comment string `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
 }
 
 func (m *PCR) Reset() {
@@ -1023,13 +1023,13 @@ type DeviceIdentity_AttestationParams struct {
 	// https: //
 	// www.trustedcomputinggroup.org/wp-content/uploads/TPM-Rev-2.0-Part-2-Structures-01.38.pdf
 	// TPMT_PUBLIC (TPM 2.0) or TPM_PUBKEY (TPM 1.2)
-	Akpub []byte `protobuf:"bytes,1,opt,name=akpub,proto3" json:"akpub,omitempty" firestore:"akpub"`
+	Akpub []byte `protobuf:"bytes,1,opt,name=akpub,proto3" json:"akpub,omitempty"`
 	// TPMS_CREATION_DATA
-	CreationData []byte `protobuf:"bytes,2,opt,name=creation_data,json=creationData,proto3" json:"creation_data,omitempty" firestore:"creationData"`
+	CreationData []byte `protobuf:"bytes,2,opt,name=creation_data,json=creationData,proto3" json:"creation_data,omitempty"`
 	// TPMS_ATTEST
-	Attest []byte `protobuf:"bytes,3,opt,name=attest,proto3" json:"attest,omitempty" firestore:"attest"`
+	Attest []byte `protobuf:"bytes,3,opt,name=attest,proto3" json:"attest,omitempty"`
 	// TPMT_SIGNATURE
-	Signature []byte `protobuf:"bytes,4,opt,name=signature,proto3" json:"signature,omitempty" firestore:"signature"`
+	Signature []byte `protobuf:"bytes,4,opt,name=signature,proto3" json:"signature,omitempty"`
 }
 
 func (m *DeviceIdentity_AttestationParams) Reset() {
@@ -1145,9 +1145,9 @@ type IdentityChallengeResponse_Quote struct {
 	// TPMS_ATTEST (TSS_VALIDATION.Data or TSS_VALIDATION.rgbData)
 	// This contains PCR selection information for which the signature was
 	// calculated and other required data, like nonce.
-	Quote []byte `protobuf:"bytes,1,opt,name=quote,proto3" json:"quote,omitempty" firestore:"quote"`
+	Quote []byte `protobuf:"bytes,1,opt,name=quote,proto3" json:"quote,omitempty"`
 	// TSS_VALIDATION.ValidationData or TSS_VALIDATION.rgbValidationData
-	Signature []byte `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty" firestore:"signature"`
+	Signature []byte `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
 }
 
 func (m *IdentityChallengeResponse_Quote) Reset() {

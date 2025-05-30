@@ -111,8 +111,8 @@ type Actor struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	User           *user.Reference            `protobuf:"bytes,1,opt,customtype=Reference,name=user,proto3" json:"user,omitempty" firestore:"user"`
-	ServiceAccount *service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty" firestore:"serviceAccount"`
+	User           *user.Reference            `protobuf:"bytes,1,opt,customtype=Reference,name=user,proto3" json:"user,omitempty"`
+	ServiceAccount *service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
 }
 
 func (m *Actor) Reset() {
@@ -199,25 +199,25 @@ type Invitation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Invitee Email address
-	InviteeEmail string `protobuf:"bytes,3,opt,name=invitee_email,json=inviteeEmail,proto3" json:"invitee_email,omitempty" firestore:"inviteeEmail"`
+	InviteeEmail string `protobuf:"bytes,3,opt,name=invitee_email,json=inviteeEmail,proto3" json:"invitee_email,omitempty"`
 	// Inviter User
-	InviterActor *Actor `protobuf:"bytes,6,opt,name=inviter_actor,json=inviterActor,proto3" json:"inviter_actor,omitempty" firestore:"inviterActor"`
+	InviterActor *Actor `protobuf:"bytes,6,opt,name=inviter_actor,json=inviterActor,proto3" json:"inviter_actor,omitempty"`
 	// Denormalized data - TODO: remove it
-	InviterFullName string `protobuf:"bytes,5,opt,name=inviter_full_name,json=inviterFullName,proto3" json:"inviter_full_name,omitempty" firestore:"inviterFullName"`
+	InviterFullName string `protobuf:"bytes,5,opt,name=inviter_full_name,json=inviterFullName,proto3" json:"inviter_full_name,omitempty"`
 	// Inviter Email
-	InviterEmail string `protobuf:"bytes,10,opt,name=inviter_email,json=inviterEmail,proto3" json:"inviter_email,omitempty" firestore:"inviterEmail"`
+	InviterEmail string `protobuf:"bytes,10,opt,name=inviter_email,json=inviterEmail,proto3" json:"inviter_email,omitempty"`
 	// Invitation ISO language code. Defaults to "en-us" (American English).
-	LanguageCode string `protobuf:"bytes,11,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty" firestore:"languageCode"`
+	LanguageCode string `protobuf:"bytes,11,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty"`
 	// List of Roles to be granted on project when invitation is accepted
-	Roles []*role.Reference `protobuf:"bytes,7,rep,customtype=Reference,name=roles,proto3" json:"roles,omitempty" firestore:"roles"`
+	Roles []*role.Reference `protobuf:"bytes,7,rep,customtype=Reference,name=roles,proto3" json:"roles,omitempty"`
 	// Expiration date
-	ExpirationDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=expiration_date,json=expirationDate,proto3" json:"expiration_date,omitempty" firestore:"expirationDate"`
+	ExpirationDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=expiration_date,json=expirationDate,proto3" json:"expiration_date,omitempty"`
 	// Extra custom fields to further customize invitation experience.
 	// Fields should be agreed between sender (usually UI) and documented in
 	// the template of email service provider.
-	Extras map[string]string `protobuf:"bytes,12,rep,name=extras,proto3" json:"extras,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"extras"`
+	Extras map[string]string `protobuf:"bytes,12,rep,name=extras,proto3" json:"extras,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Status of Invitation
-	State Invitation_State `protobuf:"varint,9,opt,name=state,proto3,enum=ntt.iam.v1alpha2.Invitation_State" json:"state,omitempty" firestore:"state"`
+	State Invitation_State `protobuf:"varint,9,opt,name=state,proto3,enum=ntt.iam.v1alpha2.Invitation_State" json:"state,omitempty"`
 }
 
 func (m *Invitation) Reset() {

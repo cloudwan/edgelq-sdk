@@ -59,6 +59,12 @@ func (RoleFieldPathBuilder) Category() RolePathSelectorCategory {
 func (RoleFieldPathBuilder) ScopeParams() RolePathSelectorScopeParams {
 	return RolePathSelectorScopeParams{}
 }
+func (RoleFieldPathBuilder) ConstValues() RolePathSelectorConstValues {
+	return RolePathSelectorConstValues{}
+}
+func (RoleFieldPathBuilder) DefaultValues() RolePathSelectorDefaultValues {
+	return RolePathSelectorDefaultValues{}
+}
 func (RoleFieldPathBuilder) Grants() RolePathSelectorGrants {
 	return RolePathSelectorGrants{}
 }
@@ -882,6 +888,416 @@ func (s RolePathSelectorScopeParamsType) WithValue(value Role_ScopeParamType_Typ
 }
 
 func (s RolePathSelectorScopeParamsType) WithArrayOfValues(values []Role_ScopeParamType_Type) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorConstValues struct{}
+
+func (RolePathSelectorConstValues) FieldPath() *Role_FieldTerminalPath {
+	return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorConstValues}
+}
+
+func (s RolePathSelectorConstValues) WithValue(value []*ScopeParam) *Role_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldTerminalPathValue)
+}
+
+func (s RolePathSelectorConstValues) WithArrayOfValues(values [][]*ScopeParam) *Role_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldTerminalPathArrayOfValues)
+}
+
+func (s RolePathSelectorConstValues) WithItemValue(value *ScopeParam) *Role_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Role_FieldTerminalPathArrayItemValue)
+}
+func (RolePathSelectorConstValues) WithSubPath(subPath ScopeParam_FieldPath) *Role_FieldSubPath {
+	return &Role_FieldSubPath{selector: Role_FieldPathSelectorConstValues, subPath: subPath}
+}
+
+func (s RolePathSelectorConstValues) WithSubValue(subPathValue ScopeParam_FieldPathValue) *Role_FieldSubPathValue {
+	return &Role_FieldSubPathValue{Role_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s RolePathSelectorConstValues) WithSubArrayOfValues(subPathArrayOfValues ScopeParam_FieldPathArrayOfValues) *Role_FieldSubPathArrayOfValues {
+	return &Role_FieldSubPathArrayOfValues{Role_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s RolePathSelectorConstValues) WithSubArrayItemValue(subPathArrayItemValue ScopeParam_FieldPathArrayItemValue) *Role_FieldSubPathArrayItemValue {
+	return &Role_FieldSubPathArrayItemValue{Role_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (RolePathSelectorConstValues) Name() RolePathSelectorConstValuesName {
+	return RolePathSelectorConstValuesName{}
+}
+
+func (RolePathSelectorConstValues) String_() RolePathSelectorConstValuesString {
+	return RolePathSelectorConstValuesString{}
+}
+
+func (RolePathSelectorConstValues) Strings() RolePathSelectorConstValuesStrings {
+	return RolePathSelectorConstValuesStrings{}
+}
+
+func (RolePathSelectorConstValues) ValueFrom() RolePathSelectorConstValuesValueFrom {
+	return RolePathSelectorConstValuesValueFrom{}
+}
+
+type RolePathSelectorConstValuesName struct{}
+
+func (RolePathSelectorConstValuesName) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesName) WithValue(value string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesName) WithArrayOfValues(values []string) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorConstValuesString struct{}
+
+func (RolePathSelectorConstValuesString) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().String_().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesString) WithValue(value *ScopeParam_StringValue) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesString) WithArrayOfValues(values []*ScopeParam_StringValue) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (RolePathSelectorConstValuesString) Value() RolePathSelectorConstValuesStringValue {
+	return RolePathSelectorConstValuesStringValue{}
+}
+
+type RolePathSelectorConstValuesStringValue struct{}
+
+func (RolePathSelectorConstValuesStringValue) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().String_().Value().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesStringValue) WithValue(value string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesStringValue) WithArrayOfValues(values []string) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorConstValuesStrings struct{}
+
+func (RolePathSelectorConstValuesStrings) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().Strings().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesStrings) WithValue(value *ScopeParam_ArrayOfStringsValue) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesStrings) WithArrayOfValues(values []*ScopeParam_ArrayOfStringsValue) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (RolePathSelectorConstValuesStrings) Values() RolePathSelectorConstValuesStringsValues {
+	return RolePathSelectorConstValuesStringsValues{}
+}
+
+type RolePathSelectorConstValuesStringsValues struct{}
+
+func (RolePathSelectorConstValuesStringsValues) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().Strings().Values().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesStringsValues) WithValue(value []string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesStringsValues) WithArrayOfValues(values [][]string) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (s RolePathSelectorConstValuesStringsValues) WithItemValue(value string) *Role_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Role_FieldSubPathArrayItemValue)
+}
+
+type RolePathSelectorConstValuesValueFrom struct{}
+
+func (RolePathSelectorConstValuesValueFrom) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().ValueFrom().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesValueFrom) WithValue(value *ScopeParam_FromValue) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesValueFrom) WithArrayOfValues(values []*ScopeParam_FromValue) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (RolePathSelectorConstValuesValueFrom) Source() RolePathSelectorConstValuesValueFromSource {
+	return RolePathSelectorConstValuesValueFromSource{}
+}
+
+func (RolePathSelectorConstValuesValueFrom) Path() RolePathSelectorConstValuesValueFromPath {
+	return RolePathSelectorConstValuesValueFromPath{}
+}
+
+type RolePathSelectorConstValuesValueFromSource struct{}
+
+func (RolePathSelectorConstValuesValueFromSource) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().ValueFrom().Source().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesValueFromSource) WithValue(value ScopeParam_FromValue_Source) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesValueFromSource) WithArrayOfValues(values []ScopeParam_FromValue_Source) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorConstValuesValueFromPath struct{}
+
+func (RolePathSelectorConstValuesValueFromPath) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorConstValues,
+		subPath:  NewScopeParamFieldPathBuilder().ValueFrom().Path().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorConstValuesValueFromPath) WithValue(value string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorConstValuesValueFromPath) WithArrayOfValues(values []string) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorDefaultValues struct{}
+
+func (RolePathSelectorDefaultValues) FieldPath() *Role_FieldTerminalPath {
+	return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDefaultValues}
+}
+
+func (s RolePathSelectorDefaultValues) WithValue(value []*ScopeParam) *Role_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldTerminalPathValue)
+}
+
+func (s RolePathSelectorDefaultValues) WithArrayOfValues(values [][]*ScopeParam) *Role_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldTerminalPathArrayOfValues)
+}
+
+func (s RolePathSelectorDefaultValues) WithItemValue(value *ScopeParam) *Role_FieldTerminalPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Role_FieldTerminalPathArrayItemValue)
+}
+func (RolePathSelectorDefaultValues) WithSubPath(subPath ScopeParam_FieldPath) *Role_FieldSubPath {
+	return &Role_FieldSubPath{selector: Role_FieldPathSelectorDefaultValues, subPath: subPath}
+}
+
+func (s RolePathSelectorDefaultValues) WithSubValue(subPathValue ScopeParam_FieldPathValue) *Role_FieldSubPathValue {
+	return &Role_FieldSubPathValue{Role_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s RolePathSelectorDefaultValues) WithSubArrayOfValues(subPathArrayOfValues ScopeParam_FieldPathArrayOfValues) *Role_FieldSubPathArrayOfValues {
+	return &Role_FieldSubPathArrayOfValues{Role_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s RolePathSelectorDefaultValues) WithSubArrayItemValue(subPathArrayItemValue ScopeParam_FieldPathArrayItemValue) *Role_FieldSubPathArrayItemValue {
+	return &Role_FieldSubPathArrayItemValue{Role_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (RolePathSelectorDefaultValues) Name() RolePathSelectorDefaultValuesName {
+	return RolePathSelectorDefaultValuesName{}
+}
+
+func (RolePathSelectorDefaultValues) String_() RolePathSelectorDefaultValuesString {
+	return RolePathSelectorDefaultValuesString{}
+}
+
+func (RolePathSelectorDefaultValues) Strings() RolePathSelectorDefaultValuesStrings {
+	return RolePathSelectorDefaultValuesStrings{}
+}
+
+func (RolePathSelectorDefaultValues) ValueFrom() RolePathSelectorDefaultValuesValueFrom {
+	return RolePathSelectorDefaultValuesValueFrom{}
+}
+
+type RolePathSelectorDefaultValuesName struct{}
+
+func (RolePathSelectorDefaultValuesName) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().Name().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesName) WithValue(value string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesName) WithArrayOfValues(values []string) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorDefaultValuesString struct{}
+
+func (RolePathSelectorDefaultValuesString) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().String_().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesString) WithValue(value *ScopeParam_StringValue) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesString) WithArrayOfValues(values []*ScopeParam_StringValue) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (RolePathSelectorDefaultValuesString) Value() RolePathSelectorDefaultValuesStringValue {
+	return RolePathSelectorDefaultValuesStringValue{}
+}
+
+type RolePathSelectorDefaultValuesStringValue struct{}
+
+func (RolePathSelectorDefaultValuesStringValue) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().String_().Value().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesStringValue) WithValue(value string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesStringValue) WithArrayOfValues(values []string) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorDefaultValuesStrings struct{}
+
+func (RolePathSelectorDefaultValuesStrings) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().Strings().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesStrings) WithValue(value *ScopeParam_ArrayOfStringsValue) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesStrings) WithArrayOfValues(values []*ScopeParam_ArrayOfStringsValue) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (RolePathSelectorDefaultValuesStrings) Values() RolePathSelectorDefaultValuesStringsValues {
+	return RolePathSelectorDefaultValuesStringsValues{}
+}
+
+type RolePathSelectorDefaultValuesStringsValues struct{}
+
+func (RolePathSelectorDefaultValuesStringsValues) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().Strings().Values().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesStringsValues) WithValue(value []string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesStringsValues) WithArrayOfValues(values [][]string) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (s RolePathSelectorDefaultValuesStringsValues) WithItemValue(value string) *Role_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*Role_FieldSubPathArrayItemValue)
+}
+
+type RolePathSelectorDefaultValuesValueFrom struct{}
+
+func (RolePathSelectorDefaultValuesValueFrom) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().ValueFrom().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesValueFrom) WithValue(value *ScopeParam_FromValue) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesValueFrom) WithArrayOfValues(values []*ScopeParam_FromValue) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+func (RolePathSelectorDefaultValuesValueFrom) Source() RolePathSelectorDefaultValuesValueFromSource {
+	return RolePathSelectorDefaultValuesValueFromSource{}
+}
+
+func (RolePathSelectorDefaultValuesValueFrom) Path() RolePathSelectorDefaultValuesValueFromPath {
+	return RolePathSelectorDefaultValuesValueFromPath{}
+}
+
+type RolePathSelectorDefaultValuesValueFromSource struct{}
+
+func (RolePathSelectorDefaultValuesValueFromSource) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().ValueFrom().Source().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesValueFromSource) WithValue(value ScopeParam_FromValue_Source) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesValueFromSource) WithArrayOfValues(values []ScopeParam_FromValue_Source) *Role_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
+}
+
+type RolePathSelectorDefaultValuesValueFromPath struct{}
+
+func (RolePathSelectorDefaultValuesValueFromPath) FieldPath() *Role_FieldSubPath {
+	return &Role_FieldSubPath{
+		selector: Role_FieldPathSelectorDefaultValues,
+		subPath:  NewScopeParamFieldPathBuilder().ValueFrom().Path().FieldPath(),
+	}
+}
+
+func (s RolePathSelectorDefaultValuesValueFromPath) WithValue(value string) *Role_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Role_FieldSubPathValue)
+}
+
+func (s RolePathSelectorDefaultValuesValueFromPath) WithArrayOfValues(values []string) *Role_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Role_FieldSubPathArrayOfValues)
 }
 

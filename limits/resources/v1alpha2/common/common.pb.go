@@ -51,9 +51,9 @@ type Allowance struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Reference to resource
-	Resource *meta_resource.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *meta_resource.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// Limit or extension for given resource.
-	Value int64 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Value int64 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (m *Allowance) Reset() {
@@ -141,9 +141,9 @@ type RegionalDistribution struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Reference to resource
-	Resource *meta_resource.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *meta_resource.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// Limit per region.
-	LimitsByRegion map[string]int64 `protobuf:"bytes,2,rep,name=limits_by_region,json=limitsByRegion,proto3" json:"limits_by_region,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3" firestore:"limitsByRegion"`
+	LimitsByRegion map[string]int64 `protobuf:"bytes,2,rep,name=limits_by_region,json=limitsByRegion,proto3" json:"limits_by_region,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
 }
 
 func (m *RegionalDistribution) Reset() {

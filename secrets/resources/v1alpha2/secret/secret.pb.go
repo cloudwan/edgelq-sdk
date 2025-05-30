@@ -55,13 +55,13 @@ type Secret struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// masked by read_checks. Database only.
-	EncData []byte `protobuf:"bytes,2,opt,name=enc_data,json=encData,proto3" json:"enc_data,omitempty" firestore:"encData"`
+	EncData []byte `protobuf:"bytes,2,opt,name=enc_data,json=encData,proto3" json:"enc_data,omitempty"`
 	// Data to store as secret. Must be base64 encoded.
-	Data map[string]string `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"data"`
+	Data map[string]string `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Secret) Reset() {

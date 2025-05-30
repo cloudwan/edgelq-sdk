@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"strings"
 
-	firestorepb "google.golang.org/genproto/googleapis/firestore/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -33,7 +32,6 @@ var (
 	_ = new(json.Marshaler)
 	_ = strings.Builder{}
 
-	_ = firestorepb.Value{}
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = new(proto.Message)
@@ -88,31 +86,6 @@ func (fieldMask *MetricDescriptor_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptor_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_FieldMask) IsFull() bool {
@@ -531,31 +504,6 @@ func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) String() s
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorMetricDescriptorMetadata_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_MetricDescriptorMetadata_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -782,31 +730,6 @@ func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndexSpec_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_FieldMask) IsFull() bool {
@@ -1076,31 +999,6 @@ func (fieldMask *MetricDescriptor_Indices_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndices_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_Indices_FieldMask) IsFull() bool {
@@ -1399,31 +1297,6 @@ func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorStorageConfig_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_StorageConfig_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -1653,31 +1526,6 @@ func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorBinaryIndices_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_BinaryIndices_FieldMask) IsFull() bool {
@@ -1949,31 +1797,6 @@ func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndexSpecIndex_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_IndexSpec_Index_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -2201,31 +2024,6 @@ func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) Stri
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndexSpecPerMonitoredResource_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_IndexSpec_PerMonitoredResource_FieldMask) IsFull() bool {
@@ -2500,31 +2298,6 @@ func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) String() string
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesLabelsGroup_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_Indices_LabelsGroup_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -2762,31 +2535,6 @@ func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) String() str
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesPaginationView_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_Indices_PaginationView_FieldMask) IsFull() bool {
@@ -3031,31 +2779,6 @@ func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) String() 
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesAggregationsGroup_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_Indices_AggregationsGroup_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -3296,31 +3019,6 @@ func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) String() st
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesSortingFunction_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_Indices_SortingFunction_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -3559,31 +3257,6 @@ func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) String
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesPreAggregatedIndices_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_Indices_PreAggregatedIndices_FieldMask) IsFull() bool {
@@ -3891,31 +3564,6 @@ func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) String
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesNonAggregatedIndices_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_Indices_NonAggregatedIndices_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -4189,31 +3837,6 @@ func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) String() 
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesPaginationIndices_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_Indices_PaginationIndices_FieldMask) IsFull() bool {
@@ -4521,31 +4144,6 @@ func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) String() string
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorIndicesIndexGroups_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_Indices_IndexGroups_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -4847,31 +4445,6 @@ func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) St
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorBinaryIndicesPreAggregatedIndex_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *MetricDescriptor_BinaryIndices_PreAggregatedIndex_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -5104,31 +4677,6 @@ func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) Strin
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorBinaryIndicesPaginatingIndex_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_BinaryIndices_PaginatingIndex_FieldMask) IsFull() bool {
@@ -5366,31 +4914,6 @@ func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) String
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseMetricDescriptorBinaryIndicesByResourceType_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *MetricDescriptor_BinaryIndices_ByResourceType_FieldMask) IsFull() bool {

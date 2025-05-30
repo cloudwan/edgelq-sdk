@@ -52,17 +52,17 @@ type Permission struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of Permission
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Title
-	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" firestore:"title"`
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	// Description
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (m *Permission) Reset() {

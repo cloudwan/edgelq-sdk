@@ -52,7 +52,7 @@ type DeregisterRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.devices.v1.DeviceHardware
-	Name *device_hardware.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *device_hardware.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *DeregisterRequest) Reset() {

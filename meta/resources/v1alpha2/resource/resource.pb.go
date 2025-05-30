@@ -52,16 +52,16 @@ type Resource struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of Resource in CamelCase, for example "Device"
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Plural name of resource in CamelForm, for example "Devices"
-	PluralName string `protobuf:"bytes,2,opt,name=plural_name,json=pluralName,proto3" json:"plural_name,omitempty" firestore:"pluralName"`
+	PluralName string `protobuf:"bytes,2,opt,name=plural_name,json=pluralName,proto3" json:"plural_name,omitempty"`
 	// Fully qualified name, for example devices.edgelq.com/Device.
 	// It can also be derived from name too.
-	Fqn string `protobuf:"bytes,3,opt,name=fqn,proto3" json:"fqn,omitempty" firestore:"fqn"`
+	Fqn string `protobuf:"bytes,3,opt,name=fqn,proto3" json:"fqn,omitempty"`
 	// Whether resource is regional
-	IsRegional bool `protobuf:"varint,4,opt,name=is_regional,json=isRegional,proto3" json:"is_regional,omitempty" firestore:"isRegional"`
+	IsRegional bool `protobuf:"varint,4,opt,name=is_regional,json=isRegional,proto3" json:"is_regional,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Resource) Reset() {

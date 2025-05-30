@@ -171,17 +171,17 @@ type NotificationChannel struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata of NotificationChannel
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display Name
-	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Specification
-	Spec *NotificationChannel_Spec `protobuf:"bytes,4,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
+	Spec *NotificationChannel_Spec `protobuf:"bytes,4,opt,name=spec,proto3" json:"spec,omitempty"`
 	// State
-	State *NotificationChannel_State `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty" firestore:"state"`
+	State *NotificationChannel_State `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty"`
 	// description
-	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (m *NotificationChannel) Reset() {
@@ -325,18 +325,18 @@ type NotificationChannel_Spec struct {
 	unknownFields protoimpl.UnknownFields
 	// Enabled flag. Whether the NotificationChannel is enabled or not. Disabled
 	// channels will not be used for alerting.
-	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty" firestore:"enabled"`
+	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Type. Corresponding spec should a oneof field.
-	Type NotificationChannel_Spec_Type `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.monitoring.v3.NotificationChannel_Spec_Type" json:"type,omitempty" firestore:"type"`
+	Type NotificationChannel_Spec_Type `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.monitoring.v3.NotificationChannel_Spec_Type" json:"type,omitempty"`
 	// Email
-	Email *NotificationChannel_Spec_Email `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty" firestore:"email"`
+	Email *NotificationChannel_Spec_Email `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
 	// Slack
-	Slack   *NotificationChannel_Spec_Slack   `protobuf:"bytes,4,opt,name=slack,proto3" json:"slack,omitempty" firestore:"slack"`
-	Webhook *NotificationChannel_Spec_Webhook `protobuf:"bytes,5,opt,name=webhook,proto3" json:"webhook,omitempty" firestore:"webhook"`
+	Slack   *NotificationChannel_Spec_Slack   `protobuf:"bytes,4,opt,name=slack,proto3" json:"slack,omitempty"`
+	Webhook *NotificationChannel_Spec_Webhook `protobuf:"bytes,5,opt,name=webhook,proto3" json:"webhook,omitempty"`
 	// Default language for invitation is english (eng)
 	// Configuring unsupported language will fallback to english
 	// Currently only sendgrid uses this.
-	NotificationLanguageCode string `protobuf:"bytes,6,opt,name=notification_language_code,json=notificationLanguageCode,proto3" json:"notification_language_code,omitempty" firestore:"notificationLanguageCode"`
+	NotificationLanguageCode string `protobuf:"bytes,6,opt,name=notification_language_code,json=notificationLanguageCode,proto3" json:"notification_language_code,omitempty"`
 }
 
 func (m *NotificationChannel_Spec) Reset() {
@@ -479,9 +479,9 @@ type NotificationChannel_State struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Status
-	Status NotificationChannel_State_Status `protobuf:"varint,1,opt,name=status,proto3,enum=ntt.monitoring.v3.NotificationChannel_State_Status" json:"status,omitempty" firestore:"status"`
+	Status NotificationChannel_State_Status `protobuf:"varint,1,opt,name=status,proto3,enum=ntt.monitoring.v3.NotificationChannel_State_Status" json:"status,omitempty"`
 	// Error
-	Error *NotificationChannel_State_Error `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty" firestore:"error"`
+	Error *NotificationChannel_State_Error `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (m *NotificationChannel_State) Reset() {
@@ -568,7 +568,7 @@ type NotificationChannel_Spec_Email struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Email Addresses
-	Addresses []string `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty" firestore:"addresses"`
+	Addresses []string `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty"`
 }
 
 func (m *NotificationChannel_Spec_Email) Reset() {
@@ -641,7 +641,7 @@ type NotificationChannel_Spec_Slack struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Slack Incoming Webhook URL
-	IncomingWebhook string `protobuf:"bytes,1,opt,name=incoming_webhook,json=incomingWebhook,proto3" json:"incoming_webhook,omitempty" firestore:"incomingWebhook"`
+	IncomingWebhook string `protobuf:"bytes,1,opt,name=incoming_webhook,json=incomingWebhook,proto3" json:"incoming_webhook,omitempty"`
 }
 
 func (m *NotificationChannel_Spec_Slack) Reset() {
@@ -714,7 +714,7 @@ type NotificationChannel_Spec_PagerDuty struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// PagerDuty Service Key
-	ServiceKey string `protobuf:"bytes,1,opt,name=service_key,json=serviceKey,proto3" json:"service_key,omitempty" firestore:"serviceKey"`
+	ServiceKey string `protobuf:"bytes,1,opt,name=service_key,json=serviceKey,proto3" json:"service_key,omitempty"`
 }
 
 func (m *NotificationChannel_Spec_PagerDuty) Reset() {
@@ -787,9 +787,9 @@ type NotificationChannel_Spec_Webhook struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Webhook URL
-	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty" firestore:"url"`
+	Url string `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
 	// Headers
-	Headers []*NotificationChannel_Spec_Webhook_Header `protobuf:"bytes,2,rep,name=headers,proto3" json:"headers,omitempty" firestore:"headers"`
+	Headers []*NotificationChannel_Spec_Webhook_Header `protobuf:"bytes,2,rep,name=headers,proto3" json:"headers,omitempty"`
 }
 
 func (m *NotificationChannel_Spec_Webhook) Reset() {
@@ -875,8 +875,8 @@ type NotificationChannel_Spec_Webhook_Header struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Key           string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
-	Value         string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Key           string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	Value         string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (m *NotificationChannel_Spec_Webhook_Header) Reset() {
@@ -962,8 +962,8 @@ type NotificationChannel_State_Error struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Time          *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=time,proto3" json:"time,omitempty" firestore:"time"`
-	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Time          *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=time,proto3" json:"time,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *NotificationChannel_State_Error) Reset() {

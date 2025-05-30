@@ -53,19 +53,19 @@ type Region struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Region title
-	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" firestore:"title"`
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	// Region domain, for example us-west.edgelq.com
-	Domain string `protobuf:"bytes,3,opt,name=domain,proto3" json:"domain,omitempty" firestore:"domain"`
+	Domain string `protobuf:"bytes,3,opt,name=domain,proto3" json:"domain,omitempty"`
 	// Region location
-	Location *Region_RegionLocation `protobuf:"bytes,4,opt,name=location,proto3" json:"location,omitempty" firestore:"location"`
+	Location *Region_RegionLocation `protobuf:"bytes,4,opt,name=location,proto3" json:"location,omitempty"`
 	// Whether is default. Only one record is allowed to have this attribute on.
-	IsDefault bool `protobuf:"varint,5,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty" firestore:"isDefault"`
+	IsDefault bool `protobuf:"varint,5,opt,name=is_default,json=isDefault,proto3" json:"is_default,omitempty"`
 	// Hardcoded scores regarding connectivity preference.
-	ConnectivityScores []*Region_RegionConnectivityPreference `protobuf:"bytes,6,rep,name=connectivity_scores,json=connectivityScores,proto3" json:"connectivity_scores,omitempty" firestore:"connectivityScores"`
+	ConnectivityScores []*Region_RegionConnectivityPreference `protobuf:"bytes,6,rep,name=connectivity_scores,json=connectivityScores,proto3" json:"connectivity_scores,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Region) Reset() {
@@ -221,11 +221,11 @@ type Region_RegionLocation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Continent     string `protobuf:"bytes,1,opt,name=continent,proto3" json:"continent,omitempty" firestore:"continent"`
-	Country       string `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty" firestore:"country"`
-	Agglomeration string `protobuf:"bytes,3,opt,name=agglomeration,proto3" json:"agglomeration,omitempty" firestore:"agglomeration"`
-	City          string `protobuf:"bytes,4,opt,name=city,proto3" json:"city,omitempty" firestore:"city"`
-	Cloud         string `protobuf:"bytes,5,opt,name=cloud,proto3" json:"cloud,omitempty" firestore:"cloud"`
+	Continent     string `protobuf:"bytes,1,opt,name=continent,proto3" json:"continent,omitempty"`
+	Country       string `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"`
+	Agglomeration string `protobuf:"bytes,3,opt,name=agglomeration,proto3" json:"agglomeration,omitempty"`
+	City          string `protobuf:"bytes,4,opt,name=city,proto3" json:"city,omitempty"`
+	Cloud         string `protobuf:"bytes,5,opt,name=cloud,proto3" json:"cloud,omitempty"`
 }
 
 func (m *Region_RegionLocation) Reset() {
@@ -355,9 +355,9 @@ type Region_RegionConnectivityPreference struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Destination region
-	Dest *Reference `protobuf:"bytes,2,opt,customtype=Reference,name=dest,proto3" json:"dest,omitempty" firestore:"dest"`
+	Dest *Reference `protobuf:"bytes,2,opt,customtype=Reference,name=dest,proto3" json:"dest,omitempty"`
 	// Hardcoded score
-	Score int32 `protobuf:"varint,3,opt,name=score,proto3" json:"score,omitempty" firestore:"score"`
+	Score int32 `protobuf:"varint,3,opt,name=score,proto3" json:"score,omitempty"`
 }
 
 func (m *Region_RegionConnectivityPreference) Reset() {

@@ -72,35 +72,35 @@ type PlanAssignment struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Plan with basic set of limits - it will apply to EACH region of
 	// service/organization/project
-	DefaultRegionalPlan *plan.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=default_regional_plan,json=defaultRegionalPlan,proto3" json:"default_regional_plan,omitempty" firestore:"defaultRegionalPlan"`
+	DefaultRegionalPlan *plan.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=default_regional_plan,json=defaultRegionalPlan,proto3" json:"default_regional_plan,omitempty"`
 	// Service associated with plan
-	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Individual plan overrides per each region.
-	RegionalPlanOverrides []*common.RegionalPlanAssignment `protobuf:"bytes,8,rep,name=regional_plan_overrides,json=regionalPlanOverrides,proto3" json:"regional_plan_overrides,omitempty" firestore:"regionalPlanOverrides"`
+	RegionalPlanOverrides []*common.RegionalPlanAssignment `protobuf:"bytes,8,rep,name=regional_plan_overrides,json=regionalPlanOverrides,proto3" json:"regional_plan_overrides,omitempty"`
 	// Additional extensions (but may be negative) on top of regular plan.
-	Extensions []*common.Allowance `protobuf:"bytes,4,rep,name=extensions,proto3" json:"extensions,omitempty" firestore:"extensions"`
+	Extensions []*common.Allowance `protobuf:"bytes,4,rep,name=extensions,proto3" json:"extensions,omitempty"`
 	// Final allowances per resource/region - computed from extensions and
 	// all regional plans.
-	Allowances []*common.Allowance `protobuf:"bytes,5,rep,name=allowances,proto3" json:"allowances,omitempty" firestore:"allowances"`
+	Allowances []*common.Allowance `protobuf:"bytes,5,rep,name=allowances,proto3" json:"allowances,omitempty"`
 	// List of regions ID where plan was applied - it is being taken from
 	// service/organization/project list of regions. Limits service extends plans
 	// if it notices expansion to the new region.
-	AppliedRegions []string `protobuf:"bytes,9,rep,name=applied_regions,json=appliedRegions,proto3" json:"applied_regions,omitempty" firestore:"appliedRegions"`
+	AppliedRegions []string `protobuf:"bytes,9,rep,name=applied_regions,json=appliedRegions,proto3" json:"applied_regions,omitempty"`
 	// Default region plan generation number, set during each update and creation.
 	// It is used to notice if plan got changed and we need to trigger plan
 	// update.
-	AppliedPlanSpecGeneration int64 `protobuf:"varint,10,opt,name=applied_plan_spec_generation,json=appliedPlanSpecGeneration,proto3" json:"applied_plan_spec_generation,omitempty" firestore:"appliedPlanSpecGeneration"`
+	AppliedPlanSpecGeneration int64 `protobuf:"varint,10,opt,name=applied_plan_spec_generation,json=appliedPlanSpecGeneration,proto3" json:"applied_plan_spec_generation,omitempty"`
 	// Source with which this PlanAssignment is synchronized.
-	Source *accepted_plan.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=source,proto3" json:"source,omitempty" firestore:"source"`
+	Source *accepted_plan.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=source,proto3" json:"source,omitempty"`
 }
 
 func (m *PlanAssignment) Reset() {

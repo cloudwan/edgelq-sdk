@@ -138,17 +138,17 @@ type Condition struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display Name
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Description
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	// Condition expression in [Google
 	// CEL](https://github.com/google/cel-spec/blob/v0.4.0/doc/intro.md), syntax,
 	// e.g. `resource.name == "projects/xyz/instances/abc"`
@@ -174,11 +174,11 @@ type Condition struct {
 	// `false` to deny. Any execution error results in access denied.
 	// DEPRECATED: This should not be actually used at all, as CEL conditions
 	// are obsolete.
-	Expression string `protobuf:"bytes,4,opt,name=expression,proto3" json:"expression,omitempty" firestore:"expression"`
+	Expression string `protobuf:"bytes,4,opt,name=expression,proto3" json:"expression,omitempty"`
 	// Typed parameters declarations. When binding a Condition passed parameters
 	// must correspond to declarations.
 	// DEPRECATED: Along with expression, CEL conditions are gone.
-	ParameterDeclarations []*Condition_ParameterDeclaration `protobuf:"bytes,5,rep,name=parameter_declarations,json=parameterDeclarations,proto3" json:"parameter_declarations,omitempty" firestore:"parameterDeclarations"`
+	ParameterDeclarations []*Condition_ParameterDeclaration `protobuf:"bytes,5,rep,name=parameter_declarations,json=parameterDeclarations,proto3" json:"parameter_declarations,omitempty"`
 	// Types that are valid to be assigned to Condition:
 	//	*Condition_IpCondition_
 	//	*Condition_AttestationCondition_
@@ -240,10 +240,10 @@ type isCondition_Condition interface {
 }
 
 type Condition_IpCondition_ struct {
-	IpCondition *Condition_IpCondition `protobuf:"bytes,7,opt,name=ip_condition,json=ipCondition,proto3,oneof" firestore:"ipCondition"`
+	IpCondition *Condition_IpCondition `protobuf:"bytes,7,opt,name=ip_condition,json=ipCondition,proto3,oneof"`
 }
 type Condition_AttestationCondition_ struct {
-	AttestationCondition *Condition_AttestationCondition `protobuf:"bytes,8,opt,name=attestation_condition,json=attestationCondition,proto3,oneof" firestore:"attestationCondition"`
+	AttestationCondition *Condition_AttestationCondition `protobuf:"bytes,8,opt,name=attestation_condition,json=attestationCondition,proto3,oneof"`
 }
 
 func (*Condition_IpCondition_) isCondition_Condition()          {}
@@ -370,11 +370,11 @@ type ExecutableCondition struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Reference to Condition which may also be parameterized
-	Condition *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=condition,proto3" json:"condition,omitempty" firestore:"condition"`
+	Condition *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=condition,proto3" json:"condition,omitempty"`
 	// Parameters in string form. Parameters must match
 	// [declarations][ntt.iam.v1.Condition.parameter_declarations]
 	// TODO: Only used by deprecated CEL conditions.
-	Params *structpb.Struct `protobuf:"bytes,3,opt,name=params,proto3" json:"params,omitempty" firestore:"params"`
+	Params *structpb.Struct `protobuf:"bytes,3,opt,name=params,proto3" json:"params,omitempty"`
 }
 
 func (m *ExecutableCondition) Reset() {
@@ -463,9 +463,9 @@ type Condition_ParameterDeclaration struct {
 	// Parameter Key - must be unique within condition. Defined parameter
 	// variables are accessible in condition expression via `parameters.<key>`,
 	// e.g.`parameters.projectId`
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// Parameter value type
-	Type Condition_ParameterType `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.iam.v1.Condition_ParameterType" json:"type,omitempty" firestore:"type"`
+	Type Condition_ParameterType `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.iam.v1.Condition_ParameterType" json:"type,omitempty"`
 }
 
 func (m *Condition_ParameterDeclaration) Reset() {
@@ -554,10 +554,10 @@ type Condition_IpCondition struct {
 	unknownFields protoimpl.UnknownFields
 	// Allowed IP cidrs in v4 or v6 format.
 	// If specified, at least one must be satisfied during execution.
-	AllowedCidrs []string `protobuf:"bytes,1,rep,name=allowed_cidrs,json=allowedCidrs,proto3" json:"allowed_cidrs,omitempty" firestore:"allowedCidrs"`
+	AllowedCidrs []string `protobuf:"bytes,1,rep,name=allowed_cidrs,json=allowedCidrs,proto3" json:"allowed_cidrs,omitempty"`
 	// Disallowed IP cidrs in v4 or v6 format.
 	// If specified, client IP must not be in any specified range.
-	DisabledCidrs []string `protobuf:"bytes,2,rep,name=disabled_cidrs,json=disabledCidrs,proto3" json:"disabled_cidrs,omitempty" firestore:"disabledCidrs"`
+	DisabledCidrs []string `protobuf:"bytes,2,rep,name=disabled_cidrs,json=disabledCidrs,proto3" json:"disabled_cidrs,omitempty"`
 }
 
 func (m *Condition_IpCondition) Reset() {
@@ -646,7 +646,7 @@ type Condition_AttestationCondition struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Domain name that must be present in attestation token.
-	Domain *attestation_domain.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=domain,proto3" json:"domain,omitempty" firestore:"domain"`
+	Domain *attestation_domain.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=domain,proto3" json:"domain,omitempty"`
 	// List of permissions excepted from this condition.
 	// By default, it contains:
 	// * services/iam.edgelq.com/permissions/attestationDomains.get
@@ -659,7 +659,7 @@ type Condition_AttestationCondition struct {
 	// * services/devices.edgelq.com/permissions/provisioningPolicies.requestProvisioningApproval
 	// Those are necessary to obtain attestation token in the first
 	// place.
-	ExceptPermissions []*permission.Reference `protobuf:"bytes,2,rep,customtype=Reference,name=except_permissions,json=exceptPermissions,proto3" json:"except_permissions,omitempty" firestore:"exceptPermissions"`
+	ExceptPermissions []*permission.Reference `protobuf:"bytes,2,rep,customtype=Reference,name=except_permissions,json=exceptPermissions,proto3" json:"except_permissions,omitempty"`
 }
 
 func (m *Condition_AttestationCondition) Reset() {

@@ -52,8 +52,8 @@ type ActivateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.cellular_api.v1.SimCard
-	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
+	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
 }
 
 func (m *ActivateRequest) Reset() {
@@ -140,8 +140,8 @@ type SuspendRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.cellular_api.v1.SimCard
-	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
+	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
 }
 
 func (m *SuspendRequest) Reset() {
@@ -228,8 +228,8 @@ type TerminateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.cellular_api.v1.SimCard
-	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
+	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
 }
 
 func (m *TerminateRequest) Reset() {
@@ -316,8 +316,8 @@ type ReactivateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.cellular_api.v1.SimCard
-	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
+	Name    *sim_card.Name    `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Project *iam_project.Name `protobuf:"bytes,2,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
 }
 
 func (m *ReactivateRequest) Reset() {

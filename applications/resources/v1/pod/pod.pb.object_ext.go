@@ -353,6 +353,16 @@ func (o *Pod_Status_Container) MakeDiffFieldMask(other *Pod_Status_Container) *P
 			}
 		}
 	}
+	{
+		subMask := o.GetRestarting().MakeDiffFieldMask(other.GetRestarting())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorRestarting})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &PodStatusContainer_FieldSubPath{selector: PodStatusContainer_FieldPathSelectorRestarting, subPath: subpath})
+			}
+		}
+	}
 	if o.GetHealthStatus() != other.GetHealthStatus() {
 		res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorHealthStatus})
 	}
@@ -382,6 +392,7 @@ func (o *Pod_Status_Container) Clone() *Pod_Status_Container {
 	result.Waiting = o.Waiting.Clone()
 	result.Running = o.Running.Clone()
 	result.Terminated = o.Terminated.Clone()
+	result.Restarting = o.Restarting.Clone()
 	result.HealthStatus = o.HealthStatus
 	result.ServiceName = o.ServiceName
 	result.ContainerIp = o.ContainerIp
@@ -413,6 +424,12 @@ func (o *Pod_Status_Container) Merge(source *Pod_Status_Container) {
 			o.Terminated = new(Pod_Status_Container_StateTerminated)
 		}
 		o.Terminated.Merge(source.GetTerminated())
+	}
+	if source.GetRestarting() != nil {
+		if o.Restarting == nil {
+			o.Restarting = new(Pod_Status_Container_StateRestarting)
+		}
+		o.Restarting.Merge(source.GetRestarting())
 	}
 	o.HealthStatus = source.GetHealthStatus()
 	o.ServiceName = source.GetServiceName()
@@ -622,4 +639,59 @@ func (o *Pod_Status_Container_StateTerminated) Merge(source *Pod_Status_Containe
 
 func (o *Pod_Status_Container_StateTerminated) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*Pod_Status_Container_StateTerminated))
+}
+
+func (o *Pod_Status_Container_StateRestarting) GotenObjectExt() {}
+
+func (o *Pod_Status_Container_StateRestarting) MakeFullFieldMask() *Pod_Status_Container_StateRestarting_FieldMask {
+	return FullPod_Status_Container_StateRestarting_FieldMask()
+}
+
+func (o *Pod_Status_Container_StateRestarting) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullPod_Status_Container_StateRestarting_FieldMask()
+}
+
+func (o *Pod_Status_Container_StateRestarting) MakeDiffFieldMask(other *Pod_Status_Container_StateRestarting) *Pod_Status_Container_StateRestarting_FieldMask {
+	if o == nil && other == nil {
+		return &Pod_Status_Container_StateRestarting_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullPod_Status_Container_StateRestarting_FieldMask()
+	}
+
+	res := &Pod_Status_Container_StateRestarting_FieldMask{}
+	if o.GetExitCode() != other.GetExitCode() {
+		res.Paths = append(res.Paths, &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorExitCode})
+	}
+	if o.GetContainerId() != other.GetContainerId() {
+		res.Paths = append(res.Paths, &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorContainerId})
+	}
+	return res
+}
+
+func (o *Pod_Status_Container_StateRestarting) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*Pod_Status_Container_StateRestarting))
+}
+
+func (o *Pod_Status_Container_StateRestarting) Clone() *Pod_Status_Container_StateRestarting {
+	if o == nil {
+		return nil
+	}
+	result := &Pod_Status_Container_StateRestarting{}
+	result.ExitCode = o.ExitCode
+	result.ContainerId = o.ContainerId
+	return result
+}
+
+func (o *Pod_Status_Container_StateRestarting) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *Pod_Status_Container_StateRestarting) Merge(source *Pod_Status_Container_StateRestarting) {
+	o.ExitCode = source.GetExitCode()
+	o.ContainerId = source.GetContainerId()
+}
+
+func (o *Pod_Status_Container_StateRestarting) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*Pod_Status_Container_StateRestarting))
 }

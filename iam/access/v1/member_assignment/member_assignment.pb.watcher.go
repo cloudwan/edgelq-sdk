@@ -10,11 +10,11 @@ import (
 	"fmt"
 	"sync/atomic"
 
-	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus/ctxlogrus"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/proto"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
+	gotenobservability "github.com/cloudwan/goten-sdk/runtime/observability"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 	"github.com/cloudwan/goten-sdk/types/view"
 	"github.com/cloudwan/goten-sdk/types/watch_type"
@@ -195,9 +195,9 @@ func (pw *Watcher) ResetIFilters(ctx context.Context, filters ...gotenaccess.Wat
 }
 
 func (pw *Watcher) Run(ctx context.Context) error {
-	log := ctxlogrus.Extract(ctx).
+	log := gotenobservability.LoggerFromContext(ctx).
 		WithField("watcher", "memberAssignment-watcher")
-	ctx = ctxlogrus.ToContext(ctx, log)
+	ctx = gotenobservability.LoggerToContext(ctx, log)
 
 	log.Debugf("running")
 	defer func() {
@@ -311,7 +311,7 @@ func (pw *Watcher) onQueryVerifySnapshotSize(ctx context.Context, evt *QueryWatc
 	}
 	currentSize := state.computeSize(evt.Changes)
 	if currentSize != evt.SnapshotSize {
-		ctxlogrus.Extract(ctx).
+		gotenobservability.LoggerFromContext(ctx).
 			Warnf("Detected mismatch in snapshot size for filter %s: expected %d, has %d",
 				state.filter, evt.SnapshotSize, currentSize)
 		state.cancel()
@@ -394,14 +394,14 @@ func (pw *Watcher) onQueryChanges(ctx context.Context, evt *QueryWatcherEvent) {
 }
 
 func (pw *Watcher) processSyncLost(ctx context.Context) {
-	ctxlogrus.Extract(ctx).Infof("Notifiying watcher-wide sync lost")
+	gotenobservability.LoggerFromContext(ctx).Infof("Notifiying watcher-wide sync lost")
 	atomic.StoreInt32(&pw.inSyncFlag, 0)
 	evt := &WatcherEvent{WatcherEventBase: gotenaccess.NewWatcherEventBaseLostSync(pw.filtersVersion)}
 	pw.sendEvent(ctx, evt)
 }
 
 func (pw *Watcher) processSnapshot(ctx context.Context) {
-	ctxlogrus.Extract(ctx).Infof("Watcher in sync")
+	gotenobservability.LoggerFromContext(ctx).Infof("Watcher in sync")
 	atomic.StoreInt32(&pw.inSyncFlag, 1)
 	snapshot := make([]*WatcherEventChange, 0)
 	for _, state := range pw.queryWatcherStates {

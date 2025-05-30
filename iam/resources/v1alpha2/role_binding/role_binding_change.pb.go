@@ -121,20 +121,20 @@ type isRoleBindingChange_ChangeType interface {
 type RoleBindingChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *RoleBindingChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *RoleBindingChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type RoleBindingChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *RoleBindingChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *RoleBindingChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type RoleBindingChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *RoleBindingChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *RoleBindingChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type RoleBindingChange_Removed_ struct {
 	// Removed is returned when RoleBinding is deleted or leaves Query view
-	Removed *RoleBindingChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *RoleBindingChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*RoleBindingChange_Added_) isRoleBindingChange_ChangeType()    {}
@@ -195,9 +195,9 @@ type RoleBindingChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	RoleBinding   *RoleBinding `protobuf:"bytes,1,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty" firestore:"roleBinding"`
+	RoleBinding   *RoleBinding `protobuf:"bytes,1,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty"`
 	// Integer describing index of added RoleBinding in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RoleBindingChange_Added) Reset() {
@@ -285,20 +285,20 @@ type RoleBindingChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified RoleBinding
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of RoleBinding or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchRoleBindingRequest] or
 	// [WatchRoleBindingsRequest]
-	RoleBinding *RoleBinding `protobuf:"bytes,2,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty" firestore:"roleBinding"`
+	RoleBinding *RoleBinding `protobuf:"bytes,2,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *RoleBinding_FieldMask `protobuf:"bytes,3,opt,customtype=RoleBinding_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *RoleBinding_FieldMask `protobuf:"bytes,3,opt,customtype=RoleBinding_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified RoleBinding.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying RoleBinding new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RoleBindingChange_Modified) Reset() {
@@ -427,7 +427,7 @@ type RoleBindingChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	RoleBinding   *RoleBinding `protobuf:"bytes,1,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty" firestore:"roleBinding"`
+	RoleBinding   *RoleBinding `protobuf:"bytes,1,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty"`
 }
 
 func (m *RoleBindingChange_Current) Reset() {
@@ -499,10 +499,10 @@ type RoleBindingChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed RoleBinding index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RoleBindingChange_Removed) Reset() {

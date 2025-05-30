@@ -54,15 +54,15 @@ type GetUserByEmailRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  reference of ntt.iam.v1alpha2.User
-	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty" firestore:"email"`
+	Email string `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *user.User_FieldMask `protobuf:"bytes,3,opt,customtype=User_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *user.User_FieldMask `protobuf:"bytes,3,opt,customtype=User_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// If true, server will skip checking if query result is present in it's cache
-	SkipCache bool `protobuf:"varint,5,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty" firestore:"skipCache"`
+	SkipCache bool `protobuf:"varint,5,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty"`
 }
 
 func (m *GetUserByEmailRequest) Reset() {
@@ -178,15 +178,15 @@ type BatchGetUsersByEmailRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Emails of users
-	Emails []string `protobuf:"bytes,2,rep,name=emails,proto3" json:"emails,omitempty" firestore:"emails"`
+	Emails []string `protobuf:"bytes,2,rep,name=emails,proto3" json:"emails,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *user.User_FieldMask `protobuf:"bytes,3,opt,customtype=User_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *user.User_FieldMask `protobuf:"bytes,3,opt,customtype=User_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// If true, server will skip checking if query result is present in it's cache
-	SkipCache bool `protobuf:"varint,5,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty" firestore:"skipCache"`
+	SkipCache bool `protobuf:"varint,5,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty"`
 }
 
 func (m *BatchGetUsersByEmailRequest) Reset() {
@@ -302,9 +302,9 @@ type BatchGetUsersByEmailResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// found Users
-	Users []*user.User `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty" firestore:"users"`
+	Users []*user.User `protobuf:"bytes,1,rep,name=users,proto3" json:"users,omitempty"`
 	// list of not found user emails
-	Missing []string `protobuf:"bytes,2,rep,name=missing,proto3" json:"missing,omitempty" firestore:"missing"`
+	Missing []string `protobuf:"bytes,2,rep,name=missing,proto3" json:"missing,omitempty"`
 }
 
 func (m *BatchGetUsersByEmailResponse) Reset() {
@@ -391,7 +391,7 @@ type GetMySettingsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// list of keys to retrieve
-	Keys []string `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty" firestore:"keys"`
+	Keys []string `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty"`
 }
 
 func (m *GetMySettingsRequest) Reset() {
@@ -464,7 +464,7 @@ type GetMySettingsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// resulting settings
-	Settings map[string]string `protobuf:"bytes,1,rep,name=settings,proto3" json:"settings,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"settings"`
+	Settings map[string]string `protobuf:"bytes,1,rep,name=settings,proto3" json:"settings,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *GetMySettingsResponse) Reset() {
@@ -537,7 +537,7 @@ type SetMySettingsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Settings to update. Leave empty value to unset key
-	Settings map[string]string `protobuf:"bytes,1,rep,name=settings,proto3" json:"settings,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"settings"`
+	Settings map[string]string `protobuf:"bytes,1,rep,name=settings,proto3" json:"settings,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *SetMySettingsRequest) Reset() {
@@ -611,7 +611,7 @@ type RefreshUserFromIdTokenRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// JWT-encoded ID token
-	IdToken string `protobuf:"bytes,1,opt,name=id_token,json=idToken,proto3" json:"id_token,omitempty" firestore:"idToken"`
+	IdToken string `protobuf:"bytes,1,opt,name=id_token,json=idToken,proto3" json:"id_token,omitempty"`
 }
 
 func (m *RefreshUserFromIdTokenRequest) Reset() {

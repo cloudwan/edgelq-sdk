@@ -54,9 +54,9 @@ type Check struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Object resource name, e.g. projects/<project_id>/devices/<device_id>
-	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty" firestore:"object"`
+	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty"`
 	// Array of permissions to be verified
-	Permissions []*permission.Name `protobuf:"bytes,2,rep,customtype=Name,name=permissions,proto3" json:"permissions,omitempty" firestore:"permissions"`
+	Permissions []*permission.Name `protobuf:"bytes,2,rep,customtype=Name,name=permissions,proto3" json:"permissions,omitempty"`
 }
 
 func (m *Check) Reset() {
@@ -143,8 +143,8 @@ type ConditionalGrant struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	Permissions       []*permission.Name            `protobuf:"bytes,1,rep,customtype=Name,name=permissions,proto3" json:"permissions,omitempty" firestore:"permissions"`
-	ConditionBindings []*condition.ConditionBinding `protobuf:"bytes,2,rep,name=condition_bindings,json=conditionBindings,proto3" json:"condition_bindings,omitempty" firestore:"conditionBindings"`
+	Permissions       []*permission.Name            `protobuf:"bytes,1,rep,customtype=Name,name=permissions,proto3" json:"permissions,omitempty"`
+	ConditionBindings []*condition.ConditionBinding `protobuf:"bytes,2,rep,name=condition_bindings,json=conditionBindings,proto3" json:"condition_bindings,omitempty"`
 }
 
 func (m *ConditionalGrant) Reset() {
@@ -230,10 +230,10 @@ type CheckResult struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Object resource name, e.g. projects/<project_id>/devices/<device_id>
-	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty" firestore:"object"`
+	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty"`
 	// Granted Permissions
-	GrantedPermissions              []*permission.Name  `protobuf:"bytes,2,rep,customtype=Name,name=granted_permissions,json=grantedPermissions,proto3" json:"granted_permissions,omitempty" firestore:"grantedPermissions"`
-	ConditionallyGrantedPermissions []*ConditionalGrant `protobuf:"bytes,3,rep,name=conditionally_granted_permissions,json=conditionallyGrantedPermissions,proto3" json:"conditionally_granted_permissions,omitempty" firestore:"conditionallyGrantedPermissions"`
+	GrantedPermissions              []*permission.Name  `protobuf:"bytes,2,rep,customtype=Name,name=granted_permissions,json=grantedPermissions,proto3" json:"granted_permissions,omitempty"`
+	ConditionallyGrantedPermissions []*ConditionalGrant `protobuf:"bytes,3,rep,name=conditionally_granted_permissions,json=conditionallyGrantedPermissions,proto3" json:"conditionally_granted_permissions,omitempty"`
 }
 
 func (m *CheckResult) Reset() {
@@ -342,11 +342,11 @@ type CheckPermissionsRequest struct {
 	// - "serviceAccount:device_agent@watchdog.serviceaccounts.iam.edgelq.com"
 	// - "group:nice.group@example.com"
 	// - "domain:example.com" (anyone with exact email domain)
-	Member string `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty"`
 	// Checks
-	Checks []*Check `protobuf:"bytes,2,rep,name=checks,proto3" json:"checks,omitempty" firestore:"checks"`
+	Checks []*Check `protobuf:"bytes,2,rep,name=checks,proto3" json:"checks,omitempty"`
 	// If true, server will skip checking permissions in cache
-	SkipCache bool `protobuf:"varint,3,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty" firestore:"skipCache"`
+	SkipCache bool `protobuf:"varint,3,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty"`
 }
 
 func (m *CheckPermissionsRequest) Reset() {
@@ -447,7 +447,7 @@ type CheckPermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	CheckResults  []*CheckResult `protobuf:"bytes,1,rep,name=check_results,json=checkResults,proto3" json:"check_results,omitempty" firestore:"checkResults"`
+	CheckResults  []*CheckResult `protobuf:"bytes,1,rep,name=check_results,json=checkResults,proto3" json:"check_results,omitempty"`
 }
 
 func (m *CheckPermissionsResponse) Reset() {
@@ -521,9 +521,9 @@ type CheckMyPermissionsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Checks
-	Checks []*Check `protobuf:"bytes,2,rep,name=checks,proto3" json:"checks,omitempty" firestore:"checks"`
+	Checks []*Check `protobuf:"bytes,2,rep,name=checks,proto3" json:"checks,omitempty"`
 	// If true, server will skip checking permissions in cache
-	SkipCache bool `protobuf:"varint,3,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty" firestore:"skipCache"`
+	SkipCache bool `protobuf:"varint,3,opt,name=skip_cache,json=skipCache,proto3" json:"skip_cache,omitempty"`
 }
 
 func (m *CheckMyPermissionsRequest) Reset() {
@@ -610,7 +610,7 @@ type CheckMyPermissionsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	CheckResults  []*CheckResult `protobuf:"bytes,1,rep,name=check_results,json=checkResults,proto3" json:"check_results,omitempty" firestore:"checkResults"`
+	CheckResults  []*CheckResult `protobuf:"bytes,1,rep,name=check_results,json=checkResults,proto3" json:"check_results,omitempty"`
 }
 
 func (m *CheckMyPermissionsResponse) Reset() {
@@ -684,7 +684,7 @@ type CheckMyRolesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Object name forming scope of the check, for example projects/<project_id>
-	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty" firestore:"object"`
+	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty"`
 }
 
 func (m *CheckMyRolesRequest) Reset() {
@@ -758,11 +758,11 @@ type CheckMyRolesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Object with scope
-	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty" firestore:"object"`
+	Object string `protobuf:"bytes,1,opt,name=object,proto3" json:"object,omitempty"`
 	// All unconditionally granted roles
-	GrantedRoles []*role.Name `protobuf:"bytes,2,rep,customtype=Name,name=granted_roles,json=grantedRoles,proto3" json:"granted_roles,omitempty" firestore:"grantedRoles"`
+	GrantedRoles []*role.Name `protobuf:"bytes,2,rep,customtype=Name,name=granted_roles,json=grantedRoles,proto3" json:"granted_roles,omitempty"`
 	// All conditionally granted roles. Each grant should be checked separately
-	ConditionallyGrantedRoles []*CheckMyRolesResponse_ConditionalGrant `protobuf:"bytes,3,rep,name=conditionally_granted_roles,json=conditionallyGrantedRoles,proto3" json:"conditionally_granted_roles,omitempty" firestore:"conditionallyGrantedRoles"`
+	ConditionallyGrantedRoles []*CheckMyRolesResponse_ConditionalGrant `protobuf:"bytes,3,rep,name=conditionally_granted_roles,json=conditionallyGrantedRoles,proto3" json:"conditionally_granted_roles,omitempty"`
 }
 
 func (m *CheckMyRolesResponse) Reset() {
@@ -862,9 +862,9 @@ type CheckMyRolesResponse_ConditionalGrant struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Role name
-	Role *role.Name `protobuf:"bytes,1,opt,customtype=Name,name=role,proto3" json:"role,omitempty" firestore:"role"`
+	Role *role.Name `protobuf:"bytes,1,opt,customtype=Name,name=role,proto3" json:"role,omitempty"`
 	// All conditions that must be accepted for role to be granted
-	ConditionBindings []*condition.ConditionBinding `protobuf:"bytes,2,rep,name=condition_bindings,json=conditionBindings,proto3" json:"condition_bindings,omitempty" firestore:"conditionBindings"`
+	ConditionBindings []*condition.ConditionBinding `protobuf:"bytes,2,rep,name=condition_bindings,json=conditionBindings,proto3" json:"condition_bindings,omitempty"`
 }
 
 func (m *CheckMyRolesResponse_ConditionalGrant) Reset() {

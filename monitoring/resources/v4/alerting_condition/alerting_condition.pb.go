@@ -154,19 +154,19 @@ type AlertingCondition struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display Name
-	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Long description
-	Description string                   `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
-	Spec        *AlertingCondition_Spec  `protobuf:"bytes,5,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
-	State       *AlertingCondition_State `protobuf:"bytes,6,opt,name=state,proto3" json:"state,omitempty" firestore:"state"`
+	Description string                   `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Spec        *AlertingCondition_Spec  `protobuf:"bytes,5,opt,name=spec,proto3" json:"spec,omitempty"`
+	State       *AlertingCondition_State `protobuf:"bytes,6,opt,name=state,proto3" json:"state,omitempty"`
 }
 
 func (m *AlertingCondition) Reset() {
@@ -307,8 +307,8 @@ type AlertingCondition_Spec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	TimeSeries    *AlertingCondition_Spec_TimeSeries `protobuf:"bytes,1,opt,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
-	Trigger       *AlertingCondition_Spec_Trigger    `protobuf:"bytes,5,opt,name=trigger,proto3" json:"trigger,omitempty" firestore:"trigger"`
+	TimeSeries    *AlertingCondition_Spec_TimeSeries `protobuf:"bytes,1,opt,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
+	Trigger       *AlertingCondition_Spec_Trigger    `protobuf:"bytes,5,opt,name=trigger,proto3" json:"trigger,omitempty"`
 }
 
 func (m *AlertingCondition_Spec) Reset() {
@@ -393,7 +393,7 @@ type AlertingCondition_State struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	FiringAlertsCount int64 `protobuf:"varint,1,opt,name=firing_alerts_count,json=firingAlertsCount,proto3" json:"firing_alerts_count,omitempty" firestore:"firingAlertsCount"`
+	FiringAlertsCount int64 `protobuf:"varint,1,opt,name=firing_alerts_count,json=firingAlertsCount,proto3" json:"firing_alerts_count,omitempty"`
 }
 
 func (m *AlertingCondition_State) Reset() {
@@ -465,7 +465,7 @@ type AlertingCondition_Spec_TimeSeries struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Time Series Query
-	Query *AlertingCondition_Spec_TimeSeries_Query `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty" firestore:"query"`
+	Query *AlertingCondition_Spec_TimeSeries_Query `protobuf:"bytes,1,opt,name=query,proto3" json:"query,omitempty"`
 	// Either specify single threshold or combine threshold, which allows to
 	// pair each metric value to their specific thresholds,
 	// e.g. distinguish mean (loss, latency, jitter) in single query.
@@ -475,11 +475,11 @@ type AlertingCondition_Spec_TimeSeries struct {
 	// alert during startup unnecessarily).
 	// Time series sharing same fields except metric.type are merged
 	// (originally determined by aggregation.groupByFields).
-	Threshold        *AlertingCondition_Spec_TimeSeries_Threshold        `protobuf:"bytes,2,opt,name=threshold,proto3" json:"threshold,omitempty" firestore:"threshold"`
-	CombineThreshold *AlertingCondition_Spec_TimeSeries_CombineThreshold `protobuf:"bytes,3,opt,name=combine_threshold,json=combineThreshold,proto3" json:"combine_threshold,omitempty" firestore:"combineThreshold"`
+	Threshold        *AlertingCondition_Spec_TimeSeries_Threshold        `protobuf:"bytes,2,opt,name=threshold,proto3" json:"threshold,omitempty"`
+	CombineThreshold *AlertingCondition_Spec_TimeSeries_CombineThreshold `protobuf:"bytes,3,opt,name=combine_threshold,json=combineThreshold,proto3" json:"combine_threshold,omitempty"`
 	// Duration describes length of time needed for the condition to trigger
 	// a new alert of resolve an existing one
-	Duration *durationpb.Duration `protobuf:"bytes,4,opt,name=duration,proto3" json:"duration,omitempty" firestore:"duration"`
+	Duration *durationpb.Duration `protobuf:"bytes,4,opt,name=duration,proto3" json:"duration,omitempty"`
 }
 
 func (m *AlertingCondition_Spec_TimeSeries) Reset() {
@@ -592,7 +592,7 @@ type AlertingCondition_Spec_Trigger struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Type          AlertingCondition_Spec_Trigger_Type `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.AlertingCondition_Spec_Trigger_Type" json:"type,omitempty" firestore:"type"`
+	Type          AlertingCondition_Spec_Trigger_Type `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.AlertingCondition_Spec_Trigger_Type" json:"type,omitempty"`
 }
 
 func (m *AlertingCondition_Spec_Trigger) Reset() {
@@ -664,21 +664,21 @@ type AlertingCondition_Spec_TimeSeries_Query struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Filter used for time-series.
-	Filter *time_serie.Filter `protobuf:"bytes,1,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *time_serie.Filter `protobuf:"bytes,1,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// Generated, filter-able selector, extracted from filter value. It will
 	// contain all extracted conditions for '==' and 'IN' operators.
 	// It will exclude conditions for operators '!=' and 'NOT IN'.
 	// This allows filtering AlertingConditions by filter conditions.
-	Selector *common.TimeSeriesSelector `protobuf:"bytes,2,opt,name=selector,proto3" json:"selector,omitempty" firestore:"selector"`
+	Selector *common.TimeSeriesSelector `protobuf:"bytes,2,opt,name=selector,proto3" json:"selector,omitempty"`
 	// Time Series aggregation. In case of combine threshold, it is used
 	// by "main" metric.type, and additional metric types if overrides are
 	// not specified.
-	Aggregation *common.Aggregation `protobuf:"bytes,3,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	Aggregation *common.Aggregation `protobuf:"bytes,3,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
 	// If metric.type uses CombineThreshold and multiple metrics, it can
 	// provide extra per metric aggregation override. This cannot be
 	// specified for "main" metric.type. But be aware, AP and GroupByFields
 	// must be exactly same as in "aggregation" field.
-	PerMetricAggregations map[string]*common.Aggregation `protobuf:"bytes,4,rep,name=per_metric_aggregations,json=perMetricAggregations,proto3" json:"per_metric_aggregations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"perMetricAggregations"`
+	PerMetricAggregations map[string]*common.Aggregation `protobuf:"bytes,4,rep,name=per_metric_aggregations,json=perMetricAggregations,proto3" json:"per_metric_aggregations,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *AlertingCondition_Spec_TimeSeries_Query) Reset() {
@@ -796,9 +796,9 @@ type AlertingCondition_Spec_TimeSeries_Threshold struct {
 	//
 	// Example: for metric latency {compare: GT, value: 150} will trigger if
 	// actual latency is above 150ms.
-	Compare AlertingCondition_Spec_TimeSeries_Threshold_Compare `protobuf:"varint,1,opt,name=compare,proto3,enum=ntt.monitoring.v4.AlertingCondition_Spec_TimeSeries_Threshold_Compare" json:"compare,omitempty" firestore:"compare"`
+	Compare AlertingCondition_Spec_TimeSeries_Threshold_Compare `protobuf:"varint,1,opt,name=compare,proto3,enum=ntt.monitoring.v4.AlertingCondition_Spec_TimeSeries_Threshold_Compare" json:"compare,omitempty"`
 	// threshold value
-	Value float64 `protobuf:"fixed64,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Value float64 `protobuf:"fixed64,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (m *AlertingCondition_Spec_TimeSeries_Threshold) Reset() {
@@ -887,14 +887,14 @@ type AlertingCondition_Spec_TimeSeries_CombineThreshold struct {
 	//
 	// If multiple metrics are selected each metric may specify a different
 	// threshold
-	PerMetric map[string]*AlertingCondition_Spec_TimeSeries_Threshold `protobuf:"bytes,1,rep,name=per_metric,json=perMetric,proto3" json:"per_metric,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"perMetric"`
+	PerMetric map[string]*AlertingCondition_Spec_TimeSeries_Threshold `protobuf:"bytes,1,rep,name=per_metric,json=perMetric,proto3" json:"per_metric,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Primary metric.type for this condition.
 	// Although Alerts generated across multiple metric.type are possible,
 	// Alert instance has single "info.time_serie.metric.type" field path
 	// value.
-	MainMetricType string `protobuf:"bytes,3,opt,name=main_metric_type,json=mainMetricType,proto3" json:"main_metric_type,omitempty" firestore:"mainMetricType"`
+	MainMetricType string `protobuf:"bytes,3,opt,name=main_metric_type,json=mainMetricType,proto3" json:"main_metric_type,omitempty"`
 	// Internal per metric identifiers in binary key
-	PerMetricTypeKv map[string][]byte `protobuf:"bytes,4,rep,name=per_metric_type_kv,json=perMetricTypeKv,proto3" json:"per_metric_type_kv,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"perMetricTypeKv"`
+	PerMetricTypeKv map[string][]byte `protobuf:"bytes,4,rep,name=per_metric_type_kv,json=perMetricTypeKv,proto3" json:"per_metric_type_kv,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *AlertingCondition_Spec_TimeSeries_CombineThreshold) Reset() {

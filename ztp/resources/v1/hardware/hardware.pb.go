@@ -57,24 +57,24 @@ type Hardware struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata     *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	SerialNumber string     `protobuf:"bytes,3,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Manufacturer string     `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
+	Metadata     *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	SerialNumber string     `protobuf:"bytes,3,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Manufacturer string     `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
 	// Should be in the format "productname (sku)"
-	ProductName                      string                     `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	AssociatedEdgelqInstance         *edgelq_instance.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=associated_edgelq_instance,json=associatedEdgelqInstance,proto3" json:"associated_edgelq_instance,omitempty" firestore:"associatedEdgelqInstance"`
-	AssociatedProject                string                     `protobuf:"bytes,7,opt,name=associated_project,json=associatedProject,proto3" json:"associated_project,omitempty" firestore:"associatedProject"`
-	AssociatedProvisioningPolicyName string                     `protobuf:"bytes,8,opt,name=associated_provisioning_policy_name,json=associatedProvisioningPolicyName,proto3" json:"associated_provisioning_policy_name,omitempty" firestore:"associatedProvisioningPolicyName"`
-	AssociatedDeviceName             string                     `protobuf:"bytes,9,opt,name=associated_device_name,json=associatedDeviceName,proto3" json:"associated_device_name,omitempty" firestore:"associatedDeviceName"`
-	AssociatedSimCardName            string                     `protobuf:"bytes,12,opt,name=associated_sim_card_name,json=associatedSimCardName,proto3" json:"associated_sim_card_name,omitempty" firestore:"associatedSimCardName"`
-	SimIccid                         string                     `protobuf:"bytes,10,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty" firestore:"simIccid"`
-	Imei                             string                     `protobuf:"bytes,11,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
+	ProductName                      string                     `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	AssociatedEdgelqInstance         *edgelq_instance.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=associated_edgelq_instance,json=associatedEdgelqInstance,proto3" json:"associated_edgelq_instance,omitempty"`
+	AssociatedProject                string                     `protobuf:"bytes,7,opt,name=associated_project,json=associatedProject,proto3" json:"associated_project,omitempty"`
+	AssociatedProvisioningPolicyName string                     `protobuf:"bytes,8,opt,name=associated_provisioning_policy_name,json=associatedProvisioningPolicyName,proto3" json:"associated_provisioning_policy_name,omitempty"`
+	AssociatedDeviceName             string                     `protobuf:"bytes,9,opt,name=associated_device_name,json=associatedDeviceName,proto3" json:"associated_device_name,omitempty"`
+	AssociatedSimCardName            string                     `protobuf:"bytes,12,opt,name=associated_sim_card_name,json=associatedSimCardName,proto3" json:"associated_sim_card_name,omitempty"`
+	SimIccid                         string                     `protobuf:"bytes,10,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty"`
+	Imei                             string                     `protobuf:"bytes,11,opt,name=imei,proto3" json:"imei,omitempty"`
 }
 
 func (m *Hardware) Reset() {

@@ -106,16 +106,16 @@ type SimCardStock struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: \\d{19}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta          `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	Contract *contract.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=contract,proto3" json:"contract,omitempty" firestore:"contract"`
-	State    SimCardStock_State  `protobuf:"varint,4,opt,name=state,proto3,enum=ntt.cellular_api.v1.SimCardStock_State" json:"state,omitempty" firestore:"state"`
-	SimCard  *sim_card.Reference `protobuf:"bytes,5,opt,customtype=Reference,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty" firestore:"simCard"`
+	Metadata *meta.Meta          `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Contract *contract.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=contract,proto3" json:"contract,omitempty"`
+	State    SimCardStock_State  `protobuf:"varint,4,opt,name=state,proto3,enum=ntt.cellular_api.v1.SimCardStock_State" json:"state,omitempty"`
+	SimCard  *sim_card.Reference `protobuf:"bytes,5,opt,customtype=Reference,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty"`
 }
 
 func (m *SimCardStock) Reset() {

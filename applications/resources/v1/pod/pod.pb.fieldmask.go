@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"strings"
 
-	firestorepb "google.golang.org/genproto/googleapis/firestore/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -32,7 +31,6 @@ var (
 	_ = new(json.Marshaler)
 	_ = strings.Builder{}
 
-	_ = firestorepb.Value{}
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = new(proto.Message)
@@ -76,31 +74,6 @@ func (fieldMask *Pod_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Pod_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Pod_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePod_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Pod_FieldMask) IsFull() bool {
@@ -426,31 +399,6 @@ func (fieldMask *Pod_Status_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Pod_Status_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Pod_Status_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePodStatus_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Pod_Status_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -716,6 +664,7 @@ func FullPod_Status_Container_FieldMask() *Pod_Status_Container_FieldMask {
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorWaiting})
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorRunning})
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorTerminated})
+	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorRestarting})
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorHealthStatus})
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorServiceName})
 	res.Paths = append(res.Paths, &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorContainerIp})
@@ -734,36 +683,11 @@ func (fieldMask *Pod_Status_Container_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Pod_Status_Container_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Pod_Status_Container_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePodStatusContainer_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Pod_Status_Container_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 9)
+	presentSelectors := make([]bool, 10)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*PodStatusContainer_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -793,16 +717,18 @@ func (fieldMask *Pod_Status_Container_FieldMask) Reset() {
 
 func (fieldMask *Pod_Status_Container_FieldMask) Subtract(other *Pod_Status_Container_FieldMask) *Pod_Status_Container_FieldMask {
 	result := &Pod_Status_Container_FieldMask{}
-	removedSelectors := make([]bool, 9)
+	removedSelectors := make([]bool, 10)
 	otherSubMasks := map[PodStatusContainer_FieldPathSelector]gotenobject.FieldMask{
 		PodStatusContainer_FieldPathSelectorWaiting:    &Pod_Status_Container_StateWaiting_FieldMask{},
 		PodStatusContainer_FieldPathSelectorRunning:    &Pod_Status_Container_StateRunning_FieldMask{},
 		PodStatusContainer_FieldPathSelectorTerminated: &Pod_Status_Container_StateTerminated_FieldMask{},
+		PodStatusContainer_FieldPathSelectorRestarting: &Pod_Status_Container_StateRestarting_FieldMask{},
 	}
 	mySubMasks := map[PodStatusContainer_FieldPathSelector]gotenobject.FieldMask{
 		PodStatusContainer_FieldPathSelectorWaiting:    &Pod_Status_Container_StateWaiting_FieldMask{},
 		PodStatusContainer_FieldPathSelectorRunning:    &Pod_Status_Container_StateRunning_FieldMask{},
 		PodStatusContainer_FieldPathSelectorTerminated: &Pod_Status_Container_StateTerminated_FieldMask{},
+		PodStatusContainer_FieldPathSelectorRestarting: &Pod_Status_Container_StateRestarting_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -824,6 +750,8 @@ func (fieldMask *Pod_Status_Container_FieldMask) Subtract(other *Pod_Status_Cont
 						mySubMasks[PodStatusContainer_FieldPathSelectorRunning] = FullPod_Status_Container_StateRunning_FieldMask()
 					case PodStatusContainer_FieldPathSelectorTerminated:
 						mySubMasks[PodStatusContainer_FieldPathSelectorTerminated] = FullPod_Status_Container_StateTerminated_FieldMask()
+					case PodStatusContainer_FieldPathSelectorRestarting:
+						mySubMasks[PodStatusContainer_FieldPathSelectorRestarting] = FullPod_Status_Container_StateRestarting_FieldMask()
 					}
 				} else if tp, ok := path.(*PodStatusContainer_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -982,6 +910,8 @@ func (fieldMask *Pod_Status_Container_FieldMask) Project(source *Pod_Status_Cont
 	wholeRunningAccepted := false
 	terminatedMask := &Pod_Status_Container_StateTerminated_FieldMask{}
 	wholeTerminatedAccepted := false
+	restartingMask := &Pod_Status_Container_StateRestarting_FieldMask{}
+	wholeRestartingAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -1000,6 +930,9 @@ func (fieldMask *Pod_Status_Container_FieldMask) Project(source *Pod_Status_Cont
 			case PodStatusContainer_FieldPathSelectorTerminated:
 				result.Terminated = source.Terminated
 				wholeTerminatedAccepted = true
+			case PodStatusContainer_FieldPathSelectorRestarting:
+				result.Restarting = source.Restarting
+				wholeRestartingAccepted = true
 			case PodStatusContainer_FieldPathSelectorHealthStatus:
 				result.HealthStatus = source.HealthStatus
 			case PodStatusContainer_FieldPathSelectorServiceName:
@@ -1017,6 +950,8 @@ func (fieldMask *Pod_Status_Container_FieldMask) Project(source *Pod_Status_Cont
 				runningMask.AppendPath(tp.subPath.(PodStatusContainerStateRunning_FieldPath))
 			case PodStatusContainer_FieldPathSelectorTerminated:
 				terminatedMask.AppendPath(tp.subPath.(PodStatusContainerStateTerminated_FieldPath))
+			case PodStatusContainer_FieldPathSelectorRestarting:
+				restartingMask.AppendPath(tp.subPath.(PodStatusContainerStateRestarting_FieldPath))
 			}
 		}
 	}
@@ -1028,6 +963,9 @@ func (fieldMask *Pod_Status_Container_FieldMask) Project(source *Pod_Status_Cont
 	}
 	if wholeTerminatedAccepted == false && len(terminatedMask.Paths) > 0 {
 		result.Terminated = terminatedMask.Project(source.GetTerminated())
+	}
+	if wholeRestartingAccepted == false && len(restartingMask.Paths) > 0 {
+		result.Restarting = restartingMask.Project(source.GetRestarting())
 	}
 	return result
 }
@@ -1063,31 +1001,6 @@ func (fieldMask *Pod_Status_Container_StateWaiting_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Pod_Status_Container_StateWaiting_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Pod_Status_Container_StateWaiting_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePodStatusContainerStateWaiting_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Pod_Status_Container_StateWaiting_FieldMask) IsFull() bool {
@@ -1318,31 +1231,6 @@ func (fieldMask *Pod_Status_Container_StateRunning_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Pod_Status_Container_StateRunning_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Pod_Status_Container_StateRunning_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePodStatusContainerStateRunning_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Pod_Status_Container_StateRunning_FieldMask) IsFull() bool {
@@ -1579,31 +1467,6 @@ func (fieldMask *Pod_Status_Container_StateTerminated_FieldMask) String() string
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Pod_Status_Container_StateTerminated_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Pod_Status_Container_StateTerminated_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParsePodStatusContainerStateTerminated_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Pod_Status_Container_StateTerminated_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -1817,6 +1680,237 @@ func (fieldMask *Pod_Status_Container_StateTerminated_FieldMask) ProjectRaw(sour
 }
 
 func (fieldMask *Pod_Status_Container_StateTerminated_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type Pod_Status_Container_StateRestarting_FieldMask struct {
+	Paths []PodStatusContainerStateRestarting_FieldPath
+}
+
+func FullPod_Status_Container_StateRestarting_FieldMask() *Pod_Status_Container_StateRestarting_FieldMask {
+	res := &Pod_Status_Container_StateRestarting_FieldMask{}
+	res.Paths = append(res.Paths, &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorExitCode})
+	res.Paths = append(res.Paths, &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorContainerId})
+	return res
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*PodStatusContainerStateRestarting_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParsePodStatusContainerStateRestarting_FieldPath(raw)
+	})
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) ProtoMessage() {}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) Subtract(other *Pod_Status_Container_StateRestarting_FieldMask) *Pod_Status_Container_StateRestarting_FieldMask {
+	result := &Pod_Status_Container_StateRestarting_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *PodStatusContainerStateRestarting_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*Pod_Status_Container_StateRestarting_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) FilterInputFields() *Pod_Status_Container_StateRestarting_FieldMask {
+	result := &Pod_Status_Container_StateRestarting_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]PodStatusContainerStateRestarting_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParsePodStatusContainerStateRestarting_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask Pod_Status_Container_StateRestarting_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask Pod_Status_Container_StateRestarting_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) AppendPath(path PodStatusContainerStateRestarting_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(PodStatusContainerStateRestarting_FieldPath))
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) GetPaths() []PodStatusContainerStateRestarting_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParsePodStatusContainerStateRestarting_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) Set(target, source *Pod_Status_Container_StateRestarting) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*Pod_Status_Container_StateRestarting), source.(*Pod_Status_Container_StateRestarting))
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) Project(source *Pod_Status_Container_StateRestarting) *Pod_Status_Container_StateRestarting {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &Pod_Status_Container_StateRestarting{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *PodStatusContainerStateRestarting_FieldTerminalPath:
+			switch tp.selector {
+			case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+				result.ExitCode = source.ExitCode
+			case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+				result.ContainerId = source.ContainerId
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*Pod_Status_Container_StateRestarting))
+}
+
+func (fieldMask *Pod_Status_Container_StateRestarting_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

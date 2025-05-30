@@ -197,38 +197,38 @@ type ActivityLog struct {
 	//   labels
 	//
 	// Key is not to be decoded outside of service, but treated as opaque string
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Contains scope from name field without resource ID.
 	// Used for internal purpose for filtering (logs are using custom store).
 	// Example formats are:
 	// - organization/umbrella
 	// - projects/mars_exploration
 	// - <system>
-	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope,omitempty" firestore:"scope"`
+	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope,omitempty"`
 	// Generated ID of the request. Same ID must be used in ResourceChangeLog
 	// objects associated with this request.
-	RequestId uint64 `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty" firestore:"requestId"`
+	RequestId uint64 `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// Authentication data - informs who made a request
-	Authentication *common.Authentication `protobuf:"bytes,5,opt,name=authentication,proto3" json:"authentication,omitempty" firestore:"authentication"`
+	Authentication *common.Authentication `protobuf:"bytes,5,opt,name=authentication,proto3" json:"authentication,omitempty"`
 	// Authorization data - informs what permissions were
 	// granted or denied for associated request
-	Authorization *common.Authorization `protobuf:"bytes,6,opt,name=authorization,proto3" json:"authorization,omitempty" firestore:"authorization"`
+	Authorization *common.Authorization `protobuf:"bytes,6,opt,name=authorization,proto3" json:"authorization,omitempty"`
 	// Information about the service
-	Service *common.ServiceData `protobuf:"bytes,7,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *common.ServiceData `protobuf:"bytes,7,opt,name=service,proto3" json:"service,omitempty"`
 	// Information about the method
-	Method *ActivityLog_Method `protobuf:"bytes,8,opt,name=method,proto3" json:"method,omitempty" firestore:"method"`
+	Method *ActivityLog_Method `protobuf:"bytes,8,opt,name=method,proto3" json:"method,omitempty"`
 	// Request metadata
-	RequestMetadata *ActivityLog_RequestMetadata `protobuf:"bytes,13,opt,name=request_metadata,json=requestMetadata,proto3" json:"request_metadata,omitempty" firestore:"requestMetadata"`
+	RequestMetadata *ActivityLog_RequestMetadata `protobuf:"bytes,13,opt,name=request_metadata,json=requestMetadata,proto3" json:"request_metadata,omitempty"`
 	// Request routing
-	RequestRouting *ActivityLog_RequestRouting `protobuf:"bytes,14,opt,name=request_routing,json=requestRouting,proto3" json:"request_routing,omitempty" firestore:"requestRouting"`
+	RequestRouting *ActivityLog_RequestRouting `protobuf:"bytes,14,opt,name=request_routing,json=requestRouting,proto3" json:"request_routing,omitempty"`
 	// Primary resource for this activity.
-	Resource *ActivityLog_Resource `protobuf:"bytes,11,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *ActivityLog_Resource `protobuf:"bytes,11,opt,name=resource,proto3" json:"resource,omitempty"`
 	// Category of the activity log.
-	Category ActivityLog_Category `protobuf:"varint,12,opt,name=category,proto3,enum=ntt.audit.v1alpha2.ActivityLog_Category" json:"category,omitempty" firestore:"category"`
+	Category ActivityLog_Category `protobuf:"varint,12,opt,name=category,proto3,enum=ntt.audit.v1alpha2.ActivityLog_Category" json:"category,omitempty"`
 	// List of query-able labels
-	Labels map[string]string `protobuf:"bytes,9,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]string `protobuf:"bytes,9,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// List of events attached to this log
-	Events []*ActivityLog_Event `protobuf:"bytes,10,rep,name=events,proto3" json:"events,omitempty" firestore:"events"`
+	Events []*ActivityLog_Event `protobuf:"bytes,10,rep,name=events,proto3" json:"events,omitempty"`
 }
 
 func (m *ActivityLog) Reset() {
@@ -533,25 +533,25 @@ type isActivityLog_Event_Evt interface {
 
 type ActivityLog_Event_ClientMessage struct {
 	// Client message received event
-	ClientMessage *ActivityLog_Event_ClientMsgEvent `protobuf:"bytes,1,opt,name=client_message,json=clientMessage,proto3,oneof" firestore:"clientMessage"`
+	ClientMessage *ActivityLog_Event_ClientMsgEvent `protobuf:"bytes,1,opt,name=client_message,json=clientMessage,proto3,oneof"`
 }
 type ActivityLog_Event_ServerMessage struct {
 	// Server message sent event
-	ServerMessage *ActivityLog_Event_ServerMsgEvent `protobuf:"bytes,2,opt,name=server_message,json=serverMessage,proto3,oneof" firestore:"serverMessage"`
+	ServerMessage *ActivityLog_Event_ServerMsgEvent `protobuf:"bytes,2,opt,name=server_message,json=serverMessage,proto3,oneof"`
 }
 type ActivityLog_Event_Exit struct {
 	// Request finished event
-	Exit *ActivityLog_Event_ExitEvent `protobuf:"bytes,3,opt,name=exit,proto3,oneof" firestore:"exit"`
+	Exit *ActivityLog_Event_ExitEvent `protobuf:"bytes,3,opt,name=exit,proto3,oneof"`
 }
 type ActivityLog_Event_RegionalServerMessage struct {
 	// Server received response from another server (used for split & merge)
 	// which describes PARTIAL result to be sent to the client.
-	RegionalServerMessage *ActivityLog_Event_RegionalServerMsgEvent `protobuf:"bytes,4,opt,name=regional_server_message,json=regionalServerMessage,proto3,oneof" firestore:"regionalServerMessage"`
+	RegionalServerMessage *ActivityLog_Event_RegionalServerMsgEvent `protobuf:"bytes,4,opt,name=regional_server_message,json=regionalServerMessage,proto3,oneof"`
 }
 type ActivityLog_Event_RegionalExit struct {
 	// Server received exit code from another server (used for split & merge).
 	// In case it contains error, its likely final exit will contain this too.
-	RegionalExit *ActivityLog_Event_RegionalServerMsgEvent `protobuf:"bytes,5,opt,name=regional_exit,json=regionalExit,proto3,oneof" firestore:"regionalExit"`
+	RegionalExit *ActivityLog_Event_RegionalServerMsgEvent `protobuf:"bytes,5,opt,name=regional_exit,json=regionalExit,proto3,oneof"`
 }
 
 func (*ActivityLog_Event_ClientMessage) isActivityLog_Event_Evt()         {}
@@ -623,9 +623,9 @@ type ActivityLog_Method struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Type name of a method, for example "UpdateRoleBinding".
-	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// Version in which method was executed.
-	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty" firestore:"version"`
+	Version string `protobuf:"bytes,2,opt,name=version,proto3" json:"version,omitempty"`
 }
 
 func (m *ActivityLog_Method) Reset() {
@@ -712,9 +712,9 @@ type ActivityLog_RequestMetadata struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Source IP from where request came
-	IpAddress string `protobuf:"bytes,1,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty" firestore:"ipAddress"`
+	IpAddress string `protobuf:"bytes,1,opt,name=ip_address,json=ipAddress,proto3" json:"ip_address,omitempty"`
 	// Agent used by the request caller
-	UserAgent string `protobuf:"bytes,2,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty" firestore:"userAgent"`
+	UserAgent string `protobuf:"bytes,2,opt,name=user_agent,json=userAgent,proto3" json:"user_agent,omitempty"`
 }
 
 func (m *ActivityLog_RequestMetadata) Reset() {
@@ -806,9 +806,9 @@ type ActivityLog_RequestRouting struct {
 	unknownFields protoimpl.UnknownFields
 	// ID of a region which originally received request, if redirection or split
 	// & merge was required
-	ViaRegion string `protobuf:"bytes,1,opt,name=via_region,json=viaRegion,proto3" json:"via_region,omitempty" firestore:"viaRegion"`
+	ViaRegion string `protobuf:"bytes,1,opt,name=via_region,json=viaRegion,proto3" json:"via_region,omitempty"`
 	// IDs of regions to which request was actually addressed.
-	DestRegions []string `protobuf:"bytes,2,rep,name=dest_regions,json=destRegions,proto3" json:"dest_regions,omitempty" firestore:"destRegions"`
+	DestRegions []string `protobuf:"bytes,2,rep,name=dest_regions,json=destRegions,proto3" json:"dest_regions,omitempty"`
 }
 
 func (m *ActivityLog_RequestRouting) Reset() {
@@ -899,11 +899,11 @@ type ActivityLog_Resource struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// full name of the resource
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// difference contains update information of the resource.
 	// Left empty if the request described by this activity log did not
 	// update the resource.
-	Difference *ActivityLog_Resource_Difference `protobuf:"bytes,2,opt,name=difference,proto3" json:"difference,omitempty" firestore:"difference"`
+	Difference *ActivityLog_Resource_Difference `protobuf:"bytes,2,opt,name=difference,proto3" json:"difference,omitempty"`
 }
 
 func (m *ActivityLog_Resource) Reset() {
@@ -990,9 +990,9 @@ type ActivityLog_Event_ClientMsgEvent struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Message contents
-	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" firestore:"data"`
+	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	// Time of a message
-	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty" firestore:"time"`
+	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 }
 
 func (m *ActivityLog_Event_ClientMsgEvent) Reset() {
@@ -1084,11 +1084,11 @@ type ActivityLog_Event_RegionalServerMsgEvent struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Message contents
-	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" firestore:"data"`
+	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	// Time of a message
-	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty" firestore:"time"`
+	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// Region ID where message comes from.
-	RegionId string `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ActivityLog_Event_RegionalServerMsgEvent) Reset() {
@@ -1189,9 +1189,9 @@ type ActivityLog_Event_ServerMsgEvent struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Message contents
-	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" firestore:"data"`
+	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	// Time of a message
-	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty" firestore:"time"`
+	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 }
 
 func (m *ActivityLog_Event_ServerMsgEvent) Reset() {
@@ -1283,11 +1283,11 @@ type ActivityLog_Event_RegionalExitEvent struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Final status of a request for given region
-	Status *rpc.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Status *rpc.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	// Time when request finished
-	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty" firestore:"time"`
+	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 	// Region ID where status comes from
-	RegionId string `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ActivityLog_Event_RegionalExitEvent) Reset() {
@@ -1388,9 +1388,9 @@ type ActivityLog_Event_ExitEvent struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Final status of a request
-	Status *rpc.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Status *rpc.Status `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
 	// Time when request finished
-	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty" firestore:"time"`
+	Time *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=time,proto3" json:"time,omitempty"`
 }
 
 func (m *ActivityLog_Event_ExitEvent) Reset() {
@@ -1479,17 +1479,17 @@ type ActivityLog_Resource_Difference struct {
 	// List of updated field paths (which are either marked as a state or
 	// spec fields). Proper, actual values are stored in "before" and "after"
 	// fields. Populated only for updating requests.
-	Fields *fieldmaskpb.FieldMask `protobuf:"bytes,1,opt,name=fields,proto3" json:"fields,omitempty" firestore:"fields"`
+	Fields *fieldmaskpb.FieldMask `protobuf:"bytes,1,opt,name=fields,proto3" json:"fields,omitempty"`
 	// State of the resource before update.
 	// Note that "before" object contains only values of fields present
 	// in "fields". It does not contain whole resource as it was before
 	// the update.
-	Before *anypb.Any `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty" firestore:"before"`
+	Before *anypb.Any `protobuf:"bytes,2,opt,name=before,proto3" json:"before,omitempty"`
 	// State of the resource after update.
 	// Note that "after" object contains only values of fields present
 	// in "fields". It does not contain whole resource as it is after
 	// the update.
-	After *anypb.Any `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty" firestore:"after"`
+	After *anypb.Any `protobuf:"bytes,3,opt,name=after,proto3" json:"after,omitempty"`
 }
 
 func (m *ActivityLog_Resource_Difference) Reset() {

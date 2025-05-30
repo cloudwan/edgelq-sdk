@@ -188,14 +188,14 @@ type Pod struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Display name of Pod
-	DisplayName string          `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
-	Metadata    *meta.Meta      `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	Spec        *common.PodSpec `protobuf:"bytes,4,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
+	DisplayName string          `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Metadata    *meta.Meta      `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Spec        *common.PodSpec `protobuf:"bytes,4,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Optional managing distribution.
-	Distribution *distribution.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=distribution,proto3" json:"distribution,omitempty" firestore:"distribution"`
-	Status       *Pod_Status             `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Distribution *distribution.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=distribution,proto3" json:"distribution,omitempty"`
+	Status       *Pod_Status             `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *Pod) Reset() {
@@ -338,11 +338,11 @@ type Pod_Status struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Phase is the state of the entire Pod.
-	Phase Pod_Status_Phase `protobuf:"varint,1,opt,name=phase,proto3,enum=ntt.applications.v1alpha2.Pod_Status_Phase" json:"phase,omitempty" firestore:"phase"`
+	Phase Pod_Status_Phase `protobuf:"varint,1,opt,name=phase,proto3,enum=ntt.applications.v1alpha2.Pod_Status_Phase" json:"phase,omitempty"`
 	// container_statuses lists individual status of the containers.
-	ContainerStatuses []*Pod_Status_Container `protobuf:"bytes,2,rep,name=container_statuses,json=containerStatuses,proto3" json:"container_statuses,omitempty" firestore:"containerStatuses"`
+	ContainerStatuses []*Pod_Status_Container `protobuf:"bytes,2,rep,name=container_statuses,json=containerStatuses,proto3" json:"container_statuses,omitempty"`
 	// Error message if Status.Phase is FAILED.
-	Error string `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty" firestore:"error"`
+	Error string `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (m *Pod_Status) Reset() {
@@ -443,11 +443,11 @@ type Pod_Status_Container struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// name is the name of the container
-	Name       string                                `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	State      Pod_Status_Container_State            `protobuf:"varint,3,opt,name=state,proto3,enum=ntt.applications.v1alpha2.Pod_Status_Container_State" json:"state,omitempty" firestore:"state"`
-	Waiting    *Pod_Status_Container_StateWaiting    `protobuf:"bytes,4,opt,name=waiting,proto3" json:"waiting,omitempty" firestore:"waiting"`
-	Running    *Pod_Status_Container_StateRunning    `protobuf:"bytes,5,opt,name=running,proto3" json:"running,omitempty" firestore:"running"`
-	Terminated *Pod_Status_Container_StateTerminated `protobuf:"bytes,6,opt,name=terminated,proto3" json:"terminated,omitempty" firestore:"terminated"`
+	Name       string                                `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	State      Pod_Status_Container_State            `protobuf:"varint,3,opt,name=state,proto3,enum=ntt.applications.v1alpha2.Pod_Status_Container_State" json:"state,omitempty"`
+	Waiting    *Pod_Status_Container_StateWaiting    `protobuf:"bytes,4,opt,name=waiting,proto3" json:"waiting,omitempty"`
+	Running    *Pod_Status_Container_StateRunning    `protobuf:"bytes,5,opt,name=running,proto3" json:"running,omitempty"`
+	Terminated *Pod_Status_Container_StateTerminated `protobuf:"bytes,6,opt,name=terminated,proto3" json:"terminated,omitempty"`
 }
 
 func (m *Pod_Status_Container) Reset() {
@@ -575,9 +575,9 @@ type Pod_Status_Container_StateWaiting struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// reason explains why the container is waiting now.
-	Reason string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty" firestore:"reason"`
+	Reason string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
 	// message gives a human readable message that explains the state.
-	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *Pod_Status_Container_StateWaiting) Reset() {
@@ -663,7 +663,7 @@ type Pod_Status_Container_StateRunning struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// started_at indicates when the container started at.
-	StartedAt *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty" firestore:"startedAt"`
+	StartedAt *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
 }
 
 func (m *Pod_Status_Container_StateRunning) Reset() {
@@ -735,19 +735,19 @@ type Pod_Status_Container_StateTerminated struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// exit_code is the exist code that the process returns at the end.
-	ExitCode int32 `protobuf:"varint,1,opt,name=exit_code,json=exitCode,proto3" json:"exit_code,omitempty" firestore:"exitCode"`
+	ExitCode int32 `protobuf:"varint,1,opt,name=exit_code,json=exitCode,proto3" json:"exit_code,omitempty"`
 	// signal is the signal used to kill the process.
-	Signal int32 `protobuf:"varint,2,opt,name=signal,proto3" json:"signal,omitempty" firestore:"signal"`
+	Signal int32 `protobuf:"varint,2,opt,name=signal,proto3" json:"signal,omitempty"`
 	// reason explains why the container is terminated.
-	Reason string `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty" firestore:"reason"`
+	Reason string `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 	// message has detailed human readable message.
-	Message string `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Message string `protobuf:"bytes,4,opt,name=message,proto3" json:"message,omitempty"`
 	// started_at indicates when the container started at.
-	StartedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty" firestore:"startedAt"`
+	StartedAt *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
 	// finished_at indicates when the container exited at.
-	FinishedAt *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=finished_at,json=finishedAt,proto3" json:"finished_at,omitempty" firestore:"finishedAt"`
+	FinishedAt *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=finished_at,json=finishedAt,proto3" json:"finished_at,omitempty"`
 	// containerID is the ID of the container when it was running.
-	ContainerId string `protobuf:"bytes,7,opt,name=container_id,json=containerId,proto3" json:"container_id,omitempty" firestore:"containerId"`
+	ContainerId string `protobuf:"bytes,7,opt,name=container_id,json=containerId,proto3" json:"container_id,omitempty"`
 }
 
 func (m *Pod_Status_Container_StateTerminated) Reset() {

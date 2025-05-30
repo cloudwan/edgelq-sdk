@@ -133,27 +133,27 @@ type DeviceHardware struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata     *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	DisplayName  string     `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
-	SerialNumber string     `protobuf:"bytes,4,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Manufacturer string     `protobuf:"bytes,5,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
+	Metadata     *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	DisplayName  string     `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	SerialNumber string     `protobuf:"bytes,4,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Manufacturer string     `protobuf:"bytes,5,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
 	// Should be in the format "productname (sku)"
-	ProductName string   `protobuf:"bytes,6,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	MacAddress  []string `protobuf:"bytes,7,rep,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty" firestore:"macAddress"`
+	ProductName string   `protobuf:"bytes,6,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	MacAddress  []string `protobuf:"bytes,7,rep,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
 	// Result of activating sim card,
 	// which is specified by associated_sim_card field
-	SimIccid string `protobuf:"bytes,8,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty" firestore:"simIccid"`
-	Imei                             string                           `protobuf:"bytes,9,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
-	AssociatedProvisioningPolicyName *provisioning_policy.Reference   `protobuf:"bytes,10,opt,customtype=Reference,name=associated_provisioning_policy_name,json=associatedProvisioningPolicyName,proto3" json:"associated_provisioning_policy_name,omitempty" firestore:"associatedProvisioningPolicyName"`
-	AssociatedDevice                 *device.Reference                `protobuf:"bytes,11,opt,customtype=Reference,name=associated_device,json=associatedDevice,proto3" json:"associated_device,omitempty" firestore:"associatedDevice"`
-	AssociatedSimCard                *cellular_api_sim_card.Reference `protobuf:"bytes,13,opt,customtype=Reference,name=associated_sim_card,json=associatedSimCard,proto3" json:"associated_sim_card,omitempty" firestore:"associatedSimCard"`
-	Status                           *DeviceHardware_Status           `protobuf:"bytes,12,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	SimIccid                         string                           `protobuf:"bytes,8,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty"`
+	Imei                             string                           `protobuf:"bytes,9,opt,name=imei,proto3" json:"imei,omitempty"`
+	AssociatedProvisioningPolicyName *provisioning_policy.Reference   `protobuf:"bytes,10,opt,customtype=Reference,name=associated_provisioning_policy_name,json=associatedProvisioningPolicyName,proto3" json:"associated_provisioning_policy_name,omitempty"`
+	AssociatedDevice                 *device.Reference                `protobuf:"bytes,11,opt,customtype=Reference,name=associated_device,json=associatedDevice,proto3" json:"associated_device,omitempty"`
+	AssociatedSimCard                *cellular_api_sim_card.Reference `protobuf:"bytes,13,opt,customtype=Reference,name=associated_sim_card,json=associatedSimCard,proto3" json:"associated_sim_card,omitempty"`
+	Status                           *DeviceHardware_Status           `protobuf:"bytes,12,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *DeviceHardware) Reset() {
@@ -392,7 +392,7 @@ type DeviceHardware_Status struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	ProvisioningState DeviceHardware_Status_PROVISIONING_STATE `protobuf:"varint,1,opt,name=provisioning_state,json=provisioningState,proto3,enum=ntt.devices.v1.DeviceHardware_Status_PROVISIONING_STATE" json:"provisioning_state,omitempty" firestore:"provisioningState"`
+	ProvisioningState DeviceHardware_Status_PROVISIONING_STATE `protobuf:"varint,1,opt,name=provisioning_state,json=provisioningState,proto3,enum=ntt.devices.v1.DeviceHardware_Status_PROVISIONING_STATE" json:"provisioning_state,omitempty"`
 }
 
 func (m *DeviceHardware_Status) Reset() {

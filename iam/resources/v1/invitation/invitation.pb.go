@@ -115,8 +115,8 @@ type Actor struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	User           *user.Reference            `protobuf:"bytes,1,opt,customtype=Reference,name=user,proto3" json:"user,omitempty" firestore:"user"`
-	ServiceAccount *service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty" firestore:"serviceAccount"`
+	User           *user.Reference            `protobuf:"bytes,1,opt,customtype=Reference,name=user,proto3" json:"user,omitempty"`
+	ServiceAccount *service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
 }
 
 func (m *Actor) Reset() {
@@ -203,28 +203,28 @@ type Invitation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Invitee Email address
-	InviteeEmail string `protobuf:"bytes,3,opt,name=invitee_email,json=inviteeEmail,proto3" json:"invitee_email,omitempty" firestore:"inviteeEmail"`
+	InviteeEmail string `protobuf:"bytes,3,opt,name=invitee_email,json=inviteeEmail,proto3" json:"invitee_email,omitempty"`
 	// Inviter User
-	InviterActor *Actor `protobuf:"bytes,6,opt,name=inviter_actor,json=inviterActor,proto3" json:"inviter_actor,omitempty" firestore:"inviterActor"`
+	InviterActor *Actor `protobuf:"bytes,6,opt,name=inviter_actor,json=inviterActor,proto3" json:"inviter_actor,omitempty"`
 	// Denormalized data - TODO: remove it
-	InviterFullName string `protobuf:"bytes,5,opt,name=inviter_full_name,json=inviterFullName,proto3" json:"inviter_full_name,omitempty" firestore:"inviterFullName"`
+	InviterFullName string `protobuf:"bytes,5,opt,name=inviter_full_name,json=inviterFullName,proto3" json:"inviter_full_name,omitempty"`
 	// Inviter Email
-	InviterEmail string `protobuf:"bytes,10,opt,name=inviter_email,json=inviterEmail,proto3" json:"inviter_email,omitempty" firestore:"inviterEmail"`
+	InviterEmail string `protobuf:"bytes,10,opt,name=inviter_email,json=inviterEmail,proto3" json:"inviter_email,omitempty"`
 	// Invitation ISO language code. Defaults to "en-us" (American English).
-	LanguageCode string `protobuf:"bytes,11,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty" firestore:"languageCode"`
+	LanguageCode string `protobuf:"bytes,11,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty"`
 	// List of role bindings for this invitation. They are used for creation
 	// of proper RoleBinding resources.
-	BindingRoles []*Invitation_BindingRole `protobuf:"bytes,13,rep,name=binding_roles,json=bindingRoles,proto3" json:"binding_roles,omitempty" firestore:"bindingRoles"`
+	BindingRoles []*Invitation_BindingRole `protobuf:"bytes,13,rep,name=binding_roles,json=bindingRoles,proto3" json:"binding_roles,omitempty"`
 	// List of groups where invitee should join after accepting invitation
-	Groups []*group.Reference `protobuf:"bytes,14,rep,customtype=Reference,name=groups,proto3" json:"groups,omitempty" firestore:"groups"`
+	Groups []*group.Reference `protobuf:"bytes,14,rep,customtype=Reference,name=groups,proto3" json:"groups,omitempty"`
 	// Expiration date
-	ExpirationDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=expiration_date,json=expirationDate,proto3" json:"expiration_date,omitempty" firestore:"expirationDate"`
+	ExpirationDate *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=expiration_date,json=expirationDate,proto3" json:"expiration_date,omitempty"`
 	// Extra custom fields to further customize invitation experience.
 	// Fields should be agreed between sender (usually UI) and documented in
 	// the template of email service provider.
-	Extras map[string]string `protobuf:"bytes,12,rep,name=extras,proto3" json:"extras,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"extras"`
+	Extras map[string]string `protobuf:"bytes,12,rep,name=extras,proto3" json:"extras,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Status of Invitation
-	State Invitation_State `protobuf:"varint,9,opt,name=state,proto3,enum=ntt.iam.v1.Invitation_State" json:"state,omitempty" firestore:"state"`
+	State Invitation_State `protobuf:"varint,9,opt,name=state,proto3,enum=ntt.iam.v1.Invitation_State" json:"state,omitempty"`
 }
 
 func (m *Invitation) Reset() {
@@ -423,12 +423,12 @@ type Invitation_BindingRole struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Role to be granted
-	Role *role.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=role,proto3" json:"role,omitempty" firestore:"role"`
+	Role *role.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=role,proto3" json:"role,omitempty"`
 	// List of all applicable condition bindings to be applied when creating
 	// RoleBinding.
-	ExecutableConditions []*condition.ExecutableCondition `protobuf:"bytes,2,rep,name=executable_conditions,json=executableConditions,proto3" json:"executable_conditions,omitempty" firestore:"executableConditions"`
+	ExecutableConditions []*condition.ExecutableCondition `protobuf:"bytes,2,rep,name=executable_conditions,json=executableConditions,proto3" json:"executable_conditions,omitempty"`
 	// List of applicable scope params to be applied when creating RoleBinding.
-	ScopeParams []*role.ScopeParam `protobuf:"bytes,3,rep,name=scope_params,json=scopeParams,proto3" json:"scope_params,omitempty" firestore:"scopeParams"`
+	ScopeParams []*role.ScopeParam `protobuf:"bytes,3,rep,name=scope_params,json=scopeParams,proto3" json:"scope_params,omitempty"`
 }
 
 func (m *Invitation_BindingRole) Reset() {

@@ -117,20 +117,20 @@ type isUserChange_ChangeType interface {
 type UserChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *UserChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *UserChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type UserChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *UserChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *UserChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type UserChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *UserChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *UserChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type UserChange_Removed_ struct {
 	// Removed is returned when User is deleted or leaves Query view
-	Removed *UserChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *UserChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*UserChange_Added_) isUserChange_ChangeType()    {}
@@ -191,9 +191,9 @@ type UserChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" firestore:"user"`
+	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 	// Integer describing index of added User in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *UserChange_Added) Reset() {
@@ -281,19 +281,19 @@ type UserChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified User
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of User or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchUserRequest] or [WatchUsersRequest]
-	User *User `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty" firestore:"user"`
+	User *User `protobuf:"bytes,2,opt,name=user,proto3" json:"user,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *User_FieldMask `protobuf:"bytes,3,opt,customtype=User_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *User_FieldMask `protobuf:"bytes,3,opt,customtype=User_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified User.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying User new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *UserChange_Modified) Reset() {
@@ -422,7 +422,7 @@ type UserChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" firestore:"user"`
+	User          *User `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
 }
 
 func (m *UserChange_Current) Reset() {
@@ -494,10 +494,10 @@ type UserChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed User index. Not populated in stateless watch
 	// type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *UserChange_Removed) Reset() {

@@ -117,20 +117,20 @@ type isDeviceTypeChange_ChangeType interface {
 type DeviceTypeChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *DeviceTypeChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *DeviceTypeChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type DeviceTypeChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *DeviceTypeChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *DeviceTypeChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type DeviceTypeChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *DeviceTypeChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *DeviceTypeChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type DeviceTypeChange_Removed_ struct {
 	// Removed is returned when DeviceType is deleted or leaves Query view
-	Removed *DeviceTypeChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *DeviceTypeChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*DeviceTypeChange_Added_) isDeviceTypeChange_ChangeType()    {}
@@ -191,9 +191,9 @@ type DeviceTypeChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	DeviceType    *DeviceType `protobuf:"bytes,1,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty" firestore:"deviceType"`
+	DeviceType    *DeviceType `protobuf:"bytes,1,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
 	// Integer describing index of added DeviceType in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceTypeChange_Added) Reset() {
@@ -281,20 +281,20 @@ type DeviceTypeChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified DeviceType
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of DeviceType or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchDeviceTypeRequest] or
 	// [WatchDeviceTypesRequest]
-	DeviceType *DeviceType `protobuf:"bytes,2,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty" firestore:"deviceType"`
+	DeviceType *DeviceType `protobuf:"bytes,2,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *DeviceType_FieldMask `protobuf:"bytes,3,opt,customtype=DeviceType_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *DeviceType_FieldMask `protobuf:"bytes,3,opt,customtype=DeviceType_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified DeviceType.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying DeviceType new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceTypeChange_Modified) Reset() {
@@ -423,7 +423,7 @@ type DeviceTypeChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	DeviceType    *DeviceType `protobuf:"bytes,1,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty" firestore:"deviceType"`
+	DeviceType    *DeviceType `protobuf:"bytes,1,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
 }
 
 func (m *DeviceTypeChange_Current) Reset() {
@@ -495,10 +495,10 @@ type DeviceTypeChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed DeviceType index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceTypeChange_Removed) Reset() {

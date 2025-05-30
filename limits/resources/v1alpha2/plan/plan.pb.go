@@ -114,19 +114,19 @@ type Plan struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.-]{1,128}
-	Name        *Name  `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	Name        *Name  `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Primary service to which this plan applies
-	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// List of limits per each resource. Resources may belong to different
 	// services (dependant services)
-	ResourceLimits []*common.Allowance `protobuf:"bytes,4,rep,name=resource_limits,json=resourceLimits,proto3" json:"resource_limits,omitempty" firestore:"resourceLimits"`
+	ResourceLimits []*common.Allowance `protobuf:"bytes,4,rep,name=resource_limits,json=resourceLimits,proto3" json:"resource_limits,omitempty"`
 	// Plan level
-	PlanLevel Plan_PlanLevel `protobuf:"varint,6,opt,name=plan_level,json=planLevel,proto3,enum=ntt.limits.v1alpha2.Plan_PlanLevel" json:"plan_level,omitempty" firestore:"planLevel"`
+	PlanLevel Plan_PlanLevel `protobuf:"varint,6,opt,name=plan_level,json=planLevel,proto3,enum=ntt.limits.v1alpha2.Plan_PlanLevel" json:"plan_level,omitempty"`
 	// Business tier
-	BusinessTier iam_iam_common.BusinessTier `protobuf:"varint,7,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1alpha2.BusinessTier" json:"business_tier,omitempty" firestore:"businessTier"`
+	BusinessTier iam_iam_common.BusinessTier `protobuf:"varint,7,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1alpha2.BusinessTier" json:"business_tier,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Plan) Reset() {

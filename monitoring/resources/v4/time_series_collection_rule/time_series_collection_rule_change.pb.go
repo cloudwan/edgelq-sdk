@@ -120,21 +120,21 @@ type isTimeSeriesCollectionRuleChange_ChangeType interface {
 type TimeSeriesCollectionRuleChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *TimeSeriesCollectionRuleChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *TimeSeriesCollectionRuleChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type TimeSeriesCollectionRuleChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *TimeSeriesCollectionRuleChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *TimeSeriesCollectionRuleChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type TimeSeriesCollectionRuleChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *TimeSeriesCollectionRuleChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *TimeSeriesCollectionRuleChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type TimeSeriesCollectionRuleChange_Removed_ struct {
 	// Removed is returned when TimeSeriesCollectionRule is deleted or leaves
 	// Query view
-	Removed *TimeSeriesCollectionRuleChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *TimeSeriesCollectionRuleChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*TimeSeriesCollectionRuleChange_Added_) isTimeSeriesCollectionRuleChange_ChangeType()    {}
@@ -195,10 +195,10 @@ type TimeSeriesCollectionRuleChange_Added struct {
 	state                    protoimpl.MessageState
 	sizeCache                protoimpl.SizeCache
 	unknownFields            protoimpl.UnknownFields
-	TimeSeriesCollectionRule *TimeSeriesCollectionRule `protobuf:"bytes,1,opt,name=time_series_collection_rule,json=timeSeriesCollectionRule,proto3" json:"time_series_collection_rule,omitempty" firestore:"timeSeriesCollectionRule"`
+	TimeSeriesCollectionRule *TimeSeriesCollectionRule `protobuf:"bytes,1,opt,name=time_series_collection_rule,json=timeSeriesCollectionRule,proto3" json:"time_series_collection_rule,omitempty"`
 	// Integer describing index of added TimeSeriesCollectionRule in resulting
 	// query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *TimeSeriesCollectionRuleChange_Added) Reset() {
@@ -286,22 +286,22 @@ type TimeSeriesCollectionRuleChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified TimeSeriesCollectionRule
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of TimeSeriesCollectionRule or masked difference, depending
 	// on mask_changes instrumentation of issued
 	// [WatchTimeSeriesCollectionRuleRequest] or
 	// [WatchTimeSeriesCollectionRulesRequest]
-	TimeSeriesCollectionRule *TimeSeriesCollectionRule `protobuf:"bytes,2,opt,name=time_series_collection_rule,json=timeSeriesCollectionRule,proto3" json:"time_series_collection_rule,omitempty" firestore:"timeSeriesCollectionRule"`
+	TimeSeriesCollectionRule *TimeSeriesCollectionRule `protobuf:"bytes,2,opt,name=time_series_collection_rule,json=timeSeriesCollectionRule,proto3" json:"time_series_collection_rule,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *TimeSeriesCollectionRule_FieldMask `protobuf:"bytes,3,opt,customtype=TimeSeriesCollectionRule_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *TimeSeriesCollectionRule_FieldMask `protobuf:"bytes,3,opt,customtype=TimeSeriesCollectionRule_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// TimeSeriesCollectionRule. When modification doesn't affect sorted order,
 	// value will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying TimeSeriesCollectionRule new index in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *TimeSeriesCollectionRuleChange_Modified) Reset() {
@@ -430,7 +430,7 @@ type TimeSeriesCollectionRuleChange_Current struct {
 	state                    protoimpl.MessageState
 	sizeCache                protoimpl.SizeCache
 	unknownFields            protoimpl.UnknownFields
-	TimeSeriesCollectionRule *TimeSeriesCollectionRule `protobuf:"bytes,1,opt,name=time_series_collection_rule,json=timeSeriesCollectionRule,proto3" json:"time_series_collection_rule,omitempty" firestore:"timeSeriesCollectionRule"`
+	TimeSeriesCollectionRule *TimeSeriesCollectionRule `protobuf:"bytes,1,opt,name=time_series_collection_rule,json=timeSeriesCollectionRule,proto3" json:"time_series_collection_rule,omitempty"`
 }
 
 func (m *TimeSeriesCollectionRuleChange_Current) Reset() {
@@ -503,10 +503,10 @@ type TimeSeriesCollectionRuleChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed TimeSeriesCollectionRule index. Not populated
 	// in stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *TimeSeriesCollectionRuleChange_Removed) Reset() {

@@ -59,7 +59,7 @@ type ListTimeSeriesRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// The project on which to execute the request. The format is
 	// "projects/{project_id_or_number}".
-	Parent *project.Name `protobuf:"bytes,10,opt,customtype=Name,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *project.Name `protobuf:"bytes,10,opt,customtype=Name,name=parent,proto3" json:"parent,omitempty"`
 	// A monitoring filter that specifies which time
 	// series should be returned.  The filter must specify a single metric type,
 	// and can additionally specify metric labels and other information. For
@@ -67,21 +67,21 @@ type ListTimeSeriesRequest struct {
 	//
 	//     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
 	//         metric.label.instance_name = "my-instance-name"
-	Filter *time_serie.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *time_serie.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// The time interval for which results should be returned. Only time series
 	// that contain data points in the specified interval are included
 	// in the response.
-	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty"`
 	// By default, the raw time series data is returned.
 	// Use this field to combine multiple time series for different
 	// views of the data.
-	Aggregation *common.Aggregation `protobuf:"bytes,5,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	Aggregation *common.Aggregation `protobuf:"bytes,5,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
 	// Picks paginated time series according to pre-defined (in metric descriptor)
 	// view and function. Cannot be used with aggregation, because pagination
 	// view and function determines time series transformation and sorting.
-	Pagination *common.Pagination `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty" firestore:"pagination"`
+	Pagination *common.Pagination `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	// Specifies which information is returned about the time series.
-	View common.TimeSeriesView `protobuf:"varint,7,opt,name=view,proto3,enum=ntt.monitoring.v3.TimeSeriesView" json:"view,omitempty" firestore:"view"`
+	View common.TimeSeriesView `protobuf:"varint,7,opt,name=view,proto3,enum=ntt.monitoring.v3.TimeSeriesView" json:"view,omitempty"`
 	// view list mask. Optimize network usage and limit returned header fields to
 	// a required subset. example fields in field mask:
 	// - "key": for later caching,
@@ -89,16 +89,16 @@ type ListTimeSeriesRequest struct {
 	// specific labels only
 	// - "resource", "metric": all resource labels, reduced_labels and type
 	// NOTE: points are added implicitly
-	FieldMask *time_serie.TimeSerie_FieldMask `protobuf:"bytes,12,opt,customtype=TimeSerie_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *time_serie.TimeSerie_FieldMask `protobuf:"bytes,12,opt,customtype=TimeSerie_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// A positive number that is the maximum number of Points to return. If
 	// `points_cap` is empty or more than 100,000 results, the effective
 	// `points_cap` is 100,000 results. If `view` is set to `HEADERS`, this is
 	// the maximum number of `TimeSeries` returned.
-	PointsCap int32 `protobuf:"varint,8,opt,name=points_cap,json=pointsCap,proto3" json:"points_cap,omitempty" firestore:"pointsCap"`
+	PointsCap int32 `protobuf:"varint,8,opt,name=points_cap,json=pointsCap,proto3" json:"points_cap,omitempty"`
 	// If this field is not empty then it must contain the `continuation_token`
 	// value returned by a previous call to this method.  Using this field causes
 	// the method to return additional results from the previous method call.
-	ContinuationToken string `protobuf:"bytes,9,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty" firestore:"continuationToken"`
+	ContinuationToken string `protobuf:"bytes,9,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty"`
 }
 
 func (m *ListTimeSeriesRequest) Reset() {
@@ -284,11 +284,11 @@ type ListTimeSeriesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// One or more time series that match the filter included in the request.
-	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value.  To see the additional results,
 	// use that value as `continuation_token` in the next call to this method.
-	ContinuationToken string `protobuf:"bytes,2,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty" firestore:"continuationToken"`
+	ContinuationToken string `protobuf:"bytes,2,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty"`
 	// Special time series with total amount of records available for pagination
 	// by given time series key. Metric/Resource labels will contain "common"
 	// values shared by all ranked time series. ValueType will be always INT64 and
@@ -296,7 +296,7 @@ type ListTimeSeriesResponse struct {
 	// ListTimeSeries with Aggregation = {groupByFields: [<viewPaginatedLabels>],
 	// REDUCER: REDUCE_COUNT} This field is only populated for paginated queries
 	// (pagination in ListTimeSeries is specified).
-	TotalPointCounters []*time_serie.TimeSerie `protobuf:"bytes,4,rep,name=total_point_counters,json=totalPointCounters,proto3" json:"total_point_counters,omitempty" firestore:"totalPointCounters"`
+	TotalPointCounters []*time_serie.TimeSerie `protobuf:"bytes,4,rep,name=total_point_counters,json=totalPointCounters,proto3" json:"total_point_counters,omitempty"`
 }
 
 func (m *ListTimeSeriesResponse) Reset() {
@@ -399,13 +399,13 @@ type CreateTimeSeriesRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// The project on which to execute the request. The format is
 	// `"projects/{project_id_or_number}"`.
-	Parent *project.Name `protobuf:"bytes,3,opt,customtype=Name,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *project.Name `protobuf:"bytes,3,opt,customtype=Name,name=parent,proto3" json:"parent,omitempty"`
 	// The new data to be added to a list of time series.
 	// Adds at most one data point to each of several time series.  The new data
 	// point must be more recent than any other point in its time series.  Each
 	// `TimeSeries` value must fully specify a unique time series by supplying
 	// all label values for the metric and the monitored resource.
-	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,2,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,2,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 }
 
 func (m *CreateTimeSeriesRequest) Reset() {
@@ -494,9 +494,9 @@ type CreateTimeSeriesResponse struct {
 	unknownFields protoimpl.UnknownFields
 	// Time Serie keys indexed by Create position - present only when given
 	// TimeSerie didn't use Key field
-	TimeSerieKeys map[uint32][]byte `protobuf:"bytes,11,rep,name=time_serie_keys,json=timeSerieKeys,proto3" json:"time_serie_keys,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"timeSerieKeys"`
+	TimeSerieKeys map[uint32][]byte `protobuf:"bytes,11,rep,name=time_serie_keys,json=timeSerieKeys,proto3" json:"time_serie_keys,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Time series that failed to be created
-	FailedTimeSeries []*CreateTimeSeriesError `protobuf:"bytes,50,rep,name=failed_time_series,json=failedTimeSeries,proto3" json:"failed_time_series,omitempty" firestore:"failedTimeSeries"`
+	FailedTimeSeries []*CreateTimeSeriesError `protobuf:"bytes,50,rep,name=failed_time_series,json=failedTimeSeries,proto3" json:"failed_time_series,omitempty"`
 }
 
 func (m *CreateTimeSeriesResponse) Reset() {
@@ -586,9 +586,9 @@ type CreateTimeSeriesError struct {
 	// and `Point`s (including timestamp and value) that resulted
 	// in the error. This field provides all of the context that
 	// would be needed to retry the operation.
-	TimeSeries *time_serie.TimeSerie `protobuf:"bytes,1,opt,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries *time_serie.TimeSerie `protobuf:"bytes,1,opt,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 	// The status of the requested write operation.
-	Status *rpc.Status `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Status *rpc.Status `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *CreateTimeSeriesError) Reset() {
@@ -677,7 +677,7 @@ type ListTimeSeriesResponse_ErrorDetails struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// region id which failed to give results.
-	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ListTimeSeriesResponse_ErrorDetails) Reset() {

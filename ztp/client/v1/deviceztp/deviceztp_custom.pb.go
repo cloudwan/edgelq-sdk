@@ -113,10 +113,10 @@ type isZtpGetEdgeLQEndpointForDeviceRequest_Msg interface {
 }
 
 type ZtpGetEdgeLQEndpointForDeviceRequest_Identify struct {
-	Identify *api.DeviceIdentity `protobuf:"bytes,1,opt,name=identify,proto3,oneof" firestore:"identify"`
+	Identify *api.DeviceIdentity `protobuf:"bytes,1,opt,name=identify,proto3,oneof"`
 }
 type ZtpGetEdgeLQEndpointForDeviceRequest_ChallengeResponse struct {
-	ChallengeResponse *api.IdentityChallengeResponse `protobuf:"bytes,2,opt,name=challenge_response,json=challengeResponse,proto3,oneof" firestore:"challengeResponse"`
+	ChallengeResponse *api.IdentityChallengeResponse `protobuf:"bytes,2,opt,name=challenge_response,json=challengeResponse,proto3,oneof"`
 }
 
 func (*ZtpGetEdgeLQEndpointForDeviceRequest_Identify) isZtpGetEdgeLQEndpointForDeviceRequest_Msg() {}
@@ -220,10 +220,10 @@ type isZtpGetEdgeLQEndpointForDeviceResponse_Msg interface {
 }
 
 type ZtpGetEdgeLQEndpointForDeviceResponse_IdentityChallenge struct {
-	IdentityChallenge *api.IdentityChallenge `protobuf:"bytes,1,opt,name=identity_challenge,json=identityChallenge,proto3,oneof" firestore:"identityChallenge"`
+	IdentityChallenge *api.IdentityChallenge `protobuf:"bytes,1,opt,name=identity_challenge,json=identityChallenge,proto3,oneof"`
 }
 type ZtpGetEdgeLQEndpointForDeviceResponse_EndpointResponse_ struct {
-	EndpointResponse *ZtpGetEdgeLQEndpointForDeviceResponse_EndpointResponse `protobuf:"bytes,2,opt,name=endpoint_response,json=endpointResponse,proto3,oneof" firestore:"endpointResponse"`
+	EndpointResponse *ZtpGetEdgeLQEndpointForDeviceResponse_EndpointResponse `protobuf:"bytes,2,opt,name=endpoint_response,json=endpointResponse,proto3,oneof"`
 }
 
 func (*ZtpGetEdgeLQEndpointForDeviceResponse_IdentityChallenge) isZtpGetEdgeLQEndpointForDeviceResponse_Msg() {
@@ -265,9 +265,9 @@ type ZtpGetEdgeLQEndpointForDeviceResponse_EndpointResponse struct {
 	state                  protoimpl.MessageState
 	sizeCache              protoimpl.SizeCache
 	unknownFields          protoimpl.UnknownFields
-	EdgelqInstance         *edgelq_instance.EdgelqInstance `protobuf:"bytes,1,opt,name=edgelq_instance,json=edgelqInstance,proto3" json:"edgelq_instance,omitempty" firestore:"edgelqInstance"`
-	ProvisioningPolicyName string                          `protobuf:"bytes,2,opt,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty" firestore:"provisioningPolicyName"`
-	DeviceName             string                          `protobuf:"bytes,3,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty" firestore:"deviceName"`
+	EdgelqInstance         *edgelq_instance.EdgelqInstance `protobuf:"bytes,1,opt,name=edgelq_instance,json=edgelqInstance,proto3" json:"edgelq_instance,omitempty"`
+	ProvisioningPolicyName string                          `protobuf:"bytes,2,opt,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty"`
+	DeviceName             string                          `protobuf:"bytes,3,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty"`
 }
 
 func (m *ZtpGetEdgeLQEndpointForDeviceResponse_EndpointResponse) Reset() {

@@ -70,28 +70,28 @@ type ListMyServiceProjectsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Requested page size. Server may return fewer Projects than requested.
 	// If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// [ListProjectsResponse.next_page_token][ntt.iam.v1.ListMyServiceProjectsResponse.next_page_token]
-	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *project.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *project.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *project.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *project.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A FieldMask used to filter response fields. When present, only requested
 	// fields will be present in each response item. Omitting field_mask results
 	// will cause response items to contain all present fields.
-	FieldMask *project.Project_FieldMask `protobuf:"bytes,6,opt,customtype=Project_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *project.Project_FieldMask `protobuf:"bytes,6,opt,customtype=Project_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 }
 
 func (m *ListMyServiceProjectsRequest) Reset() {
@@ -221,13 +221,13 @@ type ListMyServiceProjectsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Projects
-	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty" firestore:"projects"`
+	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty"`
 	// A token to retrieve previous page of results. Pass this value in the
 	// [ListMyServiceProjectsRequest.page_token][ntt.iam.v1.ListMyServiceProjectsRequest.page_token]
-	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// A token to retrieve next page of results. Pass this value in the
 	// [ListMyServiceProjectsRequest.page_token][ntt.iam.v1.ListMyServiceProjectsRequest.page_token]
-	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 }
 
 func (m *ListMyServiceProjectsResponse) Reset() {
@@ -330,26 +330,26 @@ type SetupServiceProjectRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Project name - unlike in CreateProject, it is mandatory.
 	// Must conform to regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Project title
-	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" firestore:"title"`
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	// Optional parent organization
-	ParentOrganization *organization.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty" firestore:"parentOrganization"`
+	ParentOrganization *organization.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty"`
 	// Multi region policy - it will have to match with Service regions later on.
-	MultiRegionPolicy *multi_region_policy.MultiRegionPolicy `protobuf:"bytes,4,opt,name=multi_region_policy,json=multiRegionPolicy,proto3" json:"multi_region_policy,omitempty" firestore:"multiRegionPolicy"`
+	MultiRegionPolicy *multi_region_policy.MultiRegionPolicy `protobuf:"bytes,4,opt,name=multi_region_policy,json=multiRegionPolicy,proto3" json:"multi_region_policy,omitempty"`
 	// Default business tier to apply to a service project - it determines
 	// business tier for core edgelq services, influencing assigned limits.
 	// By default XSMALL will be set (UNDEFINED is replaced with XSMALL).
 	// If limits are not needed at all for core edgelq services, it is
 	// recommended to opt out from them using core_edgelq_service_opt_outs param.
-	DefaultBusinessTier iam_common.BusinessTier `protobuf:"varint,5,opt,name=default_business_tier,json=defaultBusinessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"default_business_tier,omitempty" firestore:"defaultBusinessTier"`
+	DefaultBusinessTier iam_common.BusinessTier `protobuf:"varint,5,opt,name=default_business_tier,json=defaultBusinessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"default_business_tier,omitempty"`
 	// Optional list of core edgelq services which are not needed for
 	// this service project. As of now, it has effect on devices/applications.
 	// If they are added to this list, then no limits are assigned for
 	// resources in those services.
-	CoreEdgelqServiceOptOuts []*meta_service.Name `protobuf:"bytes,6,rep,customtype=Name,name=core_edgelq_service_opt_outs,json=coreEdgelqServiceOptOuts,proto3" json:"core_edgelq_service_opt_outs,omitempty" firestore:"coreEdgelqServiceOptOuts"`
+	CoreEdgelqServiceOptOuts []*meta_service.Name `protobuf:"bytes,6,rep,customtype=Name,name=core_edgelq_service_opt_outs,json=coreEdgelqServiceOptOuts,proto3" json:"core_edgelq_service_opt_outs,omitempty"`
 	// Project Description
-	Description string `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (m *SetupServiceProjectRequest) Reset() {
@@ -507,27 +507,27 @@ type ReserveServiceNameRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the service project where reservation should be made.
-	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Service name to reserve
-	Service *meta_service.Name `protobuf:"bytes,2,opt,customtype=Name,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Name `protobuf:"bytes,2,opt,customtype=Name,name=service,proto3" json:"service,omitempty"`
 	// Service account name that will be an admin for this Service. If it does not
 	// exist, it will be created. If exists this service account will have right
 	// to create reserved service.
-	AdminAccount *service_account.Name `protobuf:"bytes,3,opt,customtype=Name,name=admin_account,json=adminAccount,proto3" json:"admin_account,omitempty" firestore:"adminAccount"`
+	AdminAccount *service_account.Name `protobuf:"bytes,3,opt,customtype=Name,name=admin_account,json=adminAccount,proto3" json:"admin_account,omitempty"`
 	// Optional admin account key - must be skipped if admin_account already
 	// exists and has key already known by user. If provided, then new
 	// ServiceAccountKey will be created. If public key was provided in request,
 	// then server will use it. Otherwise it will generate private/public pair and
 	// provide both in response. If key already exists and admin_key was provided,
 	// AlreadyExists will be returned.
-	AdminKey *service_account_key.ServiceAccountKey `protobuf:"bytes,4,opt,name=admin_key,json=adminKey,proto3" json:"admin_key,omitempty" firestore:"adminKey"`
+	AdminKey *service_account_key.ServiceAccountKey `protobuf:"bytes,4,opt,name=admin_key,json=adminKey,proto3" json:"admin_key,omitempty"`
 	// Optional Role admin_account will have in the service project.
 	// When service is eventually created, admin_account will have full ownership
 	// of the Service. However, it wont be able to access Service Project freely -
 	// by default minimal role is assigned, that allows to send usage metrics (for
 	// example). In some cases it may be necessary for admin_account to have
 	// larger access to the service project, for example for devices management.
-	AdminAccountProjectRole *role.Name `protobuf:"bytes,5,opt,customtype=Name,name=admin_account_project_role,json=adminAccountProjectRole,proto3" json:"admin_account_project_role,omitempty" firestore:"adminAccountProjectRole"`
+	AdminAccountProjectRole *role.Name `protobuf:"bytes,5,opt,customtype=Name,name=admin_account_project_role,json=adminAccountProjectRole,proto3" json:"admin_account_project_role,omitempty"`
 }
 
 func (m *ReserveServiceNameRequest) Reset() {
@@ -666,7 +666,7 @@ type ReserveServiceNameResponse struct {
 	// case of lost credentials, user will need to send DeleteServiceAccountKey
 	// and CreateServiceAccountKey requests for admin ServiceAccount - and craft
 	// another credentials.
-	NttAdminCredentials *api.ServiceAccount `protobuf:"bytes,1,opt,name=ntt_admin_credentials,json=nttAdminCredentials,proto3" json:"ntt_admin_credentials,omitempty" firestore:"nttAdminCredentials"`
+	NttAdminCredentials *api.ServiceAccount `protobuf:"bytes,1,opt,name=ntt_admin_credentials,json=nttAdminCredentials,proto3" json:"ntt_admin_credentials,omitempty"`
 }
 
 func (m *ReserveServiceNameResponse) Reset() {
@@ -740,9 +740,9 @@ type DeleteServiceReservationRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the service project where reservation exists
-	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Service name to remove from reserved
-	Service *meta_service.Name `protobuf:"bytes,2,opt,customtype=Name,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Name `protobuf:"bytes,2,opt,customtype=Name,name=service,proto3" json:"service,omitempty"`
 }
 
 func (m *DeleteServiceReservationRequest) Reset() {
@@ -830,7 +830,7 @@ type ListServiceReservationsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the Service Project for which we want to see reservations.
-	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *ListServiceReservationsRequest) Reset() {
@@ -904,7 +904,7 @@ type ListServiceReservationsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// List of reserved services with corresponding admin accounts
-	Reservations []*ListServiceReservationsResponse_Reservation `protobuf:"bytes,1,rep,name=reservations,proto3" json:"reservations,omitempty" firestore:"reservations"`
+	Reservations []*ListServiceReservationsResponse_Reservation `protobuf:"bytes,1,rep,name=reservations,proto3" json:"reservations,omitempty"`
 }
 
 func (m *ListServiceReservationsResponse) Reset() {
@@ -978,7 +978,7 @@ type ListProjectServicesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the Service Project for which we want to see services.
-	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *ListProjectServicesRequest) Reset() {
@@ -1052,7 +1052,7 @@ type ListProjectServicesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// List of services
-	Services []*meta_service.Service `protobuf:"bytes,1,rep,name=services,proto3" json:"services,omitempty" firestore:"services"`
+	Services []*meta_service.Service `protobuf:"bytes,1,rep,name=services,proto3" json:"services,omitempty"`
 }
 
 func (m *ListProjectServicesResponse) Reset() {
@@ -1127,27 +1127,27 @@ type AddRegionalAdminAccountForServicesRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Parent of ServiceAccount containing Service project and Region.
 	// If region is not enabled in project, it will be for this request.
-	Parent *service_account.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *service_account.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// List of services in which admin account must participate. They must all
 	// belong to the project indicated in the parent.
-	Services []*meta_service.Name `protobuf:"bytes,2,rep,customtype=Name,name=services,proto3" json:"services,omitempty" firestore:"services"`
+	Services []*meta_service.Name `protobuf:"bytes,2,rep,customtype=Name,name=services,proto3" json:"services,omitempty"`
 	// Regional service account name that will be an admin for this Service. If it
 	// does not exist, it will be created.
-	AdminAccount *service_account.Name `protobuf:"bytes,3,opt,customtype=Name,name=admin_account,json=adminAccount,proto3" json:"admin_account,omitempty" firestore:"adminAccount"`
+	AdminAccount *service_account.Name `protobuf:"bytes,3,opt,customtype=Name,name=admin_account,json=adminAccount,proto3" json:"admin_account,omitempty"`
 	// Optional admin account key - must be skipped if admin_account already
 	// exists and has key already known by user. If provided, then new
 	// ServiceAccountKey will be created. If public key was provided in request,
 	// then server will use it. Otherwise it will generate private/public pair and
 	// provide both in response. If admin_key already exists and is still provided
 	// in request, AlreadyExists will be returned.
-	AdminKey *service_account_key.ServiceAccountKey `protobuf:"bytes,4,opt,name=admin_key,json=adminKey,proto3" json:"admin_key,omitempty" firestore:"adminKey"`
+	AdminKey *service_account_key.ServiceAccountKey `protobuf:"bytes,4,opt,name=admin_key,json=adminKey,proto3" json:"admin_key,omitempty"`
 	// Optional Role admin_account will have in the service project.
 	// When service is eventually created, admin_account will have full ownership
 	// of the Service. However, it wont be able to access Service Project freely -
 	// by default minimal role is assigned, that allows to send usage metrics (for
 	// example). In some cases it may be necessary for admin_account to have
 	// larger access to the service project, for example for devices management.
-	AdminAccountProjectRole *role.Name `protobuf:"bytes,5,opt,customtype=Name,name=admin_account_project_role,json=adminAccountProjectRole,proto3" json:"admin_account_project_role,omitempty" firestore:"adminAccountProjectRole"`
+	AdminAccountProjectRole *role.Name `protobuf:"bytes,5,opt,customtype=Name,name=admin_account_project_role,json=adminAccountProjectRole,proto3" json:"admin_account_project_role,omitempty"`
 }
 
 func (m *AddRegionalAdminAccountForServicesRequest) Reset() {
@@ -1286,7 +1286,7 @@ type AddRegionalAdminAccountForServicesResponse struct {
 	// in the final file. In case of lost credentials, user will need to send
 	// DeleteServiceAccountKey and CreateServiceAccountKey requests for admin
 	// ServiceAccount - and craft another credentials.
-	NttAdminCredentials *api.ServiceAccount `protobuf:"bytes,1,opt,name=ntt_admin_credentials,json=nttAdminCredentials,proto3" json:"ntt_admin_credentials,omitempty" firestore:"nttAdminCredentials"`
+	NttAdminCredentials *api.ServiceAccount `protobuf:"bytes,1,opt,name=ntt_admin_credentials,json=nttAdminCredentials,proto3" json:"ntt_admin_credentials,omitempty"`
 }
 
 func (m *AddRegionalAdminAccountForServicesResponse) Reset() {
@@ -1358,9 +1358,9 @@ type ListServiceReservationsResponse_Reservation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Reserved service name allowed to be created by admin account
-	Service *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty"`
 	// Service account name that will be an admin for this Service.
-	AdminAccount *service_account.Name `protobuf:"bytes,2,opt,customtype=Name,name=admin_account,json=adminAccount,proto3" json:"admin_account,omitempty" firestore:"adminAccount"`
+	AdminAccount *service_account.Name `protobuf:"bytes,2,opt,customtype=Name,name=admin_account,json=adminAccount,proto3" json:"admin_account,omitempty"`
 }
 
 func (m *ListServiceReservationsResponse_Reservation) Reset() {

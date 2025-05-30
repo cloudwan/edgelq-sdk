@@ -103,21 +103,21 @@ type AlertingPolicy struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// display name
-	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Long description
-	Description   string                        `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
-	Documentation *AlertingPolicy_Documentation `protobuf:"bytes,5,opt,name=documentation,proto3" json:"documentation,omitempty" firestore:"documentation"`
+	Description   string                        `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	Documentation *AlertingPolicy_Documentation `protobuf:"bytes,5,opt,name=documentation,proto3" json:"documentation,omitempty"`
 	// Spec
-	Spec  *AlertingPolicy_Spec  `protobuf:"bytes,6,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
-	State *AlertingPolicy_State `protobuf:"bytes,7,opt,name=state,proto3" json:"state,omitempty" firestore:"state"`
+	Spec  *AlertingPolicy_Spec  `protobuf:"bytes,6,opt,name=spec,proto3" json:"spec,omitempty"`
+	State *AlertingPolicy_State `protobuf:"bytes,7,opt,name=state,proto3" json:"state,omitempty"`
 }
 
 func (m *AlertingPolicy) Reset() {
@@ -274,9 +274,9 @@ type AlertingPolicy_Documentation struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Documentation content
-	Content string `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty" firestore:"content"`
+	Content string `protobuf:"bytes,1,opt,name=content,proto3" json:"content,omitempty"`
 	// documentation mime type. Only `"text/markdown"` is supported.
-	MimeType string `protobuf:"bytes,2,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty" firestore:"mimeType"`
+	MimeType string `protobuf:"bytes,2,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
 }
 
 func (m *AlertingPolicy_Documentation) Reset() {
@@ -365,13 +365,13 @@ type AlertingPolicy_Spec struct {
 	// Note: If any existing fired alerts are present,
 	// they will not be resolved automatically
 	// TODO: consider if they should?
-	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty" firestore:"enabled"`
+	Enabled bool `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	// Condition Combiner when deciding if ANY (OR) or ALL (AND) conditions for
 	// given subset of resource labels must fire in order to trigger an alert
 	// TODO: Add support to AND
-	ConditionCombiner AlertingPolicy_Spec_ConditionsCombiner `protobuf:"varint,2,opt,name=condition_combiner,json=conditionCombiner,proto3,enum=ntt.monitoring.v4.AlertingPolicy_Spec_ConditionsCombiner" json:"condition_combiner,omitempty" firestore:"conditionCombiner"`
+	ConditionCombiner AlertingPolicy_Spec_ConditionsCombiner `protobuf:"varint,2,opt,name=condition_combiner,json=conditionCombiner,proto3,enum=ntt.monitoring.v4.AlertingPolicy_Spec_ConditionsCombiner" json:"condition_combiner,omitempty"`
 	// Notification specification
-	Notification *AlertingPolicy_Spec_Notification `protobuf:"bytes,4,opt,name=notification,proto3" json:"notification,omitempty" firestore:"notification"`
+	Notification *AlertingPolicy_Spec_Notification `protobuf:"bytes,4,opt,name=notification,proto3" json:"notification,omitempty"`
 }
 
 func (m *AlertingPolicy_Spec) Reset() {
@@ -471,7 +471,7 @@ type AlertingPolicy_State struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Number of ongoing alerts (incident has not ended)
-	ActiveAlertsCount int64 `protobuf:"varint,1,opt,name=active_alerts_count,json=activeAlertsCount,proto3" json:"active_alerts_count,omitempty" firestore:"activeAlertsCount"`
+	ActiveAlertsCount int64 `protobuf:"varint,1,opt,name=active_alerts_count,json=activeAlertsCount,proto3" json:"active_alerts_count,omitempty"`
 }
 
 func (m *AlertingPolicy_State) Reset() {
@@ -544,8 +544,8 @@ type AlertingPolicy_Spec_Notification struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Enabled flag determines whether any notifications will be sent
-	Enabled  bool                              `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty" firestore:"enabled"`
-	Channels []*notification_channel.Reference `protobuf:"bytes,3,rep,customtype=Reference,name=channels,proto3" json:"channels,omitempty" firestore:"channels"`
+	Enabled  bool                              `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Channels []*notification_channel.Reference `protobuf:"bytes,3,rep,customtype=Reference,name=channels,proto3" json:"channels,omitempty"`
 }
 
 func (m *AlertingPolicy_Spec_Notification) Reset() {

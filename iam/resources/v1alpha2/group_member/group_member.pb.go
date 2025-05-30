@@ -55,17 +55,17 @@ type GroupMember struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Format of the string is one of:
 	// - "allUsers" (anyone)
 	// - "allAuthenticatedUsers" (anyone logged in)
 	// - "user:admin.super@example.com"
 	// - "serviceAccount:device_agent@watchdog.serviceaccounts.iam.edgelq.com"
 	// - "group:nice.group@example.com"
-	Member string `protobuf:"bytes,2,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,2,opt,name=member,proto3" json:"member,omitempty"`
 	// Internal field used by the IAM controller to know member ID (email) of a
 	// group this member belongs to.
-	ParentMember string `protobuf:"bytes,5,opt,name=parent_member,json=parentMember,proto3" json:"parent_member,omitempty" firestore:"parentMember"`
+	ParentMember string `protobuf:"bytes,5,opt,name=parent_member,json=parentMember,proto3" json:"parent_member,omitempty"`
 	// Internal field used the IAM controller to know common ancestors if this
 	// group member is actually a copy from another group, which can happen if
 	// group is member in another group. List contains member IDs of other groups.
@@ -77,9 +77,9 @@ type GroupMember struct {
 	// list) and to break cycles (previous elements). List is always empty if this
 	// group member is DIRECT member of this group and controller cannot modify
 	// it.
-	MinAncestryMembers []string `protobuf:"bytes,6,rep,name=min_ancestry_members,json=minAncestryMembers,proto3" json:"min_ancestry_members,omitempty" firestore:"minAncestryMembers"`
+	MinAncestryMembers []string `protobuf:"bytes,6,rep,name=min_ancestry_members,json=minAncestryMembers,proto3" json:"min_ancestry_members,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *GroupMember) Reset() {

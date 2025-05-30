@@ -56,19 +56,19 @@ type AssociateHardwareRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.ztp.v1.EdgelqInstance
-	Name                  *edgelq_instance.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SerialNumber          string                `protobuf:"bytes,2,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Manufacturer          string                `protobuf:"bytes,3,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
-	ProductName           string                `protobuf:"bytes,4,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	AssociatedProjectName string                `protobuf:"bytes,5,opt,name=associated_project_name,json=associatedProjectName,proto3" json:"associated_project_name,omitempty" firestore:"associatedProjectName"`
+	Name                  *edgelq_instance.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	SerialNumber          string                `protobuf:"bytes,2,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Manufacturer          string                `protobuf:"bytes,3,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
+	ProductName           string                `protobuf:"bytes,4,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	AssociatedProjectName string                `protobuf:"bytes,5,opt,name=associated_project_name,json=associatedProjectName,proto3" json:"associated_project_name,omitempty"`
 	// device could be associated to either provisioning policy or directly to
 	// device resource only one will be set. This is not used for ztp itself, but
 	// for debug purposes
-	AssociatedProvisioningPolicyName string `protobuf:"bytes,6,opt,name=associated_provisioning_policy_name,json=associatedProvisioningPolicyName,proto3" json:"associated_provisioning_policy_name,omitempty" firestore:"associatedProvisioningPolicyName"`
-	AssociatedDeviceName             string `protobuf:"bytes,7,opt,name=associated_device_name,json=associatedDeviceName,proto3" json:"associated_device_name,omitempty" firestore:"associatedDeviceName"`
-	AssociatedSimCardName            string `protobuf:"bytes,10,opt,name=associated_sim_card_name,json=associatedSimCardName,proto3" json:"associated_sim_card_name,omitempty" firestore:"associatedSimCardName"`
-	SimIccid                         string `protobuf:"bytes,8,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty" firestore:"simIccid"`
-	Imei                             string `protobuf:"bytes,9,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
+	AssociatedProvisioningPolicyName string `protobuf:"bytes,6,opt,name=associated_provisioning_policy_name,json=associatedProvisioningPolicyName,proto3" json:"associated_provisioning_policy_name,omitempty"`
+	AssociatedDeviceName             string `protobuf:"bytes,7,opt,name=associated_device_name,json=associatedDeviceName,proto3" json:"associated_device_name,omitempty"`
+	AssociatedSimCardName            string `protobuf:"bytes,10,opt,name=associated_sim_card_name,json=associatedSimCardName,proto3" json:"associated_sim_card_name,omitempty"`
+	SimIccid                         string `protobuf:"bytes,8,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty"`
+	Imei                             string `protobuf:"bytes,9,opt,name=imei,proto3" json:"imei,omitempty"`
 }
 
 func (m *AssociateHardwareRequest) Reset() {
@@ -266,7 +266,7 @@ type AssociateHardwareResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Hardware      *hardware.Hardware `protobuf:"bytes,1,opt,name=hardware,proto3" json:"hardware,omitempty" firestore:"hardware"`
+	Hardware      *hardware.Hardware `protobuf:"bytes,1,opt,name=hardware,proto3" json:"hardware,omitempty"`
 }
 
 func (m *AssociateHardwareResponse) Reset() {
@@ -340,10 +340,10 @@ type DissociateHardwareRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.ztp.v1.EdgelqInstance
-	Name         *edgelq_instance.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SerialNumber string                `protobuf:"bytes,2,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Manufacturer string                `protobuf:"bytes,3,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
-	ProductName  string                `protobuf:"bytes,4,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
+	Name         *edgelq_instance.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	SerialNumber string                `protobuf:"bytes,2,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Manufacturer string                `protobuf:"bytes,3,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
+	ProductName  string                `protobuf:"bytes,4,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
 }
 
 func (m *DissociateHardwareRequest) Reset() {

@@ -60,16 +60,16 @@ type MembersMasks struct {
 	unknownFields protoimpl.UnknownFields
 	// View defines list of standard response fields present in member items.
 	// Additional fields can be amended by specific field masks.
-	View view.View `protobuf:"varint,1,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,1,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// A list of extra fields to be obtained for each member User on top of
 	// fields defined by request field view
-	UserMask *user.User_FieldMask `protobuf:"bytes,2,opt,customtype=User_FieldMask,name=user_mask,json=userMask,proto3" json:"user_mask,omitempty" firestore:"userMask"`
+	UserMask *user.User_FieldMask `protobuf:"bytes,2,opt,customtype=User_FieldMask,name=user_mask,json=userMask,proto3" json:"user_mask,omitempty"`
 	// A list of extra fields to be obtained for each member ServiceAccount on
 	// top of fields defined by request field view
-	ServiceAccountMask *service_account.ServiceAccount_FieldMask `protobuf:"bytes,3,opt,customtype=ServiceAccount_FieldMask,name=service_account_mask,json=serviceAccountMask,proto3" json:"service_account_mask,omitempty" firestore:"serviceAccountMask"`
+	ServiceAccountMask *service_account.ServiceAccount_FieldMask `protobuf:"bytes,3,opt,customtype=ServiceAccount_FieldMask,name=service_account_mask,json=serviceAccountMask,proto3" json:"service_account_mask,omitempty"`
 	// A list of extra fields to be obtained for each member Group on top of
 	// fields defined by request field view
-	GroupMask *group.Group_FieldMask `protobuf:"bytes,4,opt,customtype=Group_FieldMask,name=group_mask,json=groupMask,proto3" json:"group_mask,omitempty" firestore:"groupMask"`
+	GroupMask *group.Group_FieldMask `protobuf:"bytes,4,opt,customtype=Group_FieldMask,name=group_mask,json=groupMask,proto3" json:"group_mask,omitempty"`
 }
 
 func (m *MembersMasks) Reset() {
@@ -185,20 +185,20 @@ type MembersInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Member identifier - as in format used in RoleBindings/GroupMembers.
-	Member string `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,1,opt,name=member,proto3" json:"member,omitempty"`
 	// List of users. May contain more than 1 item, if there are
 	// multiple users sharing same email.
 	// Array may be empty if member is for service account or
 	// group type, or if no user exists with specified email.
-	Users []*user.User `protobuf:"bytes,2,rep,name=users,proto3" json:"users,omitempty" firestore:"users"`
+	Users []*user.User `protobuf:"bytes,2,rep,name=users,proto3" json:"users,omitempty"`
 	// List of service accounts. It will be empty if member
 	// matches user or group type, or if no matching ServiceAccount
 	// was found. Length of this array is from 0 to 1.
-	ServiceAccounts []*service_account.ServiceAccount `protobuf:"bytes,3,rep,name=service_accounts,json=serviceAccounts,proto3" json:"service_accounts,omitempty" firestore:"serviceAccounts"`
+	ServiceAccounts []*service_account.ServiceAccount `protobuf:"bytes,3,rep,name=service_accounts,json=serviceAccounts,proto3" json:"service_accounts,omitempty"`
 	// List of groups. It will be empty if member matches
 	// user or service account type, or if no matching Group
 	// was found. Length of this array is from 0 to 1.
-	Groups []*group.Group `protobuf:"bytes,4,rep,name=groups,proto3" json:"groups,omitempty" firestore:"groups"`
+	Groups []*group.Group `protobuf:"bytes,4,rep,name=groups,proto3" json:"groups,omitempty"`
 }
 
 func (m *MembersInfo) Reset() {

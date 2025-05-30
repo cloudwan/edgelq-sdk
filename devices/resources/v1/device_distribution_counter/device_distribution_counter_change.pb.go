@@ -120,21 +120,21 @@ type isDeviceDistributionCounterChange_ChangeType interface {
 type DeviceDistributionCounterChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *DeviceDistributionCounterChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *DeviceDistributionCounterChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type DeviceDistributionCounterChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *DeviceDistributionCounterChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *DeviceDistributionCounterChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type DeviceDistributionCounterChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *DeviceDistributionCounterChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *DeviceDistributionCounterChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type DeviceDistributionCounterChange_Removed_ struct {
 	// Removed is returned when DeviceDistributionCounter is deleted or leaves
 	// Query view
-	Removed *DeviceDistributionCounterChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *DeviceDistributionCounterChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*DeviceDistributionCounterChange_Added_) isDeviceDistributionCounterChange_ChangeType()    {}
@@ -195,10 +195,10 @@ type DeviceDistributionCounterChange_Added struct {
 	state                     protoimpl.MessageState
 	sizeCache                 protoimpl.SizeCache
 	unknownFields             protoimpl.UnknownFields
-	DeviceDistributionCounter *DeviceDistributionCounter `protobuf:"bytes,1,opt,name=device_distribution_counter,json=deviceDistributionCounter,proto3" json:"device_distribution_counter,omitempty" firestore:"deviceDistributionCounter"`
+	DeviceDistributionCounter *DeviceDistributionCounter `protobuf:"bytes,1,opt,name=device_distribution_counter,json=deviceDistributionCounter,proto3" json:"device_distribution_counter,omitempty"`
 	// Integer describing index of added DeviceDistributionCounter in resulting
 	// query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceDistributionCounterChange_Added) Reset() {
@@ -286,22 +286,22 @@ type DeviceDistributionCounterChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified DeviceDistributionCounter
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of DeviceDistributionCounter or masked difference, depending
 	// on mask_changes instrumentation of issued
 	// [WatchDeviceDistributionCounterRequest] or
 	// [WatchDeviceDistributionCountersRequest]
-	DeviceDistributionCounter *DeviceDistributionCounter `protobuf:"bytes,2,opt,name=device_distribution_counter,json=deviceDistributionCounter,proto3" json:"device_distribution_counter,omitempty" firestore:"deviceDistributionCounter"`
+	DeviceDistributionCounter *DeviceDistributionCounter `protobuf:"bytes,2,opt,name=device_distribution_counter,json=deviceDistributionCounter,proto3" json:"device_distribution_counter,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *DeviceDistributionCounter_FieldMask `protobuf:"bytes,3,opt,customtype=DeviceDistributionCounter_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *DeviceDistributionCounter_FieldMask `protobuf:"bytes,3,opt,customtype=DeviceDistributionCounter_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// DeviceDistributionCounter. When modification doesn't affect sorted order,
 	// value will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying DeviceDistributionCounter new index in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceDistributionCounterChange_Modified) Reset() {
@@ -430,7 +430,7 @@ type DeviceDistributionCounterChange_Current struct {
 	state                     protoimpl.MessageState
 	sizeCache                 protoimpl.SizeCache
 	unknownFields             protoimpl.UnknownFields
-	DeviceDistributionCounter *DeviceDistributionCounter `protobuf:"bytes,1,opt,name=device_distribution_counter,json=deviceDistributionCounter,proto3" json:"device_distribution_counter,omitempty" firestore:"deviceDistributionCounter"`
+	DeviceDistributionCounter *DeviceDistributionCounter `protobuf:"bytes,1,opt,name=device_distribution_counter,json=deviceDistributionCounter,proto3" json:"device_distribution_counter,omitempty"`
 }
 
 func (m *DeviceDistributionCounterChange_Current) Reset() {
@@ -503,10 +503,10 @@ type DeviceDistributionCounterChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed DeviceDistributionCounter index. Not populated
 	// in stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceDistributionCounterChange_Removed) Reset() {

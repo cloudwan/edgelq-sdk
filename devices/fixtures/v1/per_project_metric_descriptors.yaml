@@ -1280,3 +1280,315 @@ resources:
         - name: "DeviceScope"
           metricKeys: [ ]
           resourceKeys: [device_id]
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/interface/packets_received
+  type: devices.edgelq.com/device/interface/packets_received
+  displayName: Packets received by interface
+  metricKind: CUMULATIVE
+  valueType: INT64
+  unit: ""
+  labels:
+  - key: interface_name
+    description: Interface Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ interface_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+          closingStatus: CLOSED
+        - name: "ByDeviceInterface"
+          filterableMetricKeys: [ ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ interface_name ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+          closingStatus: CLOSED
+        - name: "MeanRate"
+          aligner: ALIGN_RATE
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/interface/packets_sent
+  type: devices.edgelq.com/device/interface/packets_sent
+  displayName: Packets sent by interface
+  metricKind: CUMULATIVE
+  valueType: INT64
+  unit: ""
+  labels:
+  - key: interface_name
+    description: Interface Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ interface_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+          closingStatus: CLOSED
+        - name: "ByDeviceInterface"
+          filterableMetricKeys: [ ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ interface_name ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+          closingStatus: CLOSED
+        - name: "MeanRate"
+          aligner: ALIGN_RATE
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/interface/drops_in
+  type: devices.edgelq.com/device/interface/drops_in
+  displayName: Incoming Packet errors or drops for the interface
+  metricKind: CUMULATIVE
+  valueType: INT64
+  unit: ""
+  labels:
+  - key: interface_name
+    description: Interface Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ interface_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+          closingStatus: CLOSED
+        - name: "ByDeviceInterface"
+          filterableMetricKeys: [ ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ interface_name ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+          closingStatus: CLOSED
+        - name: "MeanRate"
+          aligner: ALIGN_RATE
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/interface/drops_out
+  type: devices.edgelq.com/device/interface/drops_out
+  displayName: Outgoing Packet errors or drops for the interface
+  metricKind: CUMULATIVE
+  valueType: INT64
+  unit: ""
+  labels:
+  - key: interface_name
+    description: Interface Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ interface_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+          closingStatus: CLOSED
+        - name: "ByDeviceInterface"
+          filterableMetricKeys: [ ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ interface_name ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+          closingStatus: CLOSED
+        - name: "MeanRate"
+          aligner: ALIGN_RATE
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/interface/bytes_received
+  type: devices.edgelq.com/device/interface/bytes_received
+  displayName: Bytes received by the interface
+  metricKind: CUMULATIVE
+  valueType: INT64
+  unit: "By"
+  labels:
+  - key: interface_name
+    description: Interface Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ interface_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+          closingStatus: CLOSED
+        - name: "ByDeviceInterface"
+          filterableMetricKeys: [ ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ interface_name ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+          closingStatus: CLOSED
+        - name: "MeanRate"
+          aligner: ALIGN_RATE
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+
+- name: projects/<project>/metricDescriptors/devices.edgelq.com/device/interface/bytes_sent
+  type: devices.edgelq.com/device/interface/bytes_sent
+  displayName: Bytes sent by the interface
+  metricKind: CUMULATIVE
+  valueType: INT64
+  unit: "By"
+  labels:
+  - key: interface_name
+    description: Interface Name
+    valueType: STRING
+  metadata:
+    services:
+      owningService: devices.edgelq.com
+      allowedServices:
+      - devices.edgelq.com
+  promotedLabelKeySets: null
+  indices:
+    builtIn:
+      nonAggregatedIndices:
+      - name: "device-nonaggregated"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "DeviceScope"
+          resourceKeys: [ device_id ]
+      paginationIndices:
+      - name: "usage-ranking"
+        resourceTypes: [ devices.edgelq.com/device ]
+        partitionLabelSets:
+        - name: "ProjectScope"
+        views:
+        - name: "ByDevice"
+          filterableMetricKeys: [ interface_name ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ ]
+          paginatedResourceKeys: [ device_id ]
+          closingStatus: CLOSED
+        - name: "ByDeviceInterface"
+          filterableMetricKeys: [ ]
+          filterableResourceKeys: [ ]
+          paginatedMetricKeys: [ interface_name ]
+          paginatedResourceKeys: [ device_id ]
+        functions:
+        - name: "Mean"
+          aligner: ALIGN_SUMMARY
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING
+          closingStatus: CLOSED
+        - name: "MeanRate"
+          aligner: ALIGN_RATE
+          reducer: REDUCE_MEAN
+          sorting: DESCENDING

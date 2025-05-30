@@ -119,20 +119,20 @@ type isLimitChange_ChangeType interface {
 type LimitChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *LimitChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *LimitChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type LimitChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *LimitChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *LimitChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type LimitChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *LimitChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *LimitChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type LimitChange_Removed_ struct {
 	// Removed is returned when Limit is deleted or leaves Query view
-	Removed *LimitChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *LimitChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*LimitChange_Added_) isLimitChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type LimitChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Limit         *Limit `protobuf:"bytes,1,opt,name=limit,proto3" json:"limit,omitempty" firestore:"limit"`
+	Limit         *Limit `protobuf:"bytes,1,opt,name=limit,proto3" json:"limit,omitempty"`
 	// Integer describing index of added Limit in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *LimitChange_Added) Reset() {
@@ -283,19 +283,19 @@ type LimitChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Limit
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Limit or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchLimitRequest] or [WatchLimitsRequest]
-	Limit *Limit `protobuf:"bytes,2,opt,name=limit,proto3" json:"limit,omitempty" firestore:"limit"`
+	Limit *Limit `protobuf:"bytes,2,opt,name=limit,proto3" json:"limit,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Limit_FieldMask `protobuf:"bytes,3,opt,customtype=Limit_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Limit_FieldMask `protobuf:"bytes,3,opt,customtype=Limit_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Limit.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Limit new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *LimitChange_Modified) Reset() {
@@ -424,7 +424,7 @@ type LimitChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Limit         *Limit `protobuf:"bytes,1,opt,name=limit,proto3" json:"limit,omitempty" firestore:"limit"`
+	Limit         *Limit `protobuf:"bytes,1,opt,name=limit,proto3" json:"limit,omitempty"`
 }
 
 func (m *LimitChange_Current) Reset() {
@@ -496,10 +496,10 @@ type LimitChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Limit index. Not populated in stateless watch
 	// type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *LimitChange_Removed) Reset() {

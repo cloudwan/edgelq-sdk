@@ -987,7 +987,7 @@ type ListTimeSeriesRequest struct {
 	// The project on which to execute the request. The format is
 	// "projects/{project_id}", or
 	// "projects/{project_id}/regions/{region_id}/buckets/{bucket_id}"
-	Parent string `protobuf:"bytes,10,opt,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent string `protobuf:"bytes,10,opt,name=parent,proto3" json:"parent,omitempty"`
 	// A monitoring filter that specifies which time
 	// series should be returned.  The filter must specify a single metric type,
 	// and can additionally specify metric labels and other information. For
@@ -995,22 +995,22 @@ type ListTimeSeriesRequest struct {
 	//
 	//     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
 	//         metric.label.instance_name = "my-instance-name"
-	Filter *time_serie.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *time_serie.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// The time interval for which results should be returned. Only time series
 	// that contain data points in the specified interval are included
 	// in the response.
-	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty"`
 	// Instructs how to transform individual time series (aligner) and combine
 	// them together (reducer, group by fields).
 	// Cannot be used with pagination, as pagination exactly defines aggregation.
 	// Query will be rejected if it touches too many time series.
-	Aggregation *common.Aggregation `protobuf:"bytes,5,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	Aggregation *common.Aggregation `protobuf:"bytes,5,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
 	// Picks paginated time series according to pre-defined (in metric descriptor)
 	// view and function. Cannot be used with aggregation, because pagination
 	// view and function determines time series transformation and sorting.
-	Pagination *common.Pagination `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty" firestore:"pagination"`
+	Pagination *common.Pagination `protobuf:"bytes,3,opt,name=pagination,proto3" json:"pagination,omitempty"`
 	// Specifies which information is returned about the time series.
-	View common.TimeSeriesView `protobuf:"varint,7,opt,name=view,proto3,enum=ntt.monitoring.v4.TimeSeriesView" json:"view,omitempty" firestore:"view"`
+	View common.TimeSeriesView `protobuf:"varint,7,opt,name=view,proto3,enum=ntt.monitoring.v4.TimeSeriesView" json:"view,omitempty"`
 	// view list mask. Optimize network usage and limit returned header fields to
 	// a required subset. example fields in field mask:
 	// - "key": for later caching,
@@ -1018,16 +1018,16 @@ type ListTimeSeriesRequest struct {
 	// specific labels only
 	// - "resource", "metric": all resource labels, reduced_labels and type
 	// NOTE: points are added implicitly
-	FieldMask *time_serie.TimeSerie_FieldMask `protobuf:"bytes,12,opt,customtype=TimeSerie_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *time_serie.TimeSerie_FieldMask `protobuf:"bytes,12,opt,customtype=TimeSerie_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// A positive number that is the maximum number of Points to return. If
 	// `points_cap` is empty or more than 100,000 results, the effective
 	// `points_cap` is 100,000 results. If `view` is set to `HEADERS`, this is
 	// the maximum number of `TimeSeries` returned.
-	PointsCap int32 `protobuf:"varint,8,opt,name=points_cap,json=pointsCap,proto3" json:"points_cap,omitempty" firestore:"pointsCap"`
+	PointsCap int32 `protobuf:"varint,8,opt,name=points_cap,json=pointsCap,proto3" json:"points_cap,omitempty"`
 	// If this field is not empty then it must contain the `continuation_token`
 	// value returned by a previous call to this method.  Using this field causes
 	// the method to return additional results from the previous method call.
-	ContinuationToken string `protobuf:"bytes,9,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty" firestore:"continuationToken"`
+	ContinuationToken string `protobuf:"bytes,9,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty"`
 }
 
 func (m *ListTimeSeriesRequest) Reset() {
@@ -1213,14 +1213,14 @@ type ListTimeSeriesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// One or more time series that match the filter included in the request.
-	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 	// Query execution errors that may have caused the time series data returned
 	// to be incomplete.
-	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty" firestore:"executionErrors"`
+	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value.  To see the additional results,
 	// use that value as `continuation_token` in the next call to this method.
-	ContinuationToken string `protobuf:"bytes,2,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty" firestore:"continuationToken"`
+	ContinuationToken string `protobuf:"bytes,2,opt,name=continuation_token,json=continuationToken,proto3" json:"continuation_token,omitempty"`
 	// Special time series with total amount of records available for pagination
 	// by given time series key. Metric/Resource labels will contain "common"
 	// values shared by all ranked time series. ValueType will be always INT64 and
@@ -1228,7 +1228,7 @@ type ListTimeSeriesResponse struct {
 	// ListTimeSeries with Aggregation = {groupByFields: [<viewPaginatedLabels>],
 	// REDUCER: REDUCE_COUNT} This field is only populated for paginated queries
 	// (pagination in ListTimeSeries is specified).
-	TotalPointCounters []*time_serie.TimeSerie `protobuf:"bytes,4,rep,name=total_point_counters,json=totalPointCounters,proto3" json:"total_point_counters,omitempty" firestore:"totalPointCounters"`
+	TotalPointCounters []*time_serie.TimeSerie `protobuf:"bytes,4,rep,name=total_point_counters,json=totalPointCounters,proto3" json:"total_point_counters,omitempty"`
 }
 
 func (m *ListTimeSeriesResponse) Reset() {
@@ -1346,13 +1346,13 @@ type CreateTimeSeriesRequest struct {
 	// The project on which to execute the request. The format is
 	// "projects/{project_id}", or
 	// "projects/{project_id}/regions/{region_id}/buckets/{bucket_id}"
-	Parent string `protobuf:"bytes,3,opt,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent string `protobuf:"bytes,3,opt,name=parent,proto3" json:"parent,omitempty"`
 	// The new data to be added to a list of time series.
 	// Adds at most one data point to each of several time series.  The new data
 	// point must be more recent than any other point in its time series.  Each
 	// `TimeSeries` value must fully specify a unique time series by supplying
 	// all label values for the metric and the monitored resource.
-	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,2,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,2,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 }
 
 func (m *CreateTimeSeriesRequest) Reset() {
@@ -1441,9 +1441,9 @@ type CreateTimeSeriesResponse struct {
 	unknownFields protoimpl.UnknownFields
 	// Time Serie keys indexed by Create position - present only when given
 	// TimeSerie didn't use Key field
-	TimeSerieKeys map[uint32][]byte `protobuf:"bytes,11,rep,name=time_serie_keys,json=timeSerieKeys,proto3" json:"time_serie_keys,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"timeSerieKeys"`
+	TimeSerieKeys map[uint32][]byte `protobuf:"bytes,11,rep,name=time_serie_keys,json=timeSerieKeys,proto3" json:"time_serie_keys,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Time series that failed to be created
-	FailedTimeSeries []*CreateTimeSeriesError `protobuf:"bytes,50,rep,name=failed_time_series,json=failedTimeSeries,proto3" json:"failed_time_series,omitempty" firestore:"failedTimeSeries"`
+	FailedTimeSeries []*CreateTimeSeriesError `protobuf:"bytes,50,rep,name=failed_time_series,json=failedTimeSeries,proto3" json:"failed_time_series,omitempty"`
 }
 
 func (m *CreateTimeSeriesResponse) Reset() {
@@ -1533,9 +1533,9 @@ type CreateTimeSeriesError struct {
 	// and `Point`s (including timestamp and value) that resulted
 	// in the error. This field provides all of the context that
 	// would be needed to retry the operation.
-	TimeSeries *time_serie.TimeSerie `protobuf:"bytes,1,opt,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries *time_serie.TimeSerie `protobuf:"bytes,1,opt,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 	// The status of the requested write operation.
-	Status *rpc.Status `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Status *rpc.Status `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *CreateTimeSeriesError) Reset() {
@@ -1692,43 +1692,43 @@ type isStatsQuery_Request interface {
 }
 
 type StatsQuery_CallLatencies_ struct {
-	CallLatencies *StatsQuery_CallLatencies `protobuf:"bytes,1,opt,name=call_latencies,json=callLatencies,proto3,oneof" firestore:"callLatencies"`
+	CallLatencies *StatsQuery_CallLatencies `protobuf:"bytes,1,opt,name=call_latencies,json=callLatencies,proto3,oneof"`
 }
 type StatsQuery_ExecutedCalls_ struct {
-	ExecutedCalls *StatsQuery_ExecutedCalls `protobuf:"bytes,2,opt,name=executed_calls,json=executedCalls,proto3,oneof" firestore:"executedCalls"`
+	ExecutedCalls *StatsQuery_ExecutedCalls `protobuf:"bytes,2,opt,name=executed_calls,json=executedCalls,proto3,oneof"`
 }
 type StatsQuery_OpenCalls_ struct {
-	OpenCalls *StatsQuery_OpenCalls `protobuf:"bytes,3,opt,name=open_calls,json=openCalls,proto3,oneof" firestore:"openCalls"`
+	OpenCalls *StatsQuery_OpenCalls `protobuf:"bytes,3,opt,name=open_calls,json=openCalls,proto3,oneof"`
 }
 type StatsQuery_ErrorCounts_ struct {
-	ErrorCounts *StatsQuery_ErrorCounts `protobuf:"bytes,4,opt,name=error_counts,json=errorCounts,proto3,oneof" firestore:"errorCounts"`
+	ErrorCounts *StatsQuery_ErrorCounts `protobuf:"bytes,4,opt,name=error_counts,json=errorCounts,proto3,oneof"`
 }
 type StatsQuery_IngressThroughput_ struct {
-	IngressThroughput *StatsQuery_IngressThroughput `protobuf:"bytes,5,opt,name=ingress_throughput,json=ingressThroughput,proto3,oneof" firestore:"ingressThroughput"`
+	IngressThroughput *StatsQuery_IngressThroughput `protobuf:"bytes,5,opt,name=ingress_throughput,json=ingressThroughput,proto3,oneof"`
 }
 type StatsQuery_EgressThroughput_ struct {
-	EgressThroughput *StatsQuery_EgressThroughput `protobuf:"bytes,6,opt,name=egress_throughput,json=egressThroughput,proto3,oneof" firestore:"egressThroughput"`
+	EgressThroughput *StatsQuery_EgressThroughput `protobuf:"bytes,6,opt,name=egress_throughput,json=egressThroughput,proto3,oneof"`
 }
 type StatsQuery_StoreUsage struct {
-	StoreUsage *StatsQuery_StoreOperations `protobuf:"bytes,7,opt,name=store_usage,json=storeUsage,proto3,oneof" firestore:"storeUsage"`
+	StoreUsage *StatsQuery_StoreOperations `protobuf:"bytes,7,opt,name=store_usage,json=storeUsage,proto3,oneof"`
 }
 type StatsQuery_ResourceCount_ struct {
-	ResourceCount *StatsQuery_ResourceCount `protobuf:"bytes,8,opt,name=resource_count,json=resourceCount,proto3,oneof" firestore:"resourceCount"`
+	ResourceCount *StatsQuery_ResourceCount `protobuf:"bytes,8,opt,name=resource_count,json=resourceCount,proto3,oneof"`
 }
 type StatsQuery_LogsUsage struct {
-	LogsUsage *StatsQuery_Logs `protobuf:"bytes,9,opt,name=logs_usage,json=logsUsage,proto3,oneof" firestore:"logsUsage"`
+	LogsUsage *StatsQuery_Logs `protobuf:"bytes,9,opt,name=logs_usage,json=logsUsage,proto3,oneof"`
 }
 type StatsQuery_ActivityLogsUsage struct {
-	ActivityLogsUsage *StatsQuery_ActivityLogs `protobuf:"bytes,10,opt,name=activity_logs_usage,json=activityLogsUsage,proto3,oneof" firestore:"activityLogsUsage"`
+	ActivityLogsUsage *StatsQuery_ActivityLogs `protobuf:"bytes,10,opt,name=activity_logs_usage,json=activityLogsUsage,proto3,oneof"`
 }
 type StatsQuery_ResourceChangeLogsUsage struct {
-	ResourceChangeLogsUsage *StatsQuery_ResourceChangeLogs `protobuf:"bytes,11,opt,name=resource_change_logs_usage,json=resourceChangeLogsUsage,proto3,oneof" firestore:"resourceChangeLogsUsage"`
+	ResourceChangeLogsUsage *StatsQuery_ResourceChangeLogs `protobuf:"bytes,11,opt,name=resource_change_logs_usage,json=resourceChangeLogsUsage,proto3,oneof"`
 }
 type StatsQuery_TimeSeriesUsage struct {
-	TimeSeriesUsage *StatsQuery_TimeSeries `protobuf:"bytes,12,opt,name=time_series_usage,json=timeSeriesUsage,proto3,oneof" firestore:"timeSeriesUsage"`
+	TimeSeriesUsage *StatsQuery_TimeSeries `protobuf:"bytes,12,opt,name=time_series_usage,json=timeSeriesUsage,proto3,oneof"`
 }
 type StatsQuery_TimeSeriesLatencies_ struct {
-	TimeSeriesLatencies *StatsQuery_TimeSeriesLatencies `protobuf:"bytes,13,opt,name=time_series_latencies,json=timeSeriesLatencies,proto3,oneof" firestore:"timeSeriesLatencies"`
+	TimeSeriesLatencies *StatsQuery_TimeSeriesLatencies `protobuf:"bytes,13,opt,name=time_series_latencies,json=timeSeriesLatencies,proto3,oneof"`
 }
 
 func (*StatsQuery_CallLatencies_) isStatsQuery_Request()          {}
@@ -1880,24 +1880,24 @@ type QueryProjectTimeSeriesStatsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty" firestore:"project"`
+	Project       *project.Name `protobuf:"bytes,1,opt,customtype=Name,name=project,proto3" json:"project,omitempty"`
 	// Service domain for which we request stats, for example "devices.edgelq.com"
-	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
 	// Region ID from which to get metrics
-	RegionId string `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// Aggregation alignment period
-	Ap *durationpb.Duration `protobuf:"bytes,4,opt,name=ap,proto3" json:"ap,omitempty" firestore:"ap"`
+	Ap *durationpb.Duration `protobuf:"bytes,4,opt,name=ap,proto3" json:"ap,omitempty"`
 	// The time interval for which results should be returned.
-	Interval *common.TimeInterval `protobuf:"bytes,5,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,5,opt,name=interval,proto3" json:"interval,omitempty"`
 	// A positive number that is the maximum number of results to return. If
 	// `page_size` is empty or more than 100,000 results, the effective
 	// `page_size` is 100,000 results.
-	PageSize int32 `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,6,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// If this field is not empty then it must contain the `nextPageToken` value
 	// returned by a previous call to this method.  Using this field causes the
 	// method to return additional results from the previous method call.
-	PageToken string      `protobuf:"bytes,7,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
-	Query     *StatsQuery `protobuf:"bytes,8,opt,name=query,proto3" json:"query,omitempty" firestore:"query"`
+	PageToken string      `protobuf:"bytes,7,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
+	Query     *StatsQuery `protobuf:"bytes,8,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (m *QueryProjectTimeSeriesStatsRequest) Reset() {
@@ -2069,14 +2069,14 @@ type QueryProjectTimeSeriesStatsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// One or more time series that match the request.
-	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value.  To see the additional results,
 	// use that value as `pageToken` in the next call to this method.
-	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Query execution errors that may have caused the time series data returned
 	// to be incomplete.
-	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty" firestore:"executionErrors"`
+	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty"`
 }
 
 func (m *QueryProjectTimeSeriesStatsResponse) Reset() {
@@ -2177,24 +2177,24 @@ type QueryServiceTimeSeriesStatsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Service       *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service       *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty"`
 	// Region ID from which stats should e obtained
-	RegionId string               `protobuf:"bytes,2,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
-	Ap       *durationpb.Duration `protobuf:"bytes,3,opt,name=ap,proto3" json:"ap,omitempty" firestore:"ap"`
+	RegionId string               `protobuf:"bytes,2,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
+	Ap       *durationpb.Duration `protobuf:"bytes,3,opt,name=ap,proto3" json:"ap,omitempty"`
 	// The time interval for which results should be returned.
-	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty"`
 	// A positive number that is the maximum number of results to return. If
 	// `page_size` is empty or more than 100,000 results, the effective
 	// `page_size` is 100,000 results.
-	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// If this field is not empty then it must contain the `nextPageToken` value
 	// returned by a previous call to this method.  Using this field causes the
 	// method to return additional results from the previous method call.
-	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Optional list of user projects for which we want to get stats. If provided,
 	// statistics will be grouped by them.
-	UserProjectIds []string    `protobuf:"bytes,7,rep,name=user_project_ids,json=userProjectIds,proto3" json:"user_project_ids,omitempty" firestore:"userProjectIds"`
-	Query          *StatsQuery `protobuf:"bytes,8,opt,name=query,proto3" json:"query,omitempty" firestore:"query"`
+	UserProjectIds []string    `protobuf:"bytes,7,rep,name=user_project_ids,json=userProjectIds,proto3" json:"user_project_ids,omitempty"`
+	Query          *StatsQuery `protobuf:"bytes,8,opt,name=query,proto3" json:"query,omitempty"`
 }
 
 func (m *QueryServiceTimeSeriesStatsRequest) Reset() {
@@ -2366,14 +2366,14 @@ type QueryServiceTimeSeriesStatsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// One or more time series that match the request.
-	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value.  To see the additional results,
 	// use that value as `pageToken` in the next call to this method.
-	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Query execution errors that may have caused the time series data returned
 	// to be incomplete.
-	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty" firestore:"executionErrors"`
+	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty"`
 }
 
 func (m *QueryServiceTimeSeriesStatsResponse) Reset() {
@@ -2475,7 +2475,7 @@ type WatchTimeSeriesRequest struct {
 	// The project on which to execute the request. The format is
 	// "projects/{project_id}", or
 	// "projects/{project_id}/regions/{region_id}/buckets/{bucket_id}"
-	Parent string `protobuf:"bytes,1,opt,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent string `protobuf:"bytes,1,opt,name=parent,proto3" json:"parent,omitempty"`
 	// A monitoring filter that specifies which time
 	// series should be returned.  The filter must specify a single metric type,
 	// and can additionally specify metric labels and other information. For
@@ -2483,10 +2483,10 @@ type WatchTimeSeriesRequest struct {
 	//
 	//     metric.type = "compute.googleapis.com/instance/cpu/usage_time" AND
 	//         metric.label.instance_name = "my-instance-name"
-	Filter *time_serie.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *time_serie.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// Instructs how to transform individual time series (aligner) and combine
 	// them together (reducer, group by fields).
-	Aggregation *common.Aggregation `protobuf:"bytes,3,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	Aggregation *common.Aggregation `protobuf:"bytes,3,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
 	// Amount of past data to fetch when new time series key appears (not present
 	// in current session). For example: If client lost previous watch session for
 	// 15 minutes, they can set this field value to 15 minutes duration + 1 extra
@@ -2494,13 +2494,13 @@ type WatchTimeSeriesRequest struct {
 	// contain extra past data. Once specific TimeSeries key was already observed,
 	// further values will be coming only from realtime watch.
 	// This field has lower priority than starting_time!
-	SnapshotIntervalToFetch *durationpb.Duration `protobuf:"bytes,4,opt,name=snapshot_interval_to_fetch,json=snapshotIntervalToFetch,proto3" json:"snapshot_interval_to_fetch,omitempty" firestore:"snapshotIntervalToFetch"`
+	SnapshotIntervalToFetch *durationpb.Duration `protobuf:"bytes,4,opt,name=snapshot_interval_to_fetch,json=snapshotIntervalToFetch,proto3" json:"snapshot_interval_to_fetch,omitempty"`
 	// For every new unique time series key monitoring will try to fetch past
 	// data from given starting time. This is useful for recovery purposes, if
 	// client has lost previous watch session. Once snapshot is retrieved for
 	// given key, further data will contain live updates. This field takes
 	// priority over snapshot_interval_to_fetch.
-	StartingTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty" firestore:"startingTime"`
+	StartingTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty"`
 }
 
 func (m *WatchTimeSeriesRequest) Reset() {
@@ -2627,7 +2627,7 @@ type WatchTimeSeriesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	TimeSeries    []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
+	TimeSeries    []*time_serie.TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
 }
 
 func (m *WatchTimeSeriesResponse) Reset() {
@@ -2702,7 +2702,7 @@ type ListTimeSeriesResponse_ErrorDetails struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// region id which failed to give results.
-	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ListTimeSeriesResponse_ErrorDetails) Reset() {
@@ -2773,11 +2773,11 @@ type StatsQuery_CallLatencies struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Methods       []string                          `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                          `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Resources     []string                          `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	Reducer       StatsQuery_CallLatencies_Reducer  `protobuf:"varint,4,opt,name=reducer,proto3,enum=ntt.monitoring.v4.StatsQuery_CallLatencies_Reducer" json:"reducer,omitempty" firestore:"reducer"`
-	GroupBy       []StatsQuery_CallLatencies_Groups `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_CallLatencies_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Methods       []string                          `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                          `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
+	Resources     []string                          `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty"`
+	Reducer       StatsQuery_CallLatencies_Reducer  `protobuf:"varint,4,opt,name=reducer,proto3,enum=ntt.monitoring.v4.StatsQuery_CallLatencies_Reducer" json:"reducer,omitempty"`
+	GroupBy       []StatsQuery_CallLatencies_Groups `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_CallLatencies_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_CallLatencies) Reset() {
@@ -2904,10 +2904,10 @@ type StatsQuery_ExecutedCalls struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Methods       []string                          `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                          `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Resources     []string                          `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	GroupBy       []StatsQuery_ExecutedCalls_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ExecutedCalls_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Methods       []string                          `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                          `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
+	Resources     []string                          `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty"`
+	GroupBy       []StatsQuery_ExecutedCalls_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ExecutedCalls_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_ExecutedCalls) Reset() {
@@ -3020,10 +3020,10 @@ type StatsQuery_OpenCalls struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Methods       []string                      `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                      `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Resources     []string                      `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	GroupBy       []StatsQuery_OpenCalls_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_OpenCalls_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Methods       []string                      `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                      `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
+	Resources     []string                      `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty"`
+	GroupBy       []StatsQuery_OpenCalls_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_OpenCalls_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_OpenCalls) Reset() {
@@ -3136,11 +3136,11 @@ type StatsQuery_ErrorCounts struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Methods       []string                        `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                        `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Resources     []string                        `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	ErrorCodes    []string                        `protobuf:"bytes,4,rep,name=error_codes,json=errorCodes,proto3" json:"error_codes,omitempty" firestore:"errorCodes"`
-	GroupBy       []StatsQuery_ErrorCounts_Groups `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ErrorCounts_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Methods       []string                        `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                        `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
+	Resources     []string                        `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty"`
+	ErrorCodes    []string                        `protobuf:"bytes,4,rep,name=error_codes,json=errorCodes,proto3" json:"error_codes,omitempty"`
+	GroupBy       []StatsQuery_ErrorCounts_Groups `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ErrorCounts_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_ErrorCounts) Reset() {
@@ -3267,10 +3267,10 @@ type StatsQuery_IngressThroughput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Methods       []string                              `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                              `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Resources     []string                              `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	GroupBy       []StatsQuery_IngressThroughput_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_IngressThroughput_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Methods       []string                              `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                              `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
+	Resources     []string                              `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty"`
+	GroupBy       []StatsQuery_IngressThroughput_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_IngressThroughput_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_IngressThroughput) Reset() {
@@ -3383,10 +3383,10 @@ type StatsQuery_EgressThroughput struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Methods       []string                             `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                             `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Resources     []string                             `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	GroupBy       []StatsQuery_EgressThroughput_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_EgressThroughput_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Methods       []string                             `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                             `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
+	Resources     []string                             `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty"`
+	GroupBy       []StatsQuery_EgressThroughput_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_EgressThroughput_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_EgressThroughput) Reset() {
@@ -3499,11 +3499,11 @@ type StatsQuery_StoreOperations struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Methods       []string                               `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                               `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Resources     []string                               `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
-	Operations    []StatsQuery_StoreOperations_Operation `protobuf:"varint,4,rep,packed,name=operations,proto3,enum=ntt.monitoring.v4.StatsQuery_StoreOperations_Operation" json:"operations,omitempty" firestore:"operations"`
-	GroupBy       []StatsQuery_StoreOperations_Groups    `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_StoreOperations_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Methods       []string                               `protobuf:"bytes,1,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                               `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
+	Resources     []string                               `protobuf:"bytes,3,rep,name=resources,proto3" json:"resources,omitempty"`
+	Operations    []StatsQuery_StoreOperations_Operation `protobuf:"varint,4,rep,packed,name=operations,proto3,enum=ntt.monitoring.v4.StatsQuery_StoreOperations_Operation" json:"operations,omitempty"`
+	GroupBy       []StatsQuery_StoreOperations_Groups    `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_StoreOperations_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_StoreOperations) Reset() {
@@ -3630,7 +3630,7 @@ type StatsQuery_ResourceCount struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Resources     []string `protobuf:"bytes,1,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
+	Resources     []string `protobuf:"bytes,1,rep,name=resources,proto3" json:"resources,omitempty"`
 }
 
 func (m *StatsQuery_ResourceCount) Reset() {
@@ -3701,9 +3701,9 @@ type StatsQuery_Logs struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Type          StatsQuery_Logs_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_Logs_Type" json:"type,omitempty" firestore:"type"`
-	LogTypes      []string                 `protobuf:"bytes,2,rep,name=log_types,json=logTypes,proto3" json:"log_types,omitempty" firestore:"logTypes"`
-	GroupBy       []StatsQuery_Logs_Groups `protobuf:"varint,3,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_Logs_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Type          StatsQuery_Logs_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_Logs_Type" json:"type,omitempty"`
+	LogTypes      []string                 `protobuf:"bytes,2,rep,name=log_types,json=logTypes,proto3" json:"log_types,omitempty"`
+	GroupBy       []StatsQuery_Logs_Groups `protobuf:"varint,3,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_Logs_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_Logs) Reset() {
@@ -3802,11 +3802,11 @@ type StatsQuery_ActivityLogs struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Type          StatsQuery_ActivityLogs_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_ActivityLogs_Type" json:"type,omitempty" firestore:"type"`
-	Methods       []string                         `protobuf:"bytes,2,rep,name=methods,proto3" json:"methods,omitempty" firestore:"methods"`
-	Versions      []string                         `protobuf:"bytes,3,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
-	Categories    []string                         `protobuf:"bytes,4,rep,name=categories,proto3" json:"categories,omitempty" firestore:"categories"`
-	GroupBy       []StatsQuery_ActivityLogs_Groups `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ActivityLogs_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Type          StatsQuery_ActivityLogs_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_ActivityLogs_Type" json:"type,omitempty"`
+	Methods       []string                         `protobuf:"bytes,2,rep,name=methods,proto3" json:"methods,omitempty"`
+	Versions      []string                         `protobuf:"bytes,3,rep,name=versions,proto3" json:"versions,omitempty"`
+	Categories    []string                         `protobuf:"bytes,4,rep,name=categories,proto3" json:"categories,omitempty"`
+	GroupBy       []StatsQuery_ActivityLogs_Groups `protobuf:"varint,5,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ActivityLogs_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_ActivityLogs) Reset() {
@@ -3933,9 +3933,9 @@ type StatsQuery_ResourceChangeLogs struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Type          StatsQuery_ResourceChangeLogs_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_ResourceChangeLogs_Type" json:"type,omitempty" firestore:"type"`
-	ResourceTypes []string                               `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty" firestore:"resourceTypes"`
-	GroupBy       []StatsQuery_ResourceChangeLogs_Groups `protobuf:"varint,3,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ResourceChangeLogs_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Type          StatsQuery_ResourceChangeLogs_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_ResourceChangeLogs_Type" json:"type,omitempty"`
+	ResourceTypes []string                               `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty"`
+	GroupBy       []StatsQuery_ResourceChangeLogs_Groups `protobuf:"varint,3,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_ResourceChangeLogs_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_ResourceChangeLogs) Reset() {
@@ -4034,10 +4034,10 @@ type StatsQuery_TimeSeries struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Type          StatsQuery_TimeSeries_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_TimeSeries_Type" json:"type,omitempty" firestore:"type"`
-	ResourceTypes []string                       `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty" firestore:"resourceTypes"`
-	MetricTypes   []string                       `protobuf:"bytes,3,rep,name=metric_types,json=metricTypes,proto3" json:"metric_types,omitempty" firestore:"metricTypes"`
-	GroupBy       []StatsQuery_TimeSeries_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_TimeSeries_Groups" json:"group_by,omitempty" firestore:"groupBy"`
+	Type          StatsQuery_TimeSeries_Type     `protobuf:"varint,1,opt,name=type,proto3,enum=ntt.monitoring.v4.StatsQuery_TimeSeries_Type" json:"type,omitempty"`
+	ResourceTypes []string                       `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty"`
+	MetricTypes   []string                       `protobuf:"bytes,3,rep,name=metric_types,json=metricTypes,proto3" json:"metric_types,omitempty"`
+	GroupBy       []StatsQuery_TimeSeries_Groups `protobuf:"varint,4,rep,packed,name=group_by,json=groupBy,proto3,enum=ntt.monitoring.v4.StatsQuery_TimeSeries_Groups" json:"group_by,omitempty"`
 }
 
 func (m *StatsQuery_TimeSeries) Reset() {
@@ -4150,8 +4150,8 @@ type StatsQuery_TimeSeriesLatencies struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	OfAp          *durationpb.Duration                   `protobuf:"bytes,1,opt,name=of_ap,json=ofAp,proto3" json:"of_ap,omitempty" firestore:"ofAp"`
-	Reducer       StatsQuery_TimeSeriesLatencies_Reducer `protobuf:"varint,2,opt,name=reducer,proto3,enum=ntt.monitoring.v4.StatsQuery_TimeSeriesLatencies_Reducer" json:"reducer,omitempty" firestore:"reducer"`
+	OfAp          *durationpb.Duration                   `protobuf:"bytes,1,opt,name=of_ap,json=ofAp,proto3" json:"of_ap,omitempty"`
+	Reducer       StatsQuery_TimeSeriesLatencies_Reducer `protobuf:"varint,2,opt,name=reducer,proto3,enum=ntt.monitoring.v4.StatsQuery_TimeSeriesLatencies_Reducer" json:"reducer,omitempty"`
 }
 
 func (m *StatsQuery_TimeSeriesLatencies) Reset() {
@@ -4240,7 +4240,7 @@ type QueryProjectTimeSeriesStatsResponse_ErrorDetails struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// region id which failed to give results.
-	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *QueryProjectTimeSeriesStatsResponse_ErrorDetails) Reset() {
@@ -4315,7 +4315,7 @@ type QueryServiceTimeSeriesStatsResponse_ErrorDetails struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// region id which failed to give results.
-	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *QueryServiceTimeSeriesStatsResponse_ErrorDetails) Reset() {

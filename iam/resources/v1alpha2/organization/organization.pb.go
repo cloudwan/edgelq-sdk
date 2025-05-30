@@ -65,31 +65,31 @@ type Organization struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Official Name of Organization
-	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" firestore:"title"`
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	// Parent organization
-	ParentOrganization *Reference `protobuf:"bytes,3,opt,customtype=Reference,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty" firestore:"parentOrganization"`
+	ParentOrganization *Reference `protobuf:"bytes,3,opt,customtype=Reference,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty"`
 	// Top parent (internal)
-	RootOrganization *Reference `protobuf:"bytes,4,opt,customtype=Reference,name=root_organization,json=rootOrganization,proto3" json:"root_organization,omitempty" firestore:"rootOrganization"`
+	RootOrganization *Reference `protobuf:"bytes,4,opt,customtype=Reference,name=root_organization,json=rootOrganization,proto3" json:"root_organization,omitempty"`
 	// Full ancestry path (internal)
-	AncestryPath []*Reference `protobuf:"bytes,5,rep,customtype=Reference,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty" firestore:"ancestryPath"`
+	AncestryPath []*Reference `protobuf:"bytes,5,rep,customtype=Reference,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Multi region policy for child resources
-	MultiRegionPolicy *multi_region_policy.MultiRegionPolicy `protobuf:"bytes,7,opt,name=multi_region_policy,json=multiRegionPolicy,proto3" json:"multi_region_policy,omitempty" firestore:"multiRegionPolicy"`
+	MultiRegionPolicy *multi_region_policy.MultiRegionPolicy `protobuf:"bytes,7,opt,name=multi_region_policy,json=multiRegionPolicy,proto3" json:"multi_region_policy,omitempty"`
 	// Allowed services for child organizations and projects. This field is
 	// checked only for non-core edgelq services.
-	AllowedServices []*meta_service.Reference `protobuf:"bytes,8,rep,customtype=Reference,name=allowed_services,json=allowedServices,proto3" json:"allowed_services,omitempty" firestore:"allowedServices"`
+	AllowedServices []*meta_service.Reference `protobuf:"bytes,8,rep,customtype=Reference,name=allowed_services,json=allowedServices,proto3" json:"allowed_services,omitempty"`
 	// Business tier applicable for all allowed services.
 	// This value defines:
 	// * Default business tier for child projects (if not defined on creation)
 	// * Default business tier to this organization.
-	BusinessTier iam_common.BusinessTier `protobuf:"varint,9,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1alpha2.BusinessTier" json:"business_tier,omitempty" firestore:"businessTier"`
+	BusinessTier iam_common.BusinessTier `protobuf:"varint,9,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1alpha2.BusinessTier" json:"business_tier,omitempty"`
 	// Overwrites business_tier for each service.
-	ServiceTiers []*iam_common.ServiceBusinessTier `protobuf:"bytes,10,rep,name=service_tiers,json=serviceTiers,proto3" json:"service_tiers,omitempty" firestore:"serviceTiers"`
+	ServiceTiers []*iam_common.ServiceBusinessTier `protobuf:"bytes,10,rep,name=service_tiers,json=serviceTiers,proto3" json:"service_tiers,omitempty"`
 	// Service errors reported for this organization by category
-	ServiceErrors map[string]*iam_common.ServiceErrors `protobuf:"bytes,12,rep,name=service_errors,json=serviceErrors,proto3" json:"service_errors,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"serviceErrors"`
+	ServiceErrors map[string]*iam_common.ServiceErrors `protobuf:"bytes,12,rep,name=service_errors,json=serviceErrors,proto3" json:"service_errors,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *Organization) Reset() {

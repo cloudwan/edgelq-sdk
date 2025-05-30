@@ -60,13 +60,13 @@ type GetRecoveryStoreShardingInfoRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.monitoring.v3.RecoveryStoreShardingInfo
-	Name *recovery_store_sharding_info.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *recovery_store_sharding_info.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *GetRecoveryStoreShardingInfoRequest) Reset() {
@@ -167,13 +167,13 @@ type BatchGetRecoveryStoreShardingInfosRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Names of RecoveryStoreShardingInfos
-	Names []*recovery_store_sharding_info.Name `protobuf:"bytes,2,rep,customtype=Name,name=names,proto3" json:"names,omitempty" firestore:"names"`
+	Names []*recovery_store_sharding_info.Name `protobuf:"bytes,2,rep,customtype=Name,name=names,proto3" json:"names,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *BatchGetRecoveryStoreShardingInfosRequest) Reset() {
@@ -274,9 +274,9 @@ type BatchGetRecoveryStoreShardingInfosResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// found RecoveryStoreShardingInfos
-	RecoveryStoreShardingInfos []*recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,1,rep,name=recovery_store_sharding_infos,json=recoveryStoreShardingInfos,proto3" json:"recovery_store_sharding_infos,omitempty" firestore:"recoveryStoreShardingInfos"`
+	RecoveryStoreShardingInfos []*recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,1,rep,name=recovery_store_sharding_infos,json=recoveryStoreShardingInfos,proto3" json:"recovery_store_sharding_infos,omitempty"`
 	// list of not found RecoveryStoreShardingInfos
-	Missing []*recovery_store_sharding_info.Name `protobuf:"bytes,2,rep,customtype=Name,name=missing,proto3" json:"missing,omitempty" firestore:"missing"`
+	Missing []*recovery_store_sharding_info.Name `protobuf:"bytes,2,rep,customtype=Name,name=missing,proto3" json:"missing,omitempty"`
 }
 
 func (m *BatchGetRecoveryStoreShardingInfosResponse) Reset() {
@@ -363,36 +363,36 @@ type ListRecoveryStoreShardingInfosRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent name of ntt.monitoring.v3.RecoveryStoreShardingInfo
-	Parent *recovery_store_sharding_info.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *recovery_store_sharding_info.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// Requested page size. Server may return fewer RecoveryStoreShardingInfos
 	// than requested. If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// ListRecoveryStoreShardingInfosResponse.next_page_token.
-	PageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *recovery_store_sharding_info.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *recovery_store_sharding_info.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *recovery_store_sharding_info.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *recovery_store_sharding_info.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,6,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,6,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// Indicates if list response should contain total count and offset (fields
 	// current_offset and total_results_count).
-	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
+	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
 }
 
 func (m *ListRecoveryStoreShardingInfosRequest) Reset() {
@@ -563,24 +563,24 @@ type ListRecoveryStoreShardingInfosResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of RecoveryStoreShardingInfos
-	RecoveryStoreShardingInfos []*recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,1,rep,name=recovery_store_sharding_infos,json=recoveryStoreShardingInfos,proto3" json:"recovery_store_sharding_infos,omitempty" firestore:"recoveryStoreShardingInfos"`
+	RecoveryStoreShardingInfos []*recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,1,rep,name=recovery_store_sharding_infos,json=recoveryStoreShardingInfos,proto3" json:"recovery_store_sharding_infos,omitempty"`
 	// A token to retrieve previous page of results.
 	//
 	// Pass this value in the ListRecoveryStoreShardingInfosRequest.page_token.
-	PrevPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// A token to retrieve next page of results.
 	//
 	// Pass this value in the ListRecoveryStoreShardingInfosRequest.page_token.
-	NextPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
 	// it). Page index can be computed from offset and limit provided in a
 	// request.
-	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty" firestore:"currentOffset"`
+	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty"`
 	// Number of total RecoveryStoreShardingInfos across all pages or 0, if there
 	// are no items, paging info was not requested or there was an error while
 	// trying to get it.
-	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty" firestore:"totalResultsCount"`
+	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty"`
 }
 
 func (m *ListRecoveryStoreShardingInfosResponse) Reset() {
@@ -709,13 +709,13 @@ type WatchRecoveryStoreShardingInfoRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.monitoring.v3.RecoveryStoreShardingInfo
-	Name *recovery_store_sharding_info.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *recovery_store_sharding_info.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,2,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,2,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *WatchRecoveryStoreShardingInfoRequest) Reset() {
@@ -815,7 +815,7 @@ type WatchRecoveryStoreShardingInfoResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Change        *recovery_store_sharding_info.RecoveryStoreShardingInfoChange `protobuf:"bytes,1,opt,name=change,proto3" json:"change,omitempty" firestore:"change"`
+	Change        *recovery_store_sharding_info.RecoveryStoreShardingInfoChange `protobuf:"bytes,1,opt,name=change,proto3" json:"change,omitempty"`
 }
 
 func (m *WatchRecoveryStoreShardingInfoResponse) Reset() {
@@ -889,51 +889,51 @@ type WatchRecoveryStoreShardingInfosRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Type of a watch. Identifies how server stream data to a client, which
 	// fields in a request are allowed and which fields in response are relevant.
-	Type watch_type.WatchType `protobuf:"varint,9,opt,name=type,proto3,enum=goten.types.WatchType" json:"type,omitempty" firestore:"type"`
+	Type watch_type.WatchType `protobuf:"varint,9,opt,name=type,proto3,enum=goten.types.WatchType" json:"type,omitempty"`
 	// Parent name of ntt.monitoring.v3.RecoveryStoreShardingInfo
-	Parent *recovery_store_sharding_info.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *recovery_store_sharding_info.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// Requested page size. Server may return fewer RecoveryStoreShardingInfos
 	// than requested. If unspecified, server will pick an appropriate default.
 	// Can be populated only for stateful watch type.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Can be populated only for stateful watch type.
-	PageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination Can be
 	// populated only for stateful watch type.
-	OrderBy *recovery_store_sharding_info.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *recovery_store_sharding_info.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// A token identifying watch resume point from previous session.
 	// Can be populated only for stateless watch type.
-	ResumeToken string `protobuf:"bytes,10,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,10,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 	// Point in the time from which we want to start getting updates. This field
 	// can be populated only for stateless watch type and if resume token is not
 	// known yet. If specified, initial snapshot will NOT be provided. It is
 	// assumed client can obtain it using separate means. Watch responses will
 	// contain resume tokens which should be used to resume broken connection.
-	StartingTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty" firestore:"startingTime"`
+	StartingTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *recovery_store_sharding_info.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *recovery_store_sharding_info.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view Changes to RecoveryStoreShardingInfo
 	// that don't affect any of masked fields won't be sent back.
-	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,6,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,6,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask Changes to
 	// RecoveryStoreShardingInfo that don't affect any of masked fields won't be
 	// sent back.
-	View view.View `protobuf:"varint,8,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,8,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// Maximum amount of changes in each response message. Query result response
 	// is divided on the server side into chunks with size of a specified amount
 	// to limit memory footprint of each message. Responses will hold information
 	// whether more elements will continue for the actual change. If unspecified,
 	// server will pick an appropriate default.
-	MaxChunkSize int32 `protobuf:"varint,11,opt,name=max_chunk_size,json=maxChunkSize,proto3" json:"max_chunk_size,omitempty" firestore:"maxChunkSize"`
+	MaxChunkSize int32 `protobuf:"varint,11,opt,name=max_chunk_size,json=maxChunkSize,proto3" json:"max_chunk_size,omitempty"`
 }
 
 func (m *WatchRecoveryStoreShardingInfosRequest) Reset() {
@@ -1146,7 +1146,7 @@ type WatchRecoveryStoreShardingInfosResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Changes of RecoveryStoreShardingInfos
-	RecoveryStoreShardingInfoChanges []*recovery_store_sharding_info.RecoveryStoreShardingInfoChange `protobuf:"bytes,2,rep,name=recovery_store_sharding_info_changes,json=recoveryStoreShardingInfoChanges,proto3" json:"recovery_store_sharding_info_changes,omitempty" firestore:"recoveryStoreShardingInfoChanges"`
+	RecoveryStoreShardingInfoChanges []*recovery_store_sharding_info.RecoveryStoreShardingInfoChange `protobuf:"bytes,2,rep,name=recovery_store_sharding_info_changes,json=recoveryStoreShardingInfoChanges,proto3" json:"recovery_store_sharding_info_changes,omitempty"`
 	// If request specified max_chunk_size (or this limit was enforced if
 	// stateless watch has been chosen), then responses with "full changeset" will
 	// be divided into chunks. Client should keep receiving messages and, once
@@ -1159,14 +1159,14 @@ type WatchRecoveryStoreShardingInfosResponse struct {
 	// Further responses will be incremental - however messages may still be
 	// chunked and is_current logic still applies. is_current is always true for
 	// stateful watch if max_chunk_size was left to 0.
-	IsCurrent bool `protobuf:"varint,4,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty" firestore:"isCurrent"`
+	IsCurrent bool `protobuf:"varint,4,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
 	// When present, PageTokens used for page navigation should be updated.
 	// Present only if is_current is true (last chunk).
-	PageTokenChange *WatchRecoveryStoreShardingInfosResponse_PageTokenChange `protobuf:"bytes,3,opt,name=page_token_change,json=pageTokenChange,proto3" json:"page_token_change,omitempty" firestore:"pageTokenChange"`
+	PageTokenChange *WatchRecoveryStoreShardingInfosResponse_PageTokenChange `protobuf:"bytes,3,opt,name=page_token_change,json=pageTokenChange,proto3" json:"page_token_change,omitempty"`
 	// Token that can be used if current connection drops and client needs to
 	// reconnect. Populated only for stateless watch type. Present only if
 	// is_current is true (last chunk).
-	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 	// Server may occasionally send information how many resources should client
 	// have in its state so far (response message without any changes, but with
 	// snapshot_size field specified). If client has different value than the one
@@ -1176,7 +1176,7 @@ type WatchRecoveryStoreShardingInfosResponse struct {
 	// watch. In stateful those kind of errors are handled by the server side.
 	// Will be never sent together with is_current, is_soft_reset and
 	// is_hard_reset flags.
-	SnapshotSize int64 `protobuf:"varint,6,opt,name=snapshot_size,json=snapshotSize,proto3" json:"snapshot_size,omitempty" firestore:"snapshotSize"`
+	SnapshotSize int64 `protobuf:"varint,6,opt,name=snapshot_size,json=snapshotSize,proto3" json:"snapshot_size,omitempty"`
 	// In case of internal issue server may send response message with this flag.
 	// It indicates that client should drop all changes from recent responses
 	// where is_current is false only! If last message had is_current set to true,
@@ -1184,7 +1184,7 @@ type WatchRecoveryStoreShardingInfosResponse struct {
 	// is still valid. This field should be checked only for stateless watch. In
 	// stateful those kind of errors are handled by the server side. Will never be
 	// sent along with is_current, is_hard_reset or snapshot_size.
-	IsSoftReset bool `protobuf:"varint,7,opt,name=is_soft_reset,json=isSoftReset,proto3" json:"is_soft_reset,omitempty" firestore:"isSoftReset"`
+	IsSoftReset bool `protobuf:"varint,7,opt,name=is_soft_reset,json=isSoftReset,proto3" json:"is_soft_reset,omitempty"`
 	// In case of internal issue server may send response message with this flag.
 	// After receiving, client should clear whole state (drop all changes received
 	// so far) as server will send new snapshot (RecoveryStoreShardingInfos will
@@ -1192,7 +1192,7 @@ type WatchRecoveryStoreShardingInfosResponse struct {
 	// discarded as well. This field should be checked only for stateless watch.
 	// In stateful those kind of errors are handled by the server side. Will never
 	// be sent along with is_current, is_soft_reset or snapshot_size.
-	IsHardReset bool `protobuf:"varint,8,opt,name=is_hard_reset,json=isHardReset,proto3" json:"is_hard_reset,omitempty" firestore:"isHardReset"`
+	IsHardReset bool `protobuf:"varint,8,opt,name=is_hard_reset,json=isHardReset,proto3" json:"is_hard_reset,omitempty"`
 }
 
 func (m *WatchRecoveryStoreShardingInfosResponse) Reset() {
@@ -1349,12 +1349,12 @@ type CreateRecoveryStoreShardingInfoRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent name of ntt.monitoring.v3.RecoveryStoreShardingInfo
-	Parent *recovery_store_sharding_info.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *recovery_store_sharding_info.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// RecoveryStoreShardingInfo resource body
-	RecoveryStoreShardingInfo *recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,2,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty" firestore:"recoveryStoreShardingInfo"`
+	RecoveryStoreShardingInfo *recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,2,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty"`
 	// Optional masking applied to response object to reduce message response
 	// size.
-	ResponseMask *CreateRecoveryStoreShardingInfoRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
+	ResponseMask *CreateRecoveryStoreShardingInfoRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty"`
 }
 
 func (m *CreateRecoveryStoreShardingInfoRequest) Reset() {
@@ -1455,24 +1455,24 @@ type UpdateRecoveryStoreShardingInfoRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// RecoveryStoreShardingInfo resource body
-	RecoveryStoreShardingInfo *recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,2,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty" firestore:"recoveryStoreShardingInfo"`
+	RecoveryStoreShardingInfo *recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,2,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty"`
 	// FieldMask applied to request - change will be applied only for fields in
 	// the mask
-	UpdateMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty" firestore:"updateMask"`
+	UpdateMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	// Conditional update applied to request if update should be executed only for
 	// specific resource state. If this field is populated, then server will fetch
 	// existing resource, compare with the one stored in the cas field (after
 	// applying field mask) and proceed with update only and only if they match.
 	// Otherwise RPC error Aborted will be returned.
-	Cas *UpdateRecoveryStoreShardingInfoRequest_CAS `protobuf:"bytes,4,opt,name=cas,proto3" json:"cas,omitempty" firestore:"cas"`
+	Cas *UpdateRecoveryStoreShardingInfoRequest_CAS `protobuf:"bytes,4,opt,name=cas,proto3" json:"cas,omitempty"`
 	// If set to true, and the resource is not found,
 	// a new resource will be created.  In this situation,
 	// 'field_mask' is ignored.
 	//
 	// https://google.aip.dev/134#create-or-update
-	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
+	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty"`
 	// reduce message response size.
-	ResponseMask *UpdateRecoveryStoreShardingInfoRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
+	ResponseMask *UpdateRecoveryStoreShardingInfoRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty"`
 }
 
 func (m *UpdateRecoveryStoreShardingInfoRequest) Reset() {
@@ -1601,7 +1601,7 @@ type DeleteRecoveryStoreShardingInfoRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.monitoring.v3.RecoveryStoreShardingInfo
-	Name *recovery_store_sharding_info.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *recovery_store_sharding_info.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *DeleteRecoveryStoreShardingInfoRequest) Reset() {
@@ -1673,9 +1673,9 @@ type WatchRecoveryStoreShardingInfosResponse_PageTokenChange struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// New token to retrieve previous page of results.
-	PrevPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,1,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,1,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// New token to retrieve next page of results.
-	NextPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken *recovery_store_sharding_info.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 }
 
 func (m *WatchRecoveryStoreShardingInfosResponse_PageTokenChange) Reset() {
@@ -1824,12 +1824,12 @@ type isCreateRecoveryStoreShardingInfoRequest_ResponseMask_Masking interface {
 type CreateRecoveryStoreShardingInfoRequest_ResponseMask_SkipEntireResponseBody struct {
 	// If this flag has value true, then response will contain just empty
 	// resource without any fields populated.
-	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof"`
 }
 type CreateRecoveryStoreShardingInfoRequest_ResponseMask_BodyMask struct {
 	// If this field is populated, then resource in response will contain only
 	// specific fields.
-	BodyMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,2,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+	BodyMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,2,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=body_mask,json=bodyMask,proto3,oneof"`
 }
 
 func (*CreateRecoveryStoreShardingInfoRequest_ResponseMask_SkipEntireResponseBody) isCreateRecoveryStoreShardingInfoRequest_ResponseMask_Masking() {
@@ -1874,10 +1874,10 @@ type UpdateRecoveryStoreShardingInfoRequest_CAS struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Conditional desired state of a resource before update.
-	ConditionalState *recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,1,opt,name=conditional_state,json=conditionalState,proto3" json:"conditional_state,omitempty" firestore:"conditionalState"`
+	ConditionalState *recovery_store_sharding_info.RecoveryStoreShardingInfo `protobuf:"bytes,1,opt,name=conditional_state,json=conditionalState,proto3" json:"conditional_state,omitempty"`
 	// Field paths from conditional state of resource server should check and
 	// compare.
-	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,2,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,2,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 }
 
 func (m *UpdateRecoveryStoreShardingInfoRequest_CAS) Reset() {
@@ -2028,19 +2028,19 @@ type UpdateRecoveryStoreShardingInfoRequest_ResponseMask_SkipEntireResponseBody 
 	// If this flag has value true, then response will contain just empty
 	// resource without any fields populated. Field body_mask is ignored if
 	// set.
-	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof"`
 }
 type UpdateRecoveryStoreShardingInfoRequest_ResponseMask_UpdatedFieldsOnly struct {
 	// Include all fields that were actually updated during processing. Note
 	// this may be larger than update mask if some fields were computed
 	// additionally. Name is added as well.
-	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof"`
 }
 type UpdateRecoveryStoreShardingInfoRequest_ResponseMask_BodyMask struct {
 	// If this field is populated, then resource in response will contain only
 	// specific fields. If skip_entire_response_body is true, this field is
 	// ignored.
-	BodyMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+	BodyMask *recovery_store_sharding_info.RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=body_mask,json=bodyMask,proto3,oneof"`
 }
 
 func (*UpdateRecoveryStoreShardingInfoRequest_ResponseMask_SkipEntireResponseBody) isUpdateRecoveryStoreShardingInfoRequest_ResponseMask_Masking() {

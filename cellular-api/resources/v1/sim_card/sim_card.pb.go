@@ -59,17 +59,17 @@ type SimCard struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: \\d{19}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta          `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	Contract *contract.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=contract,proto3" json:"contract,omitempty" firestore:"contract"`
-	Imsi     string              `protobuf:"bytes,5,opt,name=imsi,proto3" json:"imsi,omitempty" firestore:"imsi"`
-	RatePlan string              `protobuf:"bytes,6,opt,name=rate_plan,json=ratePlan,proto3" json:"rate_plan,omitempty" firestore:"ratePlan"`
-	Status   *SimCard_Status     `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Metadata *meta.Meta          `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Contract *contract.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=contract,proto3" json:"contract,omitempty"`
+	Imsi     string              `protobuf:"bytes,5,opt,name=imsi,proto3" json:"imsi,omitempty"`
+	RatePlan string              `protobuf:"bytes,6,opt,name=rate_plan,json=ratePlan,proto3" json:"rate_plan,omitempty"`
+	Status   *SimCard_Status     `protobuf:"bytes,7,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *SimCard) Reset() {
@@ -210,8 +210,8 @@ type SimCard_Status struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	State         carrier.SimState `protobuf:"varint,1,opt,name=state,proto3,enum=ntt.cellular_api.carrier.SimState" json:"state,omitempty" firestore:"state"`
-	Error         string           `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty" firestore:"error"`
+	State         carrier.SimState `protobuf:"varint,1,opt,name=state,proto3,enum=ntt.cellular_api.carrier.SimState" json:"state,omitempty"`
+	Error         string           `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (m *SimCard_Status) Reset() {

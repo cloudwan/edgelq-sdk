@@ -7884,6 +7884,10 @@ func (b *filterCndBuilderStatusContainerStatuses) Terminated() *filterCndBuilder
 	return &filterCndBuilderStatusContainerStatusesTerminated{builder: b.builder}
 }
 
+func (b *filterCndBuilderStatusContainerStatuses) Restarting() *filterCndBuilderStatusContainerStatusesRestarting {
+	return &filterCndBuilderStatusContainerStatusesRestarting{builder: b.builder}
+}
+
 func (b *filterCndBuilderStatusContainerStatuses) HealthStatus() *filterCndBuilderStatusContainerStatusesHealthStatus {
 	return &filterCndBuilderStatusContainerStatusesHealthStatus{builder: b.builder}
 }
@@ -8822,6 +8826,191 @@ func (b *filterCndBuilderStatusContainerStatusesTerminatedContainerId) compare(o
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:           op,
 		Pod_FieldPathValue: NewPodFieldPathBuilder().Status().ContainerStatuses().Terminated().ContainerId().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusContainerStatusesRestarting struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) Eq(value *Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) Neq(value *Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) Gt(value *Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) Gte(value *Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) Lt(value *Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) Lte(value *Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) In(values []*Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) NotIn(values []*Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) compare(op gotenfilter.CompareOperator, value *Pod_Status_Container_StateRestarting) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Pod_FieldPathValue: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) ExitCode() *filterCndBuilderStatusContainerStatusesRestartingExitCode {
+	return &filterCndBuilderStatusContainerStatusesRestartingExitCode{builder: b.builder}
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestarting) ContainerId() *filterCndBuilderStatusContainerStatusesRestartingContainerId {
+	return &filterCndBuilderStatusContainerStatusesRestartingContainerId{builder: b.builder}
+}
+
+type filterCndBuilderStatusContainerStatusesRestartingExitCode struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ExitCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ExitCode().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ExitCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ExitCode().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingExitCode) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Pod_FieldPathValue: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ExitCode().WithValue(value),
+	})
+}
+
+type filterCndBuilderStatusContainerStatusesRestartingContainerId struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ContainerId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Pod_FieldPathArrayOfValues: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ContainerId().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ContainerId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ContainerId().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderStatusContainerStatusesRestartingContainerId) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:           op,
+		Pod_FieldPathValue: NewPodFieldPathBuilder().Status().ContainerStatuses().Restarting().ContainerId().WithValue(value),
 	})
 }
 

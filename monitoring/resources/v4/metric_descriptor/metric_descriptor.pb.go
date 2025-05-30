@@ -299,13 +299,13 @@ type MetricDescriptor struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [\\w./-]{4,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,35,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,35,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// The metric type, including its DNS name prefix. The type is not
 	// URL-encoded.  All user-defined metric types have the DNS name
 	// `custom.googleapis.com` or `external.googleapis.com`.  Metric types should
@@ -314,24 +314,24 @@ type MetricDescriptor struct {
 	//     "custom.googleapis.com/invoice/paid/amount"
 	//     "external.googleapis.com/prometheus/up"
 	//     "appengine.googleapis.com/http/server/response_latencies"
-	Type string `protobuf:"bytes,8,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,8,opt,name=type,proto3" json:"type,omitempty"`
 	// associated resource_types (also used to infer defaults)
 	// examples, devices.edgelq.com/Device, watchdog.edgelq.com/Agent.
 	// DEPRECATED, use "indices".
-	ResourceTypes []string `protobuf:"bytes,34,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty" firestore:"resourceTypes"`
+	ResourceTypes []string `protobuf:"bytes,34,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty"`
 	// The set of labels that can be used to describe a specific
 	// instance of this metric type. For example, the
 	// `appengine.googleapis.com/http/server/response_latencies` metric
 	// type has a label for the HTTP response code, `response_code`, so
 	// you can look at latencies for successful responses or just
 	// for responses that failed.
-	Labels []*common.LabelDescriptor `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" firestore:"labels"`
+	Labels []*common.LabelDescriptor `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty"`
 	// Whether the metric records instantaneous values, changes to a value, etc.
 	// Some combinations of `metric_kind` and `value_type` might not be supported.
-	MetricKind MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v4.MetricDescriptor_MetricKind" json:"metric_kind,omitempty" firestore:"metricKind"`
+	MetricKind MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v4.MetricDescriptor_MetricKind" json:"metric_kind,omitempty"`
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of `metric_kind` and `value_type` might not be supported.
-	ValueType MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v4.MetricDescriptor_ValueType" json:"value_type,omitempty" firestore:"valueType"`
+	ValueType MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v4.MetricDescriptor_ValueType" json:"value_type,omitempty"`
 	// The unit in which the metric value is reported. It is only applicable
 	// if the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The
 	// supported units are a subset of [The Unified Code for Units of
@@ -397,30 +397,30 @@ type MetricDescriptor struct {
 	// * `1` represents dimensionless value 1, such as in `1/s`.
 	// * `%` represents dimensionless value 1/100, and annotates values giving
 	//    a percentage.
-	Unit string `protobuf:"bytes,5,opt,name=unit,proto3" json:"unit,omitempty" firestore:"unit"`
+	Unit string `protobuf:"bytes,5,opt,name=unit,proto3" json:"unit,omitempty"`
 	// A detailed description of the metric, which can be used in documentation.
-	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	// A concise name for the metric, which can be displayed in user interfaces.
 	// Use sentence case without an ending period, for example "Request count".
 	// This field is optional but it is recommended to be set for any metrics
 	// associated with user-visible concepts, such as Quota.
-	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. Metadata which can be used to guide usage of the metric.
-	MetricDescriptorMetadata *MetricDescriptor_MetricDescriptorMetadata `protobuf:"bytes,10,opt,name=metric_descriptor_metadata,json=metricDescriptorMetadata,proto3" json:"metric_descriptor_metadata,omitempty" firestore:"metricDescriptorMetadata"`
+	MetricDescriptorMetadata *MetricDescriptor_MetricDescriptorMetadata `protobuf:"bytes,10,opt,name=metric_descriptor_metadata,json=metricDescriptorMetadata,proto3" json:"metric_descriptor_metadata,omitempty"`
 	// Distribution bucketing options - define only when ValueType is
 	// Distribution. Used for validating input.
-	DistributionBucketOptions *common.Distribution_BucketOptions `protobuf:"bytes,31,opt,name=distribution_bucket_options,json=distributionBucketOptions,proto3" json:"distribution_bucket_options,omitempty" firestore:"distributionBucketOptions"`
+	DistributionBucketOptions *common.Distribution_BucketOptions `protobuf:"bytes,31,opt,name=distribution_bucket_options,json=distributionBucketOptions,proto3" json:"distribution_bucket_options,omitempty"`
 	// Promoted Label Key Sets allow defining multiple indexing rules for
 	// underlying backend enabling query optimizations. Metric promoted label sets
 	// are combined with MonitoredResource promoted label sets and result in
 	// PromotedKeySet.
 	// DEPRECATED, use "indices" instead.
-	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,32,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty" firestore:"promotedLabelKeySets"`
+	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,32,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty"`
 	// DEPRECATED: use "indices". This field must not be used
 	// if client migrated to ResourceBindings. Whenever index_spec is set, it will
 	// override resource_descriptor_bindings. This is for migration purpose,
 	// future indices must be managed by ResourceBindings.
-	IndexSpec *MetricDescriptor_IndexSpec `protobuf:"bytes,36,opt,name=index_spec,json=indexSpec,proto3" json:"index_spec,omitempty" firestore:"indexSpec"`
+	IndexSpec *MetricDescriptor_IndexSpec `protobuf:"bytes,36,opt,name=index_spec,json=indexSpec,proto3" json:"index_spec,omitempty"`
 	// Defines indexing rules for underlying backend enabling query optimizations.
 	// It's important consideration for balancing time series query performance
 	// and storage cost.
@@ -432,15 +432,15 @@ type MetricDescriptor struct {
 	// pre-aggregations were defined, it would be 6 indices. Metric and resource
 	// label sets must never be empty: At least one empty label set must be
 	// present.
-	Indices *MetricDescriptor_Indices `protobuf:"bytes,37,opt,name=indices,proto3" json:"indices,omitempty" firestore:"indices"`
+	Indices *MetricDescriptor_Indices `protobuf:"bytes,37,opt,name=indices,proto3" json:"indices,omitempty"`
 	// Storage settings
-	StorageConfig *MetricDescriptor_StorageConfig `protobuf:"bytes,33,opt,name=storage_config,json=storageConfig,proto3" json:"storage_config,omitempty" firestore:"storageConfig"`
+	StorageConfig *MetricDescriptor_StorageConfig `protobuf:"bytes,33,opt,name=storage_config,json=storageConfig,proto3" json:"storage_config,omitempty"`
 	// Generated indices data in binary format, for internal use only.
 	// They are compiled when MetricDescriptor is saved and used by monitoring
 	// server, db-controller or controller when necessary.
 	// One MetricDescriptor instance will have different value of this field
 	// in each region!
-	BinaryIndices *MetricDescriptor_BinaryIndices `protobuf:"bytes,38,opt,name=binary_indices,json=binaryIndices,proto3" json:"binary_indices,omitempty" firestore:"binaryIndices"`
+	BinaryIndices *MetricDescriptor_BinaryIndices `protobuf:"bytes,38,opt,name=binary_indices,json=binaryIndices,proto3" json:"binary_indices,omitempty"`
 }
 
 func (m *MetricDescriptor) Reset() {
@@ -737,7 +737,7 @@ type MetricDescriptor_MetricDescriptorMetadata struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The launch stage of the metric definition.
-	LaunchStage api.LaunchStage `protobuf:"varint,1,opt,name=launch_stage,json=launchStage,proto3,enum=ntt.api.LaunchStage" json:"launch_stage,omitempty" firestore:"launchStage"`
+	LaunchStage api.LaunchStage `protobuf:"varint,1,opt,name=launch_stage,json=launchStage,proto3,enum=ntt.api.LaunchStage" json:"launch_stage,omitempty"`
 }
 
 func (m *MetricDescriptor_MetricDescriptorMetadata) Reset() {
@@ -810,7 +810,7 @@ type MetricDescriptor_IndexSpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// PerResource index
-	PerResource []*MetricDescriptor_IndexSpec_PerMonitoredResource `protobuf:"bytes,1,rep,name=per_resource,json=perResource,proto3" json:"per_resource,omitempty" firestore:"perResource"`
+	PerResource []*MetricDescriptor_IndexSpec_PerMonitoredResource `protobuf:"bytes,1,rep,name=per_resource,json=perResource,proto3" json:"per_resource,omitempty"`
 }
 
 func (m *MetricDescriptor_IndexSpec) Reset() {
@@ -885,13 +885,13 @@ type MetricDescriptor_Indices struct {
 	unknownFields protoimpl.UnknownFields
 	// Indices coming by default from application, typically populated by
 	// fixtures controller
-	BuiltIn *MetricDescriptor_Indices_IndexGroups `protobuf:"bytes,1,opt,name=built_in,json=builtIn,proto3" json:"built_in,omitempty" firestore:"builtIn"`
+	BuiltIn *MetricDescriptor_Indices_IndexGroups `protobuf:"bytes,1,opt,name=built_in,json=builtIn,proto3" json:"built_in,omitempty"`
 	// User defined additional indices.
-	UserDefined *MetricDescriptor_Indices_IndexGroups `protobuf:"bytes,2,opt,name=user_defined,json=userDefined,proto3" json:"user_defined,omitempty" firestore:"userDefined"`
+	UserDefined *MetricDescriptor_Indices_IndexGroups `protobuf:"bytes,2,opt,name=user_defined,json=userDefined,proto3" json:"user_defined,omitempty"`
 	// Automatically migrated from older specs. It should not be modified by
 	// users, it can only be archived once new indices are populated (update
 	// closingStatus fields to CLOSED).
-	LegacyMigrated []*MetricDescriptor_Indices_NonAggregatedIndices `protobuf:"bytes,3,rep,name=legacy_migrated,json=legacyMigrated,proto3" json:"legacy_migrated,omitempty" firestore:"legacyMigrated"`
+	LegacyMigrated []*MetricDescriptor_Indices_NonAggregatedIndices `protobuf:"bytes,3,rep,name=legacy_migrated,json=legacyMigrated,proto3" json:"legacy_migrated,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices) Reset() {
@@ -992,12 +992,12 @@ type MetricDescriptor_StorageConfig struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// whether to store raw points
-	StoreRawPoints bool `protobuf:"varint,1,opt,name=store_raw_points,json=storeRawPoints,proto3" json:"store_raw_points,omitempty" firestore:"storeRawPoints"`
+	StoreRawPoints bool `protobuf:"varint,1,opt,name=store_raw_points,json=storeRawPoints,proto3" json:"store_raw_points,omitempty"`
 	// Maximum AlignmentPeriod produced. If max_ap is 0, then it is treated as
 	// no maximum. Monitoring will be producing time series for all alignment
 	// periods. If max_ap is 1 minute, it means only the smallest alignment
 	// period is produced.
-	MaxAp *durationpb.Duration `protobuf:"bytes,2,opt,name=max_ap,json=maxAp,proto3" json:"max_ap,omitempty" firestore:"maxAp"`
+	MaxAp *durationpb.Duration `protobuf:"bytes,2,opt,name=max_ap,json=maxAp,proto3" json:"max_ap,omitempty"`
 }
 
 func (m *MetricDescriptor_StorageConfig) Reset() {
@@ -1082,9 +1082,9 @@ type MetricDescriptor_BinaryIndices struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	ByResources   []*MetricDescriptor_BinaryIndices_ByResourceType `protobuf:"bytes,1,rep,name=by_resources,json=byResources,proto3" json:"by_resources,omitempty" firestore:"byResources"`
+	ByResources   []*MetricDescriptor_BinaryIndices_ByResourceType `protobuf:"bytes,1,rep,name=by_resources,json=byResources,proto3" json:"by_resources,omitempty"`
 	// Region to which above binary data is relevant.
-	Region string `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (m *MetricDescriptor_BinaryIndices) Reset() {
@@ -1171,7 +1171,7 @@ type MetricDescriptor_IndexSpec_Index struct {
 	unknownFields protoimpl.UnknownFields
 	// each label is of format: `{metric,resource}.labels.<label-key>`.
 	// since resource and metric labels are mixed. Full path is required.
-	PromotedLabels []string `protobuf:"bytes,2,rep,name=promoted_labels,json=promotedLabels,proto3" json:"promoted_labels,omitempty" firestore:"promotedLabels"`
+	PromotedLabels []string `protobuf:"bytes,2,rep,name=promoted_labels,json=promotedLabels,proto3" json:"promoted_labels,omitempty"`
 }
 
 func (m *MetricDescriptor_IndexSpec_Index) Reset() {
@@ -1242,9 +1242,9 @@ type MetricDescriptor_IndexSpec_PerMonitoredResource struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Resource      *monitored_resource_descriptor.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource      *monitored_resource_descriptor.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// List of indices for given metric and resource pair
-	Indices []*MetricDescriptor_IndexSpec_Index `protobuf:"bytes,2,rep,name=indices,proto3" json:"indices,omitempty" firestore:"indices"`
+	Indices []*MetricDescriptor_IndexSpec_Index `protobuf:"bytes,2,rep,name=indices,proto3" json:"indices,omitempty"`
 }
 
 func (m *MetricDescriptor_IndexSpec_PerMonitoredResource) Reset() {
@@ -1333,14 +1333,14 @@ type MetricDescriptor_Indices_LabelsGroup struct {
 	unknownFields protoimpl.UnknownFields
 	// Identifier of the group, used as part of index name and during
 	// update validations.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// List of metric keys in the group.
-	MetricKeys []string `protobuf:"bytes,2,rep,name=metric_keys,json=metricKeys,proto3" json:"metric_keys,omitempty" firestore:"metricKeys"`
+	MetricKeys []string `protobuf:"bytes,2,rep,name=metric_keys,json=metricKeys,proto3" json:"metric_keys,omitempty"`
 	// List of resource keys in the group.
-	ResourceKeys []string `protobuf:"bytes,3,rep,name=resource_keys,json=resourceKeys,proto3" json:"resource_keys,omitempty" firestore:"resourceKeys"`
+	ResourceKeys []string `protobuf:"bytes,3,rep,name=resource_keys,json=resourceKeys,proto3" json:"resource_keys,omitempty"`
 	// Closing status should be set when indices used by this group is no
 	// longer desirable.
-	ClosingStatus MetricDescriptor_Indices_CloseStatus `protobuf:"varint,4,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty" firestore:"closingStatus"`
+	ClosingStatus MetricDescriptor_Indices_CloseStatus `protobuf:"varint,4,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_LabelsGroup) Reset() {
@@ -1458,20 +1458,20 @@ type MetricDescriptor_Indices_PaginationView struct {
 	unknownFields protoimpl.UnknownFields
 	// Identifier of the group, used as part of index name and during
 	// update validations.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// List of metric keys that can optionally be used in filter.
-	FilterableMetricKeys []string `protobuf:"bytes,2,rep,name=filterable_metric_keys,json=filterableMetricKeys,proto3" json:"filterable_metric_keys,omitempty" firestore:"filterableMetricKeys"`
+	FilterableMetricKeys []string `protobuf:"bytes,2,rep,name=filterable_metric_keys,json=filterableMetricKeys,proto3" json:"filterable_metric_keys,omitempty"`
 	// List of resource keys that can optionally be used in filter.
-	FilterableResourceKeys []string `protobuf:"bytes,3,rep,name=filterable_resource_keys,json=filterableResourceKeys,proto3" json:"filterable_resource_keys,omitempty" firestore:"filterableResourceKeys"`
+	FilterableResourceKeys []string `protobuf:"bytes,3,rep,name=filterable_resource_keys,json=filterableResourceKeys,proto3" json:"filterable_resource_keys,omitempty"`
 	// List of metric keys that will be part of "paginated" key (for ranking
 	// purpose). Provided labels cannot be used for filtering.
-	PaginatedMetricKeys []string `protobuf:"bytes,4,rep,name=paginated_metric_keys,json=paginatedMetricKeys,proto3" json:"paginated_metric_keys,omitempty" firestore:"paginatedMetricKeys"`
+	PaginatedMetricKeys []string `protobuf:"bytes,4,rep,name=paginated_metric_keys,json=paginatedMetricKeys,proto3" json:"paginated_metric_keys,omitempty"`
 	// List of resource keys that will be part of "paginated" key (for ranking
 	// purpose). Provided labels cannot be used for filtering.
-	PaginatedResourceKeys []string `protobuf:"bytes,5,rep,name=paginated_resource_keys,json=paginatedResourceKeys,proto3" json:"paginated_resource_keys,omitempty" firestore:"paginatedResourceKeys"`
+	PaginatedResourceKeys []string `protobuf:"bytes,5,rep,name=paginated_resource_keys,json=paginatedResourceKeys,proto3" json:"paginated_resource_keys,omitempty"`
 	// Closing status should be set when indices used by this group is no
 	// longer desirable.
-	ClosingStatus MetricDescriptor_Indices_CloseStatus `protobuf:"varint,6,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty" firestore:"closingStatus"`
+	ClosingStatus MetricDescriptor_Indices_CloseStatus `protobuf:"varint,6,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_PaginationView) Reset() {
@@ -1615,20 +1615,20 @@ type MetricDescriptor_Indices_AggregationsGroup struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the group (identifier). Used for validating updates.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// List of potential values for perSeriesAligner parameter.
 	// It must be specified.
-	PerSeriesAligners []common.Aggregation_Aligner `protobuf:"varint,2,rep,packed,name=per_series_aligners,json=perSeriesAligners,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"per_series_aligners,omitempty" firestore:"perSeriesAligners"`
+	PerSeriesAligners []common.Aggregation_Aligner `protobuf:"varint,2,rep,packed,name=per_series_aligners,json=perSeriesAligners,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"per_series_aligners,omitempty"`
 	// List of potential values for crossSeriesReducer parameter.
 	// It can be left empty if we want to support large amount of values.
-	CrossSeriesReducers []common.Aggregation_Reducer `protobuf:"varint,3,rep,packed,name=cross_series_reducers,json=crossSeriesReducers,proto3,enum=ntt.monitoring.v4.Aggregation_Reducer" json:"cross_series_reducers,omitempty" firestore:"crossSeriesReducers"`
+	CrossSeriesReducers []common.Aggregation_Reducer `protobuf:"varint,3,rep,packed,name=cross_series_reducers,json=crossSeriesReducers,proto3,enum=ntt.monitoring.v4.Aggregation_Reducer" json:"cross_series_reducers,omitempty"`
 	// Closing status, if this group is no longer desired.
-	ClosingStatus MetricDescriptor_Indices_CloseStatus `protobuf:"varint,4,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty" firestore:"closingStatus"`
+	ClosingStatus MetricDescriptor_Indices_CloseStatus `protobuf:"varint,4,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty"`
 	// This field is automatically computed and cannot be set by users.
 	// It displays list of aligners used by underlying storage. May not
 	// exactly match to requested aligners.
 	// TODO: Support output_only annotation for sub-array items
-	StorageAligners []common.Aggregation_Aligner `protobuf:"varint,5,rep,packed,name=storage_aligners,json=storageAligners,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"storage_aligners,omitempty" firestore:"storageAligners"`
+	StorageAligners []common.Aggregation_Aligner `protobuf:"varint,5,rep,packed,name=storage_aligners,json=storageAligners,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"storage_aligners,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_AggregationsGroup) Reset() {
@@ -1757,16 +1757,16 @@ type MetricDescriptor_Indices_SortingFunction struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// name of the aligner-reducer function
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Aligner function
-	Aligner common.Aggregation_Aligner `protobuf:"varint,2,opt,name=aligner,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"aligner,omitempty" firestore:"aligner"`
+	Aligner common.Aggregation_Aligner `protobuf:"varint,2,opt,name=aligner,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"aligner,omitempty"`
 	// Reducer function, merging values within paginable label set.
 	// Resulting value type must be either INT or DOUBLE,
 	// DISTRIBUTION is not supported.
-	Reducer common.Aggregation_Reducer `protobuf:"varint,3,opt,name=reducer,proto3,enum=ntt.monitoring.v4.Aggregation_Reducer" json:"reducer,omitempty" firestore:"reducer"`
+	Reducer common.Aggregation_Reducer `protobuf:"varint,3,opt,name=reducer,proto3,enum=ntt.monitoring.v4.Aggregation_Reducer" json:"reducer,omitempty"`
 	// Closing status of this aligner reducer function.
-	ClosingStatus MetricDescriptor_Indices_CloseStatus               `protobuf:"varint,4,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty" firestore:"closingStatus"`
-	Sorting       MetricDescriptor_Indices_SortingFunction_Direction `protobuf:"varint,5,opt,name=sorting,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_SortingFunction_Direction" json:"sorting,omitempty" firestore:"sorting"`
+	ClosingStatus MetricDescriptor_Indices_CloseStatus               `protobuf:"varint,4,opt,name=closing_status,json=closingStatus,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_CloseStatus" json:"closing_status,omitempty"`
+	Sorting       MetricDescriptor_Indices_SortingFunction_Direction `protobuf:"varint,5,opt,name=sorting,proto3,enum=ntt.monitoring.v4.MetricDescriptor_Indices_SortingFunction_Direction" json:"sorting,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_SortingFunction) Reset() {
@@ -1898,22 +1898,22 @@ type MetricDescriptor_Indices_PreAggregatedIndices struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the group
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// All resource types in the group
-	ResourceTypes []string `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty" firestore:"resourceTypes"`
+	ResourceTypes []string `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty"`
 	// All partition label sets. Each is generating index per
 	// mentioned resource type, filter/group label set and
 	// aligner.
 	// Index, to be used, requires specifying all labels mentioned
 	// in partition.
-	PartitionLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,3,rep,name=partition_label_sets,json=partitionLabelSets,proto3" json:"partition_label_sets,omitempty" firestore:"partitionLabelSets"`
+	PartitionLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,3,rep,name=partition_label_sets,json=partitionLabelSets,proto3" json:"partition_label_sets,omitempty"`
 	// All label sets containing labels that can be used
 	// in filter/groupBy fields (other than partition).
 	// Index, to be used, must not contain any label
 	// in filter/groupBy not present in the filter/group labels set.
-	FilterAndGroupLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,4,rep,name=filter_and_group_label_sets,json=filterAndGroupLabelSets,proto3" json:"filter_and_group_label_sets,omitempty" firestore:"filterAndGroupLabelSets"`
+	FilterAndGroupLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,4,rep,name=filter_and_group_label_sets,json=filterAndGroupLabelSets,proto3" json:"filter_and_group_label_sets,omitempty"`
 	// List of all aggregations required by users.
-	SupportedAggregations []*MetricDescriptor_Indices_AggregationsGroup `protobuf:"bytes,5,rep,name=supported_aggregations,json=supportedAggregations,proto3" json:"supported_aggregations,omitempty" firestore:"supportedAggregations"`
+	SupportedAggregations []*MetricDescriptor_Indices_AggregationsGroup `protobuf:"bytes,5,rep,name=supported_aggregations,json=supportedAggregations,proto3" json:"supported_aggregations,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_PreAggregatedIndices) Reset() {
@@ -2044,14 +2044,14 @@ type MetricDescriptor_Indices_NonAggregatedIndices struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the whole group.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Resource types in this group.
-	ResourceTypes []string `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty" firestore:"resourceTypes"`
+	ResourceTypes []string `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty"`
 	// All partition label sets. Each is generating index per
 	// mentioned resource type.
 	// Index, to be used, requires specifying all labels mentioned
 	// in partition.
-	PartitionLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,3,rep,name=partition_label_sets,json=partitionLabelSets,proto3" json:"partition_label_sets,omitempty" firestore:"partitionLabelSets"`
+	PartitionLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,3,rep,name=partition_label_sets,json=partitionLabelSets,proto3" json:"partition_label_sets,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_NonAggregatedIndices) Reset() {
@@ -2155,20 +2155,20 @@ type MetricDescriptor_Indices_PaginationIndices struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the whole group.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Resource types in this group.
-	ResourceTypes []string `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty" firestore:"resourceTypes"`
+	ResourceTypes []string `protobuf:"bytes,2,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty"`
 	// All partition label sets. Each is generating index per
 	// mentioned resource type.
 	// Index, to be used, requires specifying all labels mentioned
 	// in partition.
 	// Each partition set is matched with each view when generating final
 	// views.
-	PartitionLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,3,rep,name=partition_label_sets,json=partitionLabelSets,proto3" json:"partition_label_sets,omitempty" firestore:"partitionLabelSets"`
+	PartitionLabelSets []*MetricDescriptor_Indices_LabelsGroup `protobuf:"bytes,3,rep,name=partition_label_sets,json=partitionLabelSets,proto3" json:"partition_label_sets,omitempty"`
 	// All views describing label sets.
-	Views []*MetricDescriptor_Indices_PaginationView `protobuf:"bytes,5,rep,name=views,proto3" json:"views,omitempty" firestore:"views"`
+	Views []*MetricDescriptor_Indices_PaginationView `protobuf:"bytes,5,rep,name=views,proto3" json:"views,omitempty"`
 	// List of functions applied to every partition/views in the group.
-	Functions []*MetricDescriptor_Indices_SortingFunction `protobuf:"bytes,6,rep,name=functions,proto3" json:"functions,omitempty" firestore:"functions"`
+	Functions []*MetricDescriptor_Indices_SortingFunction `protobuf:"bytes,6,rep,name=functions,proto3" json:"functions,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_PaginationIndices) Reset() {
@@ -2297,11 +2297,11 @@ type MetricDescriptor_Indices_IndexGroups struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Pre-aggregated index sets.
-	PreAggregatedIndices []*MetricDescriptor_Indices_PreAggregatedIndices `protobuf:"bytes,1,rep,name=pre_aggregated_indices,json=preAggregatedIndices,proto3" json:"pre_aggregated_indices,omitempty" firestore:"preAggregatedIndices"`
+	PreAggregatedIndices []*MetricDescriptor_Indices_PreAggregatedIndices `protobuf:"bytes,1,rep,name=pre_aggregated_indices,json=preAggregatedIndices,proto3" json:"pre_aggregated_indices,omitempty"`
 	// Non-aggregated index sets.
-	NonAggregatedIndices []*MetricDescriptor_Indices_NonAggregatedIndices `protobuf:"bytes,2,rep,name=non_aggregated_indices,json=nonAggregatedIndices,proto3" json:"non_aggregated_indices,omitempty" firestore:"nonAggregatedIndices"`
+	NonAggregatedIndices []*MetricDescriptor_Indices_NonAggregatedIndices `protobuf:"bytes,2,rep,name=non_aggregated_indices,json=nonAggregatedIndices,proto3" json:"non_aggregated_indices,omitempty"`
 	// Pagination indices.
-	PaginationIndices []*MetricDescriptor_Indices_PaginationIndices `protobuf:"bytes,3,rep,name=pagination_indices,json=paginationIndices,proto3" json:"pagination_indices,omitempty" firestore:"paginationIndices"`
+	PaginationIndices []*MetricDescriptor_Indices_PaginationIndices `protobuf:"bytes,3,rep,name=pagination_indices,json=paginationIndices,proto3" json:"pagination_indices,omitempty"`
 }
 
 func (m *MetricDescriptor_Indices_IndexGroups) Reset() {
@@ -2400,9 +2400,9 @@ type MetricDescriptor_BinaryIndices_PreAggregatedIndex struct {
 	state           protoimpl.MessageState
 	sizeCache       protoimpl.SizeCache
 	unknownFields   protoimpl.UnknownFields
-	KeyData         []byte   `protobuf:"bytes,1,opt,name=key_data,json=keyData,proto3" json:"key_data,omitempty" firestore:"keyData"`
-	WritingAligners [][]byte `protobuf:"bytes,2,rep,name=writing_aligners,json=writingAligners,proto3" json:"writing_aligners,omitempty" firestore:"writingAligners"`
-	ClosedAligners  [][]byte `protobuf:"bytes,3,rep,name=closed_aligners,json=closedAligners,proto3" json:"closed_aligners,omitempty" firestore:"closedAligners"`
+	KeyData         []byte   `protobuf:"bytes,1,opt,name=key_data,json=keyData,proto3" json:"key_data,omitempty"`
+	WritingAligners [][]byte `protobuf:"bytes,2,rep,name=writing_aligners,json=writingAligners,proto3" json:"writing_aligners,omitempty"`
+	ClosedAligners  [][]byte `protobuf:"bytes,3,rep,name=closed_aligners,json=closedAligners,proto3" json:"closed_aligners,omitempty"`
 }
 
 func (m *MetricDescriptor_BinaryIndices_PreAggregatedIndex) Reset() {
@@ -2501,9 +2501,9 @@ type MetricDescriptor_BinaryIndices_PaginatingIndex struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	KeyData          []byte   `protobuf:"bytes,1,opt,name=key_data,json=keyData,proto3" json:"key_data,omitempty" firestore:"keyData"`
-	WritingFunctions [][]byte `protobuf:"bytes,2,rep,name=writing_functions,json=writingFunctions,proto3" json:"writing_functions,omitempty" firestore:"writingFunctions"`
-	ClosedFunctions  [][]byte `protobuf:"bytes,3,rep,name=closed_functions,json=closedFunctions,proto3" json:"closed_functions,omitempty" firestore:"closedFunctions"`
+	KeyData          []byte   `protobuf:"bytes,1,opt,name=key_data,json=keyData,proto3" json:"key_data,omitempty"`
+	WritingFunctions [][]byte `protobuf:"bytes,2,rep,name=writing_functions,json=writingFunctions,proto3" json:"writing_functions,omitempty"`
+	ClosedFunctions  [][]byte `protobuf:"bytes,3,rep,name=closed_functions,json=closedFunctions,proto3" json:"closed_functions,omitempty"`
 }
 
 func (m *MetricDescriptor_BinaryIndices_PaginatingIndex) Reset() {
@@ -2604,22 +2604,22 @@ type MetricDescriptor_BinaryIndices_ByResourceType struct {
 	unknownFields protoimpl.UnknownFields
 	// resource.type in string version, but integer is also
 	// encoded in every other item for convenience.
-	ResourceType string `protobuf:"bytes,1,opt,name=resource_type,json=resourceType,proto3" json:"resource_type,omitempty" firestore:"resourceType"`
+	ResourceType string `protobuf:"bytes,1,opt,name=resource_type,json=resourceType,proto3" json:"resource_type,omitempty"`
 	// List of aggregation encoders, used by streaming job
 	// when computing pre-aggregated values. Last item contains
 	// most recent version of aggregation. Previous entries
 	// will be closed after some time and removed.
-	AggsEncoder [][]byte `protobuf:"bytes,2,rep,name=aggs_encoder,json=aggsEncoder,proto3" json:"aggs_encoder,omitempty" firestore:"aggsEncoder"`
+	AggsEncoder [][]byte `protobuf:"bytes,2,rep,name=aggs_encoder,json=aggsEncoder,proto3" json:"aggs_encoder,omitempty"`
 	// List of pre-aggregated indices with per-storage-aligner information.
 	// These type of indices are more complex due to presence of aligners
 	// with their own liveness status.
-	PreAggregatedIndices []*MetricDescriptor_BinaryIndices_PreAggregatedIndex `protobuf:"bytes,3,rep,name=pre_aggregated_indices,json=preAggregatedIndices,proto3" json:"pre_aggregated_indices,omitempty" firestore:"preAggregatedIndices"`
-	PaginatingIndices    []*MetricDescriptor_BinaryIndices_PaginatingIndex    `protobuf:"bytes,6,rep,name=paginating_indices,json=paginatingIndices,proto3" json:"paginating_indices,omitempty" firestore:"paginatingIndices"`
+	PreAggregatedIndices []*MetricDescriptor_BinaryIndices_PreAggregatedIndex `protobuf:"bytes,3,rep,name=pre_aggregated_indices,json=preAggregatedIndices,proto3" json:"pre_aggregated_indices,omitempty"`
+	PaginatingIndices    []*MetricDescriptor_BinaryIndices_PaginatingIndex    `protobuf:"bytes,6,rep,name=paginating_indices,json=paginatingIndices,proto3" json:"paginating_indices,omitempty"`
 	// Non aggregated indices. Bytes contain identifier with all promoted
 	// keys and name part positions.
-	NonAggregatedIndices [][]byte `protobuf:"bytes,4,rep,name=non_aggregated_indices,json=nonAggregatedIndices,proto3" json:"non_aggregated_indices,omitempty" firestore:"nonAggregatedIndices"`
+	NonAggregatedIndices [][]byte `protobuf:"bytes,4,rep,name=non_aggregated_indices,json=nonAggregatedIndices,proto3" json:"non_aggregated_indices,omitempty"`
 	// index name parts
-	NameParts []string `protobuf:"bytes,5,rep,name=name_parts,json=nameParts,proto3" json:"name_parts,omitempty" firestore:"nameParts"`
+	NameParts []string `protobuf:"bytes,5,rep,name=name_parts,json=nameParts,proto3" json:"name_parts,omitempty"`
 }
 
 func (m *MetricDescriptor_BinaryIndices_ByResourceType) Reset() {

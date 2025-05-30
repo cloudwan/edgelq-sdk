@@ -49,9 +49,9 @@ type LabelDescriptor struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The label key.
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// Label description
-	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (m *LabelDescriptor) Reset() {
@@ -137,7 +137,7 @@ type LabelKeySet struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	LabelKeys     []string `protobuf:"bytes,1,rep,name=label_keys,json=labelKeys,proto3" json:"label_keys,omitempty" firestore:"labelKeys"`
+	LabelKeys     []string `protobuf:"bytes,1,rep,name=label_keys,json=labelKeys,proto3" json:"label_keys,omitempty"`
 }
 
 func (m *LabelKeySet) Reset() {
@@ -213,10 +213,10 @@ type TimeInterval struct {
 	unknownFields protoimpl.UnknownFields
 	// Optional - end of the time interval. If not provided, current
 	// time will be assumed.
-	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" firestore:"endTime"`
+	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 	// Required. The beginning of the time interval. The start time must not be
 	// later than the end time.
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty" firestore:"startTime"`
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 }
 
 func (m *TimeInterval) Reset() {

@@ -118,13 +118,13 @@ type isProvisionHardwareRequest_Msg interface {
 }
 
 type ProvisionHardwareRequest_ProvisioningTarget_ struct {
-	ProvisioningTarget *ProvisionHardwareRequest_ProvisioningTarget `protobuf:"bytes,1,opt,name=provisioning_target,json=provisioningTarget,proto3,oneof" firestore:"provisioningTarget"`
+	ProvisioningTarget *ProvisionHardwareRequest_ProvisioningTarget `protobuf:"bytes,1,opt,name=provisioning_target,json=provisioningTarget,proto3,oneof"`
 }
 type ProvisionHardwareRequest_Identify struct {
-	Identify *api.DeviceIdentity `protobuf:"bytes,2,opt,name=identify,proto3,oneof" firestore:"identify"`
+	Identify *api.DeviceIdentity `protobuf:"bytes,2,opt,name=identify,proto3,oneof"`
 }
 type ProvisionHardwareRequest_ChallengeResponse struct {
-	ChallengeResponse *api.IdentityChallengeResponse `protobuf:"bytes,3,opt,name=challenge_response,json=challengeResponse,proto3,oneof" firestore:"challengeResponse"`
+	ChallengeResponse *api.IdentityChallengeResponse `protobuf:"bytes,3,opt,name=challenge_response,json=challengeResponse,proto3,oneof"`
 }
 
 func (*ProvisionHardwareRequest_ProvisioningTarget_) isProvisionHardwareRequest_Msg() {}
@@ -237,10 +237,10 @@ type isProvisionHardwareResponse_Msg interface {
 }
 
 type ProvisionHardwareResponse_IdentityChallenge struct {
-	IdentityChallenge *api.IdentityChallenge `protobuf:"bytes,1,opt,name=identity_challenge,json=identityChallenge,proto3,oneof" firestore:"identityChallenge"`
+	IdentityChallenge *api.IdentityChallenge `protobuf:"bytes,1,opt,name=identity_challenge,json=identityChallenge,proto3,oneof"`
 }
 type ProvisionHardwareResponse_ProvisioningResponse_ struct {
-	ProvisioningResponse *ProvisionHardwareResponse_ProvisioningResponse `protobuf:"bytes,2,opt,name=provisioning_response,json=provisioningResponse,proto3,oneof" firestore:"provisioningResponse"`
+	ProvisioningResponse *ProvisionHardwareResponse_ProvisioningResponse `protobuf:"bytes,2,opt,name=provisioning_response,json=provisioningResponse,proto3,oneof"`
 }
 
 func (*ProvisionHardwareResponse_IdentityChallenge) isProvisionHardwareResponse_Msg()     {}
@@ -282,8 +282,8 @@ type ProvisionHardwareRequest_ProvisioningTarget struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// one of provisioning_policy_name or device_name is required
-	ProvisioningPolicyName *provisioning_policy.Name `protobuf:"bytes,1,opt,customtype=Name,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty" firestore:"provisioningPolicyName"`
-	DeviceName             *device.Name              `protobuf:"bytes,2,opt,customtype=Name,name=device_name,json=deviceName,proto3" json:"device_name,omitempty" firestore:"deviceName"`
+	ProvisioningPolicyName *provisioning_policy.Name `protobuf:"bytes,1,opt,customtype=Name,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty"`
+	DeviceName             *device.Name              `protobuf:"bytes,2,opt,customtype=Name,name=device_name,json=deviceName,proto3" json:"device_name,omitempty"`
 }
 
 func (m *ProvisionHardwareRequest_ProvisioningTarget) Reset() {
@@ -370,9 +370,9 @@ type ProvisionHardwareResponse_ProvisioningResponse struct {
 	state                  protoimpl.MessageState
 	sizeCache              protoimpl.SizeCache
 	unknownFields          protoimpl.UnknownFields
-	ServiceAccount         *api.ServiceAccount       `protobuf:"bytes,1,opt,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty" firestore:"serviceAccount"`
-	ProvisioningPolicyName *provisioning_policy.Name `protobuf:"bytes,2,opt,customtype=Name,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty" firestore:"provisioningPolicyName"`
-	DeviceName             *device.Name              `protobuf:"bytes,3,opt,customtype=Name,name=device_name,json=deviceName,proto3" json:"device_name,omitempty" firestore:"deviceName"`
+	ServiceAccount         *api.ServiceAccount       `protobuf:"bytes,1,opt,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
+	ProvisioningPolicyName *provisioning_policy.Name `protobuf:"bytes,2,opt,customtype=Name,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty"`
+	DeviceName             *device.Name              `protobuf:"bytes,3,opt,customtype=Name,name=device_name,json=deviceName,proto3" json:"device_name,omitempty"`
 }
 
 func (m *ProvisionHardwareResponse_ProvisioningResponse) Reset() {

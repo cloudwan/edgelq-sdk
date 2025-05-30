@@ -119,20 +119,20 @@ type isAlertingPolicyChange_ChangeType interface {
 type AlertingPolicyChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *AlertingPolicyChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *AlertingPolicyChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type AlertingPolicyChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *AlertingPolicyChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *AlertingPolicyChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type AlertingPolicyChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *AlertingPolicyChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *AlertingPolicyChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type AlertingPolicyChange_Removed_ struct {
 	// Removed is returned when AlertingPolicy is deleted or leaves Query view
-	Removed *AlertingPolicyChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *AlertingPolicyChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*AlertingPolicyChange_Added_) isAlertingPolicyChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type AlertingPolicyChange_Added struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	AlertingPolicy *AlertingPolicy `protobuf:"bytes,1,opt,name=alerting_policy,json=alertingPolicy,proto3" json:"alerting_policy,omitempty" firestore:"alertingPolicy"`
+	AlertingPolicy *AlertingPolicy `protobuf:"bytes,1,opt,name=alerting_policy,json=alertingPolicy,proto3" json:"alerting_policy,omitempty"`
 	// Integer describing index of added AlertingPolicy in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AlertingPolicyChange_Added) Reset() {
@@ -283,20 +283,20 @@ type AlertingPolicyChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified AlertingPolicy
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of AlertingPolicy or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchAlertingPolicyRequest] or
 	// [WatchAlertingPoliciesRequest]
-	AlertingPolicy *AlertingPolicy `protobuf:"bytes,2,opt,name=alerting_policy,json=alertingPolicy,proto3" json:"alerting_policy,omitempty" firestore:"alertingPolicy"`
+	AlertingPolicy *AlertingPolicy `protobuf:"bytes,2,opt,name=alerting_policy,json=alertingPolicy,proto3" json:"alerting_policy,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *AlertingPolicy_FieldMask `protobuf:"bytes,3,opt,customtype=AlertingPolicy_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *AlertingPolicy_FieldMask `protobuf:"bytes,3,opt,customtype=AlertingPolicy_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// AlertingPolicy. When modification doesn't affect sorted order, value will
 	// remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying AlertingPolicy new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AlertingPolicyChange_Modified) Reset() {
@@ -425,7 +425,7 @@ type AlertingPolicyChange_Current struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	AlertingPolicy *AlertingPolicy `protobuf:"bytes,1,opt,name=alerting_policy,json=alertingPolicy,proto3" json:"alerting_policy,omitempty" firestore:"alertingPolicy"`
+	AlertingPolicy *AlertingPolicy `protobuf:"bytes,1,opt,name=alerting_policy,json=alertingPolicy,proto3" json:"alerting_policy,omitempty"`
 }
 
 func (m *AlertingPolicyChange_Current) Reset() {
@@ -497,10 +497,10 @@ type AlertingPolicyChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed AlertingPolicy index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AlertingPolicyChange_Removed) Reset() {

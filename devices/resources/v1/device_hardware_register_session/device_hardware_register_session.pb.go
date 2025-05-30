@@ -63,40 +63,40 @@ type DeviceHardwareRegisterSession struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name        *Name  `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	DisplayName string `protobuf:"bytes,14,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	Name        *Name  `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	DisplayName string `protobuf:"bytes,14,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Start time, if not set, current time will be used
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty" firestore:"startTime"`
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// Expiration time, if not set, will be set to 1 week from now
-	ExpirationTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expiration_time,json=expirationTime,proto3" json:"expiration_time,omitempty" firestore:"expirationTime"`
+	ExpirationTime *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expiration_time,json=expirationTime,proto3" json:"expiration_time,omitempty"`
 	// Email address of the user who will register the hardware
 	// Only used to send an email. Not used for identity/authorization
-	UserEmail string `protobuf:"bytes,5,opt,name=user_email,json=userEmail,proto3" json:"user_email,omitempty" firestore:"userEmail"`
+	UserEmail string `protobuf:"bytes,5,opt,name=user_email,json=userEmail,proto3" json:"user_email,omitempty"`
 	// Inviter Email, automatically set from token, not accepted as input
-	InviterEmail string `protobuf:"bytes,6,opt,name=inviter_email,json=inviterEmail,proto3" json:"inviter_email,omitempty" firestore:"inviterEmail"`
+	InviterEmail string `protobuf:"bytes,6,opt,name=inviter_email,json=inviterEmail,proto3" json:"inviter_email,omitempty"`
 	// Email ISO language code. Defaults to "en-us" (American English).
-	LanguageCode string `protobuf:"bytes,7,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty" firestore:"languageCode"`
+	LanguageCode string `protobuf:"bytes,7,opt,name=language_code,json=languageCode,proto3" json:"language_code,omitempty"`
 	// Extra custom fields to further customize email.
 	// Fields should be agreed between sender (usually UI) and documented in
 	// the template of email service provider.
-	Extras map[string]string `protobuf:"bytes,8,rep,name=extras,proto3" json:"extras,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"extras"`
+	Extras map[string]string `protobuf:"bytes,8,rep,name=extras,proto3" json:"extras,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Provisioning Policy name to register hardware
 	// one of provisioning_policy_name or device_name is required
-	ProvisioningPolicyName *provisioning_policy.Reference `protobuf:"bytes,9,opt,customtype=Reference,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty" firestore:"provisioningPolicyName"`
+	ProvisioningPolicyName *provisioning_policy.Reference `protobuf:"bytes,9,opt,customtype=Reference,name=provisioning_policy_name,json=provisioningPolicyName,proto3" json:"provisioning_policy_name,omitempty"`
 	// Device name to register hardware
-	DeviceName *device.Reference `protobuf:"bytes,10,opt,customtype=Reference,name=device_name,json=deviceName,proto3" json:"device_name,omitempty" firestore:"deviceName"`
+	DeviceName *device.Reference `protobuf:"bytes,10,opt,customtype=Reference,name=device_name,json=deviceName,proto3" json:"device_name,omitempty"`
 	// If true, only one hardware can be registered using this session
 	// If false, multiple hardwares can be registered using this session
-	SingleUse bool `protobuf:"varint,11,opt,name=single_use,json=singleUse,proto3" json:"single_use,omitempty" firestore:"singleUse"`
+	SingleUse bool `protobuf:"varint,11,opt,name=single_use,json=singleUse,proto3" json:"single_use,omitempty"`
 	// auto-generated
-	Token  string                                `protobuf:"bytes,12,opt,name=token,proto3" json:"token,omitempty" firestore:"token"`
-	Status *DeviceHardwareRegisterSession_Status `protobuf:"bytes,13,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Token  string                                `protobuf:"bytes,12,opt,name=token,proto3" json:"token,omitempty"`
+	Status *DeviceHardwareRegisterSession_Status `protobuf:"bytes,13,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *DeviceHardwareRegisterSession) Reset() {
@@ -351,7 +351,7 @@ type DeviceHardwareRegisterSession_Status struct {
 	unknownFields protoimpl.UnknownFields
 	// Device hardwares that were registered with this session
 	// Deleted names are retailed for history
-	DeviceHardwares []*device_hardware.Name `protobuf:"bytes,1,rep,customtype=Name,name=device_hardwares,json=deviceHardwares,proto3" json:"device_hardwares,omitempty" firestore:"deviceHardwares"`
+	DeviceHardwares []*device_hardware.Name `protobuf:"bytes,1,rep,customtype=Name,name=device_hardwares,json=deviceHardwares,proto3" json:"device_hardwares,omitempty"`
 }
 
 func (m *DeviceHardwareRegisterSession_Status) Reset() {

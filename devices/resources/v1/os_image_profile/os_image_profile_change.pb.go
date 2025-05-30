@@ -119,20 +119,20 @@ type isOsImageProfileChange_ChangeType interface {
 type OsImageProfileChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *OsImageProfileChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *OsImageProfileChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type OsImageProfileChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *OsImageProfileChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *OsImageProfileChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type OsImageProfileChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *OsImageProfileChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *OsImageProfileChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type OsImageProfileChange_Removed_ struct {
 	// Removed is returned when OsImageProfile is deleted or leaves Query view
-	Removed *OsImageProfileChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *OsImageProfileChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*OsImageProfileChange_Added_) isOsImageProfileChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type OsImageProfileChange_Added struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	OsImageProfile *OsImageProfile `protobuf:"bytes,1,opt,name=os_image_profile,json=osImageProfile,proto3" json:"os_image_profile,omitempty" firestore:"osImageProfile"`
+	OsImageProfile *OsImageProfile `protobuf:"bytes,1,opt,name=os_image_profile,json=osImageProfile,proto3" json:"os_image_profile,omitempty"`
 	// Integer describing index of added OsImageProfile in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *OsImageProfileChange_Added) Reset() {
@@ -283,20 +283,20 @@ type OsImageProfileChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified OsImageProfile
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of OsImageProfile or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchOsImageProfileRequest] or
 	// [WatchOsImageProfilesRequest]
-	OsImageProfile *OsImageProfile `protobuf:"bytes,2,opt,name=os_image_profile,json=osImageProfile,proto3" json:"os_image_profile,omitempty" firestore:"osImageProfile"`
+	OsImageProfile *OsImageProfile `protobuf:"bytes,2,opt,name=os_image_profile,json=osImageProfile,proto3" json:"os_image_profile,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *OsImageProfile_FieldMask `protobuf:"bytes,3,opt,customtype=OsImageProfile_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *OsImageProfile_FieldMask `protobuf:"bytes,3,opt,customtype=OsImageProfile_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// OsImageProfile. When modification doesn't affect sorted order, value will
 	// remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying OsImageProfile new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *OsImageProfileChange_Modified) Reset() {
@@ -425,7 +425,7 @@ type OsImageProfileChange_Current struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	OsImageProfile *OsImageProfile `protobuf:"bytes,1,opt,name=os_image_profile,json=osImageProfile,proto3" json:"os_image_profile,omitempty" firestore:"osImageProfile"`
+	OsImageProfile *OsImageProfile `protobuf:"bytes,1,opt,name=os_image_profile,json=osImageProfile,proto3" json:"os_image_profile,omitempty"`
 }
 
 func (m *OsImageProfileChange_Current) Reset() {
@@ -497,10 +497,10 @@ type OsImageProfileChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed OsImageProfile index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *OsImageProfileChange_Removed) Reset() {

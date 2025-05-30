@@ -193,10 +193,10 @@ type isVerifyRequest_Msg interface {
 }
 
 type VerifyRequest_AskForChallenge_ struct {
-	AskForChallenge *VerifyRequest_AskForChallenge `protobuf:"bytes,1,opt,name=ask_for_challenge,json=askForChallenge,proto3,oneof" firestore:"askForChallenge"`
+	AskForChallenge *VerifyRequest_AskForChallenge `protobuf:"bytes,1,opt,name=ask_for_challenge,json=askForChallenge,proto3,oneof"`
 }
 type VerifyRequest_ChallengeResponse_ struct {
-	ChallengeResponse *VerifyRequest_ChallengeResponse `protobuf:"bytes,2,opt,name=challenge_response,json=challengeResponse,proto3,oneof" firestore:"challengeResponse"`
+	ChallengeResponse *VerifyRequest_ChallengeResponse `protobuf:"bytes,2,opt,name=challenge_response,json=challengeResponse,proto3,oneof"`
 }
 
 func (*VerifyRequest_AskForChallenge_) isVerifyRequest_Msg()   {}
@@ -298,10 +298,10 @@ type isVerifyResponse_Msg interface {
 }
 
 type VerifyResponse_Challenge_ struct {
-	Challenge *VerifyResponse_Challenge `protobuf:"bytes,1,opt,name=challenge,proto3,oneof" firestore:"challenge"`
+	Challenge *VerifyResponse_Challenge `protobuf:"bytes,1,opt,name=challenge,proto3,oneof"`
 }
 type VerifyResponse_AttestationSuccessful_ struct {
-	AttestationSuccessful *VerifyResponse_AttestationSuccessful `protobuf:"bytes,2,opt,name=attestation_successful,json=attestationSuccessful,proto3,oneof" firestore:"attestationSuccessful"`
+	AttestationSuccessful *VerifyResponse_AttestationSuccessful `protobuf:"bytes,2,opt,name=attestation_successful,json=attestationSuccessful,proto3,oneof"`
 }
 
 func (*VerifyResponse_Challenge_) isVerifyResponse_Msg()             {}
@@ -345,35 +345,35 @@ type VerifyRequest_AskForChallenge struct {
 	// This "sub" should be compared to "sub" of JWT access token during
 	// validation. "Sub" comparison ties both tokens together and protects
 	// against theft/reuse of one of them by another service account.
-	Subject string `protobuf:"bytes,1,opt,name=subject,proto3" json:"subject,omitempty" firestore:"subject"`
+	Subject string `protobuf:"bytes,1,opt,name=subject,proto3" json:"subject,omitempty"`
 	// attestation domain ref
-	AttestationDomain *attestation_domain.Name `protobuf:"bytes,2,opt,customtype=Name,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty" firestore:"attestationDomain"`
-	TpmVersion        iam_common.TpmVersion    `protobuf:"varint,3,opt,name=tpm_version,json=tpmVersion,proto3,enum=ntt.iam.v1.TpmVersion" json:"tpm_version,omitempty" firestore:"tpmVersion"`
+	AttestationDomain *attestation_domain.Name `protobuf:"bytes,2,opt,customtype=Name,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty"`
+	TpmVersion        iam_common.TpmVersion    `protobuf:"varint,3,opt,name=tpm_version,json=tpmVersion,proto3,enum=ntt.iam.v1.TpmVersion" json:"tpm_version,omitempty"`
 	// PKIX encoded EK public
-	Ekpub []byte `protobuf:"bytes,4,opt,name=ekpub,proto3" json:"ekpub,omitempty" firestore:"ekpub"`
+	Ekpub []byte `protobuf:"bytes,4,opt,name=ekpub,proto3" json:"ekpub,omitempty"`
 	// ASN.1 DER encoded EK certificate.
-	Ekcert []byte `protobuf:"bytes,5,opt,name=ekcert,proto3" json:"ekcert,omitempty" firestore:"ekcert"`
+	Ekcert []byte `protobuf:"bytes,5,opt,name=ekcert,proto3" json:"ekcert,omitempty"`
 	// For Intel TPMs, Intel hosts certificates at a public URL derived from the
 	// Public key. Clients or servers can perform an HTTP GET to this URL, and
 	// use ParseEKCertificate on the response body.
-	Ekcerturl string `protobuf:"bytes,6,opt,name=ekcerturl,proto3" json:"ekcerturl,omitempty" firestore:"ekcerturl"`
+	Ekcerturl string `protobuf:"bytes,6,opt,name=ekcerturl,proto3" json:"ekcerturl,omitempty"`
 	// https://trustedcomputinggroup.org/wp-content/uploads/TPM-Main-Part-2-TPM-Structures_v1.2_rev116_01032011.pdf
 	// https://www.trustedcomputinggroup.org/wp-content/uploads/TPM-Rev-2.0-Part-2-Structures-01.38.pdf
 	// TPMT_PUBLIC (TPM 2.0) or TPM_PUBKEY (TPM 1.2)
-	Akpub []byte `protobuf:"bytes,7,opt,name=akpub,proto3" json:"akpub,omitempty" firestore:"akpub"`
+	Akpub []byte `protobuf:"bytes,7,opt,name=akpub,proto3" json:"akpub,omitempty"`
 	// TPMS_CREATION_DATA
-	CreationData []byte `protobuf:"bytes,8,opt,name=creation_data,json=creationData,proto3" json:"creation_data,omitempty" firestore:"creationData"`
+	CreationData []byte `protobuf:"bytes,8,opt,name=creation_data,json=creationData,proto3" json:"creation_data,omitempty"`
 	// TPMS_ATTEST
-	Attest []byte `protobuf:"bytes,9,opt,name=attest,proto3" json:"attest,omitempty" firestore:"attest"`
+	Attest []byte `protobuf:"bytes,9,opt,name=attest,proto3" json:"attest,omitempty"`
 	// TPMT_SIGNATURE
-	Signature []byte `protobuf:"bytes,10,opt,name=signature,proto3" json:"signature,omitempty" firestore:"signature"`
+	Signature []byte `protobuf:"bytes,10,opt,name=signature,proto3" json:"signature,omitempty"`
 	// ChallengeFormat defines the method of generating identity activation
 	// challenge by the Verifier (server). It should affect the interpretation
 	// ChallengeResponse fields cred_encrypted_by_ekpub and
 	// secret_encrypted_by_cred. Attestor (client) is responsible for chosing
 	// the right format depending on TPM version and the presence of TrouSerS
 	// daemon.
-	ChallengeFormat VerifyRequest_AskForChallenge_ChallengeFormat `protobuf:"varint,11,opt,name=challenge_format,json=challengeFormat,proto3,enum=ntt.iam.v1.VerifyRequest_AskForChallenge_ChallengeFormat" json:"challenge_format,omitempty" firestore:"challengeFormat"`
+	ChallengeFormat VerifyRequest_AskForChallenge_ChallengeFormat `protobuf:"varint,11,opt,name=challenge_format,json=challengeFormat,proto3,enum=ntt.iam.v1.VerifyRequest_AskForChallenge_ChallengeFormat" json:"challenge_format,omitempty"`
 }
 
 func (m *VerifyRequest_AskForChallenge) Reset() {
@@ -584,11 +584,11 @@ type VerifyRequest_ChallengeResponse struct {
 	state                       protoimpl.MessageState
 	sizeCache                   protoimpl.SizeCache
 	unknownFields               protoimpl.UnknownFields
-	AkActivationDecryptedSecret []byte                                   `protobuf:"bytes,1,opt,name=ak_activation_decrypted_secret,json=akActivationDecryptedSecret,proto3" json:"ak_activation_decrypted_secret,omitempty" firestore:"akActivationDecryptedSecret"`
-	Quotes                      []*VerifyRequest_ChallengeResponse_Quote `protobuf:"bytes,2,rep,name=quotes,proto3" json:"quotes,omitempty" firestore:"quotes"`
-	Pcrs                        []*iam_common.PCR                        `protobuf:"bytes,3,rep,name=pcrs,proto3" json:"pcrs,omitempty" firestore:"pcrs"`
+	AkActivationDecryptedSecret []byte                                   `protobuf:"bytes,1,opt,name=ak_activation_decrypted_secret,json=akActivationDecryptedSecret,proto3" json:"ak_activation_decrypted_secret,omitempty"`
+	Quotes                      []*VerifyRequest_ChallengeResponse_Quote `protobuf:"bytes,2,rep,name=quotes,proto3" json:"quotes,omitempty"`
+	Pcrs                        []*iam_common.PCR                        `protobuf:"bytes,3,rep,name=pcrs,proto3" json:"pcrs,omitempty"`
 	// Binary contents of /sys/kernel/security/tpm0/binary_bios_measurements
-	Eventlog []byte `protobuf:"bytes,4,opt,name=eventlog,proto3" json:"eventlog,omitempty" firestore:"eventlog"`
+	Eventlog []byte `protobuf:"bytes,4,opt,name=eventlog,proto3" json:"eventlog,omitempty"`
 }
 
 func (m *VerifyRequest_ChallengeResponse) Reset() {
@@ -704,9 +704,9 @@ type VerifyRequest_ChallengeResponse_Quote struct {
 	// TPMS_ATTEST (TSS_VALIDATION.Data or TSS_VALIDATION.rgbData)
 	// This contains PCR selection information for which the signature was
 	// calculated and other required data, like nonce.
-	Quote []byte `protobuf:"bytes,1,opt,name=quote,proto3" json:"quote,omitempty" firestore:"quote"`
+	Quote []byte `protobuf:"bytes,1,opt,name=quote,proto3" json:"quote,omitempty"`
 	// TSS_VALIDATION.ValidationData or TSS_VALIDATION.rgbValidationData
-	Signature []byte `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty" firestore:"signature"`
+	Signature []byte `protobuf:"bytes,2,opt,name=signature,proto3" json:"signature,omitempty"`
 }
 
 func (m *VerifyRequest_ChallengeResponse_Quote) Reset() {
@@ -792,10 +792,10 @@ type VerifyResponse_Challenge struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Platform attestation
-	PlatformAttestationNonce []byte `protobuf:"bytes,1,opt,name=platform_attestation_nonce,json=platformAttestationNonce,proto3" json:"platform_attestation_nonce,omitempty" firestore:"platformAttestationNonce"`
+	PlatformAttestationNonce []byte `protobuf:"bytes,1,opt,name=platform_attestation_nonce,json=platformAttestationNonce,proto3" json:"platform_attestation_nonce,omitempty"`
 	// AK Identity Activation
-	CredEncryptedByEkpub  []byte `protobuf:"bytes,2,opt,name=cred_encrypted_by_ekpub,json=credEncryptedByEkpub,proto3" json:"cred_encrypted_by_ekpub,omitempty" firestore:"credEncryptedByEkpub"`
-	SecretEncryptedByCred []byte `protobuf:"bytes,3,opt,name=secret_encrypted_by_cred,json=secretEncryptedByCred,proto3" json:"secret_encrypted_by_cred,omitempty" firestore:"secretEncryptedByCred"`
+	CredEncryptedByEkpub  []byte `protobuf:"bytes,2,opt,name=cred_encrypted_by_ekpub,json=credEncryptedByEkpub,proto3" json:"cred_encrypted_by_ekpub,omitempty"`
+	SecretEncryptedByCred []byte `protobuf:"bytes,3,opt,name=secret_encrypted_by_cred,json=secretEncryptedByCred,proto3" json:"secret_encrypted_by_cred,omitempty"`
 }
 
 func (m *VerifyResponse_Challenge) Reset() {
@@ -894,7 +894,7 @@ type VerifyResponse_AttestationSuccessful struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	AttestationToken string `protobuf:"bytes,1,opt,name=attestation_token,json=attestationToken,proto3" json:"attestation_token,omitempty" firestore:"attestationToken"`
+	AttestationToken string `protobuf:"bytes,1,opt,name=attestation_token,json=attestationToken,proto3" json:"attestation_token,omitempty"`
 }
 
 func (m *VerifyResponse_AttestationSuccessful) Reset() {

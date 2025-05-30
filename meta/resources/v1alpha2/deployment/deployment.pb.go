@@ -58,11 +58,11 @@ type Deployment struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Deployed service
-	Service *service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Deployment) Reset() {

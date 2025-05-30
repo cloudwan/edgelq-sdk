@@ -118,21 +118,21 @@ type isRecoveryStoreShardingInfoChange_ChangeType interface {
 type RecoveryStoreShardingInfoChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *RecoveryStoreShardingInfoChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *RecoveryStoreShardingInfoChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type RecoveryStoreShardingInfoChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *RecoveryStoreShardingInfoChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *RecoveryStoreShardingInfoChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type RecoveryStoreShardingInfoChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *RecoveryStoreShardingInfoChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *RecoveryStoreShardingInfoChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type RecoveryStoreShardingInfoChange_Removed_ struct {
 	// Removed is returned when RecoveryStoreShardingInfo is deleted or leaves
 	// Query view
-	Removed *RecoveryStoreShardingInfoChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *RecoveryStoreShardingInfoChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*RecoveryStoreShardingInfoChange_Added_) isRecoveryStoreShardingInfoChange_ChangeType()    {}
@@ -193,10 +193,10 @@ type RecoveryStoreShardingInfoChange_Added struct {
 	state                     protoimpl.MessageState
 	sizeCache                 protoimpl.SizeCache
 	unknownFields             protoimpl.UnknownFields
-	RecoveryStoreShardingInfo *RecoveryStoreShardingInfo `protobuf:"bytes,1,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty" firestore:"recoveryStoreShardingInfo"`
+	RecoveryStoreShardingInfo *RecoveryStoreShardingInfo `protobuf:"bytes,1,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty"`
 	// Integer describing index of added RecoveryStoreShardingInfo in resulting
 	// query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RecoveryStoreShardingInfoChange_Added) Reset() {
@@ -284,22 +284,22 @@ type RecoveryStoreShardingInfoChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified RecoveryStoreShardingInfo
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of RecoveryStoreShardingInfo or masked difference, depending
 	// on mask_changes instrumentation of issued
 	// [WatchRecoveryStoreShardingInfoRequest] or
 	// [WatchRecoveryStoreShardingInfosRequest]
-	RecoveryStoreShardingInfo *RecoveryStoreShardingInfo `protobuf:"bytes,2,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty" firestore:"recoveryStoreShardingInfo"`
+	RecoveryStoreShardingInfo *RecoveryStoreShardingInfo `protobuf:"bytes,2,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *RecoveryStoreShardingInfo_FieldMask `protobuf:"bytes,3,opt,customtype=RecoveryStoreShardingInfo_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// RecoveryStoreShardingInfo. When modification doesn't affect sorted order,
 	// value will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying RecoveryStoreShardingInfo new index in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RecoveryStoreShardingInfoChange_Modified) Reset() {
@@ -428,7 +428,7 @@ type RecoveryStoreShardingInfoChange_Current struct {
 	state                     protoimpl.MessageState
 	sizeCache                 protoimpl.SizeCache
 	unknownFields             protoimpl.UnknownFields
-	RecoveryStoreShardingInfo *RecoveryStoreShardingInfo `protobuf:"bytes,1,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty" firestore:"recoveryStoreShardingInfo"`
+	RecoveryStoreShardingInfo *RecoveryStoreShardingInfo `protobuf:"bytes,1,opt,name=recovery_store_sharding_info,json=recoveryStoreShardingInfo,proto3" json:"recovery_store_sharding_info,omitempty"`
 }
 
 func (m *RecoveryStoreShardingInfoChange_Current) Reset() {
@@ -501,10 +501,10 @@ type RecoveryStoreShardingInfoChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed RecoveryStoreShardingInfo index. Not populated
 	// in stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RecoveryStoreShardingInfoChange_Removed) Reset() {

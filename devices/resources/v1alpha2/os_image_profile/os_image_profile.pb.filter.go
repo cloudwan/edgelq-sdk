@@ -7,13 +7,8 @@ package os_image_profile
 import (
 	"fmt"
 	"math"
-	"reflect"
 	"strings"
 
-	"github.com/google/cel-go/common/types"
-	"github.com/google/cel-go/common/types/ref"
-	"github.com/google/cel-go/common/types/traits"
-	firestorepb "google.golang.org/genproto/googleapis/firestore/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -36,10 +31,6 @@ var (
 	_ = strings.Builder{}
 	_ = math.IsNaN
 
-	_ = types.Bool(true)
-	_ = new(ref.Type)
-	_ = new(traits.Receiver)
-	_ = firestorepb.Value{}
 	_ = new(proto.Message)
 
 	_ = new(gotenobject.FieldPath)
@@ -995,82 +986,6 @@ func (filter *Filter) String() string {
 
 func (filter *Filter) SetFromCliFlag(raw string) error {
 	return filter.ParseProtoString(raw)
-}
-
-// Google CEL integration Type
-var celFilter = types.NewTypeValue("Filter", traits.ReceiverType)
-
-func (filter *Filter) TypeName() string {
-	return ".ntt.devices.v1alpha2.OsImageProfile.Filter"
-}
-
-func (filter *Filter) HasTrait(trait int) bool {
-	return trait == traits.ReceiverType
-}
-
-func (filter *Filter) Equal(other ref.Val) ref.Val {
-	return types.Bool(false)
-}
-
-func (filter *Filter) Value() interface{} {
-	return filter
-}
-
-func (filter *Filter) Match(pattern ref.Val) ref.Val {
-	return types.Bool(true)
-}
-
-func (filter *Filter) Receive(function string, overload string, args []ref.Val) ref.Val {
-	cnd := filter.GetCondition()
-	switch function {
-	case "satisfies":
-		rhsFilter := new(Filter)
-		if err := rhsFilter.ParseProtoString(string(args[0].(types.String))); err != nil {
-			return types.ValOrErr(celFilter, "function %s condition parse error: %s", function, err)
-		}
-		return types.Bool(cnd.Satisfies(rhsFilter.GetCondition()))
-	case "specifies":
-		fp, err := ParseOsImageProfile_FieldPath(string(args[0].(types.String)))
-		if err != nil {
-			return types.ValOrErr(celFilter, "function %s field-path parse error: %s", function, err)
-		}
-		return types.Bool(cnd.SpecifiesFieldPath(fp))
-	default:
-		return types.ValOrErr(celFilter, "no such function - %s", function)
-	}
-}
-
-func (filter *Filter) ConvertToNative(typeDesc reflect.Type) (interface{}, error) {
-	panic("not required")
-}
-
-func (filter *Filter) ConvertToType(typeVal ref.Type) ref.Val {
-	switch typeVal.TypeName() {
-	case types.StringType.TypeName():
-		return types.String(filter.String())
-	default:
-		panic(fmt.Errorf("unable to convert %s to CEL type %s", "Filter", typeVal.TypeName()))
-	}
-}
-
-func (filter *Filter) Type() ref.Type {
-	return celFilter
-}
-
-// firestore encoding/decoding integration
-func (filter *Filter) EncodeFirestore() (*firestorepb.Value, error) {
-	if filter == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	if fvalue, err := filter.ProtoString(); err != nil {
-		return nil, err
-	} else {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: fvalue}}, nil
-	}
-}
-
-func (filter *Filter) DecodeFirestore(fpbv *firestorepb.Value) error {
-	return filter.ParseProtoString(fpbv.GetStringValue())
 }
 
 // helpers

@@ -82,6 +82,20 @@ func (obj *Role) GotenValidate() error {
 			}
 		}
 	}
+	for idx, elem := range obj.ConstValues {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Role", "constValues", obj.ConstValues[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.DefaultValues {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Role", "defaultValues", obj.DefaultValues[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	for idx, elem := range obj.Grants {
 		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
 			if err := subobj.GotenValidate(); err != nil {

@@ -55,20 +55,20 @@ type TpmAttestationCert struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata     *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	DisplayName  string     `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
-	Manufacturer string     `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
+	Metadata     *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	DisplayName  string     `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Manufacturer string     `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
 	// Should be in the format "productname (sku)"
-	ProductName           string `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	TpmManufacturerCaCert string `protobuf:"bytes,6,opt,name=tpm_manufacturer_ca_cert,json=tpmManufacturerCaCert,proto3" json:"tpm_manufacturer_ca_cert,omitempty" firestore:"tpmManufacturerCaCert"`
-	IdevidIssuerCaCert    string `protobuf:"bytes,7,opt,name=idevid_issuer_ca_cert,json=idevidIssuerCaCert,proto3" json:"idevid_issuer_ca_cert,omitempty" firestore:"idevidIssuerCaCert"`
-	LdevidIssuerCaCert    string `protobuf:"bytes,8,opt,name=ldevid_issuer_ca_cert,json=ldevidIssuerCaCert,proto3" json:"ldevid_issuer_ca_cert,omitempty" firestore:"ldevidIssuerCaCert"`
+	ProductName           string `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	TpmManufacturerCaCert string `protobuf:"bytes,6,opt,name=tpm_manufacturer_ca_cert,json=tpmManufacturerCaCert,proto3" json:"tpm_manufacturer_ca_cert,omitempty"`
+	IdevidIssuerCaCert    string `protobuf:"bytes,7,opt,name=idevid_issuer_ca_cert,json=idevidIssuerCaCert,proto3" json:"idevid_issuer_ca_cert,omitempty"`
+	LdevidIssuerCaCert    string `protobuf:"bytes,8,opt,name=ldevid_issuer_ca_cert,json=ldevidIssuerCaCert,proto3" json:"ldevid_issuer_ca_cert,omitempty"`
 }
 
 func (m *TpmAttestationCert) Reset() {

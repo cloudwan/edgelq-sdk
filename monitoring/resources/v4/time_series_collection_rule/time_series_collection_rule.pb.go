@@ -64,27 +64,27 @@ type TimeSeriesCollectionRule struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Optional display name
-	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Time series filter to apply.
-	Filter *time_serie.Filter `protobuf:"bytes,3,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *time_serie.Filter `protobuf:"bytes,3,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// Instructs how to transform individual time series (aligner) and combine
 	// them together (reducer, group by fields).
-	Aggregation *common.Aggregation `protobuf:"bytes,4,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	Aggregation *common.Aggregation `protobuf:"bytes,4,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
 	// Allocated persistent rule IDs for underlying watch.
-	RuleIds []string `protobuf:"bytes,5,rep,name=rule_ids,json=ruleIds,proto3" json:"rule_ids,omitempty" firestore:"ruleIds"`
+	RuleIds []string `protobuf:"bytes,5,rep,name=rule_ids,json=ruleIds,proto3" json:"rule_ids,omitempty"`
 	// Optional sink where data is automatically forwarder.
 	// It can be nil, if intention for this collection rule is to aid in pulling
 	// via time series watch feature (TODO: Not implemented, rule without sink has
 	// no effect).
-	Sink *time_series_forwarder_sink.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=sink,proto3" json:"sink,omitempty" firestore:"sink"`
+	Sink *time_series_forwarder_sink.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=sink,proto3" json:"sink,omitempty"`
 }
 
 func (m *TimeSeriesCollectionRule) Reset() {

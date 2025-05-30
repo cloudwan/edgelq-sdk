@@ -99,6 +99,30 @@ func (o *Role) MakeDiffFieldMask(other *Role) *Role_FieldMask {
 		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorScopeParams})
 	}
 
+	if len(o.GetConstValues()) == len(other.GetConstValues()) {
+		for i, lValue := range o.GetConstValues() {
+			rValue := other.GetConstValues()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorConstValues})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorConstValues})
+	}
+
+	if len(o.GetDefaultValues()) == len(other.GetDefaultValues()) {
+		for i, lValue := range o.GetDefaultValues() {
+			rValue := other.GetDefaultValues()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDefaultValues})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDefaultValues})
+	}
+
 	if len(o.GetGrants()) == len(other.GetGrants()) {
 		for i, lValue := range o.GetGrants() {
 			rValue := other.GetGrants()[i]
@@ -167,6 +191,14 @@ func (o *Role) Clone() *Role {
 	for i, sourceValue := range o.ScopeParams {
 		result.ScopeParams[i] = sourceValue.Clone()
 	}
+	result.ConstValues = make([]*ScopeParam, len(o.ConstValues))
+	for i, sourceValue := range o.ConstValues {
+		result.ConstValues[i] = sourceValue.Clone()
+	}
+	result.DefaultValues = make([]*ScopeParam, len(o.DefaultValues))
+	for i, sourceValue := range o.DefaultValues {
+		result.DefaultValues[i] = sourceValue.Clone()
+	}
 	result.Grants = make([]*Role_Grant, len(o.Grants))
 	for i, sourceValue := range o.Grants {
 		result.Grants[i] = sourceValue.Clone()
@@ -233,6 +265,42 @@ func (o *Role) Merge(source *Role) {
 				newDstElement.Merge(sourceValue)
 			}
 			o.ScopeParams = append(o.ScopeParams, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetConstValues() {
+		exists := false
+		for _, currentValue := range o.ConstValues {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *ScopeParam
+			if sourceValue != nil {
+				newDstElement = new(ScopeParam)
+				newDstElement.Merge(sourceValue)
+			}
+			o.ConstValues = append(o.ConstValues, newDstElement)
+		}
+	}
+
+	for _, sourceValue := range source.GetDefaultValues() {
+		exists := false
+		for _, currentValue := range o.DefaultValues {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *ScopeParam
+			if sourceValue != nil {
+				newDstElement = new(ScopeParam)
+				newDstElement.Merge(sourceValue)
+			}
+			o.DefaultValues = append(o.DefaultValues, newDstElement)
 		}
 	}
 

@@ -153,14 +153,14 @@ type DeviceType struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name     *Name      `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Name     *Name      `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display name of Device Type
-	DisplayName  string                  `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
-	Hardware     DeviceType_Hardware     `protobuf:"varint,4,opt,name=hardware,proto3,enum=ntt.devices.v1alpha2.DeviceType_Hardware" json:"hardware,omitempty" firestore:"hardware"`
-	Architecture DeviceType_Architecture `protobuf:"varint,5,opt,name=architecture,proto3,enum=ntt.devices.v1alpha2.DeviceType_Architecture" json:"architecture,omitempty" firestore:"architecture"`
+	DisplayName  string                  `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Hardware     DeviceType_Hardware     `protobuf:"varint,4,opt,name=hardware,proto3,enum=ntt.devices.v1alpha2.DeviceType_Hardware" json:"hardware,omitempty"`
+	Architecture DeviceType_Architecture `protobuf:"varint,5,opt,name=architecture,proto3,enum=ntt.devices.v1alpha2.DeviceType_Architecture" json:"architecture,omitempty"`
 	// Description of the Device Type
-	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (m *DeviceType) Reset() {

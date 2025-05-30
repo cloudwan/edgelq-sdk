@@ -119,21 +119,21 @@ type isProvisioningPolicyChange_ChangeType interface {
 type ProvisioningPolicyChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *ProvisioningPolicyChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *ProvisioningPolicyChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type ProvisioningPolicyChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *ProvisioningPolicyChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *ProvisioningPolicyChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type ProvisioningPolicyChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *ProvisioningPolicyChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *ProvisioningPolicyChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type ProvisioningPolicyChange_Removed_ struct {
 	// Removed is returned when ProvisioningPolicy is deleted or leaves Query
 	// view
-	Removed *ProvisioningPolicyChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *ProvisioningPolicyChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*ProvisioningPolicyChange_Added_) isProvisioningPolicyChange_ChangeType()    {}
@@ -194,10 +194,10 @@ type ProvisioningPolicyChange_Added struct {
 	state              protoimpl.MessageState
 	sizeCache          protoimpl.SizeCache
 	unknownFields      protoimpl.UnknownFields
-	ProvisioningPolicy *ProvisioningPolicy `protobuf:"bytes,1,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty" firestore:"provisioningPolicy"`
+	ProvisioningPolicy *ProvisioningPolicy `protobuf:"bytes,1,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty"`
 	// Integer describing index of added ProvisioningPolicy in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ProvisioningPolicyChange_Added) Reset() {
@@ -285,20 +285,20 @@ type ProvisioningPolicyChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified ProvisioningPolicy
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of ProvisioningPolicy or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchProvisioningPolicyRequest]
 	// or [WatchProvisioningPoliciesRequest]
-	ProvisioningPolicy *ProvisioningPolicy `protobuf:"bytes,2,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty" firestore:"provisioningPolicy"`
+	ProvisioningPolicy *ProvisioningPolicy `protobuf:"bytes,2,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *ProvisioningPolicy_FieldMask `protobuf:"bytes,3,opt,customtype=ProvisioningPolicy_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *ProvisioningPolicy_FieldMask `protobuf:"bytes,3,opt,customtype=ProvisioningPolicy_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// ProvisioningPolicy. When modification doesn't affect sorted order, value
 	// will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying ProvisioningPolicy new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ProvisioningPolicyChange_Modified) Reset() {
@@ -427,7 +427,7 @@ type ProvisioningPolicyChange_Current struct {
 	state              protoimpl.MessageState
 	sizeCache          protoimpl.SizeCache
 	unknownFields      protoimpl.UnknownFields
-	ProvisioningPolicy *ProvisioningPolicy `protobuf:"bytes,1,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty" firestore:"provisioningPolicy"`
+	ProvisioningPolicy *ProvisioningPolicy `protobuf:"bytes,1,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty"`
 }
 
 func (m *ProvisioningPolicyChange_Current) Reset() {
@@ -499,10 +499,10 @@ type ProvisioningPolicyChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed ProvisioningPolicy index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ProvisioningPolicyChange_Removed) Reset() {

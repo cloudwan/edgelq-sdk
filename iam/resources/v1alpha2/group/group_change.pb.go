@@ -121,20 +121,20 @@ type isGroupChange_ChangeType interface {
 type GroupChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *GroupChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *GroupChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type GroupChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *GroupChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *GroupChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type GroupChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *GroupChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *GroupChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type GroupChange_Removed_ struct {
 	// Removed is returned when Group is deleted or leaves Query view
-	Removed *GroupChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *GroupChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*GroupChange_Added_) isGroupChange_ChangeType()    {}
@@ -195,9 +195,9 @@ type GroupChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Group         *Group `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty" firestore:"group"`
+	Group         *Group `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
 	// Integer describing index of added Group in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *GroupChange_Added) Reset() {
@@ -285,19 +285,19 @@ type GroupChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Group
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Group or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchGroupRequest] or [WatchGroupsRequest]
-	Group *Group `protobuf:"bytes,2,opt,name=group,proto3" json:"group,omitempty" firestore:"group"`
+	Group *Group `protobuf:"bytes,2,opt,name=group,proto3" json:"group,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Group_FieldMask `protobuf:"bytes,3,opt,customtype=Group_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Group_FieldMask `protobuf:"bytes,3,opt,customtype=Group_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Group.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Group new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *GroupChange_Modified) Reset() {
@@ -426,7 +426,7 @@ type GroupChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Group         *Group `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty" firestore:"group"`
+	Group         *Group `protobuf:"bytes,1,opt,name=group,proto3" json:"group,omitempty"`
 }
 
 func (m *GroupChange_Current) Reset() {
@@ -498,10 +498,10 @@ type GroupChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Group index. Not populated in stateless watch
 	// type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *GroupChange_Removed) Reset() {

@@ -57,19 +57,19 @@ type Distribution struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display name of Distribution
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. Description of the Distribution.
-	Description string               `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
-	Spec        *Distribution_Spec   `protobuf:"bytes,4,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
-	Status      *Distribution_Status `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Description string               `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
+	Spec        *Distribution_Spec   `protobuf:"bytes,4,opt,name=spec,proto3" json:"spec,omitempty"`
+	Status      *Distribution_Status `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *Distribution) Reset() {
@@ -217,10 +217,10 @@ type LabelSelector struct {
 	// matchLabels map is equivalent to an element of matchExpressions, whose key
 	// field is "key", the operator is "In", and the values array contains only
 	// "value". The requirements are ANDed. +optional
-	MatchLabels map[string]string `protobuf:"bytes,1,rep,name=match_labels,json=matchLabels,proto3" json:"match_labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"matchLabels"`
+	MatchLabels map[string]string `protobuf:"bytes,1,rep,name=match_labels,json=matchLabels,proto3" json:"match_labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// matchExpressions is a list of label selector requirements. The requirements
 	// are ANDed. +optional
-	MatchExpressions []*LabelSelectorRequirement `protobuf:"bytes,2,rep,name=match_expressions,json=matchExpressions,proto3" json:"match_expressions,omitempty" firestore:"matchExpressions"`
+	MatchExpressions []*LabelSelectorRequirement `protobuf:"bytes,2,rep,name=match_expressions,json=matchExpressions,proto3" json:"match_expressions,omitempty"`
 }
 
 func (m *LabelSelector) Reset() {
@@ -310,15 +310,15 @@ type LabelSelectorRequirement struct {
 	// key is the label key that the selector applies to.
 	// +patchMergeKey=key
 	// +patchStrategy=merge
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// operator represents a key's relationship to a set of values.
 	// Valid operators are In, NotIn, Exists and DoesNotExist.
-	Operator string `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty" firestore:"operator"`
+	Operator string `protobuf:"bytes,2,opt,name=operator,proto3" json:"operator,omitempty"`
 	// values is an array of string values. If the operator is In or NotIn,
 	// the values array must be non-empty. If the operator is Exists or
 	// DoesNotExist, the values array must be empty. This array is replaced during
 	// a strategic merge patch. +optional
-	Values []string `protobuf:"bytes,3,rep,name=values,proto3" json:"values,omitempty" firestore:"values"`
+	Values []string `protobuf:"bytes,3,rep,name=values,proto3" json:"values,omitempty"`
 }
 
 func (m *LabelSelectorRequirement) Reset() {
@@ -418,11 +418,11 @@ type Distribution_Spec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Selector      *LabelSelector `protobuf:"bytes,1,opt,name=selector,proto3" json:"selector,omitempty" firestore:"selector"`
+	Selector      *LabelSelector `protobuf:"bytes,1,opt,name=selector,proto3" json:"selector,omitempty"`
 	// template defines the probing config to be distributed.
-	Template *Distribution_Spec_Template `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty" firestore:"template"`
+	Template *Distribution_Spec_Template `protobuf:"bytes,2,opt,name=template,proto3" json:"template,omitempty"`
 	// Template for distribution name.
-	PodDisplayNameFormat string `protobuf:"bytes,3,opt,name=pod_display_name_format,json=podDisplayNameFormat,proto3" json:"pod_display_name_format,omitempty" firestore:"podDisplayNameFormat"`
+	PodDisplayNameFormat string `protobuf:"bytes,3,opt,name=pod_display_name_format,json=podDisplayNameFormat,proto3" json:"pod_display_name_format,omitempty"`
 }
 
 func (m *Distribution_Spec) Reset() {
@@ -577,8 +577,8 @@ type Distribution_Spec_Template struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Metadata      *meta.Meta      `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	Spec          *common.PodSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
+	Metadata      *meta.Meta      `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Spec          *common.PodSpec `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
 }
 
 func (m *Distribution_Spec_Template) Reset() {

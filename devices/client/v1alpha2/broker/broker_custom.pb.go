@@ -356,16 +356,16 @@ type isListenForConnectionsRequest_Msg interface {
 
 type ListenForConnectionsRequest_RegisterListener_ struct {
 	// This is a hello message from the agent with its name.
-	RegisterListener *ListenForConnectionsRequest_RegisterListener `protobuf:"bytes,1,opt,name=register_listener,json=registerListener,proto3,oneof" firestore:"registerListener"`
+	RegisterListener *ListenForConnectionsRequest_RegisterListener `protobuf:"bytes,1,opt,name=register_listener,json=registerListener,proto3,oneof"`
 }
 type ListenForConnectionsRequest_ChannelOpenError_ struct {
 	// When the agent failed to open a requested channel, this message will be
 	// sent from the agent to the endpoint.
-	ChannelOpenError *ListenForConnectionsRequest_ChannelOpenError `protobuf:"bytes,2,opt,name=channel_open_error,json=channelOpenError,proto3,oneof" firestore:"channelOpenError"`
+	ChannelOpenError *ListenForConnectionsRequest_ChannelOpenError `protobuf:"bytes,2,opt,name=channel_open_error,json=channelOpenError,proto3,oneof"`
 }
 type ListenForConnectionsRequest_KeepAlive_ struct {
 	// KeepAlive.
-	KeepAlive *ListenForConnectionsRequest_KeepAlive `protobuf:"bytes,3,opt,name=keep_alive,json=keepAlive,proto3,oneof" firestore:"keepAlive"`
+	KeepAlive *ListenForConnectionsRequest_KeepAlive `protobuf:"bytes,3,opt,name=keep_alive,json=keepAlive,proto3,oneof"`
 }
 
 func (*ListenForConnectionsRequest_RegisterListener_) isListenForConnectionsRequest_Msg() {}
@@ -480,11 +480,11 @@ type isListenForConnectionsResponse_Msg interface {
 
 type ListenForConnectionsResponse_ChannelRequested_ struct {
 	// Notifies a new channel has been requested by a client.
-	ChannelRequested *ListenForConnectionsResponse_ChannelRequested `protobuf:"bytes,1,opt,name=channel_requested,json=channelRequested,proto3,oneof" firestore:"channelRequested"`
+	ChannelRequested *ListenForConnectionsResponse_ChannelRequested `protobuf:"bytes,1,opt,name=channel_requested,json=channelRequested,proto3,oneof"`
 }
 type ListenForConnectionsResponse_KeepAlive_ struct {
 	// Keepalive
-	KeepAlive *ListenForConnectionsResponse_KeepAlive `protobuf:"bytes,2,opt,name=keep_alive,json=keepAlive,proto3,oneof" firestore:"keepAlive"`
+	KeepAlive *ListenForConnectionsResponse_KeepAlive `protobuf:"bytes,2,opt,name=keep_alive,json=keepAlive,proto3,oneof"`
 }
 
 func (*ListenForConnectionsResponse_ChannelRequested_) isListenForConnectionsResponse_Msg() {}
@@ -594,19 +594,19 @@ type isOpenConnectionChannelSocketRequest_Msg interface {
 
 type OpenConnectionChannelSocketRequest_RegisterSocket_ struct {
 	// Registers a new socket on the endpoint.
-	RegisterSocket *OpenConnectionChannelSocketRequest_RegisterSocket `protobuf:"bytes,1,opt,name=register_socket,json=registerSocket,proto3,oneof" firestore:"registerSocket"`
+	RegisterSocket *OpenConnectionChannelSocketRequest_RegisterSocket `protobuf:"bytes,1,opt,name=register_socket,json=registerSocket,proto3,oneof"`
 }
 type OpenConnectionChannelSocketRequest_Data struct {
 	// Data from the agent to the endpoint (client).
-	Data []byte `protobuf:"bytes,3,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,3,opt,name=data,proto3,oneof"`
 }
 type OpenConnectionChannelSocketRequest_Error struct {
 	// Error from the agent to the endpoint (client).
-	Error []byte `protobuf:"bytes,4,opt,name=error,proto3,oneof" firestore:"error"`
+	Error []byte `protobuf:"bytes,4,opt,name=error,proto3,oneof"`
 }
 type OpenConnectionChannelSocketRequest_Ack struct {
 	// Ack from the agent to the endpoint (client)
-	Ack *Ack `protobuf:"bytes,5,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,5,opt,name=ack,proto3,oneof"`
 }
 
 func (*OpenConnectionChannelSocketRequest_RegisterSocket_) isOpenConnectionChannelSocketRequest_Msg() {
@@ -731,11 +731,11 @@ type isOpenConnectionChannelSocketResponse_Msg interface {
 
 type OpenConnectionChannelSocketResponse_Data struct {
 	// Data from the endpoint (client) to the agent.
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof"`
 }
 type OpenConnectionChannelSocketResponse_Ack struct {
 	// Ack from the client to the endpoint (device)
-	Ack *Ack `protobuf:"bytes,2,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,2,opt,name=ack,proto3,oneof"`
 }
 
 func (*OpenConnectionChannelSocketResponse_Data) isOpenConnectionChannelSocketResponse_Msg() {}
@@ -842,18 +842,18 @@ type isConnectToDeviceRequest_Msg interface {
 
 type ConnectToDeviceRequest_OpenRequest_ struct {
 	// The initiation message to open a channel to a device.
-	OpenRequest *ConnectToDeviceRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof" firestore:"openRequest"`
+	OpenRequest *ConnectToDeviceRequest_OpenRequest `protobuf:"bytes,1,opt,name=open_request,json=openRequest,proto3,oneof"`
 }
 type ConnectToDeviceRequest_Data struct {
 	// Any data sent to the device through the endpoint.
-	Data []byte `protobuf:"bytes,3,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,3,opt,name=data,proto3,oneof"`
 }
 type ConnectToDeviceRequest_Ack struct {
 	// Ack from the user to the endpoint (device)
-	Ack *Ack `protobuf:"bytes,4,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,4,opt,name=ack,proto3,oneof"`
 }
 type ConnectToDeviceRequest_KeepAlive_ struct {
-	KeepAlive *ConnectToDeviceRequest_KeepAlive `protobuf:"bytes,5,opt,name=keep_alive,json=keepAlive,proto3,oneof" firestore:"keepAlive"`
+	KeepAlive *ConnectToDeviceRequest_KeepAlive `protobuf:"bytes,5,opt,name=keep_alive,json=keepAlive,proto3,oneof"`
 }
 
 func (*ConnectToDeviceRequest_OpenRequest_) isConnectToDeviceRequest_Msg() {}
@@ -979,19 +979,19 @@ type isConnectToDeviceResponse_Msg interface {
 
 type ConnectToDeviceResponse_OpenResponse_ struct {
 	// Notification from the agent (endpoint) to the channel has been opened.
-	OpenResponse *ConnectToDeviceResponse_OpenResponse `protobuf:"bytes,1,opt,name=open_response,json=openResponse,proto3,oneof" firestore:"openResponse"`
+	OpenResponse *ConnectToDeviceResponse_OpenResponse `protobuf:"bytes,1,opt,name=open_response,json=openResponse,proto3,oneof"`
 }
 type ConnectToDeviceResponse_Data struct {
 	// Any data from the device (endpoint) to the client.
-	Data []byte `protobuf:"bytes,3,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,3,opt,name=data,proto3,oneof"`
 }
 type ConnectToDeviceResponse_Error struct {
 	// Any error from the device (endpoint) to the client.
-	Error []byte `protobuf:"bytes,4,opt,name=error,proto3,oneof" firestore:"error"`
+	Error []byte `protobuf:"bytes,4,opt,name=error,proto3,oneof"`
 }
 type ConnectToDeviceResponse_Ack struct {
 	// Ack from the device to the endpoint (client)
-	Ack *Ack `protobuf:"bytes,5,opt,name=ack,proto3,oneof" firestore:"ack"`
+	Ack *Ack `protobuf:"bytes,5,opt,name=ack,proto3,oneof"`
 }
 
 func (*ConnectToDeviceResponse_OpenResponse_) isConnectToDeviceResponse_Msg() {}
@@ -1052,7 +1052,7 @@ type Ack struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Processed     uint64 `protobuf:"varint,1,opt,name=processed,proto3" json:"processed,omitempty" firestore:"processed"`
+	Processed     uint64 `protobuf:"varint,1,opt,name=processed,proto3" json:"processed,omitempty"`
 }
 
 func (m *Ack) Reset() {
@@ -1244,19 +1244,19 @@ type isSCPService_Msg interface {
 
 type SCPService_Dir struct {
 	// Request to create a directory
-	Dir *SCPService_CreateDirectory `protobuf:"bytes,1,opt,name=dir,proto3,oneof" firestore:"dir"`
+	Dir *SCPService_CreateDirectory `protobuf:"bytes,1,opt,name=dir,proto3,oneof"`
 }
 type SCPService_File struct {
 	// Request to create a file
-	File *SCPService_CreateFile `protobuf:"bytes,2,opt,name=file,proto3,oneof" firestore:"file"`
+	File *SCPService_CreateFile `protobuf:"bytes,2,opt,name=file,proto3,oneof"`
 }
 type SCPService_Eot struct {
 	// Request to end SCP transfer
-	Eot bool `protobuf:"varint,3,opt,name=eot,proto3,oneof" firestore:"eot"`
+	Eot bool `protobuf:"varint,3,opt,name=eot,proto3,oneof"`
 }
 type SCPService_Config struct {
 	// Request SCP configuration
-	Config *SCPService_Configure `protobuf:"bytes,4,opt,name=config,proto3,oneof" firestore:"config"`
+	Config *SCPService_Configure `protobuf:"bytes,4,opt,name=config,proto3,oneof"`
 }
 
 func (*SCPService_Dir) isSCPService_Msg()    {}
@@ -1373,12 +1373,12 @@ type PodManagementService struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Pod state command
-	Command PodManagementService_PodState `protobuf:"varint,1,opt,name=command,proto3,enum=ntt.devices.v1alpha2.PodManagementService_PodState" json:"command,omitempty" firestore:"command"`
+	Command PodManagementService_PodState `protobuf:"varint,1,opt,name=command,proto3,enum=ntt.devices.v1alpha2.PodManagementService_PodState" json:"command,omitempty"`
 	// Pod to execute the command on
-	Pod string `protobuf:"bytes,2,opt,name=pod,proto3" json:"pod,omitempty" firestore:"pod"`
+	Pod string `protobuf:"bytes,2,opt,name=pod,proto3" json:"pod,omitempty"`
 	// Service (container) name to execute the command on (empty = acts on the
 	// entire pod)
-	Service string `protobuf:"bytes,3,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,3,opt,name=service,proto3" json:"service,omitempty"`
 }
 
 func (m *PodManagementService) Reset() {
@@ -1534,7 +1534,7 @@ type ListenForConnectionsRequest_RegisterListener struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The self-declared device name, used for authentication/authorization.
-	Device *device.Name `protobuf:"bytes,1,opt,customtype=Name,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Device *device.Name `protobuf:"bytes,1,opt,customtype=Name,name=device,proto3" json:"device,omitempty"`
 }
 
 func (m *ListenForConnectionsRequest_RegisterListener) Reset() {
@@ -1606,9 +1606,9 @@ type ListenForConnectionsRequest_ChannelOpenError struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// ID of the channel failed to open.
-	Channel string `protobuf:"bytes,1,opt,name=channel,proto3" json:"channel,omitempty" firestore:"channel"`
+	Channel string `protobuf:"bytes,1,opt,name=channel,proto3" json:"channel,omitempty"`
 	// Error message.
-	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *ListenForConnectionsRequest_ChannelOpenError) Reset() {
@@ -1750,11 +1750,11 @@ type ListenForConnectionsResponse_ChannelRequested struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Channel ID
-	Channel string `protobuf:"bytes,1,opt,name=channel,proto3" json:"channel,omitempty" firestore:"channel"`
+	Channel string `protobuf:"bytes,1,opt,name=channel,proto3" json:"channel,omitempty"`
 	// Device service;
-	Service BrokerServiceType `protobuf:"varint,2,opt,name=service,proto3,enum=ntt.devices.v1alpha2.BrokerServiceType" json:"service,omitempty" firestore:"service"`
+	Service BrokerServiceType `protobuf:"varint,2,opt,name=service,proto3,enum=ntt.devices.v1alpha2.BrokerServiceType" json:"service,omitempty"`
 	// Initial argument (optional)
-	Arg string `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty" firestore:"arg"`
+	Arg string `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty"`
 }
 
 func (m *ListenForConnectionsResponse_ChannelRequested) Reset() {
@@ -1910,9 +1910,9 @@ type OpenConnectionChannelSocketRequest_RegisterSocket struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Device name, to be authenticated/authorized.
-	Device *device.Name `protobuf:"bytes,1,opt,customtype=Name,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Device *device.Name `protobuf:"bytes,1,opt,customtype=Name,name=device,proto3" json:"device,omitempty"`
 	// Channel ID, requested by the endpoint in the ChannelRequested message.
-	Channel string `protobuf:"bytes,2,opt,name=channel,proto3" json:"channel,omitempty" firestore:"channel"`
+	Channel string `protobuf:"bytes,2,opt,name=channel,proto3" json:"channel,omitempty"`
 }
 
 func (m *OpenConnectionChannelSocketRequest_RegisterSocket) Reset() {
@@ -1998,11 +1998,11 @@ type ConnectToDeviceRequest_OpenRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Device name to connect.
-	Device *device.Name `protobuf:"bytes,1,opt,customtype=Name,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Device *device.Name `protobuf:"bytes,1,opt,customtype=Name,name=device,proto3" json:"device,omitempty"`
 	// Device service
-	Service BrokerServiceType `protobuf:"varint,2,opt,name=service,proto3,enum=ntt.devices.v1alpha2.BrokerServiceType" json:"service,omitempty" firestore:"service"`
+	Service BrokerServiceType `protobuf:"varint,2,opt,name=service,proto3,enum=ntt.devices.v1alpha2.BrokerServiceType" json:"service,omitempty"`
 	// Initial argument (optional)
-	Arg string `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty" firestore:"arg"`
+	Arg string `protobuf:"bytes,3,opt,name=arg,proto3" json:"arg,omitempty"`
 }
 
 func (m *ConnectToDeviceRequest_OpenRequest) Reset() {
@@ -2213,10 +2213,10 @@ type SSHService_Hello struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	User          string   `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" firestore:"user"`
-	Command       []string `protobuf:"bytes,2,rep,name=command,proto3" json:"command,omitempty" firestore:"command"`
+	User          string   `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Command       []string `protobuf:"bytes,2,rep,name=command,proto3" json:"command,omitempty"`
 	// Environment (optional)
-	Env map[string]string `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"env"`
+	Env map[string]string `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *SSHService_Hello) Reset() {
@@ -2315,8 +2315,8 @@ type SSHService_TerminalSize struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Width         uint32 `protobuf:"varint,1,opt,name=width,proto3" json:"width,omitempty" firestore:"width"`
-	Height        uint32 `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty" firestore:"height"`
+	Width         uint32 `protobuf:"varint,1,opt,name=width,proto3" json:"width,omitempty"`
+	Height        uint32 `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`
 }
 
 func (m *SSHService_TerminalSize) Reset() {
@@ -2463,13 +2463,13 @@ type isSSHService_ClientOut_Msg interface {
 }
 
 type SSHService_ClientOut_Data struct {
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof"`
 }
 type SSHService_ClientOut_SshHello struct {
-	SshHello *SSHService_Hello `protobuf:"bytes,2,opt,name=ssh_hello,json=sshHello,proto3,oneof" firestore:"sshHello"`
+	SshHello *SSHService_Hello `protobuf:"bytes,2,opt,name=ssh_hello,json=sshHello,proto3,oneof"`
 }
 type SSHService_ClientOut_SshResizeTerminal struct {
-	SshResizeTerminal *SSHService_TerminalSize `protobuf:"bytes,3,opt,name=ssh_resize_terminal,json=sshResizeTerminal,proto3,oneof" firestore:"sshResizeTerminal"`
+	SshResizeTerminal *SSHService_TerminalSize `protobuf:"bytes,3,opt,name=ssh_resize_terminal,json=sshResizeTerminal,proto3,oneof"`
 }
 
 func (*SSHService_ClientOut_Data) isSSHService_ClientOut_Msg()              {}
@@ -2579,7 +2579,7 @@ type isSSHService_ClientIn_Msg interface {
 }
 
 type SSHService_ClientIn_Data struct {
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof"`
 }
 
 func (*SSHService_ClientIn_Data) isSSHService_ClientIn_Msg() {}
@@ -2609,9 +2609,9 @@ type SCPService_Configure struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Recursive     bool                           `protobuf:"varint,1,opt,name=recursive,proto3" json:"recursive,omitempty" firestore:"recursive"`
-	Direction     SCPService_Configure_Direction `protobuf:"varint,2,opt,name=direction,proto3,enum=ntt.devices.v1alpha2.SCPService_Configure_Direction" json:"direction,omitempty" firestore:"direction"`
-	Path          string                         `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
+	Recursive     bool                           `protobuf:"varint,1,opt,name=recursive,proto3" json:"recursive,omitempty"`
+	Direction     SCPService_Configure_Direction `protobuf:"varint,2,opt,name=direction,proto3,enum=ntt.devices.v1alpha2.SCPService_Configure_Direction" json:"direction,omitempty"`
+	Path          string                         `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
 }
 
 func (m *SCPService_Configure) Reset() {
@@ -2710,8 +2710,8 @@ type SCPService_CreateDirectory struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
-	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty" firestore:"mode"`
+	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty"`
 }
 
 func (m *SCPService_CreateDirectory) Reset() {
@@ -2859,15 +2859,15 @@ type isSCPService_CreateFile_Msg interface {
 
 type SCPService_CreateFile_Init struct {
 	// Request file initialization
-	Init *SCPService_CreateFile_Initialize `protobuf:"bytes,1,opt,name=init,proto3,oneof" firestore:"init"`
+	Init *SCPService_CreateFile_Initialize `protobuf:"bytes,1,opt,name=init,proto3,oneof"`
 }
 type SCPService_CreateFile_Data struct {
 	// Request file data
-	Data []byte `protobuf:"bytes,2,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,2,opt,name=data,proto3,oneof"`
 }
 type SCPService_CreateFile_Eof struct {
 	// Request to end file transfer
-	Eof bool `protobuf:"varint,3,opt,name=eof,proto3,oneof" firestore:"eof"`
+	Eof bool `protobuf:"varint,3,opt,name=eof,proto3,oneof"`
 }
 
 func (*SCPService_CreateFile_Init) isSCPService_CreateFile_Msg() {}
@@ -2917,9 +2917,9 @@ type SCPService_CreateFile_Initialize struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
-	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty" firestore:"mode"`
-	Size          uint64 `protobuf:"varint,3,opt,name=size,proto3" json:"size,omitempty" firestore:"size"`
+	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty"`
+	Size          uint64 `protobuf:"varint,3,opt,name=size,proto3" json:"size,omitempty"`
 }
 
 func (m *SCPService_CreateFile_Initialize) Reset() {
@@ -3020,11 +3020,11 @@ type LogsService_ToDevice struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Live follow the logs service
-	Follow bool `protobuf:"varint,1,opt,name=follow,proto3" json:"follow,omitempty" firestore:"follow"`
+	Follow bool `protobuf:"varint,1,opt,name=follow,proto3" json:"follow,omitempty"`
 	// Number of lines to get from the logs service
-	Lines uint32 `protobuf:"varint,2,opt,name=lines,proto3" json:"lines,omitempty" firestore:"lines"`
+	Lines uint32 `protobuf:"varint,2,opt,name=lines,proto3" json:"lines,omitempty"`
 	// Source of the logs service (e.g. docker container ID)
-	Source string `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty" firestore:"source"`
+	Source string `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
 }
 
 func (m *LogsService_ToDevice) Reset() {
@@ -3125,7 +3125,7 @@ type LogsService_ToClient struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Logs data
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" firestore:"data"`
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 }
 
 func (m *LogsService_ToClient) Reset() {

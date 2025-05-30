@@ -67,28 +67,28 @@ type Log struct {
 	//   labels
 	//
 	// Key is not to be decoded outside of service, but treated as opaque string
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Contains scope from name field without resource ID.
 	// Used for internal purpose for filtering (logs are using custom store).
 	// Example formats are:
 	// - organization/umbrella
 	// - projects/mars_exploration
 	// - <system>
-	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope,omitempty" firestore:"scope"`
+	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope,omitempty"`
 	// Service name, for example "devices.edgelq.com"
-	Service string `protobuf:"bytes,3,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,3,opt,name=service,proto3" json:"service,omitempty"`
 	// Region of the service to which log is assigned, for example "us-west2"
-	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
 	// Associated service version, for example "v1alpha2"
-	Version string `protobuf:"bytes,5,opt,name=version,proto3" json:"version,omitempty" firestore:"version"`
+	Version string `protobuf:"bytes,5,opt,name=version,proto3" json:"version,omitempty"`
 	// Associated log descriptor
-	LogDescriptor *log_descriptor.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty" firestore:"logDescriptor"`
+	LogDescriptor *log_descriptor.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty"`
 	// List of query-able labels
-	Labels map[string]string `protobuf:"bytes,7,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]string `protobuf:"bytes,7,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Log timestamp
-	Time *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=time,proto3" json:"time,omitempty" firestore:"time"`
+	Time *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=time,proto3" json:"time,omitempty"`
 	// Log payload
-	Payload *structpb.Struct `protobuf:"bytes,9,opt,name=payload,proto3" json:"payload,omitempty" firestore:"payload"`
+	Payload *structpb.Struct `protobuf:"bytes,9,opt,name=payload,proto3" json:"payload,omitempty"`
 }
 
 func (m *Log) Reset() {

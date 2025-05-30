@@ -59,13 +59,13 @@ type ListLogsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent references of ntt.logging.v1alpha2.Log
-	Parents []*log.ParentName `protobuf:"bytes,1,rep,customtype=ParentName,name=parents,proto3" json:"parents,omitempty" firestore:"parents"`
+	Parents []*log.ParentName `protobuf:"bytes,1,rep,customtype=ParentName,name=parents,proto3" json:"parents,omitempty"`
 	// Filter that specifies which logs should be returned
-	Filter *log.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *log.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// The time interval for which results should be returned. Only logs
 	// that contain data points in the specified interval are included
 	// in the response.
-	Interval *common.TimeInterval `protobuf:"bytes,3,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,3,opt,name=interval,proto3" json:"interval,omitempty"`
 	// Cap on a number of log entries to be included in a response.
 	// Number of logs in an actual response can be higher, since logs are
 	// read in bulk with second precision - exceed logs above the limit will share
@@ -73,11 +73,11 @@ type ListLogsRequest struct {
 	//
 	// Results will be adjusted to the "end time" taken from interval field
 	// (adjusted also by page_token if provided).
-	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// Token which identifies next page with further results. Token should be
 	// taken from
 	// [ListLogsResponse.next_page_token][ntt.logging.v1alpha2.ListLogsResponse.next_page_token].
-	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 }
 
 func (m *ListLogsRequest) Reset() {
@@ -207,14 +207,14 @@ type ListLogsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Logs that match the filter included in the request.
-	Logs []*log.Log `protobuf:"bytes,1,rep,name=logs,proto3" json:"logs,omitempty" firestore:"logs"`
+	Logs []*log.Log `protobuf:"bytes,1,rep,name=logs,proto3" json:"logs,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value. To see the additional results,
 	// use that value as `pageToken` in the next call to this method.
-	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Query execution errors that may have caused the logs data returned
 	// to be incomplete.
-	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty" firestore:"executionErrors"`
+	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty"`
 }
 
 func (m *ListLogsResponse) Reset() {
@@ -316,10 +316,10 @@ type CreateLogsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent reference of ntt.logging.v1alpha2.Log
-	Parent *log.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *log.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// List of logs to create/append. If they have specified name
 	// field, it must match provided parent field.
-	Logs []*log.Log `protobuf:"bytes,2,rep,name=logs,proto3" json:"logs,omitempty" firestore:"logs"`
+	Logs []*log.Log `protobuf:"bytes,2,rep,name=logs,proto3" json:"logs,omitempty"`
 }
 
 func (m *CreateLogsRequest) Reset() {
@@ -409,9 +409,9 @@ type CreateLogsResponse struct {
 	// Log names indexed by Create position. All logs, except
 	// failed ones will be present. If all logs were written successfully,
 	// then map will have keys all from 0 to N-1.
-	LogNames map[uint32]*log.Name `protobuf:"bytes,1,rep,customtype=Name,name=log_names,json=logNames,proto3" json:"log_names,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3,customtype=Name" firestore:"logNames"`
+	LogNames map[uint32]*log.Name `protobuf:"bytes,1,rep,customtype=Name,name=log_names,json=logNames,proto3" json:"log_names,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3,customtype=Name"`
 	// Logs that failed to be created
-	FailedLogs []*CreateLogsResponse_CreateError `protobuf:"bytes,2,rep,name=failed_logs,json=failedLogs,proto3" json:"failed_logs,omitempty" firestore:"failedLogs"`
+	FailedLogs []*CreateLogsResponse_CreateError `protobuf:"bytes,2,rep,name=failed_logs,json=failedLogs,proto3" json:"failed_logs,omitempty"`
 }
 
 func (m *CreateLogsResponse) Reset() {
@@ -500,7 +500,7 @@ type ListLogsResponse_ErrorDetails struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// region id which failed to give results.
-	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ListLogsResponse_ErrorDetails) Reset() {
@@ -574,9 +574,9 @@ type CreateLogsResponse_CreateError struct {
 	unknownFields protoimpl.UnknownFields
 	// All logs that failed to be written. This field provides all of
 	// the context that would be needed to retry the operation.
-	Logs []*log.Log `protobuf:"bytes,1,rep,name=logs,proto3" json:"logs,omitempty" firestore:"logs"`
+	Logs []*log.Log `protobuf:"bytes,1,rep,name=logs,proto3" json:"logs,omitempty"`
 	// The status of the requested write operation.
-	Status *rpc.Status `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Status *rpc.Status `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *CreateLogsResponse_CreateError) Reset() {

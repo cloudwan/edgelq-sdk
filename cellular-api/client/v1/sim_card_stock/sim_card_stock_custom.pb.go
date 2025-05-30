@@ -56,12 +56,12 @@ type AllocateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.cellular_api.v1.SimCardStock
-	Name     *sim_card_stock.Name   `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Project  *iam_project.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=project,proto3" json:"project,omitempty" firestore:"project"`
-	RegionId string                 `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	Name     *sim_card_stock.Name   `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Project  *iam_project.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=project,proto3" json:"project,omitempty"`
+	RegionId string                 `protobuf:"bytes,3,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 	// expected state just after allocated
 	// if unspecified, will try to transit to ACTIVE
-	State carrier.SimState `protobuf:"varint,4,opt,name=state,proto3,enum=ntt.cellular_api.carrier.SimState" json:"state,omitempty" firestore:"state"`
+	State carrier.SimState `protobuf:"varint,4,opt,name=state,proto3,enum=ntt.cellular_api.carrier.SimState" json:"state,omitempty"`
 }
 
 func (m *AllocateRequest) Reset() {
@@ -176,11 +176,11 @@ type DeallocateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.cellular_api.v1.SimCardStock
-	Name    *sim_card_stock.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SimCard *sim_card.Reference  `protobuf:"bytes,2,opt,customtype=Reference,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty" firestore:"simCard"`
+	Name    *sim_card_stock.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	SimCard *sim_card.Reference  `protobuf:"bytes,2,opt,customtype=Reference,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty"`
 	// expected state just after deallocated
 	// if unspecified, will try to transit to SUSPENDED
-	State carrier.SimState `protobuf:"varint,3,opt,name=state,proto3,enum=ntt.cellular_api.carrier.SimState" json:"state,omitempty" firestore:"state"`
+	State carrier.SimState `protobuf:"varint,3,opt,name=state,proto3,enum=ntt.cellular_api.carrier.SimState" json:"state,omitempty"`
 }
 
 func (m *DeallocateRequest) Reset() {

@@ -404,19 +404,19 @@ type isSCPService_Msg interface {
 
 type SCPService_Dir struct {
 	// Request to create a directory
-	Dir *SCPService_CreateDirectory `protobuf:"bytes,1,opt,name=dir,proto3,oneof" firestore:"dir"`
+	Dir *SCPService_CreateDirectory `protobuf:"bytes,1,opt,name=dir,proto3,oneof"`
 }
 type SCPService_File struct {
 	// Request to create a file
-	File *SCPService_CreateFile `protobuf:"bytes,2,opt,name=file,proto3,oneof" firestore:"file"`
+	File *SCPService_CreateFile `protobuf:"bytes,2,opt,name=file,proto3,oneof"`
 }
 type SCPService_Eot struct {
 	// Request to end SCP transfer
-	Eot bool `protobuf:"varint,3,opt,name=eot,proto3,oneof" firestore:"eot"`
+	Eot bool `protobuf:"varint,3,opt,name=eot,proto3,oneof"`
 }
 type SCPService_Config struct {
 	// Request SCP configuration
-	Config *SCPService_Configure `protobuf:"bytes,4,opt,name=config,proto3,oneof" firestore:"config"`
+	Config *SCPService_Configure `protobuf:"bytes,4,opt,name=config,proto3,oneof"`
 }
 
 func (*SCPService_Dir) isSCPService_Msg()    {}
@@ -533,12 +533,12 @@ type PodManagementService struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Pod state command
-	Command PodManagementService_PodState `protobuf:"varint,1,opt,name=command,proto3,enum=ntt.devices.v1.PodManagementService_PodState" json:"command,omitempty" firestore:"command"`
+	Command PodManagementService_PodState `protobuf:"varint,1,opt,name=command,proto3,enum=ntt.devices.v1.PodManagementService_PodState" json:"command,omitempty"`
 	// Pod to execute the command on
-	Pod string `protobuf:"bytes,2,opt,name=pod,proto3" json:"pod,omitempty" firestore:"pod"`
+	Pod string `protobuf:"bytes,2,opt,name=pod,proto3" json:"pod,omitempty"`
 	// Service (container) name to execute the command on (empty = acts on the
 	// entire pod)
-	Service string `protobuf:"bytes,3,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,3,opt,name=service,proto3" json:"service,omitempty"`
 }
 
 func (m *PodManagementService) Reset() {
@@ -693,10 +693,10 @@ type SSHService_Hello struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	User          string   `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty" firestore:"user"`
-	Command       []string `protobuf:"bytes,2,rep,name=command,proto3" json:"command,omitempty" firestore:"command"`
+	User          string   `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	Command       []string `protobuf:"bytes,2,rep,name=command,proto3" json:"command,omitempty"`
 	// Environment (optional)
-	Env map[string]string `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"env"`
+	Env map[string]string `protobuf:"bytes,3,rep,name=env,proto3" json:"env,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *SSHService_Hello) Reset() {
@@ -795,8 +795,8 @@ type SSHService_TerminalSize struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Width         uint32 `protobuf:"varint,1,opt,name=width,proto3" json:"width,omitempty" firestore:"width"`
-	Height        uint32 `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty" firestore:"height"`
+	Width         uint32 `protobuf:"varint,1,opt,name=width,proto3" json:"width,omitempty"`
+	Height        uint32 `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`
 }
 
 func (m *SSHService_TerminalSize) Reset() {
@@ -943,13 +943,13 @@ type isSSHService_ClientOut_Msg interface {
 }
 
 type SSHService_ClientOut_Data struct {
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof"`
 }
 type SSHService_ClientOut_SshHello struct {
-	SshHello *SSHService_Hello `protobuf:"bytes,2,opt,name=ssh_hello,json=sshHello,proto3,oneof" firestore:"sshHello"`
+	SshHello *SSHService_Hello `protobuf:"bytes,2,opt,name=ssh_hello,json=sshHello,proto3,oneof"`
 }
 type SSHService_ClientOut_SshResizeTerminal struct {
-	SshResizeTerminal *SSHService_TerminalSize `protobuf:"bytes,3,opt,name=ssh_resize_terminal,json=sshResizeTerminal,proto3,oneof" firestore:"sshResizeTerminal"`
+	SshResizeTerminal *SSHService_TerminalSize `protobuf:"bytes,3,opt,name=ssh_resize_terminal,json=sshResizeTerminal,proto3,oneof"`
 }
 
 func (*SSHService_ClientOut_Data) isSSHService_ClientOut_Msg()              {}
@@ -1059,7 +1059,7 @@ type isSSHService_ClientIn_Msg interface {
 }
 
 type SSHService_ClientIn_Data struct {
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3,oneof"`
 }
 
 func (*SSHService_ClientIn_Data) isSSHService_ClientIn_Msg() {}
@@ -1089,9 +1089,9 @@ type SCPService_Configure struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Recursive     bool                           `protobuf:"varint,1,opt,name=recursive,proto3" json:"recursive,omitempty" firestore:"recursive"`
-	Direction     SCPService_Configure_Direction `protobuf:"varint,2,opt,name=direction,proto3,enum=ntt.devices.v1.SCPService_Configure_Direction" json:"direction,omitempty" firestore:"direction"`
-	Path          string                         `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
+	Recursive     bool                           `protobuf:"varint,1,opt,name=recursive,proto3" json:"recursive,omitempty"`
+	Direction     SCPService_Configure_Direction `protobuf:"varint,2,opt,name=direction,proto3,enum=ntt.devices.v1.SCPService_Configure_Direction" json:"direction,omitempty"`
+	Path          string                         `protobuf:"bytes,3,opt,name=path,proto3" json:"path,omitempty"`
 }
 
 func (m *SCPService_Configure) Reset() {
@@ -1190,8 +1190,8 @@ type SCPService_CreateDirectory struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
-	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty" firestore:"mode"`
+	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty"`
 }
 
 func (m *SCPService_CreateDirectory) Reset() {
@@ -1339,15 +1339,15 @@ type isSCPService_CreateFile_Msg interface {
 
 type SCPService_CreateFile_Init struct {
 	// Request file initialization
-	Init *SCPService_CreateFile_Initialize `protobuf:"bytes,1,opt,name=init,proto3,oneof" firestore:"init"`
+	Init *SCPService_CreateFile_Initialize `protobuf:"bytes,1,opt,name=init,proto3,oneof"`
 }
 type SCPService_CreateFile_Data struct {
 	// Request file data
-	Data []byte `protobuf:"bytes,2,opt,name=data,proto3,oneof" firestore:"data"`
+	Data []byte `protobuf:"bytes,2,opt,name=data,proto3,oneof"`
 }
 type SCPService_CreateFile_Eof struct {
 	// Request to end file transfer
-	Eof bool `protobuf:"varint,3,opt,name=eof,proto3,oneof" firestore:"eof"`
+	Eof bool `protobuf:"varint,3,opt,name=eof,proto3,oneof"`
 }
 
 func (*SCPService_CreateFile_Init) isSCPService_CreateFile_Msg() {}
@@ -1397,9 +1397,9 @@ type SCPService_CreateFile_Initialize struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
-	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty" firestore:"mode"`
-	Size          uint64 `protobuf:"varint,3,opt,name=size,proto3" json:"size,omitempty" firestore:"size"`
+	Path          string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
+	Mode          uint32 `protobuf:"varint,2,opt,name=mode,proto3" json:"mode,omitempty"`
+	Size          uint64 `protobuf:"varint,3,opt,name=size,proto3" json:"size,omitempty"`
 }
 
 func (m *SCPService_CreateFile_Initialize) Reset() {
@@ -1500,11 +1500,11 @@ type LogsService_ToDevice struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Live follow the logs service
-	Follow bool `protobuf:"varint,1,opt,name=follow,proto3" json:"follow,omitempty" firestore:"follow"`
+	Follow bool `protobuf:"varint,1,opt,name=follow,proto3" json:"follow,omitempty"`
 	// Number of lines to get from the logs service
-	Lines uint32 `protobuf:"varint,2,opt,name=lines,proto3" json:"lines,omitempty" firestore:"lines"`
+	Lines uint32 `protobuf:"varint,2,opt,name=lines,proto3" json:"lines,omitempty"`
 	// Source of the logs service (e.g. docker container ID)
-	Source string `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty" firestore:"source"`
+	Source string `protobuf:"bytes,3,opt,name=source,proto3" json:"source,omitempty"`
 }
 
 func (m *LogsService_ToDevice) Reset() {
@@ -1605,7 +1605,7 @@ type LogsService_ToClient struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Logs data
-	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" firestore:"data"`
+	Data []byte `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 }
 
 func (m *LogsService_ToClient) Reset() {

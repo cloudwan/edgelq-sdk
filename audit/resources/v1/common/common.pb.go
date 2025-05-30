@@ -52,9 +52,9 @@ type Authentication struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of the principal, for example: "user:our_new_admin@example.com"
-	Principal string `protobuf:"bytes,1,opt,name=principal,proto3" json:"principal,omitempty" firestore:"principal"`
+	Principal string `protobuf:"bytes,1,opt,name=principal,proto3" json:"principal,omitempty"`
 	// Principal type - user, serviceAccount, anonymous
-	PrincipalType string `protobuf:"bytes,2,opt,name=principal_type,json=principalType,proto3" json:"principal_type,omitempty" firestore:"principalType"`
+	PrincipalType string `protobuf:"bytes,2,opt,name=principal_type,json=principalType,proto3" json:"principal_type,omitempty"`
 }
 
 func (m *Authentication) Reset() {
@@ -141,9 +141,9 @@ type Authorization struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// List of permissions that were granted
-	GrantedPermissions []string `protobuf:"bytes,1,rep,name=granted_permissions,json=grantedPermissions,proto3" json:"granted_permissions,omitempty" firestore:"grantedPermissions"`
+	GrantedPermissions []string `protobuf:"bytes,1,rep,name=granted_permissions,json=grantedPermissions,proto3" json:"granted_permissions,omitempty"`
 	// List of permissions that were denied
-	DeniedPermissions []string `protobuf:"bytes,2,rep,name=denied_permissions,json=deniedPermissions,proto3" json:"denied_permissions,omitempty" firestore:"deniedPermissions"`
+	DeniedPermissions []string `protobuf:"bytes,2,rep,name=denied_permissions,json=deniedPermissions,proto3" json:"denied_permissions,omitempty"`
 }
 
 func (m *Authorization) Reset() {
@@ -230,9 +230,9 @@ type ServiceData struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Fully qualified service name executing a request
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Region of the service handling this request.
-	RegionId string `protobuf:"bytes,2,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,2,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ServiceData) Reset() {
@@ -320,11 +320,11 @@ type ObjectState struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Object data
-	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty" firestore:"data"`
+	Data *anypb.Any `protobuf:"bytes,1,opt,name=data,proto3" json:"data,omitempty"`
 	// Values for all of the labels listed in the associated audited
 	// object descriptor - they are extracted from protobuf object
 	// and used for filtering
-	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *ObjectState) Reset() {
@@ -410,9 +410,9 @@ type LabelDescriptor struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The label key.
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// List of versions where label is supported
-	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
+	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 }
 
 func (m *LabelDescriptor) Reset() {
@@ -498,9 +498,9 @@ type LabelKeySet struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	LabelKeys     []string `protobuf:"bytes,1,rep,name=label_keys,json=labelKeys,proto3" json:"label_keys,omitempty" firestore:"labelKeys"`
+	LabelKeys     []string `protobuf:"bytes,1,rep,name=label_keys,json=labelKeys,proto3" json:"label_keys,omitempty"`
 	// List of versions where label set is supported
-	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
+	Versions []string `protobuf:"bytes,2,rep,name=versions,proto3" json:"versions,omitempty"`
 }
 
 func (m *LabelKeySet) Reset() {
@@ -590,10 +590,10 @@ type TimeInterval struct {
 	unknownFields protoimpl.UnknownFields
 	// Optional - end of the time interval. If not provided, current
 	// time will be assumed.
-	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" firestore:"endTime"`
+	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 	// Required. The beginning of the time interval. The start time must not be
 	// later than the end time.
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty" firestore:"startTime"`
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 }
 
 func (m *TimeInterval) Reset() {

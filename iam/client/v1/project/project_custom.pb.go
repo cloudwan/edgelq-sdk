@@ -53,29 +53,29 @@ type ListMyProjectsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Requested page size. Server may return fewer Projects than requested.
 	// If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// [ListProjectsResponse.next_page_token][ntt.iam.v1.ListMyProjectsResponse.next_page_token]
-	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *project.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *project.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *project.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *project.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A FieldMask used to filter response fields. When present, only requested
 	// fields will be present in each response item. Omitting field_mask results
 	// will cause response items to contain all present fields.
-	FieldMask         *project.Project_FieldMask `protobuf:"bytes,6,opt,customtype=Project_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
-	IncludePagingInfo bool                       `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
+	FieldMask         *project.Project_FieldMask `protobuf:"bytes,6,opt,customtype=Project_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
+	IncludePagingInfo bool                       `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
 }
 
 func (m *ListMyProjectsRequest) Reset() {
@@ -218,15 +218,15 @@ type ListMyProjectsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Projects
-	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty" firestore:"projects"`
+	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty"`
 	// A token to retrieve previous page of results. Pass this value in the
 	// [ListMyProjectsRequest.page_token][ntt.iam.v1.ListMyProjectsRequest.page_token]
-	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// A token to retrieve next page of results. Pass this value in the
 	// [ListMyProjectsRequest.page_token][ntt.iam.v1.ListMyProjectsRequest.page_token]
-	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
-	TotalCount    int32                `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty" firestore:"totalCount"`
-	CursorOffset  int32                `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty" firestore:"cursorOffset"`
+	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	TotalCount    int32                `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	CursorOffset  int32                `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty"`
 }
 
 func (m *ListMyProjectsResponse) Reset() {
@@ -356,30 +356,30 @@ type SearchMyProjectsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Requested page size. Server may return fewer Projects than requested.
 	// If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// [SearchProjectsResponse.next_page_token][ntt.iam.v1.SearchMyProjectsResponse.next_page_token]
-	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *project.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *project.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *project.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *project.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A FieldMask used to filter response fields. When present, only requested
 	// fields will be present in each response item. Omitting field_mask results
 	// will cause response items to contain all present fields.
-	FieldMask         *project.Project_FieldMask `protobuf:"bytes,6,opt,customtype=Project_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
-	IncludePagingInfo bool                       `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
-	Phrase            string                     `protobuf:"bytes,8,opt,name=phrase,proto3" json:"phrase,omitempty" firestore:"phrase"`
+	FieldMask         *project.Project_FieldMask `protobuf:"bytes,6,opt,customtype=Project_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
+	IncludePagingInfo bool                       `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
+	Phrase            string                     `protobuf:"bytes,8,opt,name=phrase,proto3" json:"phrase,omitempty"`
 }
 
 func (m *SearchMyProjectsRequest) Reset() {
@@ -536,15 +536,15 @@ type SearchMyProjectsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Projects
-	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty" firestore:"projects"`
+	Projects []*project.Project `protobuf:"bytes,1,rep,name=projects,proto3" json:"projects,omitempty"`
 	// A token to retrieve previous page of results. Pass this value in the
 	// [SearchMyProjectsRequest.page_token][ntt.iam.v1.SearchMyProjectsRequest.page_token]
-	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *project.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// A token to retrieve next page of results. Pass this value in the
 	// [SearchMyProjectsRequest.page_token][ntt.iam.v1.SearchMyProjectsRequest.page_token]
-	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
-	TotalCount    int32                `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty" firestore:"totalCount"`
-	CursorOffset  int32                `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty" firestore:"cursorOffset"`
+	NextPageToken *project.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	TotalCount    int32                `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	CursorOffset  int32                `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty"`
 }
 
 func (m *SearchMyProjectsResponse) Reset() {

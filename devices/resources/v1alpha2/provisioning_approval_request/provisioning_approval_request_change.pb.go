@@ -120,21 +120,21 @@ type isProvisioningApprovalRequestChange_ChangeType interface {
 type ProvisioningApprovalRequestChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *ProvisioningApprovalRequestChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *ProvisioningApprovalRequestChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type ProvisioningApprovalRequestChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *ProvisioningApprovalRequestChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *ProvisioningApprovalRequestChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type ProvisioningApprovalRequestChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *ProvisioningApprovalRequestChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *ProvisioningApprovalRequestChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type ProvisioningApprovalRequestChange_Removed_ struct {
 	// Removed is returned when ProvisioningApprovalRequest is deleted or leaves
 	// Query view
-	Removed *ProvisioningApprovalRequestChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *ProvisioningApprovalRequestChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*ProvisioningApprovalRequestChange_Added_) isProvisioningApprovalRequestChange_ChangeType() {}
@@ -196,10 +196,10 @@ type ProvisioningApprovalRequestChange_Added struct {
 	state                       protoimpl.MessageState
 	sizeCache                   protoimpl.SizeCache
 	unknownFields               protoimpl.UnknownFields
-	ProvisioningApprovalRequest *ProvisioningApprovalRequest `protobuf:"bytes,1,opt,name=provisioning_approval_request,json=provisioningApprovalRequest,proto3" json:"provisioning_approval_request,omitempty" firestore:"provisioningApprovalRequest"`
+	ProvisioningApprovalRequest *ProvisioningApprovalRequest `protobuf:"bytes,1,opt,name=provisioning_approval_request,json=provisioningApprovalRequest,proto3" json:"provisioning_approval_request,omitempty"`
 	// Integer describing index of added ProvisioningApprovalRequest in
 	// resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ProvisioningApprovalRequestChange_Added) Reset() {
@@ -287,22 +287,22 @@ type ProvisioningApprovalRequestChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified ProvisioningApprovalRequest
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of ProvisioningApprovalRequest or masked difference,
 	// depending on mask_changes instrumentation of issued
 	// [WatchProvisioningApprovalRequestRequest] or
 	// [WatchProvisioningApprovalRequestsRequest]
-	ProvisioningApprovalRequest *ProvisioningApprovalRequest `protobuf:"bytes,2,opt,name=provisioning_approval_request,json=provisioningApprovalRequest,proto3" json:"provisioning_approval_request,omitempty" firestore:"provisioningApprovalRequest"`
+	ProvisioningApprovalRequest *ProvisioningApprovalRequest `protobuf:"bytes,2,opt,name=provisioning_approval_request,json=provisioningApprovalRequest,proto3" json:"provisioning_approval_request,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *ProvisioningApprovalRequest_FieldMask `protobuf:"bytes,3,opt,customtype=ProvisioningApprovalRequest_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *ProvisioningApprovalRequest_FieldMask `protobuf:"bytes,3,opt,customtype=ProvisioningApprovalRequest_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// ProvisioningApprovalRequest. When modification doesn't affect sorted
 	// order, value will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying ProvisioningApprovalRequest new index in resulting
 	// query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ProvisioningApprovalRequestChange_Modified) Reset() {
@@ -431,7 +431,7 @@ type ProvisioningApprovalRequestChange_Current struct {
 	state                       protoimpl.MessageState
 	sizeCache                   protoimpl.SizeCache
 	unknownFields               protoimpl.UnknownFields
-	ProvisioningApprovalRequest *ProvisioningApprovalRequest `protobuf:"bytes,1,opt,name=provisioning_approval_request,json=provisioningApprovalRequest,proto3" json:"provisioning_approval_request,omitempty" firestore:"provisioningApprovalRequest"`
+	ProvisioningApprovalRequest *ProvisioningApprovalRequest `protobuf:"bytes,1,opt,name=provisioning_approval_request,json=provisioningApprovalRequest,proto3" json:"provisioning_approval_request,omitempty"`
 }
 
 func (m *ProvisioningApprovalRequestChange_Current) Reset() {
@@ -504,10 +504,10 @@ type ProvisioningApprovalRequestChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed ProvisioningApprovalRequest index. Not
 	// populated in stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ProvisioningApprovalRequestChange_Removed) Reset() {

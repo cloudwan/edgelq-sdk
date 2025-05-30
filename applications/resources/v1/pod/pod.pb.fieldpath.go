@@ -1755,10 +1755,11 @@ const (
 	PodStatusContainer_FieldPathSelectorWaiting      PodStatusContainer_FieldPathSelector = 2
 	PodStatusContainer_FieldPathSelectorRunning      PodStatusContainer_FieldPathSelector = 3
 	PodStatusContainer_FieldPathSelectorTerminated   PodStatusContainer_FieldPathSelector = 4
-	PodStatusContainer_FieldPathSelectorHealthStatus PodStatusContainer_FieldPathSelector = 5
-	PodStatusContainer_FieldPathSelectorServiceName  PodStatusContainer_FieldPathSelector = 6
-	PodStatusContainer_FieldPathSelectorContainerIp  PodStatusContainer_FieldPathSelector = 7
-	PodStatusContainer_FieldPathSelectorContainerId  PodStatusContainer_FieldPathSelector = 8
+	PodStatusContainer_FieldPathSelectorRestarting   PodStatusContainer_FieldPathSelector = 5
+	PodStatusContainer_FieldPathSelectorHealthStatus PodStatusContainer_FieldPathSelector = 6
+	PodStatusContainer_FieldPathSelectorServiceName  PodStatusContainer_FieldPathSelector = 7
+	PodStatusContainer_FieldPathSelectorContainerIp  PodStatusContainer_FieldPathSelector = 8
+	PodStatusContainer_FieldPathSelectorContainerId  PodStatusContainer_FieldPathSelector = 9
 )
 
 func (s PodStatusContainer_FieldPathSelector) String() string {
@@ -1773,6 +1774,8 @@ func (s PodStatusContainer_FieldPathSelector) String() string {
 		return "running"
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		return "terminated"
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		return "restarting"
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		return "health_status"
 	case PodStatusContainer_FieldPathSelectorServiceName:
@@ -1802,6 +1805,8 @@ func BuildPodStatusContainer_FieldPath(fp gotenobject.RawFieldPath) (PodStatusCo
 			return &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorRunning}, nil
 		case "terminated":
 			return &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorTerminated}, nil
+		case "restarting":
+			return &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorRestarting}, nil
 		case "health_status", "healthStatus", "health-status":
 			return &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorHealthStatus}, nil
 		case "service_name", "serviceName", "service-name":
@@ -1830,6 +1835,12 @@ func BuildPodStatusContainer_FieldPath(fp gotenobject.RawFieldPath) (PodStatusCo
 				return nil, err
 			} else {
 				return &PodStatusContainer_FieldSubPath{selector: PodStatusContainer_FieldPathSelectorTerminated, subPath: subpath}, nil
+			}
+		case "restarting":
+			if subpath, err := BuildPodStatusContainerStateRestarting_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &PodStatusContainer_FieldSubPath{selector: PodStatusContainer_FieldPathSelectorRestarting, subPath: subpath}, nil
 			}
 		}
 	}
@@ -1892,6 +1903,10 @@ func (fp *PodStatusContainer_FieldTerminalPath) Get(source *Pod_Status_Container
 			if source.Terminated != nil {
 				values = append(values, source.Terminated)
 			}
+		case PodStatusContainer_FieldPathSelectorRestarting:
+			if source.Restarting != nil {
+				values = append(values, source.Restarting)
+			}
 		case PodStatusContainer_FieldPathSelectorHealthStatus:
 			values = append(values, source.HealthStatus)
 		case PodStatusContainer_FieldPathSelectorServiceName:
@@ -1927,6 +1942,9 @@ func (fp *PodStatusContainer_FieldTerminalPath) GetSingle(source *Pod_Status_Con
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		res := source.GetTerminated()
 		return res, res != nil
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		res := source.GetRestarting()
+		return res, res != nil
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		return source.GetHealthStatus(), source != nil
 	case PodStatusContainer_FieldPathSelectorServiceName:
@@ -1957,6 +1975,8 @@ func (fp *PodStatusContainer_FieldTerminalPath) GetDefault() interface{} {
 		return (*Pod_Status_Container_StateRunning)(nil)
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		return (*Pod_Status_Container_StateTerminated)(nil)
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		return (*Pod_Status_Container_StateRestarting)(nil)
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		return Pod_Status_HEALTH_STATUS_UNKNOWN
 	case PodStatusContainer_FieldPathSelectorServiceName:
@@ -1983,6 +2003,8 @@ func (fp *PodStatusContainer_FieldTerminalPath) ClearValue(item *Pod_Status_Cont
 			item.Running = nil
 		case PodStatusContainer_FieldPathSelectorTerminated:
 			item.Terminated = nil
+		case PodStatusContainer_FieldPathSelectorRestarting:
+			item.Restarting = nil
 		case PodStatusContainer_FieldPathSelectorHealthStatus:
 			item.HealthStatus = Pod_Status_HEALTH_STATUS_UNKNOWN
 		case PodStatusContainer_FieldPathSelectorServiceName:
@@ -2027,6 +2049,8 @@ func (fp *PodStatusContainer_FieldTerminalPath) WithIValue(value interface{}) Po
 		return &PodStatusContainer_FieldTerminalPathValue{PodStatusContainer_FieldTerminalPath: *fp, value: value.(*Pod_Status_Container_StateRunning)}
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		return &PodStatusContainer_FieldTerminalPathValue{PodStatusContainer_FieldTerminalPath: *fp, value: value.(*Pod_Status_Container_StateTerminated)}
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		return &PodStatusContainer_FieldTerminalPathValue{PodStatusContainer_FieldTerminalPath: *fp, value: value.(*Pod_Status_Container_StateRestarting)}
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		return &PodStatusContainer_FieldTerminalPathValue{PodStatusContainer_FieldTerminalPath: *fp, value: value.(Pod_Status_HealthStatus)}
 	case PodStatusContainer_FieldPathSelectorServiceName:
@@ -2057,6 +2081,8 @@ func (fp *PodStatusContainer_FieldTerminalPath) WithIArrayOfValues(values interf
 		return &PodStatusContainer_FieldTerminalPathArrayOfValues{PodStatusContainer_FieldTerminalPath: *fp, values: values.([]*Pod_Status_Container_StateRunning)}
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		return &PodStatusContainer_FieldTerminalPathArrayOfValues{PodStatusContainer_FieldTerminalPath: *fp, values: values.([]*Pod_Status_Container_StateTerminated)}
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		return &PodStatusContainer_FieldTerminalPathArrayOfValues{PodStatusContainer_FieldTerminalPath: *fp, values: values.([]*Pod_Status_Container_StateRestarting)}
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		return &PodStatusContainer_FieldTerminalPathArrayOfValues{PodStatusContainer_FieldTerminalPath: *fp, values: values.([]Pod_Status_HealthStatus)}
 	case PodStatusContainer_FieldPathSelectorServiceName:
@@ -2108,6 +2134,10 @@ func (fps *PodStatusContainer_FieldSubPath) AsTerminatedSubPath() (PodStatusCont
 	res, ok := fps.subPath.(PodStatusContainerStateTerminated_FieldPath)
 	return res, ok
 }
+func (fps *PodStatusContainer_FieldSubPath) AsRestartingSubPath() (PodStatusContainerStateRestarting_FieldPath, bool) {
+	res, ok := fps.subPath.(PodStatusContainerStateRestarting_FieldPath)
+	return res, ok
+}
 
 // String returns path representation in proto convention
 func (fps *PodStatusContainer_FieldSubPath) String() string {
@@ -2128,6 +2158,8 @@ func (fps *PodStatusContainer_FieldSubPath) Get(source *Pod_Status_Container) (v
 		values = append(values, fps.subPath.GetRaw(source.GetRunning())...)
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		values = append(values, fps.subPath.GetRaw(source.GetTerminated())...)
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		values = append(values, fps.subPath.GetRaw(source.GetRestarting())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container: %d", fps.selector))
 	}
@@ -2156,6 +2188,11 @@ func (fps *PodStatusContainer_FieldSubPath) GetSingle(source *Pod_Status_Contain
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetTerminated())
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		if source.GetRestarting() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetRestarting())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container: %d", fps.selector))
 	}
@@ -2179,6 +2216,8 @@ func (fps *PodStatusContainer_FieldSubPath) ClearValue(item *Pod_Status_Containe
 			fps.subPath.ClearValueRaw(item.Running)
 		case PodStatusContainer_FieldPathSelectorTerminated:
 			fps.subPath.ClearValueRaw(item.Terminated)
+		case PodStatusContainer_FieldPathSelectorRestarting:
+			fps.subPath.ClearValueRaw(item.Restarting)
 		default:
 			panic(fmt.Sprintf("Invalid selector for Pod_Status_Container: %d", fps.selector))
 		}
@@ -2283,6 +2322,10 @@ func (fpv *PodStatusContainer_FieldTerminalPathValue) AsTerminatedValue() (*Pod_
 	res, ok := fpv.value.(*Pod_Status_Container_StateTerminated)
 	return res, ok
 }
+func (fpv *PodStatusContainer_FieldTerminalPathValue) AsRestartingValue() (*Pod_Status_Container_StateRestarting, bool) {
+	res, ok := fpv.value.(*Pod_Status_Container_StateRestarting)
+	return res, ok
+}
 func (fpv *PodStatusContainer_FieldTerminalPathValue) AsHealthStatusValue() (Pod_Status_HealthStatus, bool) {
 	res, ok := fpv.value.(Pod_Status_HealthStatus)
 	return res, ok
@@ -2316,6 +2359,8 @@ func (fpv *PodStatusContainer_FieldTerminalPathValue) SetTo(target **Pod_Status_
 		(*target).Running = fpv.value.(*Pod_Status_Container_StateRunning)
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		(*target).Terminated = fpv.value.(*Pod_Status_Container_StateTerminated)
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		(*target).Restarting = fpv.value.(*Pod_Status_Container_StateRestarting)
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		(*target).HealthStatus = fpv.value.(Pod_Status_HealthStatus)
 	case PodStatusContainer_FieldPathSelectorServiceName:
@@ -2362,6 +2407,8 @@ func (fpv *PodStatusContainer_FieldTerminalPathValue) CompareWith(source *Pod_St
 	case PodStatusContainer_FieldPathSelectorRunning:
 		return 0, false
 	case PodStatusContainer_FieldPathSelectorTerminated:
+		return 0, false
+	case PodStatusContainer_FieldPathSelectorRestarting:
 		return 0, false
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		leftValue := fpv.value.(Pod_Status_HealthStatus)
@@ -2431,6 +2478,10 @@ func (fpvs *PodStatusContainer_FieldSubPathValue) AsTerminatedPathValue() (PodSt
 	res, ok := fpvs.subPathValue.(PodStatusContainerStateTerminated_FieldPathValue)
 	return res, ok
 }
+func (fpvs *PodStatusContainer_FieldSubPathValue) AsRestartingPathValue() (PodStatusContainerStateRestarting_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(PodStatusContainerStateRestarting_FieldPathValue)
+	return res, ok
+}
 
 func (fpvs *PodStatusContainer_FieldSubPathValue) SetTo(target **Pod_Status_Container) {
 	if *target == nil {
@@ -2443,6 +2494,8 @@ func (fpvs *PodStatusContainer_FieldSubPathValue) SetTo(target **Pod_Status_Cont
 		fpvs.subPathValue.(PodStatusContainerStateRunning_FieldPathValue).SetTo(&(*target).Running)
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		fpvs.subPathValue.(PodStatusContainerStateTerminated_FieldPathValue).SetTo(&(*target).Terminated)
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		fpvs.subPathValue.(PodStatusContainerStateRestarting_FieldPathValue).SetTo(&(*target).Restarting)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container: %d", fpvs.Selector()))
 	}
@@ -2465,6 +2518,8 @@ func (fpvs *PodStatusContainer_FieldSubPathValue) CompareWith(source *Pod_Status
 		return fpvs.subPathValue.(PodStatusContainerStateRunning_FieldPathValue).CompareWith(source.GetRunning())
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		return fpvs.subPathValue.(PodStatusContainerStateTerminated_FieldPathValue).CompareWith(source.GetTerminated())
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		return fpvs.subPathValue.(PodStatusContainerStateRestarting_FieldPathValue).CompareWith(source.GetRestarting())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container: %d", fpvs.Selector()))
 	}
@@ -2559,6 +2614,10 @@ func (fpaivs *PodStatusContainer_FieldSubPathArrayItemValue) AsTerminatedPathIte
 	res, ok := fpaivs.subPathItemValue.(PodStatusContainerStateTerminated_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *PodStatusContainer_FieldSubPathArrayItemValue) AsRestartingPathItemValue() (PodStatusContainerStateRestarting_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(PodStatusContainerStateRestarting_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Container'
 func (fpaivs *PodStatusContainer_FieldSubPathArrayItemValue) ContainsValue(source *Pod_Status_Container) bool {
@@ -2569,6 +2628,8 @@ func (fpaivs *PodStatusContainer_FieldSubPathArrayItemValue) ContainsValue(sourc
 		return fpaivs.subPathItemValue.(PodStatusContainerStateRunning_FieldPathArrayItemValue).ContainsValue(source.GetRunning())
 	case PodStatusContainer_FieldPathSelectorTerminated:
 		return fpaivs.subPathItemValue.(PodStatusContainerStateTerminated_FieldPathArrayItemValue).ContainsValue(source.GetTerminated())
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		return fpaivs.subPathItemValue.(PodStatusContainerStateRestarting_FieldPathArrayItemValue).ContainsValue(source.GetRestarting())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container: %d", fpaivs.Selector()))
 	}
@@ -2629,6 +2690,10 @@ func (fpaov *PodStatusContainer_FieldTerminalPathArrayOfValues) GetRawValues() (
 		for _, v := range fpaov.values.([]*Pod_Status_Container_StateTerminated) {
 			values = append(values, v)
 		}
+	case PodStatusContainer_FieldPathSelectorRestarting:
+		for _, v := range fpaov.values.([]*Pod_Status_Container_StateRestarting) {
+			values = append(values, v)
+		}
 	case PodStatusContainer_FieldPathSelectorHealthStatus:
 		for _, v := range fpaov.values.([]Pod_Status_HealthStatus) {
 			values = append(values, v)
@@ -2668,6 +2733,10 @@ func (fpaov *PodStatusContainer_FieldTerminalPathArrayOfValues) AsTerminatedArra
 	res, ok := fpaov.values.([]*Pod_Status_Container_StateTerminated)
 	return res, ok
 }
+func (fpaov *PodStatusContainer_FieldTerminalPathArrayOfValues) AsRestartingArrayOfValues() ([]*Pod_Status_Container_StateRestarting, bool) {
+	res, ok := fpaov.values.([]*Pod_Status_Container_StateRestarting)
+	return res, ok
+}
 func (fpaov *PodStatusContainer_FieldTerminalPathArrayOfValues) AsHealthStatusArrayOfValues() ([]Pod_Status_HealthStatus, bool) {
 	res, ok := fpaov.values.([]Pod_Status_HealthStatus)
 	return res, ok
@@ -2705,6 +2774,10 @@ func (fpsaov *PodStatusContainer_FieldSubPathArrayOfValues) AsRunningPathArrayOf
 }
 func (fpsaov *PodStatusContainer_FieldSubPathArrayOfValues) AsTerminatedPathArrayOfValues() (PodStatusContainerStateTerminated_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(PodStatusContainerStateTerminated_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *PodStatusContainer_FieldSubPathArrayOfValues) AsRestartingPathArrayOfValues() (PodStatusContainerStateRestarting_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(PodStatusContainerStateRestarting_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -4171,6 +4244,427 @@ func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) A
 	return res, ok
 }
 func (fpaov *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues) AsContainerIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type PodStatusContainerStateRestarting_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() PodStatusContainerStateRestarting_FieldPathSelector
+	Get(source *Pod_Status_Container_StateRestarting) []interface{}
+	GetSingle(source *Pod_Status_Container_StateRestarting) (interface{}, bool)
+	ClearValue(item *Pod_Status_Container_StateRestarting)
+
+	// Those methods build corresponding PodStatusContainerStateRestarting_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) PodStatusContainerStateRestarting_FieldPathValue
+	WithIArrayOfValues(values interface{}) PodStatusContainerStateRestarting_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) PodStatusContainerStateRestarting_FieldPathArrayItemValue
+}
+
+type PodStatusContainerStateRestarting_FieldPathSelector int32
+
+const (
+	PodStatusContainerStateRestarting_FieldPathSelectorExitCode    PodStatusContainerStateRestarting_FieldPathSelector = 0
+	PodStatusContainerStateRestarting_FieldPathSelectorContainerId PodStatusContainerStateRestarting_FieldPathSelector = 1
+)
+
+func (s PodStatusContainerStateRestarting_FieldPathSelector) String() string {
+	switch s {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		return "exit_code"
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		return "container_id"
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", s))
+	}
+}
+
+func BuildPodStatusContainerStateRestarting_FieldPath(fp gotenobject.RawFieldPath) (PodStatusContainerStateRestarting_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object Pod_Status_Container_StateRestarting")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "exit_code", "exitCode", "exit-code":
+			return &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorExitCode}, nil
+		case "container_id", "containerId", "container-id":
+			return &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorContainerId}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object Pod_Status_Container_StateRestarting", fp)
+}
+
+func ParsePodStatusContainerStateRestarting_FieldPath(rawField string) (PodStatusContainerStateRestarting_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildPodStatusContainerStateRestarting_FieldPath(fp)
+}
+
+func MustParsePodStatusContainerStateRestarting_FieldPath(rawField string) PodStatusContainerStateRestarting_FieldPath {
+	fp, err := ParsePodStatusContainerStateRestarting_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type PodStatusContainerStateRestarting_FieldTerminalPath struct {
+	selector PodStatusContainerStateRestarting_FieldPathSelector
+}
+
+var _ PodStatusContainerStateRestarting_FieldPath = (*PodStatusContainerStateRestarting_FieldTerminalPath)(nil)
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) Selector() PodStatusContainerStateRestarting_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source Pod_Status_Container_StateRestarting
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) Get(source *Pod_Status_Container_StateRestarting) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+			values = append(values, source.ExitCode)
+		case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+			values = append(values, source.ContainerId)
+		default:
+			panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*Pod_Status_Container_StateRestarting))
+}
+
+// GetSingle returns value pointed by specific field of from source Pod_Status_Container_StateRestarting
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) GetSingle(source *Pod_Status_Container_StateRestarting) (interface{}, bool) {
+	switch fp.selector {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		return source.GetExitCode(), source != nil
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		return source.GetContainerId(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fp.selector))
+	}
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*Pod_Status_Container_StateRestarting))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		return int32(0)
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fp.selector))
+	}
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) ClearValue(item *Pod_Status_Container_StateRestarting) {
+	if item != nil {
+		switch fp.selector {
+		case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+			item.ExitCode = int32(0)
+		case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+			item.ContainerId = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*Pod_Status_Container_StateRestarting))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == PodStatusContainerStateRestarting_FieldPathSelectorExitCode ||
+		fp.selector == PodStatusContainerStateRestarting_FieldPathSelectorContainerId
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) WithIValue(value interface{}) PodStatusContainerStateRestarting_FieldPathValue {
+	switch fp.selector {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		return &PodStatusContainerStateRestarting_FieldTerminalPathValue{PodStatusContainerStateRestarting_FieldTerminalPath: *fp, value: value.(int32)}
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		return &PodStatusContainerStateRestarting_FieldTerminalPathValue{PodStatusContainerStateRestarting_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fp.selector))
+	}
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) WithIArrayOfValues(values interface{}) PodStatusContainerStateRestarting_FieldPathArrayOfValues {
+	fpaov := &PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues{PodStatusContainerStateRestarting_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		return &PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues{PodStatusContainerStateRestarting_FieldTerminalPath: *fp, values: values.([]int32)}
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		return &PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues{PodStatusContainerStateRestarting_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) WithIArrayItemValue(value interface{}) PodStatusContainerStateRestarting_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fp.selector))
+	}
+}
+
+func (fp *PodStatusContainerStateRestarting_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// PodStatusContainerStateRestarting_FieldPathValue allows storing values for StateRestarting fields according to their type
+type PodStatusContainerStateRestarting_FieldPathValue interface {
+	PodStatusContainerStateRestarting_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **Pod_Status_Container_StateRestarting)
+	CompareWith(*Pod_Status_Container_StateRestarting) (cmp int, comparable bool)
+}
+
+func ParsePodStatusContainerStateRestarting_FieldPathValue(pathStr, valueStr string) (PodStatusContainerStateRestarting_FieldPathValue, error) {
+	fp, err := ParsePodStatusContainerStateRestarting_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing StateRestarting field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(PodStatusContainerStateRestarting_FieldPathValue), nil
+}
+
+func MustParsePodStatusContainerStateRestarting_FieldPathValue(pathStr, valueStr string) PodStatusContainerStateRestarting_FieldPathValue {
+	fpv, err := ParsePodStatusContainerStateRestarting_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type PodStatusContainerStateRestarting_FieldTerminalPathValue struct {
+	PodStatusContainerStateRestarting_FieldTerminalPath
+	value interface{}
+}
+
+var _ PodStatusContainerStateRestarting_FieldPathValue = (*PodStatusContainerStateRestarting_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'StateRestarting' as interface{}
+func (fpv *PodStatusContainerStateRestarting_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *PodStatusContainerStateRestarting_FieldTerminalPathValue) AsExitCodeValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *PodStatusContainerStateRestarting_FieldTerminalPathValue) AsContainerIdValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object StateRestarting
+func (fpv *PodStatusContainerStateRestarting_FieldTerminalPathValue) SetTo(target **Pod_Status_Container_StateRestarting) {
+	if *target == nil {
+		*target = new(Pod_Status_Container_StateRestarting)
+	}
+	switch fpv.selector {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		(*target).ExitCode = fpv.value.(int32)
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		(*target).ContainerId = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fpv.selector))
+	}
+}
+
+func (fpv *PodStatusContainerStateRestarting_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*Pod_Status_Container_StateRestarting)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'PodStatusContainerStateRestarting_FieldTerminalPathValue' with the value under path in 'Pod_Status_Container_StateRestarting'.
+func (fpv *PodStatusContainerStateRestarting_FieldTerminalPathValue) CompareWith(source *Pod_Status_Container_StateRestarting) (int, bool) {
+	switch fpv.selector {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetExitCode()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetContainerId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for Pod_Status_Container_StateRestarting: %d", fpv.selector))
+	}
+}
+
+func (fpv *PodStatusContainerStateRestarting_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*Pod_Status_Container_StateRestarting))
+}
+
+// PodStatusContainerStateRestarting_FieldPathArrayItemValue allows storing single item in Path-specific values for StateRestarting according to their type
+// Present only for array (repeated) types.
+type PodStatusContainerStateRestarting_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	PodStatusContainerStateRestarting_FieldPath
+	ContainsValue(*Pod_Status_Container_StateRestarting) bool
+}
+
+// ParsePodStatusContainerStateRestarting_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParsePodStatusContainerStateRestarting_FieldPathArrayItemValue(pathStr, valueStr string) (PodStatusContainerStateRestarting_FieldPathArrayItemValue, error) {
+	fp, err := ParsePodStatusContainerStateRestarting_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing StateRestarting field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(PodStatusContainerStateRestarting_FieldPathArrayItemValue), nil
+}
+
+func MustParsePodStatusContainerStateRestarting_FieldPathArrayItemValue(pathStr, valueStr string) PodStatusContainerStateRestarting_FieldPathArrayItemValue {
+	fpaiv, err := ParsePodStatusContainerStateRestarting_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type PodStatusContainerStateRestarting_FieldTerminalPathArrayItemValue struct {
+	PodStatusContainerStateRestarting_FieldTerminalPath
+	value interface{}
+}
+
+var _ PodStatusContainerStateRestarting_FieldPathArrayItemValue = (*PodStatusContainerStateRestarting_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object Pod_Status_Container_StateRestarting as interface{}
+func (fpaiv *PodStatusContainerStateRestarting_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *PodStatusContainerStateRestarting_FieldTerminalPathArrayItemValue) GetSingle(source *Pod_Status_Container_StateRestarting) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *PodStatusContainerStateRestarting_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*Pod_Status_Container_StateRestarting))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'StateRestarting'
+func (fpaiv *PodStatusContainerStateRestarting_FieldTerminalPathArrayItemValue) ContainsValue(source *Pod_Status_Container_StateRestarting) bool {
+	slice := fpaiv.PodStatusContainerStateRestarting_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// PodStatusContainerStateRestarting_FieldPathArrayOfValues allows storing slice of values for StateRestarting fields according to their type
+type PodStatusContainerStateRestarting_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	PodStatusContainerStateRestarting_FieldPath
+}
+
+func ParsePodStatusContainerStateRestarting_FieldPathArrayOfValues(pathStr, valuesStr string) (PodStatusContainerStateRestarting_FieldPathArrayOfValues, error) {
+	fp, err := ParsePodStatusContainerStateRestarting_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing StateRestarting field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(PodStatusContainerStateRestarting_FieldPathArrayOfValues), nil
+}
+
+func MustParsePodStatusContainerStateRestarting_FieldPathArrayOfValues(pathStr, valuesStr string) PodStatusContainerStateRestarting_FieldPathArrayOfValues {
+	fpaov, err := ParsePodStatusContainerStateRestarting_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues struct {
+	PodStatusContainerStateRestarting_FieldTerminalPath
+	values interface{}
+}
+
+var _ PodStatusContainerStateRestarting_FieldPathArrayOfValues = (*PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case PodStatusContainerStateRestarting_FieldPathSelectorExitCode:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case PodStatusContainerStateRestarting_FieldPathSelectorContainerId:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues) AsExitCodeArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues) AsContainerIdArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

@@ -121,20 +121,20 @@ type isConditionChange_ChangeType interface {
 type ConditionChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *ConditionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *ConditionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type ConditionChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *ConditionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *ConditionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type ConditionChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *ConditionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *ConditionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type ConditionChange_Removed_ struct {
 	// Removed is returned when Condition is deleted or leaves Query view
-	Removed *ConditionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *ConditionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*ConditionChange_Added_) isConditionChange_ChangeType()    {}
@@ -195,9 +195,9 @@ type ConditionChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Condition     *Condition `protobuf:"bytes,1,opt,name=condition,proto3" json:"condition,omitempty" firestore:"condition"`
+	Condition     *Condition `protobuf:"bytes,1,opt,name=condition,proto3" json:"condition,omitempty"`
 	// Integer describing index of added Condition in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ConditionChange_Added) Reset() {
@@ -285,20 +285,20 @@ type ConditionChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Condition
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Condition or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchConditionRequest] or
 	// [WatchConditionsRequest]
-	Condition *Condition `protobuf:"bytes,2,opt,name=condition,proto3" json:"condition,omitempty" firestore:"condition"`
+	Condition *Condition `protobuf:"bytes,2,opt,name=condition,proto3" json:"condition,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Condition_FieldMask `protobuf:"bytes,3,opt,customtype=Condition_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Condition_FieldMask `protobuf:"bytes,3,opt,customtype=Condition_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Condition.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Condition new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ConditionChange_Modified) Reset() {
@@ -427,7 +427,7 @@ type ConditionChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Condition     *Condition `protobuf:"bytes,1,opt,name=condition,proto3" json:"condition,omitempty" firestore:"condition"`
+	Condition     *Condition `protobuf:"bytes,1,opt,name=condition,proto3" json:"condition,omitempty"`
 }
 
 func (m *ConditionChange_Current) Reset() {
@@ -499,10 +499,10 @@ type ConditionChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Condition index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ConditionChange_Removed) Reset() {

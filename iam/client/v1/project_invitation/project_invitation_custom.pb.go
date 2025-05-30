@@ -53,7 +53,7 @@ type AcceptProjectInvitationRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.iam.v1.ProjectInvitation
-	Name *project_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *AcceptProjectInvitationRequest) Reset() {
@@ -185,7 +185,7 @@ type DeclineProjectInvitationRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.iam.v1.ProjectInvitation
-	Name *project_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *DeclineProjectInvitationRequest) Reset() {
@@ -317,9 +317,9 @@ type ListMyProjectInvitationsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent name of ntt.iam.v1.ProjectInvitation
-	Parent *project_invitation.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *project_invitation.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// Additional filter for invitations, e.g. state = "PENDING"
-	Filter *project_invitation.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *project_invitation.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 }
 
 func (m *ListMyProjectInvitationsRequest) Reset() {
@@ -406,7 +406,7 @@ type ListMyProjectInvitationsResponse struct {
 	state              protoimpl.MessageState
 	sizeCache          protoimpl.SizeCache
 	unknownFields      protoimpl.UnknownFields
-	ProjectInvitations []*project_invitation.ProjectInvitation `protobuf:"bytes,1,rep,name=project_invitations,json=projectInvitations,proto3" json:"project_invitations,omitempty" firestore:"projectInvitations"`
+	ProjectInvitations []*project_invitation.ProjectInvitation `protobuf:"bytes,1,rep,name=project_invitations,json=projectInvitations,proto3" json:"project_invitations,omitempty"`
 }
 
 func (m *ListMyProjectInvitationsResponse) Reset() {
@@ -480,7 +480,7 @@ type ResendProjectInvitationRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.iam.v1.ProjectInvitation
-	Name *project_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *project_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *ResendProjectInvitationRequest) Reset() {
@@ -553,7 +553,7 @@ type ResendProjectInvitationResponse struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	ProjectInvitation *project_invitation.ProjectInvitation `protobuf:"bytes,1,opt,name=project_invitation,json=projectInvitation,proto3" json:"project_invitation,omitempty" firestore:"projectInvitation"`
+	ProjectInvitation *project_invitation.ProjectInvitation `protobuf:"bytes,1,opt,name=project_invitation,json=projectInvitation,proto3" json:"project_invitation,omitempty"`
 }
 
 func (m *ResendProjectInvitationResponse) Reset() {

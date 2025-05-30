@@ -61,11 +61,11 @@ type GetPrincipalRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Service asking for given principal - IAM verifies if given principal has
 	// any role bindings in requesting service.
-	RequestingService *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=requesting_service,json=requestingService,proto3" json:"requesting_service,omitempty" firestore:"requestingService"`
+	RequestingService *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=requesting_service,json=requestingService,proto3" json:"requesting_service,omitempty"`
 	// Principal ID, different for users or service accounts
-	PrincipalKeyId string `protobuf:"bytes,2,opt,name=principal_key_id,json=principalKeyId,proto3" json:"principal_key_id,omitempty" firestore:"principalKeyId"`
+	PrincipalKeyId string `protobuf:"bytes,2,opt,name=principal_key_id,json=principalKeyId,proto3" json:"principal_key_id,omitempty"`
 	// User authorization token
-	AuthToken string `protobuf:"bytes,4,opt,name=auth_token,json=authToken,proto3" json:"auth_token,omitempty" firestore:"authToken"`
+	AuthToken string `protobuf:"bytes,4,opt,name=auth_token,json=authToken,proto3" json:"auth_token,omitempty"`
 }
 
 func (m *GetPrincipalRequest) Reset() {
@@ -166,9 +166,9 @@ type GetPrincipalResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Public json key
-	JsonKey string `protobuf:"bytes,1,opt,name=json_key,json=jsonKey,proto3" json:"json_key,omitempty" firestore:"jsonKey"`
+	JsonKey string `protobuf:"bytes,1,opt,name=json_key,json=jsonKey,proto3" json:"json_key,omitempty"`
 	// Key type
-	PrincipalKeyType string `protobuf:"bytes,2,opt,name=principal_key_type,json=principalKeyType,proto3" json:"principal_key_type,omitempty" firestore:"principalKeyType"`
+	PrincipalKeyType string `protobuf:"bytes,2,opt,name=principal_key_type,json=principalKeyType,proto3" json:"principal_key_type,omitempty"`
 	// Types that are valid to be assigned to Principal:
 	//	*GetPrincipalResponse_User
 	//	*GetPrincipalResponse_ServiceAccount
@@ -232,15 +232,15 @@ type isGetPrincipalResponse_Principal interface {
 
 type GetPrincipalResponse_User struct {
 	// User data mapping principal
-	User *user.User `protobuf:"bytes,3,opt,name=user,proto3,oneof" firestore:"user"`
+	User *user.User `protobuf:"bytes,3,opt,name=user,proto3,oneof"`
 }
 type GetPrincipalResponse_ServiceAccount struct {
 	// Service account mapping principal
-	ServiceAccount *service_account.ServiceAccount `protobuf:"bytes,4,opt,name=service_account,json=serviceAccount,proto3,oneof" firestore:"serviceAccount"`
+	ServiceAccount *service_account.ServiceAccount `protobuf:"bytes,4,opt,name=service_account,json=serviceAccount,proto3,oneof"`
 }
 type GetPrincipalResponse_Anonymous struct {
 	// Anonymous principal
-	Anonymous bool `protobuf:"varint,5,opt,name=anonymous,proto3,oneof" firestore:"anonymous"`
+	Anonymous bool `protobuf:"varint,5,opt,name=anonymous,proto3,oneof"`
 }
 
 func (*GetPrincipalResponse_User) isGetPrincipalResponse_Principal()           {}
@@ -320,9 +320,9 @@ type WatchPrincipalUpdatesRequest struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	RequestingService *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=requesting_service,json=requestingService,proto3" json:"requesting_service,omitempty" firestore:"requestingService"`
+	RequestingService *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=requesting_service,json=requestingService,proto3" json:"requesting_service,omitempty"`
 	// Resume token in case of disconnection
-	ResumeToken string `protobuf:"bytes,3,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,3,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 }
 
 func (m *WatchPrincipalUpdatesRequest) Reset() {
@@ -410,15 +410,15 @@ type WatchPrincipalUpdatesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// All added or removed principals
-	CurrentPrincipals []*WatchPrincipalUpdatesResponse_CurrentPrincipal `protobuf:"bytes,1,rep,name=current_principals,json=currentPrincipals,proto3" json:"current_principals,omitempty" firestore:"currentPrincipals"`
+	CurrentPrincipals []*WatchPrincipalUpdatesResponse_CurrentPrincipal `protobuf:"bytes,1,rep,name=current_principals,json=currentPrincipals,proto3" json:"current_principals,omitempty"`
 	// All removed principals
-	RemovedPrincipals []*WatchPrincipalUpdatesResponse_RemovedPrincipal `protobuf:"bytes,2,rep,name=removed_principals,json=removedPrincipals,proto3" json:"removed_principals,omitempty" firestore:"removedPrincipals"`
+	RemovedPrincipals []*WatchPrincipalUpdatesResponse_RemovedPrincipal `protobuf:"bytes,2,rep,name=removed_principals,json=removedPrincipals,proto3" json:"removed_principals,omitempty"`
 	// Whether list of shadows received by client is in sync
-	IsCurrent bool `protobuf:"varint,3,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty" firestore:"isCurrent"`
+	IsCurrent bool `protobuf:"varint,3,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
 	// Whether current, pending changes should be reset.
-	IsReset bool `protobuf:"varint,4,opt,name=is_reset,json=isReset,proto3" json:"is_reset,omitempty" firestore:"isReset"`
+	IsReset bool `protobuf:"varint,4,opt,name=is_reset,json=isReset,proto3" json:"is_reset,omitempty"`
 	// Token to resume from.
-	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 }
 
 func (m *WatchPrincipalUpdatesResponse) Reset() {
@@ -551,18 +551,18 @@ type CheckMyRoleBindingsRequest struct {
 	// service, project or organization scope. However, if it contains an
 	// organization or project, CheckMyRoles will perform check on all ancestry
 	// path (parent organizations).
-	Parent *role_binding.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *role_binding.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// Optional additional filter to apply on role bindings returned
 	// Simplified SQL-like syntax with following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *role_binding.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *role_binding.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// Custom field mask to apply on role bindings. By default, is none is
 	// specified, following is used: [ "name", "role", "scope_params",
 	// "executable_conditions", "owned_objects" ].
-	CustomFieldMask *role_binding.RoleBinding_FieldMask `protobuf:"bytes,6,opt,customtype=RoleBinding_FieldMask,name=custom_field_mask,json=customFieldMask,proto3" json:"custom_field_mask,omitempty" firestore:"customFieldMask"`
+	CustomFieldMask *role_binding.RoleBinding_FieldMask `protobuf:"bytes,6,opt,customtype=RoleBinding_FieldMask,name=custom_field_mask,json=customFieldMask,proto3" json:"custom_field_mask,omitempty"`
 }
 
 func (m *CheckMyRoleBindingsRequest) Reset() {
@@ -663,7 +663,7 @@ type CheckMyRoleBindingsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// List of returned role bindings with corresponding grants.
-	ResolvableGrants []*CheckMyRoleBindingsResponse_ResolvableGrant `protobuf:"bytes,1,rep,name=resolvable_grants,json=resolvableGrants,proto3" json:"resolvable_grants,omitempty" firestore:"resolvableGrants"`
+	ResolvableGrants []*CheckMyRoleBindingsResponse_ResolvableGrant `protobuf:"bytes,1,rep,name=resolvable_grants,json=resolvableGrants,proto3" json:"resolvable_grants,omitempty"`
 }
 
 func (m *CheckMyRoleBindingsResponse) Reset() {
@@ -734,9 +734,9 @@ type WatchPrincipalUpdatesResponse_CurrentPrincipal struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	PrincipalKeyId   string `protobuf:"bytes,1,opt,name=principal_key_id,json=principalKeyId,proto3" json:"principal_key_id,omitempty" firestore:"principalKeyId"`
-	JsonKey          string `protobuf:"bytes,2,opt,name=json_key,json=jsonKey,proto3" json:"json_key,omitempty" firestore:"jsonKey"`
-	PrincipalKeyType string `protobuf:"bytes,3,opt,name=principal_key_type,json=principalKeyType,proto3" json:"principal_key_type,omitempty" firestore:"principalKeyType"`
+	PrincipalKeyId   string `protobuf:"bytes,1,opt,name=principal_key_id,json=principalKeyId,proto3" json:"principal_key_id,omitempty"`
+	JsonKey          string `protobuf:"bytes,2,opt,name=json_key,json=jsonKey,proto3" json:"json_key,omitempty"`
+	PrincipalKeyType string `protobuf:"bytes,3,opt,name=principal_key_type,json=principalKeyType,proto3" json:"principal_key_type,omitempty"`
 	// Types that are valid to be assigned to Update:
 	//	*WatchPrincipalUpdatesResponse_CurrentPrincipal_User
 	//	*WatchPrincipalUpdatesResponse_CurrentPrincipal_ServiceAccount
@@ -798,10 +798,10 @@ type isWatchPrincipalUpdatesResponse_CurrentPrincipal_Update interface {
 }
 
 type WatchPrincipalUpdatesResponse_CurrentPrincipal_User struct {
-	User *user.User `protobuf:"bytes,4,opt,name=user,proto3,oneof" firestore:"user"`
+	User *user.User `protobuf:"bytes,4,opt,name=user,proto3,oneof"`
 }
 type WatchPrincipalUpdatesResponse_CurrentPrincipal_ServiceAccount struct {
-	ServiceAccount *service_account.ServiceAccount `protobuf:"bytes,5,opt,name=service_account,json=serviceAccount,proto3,oneof" firestore:"serviceAccount"`
+	ServiceAccount *service_account.ServiceAccount `protobuf:"bytes,5,opt,name=service_account,json=serviceAccount,proto3,oneof"`
 }
 
 func (*WatchPrincipalUpdatesResponse_CurrentPrincipal_User) isWatchPrincipalUpdatesResponse_CurrentPrincipal_Update() {
@@ -885,7 +885,7 @@ type WatchPrincipalUpdatesResponse_RemovedPrincipal struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	PrincipalKeyId string `protobuf:"bytes,1,opt,name=principal_key_id,json=principalKeyId,proto3" json:"principal_key_id,omitempty" firestore:"principalKeyId"`
+	PrincipalKeyId string `protobuf:"bytes,1,opt,name=principal_key_id,json=principalKeyId,proto3" json:"principal_key_id,omitempty"`
 }
 
 func (m *WatchPrincipalUpdatesResponse_RemovedPrincipal) Reset() {
@@ -957,9 +957,9 @@ type CheckMyRoleBindingsResponse_ResolvableGrant struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Granted RoleBinding for the scope
-	RoleBinding *role_binding.RoleBinding `protobuf:"bytes,1,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty" firestore:"roleBinding"`
+	RoleBinding *role_binding.RoleBinding `protobuf:"bytes,1,opt,name=role_binding,json=roleBinding,proto3" json:"role_binding,omitempty"`
 	// All grants extracted from the Role
-	Grants []*role.Role_Grant `protobuf:"bytes,2,rep,name=grants,proto3" json:"grants,omitempty" firestore:"grants"`
+	Grants []*role.Role_Grant `protobuf:"bytes,2,rep,name=grants,proto3" json:"grants,omitempty"`
 }
 
 func (m *CheckMyRoleBindingsResponse_ResolvableGrant) Reset() {

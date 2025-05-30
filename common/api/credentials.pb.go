@@ -109,10 +109,10 @@ type isAccount_Account interface {
 }
 
 type Account_User struct {
-	User *User `protobuf:"bytes,2,opt,name=user,proto3,oneof" firestore:"user"`
+	User *User `protobuf:"bytes,2,opt,name=user,proto3,oneof"`
 }
 type Account_ServiceAccount struct {
-	ServiceAccount *ServiceAccount `protobuf:"bytes,3,opt,name=service_account,json=serviceAccount,proto3,oneof" firestore:"serviceAccount"`
+	ServiceAccount *ServiceAccount `protobuf:"bytes,3,opt,name=service_account,json=serviceAccount,proto3,oneof"`
 }
 
 func (*Account_User) isAccount_Account()           {}
@@ -152,11 +152,11 @@ type User struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty" firestore:"email"`
-	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty" firestore:"access_token"`
-	TokenType     string                 `protobuf:"bytes,3,opt,name=token_type,proto3" json:"token_type,omitempty" firestore:"token_type"`
-	RefreshToken  string                 `protobuf:"bytes,4,opt,name=refresh_token,proto3" json:"refresh_token,omitempty" firestore:"refresh_token"`
-	Expiry        *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=expiry,proto3" json:"expiry,omitempty" firestore:"expiry"`
+	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	AccessToken   string                 `protobuf:"bytes,2,opt,name=access_token,proto3" json:"access_token,omitempty"`
+	TokenType     string                 `protobuf:"bytes,3,opt,name=token_type,proto3" json:"token_type,omitempty"`
+	RefreshToken  string                 `protobuf:"bytes,4,opt,name=refresh_token,proto3" json:"refresh_token,omitempty"`
+	Expiry        *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=expiry,proto3" json:"expiry,omitempty"`
 }
 
 func (m *User) Reset() {
@@ -283,10 +283,10 @@ type ServiceAccount struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Type          string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
-	ClientEmail   string `protobuf:"bytes,2,opt,name=client_email,proto3" json:"client_email,omitempty" firestore:"client_email"`
-	PrivateKeyId  string `protobuf:"bytes,3,opt,name=private_key_id,proto3" json:"private_key_id,omitempty" firestore:"private_key_id"`
-	PrivateKey    string `protobuf:"bytes,4,opt,name=private_key,proto3" json:"private_key,omitempty" firestore:"private_key"`
+	Type          string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	ClientEmail   string `protobuf:"bytes,2,opt,name=client_email,proto3" json:"client_email,omitempty"`
+	PrivateKeyId  string `protobuf:"bytes,3,opt,name=private_key_id,proto3" json:"private_key_id,omitempty"`
+	PrivateKey    string `protobuf:"bytes,4,opt,name=private_key,proto3" json:"private_key,omitempty"`
 }
 
 func (m *ServiceAccount) Reset() {

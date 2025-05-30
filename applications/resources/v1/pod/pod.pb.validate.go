@@ -120,6 +120,11 @@ func (obj *Pod_Status_Container) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Container", "terminated", obj.Terminated, "nested object validation failed", err)
 		}
 	}
+	if subobj, ok := interface{}(obj.Restarting).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("Container", "restarting", obj.Restarting, "nested object validation failed", err)
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -144,6 +149,15 @@ func (obj *Pod_Status_Container_StateRunning) GotenValidate() error {
 	return nil
 }
 func (obj *Pod_Status_Container_StateTerminated) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *Pod_Status_Container_StateRestarting) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

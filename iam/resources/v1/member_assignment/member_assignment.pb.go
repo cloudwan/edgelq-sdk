@@ -99,41 +99,41 @@ type MemberAssignment struct {
 	// First letter is source indicator (p, o, s for project, org, service).
 	// Then we have proper scope identifier (projectId etc), then member
 	// identifier (like user:$EMAIL).
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Points to Organization/Project of RoleBindings, OR service for those
 	// special MemberAssignments. It is already part of name, but we track
 	// in field for filter purpose.
-	Scope *role_binding.ParentName `protobuf:"bytes,3,opt,customtype=ParentName,name=scope,proto3" json:"scope,omitempty" firestore:"scope"`
+	Scope *role_binding.ParentName `protobuf:"bytes,3,opt,customtype=ParentName,name=scope,proto3" json:"scope,omitempty"`
 	// Populated for organization/project scopes. Skipped for service ones.
-	ScopeTitle string `protobuf:"bytes,4,opt,name=scope_title,json=scopeTitle,proto3" json:"scope_title,omitempty" firestore:"scopeTitle"`
+	ScopeTitle string `protobuf:"bytes,4,opt,name=scope_title,json=scopeTitle,proto3" json:"scope_title,omitempty"`
 	// Populated for organization/project scopes. Skipped for service ones.
-	ParentOrganization *organization.Name `protobuf:"bytes,5,opt,customtype=Name,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty" firestore:"parentOrganization"`
+	ParentOrganization *organization.Name `protobuf:"bytes,5,opt,customtype=Name,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty"`
 	// It has PARTIAL metadata inherited from scope (labels, annotations, tags).
 	// Populated for organization/project scopes. Skipped for service ones.
-	ScopeMetadata *meta.Meta `protobuf:"bytes,6,opt,name=scope_metadata,json=scopeMetadata,proto3" json:"scope_metadata,omitempty" firestore:"scopeMetadata"`
+	ScopeMetadata *meta.Meta `protobuf:"bytes,6,opt,name=scope_metadata,json=scopeMetadata,proto3" json:"scope_metadata,omitempty"`
 	// Populated for organization/project scopes. Skipped for service ones.
 	// Contains multi_region_policy.default_control_region
-	MultiRegionControlRegion string `protobuf:"bytes,7,opt,name=multi_region_control_region,json=multiRegionControlRegion,proto3" json:"multi_region_control_region,omitempty" firestore:"multiRegionControlRegion"`
+	MultiRegionControlRegion string `protobuf:"bytes,7,opt,name=multi_region_control_region,json=multiRegionControlRegion,proto3" json:"multi_region_control_region,omitempty"`
 	// Populated for organization/project scopes. Skipped for service ones.
 	// Contains multi_region_policy.enabled_regions
-	MultiRegionEnabledRegions []string `protobuf:"bytes,8,rep,name=multi_region_enabled_regions,json=multiRegionEnabledRegions,proto3" json:"multi_region_enabled_regions,omitempty" firestore:"multiRegionEnabledRegions"`
+	MultiRegionEnabledRegions []string `protobuf:"bytes,8,rep,name=multi_region_enabled_regions,json=multiRegionEnabledRegions,proto3" json:"multi_region_enabled_regions,omitempty"`
 	// Populated for organization/project scopes. Skipped for service ones.
 	// Contains allowed or enabled services.
-	ScopeServices []*meta_service.Name `protobuf:"bytes,9,rep,customtype=Name,name=scope_services,json=scopeServices,proto3" json:"scope_services,omitempty" firestore:"scopeServices"`
+	ScopeServices []*meta_service.Name `protobuf:"bytes,9,rep,customtype=Name,name=scope_services,json=scopeServices,proto3" json:"scope_services,omitempty"`
 	// Populated for organization/project scopes. Skipped for service ones.
-	BusinessTier iam_common.BusinessTier `protobuf:"varint,10,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"business_tier,omitempty" firestore:"businessTier"`
+	BusinessTier iam_common.BusinessTier `protobuf:"varint,10,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"business_tier,omitempty"`
 	// Member pointed by RoleBinding. Part of name, but we also need for filtering
 	// purposes.
-	Member string `protobuf:"bytes,11,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,11,opt,name=member,proto3" json:"member,omitempty"`
 	// Region ID holding member resource (User, ServiceAccount...)
-	MemberRegion string                       `protobuf:"bytes,12,opt,name=member_region,json=memberRegion,proto3" json:"member_region,omitempty" firestore:"memberRegion"`
-	CtrlStatus   *MemberAssignment_WorkStatus `protobuf:"bytes,13,opt,name=ctrl_status,json=ctrlStatus,proto3" json:"ctrl_status,omitempty" firestore:"ctrlStatus"`
+	MemberRegion string                       `protobuf:"bytes,12,opt,name=member_region,json=memberRegion,proto3" json:"member_region,omitempty"`
+	CtrlStatus   *MemberAssignment_WorkStatus `protobuf:"bytes,13,opt,name=ctrl_status,json=ctrlStatus,proto3" json:"ctrl_status,omitempty"`
 }
 
 func (m *MemberAssignment) Reset() {
@@ -373,9 +373,9 @@ type MemberAssignment_WorkStatus struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// if controller has some work on this resource
-	Pending bool `protobuf:"varint,1,opt,name=pending,proto3" json:"pending,omitempty" firestore:"pending"`
+	Pending bool `protobuf:"varint,1,opt,name=pending,proto3" json:"pending,omitempty"`
 	// If this resource should be deleted.
-	PendingDeletion bool `protobuf:"varint,2,opt,name=pending_deletion,json=pendingDeletion,proto3" json:"pending_deletion,omitempty" firestore:"pendingDeletion"`
+	PendingDeletion bool `protobuf:"varint,2,opt,name=pending_deletion,json=pendingDeletion,proto3" json:"pending_deletion,omitempty"`
 }
 
 func (m *MemberAssignment_WorkStatus) Reset() {

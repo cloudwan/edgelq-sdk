@@ -143,11 +143,11 @@ type Condition struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Display Name
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Description
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	// Condition expression in [Google
 	// CEL](https://github.com/google/cel-spec/blob/v0.4.0/doc/intro.md), syntax,
 	// e.g. `resource.name == "projects/xyz/instances/abc"`
@@ -171,12 +171,12 @@ type Condition struct {
 	//
 	// Access is determined by the return value. Return `true` to grant access or
 	// `false` to deny. Any execution error results in access denied.
-	Expression string `protobuf:"bytes,4,opt,name=expression,proto3" json:"expression,omitempty" firestore:"expression"`
+	Expression string `protobuf:"bytes,4,opt,name=expression,proto3" json:"expression,omitempty"`
 	// Typed parameters declarations. When binding a Condition passed parameters
 	// must correspond to declarations.
-	ParameterDeclarations []*Condition_ParameterDeclaration `protobuf:"bytes,5,rep,name=parameter_declarations,json=parameterDeclarations,proto3" json:"parameter_declarations,omitempty" firestore:"parameterDeclarations"`
+	ParameterDeclarations []*Condition_ParameterDeclaration `protobuf:"bytes,5,rep,name=parameter_declarations,json=parameterDeclarations,proto3" json:"parameter_declarations,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Condition) Reset() {
@@ -319,12 +319,12 @@ type ConditionBinding struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Reference to Condition which may also be parameterized
-	Condition *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=condition,proto3" json:"condition,omitempty" firestore:"condition"`
+	Condition *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=condition,proto3" json:"condition,omitempty"`
 	// TODO: Deprecated, use params instead
-	Parameters map[string]string `protobuf:"bytes,2,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"parameters"`
+	Parameters map[string]string `protobuf:"bytes,2,rep,name=parameters,proto3" json:"parameters,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Parameters in string form. Parameters must match
 	// [declarations][ntt.iam.v1alpha2.Condition.parameter_declarations]
-	Params *structpb.Struct `protobuf:"bytes,3,opt,name=params,proto3" json:"params,omitempty" firestore:"params"`
+	Params *structpb.Struct `protobuf:"bytes,3,opt,name=params,proto3" json:"params,omitempty"`
 }
 
 func (m *ConditionBinding) Reset() {
@@ -427,9 +427,9 @@ type Condition_ParameterDeclaration struct {
 	// Parameter Key - must be unique within condition. Defined parameter
 	// variables are accessible in condition expression via `parameters.<key>`,
 	// e.g.`parameters.projectId`
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// Parameter value type
-	Type Condition_ParameterType `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.iam.v1alpha2.Condition_ParameterType" json:"type,omitempty" firestore:"type"`
+	Type Condition_ParameterType `protobuf:"varint,2,opt,name=type,proto3,enum=ntt.iam.v1alpha2.Condition_ParameterType" json:"type,omitempty"`
 }
 
 func (m *Condition_ParameterDeclaration) Reset() {

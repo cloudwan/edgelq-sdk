@@ -52,7 +52,7 @@ type RequestUrlRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.devices.v1.CustomizedImage
-	Name *customized_image.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *customized_image.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *RequestUrlRequest) Reset() {
@@ -124,8 +124,8 @@ type RequestUrlResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Url           string   `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty" firestore:"url"`
-	Headers       []string `protobuf:"bytes,2,rep,name=headers,proto3" json:"headers,omitempty" firestore:"headers"`
+	Url           string   `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	Headers       []string `protobuf:"bytes,2,rep,name=headers,proto3" json:"headers,omitempty"`
 }
 
 func (m *RequestUrlResponse) Reset() {

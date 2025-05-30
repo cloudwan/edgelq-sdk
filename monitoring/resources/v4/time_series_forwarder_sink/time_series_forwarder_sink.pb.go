@@ -107,19 +107,19 @@ type TimeSeriesForwarderSink struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Optional display name
-	DisplayName string `protobuf:"bytes,5,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,5,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Current spec
-	Spec *TimeSeriesForwarderSink_Spec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
+	Spec *TimeSeriesForwarderSink_Spec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Current status
-	Status *TimeSeriesForwarderSink_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Status *TimeSeriesForwarderSink_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *TimeSeriesForwarderSink) Reset() {
@@ -249,7 +249,7 @@ type TimeSeriesForwarderSink_Spec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Optional data compression.
-	Compression TimeSeriesForwarderSink_Spec_Compression `protobuf:"varint,1,opt,name=compression,proto3,enum=ntt.monitoring.v4.TimeSeriesForwarderSink_Spec_Compression" json:"compression,omitempty" firestore:"compression"`
+	Compression TimeSeriesForwarderSink_Spec_Compression `protobuf:"varint,1,opt,name=compression,proto3,enum=ntt.monitoring.v4.TimeSeriesForwarderSink_Spec_Compression" json:"compression,omitempty"`
 	// Types that are valid to be assigned to Sink:
 	//	*TimeSeriesForwarderSink_Spec_AzureEventHub
 	Sink isTimeSeriesForwarderSink_Spec_Sink `protobuf_oneof:"sink"`
@@ -310,7 +310,7 @@ type isTimeSeriesForwarderSink_Spec_Sink interface {
 }
 
 type TimeSeriesForwarderSink_Spec_AzureEventHub struct {
-	AzureEventHub *TimeSeriesForwarderSink_Spec_AzureEventHubSink `protobuf:"bytes,2,opt,name=azure_event_hub,json=azureEventHub,proto3,oneof" firestore:"azureEventHub"`
+	AzureEventHub *TimeSeriesForwarderSink_Spec_AzureEventHubSink `protobuf:"bytes,2,opt,name=azure_event_hub,json=azureEventHub,proto3,oneof"`
 }
 
 func (*TimeSeriesForwarderSink_Spec_AzureEventHub) isTimeSeriesForwarderSink_Spec_Sink() {}
@@ -356,7 +356,7 @@ type TimeSeriesForwarderSink_Status struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// If there is some persisting error on the sink, it will be reported here.
-	Error string `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty" firestore:"error"`
+	Error string `protobuf:"bytes,1,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (m *TimeSeriesForwarderSink_Status) Reset() {
@@ -438,7 +438,7 @@ type TimeSeriesForwarderSink_Spec_AzureEventHubSink struct {
 	//   }
 	// }
 	// Replace <> elements with appropiate values.
-	Endpoint *secrets_secret.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=endpoint,proto3" json:"endpoint,omitempty" firestore:"endpoint"`
+	Endpoint *secrets_secret.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=endpoint,proto3" json:"endpoint,omitempty"`
 }
 
 func (m *TimeSeriesForwarderSink_Spec_AzureEventHubSink) Reset() {

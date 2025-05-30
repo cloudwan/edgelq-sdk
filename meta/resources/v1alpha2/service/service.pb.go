@@ -52,15 +52,15 @@ type Service struct {
 	// Name of Service - it has form of service domain, for example
 	// devices.edgelq.com, so full reference name would be like
 	// services/devices.edgelq.com
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Display name, for example "Devices" - CamelVersion
-	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Current version of the service, for example "v1alpha2"
-	CurrentVersion string `protobuf:"bytes,4,opt,name=current_version,json=currentVersion,proto3" json:"current_version,omitempty" firestore:"currentVersion"`
+	CurrentVersion string `protobuf:"bytes,4,opt,name=current_version,json=currentVersion,proto3" json:"current_version,omitempty"`
 	// All version in order from newest (index 0) to oldest
-	AllVersions []string `protobuf:"bytes,5,rep,name=all_versions,json=allVersions,proto3" json:"all_versions,omitempty" firestore:"allVersions"`
+	AllVersions []string `protobuf:"bytes,5,rep,name=all_versions,json=allVersions,proto3" json:"all_versions,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Service) Reset() {

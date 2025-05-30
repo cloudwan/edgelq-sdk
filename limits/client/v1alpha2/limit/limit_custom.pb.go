@@ -53,7 +53,7 @@ type MigrateLimitSourceRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// name of ntt.limits.v1alpha2.Limit
-	Name *limit.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *limit.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *MigrateLimitSourceRequest) Reset() {

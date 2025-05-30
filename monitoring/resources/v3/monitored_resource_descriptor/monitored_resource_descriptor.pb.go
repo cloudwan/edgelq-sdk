@@ -68,30 +68,30 @@ type MonitoredResourceDescriptor struct {
 	// resource name format `"monitoredResourceDescriptors/{type}"`.
 	// NOTE: currently only `"monitoredResourceDescriptors/{type}"` form is
 	// supported.
-	Name *Name `protobuf:"bytes,5,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,5,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Required. The monitored resource type. For example, the type
 	// `"cloudsql_database"` represents databases in Google Cloud SQL.
 	// The maximum length of this value is 256 characters.
-	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// Optional. A concise name for the monitored resource type that might be
 	// displayed in user interfaces. It should be a Title Cased Noun Phrase,
 	// without any article or other determiners. For example,
 	// `"Google Cloud SQL Database"`.
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. A detailed description of the monitored resource type that might
 	// be used in documentation.
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	// Required. A set of labels used to describe instances of this monitored
 	// resource type. For example, an individual Google Cloud SQL database is
 	// identified by values for the labels `"database_id"` and `"zone"`.
-	Labels []*common.LabelDescriptor `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" firestore:"labels"`
+	Labels []*common.LabelDescriptor `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty"`
 	// Promoted Label Key Sets allow defining multiple indexing rules for
 	// underlying backend enabling query optimizations. Metric promoted label sets
 	// are combined with MonitoredResource promoted label sets and result in
 	// PromotedKeySet.
-	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,32,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty" firestore:"promotedLabelKeySets"`
+	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,32,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,33,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,33,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *MonitoredResourceDescriptor) Reset() {

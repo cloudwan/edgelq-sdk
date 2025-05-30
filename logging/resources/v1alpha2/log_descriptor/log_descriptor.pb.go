@@ -58,21 +58,21 @@ type LogDescriptor struct {
 	// Name of LogDescriptor - contains service name followed by name defined
 	// by developer, separated by '/' sign. Example name:
 	// "devices.edgelq.com/DeviceFailure"
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Optional. A concise name for the log type that might be
 	// displayed in user interfaces. It should be a Title Cased Noun Phrase,
 	// without any article or other determiners.
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. A detailed description of the log type that might
 	// be used in documentation.
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	// A set of labels used to describe instances of this log type.
-	Labels []*common.LabelDescriptor `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" firestore:"labels"`
+	Labels []*common.LabelDescriptor `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty"`
 	// Promoted Label Key Sets allow defining multiple indexing rules for
 	// underlying backend enabling query optimizations.
-	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,5,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty" firestore:"promotedLabelKeySets"`
+	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,5,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *LogDescriptor) Reset() {

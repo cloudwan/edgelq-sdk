@@ -111,13 +111,13 @@ type ListResourceChangeLogsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent names of ntt.audit.v1alpha2.ResourceChangeLog
-	Parents []*resource_change_log.ParentName `protobuf:"bytes,1,rep,customtype=ParentName,name=parents,proto3" json:"parents,omitempty" firestore:"parents"`
+	Parents []*resource_change_log.ParentName `protobuf:"bytes,1,rep,customtype=ParentName,name=parents,proto3" json:"parents,omitempty"`
 	// A audit filter that specifies which resource change logs should be returned
-	Filter *resource_change_log.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *resource_change_log.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// The time interval for which results should be returned. Only logs
 	// that contain data points in the specified interval are included
 	// in the response.
-	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty"`
 	// Cap on a number of resource change logs to be included in a response.
 	// Number of logs in an actual response can be higher, since logs are
 	// read in bulk with second precision - exceed logs above the limit will share
@@ -125,11 +125,11 @@ type ListResourceChangeLogsRequest struct {
 	//
 	// Results will be adjusted to the "end time" taken from interval field
 	// (adjusted also by page_token if provided).
-	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// Token which identifies next page with further results. Token should be
 	// taken from ListResourceChangeLogsResponse
 	// [ListResourceChangeLogsResponse.next_page_token][ntt.audit.v1alpha2.ListResourceChangeLogsResponse.next_page_token].
-	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 }
 
 func (m *ListResourceChangeLogsRequest) Reset() {
@@ -261,11 +261,11 @@ type ListResourceChangeLogsResponse struct {
 	// One or more resource change logs that match the filter included in the
 	// request. Contains results from all queried regions. Its possible however
 	// that some logs may be missing, for this see execution_errors.
-	ResourceChangeLogs []*resource_change_log.ResourceChangeLog `protobuf:"bytes,1,rep,name=resource_change_logs,json=resourceChangeLogs,proto3" json:"resource_change_logs,omitempty" firestore:"resourceChangeLogs"`
+	ResourceChangeLogs []*resource_change_log.ResourceChangeLog `protobuf:"bytes,1,rep,name=resource_change_logs,json=resourceChangeLogs,proto3" json:"resource_change_logs,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value. To see the additional results,
 	// use that value as `pageToken` in the next call to this method.
-	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Query execution errors that may have caused the response data returned to
 	// be incomplete. Because logs are stored only locally (for each region), all
 	// resource change log queries are split and merged by a receiving request
@@ -275,7 +275,7 @@ type ListResourceChangeLogsResponse struct {
 	// message, fields code and message will contain error obtained from failed
 	// regional server, while field details will contain always one item and this
 	// item will be of type ErrorDetails.
-	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty" firestore:"executionErrors"`
+	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty"`
 }
 
 func (m *ListResourceChangeLogsResponse) Reset() {
@@ -384,17 +384,17 @@ type CreatePreCommittedResourceChangeLogsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// ID of the request - must be same as the one used in activity logs
-	RequestId uint64 `protobuf:"varint,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty" firestore:"requestId"`
+	RequestId uint64 `protobuf:"varint,1,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// Time of the request
-	Timestamp *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty" firestore:"timestamp"`
+	Timestamp *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	// Authentication data - informs who made a change
-	Authentication *common.Authentication `protobuf:"bytes,3,opt,name=authentication,proto3" json:"authentication,omitempty" firestore:"authentication"`
+	Authentication *common.Authentication `protobuf:"bytes,3,opt,name=authentication,proto3" json:"authentication,omitempty"`
 	// Information about the service
-	Service *common.ServiceData `protobuf:"bytes,4,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *common.ServiceData `protobuf:"bytes,4,opt,name=service,proto3" json:"service,omitempty"`
 	// Information about transaction
-	Transaction *resource_change_log.ResourceChangeLog_TransactionInfo `protobuf:"bytes,5,opt,name=transaction,proto3" json:"transaction,omitempty" firestore:"transaction"`
+	Transaction *resource_change_log.ResourceChangeLog_TransactionInfo `protobuf:"bytes,5,opt,name=transaction,proto3" json:"transaction,omitempty"`
 	// List of changes
-	Changes []*resource_change_log.ResourceChangeLog_ResourceChange `protobuf:"bytes,6,rep,name=changes,proto3" json:"changes,omitempty" firestore:"changes"`
+	Changes []*resource_change_log.ResourceChangeLog_ResourceChange `protobuf:"bytes,6,rep,name=changes,proto3" json:"changes,omitempty"`
 }
 
 func (m *CreatePreCommittedResourceChangeLogsRequest) Reset() {
@@ -538,7 +538,7 @@ type CreatePreCommittedResourceChangeLogsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Resource change log keys - one key per each resource change, in same order
-	LogKeys [][]byte `protobuf:"bytes,1,rep,name=log_keys,json=logKeys,proto3" json:"log_keys,omitempty" firestore:"logKeys"`
+	LogKeys [][]byte `protobuf:"bytes,1,rep,name=log_keys,json=logKeys,proto3" json:"log_keys,omitempty"`
 }
 
 func (m *CreatePreCommittedResourceChangeLogsResponse) Reset() {
@@ -619,12 +619,12 @@ type SetResourceChangeLogsCommitStateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// list of resource change log keys.
-	LogKeys [][]byte `protobuf:"bytes,1,rep,name=log_keys,json=logKeys,proto3" json:"log_keys,omitempty" firestore:"logKeys"`
+	LogKeys [][]byte `protobuf:"bytes,1,rep,name=log_keys,json=logKeys,proto3" json:"log_keys,omitempty"`
 	// Time of the request - must be same as in
 	// CreatePreCommittedResourceChangeLogsRequest
-	Timestamp *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty" firestore:"timestamp"`
+	Timestamp *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	// final state of the transaction - must be COMMITTED or ROLLED_BACK
-	TxResult resource_change_log.ResourceChangeLog_TransactionInfo_State `protobuf:"varint,3,opt,name=tx_result,json=txResult,proto3,enum=ntt.audit.v1alpha2.ResourceChangeLog_TransactionInfo_State" json:"tx_result,omitempty" firestore:"txResult"`
+	TxResult resource_change_log.ResourceChangeLog_TransactionInfo_State `protobuf:"varint,3,opt,name=tx_result,json=txResult,proto3,enum=ntt.audit.v1alpha2.ResourceChangeLog_TransactionInfo_State" json:"tx_result,omitempty"`
 }
 
 func (m *SetResourceChangeLogsCommitStateRequest) Reset() {
@@ -785,7 +785,7 @@ type ListResourceChangeLogsResponse_ErrorDetails struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// region id which failed to give results.
-	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ListResourceChangeLogsResponse_ErrorDetails) Reset() {

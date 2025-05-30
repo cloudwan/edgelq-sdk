@@ -60,13 +60,13 @@ type BatchGetMonitoredResourceDescriptorsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Names of MonitoredResourceDescriptors
-	Names []*monitored_resource_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=names,proto3" json:"names,omitempty" firestore:"names"`
+	Names []*monitored_resource_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=names,proto3" json:"names,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *BatchGetMonitoredResourceDescriptorsRequest) Reset() {
@@ -167,9 +167,9 @@ type BatchGetMonitoredResourceDescriptorsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// found MonitoredResourceDescriptors
-	MonitoredResourceDescriptors []*monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,1,rep,name=monitored_resource_descriptors,json=monitoredResourceDescriptors,proto3" json:"monitored_resource_descriptors,omitempty" firestore:"monitoredResourceDescriptors"`
+	MonitoredResourceDescriptors []*monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,1,rep,name=monitored_resource_descriptors,json=monitoredResourceDescriptors,proto3" json:"monitored_resource_descriptors,omitempty"`
 	// list of not found MonitoredResourceDescriptors
-	Missing []*monitored_resource_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=missing,proto3" json:"missing,omitempty" firestore:"missing"`
+	Missing []*monitored_resource_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=missing,proto3" json:"missing,omitempty"`
 }
 
 func (m *BatchGetMonitoredResourceDescriptorsResponse) Reset() {
@@ -256,13 +256,13 @@ type WatchMonitoredResourceDescriptorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.monitoring.v3.MonitoredResourceDescriptor
-	Name *monitored_resource_descriptor.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *monitored_resource_descriptor.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *WatchMonitoredResourceDescriptorRequest) Reset() {
@@ -362,7 +362,7 @@ type WatchMonitoredResourceDescriptorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Change        *monitored_resource_descriptor.MonitoredResourceDescriptorChange `protobuf:"bytes,1,opt,name=change,proto3" json:"change,omitempty" firestore:"change"`
+	Change        *monitored_resource_descriptor.MonitoredResourceDescriptorChange `protobuf:"bytes,1,opt,name=change,proto3" json:"change,omitempty"`
 }
 
 func (m *WatchMonitoredResourceDescriptorResponse) Reset() {
@@ -436,49 +436,49 @@ type WatchMonitoredResourceDescriptorsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Type of a watch. Identifies how server stream data to a client, which
 	// fields in a request are allowed and which fields in response are relevant.
-	Type watch_type.WatchType `protobuf:"varint,9,opt,name=type,proto3,enum=goten.types.WatchType" json:"type,omitempty" firestore:"type"`
+	Type watch_type.WatchType `protobuf:"varint,9,opt,name=type,proto3,enum=goten.types.WatchType" json:"type,omitempty"`
 	// Requested page size. Server may return fewer MonitoredResourceDescriptors
 	// than requested. If unspecified, server will pick an appropriate default.
 	// Can be populated only for stateful watch type.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Can be populated only for stateful watch type.
-	PageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination Can be
 	// populated only for stateful watch type.
-	OrderBy *monitored_resource_descriptor.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *monitored_resource_descriptor.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// A token identifying watch resume point from previous session.
 	// Can be populated only for stateless watch type.
-	ResumeToken string `protobuf:"bytes,10,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,10,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 	// Point in the time from which we want to start getting updates. This field
 	// can be populated only for stateless watch type and if resume token is not
 	// known yet. If specified, initial snapshot will NOT be provided. It is
 	// assumed client can obtain it using separate means. Watch responses will
 	// contain resume tokens which should be used to resume broken connection.
-	StartingTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty" firestore:"startingTime"`
+	StartingTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *monitored_resource_descriptor.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *monitored_resource_descriptor.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view Changes to MonitoredResourceDescriptor
 	// that don't affect any of masked fields won't be sent back.
-	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask Changes to
 	// MonitoredResourceDescriptor that don't affect any of masked fields won't be
 	// sent back.
-	View view.View `protobuf:"varint,8,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,8,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// Maximum amount of changes in each response message. Query result response
 	// is divided on the server side into chunks with size of a specified amount
 	// to limit memory footprint of each message. Responses will hold information
 	// whether more elements will continue for the actual change. If unspecified,
 	// server will pick an appropriate default.
-	MaxChunkSize int32 `protobuf:"varint,11,opt,name=max_chunk_size,json=maxChunkSize,proto3" json:"max_chunk_size,omitempty" firestore:"maxChunkSize"`
+	MaxChunkSize int32 `protobuf:"varint,11,opt,name=max_chunk_size,json=maxChunkSize,proto3" json:"max_chunk_size,omitempty"`
 }
 
 func (m *WatchMonitoredResourceDescriptorsRequest) Reset() {
@@ -677,7 +677,7 @@ type WatchMonitoredResourceDescriptorsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Changes of MonitoredResourceDescriptors
-	MonitoredResourceDescriptorChanges []*monitored_resource_descriptor.MonitoredResourceDescriptorChange `protobuf:"bytes,2,rep,name=monitored_resource_descriptor_changes,json=monitoredResourceDescriptorChanges,proto3" json:"monitored_resource_descriptor_changes,omitempty" firestore:"monitoredResourceDescriptorChanges"`
+	MonitoredResourceDescriptorChanges []*monitored_resource_descriptor.MonitoredResourceDescriptorChange `protobuf:"bytes,2,rep,name=monitored_resource_descriptor_changes,json=monitoredResourceDescriptorChanges,proto3" json:"monitored_resource_descriptor_changes,omitempty"`
 	// If request specified max_chunk_size (or this limit was enforced if
 	// stateless watch has been chosen), then responses with "full changeset" will
 	// be divided into chunks. Client should keep receiving messages and, once
@@ -690,14 +690,14 @@ type WatchMonitoredResourceDescriptorsResponse struct {
 	// request). Further responses will be incremental - however messages may
 	// still be chunked and is_current logic still applies. is_current is always
 	// true for stateful watch if max_chunk_size was left to 0.
-	IsCurrent bool `protobuf:"varint,4,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty" firestore:"isCurrent"`
+	IsCurrent bool `protobuf:"varint,4,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
 	// When present, PageTokens used for page navigation should be updated.
 	// Present only if is_current is true (last chunk).
-	PageTokenChange *WatchMonitoredResourceDescriptorsResponse_PageTokenChange `protobuf:"bytes,3,opt,name=page_token_change,json=pageTokenChange,proto3" json:"page_token_change,omitempty" firestore:"pageTokenChange"`
+	PageTokenChange *WatchMonitoredResourceDescriptorsResponse_PageTokenChange `protobuf:"bytes,3,opt,name=page_token_change,json=pageTokenChange,proto3" json:"page_token_change,omitempty"`
 	// Token that can be used if current connection drops and client needs to
 	// reconnect. Populated only for stateless watch type. Present only if
 	// is_current is true (last chunk).
-	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 	// Server may occasionally send information how many resources should client
 	// have in its state so far (response message without any changes, but with
 	// snapshot_size field specified). If client has different value than the one
@@ -707,7 +707,7 @@ type WatchMonitoredResourceDescriptorsResponse struct {
 	// watch. In stateful those kind of errors are handled by the server side.
 	// Will be never sent together with is_current, is_soft_reset and
 	// is_hard_reset flags.
-	SnapshotSize int64 `protobuf:"varint,6,opt,name=snapshot_size,json=snapshotSize,proto3" json:"snapshot_size,omitempty" firestore:"snapshotSize"`
+	SnapshotSize int64 `protobuf:"varint,6,opt,name=snapshot_size,json=snapshotSize,proto3" json:"snapshot_size,omitempty"`
 	// In case of internal issue server may send response message with this flag.
 	// It indicates that client should drop all changes from recent responses
 	// where is_current is false only! If last message had is_current set to true,
@@ -715,7 +715,7 @@ type WatchMonitoredResourceDescriptorsResponse struct {
 	// is still valid. This field should be checked only for stateless watch. In
 	// stateful those kind of errors are handled by the server side. Will never be
 	// sent along with is_current, is_hard_reset or snapshot_size.
-	IsSoftReset bool `protobuf:"varint,7,opt,name=is_soft_reset,json=isSoftReset,proto3" json:"is_soft_reset,omitempty" firestore:"isSoftReset"`
+	IsSoftReset bool `protobuf:"varint,7,opt,name=is_soft_reset,json=isSoftReset,proto3" json:"is_soft_reset,omitempty"`
 	// In case of internal issue server may send response message with this flag.
 	// After receiving, client should clear whole state (drop all changes received
 	// so far) as server will send new snapshot (MonitoredResourceDescriptors will
@@ -723,7 +723,7 @@ type WatchMonitoredResourceDescriptorsResponse struct {
 	// discarded as well. This field should be checked only for stateless watch.
 	// In stateful those kind of errors are handled by the server side. Will never
 	// be sent along with is_current, is_soft_reset or snapshot_size.
-	IsHardReset bool `protobuf:"varint,8,opt,name=is_hard_reset,json=isHardReset,proto3" json:"is_hard_reset,omitempty" firestore:"isHardReset"`
+	IsHardReset bool `protobuf:"varint,8,opt,name=is_hard_reset,json=isHardReset,proto3" json:"is_hard_reset,omitempty"`
 }
 
 func (m *WatchMonitoredResourceDescriptorsResponse) Reset() {
@@ -880,10 +880,10 @@ type CreateMonitoredResourceDescriptorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// MonitoredResourceDescriptor resource body
-	MonitoredResourceDescriptor *monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,2,opt,name=monitored_resource_descriptor,json=monitoredResourceDescriptor,proto3" json:"monitored_resource_descriptor,omitempty" firestore:"monitoredResourceDescriptor"`
+	MonitoredResourceDescriptor *monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,2,opt,name=monitored_resource_descriptor,json=monitoredResourceDescriptor,proto3" json:"monitored_resource_descriptor,omitempty"`
 	// Optional masking applied to response object to reduce message response
 	// size.
-	ResponseMask *CreateMonitoredResourceDescriptorRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
+	ResponseMask *CreateMonitoredResourceDescriptorRequest_ResponseMask `protobuf:"bytes,3,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty"`
 }
 
 func (m *CreateMonitoredResourceDescriptorRequest) Reset() {
@@ -970,24 +970,24 @@ type UpdateMonitoredResourceDescriptorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// MonitoredResourceDescriptor resource body
-	MonitoredResourceDescriptor *monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,2,opt,name=monitored_resource_descriptor,json=monitoredResourceDescriptor,proto3" json:"monitored_resource_descriptor,omitempty" firestore:"monitoredResourceDescriptor"`
+	MonitoredResourceDescriptor *monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,2,opt,name=monitored_resource_descriptor,json=monitoredResourceDescriptor,proto3" json:"monitored_resource_descriptor,omitempty"`
 	// FieldMask applied to request - change will be applied only for fields in
 	// the mask
-	UpdateMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty" firestore:"updateMask"`
+	UpdateMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	// Conditional update applied to request if update should be executed only for
 	// specific resource state. If this field is populated, then server will fetch
 	// existing resource, compare with the one stored in the cas field (after
 	// applying field mask) and proceed with update only and only if they match.
 	// Otherwise RPC error Aborted will be returned.
-	Cas *UpdateMonitoredResourceDescriptorRequest_CAS `protobuf:"bytes,4,opt,name=cas,proto3" json:"cas,omitempty" firestore:"cas"`
+	Cas *UpdateMonitoredResourceDescriptorRequest_CAS `protobuf:"bytes,4,opt,name=cas,proto3" json:"cas,omitempty"`
 	// If set to true, and the resource is not found,
 	// a new resource will be created.  In this situation,
 	// 'field_mask' is ignored.
 	//
 	// https://google.aip.dev/134#create-or-update
-	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
+	AllowMissing bool `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty"`
 	// reduce message response size.
-	ResponseMask *UpdateMonitoredResourceDescriptorRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
+	ResponseMask *UpdateMonitoredResourceDescriptorRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty"`
 }
 
 func (m *UpdateMonitoredResourceDescriptorRequest) Reset() {
@@ -1116,7 +1116,7 @@ type DeleteMonitoredResourceDescriptorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.monitoring.v3.MonitoredResourceDescriptor
-	Name *monitored_resource_descriptor.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *monitored_resource_descriptor.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *DeleteMonitoredResourceDescriptorRequest) Reset() {
@@ -1188,9 +1188,9 @@ type WatchMonitoredResourceDescriptorsResponse_PageTokenChange struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// New token to retrieve previous page of results.
-	PrevPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,1,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,1,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// New token to retrieve next page of results.
-	NextPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 }
 
 func (m *WatchMonitoredResourceDescriptorsResponse_PageTokenChange) Reset() {
@@ -1339,12 +1339,12 @@ type isCreateMonitoredResourceDescriptorRequest_ResponseMask_Masking interface {
 type CreateMonitoredResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody struct {
 	// If this flag has value true, then response will contain just empty
 	// resource without any fields populated.
-	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof"`
 }
 type CreateMonitoredResourceDescriptorRequest_ResponseMask_BodyMask struct {
 	// If this field is populated, then resource in response will contain only
 	// specific fields.
-	BodyMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+	BodyMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof"`
 }
 
 func (*CreateMonitoredResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody) isCreateMonitoredResourceDescriptorRequest_ResponseMask_Masking() {
@@ -1389,10 +1389,10 @@ type UpdateMonitoredResourceDescriptorRequest_CAS struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Conditional desired state of a resource before update.
-	ConditionalState *monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,1,opt,name=conditional_state,json=conditionalState,proto3" json:"conditional_state,omitempty" firestore:"conditionalState"`
+	ConditionalState *monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,1,opt,name=conditional_state,json=conditionalState,proto3" json:"conditional_state,omitempty"`
 	// Field paths from conditional state of resource server should check and
 	// compare.
-	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 }
 
 func (m *UpdateMonitoredResourceDescriptorRequest_CAS) Reset() {
@@ -1543,19 +1543,19 @@ type UpdateMonitoredResourceDescriptorRequest_ResponseMask_SkipEntireResponseBod
 	// If this flag has value true, then response will contain just empty
 	// resource without any fields populated. Field body_mask is ignored if
 	// set.
-	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof"`
 }
 type UpdateMonitoredResourceDescriptorRequest_ResponseMask_UpdatedFieldsOnly struct {
 	// Include all fields that were actually updated during processing. Note
 	// this may be larger than update mask if some fields were computed
 	// additionally. Name is added as well.
-	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof"`
 }
 type UpdateMonitoredResourceDescriptorRequest_ResponseMask_BodyMask struct {
 	// If this field is populated, then resource in response will contain only
 	// specific fields. If skip_entire_response_body is true, this field is
 	// ignored.
-	BodyMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+	BodyMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof"`
 }
 
 func (*UpdateMonitoredResourceDescriptorRequest_ResponseMask_SkipEntireResponseBody) isUpdateMonitoredResourceDescriptorRequest_ResponseMask_Masking() {

@@ -54,32 +54,32 @@ type AuditedResourceDescriptor struct {
 	// Name of AuditedResourceDescriptor - contains service name and
 	// resource type name, separated by '/' sign. Example name:
 	// "iam.edgelq.com/RoleBinding"
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Optional. A concise name for the audited object type that might be
 	// displayed in user interfaces. It should be a Title Cased Noun Phrase,
 	// without any article or other determiners.
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. A detailed description of the audited object type that might
 	// be used in documentation.
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	// Required. A set of labels used to describe instances of this audited
 	// resource type. For example, for "RoleBinding" we can define name+member.
 	// This can allow us to make query like "who allowed user X to do those
 	// things?"
-	Labels []*common.LabelDescriptor `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" firestore:"labels"`
+	Labels []*common.LabelDescriptor `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty"`
 	// Promoted Label Key Sets allow defining multiple indexing rules for
 	// underlying backend enabling query optimizations.
-	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,5,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty" firestore:"promotedLabelKeySets"`
+	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,5,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty"`
 	// List of API versions which define this resource
-	Versions []string `protobuf:"bytes,6,rep,name=versions,proto3" json:"versions,omitempty" firestore:"versions"`
+	Versions []string `protobuf:"bytes,6,rep,name=versions,proto3" json:"versions,omitempty"`
 	// List of spec fields
-	SpecFields []string `protobuf:"bytes,7,rep,name=spec_fields,json=specFields,proto3" json:"spec_fields,omitempty" firestore:"specFields"`
+	SpecFields []string `protobuf:"bytes,7,rep,name=spec_fields,json=specFields,proto3" json:"spec_fields,omitempty"`
 	// List of state fields
-	StateFields []string `protobuf:"bytes,8,rep,name=state_fields,json=stateFields,proto3" json:"state_fields,omitempty" firestore:"stateFields"`
+	StateFields []string `protobuf:"bytes,8,rep,name=state_fields,json=stateFields,proto3" json:"state_fields,omitempty"`
 	// List of meta fields
-	MetaFields []string `protobuf:"bytes,9,rep,name=meta_fields,json=metaFields,proto3" json:"meta_fields,omitempty" firestore:"metaFields"`
+	MetaFields []string `protobuf:"bytes,9,rep,name=meta_fields,json=metaFields,proto3" json:"meta_fields,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,10,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,10,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *AuditedResourceDescriptor) Reset() {

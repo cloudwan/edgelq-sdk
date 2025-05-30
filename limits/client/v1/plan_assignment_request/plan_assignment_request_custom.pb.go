@@ -61,10 +61,10 @@ type AcceptPlanAssignmentRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.limits.v1.PlanAssignmentRequest
-	Name *plan_assignment_request.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *plan_assignment_request.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Entity approving plan assignment. It can be left empty if the one approving
 	// uses service-level privileges.
-	Approver *accepted_plan.ParentName `protobuf:"bytes,2,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty" firestore:"approver"`
+	Approver *accepted_plan.ParentName `protobuf:"bytes,2,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty"`
 }
 
 func (m *AcceptPlanAssignmentRequest) Reset() {
@@ -151,7 +151,7 @@ type AcceptPlanAssignmentResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	AcceptedPlan  *accepted_plan.AcceptedPlan `protobuf:"bytes,1,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty" firestore:"acceptedPlan"`
+	AcceptedPlan  *accepted_plan.AcceptedPlan `protobuf:"bytes,1,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty"`
 }
 
 func (m *AcceptPlanAssignmentResponse) Reset() {
@@ -225,11 +225,11 @@ type DeclinePlanAssignmentRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.limits.v1.PlanAssignmentRequest
-	Name *plan_assignment_request.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *plan_assignment_request.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Entity approving plan assignment. It must match approver in
 	// PlanAssignmentRequest.
-	Approver *accepted_plan.ParentName `protobuf:"bytes,2,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty" firestore:"approver"`
-	Reason   string                    `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty" firestore:"reason"`
+	Approver *accepted_plan.ParentName `protobuf:"bytes,2,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty"`
+	Reason   string                    `protobuf:"bytes,3,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
 func (m *DeclinePlanAssignmentRequest) Reset() {
@@ -389,33 +389,33 @@ type ListApproverPlanAssignmentRequestsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Approver of the plan assignment requests
-	Approver *accepted_plan.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty" firestore:"approver"`
+	Approver *accepted_plan.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty"`
 	// Requested page size. Server may return fewer PlanAssignmentRequests than
 	// requested. If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// [ListPlanAssignmentRequestsResponse.next_page_token][ntt.limits.v1.ListPlanAssignmentRequestsResponse.next_page_token]
-	PageToken *plan_assignment_request.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *plan_assignment_request.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *plan_assignment_request.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *plan_assignment_request.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *plan_assignment_request.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *plan_assignment_request.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *plan_assignment_request.PlanAssignmentRequest_FieldMask `protobuf:"bytes,6,opt,customtype=PlanAssignmentRequest_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *plan_assignment_request.PlanAssignmentRequest_FieldMask `protobuf:"bytes,6,opt,customtype=PlanAssignmentRequest_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *ListApproverPlanAssignmentRequestsRequest) Reset() {

@@ -43,6 +43,12 @@ message Role {
   // grants and values in their field conditions, if any.
   repeated ScopeParamType scope_params = 3;
 
+  // List of const scope params for this role
+  repeated ScopeParam const_values = 11;
+
+  // List of default value for the passed scope params
+  repeated ScopeParam default_values = 12;
+
   // List of permissions granted per each object prefix.
   repeated Grant grants = 5;
 

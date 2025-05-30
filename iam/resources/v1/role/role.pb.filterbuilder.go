@@ -242,6 +242,14 @@ func (b *filterCndBuilder) ScopeParams() *filterCndBuilderScopeParams {
 	return &filterCndBuilderScopeParams{builder: b.builder}
 }
 
+func (b *filterCndBuilder) ConstValues() *filterCndBuilderConstValues {
+	return &filterCndBuilderConstValues{builder: b.builder}
+}
+
+func (b *filterCndBuilder) DefaultValues() *filterCndBuilderDefaultValues {
+	return &filterCndBuilderDefaultValues{builder: b.builder}
+}
+
 func (b *filterCndBuilder) Grants() *filterCndBuilderGrants {
 	return &filterCndBuilderGrants{builder: b.builder}
 }
@@ -2798,6 +2806,1268 @@ func (b *filterCndBuilderScopeParamsType) compare(op gotenfilter.CompareOperator
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:            op,
 		Role_FieldPathValue: NewRoleFieldPathBuilder().ScopeParams().Type().WithValue(value),
+	})
+}
+
+type filterCndBuilderConstValues struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValues) Eq(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValues) Neq(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValues) Gt(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValues) Gte(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValues) Lt(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValues) Lte(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValues) In(values [][]*ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValues) NotIn(values [][]*ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValues) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValues) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValues) Contains(value *ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().FieldPath(),
+		Value:     NewRoleFieldPathBuilder().ConstValues().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderConstValues) ContainsAnyOf(values []*ScopeParam) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().ConstValues()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderConstValues) ContainsAll(values []*ScopeParam) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().ConstValues()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderConstValues) compare(op gotenfilter.CompareOperator, value []*ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderConstValues) Name() *filterCndBuilderConstValuesName {
+	return &filterCndBuilderConstValuesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderConstValues) String_() *filterCndBuilderConstValuesString {
+	return &filterCndBuilderConstValuesString{builder: b.builder}
+}
+
+func (b *filterCndBuilderConstValues) Strings() *filterCndBuilderConstValuesStrings {
+	return &filterCndBuilderConstValuesStrings{builder: b.builder}
+}
+
+func (b *filterCndBuilderConstValues) ValueFrom() *filterCndBuilderConstValuesValueFrom {
+	return &filterCndBuilderConstValuesValueFrom{builder: b.builder}
+}
+
+type filterCndBuilderConstValuesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderConstValuesString struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesString) Eq(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesString) Neq(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesString) Gt(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesString) Gte(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesString) Lt(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesString) Lte(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesString) In(values []*ScopeParam_StringValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().String_().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesString) NotIn(values []*ScopeParam_StringValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().String_().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesString) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().String_().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesString) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().String_().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesString) compare(op gotenfilter.CompareOperator, value *ScopeParam_StringValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().String_().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderConstValuesString) Value() *filterCndBuilderConstValuesStringValue {
+	return &filterCndBuilderConstValuesStringValue{builder: b.builder}
+}
+
+type filterCndBuilderConstValuesStringValue struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesStringValue) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesStringValue) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesStringValue) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesStringValue) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesStringValue) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesStringValue) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesStringValue) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().String_().Value().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringValue) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().String_().Value().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringValue) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().String_().Value().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringValue) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().String_().Value().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringValue) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().String_().Value().WithValue(value),
+	})
+}
+
+type filterCndBuilderConstValuesStrings struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesStrings) Eq(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesStrings) Neq(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesStrings) Gt(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesStrings) Gte(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesStrings) Lt(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesStrings) Lte(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesStrings) In(values []*ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().Strings().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStrings) NotIn(values []*ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().Strings().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStrings) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Strings().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStrings) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Strings().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStrings) compare(op gotenfilter.CompareOperator, value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().Strings().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStrings) Values() *filterCndBuilderConstValuesStringsValues {
+	return &filterCndBuilderConstValuesStringsValues{builder: b.builder}
+}
+
+type filterCndBuilderConstValuesStringsValues struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().Strings().Values().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().Strings().Values().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Strings().Values().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Strings().Values().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Strings().Values().FieldPath(),
+		Value:     NewRoleFieldPathBuilder().ConstValues().Strings().Values().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().ConstValues().Strings().Values()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Strings().Values().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().ConstValues().Strings().Values()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().Strings().Values().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderConstValuesStringsValues) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().Strings().Values().WithValue(value),
+	})
+}
+
+type filterCndBuilderConstValuesValueFrom struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Eq(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Neq(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Gt(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Gte(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Lt(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Lte(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) In(values []*ScopeParam_FromValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().ValueFrom().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) NotIn(values []*ScopeParam_FromValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().ValueFrom().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().ValueFrom().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().ValueFrom().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) compare(op gotenfilter.CompareOperator, value *ScopeParam_FromValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().ValueFrom().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Source() *filterCndBuilderConstValuesValueFromSource {
+	return &filterCndBuilderConstValuesValueFromSource{builder: b.builder}
+}
+
+func (b *filterCndBuilderConstValuesValueFrom) Path() *filterCndBuilderConstValuesValueFromPath {
+	return &filterCndBuilderConstValuesValueFromPath{builder: b.builder}
+}
+
+type filterCndBuilderConstValuesValueFromSource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) Eq(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) Neq(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) Gt(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) Gte(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) Lt(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) Lte(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) In(values []ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Source().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) NotIn(values []ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Source().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Source().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Source().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromSource) compare(op gotenfilter.CompareOperator, value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Source().WithValue(value),
+	})
+}
+
+type filterCndBuilderConstValuesValueFromPath struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Path().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Path().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Path().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Path().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderConstValuesValueFromPath) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().ConstValues().ValueFrom().Path().WithValue(value),
+	})
+}
+
+type filterCndBuilderDefaultValues struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValues) Eq(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValues) Neq(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValues) Gt(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValues) Gte(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValues) Lt(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValues) Lte(value []*ScopeParam) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValues) In(values [][]*ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) NotIn(values [][]*ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) Contains(value *ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().FieldPath(),
+		Value:     NewRoleFieldPathBuilder().DefaultValues().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) ContainsAnyOf(values []*ScopeParam) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().DefaultValues()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) ContainsAll(values []*ScopeParam) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().DefaultValues()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) compare(op gotenfilter.CompareOperator, value []*ScopeParam) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderDefaultValues) Name() *filterCndBuilderDefaultValuesName {
+	return &filterCndBuilderDefaultValuesName{builder: b.builder}
+}
+
+func (b *filterCndBuilderDefaultValues) String_() *filterCndBuilderDefaultValuesString {
+	return &filterCndBuilderDefaultValuesString{builder: b.builder}
+}
+
+func (b *filterCndBuilderDefaultValues) Strings() *filterCndBuilderDefaultValuesStrings {
+	return &filterCndBuilderDefaultValuesStrings{builder: b.builder}
+}
+
+func (b *filterCndBuilderDefaultValues) ValueFrom() *filterCndBuilderDefaultValuesValueFrom {
+	return &filterCndBuilderDefaultValuesValueFrom{builder: b.builder}
+}
+
+type filterCndBuilderDefaultValuesName struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesName) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesName) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesName) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesName) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesName) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesName) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesName) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesName) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().Name().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesName) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesName) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Name().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesName) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().Name().WithValue(value),
+	})
+}
+
+type filterCndBuilderDefaultValuesString struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesString) Eq(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesString) Neq(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesString) Gt(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesString) Gte(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesString) Lt(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesString) Lte(value *ScopeParam_StringValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesString) In(values []*ScopeParam_StringValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().String_().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesString) NotIn(values []*ScopeParam_StringValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().String_().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesString) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().String_().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesString) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().String_().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesString) compare(op gotenfilter.CompareOperator, value *ScopeParam_StringValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().String_().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesString) Value() *filterCndBuilderDefaultValuesStringValue {
+	return &filterCndBuilderDefaultValuesStringValue{builder: b.builder}
+}
+
+type filterCndBuilderDefaultValuesStringValue struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().String_().Value().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().String_().Value().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().String_().Value().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().String_().Value().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringValue) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().String_().Value().WithValue(value),
+	})
+}
+
+type filterCndBuilderDefaultValuesStrings struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) Eq(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) Neq(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) Gt(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) Gte(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) Lt(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) Lte(value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) In(values []*ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().Strings().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) NotIn(values []*ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().Strings().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Strings().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Strings().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) compare(op gotenfilter.CompareOperator, value *ScopeParam_ArrayOfStringsValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().Strings().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStrings) Values() *filterCndBuilderDefaultValuesStringsValues {
+	return &filterCndBuilderDefaultValuesStringsValues{builder: b.builder}
+}
+
+type filterCndBuilderDefaultValuesStringsValues struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) Eq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) Neq(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) Gt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) Gte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) Lt(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) Lte(value []string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) In(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) NotIn(values [][]string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) Contains(value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().FieldPath(),
+		Value:     NewRoleFieldPathBuilder().DefaultValues().Strings().Values().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) ContainsAnyOf(values []string) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().DefaultValues().Strings().Values()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) ContainsAll(values []string) *FilterBuilder {
+	pathSelector := NewRoleFieldPathBuilder().DefaultValues().Strings().Values()
+	itemValues := make([]Role_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesStringsValues) compare(op gotenfilter.CompareOperator, value []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().Strings().Values().WithValue(value),
+	})
+}
+
+type filterCndBuilderDefaultValuesValueFrom struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Eq(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Neq(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Gt(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Gte(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Lt(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Lte(value *ScopeParam_FromValue) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) In(values []*ScopeParam_FromValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) NotIn(values []*ScopeParam_FromValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) compare(op gotenfilter.CompareOperator, value *ScopeParam_FromValue) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().WithValue(value),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Source() *filterCndBuilderDefaultValuesValueFromSource {
+	return &filterCndBuilderDefaultValuesValueFromSource{builder: b.builder}
+}
+
+func (b *filterCndBuilderDefaultValuesValueFrom) Path() *filterCndBuilderDefaultValuesValueFromPath {
+	return &filterCndBuilderDefaultValuesValueFromPath{builder: b.builder}
+}
+
+type filterCndBuilderDefaultValuesValueFromSource struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) Eq(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) Neq(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) Gt(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) Gte(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) Lt(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) Lte(value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) In(values []ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Source().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) NotIn(values []ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Source().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Source().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Source().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromSource) compare(op gotenfilter.CompareOperator, value ScopeParam_FromValue_Source) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Source().WithValue(value),
+	})
+}
+
+type filterCndBuilderDefaultValuesValueFromPath struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Path().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Role_FieldPathArrayOfValues: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Path().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Path().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Path().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderDefaultValuesValueFromPath) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:            op,
+		Role_FieldPathValue: NewRoleFieldPathBuilder().DefaultValues().ValueFrom().Path().WithValue(value),
 	})
 }
 

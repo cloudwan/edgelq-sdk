@@ -59,29 +59,29 @@ type PhantomTimeSerie struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [\\w+/=]{1,256}
-	Name *Name `protobuf:"bytes,100,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,100,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,11,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,11,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// TimeSerie key identifies unique TimeSeries tuple:
 	// <project, metric.type, metric.labels, resource.type, resource.labels>
 	//
 	// Kind/ValueType are not present in key
 	// Key is not to be decoded outside of service, but treated as opaque string
-	Key []byte `protobuf:"bytes,101,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key []byte `protobuf:"bytes,101,opt,name=key,proto3" json:"key,omitempty"`
 	// Internal use - for bulk reporting of TimeSeries
-	Project string `protobuf:"bytes,102,opt,name=project,proto3" json:"project,omitempty" firestore:"project"`
+	Project string `protobuf:"bytes,102,opt,name=project,proto3" json:"project,omitempty"`
 	// The associated metric. A fully-specified metric used to identify the time
 	// series.
 	// This field cannot be updated, can be only set during creation.
-	Metric *common.Metric `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty" firestore:"metric"`
+	Metric *common.Metric `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"`
 	// The associated monitored resource.  Custom metrics can use only certain
 	// monitored resource types in their time series data.
 	// This field cannot be updated, can be only set during creation.
-	Resource *common.MonitoredResource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *common.MonitoredResource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
 	// The metric kind of the time series. When listing time series, this metric
 	// kind might be different from the metric kind of the associated metric if
 	// this time series is an alignment or reduction of other time series.
@@ -91,16 +91,16 @@ type PhantomTimeSerie struct {
 	// metric's descriptor must be auto-created, then this field specifies the
 	// metric kind of the new descriptor and must be either `GAUGE` (the default)
 	// or `CUMULATIVE`.
-	MetricKind metric_descriptor.MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v4.MetricDescriptor_MetricKind" json:"metric_kind,omitempty" firestore:"metricKind"`
+	MetricKind metric_descriptor.MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v4.MetricDescriptor_MetricKind" json:"metric_kind,omitempty"`
 	// The value type of the time series. When listing time series, this value
 	// type might be different from the value type of the associated metric if
 	// this time series is an alignment or reduction of other time series.
 	//
 	// When creating a time series, this field is optional. If present, it must be
 	// the same as the type of the data in the `points` field.
-	ValueType metric_descriptor.MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v4.MetricDescriptor_ValueType" json:"value_type,omitempty" firestore:"valueType"`
+	ValueType metric_descriptor.MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v4.MetricDescriptor_ValueType" json:"value_type,omitempty"`
 	// Phantom value
-	Value *common.TypedValue `protobuf:"bytes,6,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Value *common.TypedValue `protobuf:"bytes,6,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (m *PhantomTimeSerie) Reset() {

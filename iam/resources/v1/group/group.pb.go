@@ -59,17 +59,17 @@ type Group struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display Name
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. Description of the Group
-	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	// Unique email address for this [Group]. Generated based on its
 	// [name][ntt.iam.v1alpha2.Group.name] with following rules:
 	//
@@ -82,7 +82,7 @@ type Group struct {
 	//
 	// Note: Currently there is way to assign custom domain for [Organization] or
 	// [Project].
-	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty" firestore:"email"`
+	Email string `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
 }
 
 func (m *Group) Reset() {

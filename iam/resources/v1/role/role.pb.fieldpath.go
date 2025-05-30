@@ -84,10 +84,12 @@ const (
 	Role_FieldPathSelectorDescription      Role_FieldPathSelector = 3
 	Role_FieldPathSelectorCategory         Role_FieldPathSelector = 4
 	Role_FieldPathSelectorScopeParams      Role_FieldPathSelector = 5
-	Role_FieldPathSelectorGrants           Role_FieldPathSelector = 6
-	Role_FieldPathSelectorOwnedObjects     Role_FieldPathSelector = 7
-	Role_FieldPathSelectorServices         Role_FieldPathSelector = 8
-	Role_FieldPathSelectorRbSpecGeneration Role_FieldPathSelector = 9
+	Role_FieldPathSelectorConstValues      Role_FieldPathSelector = 6
+	Role_FieldPathSelectorDefaultValues    Role_FieldPathSelector = 7
+	Role_FieldPathSelectorGrants           Role_FieldPathSelector = 8
+	Role_FieldPathSelectorOwnedObjects     Role_FieldPathSelector = 9
+	Role_FieldPathSelectorServices         Role_FieldPathSelector = 10
+	Role_FieldPathSelectorRbSpecGeneration Role_FieldPathSelector = 11
 )
 
 func (s Role_FieldPathSelector) String() string {
@@ -104,6 +106,10 @@ func (s Role_FieldPathSelector) String() string {
 		return "category"
 	case Role_FieldPathSelectorScopeParams:
 		return "scope_params"
+	case Role_FieldPathSelectorConstValues:
+		return "const_values"
+	case Role_FieldPathSelectorDefaultValues:
+		return "default_values"
 	case Role_FieldPathSelectorGrants:
 		return "grants"
 	case Role_FieldPathSelectorOwnedObjects:
@@ -135,6 +141,10 @@ func BuildRole_FieldPath(fp gotenobject.RawFieldPath) (Role_FieldPath, error) {
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorCategory}, nil
 		case "scope_params", "scopeParams", "scope-params":
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorScopeParams}, nil
+		case "const_values", "constValues", "const-values":
+			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorConstValues}, nil
+		case "default_values", "defaultValues", "default-values":
+			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDefaultValues}, nil
 		case "grants":
 			return &Role_FieldTerminalPath{selector: Role_FieldPathSelectorGrants}, nil
 		case "owned_objects", "ownedObjects", "owned-objects":
@@ -157,6 +167,18 @@ func BuildRole_FieldPath(fp gotenobject.RawFieldPath) (Role_FieldPath, error) {
 				return nil, err
 			} else {
 				return &Role_FieldSubPath{selector: Role_FieldPathSelectorScopeParams, subPath: subpath}, nil
+			}
+		case "const_values", "constValues", "const-values":
+			if subpath, err := BuildScopeParam_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Role_FieldSubPath{selector: Role_FieldPathSelectorConstValues, subPath: subpath}, nil
+			}
+		case "default_values", "defaultValues", "default-values":
+			if subpath, err := BuildScopeParam_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &Role_FieldSubPath{selector: Role_FieldPathSelectorDefaultValues, subPath: subpath}, nil
 			}
 		case "grants":
 			if subpath, err := BuildRoleGrant_FieldPath(fp[1:]); err != nil {
@@ -227,6 +249,14 @@ func (fp *Role_FieldTerminalPath) Get(source *Role) (values []interface{}) {
 			for _, value := range source.GetScopeParams() {
 				values = append(values, value)
 			}
+		case Role_FieldPathSelectorConstValues:
+			for _, value := range source.GetConstValues() {
+				values = append(values, value)
+			}
+		case Role_FieldPathSelectorDefaultValues:
+			for _, value := range source.GetDefaultValues() {
+				values = append(values, value)
+			}
 		case Role_FieldPathSelectorGrants:
 			for _, value := range source.GetGrants() {
 				values = append(values, value)
@@ -270,6 +300,12 @@ func (fp *Role_FieldTerminalPath) GetSingle(source *Role) (interface{}, bool) {
 	case Role_FieldPathSelectorScopeParams:
 		res := source.GetScopeParams()
 		return res, res != nil
+	case Role_FieldPathSelectorConstValues:
+		res := source.GetConstValues()
+		return res, res != nil
+	case Role_FieldPathSelectorDefaultValues:
+		res := source.GetDefaultValues()
+		return res, res != nil
 	case Role_FieldPathSelectorGrants:
 		res := source.GetGrants()
 		return res, res != nil
@@ -305,6 +341,10 @@ func (fp *Role_FieldTerminalPath) GetDefault() interface{} {
 		return Role_UNDEFINED
 	case Role_FieldPathSelectorScopeParams:
 		return ([]*Role_ScopeParamType)(nil)
+	case Role_FieldPathSelectorConstValues:
+		return ([]*ScopeParam)(nil)
+	case Role_FieldPathSelectorDefaultValues:
+		return ([]*ScopeParam)(nil)
 	case Role_FieldPathSelectorGrants:
 		return ([]*Role_Grant)(nil)
 	case Role_FieldPathSelectorOwnedObjects:
@@ -333,6 +373,10 @@ func (fp *Role_FieldTerminalPath) ClearValue(item *Role) {
 			item.Category = Role_UNDEFINED
 		case Role_FieldPathSelectorScopeParams:
 			item.ScopeParams = nil
+		case Role_FieldPathSelectorConstValues:
+			item.ConstValues = nil
+		case Role_FieldPathSelectorDefaultValues:
+			item.DefaultValues = nil
 		case Role_FieldPathSelectorGrants:
 			item.Grants = nil
 		case Role_FieldPathSelectorOwnedObjects:
@@ -380,6 +424,10 @@ func (fp *Role_FieldTerminalPath) WithIValue(value interface{}) Role_FieldPathVa
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.(Role_Category)}
 	case Role_FieldPathSelectorScopeParams:
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*Role_ScopeParamType)}
+	case Role_FieldPathSelectorConstValues:
+		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*ScopeParam)}
+	case Role_FieldPathSelectorDefaultValues:
+		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*ScopeParam)}
 	case Role_FieldPathSelectorGrants:
 		return &Role_FieldTerminalPathValue{Role_FieldTerminalPath: *fp, value: value.([]*Role_Grant)}
 	case Role_FieldPathSelectorOwnedObjects:
@@ -412,6 +460,10 @@ func (fp *Role_FieldTerminalPath) WithIArrayOfValues(values interface{}) Role_Fi
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([]Role_Category)}
 	case Role_FieldPathSelectorScopeParams:
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*Role_ScopeParamType)}
+	case Role_FieldPathSelectorConstValues:
+		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*ScopeParam)}
+	case Role_FieldPathSelectorDefaultValues:
+		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*ScopeParam)}
 	case Role_FieldPathSelectorGrants:
 		return &Role_FieldTerminalPathArrayOfValues{Role_FieldTerminalPath: *fp, values: values.([][]*Role_Grant)}
 	case Role_FieldPathSelectorOwnedObjects:
@@ -434,6 +486,10 @@ func (fp *Role_FieldTerminalPath) WithIArrayItemValue(value interface{}) Role_Fi
 	switch fp.selector {
 	case Role_FieldPathSelectorScopeParams:
 		return &Role_FieldTerminalPathArrayItemValue{Role_FieldTerminalPath: *fp, value: value.(*Role_ScopeParamType)}
+	case Role_FieldPathSelectorConstValues:
+		return &Role_FieldTerminalPathArrayItemValue{Role_FieldTerminalPath: *fp, value: value.(*ScopeParam)}
+	case Role_FieldPathSelectorDefaultValues:
+		return &Role_FieldTerminalPathArrayItemValue{Role_FieldTerminalPath: *fp, value: value.(*ScopeParam)}
 	case Role_FieldPathSelectorGrants:
 		return &Role_FieldTerminalPathArrayItemValue{Role_FieldTerminalPath: *fp, value: value.(*Role_Grant)}
 	case Role_FieldPathSelectorOwnedObjects:
@@ -467,6 +523,14 @@ func (fps *Role_FieldSubPath) AsScopeParamsSubPath() (RoleScopeParamType_FieldPa
 	res, ok := fps.subPath.(RoleScopeParamType_FieldPath)
 	return res, ok
 }
+func (fps *Role_FieldSubPath) AsConstValuesSubPath() (ScopeParam_FieldPath, bool) {
+	res, ok := fps.subPath.(ScopeParam_FieldPath)
+	return res, ok
+}
+func (fps *Role_FieldSubPath) AsDefaultValuesSubPath() (ScopeParam_FieldPath, bool) {
+	res, ok := fps.subPath.(ScopeParam_FieldPath)
+	return res, ok
+}
 func (fps *Role_FieldSubPath) AsGrantsSubPath() (RoleGrant_FieldPath, bool) {
 	res, ok := fps.subPath.(RoleGrant_FieldPath)
 	return res, ok
@@ -489,6 +553,14 @@ func (fps *Role_FieldSubPath) Get(source *Role) (values []interface{}) {
 		values = append(values, fps.subPath.GetRaw(source.GetMetadata())...)
 	case Role_FieldPathSelectorScopeParams:
 		for _, item := range source.GetScopeParams() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case Role_FieldPathSelectorConstValues:
+		for _, item := range source.GetConstValues() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	case Role_FieldPathSelectorDefaultValues:
+		for _, item := range source.GetDefaultValues() {
 			values = append(values, fps.subPath.GetRaw(item)...)
 		}
 	case Role_FieldPathSelectorGrants:
@@ -518,6 +590,16 @@ func (fps *Role_FieldSubPath) GetSingle(source *Role) (interface{}, bool) {
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetScopeParams()[0])
+	case Role_FieldPathSelectorConstValues:
+		if len(source.GetConstValues()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetConstValues()[0])
+	case Role_FieldPathSelectorDefaultValues:
+		if len(source.GetDefaultValues()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetDefaultValues()[0])
 	case Role_FieldPathSelectorGrants:
 		if len(source.GetGrants()) == 0 {
 			return nil, false
@@ -544,6 +626,14 @@ func (fps *Role_FieldSubPath) ClearValue(item *Role) {
 			fps.subPath.ClearValueRaw(item.Metadata)
 		case Role_FieldPathSelectorScopeParams:
 			for _, subItem := range item.ScopeParams {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case Role_FieldPathSelectorConstValues:
+			for _, subItem := range item.ConstValues {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		case Role_FieldPathSelectorDefaultValues:
+			for _, subItem := range item.DefaultValues {
 				fps.subPath.ClearValueRaw(subItem)
 			}
 		case Role_FieldPathSelectorGrants:
@@ -658,6 +748,14 @@ func (fpv *Role_FieldTerminalPathValue) AsScopeParamsValue() ([]*Role_ScopeParam
 	res, ok := fpv.value.([]*Role_ScopeParamType)
 	return res, ok
 }
+func (fpv *Role_FieldTerminalPathValue) AsConstValuesValue() ([]*ScopeParam, bool) {
+	res, ok := fpv.value.([]*ScopeParam)
+	return res, ok
+}
+func (fpv *Role_FieldTerminalPathValue) AsDefaultValuesValue() ([]*ScopeParam, bool) {
+	res, ok := fpv.value.([]*ScopeParam)
+	return res, ok
+}
 func (fpv *Role_FieldTerminalPathValue) AsGrantsValue() ([]*Role_Grant, bool) {
 	res, ok := fpv.value.([]*Role_Grant)
 	return res, ok
@@ -693,6 +791,10 @@ func (fpv *Role_FieldTerminalPathValue) SetTo(target **Role) {
 		(*target).Category = fpv.value.(Role_Category)
 	case Role_FieldPathSelectorScopeParams:
 		(*target).ScopeParams = fpv.value.([]*Role_ScopeParamType)
+	case Role_FieldPathSelectorConstValues:
+		(*target).ConstValues = fpv.value.([]*ScopeParam)
+	case Role_FieldPathSelectorDefaultValues:
+		(*target).DefaultValues = fpv.value.([]*ScopeParam)
 	case Role_FieldPathSelectorGrants:
 		(*target).Grants = fpv.value.([]*Role_Grant)
 	case Role_FieldPathSelectorOwnedObjects:
@@ -767,6 +869,10 @@ func (fpv *Role_FieldTerminalPathValue) CompareWith(source *Role) (int, bool) {
 		}
 	case Role_FieldPathSelectorScopeParams:
 		return 0, false
+	case Role_FieldPathSelectorConstValues:
+		return 0, false
+	case Role_FieldPathSelectorDefaultValues:
+		return 0, false
 	case Role_FieldPathSelectorGrants:
 		return 0, false
 	case Role_FieldPathSelectorOwnedObjects:
@@ -807,6 +913,14 @@ func (fpvs *Role_FieldSubPathValue) AsScopeParamsPathValue() (RoleScopeParamType
 	res, ok := fpvs.subPathValue.(RoleScopeParamType_FieldPathValue)
 	return res, ok
 }
+func (fpvs *Role_FieldSubPathValue) AsConstValuesPathValue() (ScopeParam_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ScopeParam_FieldPathValue)
+	return res, ok
+}
+func (fpvs *Role_FieldSubPathValue) AsDefaultValuesPathValue() (ScopeParam_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(ScopeParam_FieldPathValue)
+	return res, ok
+}
 func (fpvs *Role_FieldSubPathValue) AsGrantsPathValue() (RoleGrant_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(RoleGrant_FieldPathValue)
 	return res, ok
@@ -820,6 +934,10 @@ func (fpvs *Role_FieldSubPathValue) SetTo(target **Role) {
 	case Role_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case Role_FieldPathSelectorScopeParams:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case Role_FieldPathSelectorConstValues:
+		panic("FieldPath setter is unsupported for array subpaths")
+	case Role_FieldPathSelectorDefaultValues:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case Role_FieldPathSelectorGrants:
 		panic("FieldPath setter is unsupported for array subpaths")
@@ -842,6 +960,10 @@ func (fpvs *Role_FieldSubPathValue) CompareWith(source *Role) (int, bool) {
 	case Role_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case Role_FieldPathSelectorScopeParams:
+		return 0, false // repeated field
+	case Role_FieldPathSelectorConstValues:
+		return 0, false // repeated field
+	case Role_FieldPathSelectorDefaultValues:
 		return 0, false // repeated field
 	case Role_FieldPathSelectorGrants:
 		return 0, false // repeated field
@@ -898,6 +1020,14 @@ func (fpaiv *Role_FieldTerminalPathArrayItemValue) AsScopeParamsItemValue() (*Ro
 	res, ok := fpaiv.value.(*Role_ScopeParamType)
 	return res, ok
 }
+func (fpaiv *Role_FieldTerminalPathArrayItemValue) AsConstValuesItemValue() (*ScopeParam, bool) {
+	res, ok := fpaiv.value.(*ScopeParam)
+	return res, ok
+}
+func (fpaiv *Role_FieldTerminalPathArrayItemValue) AsDefaultValuesItemValue() (*ScopeParam, bool) {
+	res, ok := fpaiv.value.(*ScopeParam)
+	return res, ok
+}
 func (fpaiv *Role_FieldTerminalPathArrayItemValue) AsGrantsItemValue() (*Role_Grant, bool) {
 	res, ok := fpaiv.value.(*Role_Grant)
 	return res, ok
@@ -951,6 +1081,14 @@ func (fpaivs *Role_FieldSubPathArrayItemValue) AsScopeParamsPathItemValue() (Rol
 	res, ok := fpaivs.subPathItemValue.(RoleScopeParamType_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *Role_FieldSubPathArrayItemValue) AsConstValuesPathItemValue() (ScopeParam_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ScopeParam_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *Role_FieldSubPathArrayItemValue) AsDefaultValuesPathItemValue() (ScopeParam_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(ScopeParam_FieldPathArrayItemValue)
+	return res, ok
+}
 func (fpaivs *Role_FieldSubPathArrayItemValue) AsGrantsPathItemValue() (RoleGrant_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(RoleGrant_FieldPathArrayItemValue)
 	return res, ok
@@ -962,6 +1100,10 @@ func (fpaivs *Role_FieldSubPathArrayItemValue) ContainsValue(source *Role) bool 
 	case Role_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case Role_FieldPathSelectorScopeParams:
+		return false // repeated/map field
+	case Role_FieldPathSelectorConstValues:
+		return false // repeated/map field
+	case Role_FieldPathSelectorDefaultValues:
 		return false // repeated/map field
 	case Role_FieldPathSelectorGrants:
 		return false // repeated/map field
@@ -1029,6 +1171,14 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) GetRawValues() (values []inter
 		for _, v := range fpaov.values.([][]*Role_ScopeParamType) {
 			values = append(values, v)
 		}
+	case Role_FieldPathSelectorConstValues:
+		for _, v := range fpaov.values.([][]*ScopeParam) {
+			values = append(values, v)
+		}
+	case Role_FieldPathSelectorDefaultValues:
+		for _, v := range fpaov.values.([][]*ScopeParam) {
+			values = append(values, v)
+		}
 	case Role_FieldPathSelectorGrants:
 		for _, v := range fpaov.values.([][]*Role_Grant) {
 			values = append(values, v)
@@ -1072,6 +1222,14 @@ func (fpaov *Role_FieldTerminalPathArrayOfValues) AsScopeParamsArrayOfValues() (
 	res, ok := fpaov.values.([][]*Role_ScopeParamType)
 	return res, ok
 }
+func (fpaov *Role_FieldTerminalPathArrayOfValues) AsConstValuesArrayOfValues() ([][]*ScopeParam, bool) {
+	res, ok := fpaov.values.([][]*ScopeParam)
+	return res, ok
+}
+func (fpaov *Role_FieldTerminalPathArrayOfValues) AsDefaultValuesArrayOfValues() ([][]*ScopeParam, bool) {
+	res, ok := fpaov.values.([][]*ScopeParam)
+	return res, ok
+}
 func (fpaov *Role_FieldTerminalPathArrayOfValues) AsGrantsArrayOfValues() ([][]*Role_Grant, bool) {
 	res, ok := fpaov.values.([][]*Role_Grant)
 	return res, ok
@@ -1105,6 +1263,14 @@ func (fpsaov *Role_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues() (met
 }
 func (fpsaov *Role_FieldSubPathArrayOfValues) AsScopeParamsPathArrayOfValues() (RoleScopeParamType_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(RoleScopeParamType_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Role_FieldSubPathArrayOfValues) AsConstValuesPathArrayOfValues() (ScopeParam_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ScopeParam_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *Role_FieldSubPathArrayOfValues) AsDefaultValuesPathArrayOfValues() (ScopeParam_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(ScopeParam_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *Role_FieldSubPathArrayOfValues) AsGrantsPathArrayOfValues() (RoleGrant_FieldPathArrayOfValues, bool) {

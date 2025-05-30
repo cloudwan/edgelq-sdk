@@ -8,11 +8,11 @@ import (
 	"context"
 	"time"
 
-	"github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus/ctxlogrus"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	gotenaccess "github.com/cloudwan/goten-sdk/runtime/access"
+	gotenobservability "github.com/cloudwan/goten-sdk/runtime/observability"
 	gotenresource "github.com/cloudwan/goten-sdk/runtime/resource"
 	"github.com/cloudwan/goten-sdk/types/view"
 	"github.com/cloudwan/goten-sdk/types/watch_type"
@@ -114,12 +114,12 @@ func NewQueryWatcherWithIChan(id int, client project_client.ProjectServiceClient
 func (qw *QueryWatcher) QueryWatcher() {}
 
 func (qw *QueryWatcher) Run(ctx context.Context) error {
-	log := ctxlogrus.Extract(ctx).
+	log := gotenobservability.LoggerFromContext(ctx).
 		WithField("query-watcher", "project-query-watcher").
 		WithField("query-filter", qw.params.Filter.String()).
 		WithField("query-order-by", qw.params.OrderBy.String()).
 		WithField("query-cursor", qw.params.Cursor.String())
-	ctx = ctxlogrus.ToContext(ctx, log)
+	ctx = gotenobservability.LoggerToContext(ctx, log)
 
 	log.Infof("Running new query")
 	inSync := false

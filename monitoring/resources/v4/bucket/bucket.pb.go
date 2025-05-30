@@ -56,22 +56,22 @@ type Bucket struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [\\w./-]{2,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Allowed metric combinations (OR). If empty, all metric types are allowed.
-	Metrics []*Bucket_RequiredTypedLabels `protobuf:"bytes,3,rep,name=metrics,proto3" json:"metrics,omitempty" firestore:"metrics"`
+	Metrics []*Bucket_RequiredTypedLabels `protobuf:"bytes,3,rep,name=metrics,proto3" json:"metrics,omitempty"`
 	// Allowed resource combinations (OR).If empty, all resource types are
 	// allowed.
-	Resources []*Bucket_RequiredTypedLabels `protobuf:"bytes,4,rep,name=resources,proto3" json:"resources,omitempty" firestore:"resources"`
+	Resources []*Bucket_RequiredTypedLabels `protobuf:"bytes,4,rep,name=resources,proto3" json:"resources,omitempty"`
 	// All combinations of key-values (in integer forms) - one of them must be
 	// passed by every TimeSerie object for given bucket. Its computed by server
 	// side and for internal use.
-	RequiredAltKvs []*Bucket_ResolvedKeysWithValues `protobuf:"bytes,5,rep,name=required_alt_kvs,json=requiredAltKvs,proto3" json:"required_alt_kvs,omitempty" firestore:"requiredAltKvs"`
+	RequiredAltKvs []*Bucket_ResolvedKeysWithValues `protobuf:"bytes,5,rep,name=required_alt_kvs,json=requiredAltKvs,proto3" json:"required_alt_kvs,omitempty"`
 }
 
 func (m *Bucket) Reset() {
@@ -201,8 +201,8 @@ type Bucket_ResolvedValues struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Key           int64   `protobuf:"varint,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
-	Values        []int64 `protobuf:"varint,2,rep,packed,name=values,proto3" json:"values,omitempty" firestore:"values"`
+	Key           int64   `protobuf:"varint,1,opt,name=key,proto3" json:"key,omitempty"`
+	Values        []int64 `protobuf:"varint,2,rep,packed,name=values,proto3" json:"values,omitempty"`
 }
 
 func (m *Bucket_ResolvedValues) Reset() {
@@ -288,7 +288,7 @@ type Bucket_ResolvedKeysWithValues struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	ResolvedKvs   []*Bucket_ResolvedValues `protobuf:"bytes,1,rep,name=resolved_kvs,json=resolvedKvs,proto3" json:"resolved_kvs,omitempty" firestore:"resolvedKvs"`
+	ResolvedKvs   []*Bucket_ResolvedValues `protobuf:"bytes,1,rep,name=resolved_kvs,json=resolvedKvs,proto3" json:"resolved_kvs,omitempty"`
 }
 
 func (m *Bucket_ResolvedKeysWithValues) Reset() {
@@ -365,8 +365,8 @@ type Bucket_RequiredTypedLabels struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Types         []string                                       `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty" firestore:"types"`
-	Labels        map[string]*Bucket_RequiredTypedLabels_Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Types         []string                                       `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty"`
+	Labels        map[string]*Bucket_RequiredTypedLabels_Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *Bucket_RequiredTypedLabels) Reset() {
@@ -451,7 +451,7 @@ type Bucket_RequiredTypedLabels_Strings struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Strings       []string `protobuf:"bytes,1,rep,name=strings,proto3" json:"strings,omitempty" firestore:"strings"`
+	Strings       []string `protobuf:"bytes,1,rep,name=strings,proto3" json:"strings,omitempty"`
 }
 
 func (m *Bucket_RequiredTypedLabels_Strings) Reset() {

@@ -78,37 +78,37 @@ type LimitPool struct {
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex:
 	// [a-zA-Z0-9-]{1,128}\\/[a-zA-Z0-9-.]{1,128}\\/[a-zA-Z]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Referenced service
-	Service *meta_service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Referenced resource type
-	Resource *meta_resource.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *meta_resource.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// Region ID to which this pool applies. This may be different
 	// compared to default region for service/organization, because
 	// they may use multiple regions.
-	Region string `protobuf:"bytes,9,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,9,opt,name=region,proto3" json:"region,omitempty"`
 	// Configured size of pool according to PlanAssignment instances
 	// belonging to same scope (system or organization).
-	ConfiguredSize int64 `protobuf:"varint,4,opt,name=configured_size,json=configuredSize,proto3" json:"configured_size,omitempty" firestore:"configuredSize"`
+	ConfiguredSize int64 `protobuf:"varint,4,opt,name=configured_size,json=configuredSize,proto3" json:"configured_size,omitempty"`
 	// Active pool size. It will be normally equal to configured size.
 	// However, if configured size goes down below reserved value,
 	// then active size will be equal to that "reserved".
 	// It will also prevent parent LimitPool (if any) from getting
 	// limit value back.
-	ActiveSize int64 `protobuf:"varint,5,opt,name=active_size,json=activeSize,proto3" json:"active_size,omitempty" firestore:"activeSize"`
+	ActiveSize int64 `protobuf:"varint,5,opt,name=active_size,json=activeSize,proto3" json:"active_size,omitempty"`
 	// Configured OR Active Size of all child Limit and LimitPool instances -
 	// whichever is bigger.
-	Reserved int64 `protobuf:"varint,6,opt,name=reserved,proto3" json:"reserved,omitempty" firestore:"reserved"`
+	Reserved int64 `protobuf:"varint,6,opt,name=reserved,proto3" json:"reserved,omitempty"`
 	// LimitPool source that supplied reservation to this LimitPool. Any change
 	// in configured/active value in current LimitPool increases/decreases
 	// reserved field in source LimitPool.
-	Source *Reference `protobuf:"bytes,7,opt,customtype=Reference,name=source,proto3" json:"source,omitempty" firestore:"source"`
+	Source *Reference `protobuf:"bytes,7,opt,customtype=Reference,name=source,proto3" json:"source,omitempty"`
 }
 
 func (m *LimitPool) Reset() {

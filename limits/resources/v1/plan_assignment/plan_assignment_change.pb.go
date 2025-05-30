@@ -123,20 +123,20 @@ type isPlanAssignmentChange_ChangeType interface {
 type PlanAssignmentChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *PlanAssignmentChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *PlanAssignmentChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type PlanAssignmentChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *PlanAssignmentChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *PlanAssignmentChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type PlanAssignmentChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *PlanAssignmentChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *PlanAssignmentChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type PlanAssignmentChange_Removed_ struct {
 	// Removed is returned when PlanAssignment is deleted or leaves Query view
-	Removed *PlanAssignmentChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *PlanAssignmentChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*PlanAssignmentChange_Added_) isPlanAssignmentChange_ChangeType()    {}
@@ -197,9 +197,9 @@ type PlanAssignmentChange_Added struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	PlanAssignment *PlanAssignment `protobuf:"bytes,1,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty" firestore:"planAssignment"`
+	PlanAssignment *PlanAssignment `protobuf:"bytes,1,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty"`
 	// Integer describing index of added PlanAssignment in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PlanAssignmentChange_Added) Reset() {
@@ -287,20 +287,20 @@ type PlanAssignmentChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified PlanAssignment
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of PlanAssignment or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchPlanAssignmentRequest] or
 	// [WatchPlanAssignmentsRequest]
-	PlanAssignment *PlanAssignment `protobuf:"bytes,2,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty" firestore:"planAssignment"`
+	PlanAssignment *PlanAssignment `protobuf:"bytes,2,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *PlanAssignment_FieldMask `protobuf:"bytes,3,opt,customtype=PlanAssignment_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *PlanAssignment_FieldMask `protobuf:"bytes,3,opt,customtype=PlanAssignment_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// PlanAssignment. When modification doesn't affect sorted order, value will
 	// remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying PlanAssignment new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PlanAssignmentChange_Modified) Reset() {
@@ -429,7 +429,7 @@ type PlanAssignmentChange_Current struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	PlanAssignment *PlanAssignment `protobuf:"bytes,1,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty" firestore:"planAssignment"`
+	PlanAssignment *PlanAssignment `protobuf:"bytes,1,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty"`
 }
 
 func (m *PlanAssignmentChange_Current) Reset() {
@@ -501,10 +501,10 @@ type PlanAssignmentChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed PlanAssignment index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PlanAssignmentChange_Removed) Reset() {

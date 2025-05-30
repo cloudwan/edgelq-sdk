@@ -52,7 +52,7 @@ type GetMyAgentShardRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.iam.v1.ServiceAccount of Agent type
-	Name *service_account.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *service_account.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *GetMyAgentShardRequest) Reset() {
@@ -124,7 +124,7 @@ type GetMyAgentShardResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	ShardNum      int64 `protobuf:"varint,1,opt,name=shard_num,json=shardNum,proto3" json:"shard_num,omitempty" firestore:"shardNum"`
+	ShardNum      int64 `protobuf:"varint,1,opt,name=shard_num,json=shardNum,proto3" json:"shard_num,omitempty"`
 }
 
 func (m *GetMyAgentShardResponse) Reset() {
@@ -196,7 +196,7 @@ type GetShardEndpointsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	ShardNum      int64 `protobuf:"varint,1,opt,name=shard_num,json=shardNum,proto3" json:"shard_num,omitempty" firestore:"shardNum"`
+	ShardNum      int64 `protobuf:"varint,1,opt,name=shard_num,json=shardNum,proto3" json:"shard_num,omitempty"`
 }
 
 func (m *GetShardEndpointsRequest) Reset() {
@@ -268,7 +268,7 @@ type GetShardEndpointsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Endpoints     []string `protobuf:"bytes,1,rep,name=endpoints,proto3" json:"endpoints,omitempty" firestore:"endpoints"`
+	Endpoints     []string `protobuf:"bytes,1,rep,name=endpoints,proto3" json:"endpoints,omitempty"`
 }
 
 func (m *GetShardEndpointsResponse) Reset() {

@@ -118,15 +118,15 @@ type CustomizedImage struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta              `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	Spec     *CustomizedImage_Spec   `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
-	Status   *CustomizedImage_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Metadata *meta.Meta              `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Spec     *CustomizedImage_Spec   `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
+	Status   *CustomizedImage_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *CustomizedImage) Reset() {
@@ -242,28 +242,28 @@ type CustomizedImage_Spec struct {
 	// Deprecated. Use os_version instead.
 	// After a while, version and device_type are removed
 	// and os_version becomes required
-	Version    string                `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty" firestore:"version"`
-	DeviceType string                `protobuf:"bytes,2,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty" firestore:"deviceType"`
-	OsVersion  *os_version.Reference `protobuf:"bytes,14,opt,customtype=Reference,name=os_version,json=osVersion,proto3" json:"os_version,omitempty" firestore:"osVersion"`
+	Version    string                `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
+	DeviceType string                `protobuf:"bytes,2,opt,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
+	OsVersion  *os_version.Reference `protobuf:"bytes,14,opt,customtype=Reference,name=os_version,json=osVersion,proto3" json:"os_version,omitempty"`
 	// Either provisioning_policy or service_account must be specified
-	ProvisioningPolicy string                             `protobuf:"bytes,3,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty" firestore:"provisioningPolicy"`
-	ServiceAccount     *iam_service_account.Reference     `protobuf:"bytes,15,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty" firestore:"serviceAccount"`
-	ServiceAccountKey  *iam_service_account_key.Reference `protobuf:"bytes,16,opt,customtype=Reference,name=service_account_key,json=serviceAccountKey,proto3" json:"service_account_key,omitempty" firestore:"serviceAccountKey"`
+	ProvisioningPolicy string                             `protobuf:"bytes,3,opt,name=provisioning_policy,json=provisioningPolicy,proto3" json:"provisioning_policy,omitempty"`
+	ServiceAccount     *iam_service_account.Reference     `protobuf:"bytes,15,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
+	ServiceAccountKey  *iam_service_account_key.Reference `protobuf:"bytes,16,opt,customtype=Reference,name=service_account_key,json=serviceAccountKey,proto3" json:"service_account_key,omitempty"`
 	// Password for 'admin' user in the image.
 	// Please generate it using bcrypt (e.g. `mkpasswd --method=bcrypt`) and
 	// provide the hashed value ref:
 	// https://www.usenix.org/legacy/event/usenix99/provos/provos.pdf
-	Password   string `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty" firestore:"password"`
-	Encryption bool   `protobuf:"varint,6,opt,name=encryption,proto3" json:"encryption,omitempty" firestore:"encryption"`
+	Password   string `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
+	Encryption bool   `protobuf:"varint,6,opt,name=encryption,proto3" json:"encryption,omitempty"`
 	// Unlike password field, encryption_password  must be plain text
 	// This field will be set to "" after the image is ready
-	EncryptionPassword string `protobuf:"bytes,7,opt,name=encryption_password,json=encryptionPassword,proto3" json:"encryption_password,omitempty" firestore:"encryptionPassword"`
-	DiskMapping        string `protobuf:"bytes,8,opt,name=disk_mapping,json=diskMapping,proto3" json:"disk_mapping,omitempty" firestore:"diskMapping"`
-	NetworkAgent       string `protobuf:"bytes,9,opt,name=network_agent,json=networkAgent,proto3" json:"network_agent,omitempty" firestore:"networkAgent"`
-	Ntp                string `protobuf:"bytes,10,opt,name=ntp,proto3" json:"ntp,omitempty" firestore:"ntp"`
-	HttpProxy          string `protobuf:"bytes,11,opt,name=http_proxy,json=httpProxy,proto3" json:"http_proxy,omitempty" firestore:"httpProxy"`
-	HttpsProxy         string `protobuf:"bytes,12,opt,name=https_proxy,json=httpsProxy,proto3" json:"https_proxy,omitempty" firestore:"httpsProxy"`
-	NoProxy            string `protobuf:"bytes,13,opt,name=no_proxy,json=noProxy,proto3" json:"no_proxy,omitempty" firestore:"noProxy"`
+	EncryptionPassword string `protobuf:"bytes,7,opt,name=encryption_password,json=encryptionPassword,proto3" json:"encryption_password,omitempty"`
+	DiskMapping        string `protobuf:"bytes,8,opt,name=disk_mapping,json=diskMapping,proto3" json:"disk_mapping,omitempty"`
+	NetworkAgent       string `protobuf:"bytes,9,opt,name=network_agent,json=networkAgent,proto3" json:"network_agent,omitempty"`
+	Ntp                string `protobuf:"bytes,10,opt,name=ntp,proto3" json:"ntp,omitempty"`
+	HttpProxy          string `protobuf:"bytes,11,opt,name=http_proxy,json=httpProxy,proto3" json:"http_proxy,omitempty"`
+	HttpsProxy         string `protobuf:"bytes,12,opt,name=https_proxy,json=httpsProxy,proto3" json:"https_proxy,omitempty"`
+	NoProxy            string `protobuf:"bytes,13,opt,name=no_proxy,json=noProxy,proto3" json:"no_proxy,omitempty"`
 }
 
 func (m *CustomizedImage_Spec) Reset() {
@@ -531,13 +531,13 @@ type CustomizedImage_Status struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// State of the image.
-	State CustomizedImage_Status_State `protobuf:"varint,1,opt,name=state,proto3,enum=ntt.devices.v1.CustomizedImage_Status_State" json:"state,omitempty" firestore:"state"`
+	State CustomizedImage_Status_State `protobuf:"varint,1,opt,name=state,proto3,enum=ntt.devices.v1.CustomizedImage_Status_State" json:"state,omitempty"`
 	// Error log when state is ERROR.
-	Log string `protobuf:"bytes,2,opt,name=log,proto3" json:"log,omitempty" firestore:"log"`
+	Log string `protobuf:"bytes,2,opt,name=log,proto3" json:"log,omitempty"`
 	// TODO hide this from client
-	File string `protobuf:"bytes,5,opt,name=file,proto3" json:"file,omitempty" firestore:"file"`
+	File string `protobuf:"bytes,5,opt,name=file,proto3" json:"file,omitempty"`
 	// base64 encoded
-	Md5Sum string `protobuf:"bytes,3,opt,name=md5sum,proto3" json:"md5sum,omitempty" firestore:"md5sum"`
+	Md5Sum string `protobuf:"bytes,3,opt,name=md5sum,proto3" json:"md5sum,omitempty"`
 }
 
 func (m *CustomizedImage_Status) Reset() {

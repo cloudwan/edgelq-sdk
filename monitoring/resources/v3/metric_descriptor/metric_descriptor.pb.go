@@ -192,12 +192,12 @@ type MetricDescriptor struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,35,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,35,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// The resource name of the metric descriptor.
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [\\w./-]{4,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// The metric type, including its DNS name prefix. The type is not
 	// URL-encoded.  All user-defined metric types have the DNS name
 	// `custom.googleapis.com` or `external.googleapis.com`.  Metric types should
@@ -206,24 +206,24 @@ type MetricDescriptor struct {
 	//     "custom.googleapis.com/invoice/paid/amount"
 	//     "external.googleapis.com/prometheus/up"
 	//     "appengine.googleapis.com/http/server/response_latencies"
-	Type string `protobuf:"bytes,8,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,8,opt,name=type,proto3" json:"type,omitempty"`
 	// associated resource_types (also used to infer defaults)
 	// examples, devices.edgelq.com/Device, watchdog.edgelq.com/Agent
 	// if not set, defaults to "global" resource type.
-	ResourceTypes []string `protobuf:"bytes,34,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty" firestore:"resourceTypes"`
+	ResourceTypes []string `protobuf:"bytes,34,rep,name=resource_types,json=resourceTypes,proto3" json:"resource_types,omitempty"`
 	// The set of labels that can be used to describe a specific
 	// instance of this metric type. For example, the
 	// `appengine.googleapis.com/http/server/response_latencies` metric
 	// type has a label for the HTTP response code, `response_code`, so
 	// you can look at latencies for successful responses or just
 	// for responses that failed.
-	Labels []*common.LabelDescriptor `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" firestore:"labels"`
+	Labels []*common.LabelDescriptor `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty"`
 	// Whether the metric records instantaneous values, changes to a value, etc.
 	// Some combinations of `metric_kind` and `value_type` might not be supported.
-	MetricKind MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v3.MetricDescriptor_MetricKind" json:"metric_kind,omitempty" firestore:"metricKind"`
+	MetricKind MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v3.MetricDescriptor_MetricKind" json:"metric_kind,omitempty"`
 	// Whether the measurement is an integer, a floating-point number, etc.
 	// Some combinations of `metric_kind` and `value_type` might not be supported.
-	ValueType MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v3.MetricDescriptor_ValueType" json:"value_type,omitempty" firestore:"valueType"`
+	ValueType MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v3.MetricDescriptor_ValueType" json:"value_type,omitempty"`
 	// The unit in which the metric value is reported. It is only applicable
 	// if the `value_type` is `INT64`, `DOUBLE`, or `DISTRIBUTION`. The
 	// supported units are a subset of [The Unified Code for Units of
@@ -289,30 +289,30 @@ type MetricDescriptor struct {
 	// * `1` represents dimensionless value 1, such as in `1/s`.
 	// * `%` represents dimensionless value 1/100, and annotates values giving
 	//    a percentage.
-	Unit string `protobuf:"bytes,5,opt,name=unit,proto3" json:"unit,omitempty" firestore:"unit"`
+	Unit string `protobuf:"bytes,5,opt,name=unit,proto3" json:"unit,omitempty"`
 	// A detailed description of the metric, which can be used in documentation.
-	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,6,opt,name=description,proto3" json:"description,omitempty"`
 	// A concise name for the metric, which can be displayed in user interfaces.
 	// Use sentence case without an ending period, for example "Request count".
 	// This field is optional but it is recommended to be set for any metrics
 	// associated with user-visible concepts, such as Quota.
-	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. Metadata which can be used to guide usage of the metric.
-	MetricDescriptorMetadata *MetricDescriptor_MetricDescriptorMetadata `protobuf:"bytes,10,opt,name=metric_descriptor_metadata,json=metricDescriptorMetadata,proto3" json:"metric_descriptor_metadata,omitempty" firestore:"metricDescriptorMetadata"`
+	MetricDescriptorMetadata *MetricDescriptor_MetricDescriptorMetadata `protobuf:"bytes,10,opt,name=metric_descriptor_metadata,json=metricDescriptorMetadata,proto3" json:"metric_descriptor_metadata,omitempty"`
 	// Distribution bucketing options - define only when ValueType is
 	// Distribution. Used for validating input.
-	DistributionBucketOptions *common.Distribution_BucketOptions `protobuf:"bytes,31,opt,name=distribution_bucket_options,json=distributionBucketOptions,proto3" json:"distribution_bucket_options,omitempty" firestore:"distributionBucketOptions"`
+	DistributionBucketOptions *common.Distribution_BucketOptions `protobuf:"bytes,31,opt,name=distribution_bucket_options,json=distributionBucketOptions,proto3" json:"distribution_bucket_options,omitempty"`
 	// Promoted Label Key Sets allow defining multiple indexing rules for
 	// underlying backend enabling query optimizations. Metric promoted label sets
 	// are combined with MonitoredResource promoted label sets and result in
 	// PromotedKeySet.
-	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,32,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty" firestore:"promotedLabelKeySets"`
+	PromotedLabelKeySets []*common.LabelKeySet `protobuf:"bytes,32,rep,name=promoted_label_key_sets,json=promotedLabelKeySets,proto3" json:"promoted_label_key_sets,omitempty"`
 	// Indexing allows tweaking storage usage by tweaking amount of "duplicate"
 	// data with different promotion criteria. It's important consideration for
 	// balancing time series query performance and storage cost.
-	IndexSpec *MetricDescriptor_IndexSpec `protobuf:"bytes,36,opt,name=index_spec,json=indexSpec,proto3" json:"index_spec,omitempty" firestore:"indexSpec"`
+	IndexSpec *MetricDescriptor_IndexSpec `protobuf:"bytes,36,opt,name=index_spec,json=indexSpec,proto3" json:"index_spec,omitempty"`
 	// Storage settings
-	StorageConfig *MetricDescriptor_StorageConfig `protobuf:"bytes,33,opt,name=storage_config,json=storageConfig,proto3" json:"storage_config,omitempty" firestore:"storageConfig"`
+	StorageConfig *MetricDescriptor_StorageConfig `protobuf:"bytes,33,opt,name=storage_config,json=storageConfig,proto3" json:"storage_config,omitempty"`
 }
 
 func (m *MetricDescriptor) Reset() {
@@ -581,7 +581,7 @@ type MetricDescriptor_MetricDescriptorMetadata struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The launch stage of the metric definition.
-	LaunchStage api.LaunchStage `protobuf:"varint,1,opt,name=launch_stage,json=launchStage,proto3,enum=ntt.api.LaunchStage" json:"launch_stage,omitempty" firestore:"launchStage"`
+	LaunchStage api.LaunchStage `protobuf:"varint,1,opt,name=launch_stage,json=launchStage,proto3,enum=ntt.api.LaunchStage" json:"launch_stage,omitempty"`
 }
 
 func (m *MetricDescriptor_MetricDescriptorMetadata) Reset() {
@@ -653,7 +653,7 @@ type MetricDescriptor_IndexSpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// PerResource index
-	PerResource []*MetricDescriptor_IndexSpec_PerMonitoredResource `protobuf:"bytes,1,rep,name=per_resource,json=perResource,proto3" json:"per_resource,omitempty" firestore:"perResource"`
+	PerResource []*MetricDescriptor_IndexSpec_PerMonitoredResource `protobuf:"bytes,1,rep,name=per_resource,json=perResource,proto3" json:"per_resource,omitempty"`
 }
 
 func (m *MetricDescriptor_IndexSpec) Reset() {
@@ -726,7 +726,7 @@ type MetricDescriptor_StorageConfig struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// whether to store raw points
-	StoreRawPoints bool `protobuf:"varint,1,opt,name=store_raw_points,json=storeRawPoints,proto3" json:"store_raw_points,omitempty" firestore:"storeRawPoints"`
+	StoreRawPoints bool `protobuf:"varint,1,opt,name=store_raw_points,json=storeRawPoints,proto3" json:"store_raw_points,omitempty"`
 }
 
 func (m *MetricDescriptor_StorageConfig) Reset() {
@@ -799,9 +799,9 @@ type MetricDescriptor_IndexSpec_Index struct {
 	unknownFields protoimpl.UnknownFields
 	// each label is of format: `{metric,resource}.labels.<label-key>`.
 	// since resource and metric labels are mixed. Full path is required.
-	PromotedLabels []string `protobuf:"bytes,2,rep,name=promoted_labels,json=promotedLabels,proto3" json:"promoted_labels,omitempty" firestore:"promotedLabels"`
+	PromotedLabels []string `protobuf:"bytes,2,rep,name=promoted_labels,json=promotedLabels,proto3" json:"promoted_labels,omitempty"`
 	// whether this index is write-only and not usable for querying
-	WriteOnly bool `protobuf:"varint,3,opt,name=write_only,json=writeOnly,proto3" json:"write_only,omitempty" firestore:"writeOnly"`
+	WriteOnly bool `protobuf:"varint,3,opt,name=write_only,json=writeOnly,proto3" json:"write_only,omitempty"`
 }
 
 func (m *MetricDescriptor_IndexSpec_Index) Reset() {
@@ -886,9 +886,9 @@ type MetricDescriptor_IndexSpec_PerMonitoredResource struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Resource      *monitored_resource_descriptor.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource      *monitored_resource_descriptor.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// List of indices for given metric and resource pair
-	Indices []*MetricDescriptor_IndexSpec_Index `protobuf:"bytes,2,rep,name=indices,proto3" json:"indices,omitempty" firestore:"indices"`
+	Indices []*MetricDescriptor_IndexSpec_Index `protobuf:"bytes,2,rep,name=indices,proto3" json:"indices,omitempty"`
 }
 
 func (m *MetricDescriptor_IndexSpec_PerMonitoredResource) Reset() {

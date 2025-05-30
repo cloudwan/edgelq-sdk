@@ -119,20 +119,20 @@ type isResourceChange_ChangeType interface {
 type ResourceChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *ResourceChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *ResourceChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type ResourceChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *ResourceChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *ResourceChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type ResourceChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *ResourceChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *ResourceChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type ResourceChange_Removed_ struct {
 	// Removed is returned when Resource is deleted or leaves Query view
-	Removed *ResourceChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *ResourceChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*ResourceChange_Added_) isResourceChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type ResourceChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Resource      *Resource `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource      *Resource `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"`
 	// Integer describing index of added Resource in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ResourceChange_Added) Reset() {
@@ -283,20 +283,20 @@ type ResourceChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Resource
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Resource or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchResourceRequest] or
 	// [WatchResourcesRequest]
-	Resource *Resource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *Resource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Resource_FieldMask `protobuf:"bytes,3,opt,customtype=Resource_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Resource_FieldMask `protobuf:"bytes,3,opt,customtype=Resource_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Resource.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Resource new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ResourceChange_Modified) Reset() {
@@ -425,7 +425,7 @@ type ResourceChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Resource      *Resource `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource      *Resource `protobuf:"bytes,1,opt,name=resource,proto3" json:"resource,omitempty"`
 }
 
 func (m *ResourceChange_Current) Reset() {
@@ -497,10 +497,10 @@ type ResourceChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Resource index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *ResourceChange_Removed) Reset() {

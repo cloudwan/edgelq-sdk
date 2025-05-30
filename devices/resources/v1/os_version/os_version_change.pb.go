@@ -117,20 +117,20 @@ type isOsVersionChange_ChangeType interface {
 type OsVersionChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *OsVersionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *OsVersionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type OsVersionChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *OsVersionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *OsVersionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type OsVersionChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *OsVersionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *OsVersionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type OsVersionChange_Removed_ struct {
 	// Removed is returned when OsVersion is deleted or leaves Query view
-	Removed *OsVersionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *OsVersionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*OsVersionChange_Added_) isOsVersionChange_ChangeType()    {}
@@ -191,9 +191,9 @@ type OsVersionChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	OsVersion     *OsVersion `protobuf:"bytes,1,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty" firestore:"osVersion"`
+	OsVersion     *OsVersion `protobuf:"bytes,1,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty"`
 	// Integer describing index of added OsVersion in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *OsVersionChange_Added) Reset() {
@@ -281,20 +281,20 @@ type OsVersionChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified OsVersion
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of OsVersion or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchOsVersionRequest] or
 	// [WatchOsVersionsRequest]
-	OsVersion *OsVersion `protobuf:"bytes,2,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty" firestore:"osVersion"`
+	OsVersion *OsVersion `protobuf:"bytes,2,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *OsVersion_FieldMask `protobuf:"bytes,3,opt,customtype=OsVersion_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *OsVersion_FieldMask `protobuf:"bytes,3,opt,customtype=OsVersion_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified OsVersion.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying OsVersion new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *OsVersionChange_Modified) Reset() {
@@ -423,7 +423,7 @@ type OsVersionChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	OsVersion     *OsVersion `protobuf:"bytes,1,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty" firestore:"osVersion"`
+	OsVersion     *OsVersion `protobuf:"bytes,1,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty"`
 }
 
 func (m *OsVersionChange_Current) Reset() {
@@ -495,10 +495,10 @@ type OsVersionChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed OsVersion index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *OsVersionChange_Removed) Reset() {

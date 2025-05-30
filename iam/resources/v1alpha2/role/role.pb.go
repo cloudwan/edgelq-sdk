@@ -54,24 +54,24 @@ type Role struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of Role
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Display Name
-	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,2,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Included Permissions in this Role. Binding this role grants all following
 	// Permissions.
-	IncludedPermissions []*permission.Reference `protobuf:"bytes,3,rep,customtype=Reference,name=included_permissions,json=includedPermissions,proto3" json:"included_permissions,omitempty" firestore:"includedPermissions"`
+	IncludedPermissions []*permission.Reference `protobuf:"bytes,3,rep,customtype=Reference,name=included_permissions,json=includedPermissions,proto3" json:"included_permissions,omitempty"`
 	// Default conditionBinding (optional), cannot be used with required
 	// TODO: Deprecated...
-	DefaultConditionBinding *condition.ConditionBinding `protobuf:"bytes,5,opt,name=default_condition_binding,json=defaultConditionBinding,proto3" json:"default_condition_binding,omitempty" firestore:"defaultConditionBinding"`
+	DefaultConditionBinding *condition.ConditionBinding `protobuf:"bytes,5,opt,name=default_condition_binding,json=defaultConditionBinding,proto3" json:"default_condition_binding,omitempty"`
 	// Condition bindings that will be copied into created role bindings
 	// TODO: Works only if only one element is specified
-	IncludedConditionBindings []*condition.ConditionBinding `protobuf:"bytes,6,rep,name=included_condition_bindings,json=includedConditionBindings,proto3" json:"included_condition_bindings,omitempty" firestore:"includedConditionBindings"`
+	IncludedConditionBindings []*condition.ConditionBinding `protobuf:"bytes,6,rep,name=included_condition_bindings,json=includedConditionBindings,proto3" json:"included_condition_bindings,omitempty"`
 	// List of conditions that must be used for this role. Parameters must be
 	// defined by client.
 	// TODO: Works only if only one element is specified
-	RequiredConditions []*condition.Reference `protobuf:"bytes,7,rep,customtype=Reference,name=required_conditions,json=requiredConditions,proto3" json:"required_conditions,omitempty" firestore:"requiredConditions"`
+	RequiredConditions []*condition.Reference `protobuf:"bytes,7,rep,customtype=Reference,name=required_conditions,json=requiredConditions,proto3" json:"required_conditions,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *Role) Reset() {

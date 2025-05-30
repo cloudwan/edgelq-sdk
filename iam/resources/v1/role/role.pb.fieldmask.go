@@ -8,7 +8,6 @@ import (
 	"encoding/json"
 	"strings"
 
-	firestorepb "google.golang.org/genproto/googleapis/firestore/v1"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -33,7 +32,6 @@ var (
 	_ = new(json.Marshaler)
 	_ = strings.Builder{}
 
-	_ = firestorepb.Value{}
 	_ = codes.NotFound
 	_ = status.Status{}
 	_ = new(proto.Message)
@@ -65,6 +63,8 @@ func FullRole_FieldMask() *Role_FieldMask {
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDescription})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorCategory})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorScopeParams})
+	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorConstValues})
+	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorDefaultValues})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorGrants})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorOwnedObjects})
 	res.Paths = append(res.Paths, &Role_FieldTerminalPath{selector: Role_FieldPathSelectorServices})
@@ -83,36 +83,11 @@ func (fieldMask *Role_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Role_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Role_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseRole_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Role_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 10)
+	presentSelectors := make([]bool, 12)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Role_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -142,16 +117,20 @@ func (fieldMask *Role_FieldMask) Reset() {
 
 func (fieldMask *Role_FieldMask) Subtract(other *Role_FieldMask) *Role_FieldMask {
 	result := &Role_FieldMask{}
-	removedSelectors := make([]bool, 10)
+	removedSelectors := make([]bool, 12)
 	otherSubMasks := map[Role_FieldPathSelector]gotenobject.FieldMask{
-		Role_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
-		Role_FieldPathSelectorScopeParams: &Role_ScopeParamType_FieldMask{},
-		Role_FieldPathSelectorGrants:      &Role_Grant_FieldMask{},
+		Role_FieldPathSelectorMetadata:      &meta.Meta_FieldMask{},
+		Role_FieldPathSelectorScopeParams:   &Role_ScopeParamType_FieldMask{},
+		Role_FieldPathSelectorConstValues:   &ScopeParam_FieldMask{},
+		Role_FieldPathSelectorDefaultValues: &ScopeParam_FieldMask{},
+		Role_FieldPathSelectorGrants:        &Role_Grant_FieldMask{},
 	}
 	mySubMasks := map[Role_FieldPathSelector]gotenobject.FieldMask{
-		Role_FieldPathSelectorMetadata:    &meta.Meta_FieldMask{},
-		Role_FieldPathSelectorScopeParams: &Role_ScopeParamType_FieldMask{},
-		Role_FieldPathSelectorGrants:      &Role_Grant_FieldMask{},
+		Role_FieldPathSelectorMetadata:      &meta.Meta_FieldMask{},
+		Role_FieldPathSelectorScopeParams:   &Role_ScopeParamType_FieldMask{},
+		Role_FieldPathSelectorConstValues:   &ScopeParam_FieldMask{},
+		Role_FieldPathSelectorDefaultValues: &ScopeParam_FieldMask{},
+		Role_FieldPathSelectorGrants:        &Role_Grant_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -171,6 +150,10 @@ func (fieldMask *Role_FieldMask) Subtract(other *Role_FieldMask) *Role_FieldMask
 						mySubMasks[Role_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case Role_FieldPathSelectorScopeParams:
 						mySubMasks[Role_FieldPathSelectorScopeParams] = FullRole_ScopeParamType_FieldMask()
+					case Role_FieldPathSelectorConstValues:
+						mySubMasks[Role_FieldPathSelectorConstValues] = FullScopeParam_FieldMask()
+					case Role_FieldPathSelectorDefaultValues:
+						mySubMasks[Role_FieldPathSelectorDefaultValues] = FullScopeParam_FieldMask()
 					case Role_FieldPathSelectorGrants:
 						mySubMasks[Role_FieldPathSelectorGrants] = FullRole_Grant_FieldMask()
 					}
@@ -349,6 +332,10 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 	wholeMetadataAccepted := false
 	scopeParamsMask := &Role_ScopeParamType_FieldMask{}
 	wholeScopeParamsAccepted := false
+	constValuesMask := &ScopeParam_FieldMask{}
+	wholeConstValuesAccepted := false
+	defaultValuesMask := &ScopeParam_FieldMask{}
+	wholeDefaultValuesAccepted := false
 	grantsMask := &Role_Grant_FieldMask{}
 	wholeGrantsAccepted := false
 
@@ -370,6 +357,12 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 			case Role_FieldPathSelectorScopeParams:
 				result.ScopeParams = source.ScopeParams
 				wholeScopeParamsAccepted = true
+			case Role_FieldPathSelectorConstValues:
+				result.ConstValues = source.ConstValues
+				wholeConstValuesAccepted = true
+			case Role_FieldPathSelectorDefaultValues:
+				result.DefaultValues = source.DefaultValues
+				wholeDefaultValuesAccepted = true
 			case Role_FieldPathSelectorGrants:
 				result.Grants = source.Grants
 				wholeGrantsAccepted = true
@@ -386,6 +379,10 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case Role_FieldPathSelectorScopeParams:
 				scopeParamsMask.AppendPath(tp.subPath.(RoleScopeParamType_FieldPath))
+			case Role_FieldPathSelectorConstValues:
+				constValuesMask.AppendPath(tp.subPath.(ScopeParam_FieldPath))
+			case Role_FieldPathSelectorDefaultValues:
+				defaultValuesMask.AppendPath(tp.subPath.(ScopeParam_FieldPath))
 			case Role_FieldPathSelectorGrants:
 				grantsMask.AppendPath(tp.subPath.(RoleGrant_FieldPath))
 			}
@@ -397,6 +394,16 @@ func (fieldMask *Role_FieldMask) Project(source *Role) *Role {
 	if wholeScopeParamsAccepted == false && len(scopeParamsMask.Paths) > 0 {
 		for _, sourceItem := range source.GetScopeParams() {
 			result.ScopeParams = append(result.ScopeParams, scopeParamsMask.Project(sourceItem))
+		}
+	}
+	if wholeConstValuesAccepted == false && len(constValuesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetConstValues() {
+			result.ConstValues = append(result.ConstValues, constValuesMask.Project(sourceItem))
+		}
+	}
+	if wholeDefaultValuesAccepted == false && len(defaultValuesMask.Paths) > 0 {
+		for _, sourceItem := range source.GetDefaultValues() {
+			result.DefaultValues = append(result.DefaultValues, defaultValuesMask.Project(sourceItem))
 		}
 	}
 	if wholeGrantsAccepted == false && len(grantsMask.Paths) > 0 {
@@ -438,31 +445,6 @@ func (fieldMask *Role_ScopeParamType_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Role_ScopeParamType_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Role_ScopeParamType_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseRoleScopeParamType_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Role_ScopeParamType_FieldMask) IsFull() bool {
@@ -697,31 +679,6 @@ func (fieldMask *Role_Grant_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *Role_Grant_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Role_Grant_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseRoleGrant_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *Role_Grant_FieldMask) IsFull() bool {
@@ -1028,31 +985,6 @@ func (fieldMask *Role_Grant_FieldCondition_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *Role_Grant_FieldCondition_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *Role_Grant_FieldCondition_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseRoleGrantFieldCondition_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *Role_Grant_FieldCondition_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -1284,31 +1216,6 @@ func (fieldMask *ScopeParam_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *ScopeParam_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *ScopeParam_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseScopeParam_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *ScopeParam_FieldMask) IsFull() bool {
@@ -1639,31 +1546,6 @@ func (fieldMask *ScopeParam_StringValue_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-// firestore encoding/decoding integration
-func (fieldMask *ScopeParam_StringValue_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *ScopeParam_StringValue_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseScopeParamStringValue_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
-}
-
 func (fieldMask *ScopeParam_StringValue_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
@@ -1890,31 +1772,6 @@ func (fieldMask *ScopeParam_ArrayOfStringsValue_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *ScopeParam_ArrayOfStringsValue_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *ScopeParam_ArrayOfStringsValue_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseScopeParamArrayOfStringsValue_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *ScopeParam_ArrayOfStringsValue_FieldMask) IsFull() bool {
@@ -2144,31 +2001,6 @@ func (fieldMask *ScopeParam_FromValue_FieldMask) String() string {
 		pathsStr = append(pathsStr, path.String())
 	}
 	return strings.Join(pathsStr, ", ")
-}
-
-// firestore encoding/decoding integration
-func (fieldMask *ScopeParam_FromValue_FieldMask) EncodeFirestore() (*firestorepb.Value, error) {
-	if fieldMask == nil {
-		return &firestorepb.Value{ValueType: &firestorepb.Value_NullValue{}}, nil
-	}
-	arrayValues := make([]*firestorepb.Value, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.GetPaths() {
-		arrayValues = append(arrayValues, &firestorepb.Value{ValueType: &firestorepb.Value_StringValue{StringValue: path.String()}})
-	}
-	return &firestorepb.Value{
-		ValueType: &firestorepb.Value_ArrayValue{ArrayValue: &firestorepb.ArrayValue{Values: arrayValues}},
-	}, nil
-}
-
-func (fieldMask *ScopeParam_FromValue_FieldMask) DecodeFirestore(fpbv *firestorepb.Value) error {
-	for _, value := range fpbv.GetArrayValue().GetValues() {
-		parsedPath, err := ParseScopeParamFromValue_FieldPath(value.GetStringValue())
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, parsedPath)
-	}
-	return nil
 }
 
 func (fieldMask *ScopeParam_FromValue_FieldMask) IsFull() bool {

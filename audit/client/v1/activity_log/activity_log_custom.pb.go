@@ -212,13 +212,13 @@ type ListActivityLogsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Parent references of ntt.audit.v1.ActivityLog - provides list of all
 	// scopes we want to query about
-	Parents []*activity_log.ParentName `protobuf:"bytes,1,rep,customtype=ParentName,name=parents,proto3" json:"parents,omitempty" firestore:"parents"`
+	Parents []*activity_log.ParentName `protobuf:"bytes,1,rep,customtype=ParentName,name=parents,proto3" json:"parents,omitempty"`
 	// A audit filter that specifies which activity logs should be returned
-	Filter *activity_log.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *activity_log.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// The time interval for which results should be returned. Only logs
 	// that contain data points in the specified interval are included
 	// in the response.
-	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,4,opt,name=interval,proto3" json:"interval,omitempty"`
 	// Cap on a number of activity logs to be included in a response.
 	// Number of logs in an actual response can be higher, since logs are
 	// read in bulk with second precision - exceed logs above the limit will share
@@ -226,11 +226,11 @@ type ListActivityLogsRequest struct {
 	//
 	// Results will be adjusted to the "end time" taken from interval field
 	// (adjusted also by page_token if provided).
-	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,5,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// Token which identifies next page with further results. Token should be
 	// taken from
 	// [ListActivityLogsResponse.next_page_token][ntt.audit.v1.ListActivityLogsResponse.next_page_token].
-	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken string `protobuf:"bytes,6,opt,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 }
 
 func (m *ListActivityLogsRequest) Reset() {
@@ -362,11 +362,11 @@ type ListActivityLogsResponse struct {
 	// One or more activity method logs that match the filter included in the
 	// request. Contains results from all queried regions. Its possible however
 	// that some logs may be missing, for this see execution_errors.
-	ActivityLogs []*activity_log.ActivityLog `protobuf:"bytes,1,rep,name=activity_logs,json=activityLogs,proto3" json:"activity_logs,omitempty" firestore:"activityLogs"`
+	ActivityLogs []*activity_log.ActivityLog `protobuf:"bytes,1,rep,name=activity_logs,json=activityLogs,proto3" json:"activity_logs,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value. To see the additional results,
 	// use that value as `pageToken` in the next call to this method.
-	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken string `protobuf:"bytes,2,opt,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Query execution errors that may have caused the response data returned to
 	// be incomplete. Because logs are stored only locally (for each region), all
 	// activity log queries are split and merged by a receiving request server
@@ -376,7 +376,7 @@ type ListActivityLogsResponse struct {
 	// fields code and message will contain error obtained from failed regional
 	// server, while field details will contain always one item and this item will
 	// be of type ErrorDetails.
-	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty" firestore:"executionErrors"`
+	ExecutionErrors []*rpc.Status `protobuf:"bytes,3,rep,name=execution_errors,json=executionErrors,proto3" json:"execution_errors,omitempty"`
 }
 
 func (m *ListActivityLogsResponse) Reset() {
@@ -479,7 +479,7 @@ type CreateActivityLogsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// List of activity logs to be added to service. Can be coming from different
 	// scopes but must be submitted to the same region and service.
-	ActivityLogs []*activity_log.ActivityLog `protobuf:"bytes,1,rep,name=activity_logs,json=activityLogs,proto3" json:"activity_logs,omitempty" firestore:"activityLogs"`
+	ActivityLogs []*activity_log.ActivityLog `protobuf:"bytes,1,rep,name=activity_logs,json=activityLogs,proto3" json:"activity_logs,omitempty"`
 }
 
 func (m *CreateActivityLogsRequest) Reset() {
@@ -554,7 +554,7 @@ type CreateActivityLogsResponse struct {
 	unknownFields protoimpl.UnknownFields
 	// Activity log names - one name per each activity log, in same order
 	// as in the request
-	LogNames []*activity_log.Name `protobuf:"bytes,1,rep,customtype=Name,name=log_names,json=logNames,proto3" json:"log_names,omitempty" firestore:"logNames"`
+	LogNames []*activity_log.Name `protobuf:"bytes,1,rep,customtype=Name,name=log_names,json=logNames,proto3" json:"log_names,omitempty"`
 }
 
 func (m *CreateActivityLogsResponse) Reset() {
@@ -629,7 +629,7 @@ type ListActivityLogsResponse_ErrorDetails struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// region id which failed to give results.
-	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty" firestore:"regionId"`
+	RegionId string `protobuf:"bytes,1,opt,name=region_id,json=regionId,proto3" json:"region_id,omitempty"`
 }
 
 func (m *ListActivityLogsResponse_ErrorDetails) Reset() {

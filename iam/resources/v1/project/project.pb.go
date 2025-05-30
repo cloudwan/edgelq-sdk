@@ -61,36 +61,36 @@ type Project struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Title
-	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty" firestore:"title"`
+	Title string `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
 	// Description
-	Description string `protobuf:"bytes,13,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,13,opt,name=description,proto3" json:"description,omitempty"`
 	// Parent organization
-	ParentOrganization *organization.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty" firestore:"parentOrganization"`
+	ParentOrganization *organization.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=parent_organization,json=parentOrganization,proto3" json:"parent_organization,omitempty"`
 	// Multi region policy
-	MultiRegionPolicy *multi_region_policy.MultiRegionPolicy `protobuf:"bytes,7,opt,name=multi_region_policy,json=multiRegionPolicy,proto3" json:"multi_region_policy,omitempty" firestore:"multiRegionPolicy"`
+	MultiRegionPolicy *multi_region_policy.MultiRegionPolicy `protobuf:"bytes,7,opt,name=multi_region_policy,json=multiRegionPolicy,proto3" json:"multi_region_policy,omitempty"`
 	// Enabled services. This field is checked only for non-core edgelq services.
-	EnabledServices []*meta_service.Reference `protobuf:"bytes,8,rep,customtype=Reference,name=enabled_services,json=enabledServices,proto3" json:"enabled_services,omitempty" firestore:"enabledServices"`
+	EnabledServices []*meta_service.Reference `protobuf:"bytes,8,rep,customtype=Reference,name=enabled_services,json=enabledServices,proto3" json:"enabled_services,omitempty"`
 	// Default business tier for core EdgeLQ services and all enabled services.
-	BusinessTier iam_common.BusinessTier `protobuf:"varint,9,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"business_tier,omitempty" firestore:"businessTier"`
+	BusinessTier iam_common.BusinessTier `protobuf:"varint,9,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1.BusinessTier" json:"business_tier,omitempty"`
 	// Overwrites business_tier for each service - it may also override value
 	// for a core EdgeLQ service.
-	ServiceTiers []*iam_common.ServiceBusinessTier `protobuf:"bytes,10,rep,name=service_tiers,json=serviceTiers,proto3" json:"service_tiers,omitempty" firestore:"serviceTiers"`
+	ServiceTiers []*iam_common.ServiceBusinessTier `protobuf:"bytes,10,rep,name=service_tiers,json=serviceTiers,proto3" json:"service_tiers,omitempty"`
 	// Top parent
-	RootOrganization *organization.Name `protobuf:"bytes,4,opt,customtype=Name,name=root_organization,json=rootOrganization,proto3" json:"root_organization,omitempty" firestore:"rootOrganization"`
+	RootOrganization *organization.Name `protobuf:"bytes,4,opt,customtype=Name,name=root_organization,json=rootOrganization,proto3" json:"root_organization,omitempty"`
 	// Full ancestry path
-	AncestryPath []*organization.Name `protobuf:"bytes,5,rep,customtype=Name,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty" firestore:"ancestryPath"`
+	AncestryPath []*organization.Name `protobuf:"bytes,5,rep,customtype=Name,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty"`
 	// Service errors reported for this project
-	ServiceErrors map[string]*iam_common.ServiceErrors `protobuf:"bytes,11,rep,name=service_errors,json=serviceErrors,proto3" json:"service_errors,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"serviceErrors"`
+	ServiceErrors map[string]*iam_common.ServiceErrors `protobuf:"bytes,11,rep,name=service_errors,json=serviceErrors,proto3" json:"service_errors,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Internal field for services meta information synchronization
-	ServicesGeneration int64 `protobuf:"varint,12,opt,name=services_generation,json=servicesGeneration,proto3" json:"services_generation,omitempty" firestore:"servicesGeneration"`
+	ServicesGeneration int64 `protobuf:"varint,12,opt,name=services_generation,json=servicesGeneration,proto3" json:"services_generation,omitempty"`
 }
 
 func (m *Project) Reset() {

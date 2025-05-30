@@ -119,20 +119,20 @@ type isPermissionChange_ChangeType interface {
 type PermissionChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *PermissionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *PermissionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type PermissionChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *PermissionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *PermissionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type PermissionChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *PermissionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *PermissionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type PermissionChange_Removed_ struct {
 	// Removed is returned when Permission is deleted or leaves Query view
-	Removed *PermissionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *PermissionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*PermissionChange_Added_) isPermissionChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type PermissionChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Permission    *Permission `protobuf:"bytes,1,opt,name=permission,proto3" json:"permission,omitempty" firestore:"permission"`
+	Permission    *Permission `protobuf:"bytes,1,opt,name=permission,proto3" json:"permission,omitempty"`
 	// Integer describing index of added Permission in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PermissionChange_Added) Reset() {
@@ -283,20 +283,20 @@ type PermissionChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Permission
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Permission or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchPermissionRequest] or
 	// [WatchPermissionsRequest]
-	Permission *Permission `protobuf:"bytes,2,opt,name=permission,proto3" json:"permission,omitempty" firestore:"permission"`
+	Permission *Permission `protobuf:"bytes,2,opt,name=permission,proto3" json:"permission,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Permission_FieldMask `protobuf:"bytes,3,opt,customtype=Permission_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Permission_FieldMask `protobuf:"bytes,3,opt,customtype=Permission_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Permission.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Permission new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PermissionChange_Modified) Reset() {
@@ -425,7 +425,7 @@ type PermissionChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Permission    *Permission `protobuf:"bytes,1,opt,name=permission,proto3" json:"permission,omitempty" firestore:"permission"`
+	Permission    *Permission `protobuf:"bytes,1,opt,name=permission,proto3" json:"permission,omitempty"`
 }
 
 func (m *PermissionChange_Current) Reset() {
@@ -497,10 +497,10 @@ type PermissionChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Permission index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PermissionChange_Removed) Reset() {

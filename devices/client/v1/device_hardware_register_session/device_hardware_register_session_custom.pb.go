@@ -53,16 +53,16 @@ type RegisterHardwareRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// token from hardware_register_session
-	Token        string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty" firestore:"token"`
-	SerialNumber string `protobuf:"bytes,3,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Manufacturer string `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
+	Token        string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	SerialNumber string `protobuf:"bytes,3,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Manufacturer string `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
 	// Should be in the format "productname (sku)", required field
-	ProductName string   `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	MacAddress  []string `protobuf:"bytes,6,rep,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty" firestore:"macAddress"`
-	SimIccid    string   `protobuf:"bytes,7,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty" firestore:"simIccid"`
-	Imei        string   `protobuf:"bytes,8,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
+	ProductName string   `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	MacAddress  []string `protobuf:"bytes,6,rep,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	SimIccid    string   `protobuf:"bytes,7,opt,name=sim_iccid,json=simIccid,proto3" json:"sim_iccid,omitempty"`
+	Imei        string   `protobuf:"bytes,8,opt,name=imei,proto3" json:"imei,omitempty"`
 	// MD5 HMAC of '{"ICCID":"<>","MODEL":"<>","SN":"<>"}'
-	Md5HmacDigest string `protobuf:"bytes,9,opt,name=md5_hmac_digest,json=md5HmacDigest,proto3" json:"md5_hmac_digest,omitempty" firestore:"md5HmacDigest"`
+	Md5HmacDigest string `protobuf:"bytes,9,opt,name=md5_hmac_digest,json=md5HmacDigest,proto3" json:"md5_hmac_digest,omitempty"`
 }
 
 func (m *RegisterHardwareRequest) Reset() {
@@ -233,7 +233,7 @@ type RegisterHardwareResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Hardware      *device_hardware.DeviceHardware `protobuf:"bytes,1,opt,name=hardware,proto3" json:"hardware,omitempty" firestore:"hardware"`
+	Hardware      *device_hardware.DeviceHardware `protobuf:"bytes,1,opt,name=hardware,proto3" json:"hardware,omitempty"`
 }
 
 func (m *RegisterHardwareResponse) Reset() {
@@ -306,15 +306,15 @@ type HardwareStatusRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// token for hardware_register_session
-	Token        string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty" firestore:"token"`
-	SerialNumber string `protobuf:"bytes,3,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
+	Token        string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	SerialNumber string `protobuf:"bytes,3,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
 	// manufacturer is typically not required, only required in case of serial
 	// number conflict with different vendors
-	Manufacturer string `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
+	Manufacturer string `protobuf:"bytes,4,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
 	// product_name is typically not required, only required in case of serial
 	// number conflict with different productname/skus Should be in the format
 	// "productname (sku)"
-	ProductName string `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
+	ProductName string `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
 }
 
 func (m *HardwareStatusRequest) Reset() {
@@ -428,7 +428,7 @@ type HardwareStatusResponse struct {
 	state           protoimpl.MessageState
 	sizeCache       protoimpl.SizeCache
 	unknownFields   protoimpl.UnknownFields
-	DeviceHardwares []*device_hardware.DeviceHardware `protobuf:"bytes,1,rep,name=device_hardwares,json=deviceHardwares,proto3" json:"device_hardwares,omitempty" firestore:"deviceHardwares"`
+	DeviceHardwares []*device_hardware.DeviceHardware `protobuf:"bytes,1,rep,name=device_hardwares,json=deviceHardwares,proto3" json:"device_hardwares,omitempty"`
 }
 
 func (m *HardwareStatusResponse) Reset() {
@@ -502,7 +502,7 @@ type GetDeviceHardwareRegisterSessionFromTokenRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// token from hardware_register_session
-	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty" firestore:"token"`
+	Token string `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
 }
 
 func (m *GetDeviceHardwareRegisterSessionFromTokenRequest) Reset() {
@@ -575,9 +575,9 @@ type GetDeviceHardwareRegisterSessionFromTokenResponse struct {
 	state                         protoimpl.MessageState
 	sizeCache                     protoimpl.SizeCache
 	unknownFields                 protoimpl.UnknownFields
-	DeviceHardwareRegisterSession *device_hardware_register_session.DeviceHardwareRegisterSession `protobuf:"bytes,1,opt,name=device_hardware_register_session,json=deviceHardwareRegisterSession,proto3" json:"device_hardware_register_session,omitempty" firestore:"deviceHardwareRegisterSession"`
+	DeviceHardwareRegisterSession *device_hardware_register_session.DeviceHardwareRegisterSession `protobuf:"bytes,1,opt,name=device_hardware_register_session,json=deviceHardwareRegisterSession,proto3" json:"device_hardware_register_session,omitempty"`
 	// Used for showing project name in hardware registration dashboard
-	ProjectDisplayName string `protobuf:"bytes,2,opt,name=project_display_name,json=projectDisplayName,proto3" json:"project_display_name,omitempty" firestore:"projectDisplayName"`
+	ProjectDisplayName string `protobuf:"bytes,2,opt,name=project_display_name,json=projectDisplayName,proto3" json:"project_display_name,omitempty"`
 }
 
 func (m *GetDeviceHardwareRegisterSessionFromTokenResponse) Reset() {

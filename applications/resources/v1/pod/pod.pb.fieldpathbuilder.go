@@ -2550,6 +2550,10 @@ func (PodPathSelectorStatusContainerStatuses) Terminated() PodPathSelectorStatus
 	return PodPathSelectorStatusContainerStatusesTerminated{}
 }
 
+func (PodPathSelectorStatusContainerStatuses) Restarting() PodPathSelectorStatusContainerStatusesRestarting {
+	return PodPathSelectorStatusContainerStatusesRestarting{}
+}
+
 func (PodPathSelectorStatusContainerStatuses) HealthStatus() PodPathSelectorStatusContainerStatusesHealthStatus {
 	return PodPathSelectorStatusContainerStatusesHealthStatus{}
 }
@@ -2861,6 +2865,65 @@ func (s PodPathSelectorStatusContainerStatusesTerminatedContainerId) WithArrayOf
 	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
 }
 
+type PodPathSelectorStatusContainerStatusesRestarting struct{}
+
+func (PodPathSelectorStatusContainerStatusesRestarting) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorStatus,
+		subPath:  NewPodStatusFieldPathBuilder().ContainerStatuses().Restarting().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorStatusContainerStatusesRestarting) WithValue(value *Pod_Status_Container_StateRestarting) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorStatusContainerStatusesRestarting) WithArrayOfValues(values []*Pod_Status_Container_StateRestarting) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
+func (PodPathSelectorStatusContainerStatusesRestarting) ExitCode() PodPathSelectorStatusContainerStatusesRestartingExitCode {
+	return PodPathSelectorStatusContainerStatusesRestartingExitCode{}
+}
+
+func (PodPathSelectorStatusContainerStatusesRestarting) ContainerId() PodPathSelectorStatusContainerStatusesRestartingContainerId {
+	return PodPathSelectorStatusContainerStatusesRestartingContainerId{}
+}
+
+type PodPathSelectorStatusContainerStatusesRestartingExitCode struct{}
+
+func (PodPathSelectorStatusContainerStatusesRestartingExitCode) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorStatus,
+		subPath:  NewPodStatusFieldPathBuilder().ContainerStatuses().Restarting().ExitCode().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorStatusContainerStatusesRestartingExitCode) WithValue(value int32) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorStatusContainerStatusesRestartingExitCode) WithArrayOfValues(values []int32) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
+type PodPathSelectorStatusContainerStatusesRestartingContainerId struct{}
+
+func (PodPathSelectorStatusContainerStatusesRestartingContainerId) FieldPath() *Pod_FieldSubPath {
+	return &Pod_FieldSubPath{
+		selector: Pod_FieldPathSelectorStatus,
+		subPath:  NewPodStatusFieldPathBuilder().ContainerStatuses().Restarting().ContainerId().FieldPath(),
+	}
+}
+
+func (s PodPathSelectorStatusContainerStatusesRestartingContainerId) WithValue(value string) *Pod_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*Pod_FieldSubPathValue)
+}
+
+func (s PodPathSelectorStatusContainerStatusesRestartingContainerId) WithArrayOfValues(values []string) *Pod_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*Pod_FieldSubPathArrayOfValues)
+}
+
 type PodPathSelectorStatusContainerStatusesHealthStatus struct{}
 
 func (PodPathSelectorStatusContainerStatusesHealthStatus) FieldPath() *Pod_FieldSubPath {
@@ -3066,6 +3129,10 @@ func (Pod_StatusPathSelectorContainerStatuses) Running() Pod_StatusPathSelectorC
 
 func (Pod_StatusPathSelectorContainerStatuses) Terminated() Pod_StatusPathSelectorContainerStatusesTerminated {
 	return Pod_StatusPathSelectorContainerStatusesTerminated{}
+}
+
+func (Pod_StatusPathSelectorContainerStatuses) Restarting() Pod_StatusPathSelectorContainerStatusesRestarting {
+	return Pod_StatusPathSelectorContainerStatusesRestarting{}
 }
 
 func (Pod_StatusPathSelectorContainerStatuses) HealthStatus() Pod_StatusPathSelectorContainerStatusesHealthStatus {
@@ -3379,6 +3446,65 @@ func (s Pod_StatusPathSelectorContainerStatusesTerminatedContainerId) WithArrayO
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
 }
 
+type Pod_StatusPathSelectorContainerStatusesRestarting struct{}
+
+func (Pod_StatusPathSelectorContainerStatusesRestarting) FieldPath() *PodStatus_FieldSubPath {
+	return &PodStatus_FieldSubPath{
+		selector: PodStatus_FieldPathSelectorContainerStatuses,
+		subPath:  NewPodStatusContainerFieldPathBuilder().Restarting().FieldPath(),
+	}
+}
+
+func (s Pod_StatusPathSelectorContainerStatusesRestarting) WithValue(value *Pod_Status_Container_StateRestarting) *PodStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatus_FieldSubPathValue)
+}
+
+func (s Pod_StatusPathSelectorContainerStatusesRestarting) WithArrayOfValues(values []*Pod_Status_Container_StateRestarting) *PodStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
+}
+
+func (Pod_StatusPathSelectorContainerStatusesRestarting) ExitCode() Pod_StatusPathSelectorContainerStatusesRestartingExitCode {
+	return Pod_StatusPathSelectorContainerStatusesRestartingExitCode{}
+}
+
+func (Pod_StatusPathSelectorContainerStatusesRestarting) ContainerId() Pod_StatusPathSelectorContainerStatusesRestartingContainerId {
+	return Pod_StatusPathSelectorContainerStatusesRestartingContainerId{}
+}
+
+type Pod_StatusPathSelectorContainerStatusesRestartingExitCode struct{}
+
+func (Pod_StatusPathSelectorContainerStatusesRestartingExitCode) FieldPath() *PodStatus_FieldSubPath {
+	return &PodStatus_FieldSubPath{
+		selector: PodStatus_FieldPathSelectorContainerStatuses,
+		subPath:  NewPodStatusContainerFieldPathBuilder().Restarting().ExitCode().FieldPath(),
+	}
+}
+
+func (s Pod_StatusPathSelectorContainerStatusesRestartingExitCode) WithValue(value int32) *PodStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatus_FieldSubPathValue)
+}
+
+func (s Pod_StatusPathSelectorContainerStatusesRestartingExitCode) WithArrayOfValues(values []int32) *PodStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
+}
+
+type Pod_StatusPathSelectorContainerStatusesRestartingContainerId struct{}
+
+func (Pod_StatusPathSelectorContainerStatusesRestartingContainerId) FieldPath() *PodStatus_FieldSubPath {
+	return &PodStatus_FieldSubPath{
+		selector: PodStatus_FieldPathSelectorContainerStatuses,
+		subPath:  NewPodStatusContainerFieldPathBuilder().Restarting().ContainerId().FieldPath(),
+	}
+}
+
+func (s Pod_StatusPathSelectorContainerStatusesRestartingContainerId) WithValue(value string) *PodStatus_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatus_FieldSubPathValue)
+}
+
+func (s Pod_StatusPathSelectorContainerStatusesRestartingContainerId) WithArrayOfValues(values []string) *PodStatus_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatus_FieldSubPathArrayOfValues)
+}
+
 type Pod_StatusPathSelectorContainerStatusesHealthStatus struct{}
 
 func (Pod_StatusPathSelectorContainerStatusesHealthStatus) FieldPath() *PodStatus_FieldSubPath {
@@ -3508,6 +3634,9 @@ func (PodStatusContainerFieldPathBuilder) Running() Pod_Status_ContainerPathSele
 }
 func (PodStatusContainerFieldPathBuilder) Terminated() Pod_Status_ContainerPathSelectorTerminated {
 	return Pod_Status_ContainerPathSelectorTerminated{}
+}
+func (PodStatusContainerFieldPathBuilder) Restarting() Pod_Status_ContainerPathSelectorRestarting {
+	return Pod_Status_ContainerPathSelectorRestarting{}
 }
 func (PodStatusContainerFieldPathBuilder) HealthStatus() Pod_Status_ContainerPathSelectorHealthStatus {
 	return Pod_Status_ContainerPathSelectorHealthStatus{}
@@ -3850,6 +3979,78 @@ func (s Pod_Status_ContainerPathSelectorTerminatedContainerId) WithArrayOfValues
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainer_FieldSubPathArrayOfValues)
 }
 
+type Pod_Status_ContainerPathSelectorRestarting struct{}
+
+func (Pod_Status_ContainerPathSelectorRestarting) FieldPath() *PodStatusContainer_FieldTerminalPath {
+	return &PodStatusContainer_FieldTerminalPath{selector: PodStatusContainer_FieldPathSelectorRestarting}
+}
+
+func (s Pod_Status_ContainerPathSelectorRestarting) WithValue(value *Pod_Status_Container_StateRestarting) *PodStatusContainer_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatusContainer_FieldTerminalPathValue)
+}
+
+func (s Pod_Status_ContainerPathSelectorRestarting) WithArrayOfValues(values []*Pod_Status_Container_StateRestarting) *PodStatusContainer_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainer_FieldTerminalPathArrayOfValues)
+}
+
+func (Pod_Status_ContainerPathSelectorRestarting) WithSubPath(subPath PodStatusContainerStateRestarting_FieldPath) *PodStatusContainer_FieldSubPath {
+	return &PodStatusContainer_FieldSubPath{selector: PodStatusContainer_FieldPathSelectorRestarting, subPath: subPath}
+}
+
+func (s Pod_Status_ContainerPathSelectorRestarting) WithSubValue(subPathValue PodStatusContainerStateRestarting_FieldPathValue) *PodStatusContainer_FieldSubPathValue {
+	return &PodStatusContainer_FieldSubPathValue{PodStatusContainer_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+}
+
+func (s Pod_Status_ContainerPathSelectorRestarting) WithSubArrayOfValues(subPathArrayOfValues PodStatusContainerStateRestarting_FieldPathArrayOfValues) *PodStatusContainer_FieldSubPathArrayOfValues {
+	return &PodStatusContainer_FieldSubPathArrayOfValues{PodStatusContainer_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+}
+
+func (s Pod_Status_ContainerPathSelectorRestarting) WithSubArrayItemValue(subPathArrayItemValue PodStatusContainerStateRestarting_FieldPathArrayItemValue) *PodStatusContainer_FieldSubPathArrayItemValue {
+	return &PodStatusContainer_FieldSubPathArrayItemValue{PodStatusContainer_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+}
+
+func (Pod_Status_ContainerPathSelectorRestarting) ExitCode() Pod_Status_ContainerPathSelectorRestartingExitCode {
+	return Pod_Status_ContainerPathSelectorRestartingExitCode{}
+}
+
+func (Pod_Status_ContainerPathSelectorRestarting) ContainerId() Pod_Status_ContainerPathSelectorRestartingContainerId {
+	return Pod_Status_ContainerPathSelectorRestartingContainerId{}
+}
+
+type Pod_Status_ContainerPathSelectorRestartingExitCode struct{}
+
+func (Pod_Status_ContainerPathSelectorRestartingExitCode) FieldPath() *PodStatusContainer_FieldSubPath {
+	return &PodStatusContainer_FieldSubPath{
+		selector: PodStatusContainer_FieldPathSelectorRestarting,
+		subPath:  NewPodStatusContainerStateRestartingFieldPathBuilder().ExitCode().FieldPath(),
+	}
+}
+
+func (s Pod_Status_ContainerPathSelectorRestartingExitCode) WithValue(value int32) *PodStatusContainer_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatusContainer_FieldSubPathValue)
+}
+
+func (s Pod_Status_ContainerPathSelectorRestartingExitCode) WithArrayOfValues(values []int32) *PodStatusContainer_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainer_FieldSubPathArrayOfValues)
+}
+
+type Pod_Status_ContainerPathSelectorRestartingContainerId struct{}
+
+func (Pod_Status_ContainerPathSelectorRestartingContainerId) FieldPath() *PodStatusContainer_FieldSubPath {
+	return &PodStatusContainer_FieldSubPath{
+		selector: PodStatusContainer_FieldPathSelectorRestarting,
+		subPath:  NewPodStatusContainerStateRestartingFieldPathBuilder().ContainerId().FieldPath(),
+	}
+}
+
+func (s Pod_Status_ContainerPathSelectorRestartingContainerId) WithValue(value string) *PodStatusContainer_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatusContainer_FieldSubPathValue)
+}
+
+func (s Pod_Status_ContainerPathSelectorRestartingContainerId) WithArrayOfValues(values []string) *PodStatusContainer_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainer_FieldSubPathArrayOfValues)
+}
+
 type Pod_Status_ContainerPathSelectorHealthStatus struct{}
 
 func (Pod_Status_ContainerPathSelectorHealthStatus) FieldPath() *PodStatusContainer_FieldTerminalPath {
@@ -4092,4 +4293,44 @@ func (s Pod_Status_Container_StateTerminatedPathSelectorContainerId) WithValue(v
 
 func (s Pod_Status_Container_StateTerminatedPathSelectorContainerId) WithArrayOfValues(values []string) *PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainerStateTerminated_FieldTerminalPathArrayOfValues)
+}
+
+type PodStatusContainerStateRestartingFieldPathBuilder struct{}
+
+func NewPodStatusContainerStateRestartingFieldPathBuilder() PodStatusContainerStateRestartingFieldPathBuilder {
+	return PodStatusContainerStateRestartingFieldPathBuilder{}
+}
+func (PodStatusContainerStateRestartingFieldPathBuilder) ExitCode() Pod_Status_Container_StateRestartingPathSelectorExitCode {
+	return Pod_Status_Container_StateRestartingPathSelectorExitCode{}
+}
+func (PodStatusContainerStateRestartingFieldPathBuilder) ContainerId() Pod_Status_Container_StateRestartingPathSelectorContainerId {
+	return Pod_Status_Container_StateRestartingPathSelectorContainerId{}
+}
+
+type Pod_Status_Container_StateRestartingPathSelectorExitCode struct{}
+
+func (Pod_Status_Container_StateRestartingPathSelectorExitCode) FieldPath() *PodStatusContainerStateRestarting_FieldTerminalPath {
+	return &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorExitCode}
+}
+
+func (s Pod_Status_Container_StateRestartingPathSelectorExitCode) WithValue(value int32) *PodStatusContainerStateRestarting_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatusContainerStateRestarting_FieldTerminalPathValue)
+}
+
+func (s Pod_Status_Container_StateRestartingPathSelectorExitCode) WithArrayOfValues(values []int32) *PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues)
+}
+
+type Pod_Status_Container_StateRestartingPathSelectorContainerId struct{}
+
+func (Pod_Status_Container_StateRestartingPathSelectorContainerId) FieldPath() *PodStatusContainerStateRestarting_FieldTerminalPath {
+	return &PodStatusContainerStateRestarting_FieldTerminalPath{selector: PodStatusContainerStateRestarting_FieldPathSelectorContainerId}
+}
+
+func (s Pod_Status_Container_StateRestartingPathSelectorContainerId) WithValue(value string) *PodStatusContainerStateRestarting_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*PodStatusContainerStateRestarting_FieldTerminalPathValue)
+}
+
+func (s Pod_Status_Container_StateRestartingPathSelectorContainerId) WithArrayOfValues(values []string) *PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*PodStatusContainerStateRestarting_FieldTerminalPathArrayOfValues)
 }

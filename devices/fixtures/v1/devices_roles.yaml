@@ -121,22 +121,15 @@ resources:
   grants:
   - subScope: regions/{region}/provisioningPolicies/{provisioningPolicy}
     permissions:
-    - services/devices.edgelq.com/permissions/provisioningPolicies.batchGet
     - services/devices.edgelq.com/permissions/provisioningPolicies.get
     - services/devices.edgelq.com/permissions/provisioningPolicies.watch
     - services/devices.edgelq.com/permissions/provisioningPolicies.provisionDeviceViaPolicy
     - services/devices.edgelq.com/permissions/provisioningPolicies.requestProvisioningApproval
-    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.batchGet
-    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.get
-    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.update
-    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.watch
-    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.list
   - subScope: regions/{region}
     permissions:
     - services/devices.edgelq.com/permissions/provisioningPolicies.list
     - services/devices.edgelq.com/permissions/provisioningPolicies.watch
-    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.list
-    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.watch
+    - services/devices.edgelq.com/permissions/devices.list
     resourceFieldConditions:
     - path: spec.service_account
       value: projects/{project}/regions/{region}/serviceAccounts/{serviceAccount}
@@ -145,3 +138,21 @@ resources:
     - services/logging.edgelq.com/permissions/buckets!attach
     - services/monitoring.edgelq.com/permissions/buckets!attach
     - services/iam.edgelq.com/permissions/serviceAccounts!attach
+  - subScope: regions/{region}/serviceAccounts/{serviceAccount}
+    permissions:
+    - services/iam.edgelq.com/permissions/serviceAccounts.get
+    - services/iam.edgelq.com/permissions/serviceAccounts.watch
+    - services/iam.edgelq.com/permissions/serviceAccountKeys.get
+    - services/iam.edgelq.com/permissions/serviceAccountKeys.watch
+  # Droplet does not use the provisioning policy ID in parent.
+  # It is alright because we still expect serviceAccount match
+  - subScope: regions/{region}/provisioningPolicies/-
+    permissions:
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.get
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.provisionDeviceForApprovedRequest
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.watch
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.update
+    - services/devices.edgelq.com/permissions/provisioningApprovalRequests.list
+    resourceFieldConditions:
+    - path: spec.service_account
+      value: projects/{project}/regions/{region}/serviceAccounts/{serviceAccount}

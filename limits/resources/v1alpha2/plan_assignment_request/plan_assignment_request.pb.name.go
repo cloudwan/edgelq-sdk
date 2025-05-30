@@ -11,9 +11,6 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/google/cel-go/common/types"
-	"github.com/google/cel-go/common/types/ref"
-	"github.com/google/cel-go/common/types/traits"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
@@ -322,61 +319,6 @@ func (name *Name) Matches(other interface{}) bool {
 	}
 
 	return true
-}
-
-// Google CEL integration Type
-var celName = types.NewTypeValue("Name", traits.ReceiverType)
-
-func (name *Name) TypeName() string {
-	return ".ntt.limits.v1alpha2.PlanAssignmentRequest.Name"
-}
-
-func (name *Name) HasTrait(trait int) bool {
-	return trait == traits.ReceiverType
-}
-
-func (name *Name) Equal(other ref.Val) ref.Val {
-	return types.Bool(false)
-}
-
-func (name *Name) Value() interface{} {
-	return name
-}
-
-func (name *Name) Match(pattern ref.Val) ref.Val {
-	return types.Bool(true)
-}
-
-func (name *Name) Receive(function string, overload string, args []ref.Val) ref.Val {
-	switch function {
-	case "getId":
-		return types.String(name.PlanAssignmentRequestId)
-	case "satisfies":
-		rhsName, err := ParseName(string(args[0].(types.String)))
-		if err != nil {
-			return types.ValOrErr(celName, "function %s name parse error: %s", function, err)
-		}
-		return types.Bool(rhsName.Matches(name))
-	default:
-		return types.ValOrErr(celName, "no such function - %s", function)
-	}
-}
-
-func (name *Name) ConvertToNative(typeDesc reflect.Type) (interface{}, error) {
-	panic("not required")
-}
-
-func (name *Name) ConvertToType(typeVal ref.Type) ref.Val {
-	switch typeVal.TypeName() {
-	case types.StringType.TypeName():
-		return types.String(name.String())
-	default:
-		panic(fmt.Errorf("unable to convert %s to CEL type %s", "Name", typeVal.TypeName()))
-	}
-}
-
-func (name *Name) Type() ref.Type {
-	return celName
 }
 
 // implement CustomTypeCliValue method

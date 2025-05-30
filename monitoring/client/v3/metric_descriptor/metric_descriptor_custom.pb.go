@@ -58,7 +58,7 @@ type ListMetricDescriptorsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// The project on which to execute the request. The format is
 	// `"projects/{project_id_or_number}"`.
-	Parent *metric_descriptor.ParentName `protobuf:"bytes,5,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *metric_descriptor.ParentName `protobuf:"bytes,5,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// If this field is empty, all custom and
 	// system-defined metric descriptors are returned.
 	// Otherwise, the [filter](/monitoring/api/v3/filters)
@@ -67,25 +67,25 @@ type ListMetricDescriptorsRequest struct {
 	// [custom metrics](/monitoring/custom-metrics):
 	//
 	//     metric.type = starts_with("custom.googleapis.com/")
-	Filter *metric_descriptor.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *metric_descriptor.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A positive number that is the maximum number of results to return.
-	PageSize int32 `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// If this field is not empty then it must contain the `nextPageToken` value
 	// returned by a previous call to this method.  Using this field causes the
 	// method to return additional results from the previous method call.
-	PageToken *metric_descriptor.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *metric_descriptor.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination
-	OrderBy *metric_descriptor.OrderBy `protobuf:"bytes,666,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *metric_descriptor.OrderBy `protobuf:"bytes,666,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// Indicates if list response should contain total count and offset (fields
 	// current_offset and total_results_count).
-	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
+	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
 }
 
 func (m *ListMetricDescriptorsRequest) Reset() {
@@ -258,19 +258,19 @@ type ListMetricDescriptorsResponse struct {
 	unknownFields protoimpl.UnknownFields
 	// The metric descriptors that are available to the project
 	// and that match the value of `filter`, if present.
-	MetricDescriptors []*metric_descriptor.MetricDescriptor `protobuf:"bytes,1,rep,name=metric_descriptors,json=metricDescriptors,proto3" json:"metric_descriptors,omitempty" firestore:"metricDescriptors"`
+	MetricDescriptors []*metric_descriptor.MetricDescriptor `protobuf:"bytes,1,rep,name=metric_descriptors,json=metricDescriptors,proto3" json:"metric_descriptors,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value.  To see the additional results,
 	// use that value as `pageToken` in the next call to this method.
-	NextPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
-	PrevPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,666,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	NextPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	PrevPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,666,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// Current offset from the first page (0 if no page tokens were given or
 	// paging info was not requested). Page index can be computed from offset and
 	// limit provided in a request.
-	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty" firestore:"currentOffset"`
+	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty"`
 	// Number of total MetricDescriptors across all pages or 0, if there are no
 	// items or paging info was not requested.
-	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty" firestore:"totalResultsCount"`
+	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty"`
 }
 
 func (m *ListMetricDescriptorsResponse) Reset() {
@@ -403,13 +403,13 @@ type GetMetricDescriptorRequest struct {
 	// `"projects/{project_id_or_number}/metricDescriptors/{metric_id}"`.
 	// An example value of `{metric_id}` is
 	// `"compute.googleapis.com/instance/disk/read_bytes_count"`.
-	Name *metric_descriptor.Name `protobuf:"bytes,3,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *metric_descriptor.Name `protobuf:"bytes,3,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,4,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,4,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,5,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,5,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *GetMetricDescriptorRequest) Reset() {
@@ -512,13 +512,13 @@ type CreateMetricDescriptorRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// The project on which to execute the request. The format is
 	// `"projects/{project_id_or_number}"`.
-	Parent *metric_descriptor.ParentName `protobuf:"bytes,3,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *metric_descriptor.ParentName `protobuf:"bytes,3,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// The new [custom metric](/monitoring/custom-metrics)
 	// descriptor.
-	MetricDescriptor *metric_descriptor.MetricDescriptor `protobuf:"bytes,2,opt,name=metric_descriptor,json=metricDescriptor,proto3" json:"metric_descriptor,omitempty" firestore:"metricDescriptor"`
+	MetricDescriptor *metric_descriptor.MetricDescriptor `protobuf:"bytes,2,opt,name=metric_descriptor,json=metricDescriptor,proto3" json:"metric_descriptor,omitempty"`
 	// Optional masking applied to response object to reduce message response
 	// size.
-	ResponseMask *CreateMetricDescriptorRequest_ResponseMask `protobuf:"bytes,4,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
+	ResponseMask *CreateMetricDescriptorRequest_ResponseMask `protobuf:"bytes,4,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty"`
 }
 
 func (m *CreateMetricDescriptorRequest) Reset() {
@@ -620,23 +620,23 @@ type UpdateMetricDescriptorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// MetricDescriptor resource body
-	MetricDescriptor *metric_descriptor.MetricDescriptor `protobuf:"bytes,2,opt,name=metric_descriptor,json=metricDescriptor,proto3" json:"metric_descriptor,omitempty" firestore:"metricDescriptor"`
+	MetricDescriptor *metric_descriptor.MetricDescriptor `protobuf:"bytes,2,opt,name=metric_descriptor,json=metricDescriptor,proto3" json:"metric_descriptor,omitempty"`
 	// FieldMask applied to request - change will be applied only for fields in
 	// the mask
-	UpdateMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MetricDescriptor_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty" firestore:"updateMask"`
+	UpdateMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MetricDescriptor_FieldMask,name=update_mask,json=updateMask,proto3" json:"update_mask,omitempty"`
 	// Conditional update applied to request if update should be executed only for
 	// specific resource state. If this field is populated, then server will fetch
 	// existing resource, compare with the one stored in the cas field (after
 	// applying field mask) and proceed with update only and only if they match.
 	// Otherwise RPC error Aborted will be returned.
-	Cas *UpdateMetricDescriptorRequest_CAS `protobuf:"bytes,4,opt,name=cas,proto3" json:"cas,omitempty" firestore:"cas"`
+	Cas *UpdateMetricDescriptorRequest_CAS `protobuf:"bytes,4,opt,name=cas,proto3" json:"cas,omitempty"`
 	// If set to true, and the resource is not found,
 	// a new resource will be created.  In this situation,
 	// 'field_mask' is ignored.
 	//
 	// https://google.aip.dev/134#create-or-update
-	AllowMissing bool                                        `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty" firestore:"allowMissing"`
-	ResponseMask *UpdateMetricDescriptorRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty" firestore:"responseMask"`
+	AllowMissing bool                                        `protobuf:"varint,5,opt,name=allow_missing,json=allowMissing,proto3" json:"allow_missing,omitempty"`
+	ResponseMask *UpdateMetricDescriptorRequest_ResponseMask `protobuf:"bytes,6,opt,name=response_mask,json=responseMask,proto3" json:"response_mask,omitempty"`
 }
 
 func (m *UpdateMetricDescriptorRequest) Reset() {
@@ -769,7 +769,7 @@ type DeleteMetricDescriptorRequest struct {
 	// `"projects/{project_id_or_number}/metricDescriptors/{metric_id}"`.
 	// An example of `{metric_id}` is:
 	// `"custom.googleapis.com/my_test_metric"`.
-	Name *metric_descriptor.Name `protobuf:"bytes,3,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *metric_descriptor.Name `protobuf:"bytes,3,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *DeleteMetricDescriptorRequest) Reset() {
@@ -904,12 +904,12 @@ type isCreateMetricDescriptorRequest_ResponseMask_Masking interface {
 type CreateMetricDescriptorRequest_ResponseMask_SkipEntireResponseBody struct {
 	// If this flag has value true, then response will contain just empty
 	// resource without any fields populated.
-	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof"`
 }
 type CreateMetricDescriptorRequest_ResponseMask_BodyMask struct {
 	// If this field is populated, then resource in response will contain only
 	// specific fields.
-	BodyMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MetricDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+	BodyMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MetricDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof"`
 }
 
 func (*CreateMetricDescriptorRequest_ResponseMask_SkipEntireResponseBody) isCreateMetricDescriptorRequest_ResponseMask_Masking() {
@@ -954,10 +954,10 @@ type UpdateMetricDescriptorRequest_CAS struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Conditional desired state of a resource before update.
-	ConditionalState *metric_descriptor.MetricDescriptor `protobuf:"bytes,1,opt,name=conditional_state,json=conditionalState,proto3" json:"conditional_state,omitempty" firestore:"conditionalState"`
+	ConditionalState *metric_descriptor.MetricDescriptor `protobuf:"bytes,1,opt,name=conditional_state,json=conditionalState,proto3" json:"conditional_state,omitempty"`
 	// Field paths from conditional state of resource server should check and
 	// compare.
-	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 }
 
 func (m *UpdateMetricDescriptorRequest_CAS) Reset() {
@@ -1108,19 +1108,19 @@ type UpdateMetricDescriptorRequest_ResponseMask_SkipEntireResponseBody struct {
 	// If this flag has value true, then response will contain just empty
 	// resource without any fields populated. Field body_mask is ignored if
 	// set.
-	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof" firestore:"skipEntireResponseBody"`
+	SkipEntireResponseBody bool `protobuf:"varint,1,opt,name=skip_entire_response_body,json=skipEntireResponseBody,proto3,oneof"`
 }
 type UpdateMetricDescriptorRequest_ResponseMask_UpdatedFieldsOnly struct {
 	// Include all fields that were actually updated during processing. Note
 	// this may be larger than update mask if some fields were computed
 	// additionally. Name is added as well.
-	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof" firestore:"updatedFieldsOnly"`
+	UpdatedFieldsOnly bool `protobuf:"varint,2,opt,name=updated_fields_only,json=updatedFieldsOnly,proto3,oneof"`
 }
 type UpdateMetricDescriptorRequest_ResponseMask_BodyMask struct {
 	// If this field is populated, then resource in response will contain only
 	// specific fields. If skip_entire_response_body is true, this field is
 	// ignored.
-	BodyMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MetricDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof" firestore:"bodyMask"`
+	BodyMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MetricDescriptor_FieldMask,name=body_mask,json=bodyMask,proto3,oneof"`
 }
 
 func (*UpdateMetricDescriptorRequest_ResponseMask_SkipEntireResponseBody) isUpdateMetricDescriptorRequest_ResponseMask_Masking() {

@@ -106,15 +106,15 @@ type ProvisioningApprovalRequest struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta                          `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	Spec     *ProvisioningApprovalRequest_Spec   `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
-	Status   *ProvisioningApprovalRequest_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Metadata *meta.Meta                          `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Spec     *ProvisioningApprovalRequest_Spec   `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
+	Status   *ProvisioningApprovalRequest_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *ProvisioningApprovalRequest) Reset() {
@@ -228,10 +228,10 @@ type ProvisioningApprovalRequest_Spec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The verdicit for the approval, approved or revoked.
-	Conclusion ProvisioningApprovalRequest_Spec_Conclusion `protobuf:"varint,1,opt,name=conclusion,proto3,enum=ntt.devices.v1.ProvisioningApprovalRequest_Spec_Conclusion" json:"conclusion,omitempty" firestore:"conclusion"`
+	Conclusion ProvisioningApprovalRequest_Spec_Conclusion `protobuf:"varint,1,opt,name=conclusion,proto3,enum=ntt.devices.v1.ProvisioningApprovalRequest_Spec_Conclusion" json:"conclusion,omitempty"`
 	// System managed, this service account will be used by the Device resource
 	// once it's approved. A device finds its pending request using this field.
-	ServiceAccount *iam_service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty" firestore:"serviceAccount"`
+	ServiceAccount *iam_service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
 }
 
 func (m *ProvisioningApprovalRequest_Spec) Reset() {

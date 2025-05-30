@@ -74,9 +74,9 @@ type RoleBinding struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [\\w.|-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Role
-	Role *role.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=role,proto3" json:"role,omitempty" firestore:"role"`
+	Role *role.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=role,proto3" json:"role,omitempty"`
 	// Binding members
 	// Format of the string is one of:
 	// - "allUsers" (anyone)
@@ -85,15 +85,15 @@ type RoleBinding struct {
 	// - "serviceAccount:device_agent@watchdog.serviceaccounts.iam.edgelq.com"
 	// - "group:nice.group@example.com"
 	// - "domain:example.com" (anyone with exact email domain)
-	Member string `protobuf:"bytes,4,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,4,opt,name=member,proto3" json:"member,omitempty"`
 	// optional ConditionBinding
 	// TODO: Make it repeated and make sure backend will check all before
 	// verifying
-	ConditionBinding *condition.ConditionBinding `protobuf:"bytes,6,opt,name=condition_binding,json=conditionBinding,proto3" json:"condition_binding,omitempty" firestore:"conditionBinding"`
+	ConditionBinding *condition.ConditionBinding `protobuf:"bytes,6,opt,name=condition_binding,json=conditionBinding,proto3" json:"condition_binding,omitempty"`
 	// Internal field used by IAM controller to note role binding ancestry path
-	AncestryPath []*RoleBinding_Parent `protobuf:"bytes,7,rep,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty" firestore:"ancestryPath"`
+	AncestryPath []*RoleBinding_Parent `protobuf:"bytes,7,rep,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *RoleBinding) Reset() {
@@ -239,9 +239,9 @@ type RoleBinding_Parent struct {
 	// Role bindings which have group as member have child for each service
 	// account and user in that group. All those role bindings have one common
 	// parent pointing at group role binding
-	Parent *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=parent,proto3" json:"parent,omitempty"`
 	// Member of the parent role binding
-	Member string `protobuf:"bytes,2,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,2,opt,name=member,proto3" json:"member,omitempty"`
 }
 
 func (m *RoleBinding_Parent) Reset() {

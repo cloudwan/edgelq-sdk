@@ -56,39 +56,39 @@ type ListRoleBindingsWithMembersRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent name of ntt.iam.v1.RoleBinding
-	Parent *role_binding.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *role_binding.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// Requested page size. Server may return fewer RoleBindings than requested.
 	// If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// ListRoleBindingsWithMembersResponse.next_page_token.
-	PageToken *role_binding.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *role_binding.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *role_binding.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *role_binding.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *role_binding.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *role_binding.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *role_binding.RoleBinding_FieldMask `protobuf:"bytes,6,opt,customtype=RoleBinding_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *role_binding.RoleBinding_FieldMask `protobuf:"bytes,6,opt,customtype=RoleBinding_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask and user_mask.
-	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// Defines field masks applied to member resources (Users, Service accounts,
 	// Groups).
-	MembersMasks *iam_common.MembersMasks `protobuf:"bytes,9,opt,name=members_masks,json=membersMasks,proto3" json:"members_masks,omitempty" firestore:"membersMasks"`
+	MembersMasks *iam_common.MembersMasks `protobuf:"bytes,9,opt,name=members_masks,json=membersMasks,proto3" json:"members_masks,omitempty"`
 	// Indicates if list response should contain total count and offset (fields
 	// current_offset and total_results_count).
-	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
+	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
 }
 
 func (m *ListRoleBindingsWithMembersRequest) Reset() {
@@ -273,25 +273,25 @@ type ListRoleBindingsWithMembersResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of RoleBindings
-	RoleBindings []*role_binding.RoleBinding `protobuf:"bytes,1,rep,name=role_bindings,json=roleBindings,proto3" json:"role_bindings,omitempty" firestore:"roleBindings"`
+	RoleBindings []*role_binding.RoleBinding `protobuf:"bytes,1,rep,name=role_bindings,json=roleBindings,proto3" json:"role_bindings,omitempty"`
 	// List of matching members per each received role binding.
-	MatchingMembers []*iam_common.MembersInfo `protobuf:"bytes,2,rep,name=matching_members,json=matchingMembers,proto3" json:"matching_members,omitempty" firestore:"matchingMembers"`
+	MatchingMembers []*iam_common.MembersInfo `protobuf:"bytes,2,rep,name=matching_members,json=matchingMembers,proto3" json:"matching_members,omitempty"`
 	// A token to retrieve previous page of results.
 	//
 	// Pass this value in the ListRoleBindingsWithMembersRequest.page_token.
-	PrevPageToken *role_binding.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *role_binding.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// A token to retrieve next page of results.
 	//
 	// Pass this value in the ListRoleBindingsWithMembersRequest.page_token.
-	NextPageToken *role_binding.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken *role_binding.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 	// Current offset from the first page or 0 if no page tokens were given,
 	// paging info was not requested or there was an error while trying to get
 	// it). Page index can be computed from offset and limit provided in a
 	// request.
-	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty" firestore:"currentOffset"`
+	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty"`
 	// Number of total RoleBindings across all pages or 0, if there are no items,
 	// paging info was not requested or there was an error while trying to get it.
-	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty" firestore:"totalResultsCount"`
+	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty"`
 }
 
 func (m *ListRoleBindingsWithMembersResponse) Reset() {

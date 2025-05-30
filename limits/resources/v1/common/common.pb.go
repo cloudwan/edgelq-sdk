@@ -52,11 +52,11 @@ type RegionalPlanAssignment struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Plan for given region
-	Plan *plan.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty" firestore:"plan"`
+	Plan *plan.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty"`
 	// Region ID for this override
-	Region string `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
 	// Applied generation spec of the plan.
-	PlanGeneration int64 `protobuf:"varint,3,opt,name=plan_generation,json=planGeneration,proto3" json:"plan_generation,omitempty" firestore:"planGeneration"`
+	PlanGeneration int64 `protobuf:"varint,3,opt,name=plan_generation,json=planGeneration,proto3" json:"plan_generation,omitempty"`
 }
 
 func (m *RegionalPlanAssignment) Reset() {
@@ -158,11 +158,11 @@ type Allowance struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Reference to resource
-	Resource *meta_resource.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *meta_resource.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// Limit or extension for given resource.
-	Value int64 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Value int64 `protobuf:"varint,2,opt,name=value,proto3" json:"value,omitempty"`
 	// Region ID where allowance applies - empty if for all.
-	Region string `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,3,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (m *Allowance) Reset() {

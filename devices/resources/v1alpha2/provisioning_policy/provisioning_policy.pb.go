@@ -118,12 +118,12 @@ type ProvisioningPolicy struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Display Name
-	DisplayName string                     `protobuf:"bytes,6,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
-	Spec        *ProvisioningPolicy_Spec   `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
-	Status      *ProvisioningPolicy_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
-	Metadata    *meta.Meta                 `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	DisplayName string                     `protobuf:"bytes,6,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Spec        *ProvisioningPolicy_Spec   `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
+	Status      *ProvisioningPolicy_Status `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	Metadata    *meta.Meta                 `protobuf:"bytes,5,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *ProvisioningPolicy) Reset() {
@@ -251,31 +251,31 @@ type ProvisioningPolicy_Spec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Provisioning mode.
-	Mode ProvisioningPolicy_Mode `protobuf:"varint,1,opt,name=mode,proto3,enum=ntt.devices.v1alpha2.ProvisioningPolicy_Mode" json:"mode,omitempty" firestore:"mode"`
+	Mode ProvisioningPolicy_Mode `protobuf:"varint,1,opt,name=mode,proto3,enum=ntt.devices.v1alpha2.ProvisioningPolicy_Mode" json:"mode,omitempty"`
 	// The service account associated with the policy.
 	// Devices have to have a key of this service account to conduct
 	// self-provisioning.
-	ServiceAccount *iam_service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty" firestore:"serviceAccount"`
+	ServiceAccount *iam_service_account.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
 	// Template for device name.
-	DeviceNameFormat string `protobuf:"bytes,3,opt,name=device_name_format,json=deviceNameFormat,proto3" json:"device_name_format,omitempty" firestore:"deviceNameFormat"`
+	DeviceNameFormat string `protobuf:"bytes,3,opt,name=device_name_format,json=deviceNameFormat,proto3" json:"device_name_format,omitempty"`
 	// Deprecated: Use template instead.
 	// labels that provisioned Device resources will have.
-	Labels map[string]string `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]string `protobuf:"bytes,4,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Template for Devices to be generated.
 	// Used only on Device resource creation, changing the value won't affect
 	// existing Device resources.
-	Template *ProvisioningPolicy_Spec_Template `protobuf:"bytes,5,opt,name=template,proto3" json:"template,omitempty" firestore:"template"`
+	Template *ProvisioningPolicy_Spec_Template `protobuf:"bytes,5,opt,name=template,proto3" json:"template,omitempty"`
 	// Device hardware identity paths (fields) to use for matching pre-existing
 	// device resources when provisioning.
-	IdentityFieldPaths []string `protobuf:"bytes,6,rep,name=identity_field_paths,json=identityFieldPaths,proto3" json:"identity_field_paths,omitempty" firestore:"identityFieldPaths"`
+	IdentityFieldPaths []string `protobuf:"bytes,6,rep,name=identity_field_paths,json=identityFieldPaths,proto3" json:"identity_field_paths,omitempty"`
 	// Role that the newly created service account should be bound to.
 	// If not specified, will use the default value of
 	// "roles/devices-device-agent".
-	Role *iam_role.Reference `protobuf:"bytes,7,opt,customtype=Reference,name=role,proto3" json:"role,omitempty" firestore:"role"`
+	Role *iam_role.Reference `protobuf:"bytes,7,opt,customtype=Reference,name=role,proto3" json:"role,omitempty"`
 	// Condition for the role binding for the default role.
 	// If not specified, will use the default value of
 	// "device-isolation".
-	Condition *iam_condition.Reference `protobuf:"bytes,8,opt,customtype=Reference,name=condition,proto3" json:"condition,omitempty" firestore:"condition"`
+	Condition *iam_condition.Reference `protobuf:"bytes,8,opt,customtype=Reference,name=condition,proto3" json:"condition,omitempty"`
 }
 
 func (m *ProvisioningPolicy_Spec) Reset() {
@@ -500,10 +500,10 @@ type ProvisioningPolicy_Spec_Template struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Metadata      *meta.Meta `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata      *meta.Meta `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// service_account will be ignored.
-	Spec              *device.Device_Spec              `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
-	PublicListingSpec *device.Device_PublicListingSpec `protobuf:"bytes,3,opt,name=public_listing_spec,json=publicListingSpec,proto3" json:"public_listing_spec,omitempty" firestore:"publicListingSpec"`
+	Spec              *device.Device_Spec              `protobuf:"bytes,2,opt,name=spec,proto3" json:"spec,omitempty"`
+	PublicListingSpec *device.Device_PublicListingSpec `protobuf:"bytes,3,opt,name=public_listing_spec,json=publicListingSpec,proto3" json:"public_listing_spec,omitempty"`
 }
 
 func (m *ProvisioningPolicy_Spec_Template) Reset() {

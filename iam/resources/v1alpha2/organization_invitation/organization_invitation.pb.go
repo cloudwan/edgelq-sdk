@@ -57,10 +57,10 @@ type OrganizationInvitation struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name       *Name                      `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Invitation *iam_invitation.Invitation `protobuf:"bytes,2,opt,name=invitation,proto3" json:"invitation,omitempty" firestore:"invitation"`
+	Name       *Name                      `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Invitation *iam_invitation.Invitation `protobuf:"bytes,2,opt,name=invitation,proto3" json:"invitation,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *OrganizationInvitation) Reset() {

@@ -117,20 +117,20 @@ type isMemberAssignmentChange_ChangeType interface {
 type MemberAssignmentChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *MemberAssignmentChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *MemberAssignmentChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type MemberAssignmentChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *MemberAssignmentChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *MemberAssignmentChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type MemberAssignmentChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *MemberAssignmentChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *MemberAssignmentChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type MemberAssignmentChange_Removed_ struct {
 	// Removed is returned when MemberAssignment is deleted or leaves Query view
-	Removed *MemberAssignmentChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *MemberAssignmentChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*MemberAssignmentChange_Added_) isMemberAssignmentChange_ChangeType()    {}
@@ -191,10 +191,10 @@ type MemberAssignmentChange_Added struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	MemberAssignment *MemberAssignment `protobuf:"bytes,1,opt,name=member_assignment,json=memberAssignment,proto3" json:"member_assignment,omitempty" firestore:"memberAssignment"`
+	MemberAssignment *MemberAssignment `protobuf:"bytes,1,opt,name=member_assignment,json=memberAssignment,proto3" json:"member_assignment,omitempty"`
 	// Integer describing index of added MemberAssignment in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *MemberAssignmentChange_Added) Reset() {
@@ -282,20 +282,20 @@ type MemberAssignmentChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified MemberAssignment
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of MemberAssignment or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchMemberAssignmentRequest] or
 	// [WatchMemberAssignmentsRequest]
-	MemberAssignment *MemberAssignment `protobuf:"bytes,2,opt,name=member_assignment,json=memberAssignment,proto3" json:"member_assignment,omitempty" firestore:"memberAssignment"`
+	MemberAssignment *MemberAssignment `protobuf:"bytes,2,opt,name=member_assignment,json=memberAssignment,proto3" json:"member_assignment,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *MemberAssignment_FieldMask `protobuf:"bytes,3,opt,customtype=MemberAssignment_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *MemberAssignment_FieldMask `protobuf:"bytes,3,opt,customtype=MemberAssignment_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// MemberAssignment. When modification doesn't affect sorted order, value
 	// will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying MemberAssignment new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *MemberAssignmentChange_Modified) Reset() {
@@ -424,7 +424,7 @@ type MemberAssignmentChange_Current struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	MemberAssignment *MemberAssignment `protobuf:"bytes,1,opt,name=member_assignment,json=memberAssignment,proto3" json:"member_assignment,omitempty" firestore:"memberAssignment"`
+	MemberAssignment *MemberAssignment `protobuf:"bytes,1,opt,name=member_assignment,json=memberAssignment,proto3" json:"member_assignment,omitempty"`
 }
 
 func (m *MemberAssignmentChange_Current) Reset() {
@@ -496,10 +496,10 @@ type MemberAssignmentChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed MemberAssignment index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *MemberAssignmentChange_Removed) Reset() {

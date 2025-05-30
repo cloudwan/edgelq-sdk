@@ -57,12 +57,12 @@ type Alert struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.:-]{1,128}
-	Name        *Name       `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Metadata    *meta.Meta  `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	DisplayName string      `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
-	Info        *Alert_Info `protobuf:"bytes,4,opt,name=info,proto3" json:"info,omitempty" firestore:"info"`
+	Name        *Name       `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Metadata    *meta.Meta  `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	DisplayName string      `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
+	Info        *Alert_Info `protobuf:"bytes,4,opt,name=info,proto3" json:"info,omitempty"`
 	// State of alert
-	State *Alert_State `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty" firestore:"state"`
+	State *Alert_State `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty"`
 }
 
 func (m *Alert) Reset() {
@@ -190,9 +190,9 @@ type Alert_Info struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// TimeSerie labels that violated condition
-	TimeSerie *Alert_Info_TimeSerie `protobuf:"bytes,1,opt,name=time_serie,json=timeSerie,proto3" json:"time_serie,omitempty" firestore:"timeSerie"`
+	TimeSerie *Alert_Info_TimeSerie `protobuf:"bytes,1,opt,name=time_serie,json=timeSerie,proto3" json:"time_serie,omitempty"`
 	// observed time series values during alert creation
-	ObservedValues *Alert_Info_ObservedValues `protobuf:"bytes,2,opt,name=observed_values,json=observedValues,proto3" json:"observed_values,omitempty" firestore:"observedValues"`
+	ObservedValues *Alert_Info_ObservedValues `protobuf:"bytes,2,opt,name=observed_values,json=observedValues,proto3" json:"observed_values,omitempty"`
 }
 
 func (m *Alert_Info) Reset() {
@@ -277,19 +277,19 @@ type Alert_State struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	IsFiring       bool `protobuf:"varint,2,opt,name=is_firing,json=isFiring,proto3" json:"is_firing,omitempty" firestore:"isFiring"`
-	IsAcknowledged bool `protobuf:"varint,3,opt,name=is_acknowledged,json=isAcknowledged,proto3" json:"is_acknowledged,omitempty" firestore:"isAcknowledged"`
-	IsSilenced     bool `protobuf:"varint,4,opt,name=is_silenced,json=isSilenced,proto3" json:"is_silenced,omitempty" firestore:"isSilenced"`
+	IsFiring       bool `protobuf:"varint,2,opt,name=is_firing,json=isFiring,proto3" json:"is_firing,omitempty"`
+	IsAcknowledged bool `protobuf:"varint,3,opt,name=is_acknowledged,json=isAcknowledged,proto3" json:"is_acknowledged,omitempty"`
+	IsSilenced     bool `protobuf:"varint,4,opt,name=is_silenced,json=isSilenced,proto3" json:"is_silenced,omitempty"`
 	// describes in terms of time series when alert began and ended (resolved).
 	// uses Time Series derived timestamps, rather than real-time.
 	// use meta.create_time to get creation date.
-	Lifetime *common.TimeRange `protobuf:"bytes,7,opt,name=lifetime,proto3" json:"lifetime,omitempty" firestore:"lifetime"`
+	Lifetime *common.TimeRange `protobuf:"bytes,7,opt,name=lifetime,proto3" json:"lifetime,omitempty"`
 	// This alert needs to be notified
-	NeedsNotification bool `protobuf:"varint,8,opt,name=needs_notification,json=needsNotification,proto3" json:"needs_notification,omitempty" firestore:"needsNotification"`
+	NeedsNotification bool `protobuf:"varint,8,opt,name=needs_notification,json=needsNotification,proto3" json:"needs_notification,omitempty"`
 	// Notification resource is generated for this alert
-	NotificationCreated bool `protobuf:"varint,9,opt,name=notification_created,json=notificationCreated,proto3" json:"notification_created,omitempty" firestore:"notificationCreated"`
+	NotificationCreated bool `protobuf:"varint,9,opt,name=notification_created,json=notificationCreated,proto3" json:"notification_created,omitempty"`
 	// Alert has ended and any needed notifications are processed
-	LifecycleCompleted bool `protobuf:"varint,10,opt,name=lifecycle_completed,json=lifecycleCompleted,proto3" json:"lifecycle_completed,omitempty" firestore:"lifecycleCompleted"`
+	LifecycleCompleted bool `protobuf:"varint,10,opt,name=lifecycle_completed,json=lifecycleCompleted,proto3" json:"lifecycle_completed,omitempty"`
 }
 
 func (m *Alert_State) Reset() {
@@ -444,9 +444,9 @@ type Alert_Info_TimeSerie struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	Key               []byte                    `protobuf:"bytes,101,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
-	Metric            *common.Metric            `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty" firestore:"metric"`
-	MonitoredResource *common.MonitoredResource `protobuf:"bytes,2,opt,name=monitored_resource,json=monitoredResource,proto3" json:"monitored_resource,omitempty" firestore:"monitoredResource"`
+	Key               []byte                    `protobuf:"bytes,101,opt,name=key,proto3" json:"key,omitempty"`
+	Metric            *common.Metric            `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"`
+	MonitoredResource *common.MonitoredResource `protobuf:"bytes,2,opt,name=monitored_resource,json=monitoredResource,proto3" json:"monitored_resource,omitempty"`
 }
 
 func (m *Alert_Info_TimeSerie) Reset() {
@@ -546,8 +546,8 @@ type Alert_Info_ObservedValues struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// oneof
-	ExampleValue float64            `protobuf:"fixed64,1,opt,name=example_value,json=exampleValue,proto3" json:"example_value,omitempty" firestore:"exampleValue"`
-	PerMetric    map[string]float64 `protobuf:"bytes,2,rep,name=per_metric,json=perMetric,proto3" json:"per_metric,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"fixed64,2,opt,name=value,proto3" firestore:"perMetric"`
+	ExampleValue float64            `protobuf:"fixed64,1,opt,name=example_value,json=exampleValue,proto3" json:"example_value,omitempty"`
+	PerMetric    map[string]float64 `protobuf:"bytes,2,rep,name=per_metric,json=perMetric,proto3" json:"per_metric,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"fixed64,2,opt,name=value,proto3"`
 }
 
 func (m *Alert_Info_ObservedValues) Reset() {
@@ -633,7 +633,7 @@ type Alert_State_Threshold struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	ObservedValue float64 `protobuf:"fixed64,1,opt,name=observed_value,json=observedValue,proto3" json:"observed_value,omitempty" firestore:"observedValue"`
+	ObservedValue float64 `protobuf:"fixed64,1,opt,name=observed_value,json=observedValue,proto3" json:"observed_value,omitempty"`
 }
 
 func (m *Alert_State_Threshold) Reset() {
@@ -760,7 +760,7 @@ type Alert_State_CombineThreshold_PerMetric struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	ObservedValues map[string]float64 `protobuf:"bytes,2,rep,name=observed_values,json=observedValues,proto3" json:"observed_values,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"fixed64,2,opt,name=value,proto3" firestore:"observedValues"`
+	ObservedValues map[string]float64 `protobuf:"bytes,2,rep,name=observed_values,json=observedValues,proto3" json:"observed_values,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"fixed64,2,opt,name=value,proto3"`
 }
 
 func (m *Alert_State_CombineThreshold_PerMetric) Reset() {

@@ -119,20 +119,20 @@ type isPhantomTimeSerieChange_ChangeType interface {
 type PhantomTimeSerieChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *PhantomTimeSerieChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *PhantomTimeSerieChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type PhantomTimeSerieChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *PhantomTimeSerieChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *PhantomTimeSerieChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type PhantomTimeSerieChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *PhantomTimeSerieChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *PhantomTimeSerieChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type PhantomTimeSerieChange_Removed_ struct {
 	// Removed is returned when PhantomTimeSerie is deleted or leaves Query view
-	Removed *PhantomTimeSerieChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *PhantomTimeSerieChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*PhantomTimeSerieChange_Added_) isPhantomTimeSerieChange_ChangeType()    {}
@@ -193,10 +193,10 @@ type PhantomTimeSerieChange_Added struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	PhantomTimeSerie *PhantomTimeSerie `protobuf:"bytes,1,opt,name=phantom_time_serie,json=phantomTimeSerie,proto3" json:"phantom_time_serie,omitempty" firestore:"phantomTimeSerie"`
+	PhantomTimeSerie *PhantomTimeSerie `protobuf:"bytes,1,opt,name=phantom_time_serie,json=phantomTimeSerie,proto3" json:"phantom_time_serie,omitempty"`
 	// Integer describing index of added PhantomTimeSerie in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PhantomTimeSerieChange_Added) Reset() {
@@ -284,20 +284,20 @@ type PhantomTimeSerieChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified PhantomTimeSerie
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of PhantomTimeSerie or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchPhantomTimeSerieRequest] or
 	// [WatchPhantomTimeSeriesRequest]
-	PhantomTimeSerie *PhantomTimeSerie `protobuf:"bytes,2,opt,name=phantom_time_serie,json=phantomTimeSerie,proto3" json:"phantom_time_serie,omitempty" firestore:"phantomTimeSerie"`
+	PhantomTimeSerie *PhantomTimeSerie `protobuf:"bytes,2,opt,name=phantom_time_serie,json=phantomTimeSerie,proto3" json:"phantom_time_serie,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *PhantomTimeSerie_FieldMask `protobuf:"bytes,3,opt,customtype=PhantomTimeSerie_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *PhantomTimeSerie_FieldMask `protobuf:"bytes,3,opt,customtype=PhantomTimeSerie_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// PhantomTimeSerie. When modification doesn't affect sorted order, value
 	// will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying PhantomTimeSerie new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PhantomTimeSerieChange_Modified) Reset() {
@@ -426,7 +426,7 @@ type PhantomTimeSerieChange_Current struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	PhantomTimeSerie *PhantomTimeSerie `protobuf:"bytes,1,opt,name=phantom_time_serie,json=phantomTimeSerie,proto3" json:"phantom_time_serie,omitempty" firestore:"phantomTimeSerie"`
+	PhantomTimeSerie *PhantomTimeSerie `protobuf:"bytes,1,opt,name=phantom_time_serie,json=phantomTimeSerie,proto3" json:"phantom_time_serie,omitempty"`
 }
 
 func (m *PhantomTimeSerieChange_Current) Reset() {
@@ -498,10 +498,10 @@ type PhantomTimeSerieChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed PhantomTimeSerie index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *PhantomTimeSerieChange_Removed) Reset() {

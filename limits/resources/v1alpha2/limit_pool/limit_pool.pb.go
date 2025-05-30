@@ -78,29 +78,29 @@ type LimitPool struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of LimitPool
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Referenced service
-	Service *meta_service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Referenced resource type
-	Resource *meta_resource.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *meta_resource.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// Configured size of pool according to PlanAssignment instances
 	// belonging to same scope (system or organization).
-	ConfiguredSize int64 `protobuf:"varint,4,opt,name=configured_size,json=configuredSize,proto3" json:"configured_size,omitempty" firestore:"configuredSize"`
+	ConfiguredSize int64 `protobuf:"varint,4,opt,name=configured_size,json=configuredSize,proto3" json:"configured_size,omitempty"`
 	// Active pool size. It will be normally equal to configured size.
 	// However, if configured size goes down below reserved value,
 	// then active size will be equal to that "reserved".
 	// It will also prevent parent LimitPool (if any) from getting
 	// limit value back.
-	ActiveSize int64 `protobuf:"varint,5,opt,name=active_size,json=activeSize,proto3" json:"active_size,omitempty" firestore:"activeSize"`
+	ActiveSize int64 `protobuf:"varint,5,opt,name=active_size,json=activeSize,proto3" json:"active_size,omitempty"`
 	// Configured OR Active Size of all child Limit and LimitPool instances -
 	// whichever is bigger.
-	Reserved int64 `protobuf:"varint,6,opt,name=reserved,proto3" json:"reserved,omitempty" firestore:"reserved"`
+	Reserved int64 `protobuf:"varint,6,opt,name=reserved,proto3" json:"reserved,omitempty"`
 	// LimitPool source that gave birth to this LimitPool. Any change
 	// in configured/active value in current LimitPool increases/decreases
 	// reserved field in source LimitPool.
-	Source *Reference `protobuf:"bytes,7,opt,customtype=Reference,name=source,proto3" json:"source,omitempty" firestore:"source"`
+	Source *Reference `protobuf:"bytes,7,opt,customtype=Reference,name=source,proto3" json:"source,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *LimitPool) Reset() {

@@ -119,21 +119,21 @@ type isAttestationDomainChange_ChangeType interface {
 type AttestationDomainChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *AttestationDomainChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *AttestationDomainChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type AttestationDomainChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *AttestationDomainChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *AttestationDomainChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type AttestationDomainChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *AttestationDomainChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *AttestationDomainChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type AttestationDomainChange_Removed_ struct {
 	// Removed is returned when AttestationDomain is deleted or leaves Query
 	// view
-	Removed *AttestationDomainChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *AttestationDomainChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*AttestationDomainChange_Added_) isAttestationDomainChange_ChangeType()    {}
@@ -194,10 +194,10 @@ type AttestationDomainChange_Added struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	AttestationDomain *AttestationDomain `protobuf:"bytes,1,opt,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty" firestore:"attestationDomain"`
+	AttestationDomain *AttestationDomain `protobuf:"bytes,1,opt,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty"`
 	// Integer describing index of added AttestationDomain in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AttestationDomainChange_Added) Reset() {
@@ -285,20 +285,20 @@ type AttestationDomainChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified AttestationDomain
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of AttestationDomain or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchAttestationDomainRequest] or
 	// [WatchAttestationDomainsRequest]
-	AttestationDomain *AttestationDomain `protobuf:"bytes,2,opt,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty" firestore:"attestationDomain"`
+	AttestationDomain *AttestationDomain `protobuf:"bytes,2,opt,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *AttestationDomain_FieldMask `protobuf:"bytes,3,opt,customtype=AttestationDomain_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *AttestationDomain_FieldMask `protobuf:"bytes,3,opt,customtype=AttestationDomain_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// AttestationDomain. When modification doesn't affect sorted order, value
 	// will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying AttestationDomain new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AttestationDomainChange_Modified) Reset() {
@@ -427,7 +427,7 @@ type AttestationDomainChange_Current struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	AttestationDomain *AttestationDomain `protobuf:"bytes,1,opt,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty" firestore:"attestationDomain"`
+	AttestationDomain *AttestationDomain `protobuf:"bytes,1,opt,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty"`
 }
 
 func (m *AttestationDomainChange_Current) Reset() {
@@ -499,10 +499,10 @@ type AttestationDomainChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed AttestationDomain index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AttestationDomainChange_Removed) Reset() {

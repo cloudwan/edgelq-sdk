@@ -119,21 +119,21 @@ type isNotificationChannelChange_ChangeType interface {
 type NotificationChannelChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *NotificationChannelChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *NotificationChannelChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type NotificationChannelChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *NotificationChannelChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *NotificationChannelChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type NotificationChannelChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *NotificationChannelChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *NotificationChannelChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type NotificationChannelChange_Removed_ struct {
 	// Removed is returned when NotificationChannel is deleted or leaves Query
 	// view
-	Removed *NotificationChannelChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *NotificationChannelChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*NotificationChannelChange_Added_) isNotificationChannelChange_ChangeType()    {}
@@ -194,10 +194,10 @@ type NotificationChannelChange_Added struct {
 	state               protoimpl.MessageState
 	sizeCache           protoimpl.SizeCache
 	unknownFields       protoimpl.UnknownFields
-	NotificationChannel *NotificationChannel `protobuf:"bytes,1,opt,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty" firestore:"notificationChannel"`
+	NotificationChannel *NotificationChannel `protobuf:"bytes,1,opt,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty"`
 	// Integer describing index of added NotificationChannel in resulting query
 	// view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *NotificationChannelChange_Added) Reset() {
@@ -285,20 +285,20 @@ type NotificationChannelChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified NotificationChannel
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of NotificationChannel or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchNotificationChannelRequest]
 	// or [WatchNotificationChannelsRequest]
-	NotificationChannel *NotificationChannel `protobuf:"bytes,2,opt,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty" firestore:"notificationChannel"`
+	NotificationChannel *NotificationChannel `protobuf:"bytes,2,opt,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *NotificationChannel_FieldMask `protobuf:"bytes,3,opt,customtype=NotificationChannel_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *NotificationChannel_FieldMask `protobuf:"bytes,3,opt,customtype=NotificationChannel_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// NotificationChannel. When modification doesn't affect sorted order, value
 	// will remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying NotificationChannel new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *NotificationChannelChange_Modified) Reset() {
@@ -427,7 +427,7 @@ type NotificationChannelChange_Current struct {
 	state               protoimpl.MessageState
 	sizeCache           protoimpl.SizeCache
 	unknownFields       protoimpl.UnknownFields
-	NotificationChannel *NotificationChannel `protobuf:"bytes,1,opt,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty" firestore:"notificationChannel"`
+	NotificationChannel *NotificationChannel `protobuf:"bytes,1,opt,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty"`
 }
 
 func (m *NotificationChannelChange_Current) Reset() {
@@ -500,10 +500,10 @@ type NotificationChannelChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed NotificationChannel index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *NotificationChannelChange_Removed) Reset() {

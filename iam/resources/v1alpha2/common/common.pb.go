@@ -200,12 +200,12 @@ type PCR struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Index         uint32 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty" firestore:"index"`
+	Index         uint32 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
 	// Hex-encoded digest string (without 0x prefix, e.g. "DEADBEEF")
-	DigestHex string    `protobuf:"bytes,2,opt,name=digest_hex,json=digestHex,proto3" json:"digest_hex,omitempty" firestore:"digestHex"`
-	DigestAlg DigestAlg `protobuf:"varint,3,opt,name=digest_alg,json=digestAlg,proto3,enum=ntt.iam.v1alpha2.DigestAlg" json:"digest_alg,omitempty" firestore:"digestAlg"`
+	DigestHex string    `protobuf:"bytes,2,opt,name=digest_hex,json=digestHex,proto3" json:"digest_hex,omitempty"`
+	DigestAlg DigestAlg `protobuf:"varint,3,opt,name=digest_alg,json=digestAlg,proto3,enum=ntt.iam.v1alpha2.DigestAlg" json:"digest_alg,omitempty"`
 	// User's comments for this entry
-	Comment string `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty" firestore:"comment"`
+	Comment string `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
 }
 
 func (m *PCR) Reset() {
@@ -322,9 +322,9 @@ type ServiceBusinessTier struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Service
-	Service *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty"`
 	// Entity tier value for given service.
-	BusinessTier BusinessTier `protobuf:"varint,2,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1alpha2.BusinessTier" json:"business_tier,omitempty" firestore:"businessTier"`
+	BusinessTier BusinessTier `protobuf:"varint,2,opt,name=business_tier,json=businessTier,proto3,enum=ntt.iam.v1alpha2.BusinessTier" json:"business_tier,omitempty"`
 }
 
 func (m *ServiceBusinessTier) Reset() {
@@ -411,7 +411,7 @@ type ServiceErrors struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Errors
-	Errors []*ServiceErrors_Error `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty" firestore:"errors"`
+	Errors []*ServiceErrors_Error `protobuf:"bytes,2,rep,name=errors,proto3" json:"errors,omitempty"`
 }
 
 func (m *ServiceErrors) Reset() {
@@ -484,9 +484,9 @@ type ServiceErrors_Error struct {
 	unknownFields protoimpl.UnknownFields
 	// Service for which there are error reports. May be skipped if error is
 	// cross-service or is about core EdgeLQ components.
-	Service *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Name `protobuf:"bytes,1,opt,customtype=Name,name=service,proto3" json:"service,omitempty"`
 	// Error message
-	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 }
 
 func (m *ServiceErrors_Error) Reset() {

@@ -258,6 +258,20 @@ func (obj *DeviceMetrics) GotenValidate() error {
 			}
 		}
 	}
+	for idx, elem := range obj.InterfaceCounterStartTime {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "interfaceCounterStartTime", obj.InterfaceCounterStartTime[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	for idx, elem := range obj.InterfaceMetrics {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("DeviceMetrics", "interfaceMetrics", obj.InterfaceMetrics[idx], "nested object validation failed", err)
+			}
+		}
+	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -390,6 +404,15 @@ func (obj *DeviceMetrics_HealthCheckMetricLabel) GotenValidate() error {
 	return nil
 }
 func (obj *DeviceMetrics_HealthCheckMetric) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *DeviceMetrics_InterfaceMetric) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

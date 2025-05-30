@@ -119,20 +119,20 @@ type isCryptoKeyChange_ChangeType interface {
 type CryptoKeyChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *CryptoKeyChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *CryptoKeyChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type CryptoKeyChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *CryptoKeyChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *CryptoKeyChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type CryptoKeyChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *CryptoKeyChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *CryptoKeyChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type CryptoKeyChange_Removed_ struct {
 	// Removed is returned when CryptoKey is deleted or leaves Query view
-	Removed *CryptoKeyChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *CryptoKeyChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*CryptoKeyChange_Added_) isCryptoKeyChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type CryptoKeyChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	CryptoKey     *CryptoKey `protobuf:"bytes,1,opt,name=crypto_key,json=cryptoKey,proto3" json:"crypto_key,omitempty" firestore:"cryptoKey"`
+	CryptoKey     *CryptoKey `protobuf:"bytes,1,opt,name=crypto_key,json=cryptoKey,proto3" json:"crypto_key,omitempty"`
 	// Integer describing index of added CryptoKey in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *CryptoKeyChange_Added) Reset() {
@@ -283,20 +283,20 @@ type CryptoKeyChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified CryptoKey
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of CryptoKey or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchCryptoKeyRequest] or
 	// [WatchCryptoKeysRequest]
-	CryptoKey *CryptoKey `protobuf:"bytes,2,opt,name=crypto_key,json=cryptoKey,proto3" json:"crypto_key,omitempty" firestore:"cryptoKey"`
+	CryptoKey *CryptoKey `protobuf:"bytes,2,opt,name=crypto_key,json=cryptoKey,proto3" json:"crypto_key,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *CryptoKey_FieldMask `protobuf:"bytes,3,opt,customtype=CryptoKey_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *CryptoKey_FieldMask `protobuf:"bytes,3,opt,customtype=CryptoKey_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified CryptoKey.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying CryptoKey new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *CryptoKeyChange_Modified) Reset() {
@@ -425,7 +425,7 @@ type CryptoKeyChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	CryptoKey     *CryptoKey `protobuf:"bytes,1,opt,name=crypto_key,json=cryptoKey,proto3" json:"crypto_key,omitempty" firestore:"cryptoKey"`
+	CryptoKey     *CryptoKey `protobuf:"bytes,1,opt,name=crypto_key,json=cryptoKey,proto3" json:"crypto_key,omitempty"`
 }
 
 func (m *CryptoKeyChange_Current) Reset() {
@@ -497,10 +497,10 @@ type CryptoKeyChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed CryptoKey index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *CryptoKeyChange_Removed) Reset() {

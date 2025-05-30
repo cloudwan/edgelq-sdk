@@ -121,20 +121,20 @@ type isAcceptedPlanChange_ChangeType interface {
 type AcceptedPlanChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *AcceptedPlanChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *AcceptedPlanChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type AcceptedPlanChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *AcceptedPlanChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *AcceptedPlanChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type AcceptedPlanChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *AcceptedPlanChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *AcceptedPlanChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type AcceptedPlanChange_Removed_ struct {
 	// Removed is returned when AcceptedPlan is deleted or leaves Query view
-	Removed *AcceptedPlanChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *AcceptedPlanChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*AcceptedPlanChange_Added_) isAcceptedPlanChange_ChangeType()    {}
@@ -195,9 +195,9 @@ type AcceptedPlanChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	AcceptedPlan  *AcceptedPlan `protobuf:"bytes,1,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty" firestore:"acceptedPlan"`
+	AcceptedPlan  *AcceptedPlan `protobuf:"bytes,1,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty"`
 	// Integer describing index of added AcceptedPlan in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AcceptedPlanChange_Added) Reset() {
@@ -285,20 +285,20 @@ type AcceptedPlanChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified AcceptedPlan
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of AcceptedPlan or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchAcceptedPlanRequest] or
 	// [WatchAcceptedPlansRequest]
-	AcceptedPlan *AcceptedPlan `protobuf:"bytes,2,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty" firestore:"acceptedPlan"`
+	AcceptedPlan *AcceptedPlan `protobuf:"bytes,2,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *AcceptedPlan_FieldMask `protobuf:"bytes,3,opt,customtype=AcceptedPlan_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *AcceptedPlan_FieldMask `protobuf:"bytes,3,opt,customtype=AcceptedPlan_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified AcceptedPlan.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying AcceptedPlan new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AcceptedPlanChange_Modified) Reset() {
@@ -427,7 +427,7 @@ type AcceptedPlanChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	AcceptedPlan  *AcceptedPlan `protobuf:"bytes,1,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty" firestore:"acceptedPlan"`
+	AcceptedPlan  *AcceptedPlan `protobuf:"bytes,1,opt,name=accepted_plan,json=acceptedPlan,proto3" json:"accepted_plan,omitempty"`
 }
 
 func (m *AcceptedPlanChange_Current) Reset() {
@@ -499,10 +499,10 @@ type AcceptedPlanChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed AcceptedPlan index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *AcceptedPlanChange_Removed) Reset() {

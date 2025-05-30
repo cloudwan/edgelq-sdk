@@ -70,24 +70,24 @@ type Limit struct {
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex:
 	// [a-zA-Z0-9-]{1,128}\\/[a-zA-Z0-9-.]{1,128}\\/[a-zA-Z]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,9,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,9,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Referenced service
-	Service *meta_service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Referenced resource type
-	Resource *meta_resource.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *meta_resource.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=resource,proto3" json:"resource,omitempty"`
 	// Region ID to which this limit applies. This may be different
 	// compared to default project region, because projects themselves
 	// can be multi-regional.
-	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
 	// Configured limit - it is always in sync with limits
 	// predicted by PlanAssignment instances.
-	ConfiguredLimit int64 `protobuf:"varint,5,opt,name=configured_limit,json=configuredLimit,proto3" json:"configured_limit,omitempty" firestore:"configuredLimit"`
+	ConfiguredLimit int64 `protobuf:"varint,5,opt,name=configured_limit,json=configuredLimit,proto3" json:"configured_limit,omitempty"`
 	// Active limit - it is always equal to configured limit with exceptions:
 	// * If configured limit has just changed, then active limit will for
 	// a moment contain old value before synchronization.
@@ -99,9 +99,9 @@ type Limit struct {
 	// State fields (active limit and usage) are synced asynchronously.
 	// From user perspective this field can be hidden if in line with
 	// configured limit.
-	ActiveLimit int64 `protobuf:"varint,6,opt,name=active_limit,json=activeLimit,proto3" json:"active_limit,omitempty" firestore:"activeLimit"`
+	ActiveLimit int64 `protobuf:"varint,6,opt,name=active_limit,json=activeLimit,proto3" json:"active_limit,omitempty"`
 	// Number of resources currently in existence.
-	Usage int64 `protobuf:"varint,7,opt,name=usage,proto3" json:"usage,omitempty" firestore:"usage"`
+	Usage int64 `protobuf:"varint,7,opt,name=usage,proto3" json:"usage,omitempty"`
 	// LimitPool sources that supplied reservation to this limit. Any change
 	// in configured/active value in current Limit increases/decreases
 	// reserved field in source LimitPool.
@@ -109,7 +109,7 @@ type Limit struct {
 	// resource is regional, it will be only one source pointing to the
 	// specific region. Non-regional resources will point to all regions
 	// where project is present.
-	Sources []*limit_pool.Reference `protobuf:"bytes,8,rep,customtype=Reference,name=sources,proto3" json:"sources,omitempty" firestore:"sources"`
+	Sources []*limit_pool.Reference `protobuf:"bytes,8,rep,customtype=Reference,name=sources,proto3" json:"sources,omitempty"`
 }
 
 func (m *Limit) Reset() {

@@ -131,19 +131,19 @@ type Notification struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.:-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// References to alerts that are part of this notification
 	// TODO: Obsolete and to be retired, in favor of alert_sets
-	Alerts []*alert.Name `protobuf:"bytes,4,rep,customtype=Name,name=alerts,proto3" json:"alerts,omitempty" firestore:"alerts"`
+	Alerts []*alert.Name `protobuf:"bytes,4,rep,customtype=Name,name=alerts,proto3" json:"alerts,omitempty"`
 	// Alerts by notification
-	AlertSets []*Notification_AlertsSet `protobuf:"bytes,5,rep,name=alert_sets,json=alertSets,proto3" json:"alert_sets,omitempty" firestore:"alertSets"`
-	State     *Notification_State       `protobuf:"bytes,6,opt,name=state,proto3" json:"state,omitempty" firestore:"state"`
+	AlertSets []*Notification_AlertsSet `protobuf:"bytes,5,rep,name=alert_sets,json=alertSets,proto3" json:"alert_sets,omitempty"`
+	State     *Notification_State       `protobuf:"bytes,6,opt,name=state,proto3" json:"state,omitempty"`
 }
 
 func (m *Notification) Reset() {
@@ -271,9 +271,9 @@ type Notification_AlertsSet struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Condition holding alerts
-	Condition *alerting_condition.Name `protobuf:"bytes,1,opt,customtype=Name,name=condition,proto3" json:"condition,omitempty" firestore:"condition"`
+	Condition *alerting_condition.Name `protobuf:"bytes,1,opt,customtype=Name,name=condition,proto3" json:"condition,omitempty"`
 	// List of alert IDs.
-	Ids []string `protobuf:"bytes,2,rep,name=ids,proto3" json:"ids,omitempty" firestore:"ids"`
+	Ids []string `protobuf:"bytes,2,rep,name=ids,proto3" json:"ids,omitempty"`
 }
 
 func (m *Notification_AlertsSet) Reset() {
@@ -358,20 +358,20 @@ type Notification_State struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	IsResolved    bool `protobuf:"varint,1,opt,name=is_resolved,json=isResolved,proto3" json:"is_resolved,omitempty" firestore:"isResolved"`
+	IsResolved    bool `protobuf:"varint,1,opt,name=is_resolved,json=isResolved,proto3" json:"is_resolved,omitempty"`
 	// Notification state
-	NotificationState []*Notification_State_NotificationState `protobuf:"bytes,2,rep,name=notification_state,json=notificationState,proto3" json:"notification_state,omitempty" firestore:"notificationState"`
+	NotificationState []*Notification_State_NotificationState `protobuf:"bytes,2,rep,name=notification_state,json=notificationState,proto3" json:"notification_state,omitempty"`
 	// Internal state to keep track of whether any notification sends needs to
 	// be retried for new incident
-	IncidentNotifyAttemptsDone bool `protobuf:"varint,3,opt,name=incident_notify_attempts_done,json=incidentNotifyAttemptsDone,proto3" json:"incident_notify_attempts_done,omitempty" firestore:"incidentNotifyAttemptsDone"`
+	IncidentNotifyAttemptsDone bool `protobuf:"varint,3,opt,name=incident_notify_attempts_done,json=incidentNotifyAttemptsDone,proto3" json:"incident_notify_attempts_done,omitempty"`
 	// Internal state to keep track of whether any notification sends needs to
 	// be retried for resolution
-	ResolutionNotifyAttemptsDone bool `protobuf:"varint,4,opt,name=resolution_notify_attempts_done,json=resolutionNotifyAttemptsDone,proto3" json:"resolution_notify_attempts_done,omitempty" firestore:"resolutionNotifyAttemptsDone"`
+	ResolutionNotifyAttemptsDone bool `protobuf:"varint,4,opt,name=resolution_notify_attempts_done,json=resolutionNotifyAttemptsDone,proto3" json:"resolution_notify_attempts_done,omitempty"`
 	// Time range for which alerts for the policy are clubbed together
-	AlertsLifetime              *common.TimeRange                       `protobuf:"bytes,5,opt,name=alerts_lifetime,json=alertsLifetime,proto3" json:"alerts_lifetime,omitempty" firestore:"alertsLifetime"`
-	ResolutionNotificationState []*Notification_State_NotificationState `protobuf:"bytes,6,rep,name=resolution_notification_state,json=resolutionNotificationState,proto3" json:"resolution_notification_state,omitempty" firestore:"resolutionNotificationState"`
+	AlertsLifetime              *common.TimeRange                       `protobuf:"bytes,5,opt,name=alerts_lifetime,json=alertsLifetime,proto3" json:"alerts_lifetime,omitempty"`
+	ResolutionNotificationState []*Notification_State_NotificationState `protobuf:"bytes,6,rep,name=resolution_notification_state,json=resolutionNotificationState,proto3" json:"resolution_notification_state,omitempty"`
 	// Alert has ended and any needed notifications are processed
-	LifecycleCompleted bool `protobuf:"varint,7,opt,name=lifecycle_completed,json=lifecycleCompleted,proto3" json:"lifecycle_completed,omitempty" firestore:"lifecycleCompleted"`
+	LifecycleCompleted bool `protobuf:"varint,7,opt,name=lifecycle_completed,json=lifecycleCompleted,proto3" json:"lifecycle_completed,omitempty"`
 }
 
 func (m *Notification_State) Reset() {
@@ -527,14 +527,14 @@ type Notification_State_NotificationState struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Notification channel name
-	NotificationChannel *notification_channel.Name                  `protobuf:"bytes,1,opt,customtype=Name,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty" firestore:"notificationChannel"`
-	Status              Notification_State_NotificationState_Status `protobuf:"varint,2,opt,name=status,proto3,enum=ntt.monitoring.v4.Notification_State_NotificationState_Status" json:"status,omitempty" firestore:"status"`
+	NotificationChannel *notification_channel.Name                  `protobuf:"bytes,1,opt,customtype=Name,name=notification_channel,json=notificationChannel,proto3" json:"notification_channel,omitempty"`
+	Status              Notification_State_NotificationState_Status `protobuf:"varint,2,opt,name=status,proto3,enum=ntt.monitoring.v4.Notification_State_NotificationState_Status" json:"status,omitempty"`
 	// Error message if status is FAILED
-	Error string `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty" firestore:"error"`
+	Error string `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 	// Provider specific data. Allows tracking ids of notifications sent to
 	// specific channels.
-	ProviderData   *Notification_State_NotificationState_ProviderData `protobuf:"bytes,4,opt,name=provider_data,json=providerData,proto3" json:"provider_data,omitempty" firestore:"providerData"`
-	NotifyAttempts int64                                              `protobuf:"varint,5,opt,name=notify_attempts,json=notifyAttempts,proto3" json:"notify_attempts,omitempty" firestore:"notifyAttempts"`
+	ProviderData   *Notification_State_NotificationState_ProviderData `protobuf:"bytes,4,opt,name=provider_data,json=providerData,proto3" json:"provider_data,omitempty"`
+	NotifyAttempts int64                                              `protobuf:"varint,5,opt,name=notify_attempts,json=notifyAttempts,proto3" json:"notify_attempts,omitempty"`
 }
 
 func (m *Notification_State_NotificationState) Reset() {
@@ -662,9 +662,9 @@ type Notification_State_NotificationState_ProviderData struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Slack         *Notification_State_NotificationState_ProviderData_Slack     `protobuf:"bytes,3,opt,name=slack,proto3" json:"slack,omitempty" firestore:"slack"`
-	PagerDuty     *Notification_State_NotificationState_ProviderData_PagerDuty `protobuf:"bytes,4,opt,name=pager_duty,json=pagerDuty,proto3" json:"pager_duty,omitempty" firestore:"pagerDuty"`
-	Webhook       *Notification_State_NotificationState_ProviderData_WebHook   `protobuf:"bytes,5,opt,name=webhook,proto3" json:"webhook,omitempty" firestore:"webhook"`
+	Slack         *Notification_State_NotificationState_ProviderData_Slack     `protobuf:"bytes,3,opt,name=slack,proto3" json:"slack,omitempty"`
+	PagerDuty     *Notification_State_NotificationState_ProviderData_PagerDuty `protobuf:"bytes,4,opt,name=pager_duty,json=pagerDuty,proto3" json:"pager_duty,omitempty"`
+	Webhook       *Notification_State_NotificationState_ProviderData_WebHook   `protobuf:"bytes,5,opt,name=webhook,proto3" json:"webhook,omitempty"`
 }
 
 func (m *Notification_State_NotificationState_ProviderData) Reset() {
@@ -764,7 +764,7 @@ type Notification_State_NotificationState_ProviderData_Slack struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Ts            string `protobuf:"bytes,1,opt,name=ts,proto3" json:"ts,omitempty" firestore:"ts"`
+	Ts            string `protobuf:"bytes,1,opt,name=ts,proto3" json:"ts,omitempty"`
 }
 
 func (m *Notification_State_NotificationState_ProviderData_Slack) Reset() {
@@ -836,7 +836,7 @@ type Notification_State_NotificationState_ProviderData_PagerDuty struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	IncidentKey   string `protobuf:"bytes,1,opt,name=incident_key,json=incidentKey,proto3" json:"incident_key,omitempty" firestore:"incidentKey"`
+	IncidentKey   string `protobuf:"bytes,1,opt,name=incident_key,json=incidentKey,proto3" json:"incident_key,omitempty"`
 }
 
 func (m *Notification_State_NotificationState_ProviderData_PagerDuty) Reset() {
@@ -907,8 +907,8 @@ type Notification_State_NotificationState_ProviderData_WebHook struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	TotalChunks   int64                                                                     `protobuf:"varint,2,opt,name=total_chunks,json=totalChunks,proto3" json:"total_chunks,omitempty" firestore:"totalChunks"`
-	FailedChunks  []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks `protobuf:"bytes,1,rep,name=failed_chunks,json=failedChunks,proto3" json:"failed_chunks,omitempty" firestore:"failedChunks"`
+	TotalChunks   int64                                                                     `protobuf:"varint,2,opt,name=total_chunks,json=totalChunks,proto3" json:"total_chunks,omitempty"`
+	FailedChunks  []*Notification_State_NotificationState_ProviderData_WebHook_FailedChunks `protobuf:"bytes,1,rep,name=failed_chunks,json=failedChunks,proto3" json:"failed_chunks,omitempty"`
 }
 
 func (m *Notification_State_NotificationState_ProviderData_WebHook) Reset() {
@@ -993,8 +993,8 @@ type Notification_State_NotificationState_ProviderData_WebHook_FailedChunks stru
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	AlertOffset   int64  `protobuf:"varint,1,opt,name=alert_offset,json=alertOffset,proto3" json:"alert_offset,omitempty" firestore:"alertOffset"`
-	Error         string `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty" firestore:"error"`
+	AlertOffset   int64  `protobuf:"varint,1,opt,name=alert_offset,json=alertOffset,proto3" json:"alert_offset,omitempty"`
+	Error         string `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
 func (m *Notification_State_NotificationState_ProviderData_WebHook_FailedChunks) Reset() {

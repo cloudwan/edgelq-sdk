@@ -104,21 +104,21 @@ type OsVersion struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// The version name.
-	Version string `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty" firestore:"version"`
+	Version string `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
 	// Supported device type.
-	DeviceType *device_type.Reference `protobuf:"bytes,4,opt,customtype=Reference,name=device_type,json=deviceType,proto3" json:"device_type,omitempty" firestore:"deviceType"`
+	DeviceType *device_type.Reference `protobuf:"bytes,4,opt,customtype=Reference,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
 	// The minum previous OS version that is required to upgrade devices to the OS
 	// version.
-	MinimumPreviousVersion string            `protobuf:"bytes,5,opt,name=minimum_previous_version,json=minimumPreviousVersion,proto3" json:"minimum_previous_version,omitempty" firestore:"minimumPreviousVersion"`
-	Channel                OsVersion_Channel `protobuf:"varint,6,opt,name=channel,proto3,enum=ntt.devices.v1.OsVersion_Channel" json:"channel,omitempty" firestore:"channel"`
+	MinimumPreviousVersion string            `protobuf:"bytes,5,opt,name=minimum_previous_version,json=minimumPreviousVersion,proto3" json:"minimum_previous_version,omitempty"`
+	Channel                OsVersion_Channel `protobuf:"varint,6,opt,name=channel,proto3,enum=ntt.devices.v1.OsVersion_Channel" json:"channel,omitempty"`
 }
 
 func (m *OsVersion) Reset() {

@@ -445,19 +445,19 @@ type LabelDescriptor struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The label key.
-	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	// The type of data that can be assigned to the label.
-	ValueType LabelDescriptor_ValueType `protobuf:"varint,2,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v4.LabelDescriptor_ValueType" json:"value_type,omitempty" firestore:"valueType"`
+	ValueType LabelDescriptor_ValueType `protobuf:"varint,2,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v4.LabelDescriptor_ValueType" json:"value_type,omitempty"`
 	// A human-readable description for the label.
-	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	// Default value for string label - this value is used in two cases:
 	// 1. to populate missing labels while creating TimeSeries
 	// 2. to populate missing remaining kvs while querying TimeSeries - usually
 	// applies to old data
-	DefaultValue string `protobuf:"bytes,12,opt,name=default_value,json=defaultValue,proto3" json:"default_value,omitempty" firestore:"defaultValue"`
+	DefaultValue string `protobuf:"bytes,12,opt,name=default_value,json=defaultValue,proto3" json:"default_value,omitempty"`
 	// disabled flag communicates that this label is ignored by the backend. It's
 	// used for backward compatibility.
-	Disabled bool `protobuf:"varint,13,opt,name=disabled,proto3" json:"disabled,omitempty" firestore:"disabled"`
+	Disabled bool `protobuf:"varint,13,opt,name=disabled,proto3" json:"disabled,omitempty"`
 }
 
 func (m *LabelDescriptor) Reset() {
@@ -587,7 +587,7 @@ type LabelKeySet struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// List of label keys. Cannot be modified once set.
-	LabelKeys []string `protobuf:"bytes,1,rep,name=label_keys,json=labelKeys,proto3" json:"label_keys,omitempty" firestore:"labelKeys"`
+	LabelKeys []string `protobuf:"bytes,1,rep,name=label_keys,json=labelKeys,proto3" json:"label_keys,omitempty"`
 }
 
 func (m *LabelKeySet) Reset() {
@@ -674,10 +674,10 @@ type Distribution struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The number of values in the population. Must be non-negative.
-	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty" firestore:"count"`
+	Count int64 `protobuf:"varint,1,opt,name=count,proto3" json:"count,omitempty"`
 	// The arithmetic mean of the values in the population. If `count` is zero
 	// then this field must be zero.
-	Mean float64 `protobuf:"fixed64,2,opt,name=mean,proto3" json:"mean,omitempty" firestore:"mean"`
+	Mean float64 `protobuf:"fixed64,2,opt,name=mean,proto3" json:"mean,omitempty"`
 	// The sum of squared deviations from the mean of the values in the
 	// population.  For values x_i this is:
 	//
@@ -687,12 +687,12 @@ type Distribution struct {
 	// describes Welford's method for accumulating this sum in one pass.
 	//
 	// If `count` is zero then this field must be zero.
-	SumOfSquaredDeviation float64 `protobuf:"fixed64,3,opt,name=sum_of_squared_deviation,json=sumOfSquaredDeviation,proto3" json:"sum_of_squared_deviation,omitempty" firestore:"sumOfSquaredDeviation"`
+	SumOfSquaredDeviation float64 `protobuf:"fixed64,3,opt,name=sum_of_squared_deviation,json=sumOfSquaredDeviation,proto3" json:"sum_of_squared_deviation,omitempty"`
 	// If specified, contains the range of the population values. The field
 	// must not be present if the `count` is zero.
-	Range *Distribution_Range `protobuf:"bytes,4,opt,name=range,proto3" json:"range,omitempty" firestore:"range"`
+	Range *Distribution_Range `protobuf:"bytes,4,opt,name=range,proto3" json:"range,omitempty"`
 	// Defines the histogram bucket boundaries.
-	BucketOptions *Distribution_BucketOptions `protobuf:"bytes,6,opt,name=bucket_options,json=bucketOptions,proto3" json:"bucket_options,omitempty" firestore:"bucketOptions"`
+	BucketOptions *Distribution_BucketOptions `protobuf:"bytes,6,opt,name=bucket_options,json=bucketOptions,proto3" json:"bucket_options,omitempty"`
 	// If `bucket_options` is given, then the sum of the values in `bucket_counts`
 	// must equal the value in `count`.  If `bucket_options` is not given, no
 	// `bucket_counts` fields may be given.
@@ -705,7 +705,7 @@ type Distribution struct {
 	// `bucket_options`.
 	//
 	// Any suffix of trailing zero bucket_count fields may be omitted.
-	BucketCounts []int64 `protobuf:"varint,7,rep,packed,name=bucket_counts,json=bucketCounts,proto3" json:"bucket_counts,omitempty" firestore:"bucketCounts"`
+	BucketCounts []int64 `protobuf:"varint,7,rep,packed,name=bucket_counts,json=bucketCounts,proto3" json:"bucket_counts,omitempty"`
 }
 
 func (m *Distribution) Reset() {
@@ -914,25 +914,25 @@ type isTypedValue_Value interface {
 
 type TypedValue_BoolValue struct {
 	// A Boolean value: `true` or `false`.
-	BoolValue bool `protobuf:"varint,1,opt,name=bool_value,json=boolValue,proto3,oneof" firestore:"boolValue"`
+	BoolValue bool `protobuf:"varint,1,opt,name=bool_value,json=boolValue,proto3,oneof"`
 }
 type TypedValue_Int64Value struct {
 	// A 64-bit integer. Its range is approximately &plusmn;9.2x10<sup>18</sup>.
-	Int64Value int64 `protobuf:"varint,2,opt,name=int64_value,json=int64Value,proto3,oneof" firestore:"int64Value"`
+	Int64Value int64 `protobuf:"varint,2,opt,name=int64_value,json=int64Value,proto3,oneof"`
 }
 type TypedValue_DoubleValue struct {
 	// A 64-bit double-precision floating-point number. Its magnitude
 	// is approximately &plusmn;10<sup>&plusmn;300</sup> and it has 16
 	// significant digits of precision.
-	DoubleValue float64 `protobuf:"fixed64,3,opt,name=double_value,json=doubleValue,proto3,oneof" firestore:"doubleValue"`
+	DoubleValue float64 `protobuf:"fixed64,3,opt,name=double_value,json=doubleValue,proto3,oneof"`
 }
 type TypedValue_StringValue struct {
 	// A variable-length string value.
-	StringValue string `protobuf:"bytes,4,opt,name=string_value,json=stringValue,proto3,oneof" firestore:"stringValue"`
+	StringValue string `protobuf:"bytes,4,opt,name=string_value,json=stringValue,proto3,oneof"`
 }
 type TypedValue_DistributionValue struct {
 	// A distribution value.
-	DistributionValue *Distribution `protobuf:"bytes,5,opt,name=distribution_value,json=distributionValue,proto3,oneof" firestore:"distributionValue"`
+	DistributionValue *Distribution `protobuf:"bytes,5,opt,name=distribution_value,json=distributionValue,proto3,oneof"`
 }
 
 func (*TypedValue_BoolValue) isTypedValue_Value()         {}
@@ -1006,11 +1006,11 @@ type TimeInterval struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Required. The end of the time interval.
-	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" firestore:"endTime"`
+	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 	// Optional. The beginning of the time interval.  The default value
 	// for the start time is the end time. The start time must not be
 	// later than the end time.
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty" firestore:"startTime"`
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 }
 
 func (m *TimeInterval) Reset() {
@@ -1098,9 +1098,9 @@ type TimeRange struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Optional. Start of time range
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty" firestore:"startTime"`
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// Optional. End of time range
-	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" firestore:"endTime"`
+	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 }
 
 func (m *TimeRange) Reset() {
@@ -1199,7 +1199,7 @@ type Aggregation struct {
 	// this field is ignored. If `perSeriesAligner` is specified and
 	// does not equal `ALIGN_NONE`, then this field must be defined;
 	// otherwise an error is returned.
-	AlignmentPeriod *durationpb.Duration `protobuf:"bytes,1,opt,name=alignment_period,json=alignmentPeriod,proto3" json:"alignment_period,omitempty" firestore:"alignmentPeriod"`
+	AlignmentPeriod *durationpb.Duration `protobuf:"bytes,1,opt,name=alignment_period,json=alignmentPeriod,proto3" json:"alignment_period,omitempty"`
 	// The approach to be used to align individual time series. Not all
 	// alignment functions may be applied to all time series, depending
 	// on the metric type and value type of the original time
@@ -1211,7 +1211,7 @@ type Aggregation struct {
 	// `perSeriesAligner` must be specified and not equal `ALIGN_NONE`
 	// and `alignmentPeriod` must be specified; otherwise, an error is
 	// returned.
-	PerSeriesAligner Aggregation_Aligner `protobuf:"varint,2,opt,name=per_series_aligner,json=perSeriesAligner,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"per_series_aligner,omitempty" firestore:"perSeriesAligner"`
+	PerSeriesAligner Aggregation_Aligner `protobuf:"varint,2,opt,name=per_series_aligner,json=perSeriesAligner,proto3,enum=ntt.monitoring.v4.Aggregation_Aligner" json:"per_series_aligner,omitempty"`
 	// The approach to be used to combine time series. Not all reducer
 	// functions may be applied to all time series, depending on the
 	// metric type and the value type of the original time
@@ -1223,7 +1223,7 @@ type Aggregation struct {
 	// `perSeriesAligner` must be specified and not equal `ALIGN_NONE`
 	// and `alignmentPeriod` must be specified; otherwise, an error is
 	// returned.
-	CrossSeriesReducer Aggregation_Reducer `protobuf:"varint,4,opt,name=cross_series_reducer,json=crossSeriesReducer,proto3,enum=ntt.monitoring.v4.Aggregation_Reducer" json:"cross_series_reducer,omitempty" firestore:"crossSeriesReducer"`
+	CrossSeriesReducer Aggregation_Reducer `protobuf:"varint,4,opt,name=cross_series_reducer,json=crossSeriesReducer,proto3,enum=ntt.monitoring.v4.Aggregation_Reducer" json:"cross_series_reducer,omitempty"`
 	// The set of fields to preserve when `crossSeriesReducer` is
 	// specified. The `groupByFields` determine how the time series are
 	// partitioned into subsets prior to applying the aggregation
@@ -1238,7 +1238,7 @@ type Aggregation struct {
 	// the same resource type, then the time series are aggregated into
 	// a single output time series. If `crossSeriesReducer` is not
 	// defined, this field is ignored.
-	GroupByFields []string `protobuf:"bytes,5,rep,name=group_by_fields,json=groupByFields,proto3" json:"group_by_fields,omitempty" firestore:"groupByFields"`
+	GroupByFields []string `protobuf:"bytes,5,rep,name=group_by_fields,json=groupByFields,proto3" json:"group_by_fields,omitempty"`
 }
 
 func (m *Aggregation) Reset() {
@@ -1351,11 +1351,11 @@ type Pagination struct {
 	state           protoimpl.MessageState
 	sizeCache       protoimpl.SizeCache
 	unknownFields   protoimpl.UnknownFields
-	View            string               `protobuf:"bytes,1,opt,name=view,proto3" json:"view,omitempty" firestore:"view"`
-	Function        string               `protobuf:"bytes,2,opt,name=function,proto3" json:"function,omitempty" firestore:"function"`
-	AlignmentPeriod *durationpb.Duration `protobuf:"bytes,3,opt,name=alignment_period,json=alignmentPeriod,proto3" json:"alignment_period,omitempty" firestore:"alignmentPeriod"`
-	Limit           int32                `protobuf:"varint,4,opt,name=limit,proto3" json:"limit,omitempty" firestore:"limit"`
-	Offset          int32                `protobuf:"varint,5,opt,name=offset,proto3" json:"offset,omitempty" firestore:"offset"`
+	View            string               `protobuf:"bytes,1,opt,name=view,proto3" json:"view,omitempty"`
+	Function        string               `protobuf:"bytes,2,opt,name=function,proto3" json:"function,omitempty"`
+	AlignmentPeriod *durationpb.Duration `protobuf:"bytes,3,opt,name=alignment_period,json=alignmentPeriod,proto3" json:"alignment_period,omitempty"`
+	Limit           int32                `protobuf:"varint,4,opt,name=limit,proto3" json:"limit,omitempty"`
+	Offset          int32                `protobuf:"varint,5,opt,name=offset,proto3" json:"offset,omitempty"`
 }
 
 func (m *Pagination) Reset() {
@@ -1487,12 +1487,12 @@ type Metric struct {
 	// An existing metric type, see
 	// [google.api.MetricDescriptor][google.api.MetricDescriptor]. For example,
 	// `custom.googleapis.com/invoice/paid/amount`.
-	Type string `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,3,opt,name=type,proto3" json:"type,omitempty"`
 	// The set of label values that uniquely identify this metric. All
 	// labels listed in the `MetricDescriptor` must be assigned values.
-	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// reduced labels in aggregations
-	ReducedLabels []string `protobuf:"bytes,11,rep,name=reduced_labels,json=reducedLabels,proto3" json:"reduced_labels,omitempty" firestore:"reducedLabels"`
+	ReducedLabels []string `protobuf:"bytes,11,rep,name=reduced_labels,json=reducedLabels,proto3" json:"reduced_labels,omitempty"`
 }
 
 func (m *Metric) Reset() {
@@ -1611,13 +1611,13 @@ type MonitoredResource struct {
 	// [MonitoredResourceDescriptor][google.api.MonitoredResourceDescriptor]
 	// object. For example, the type of a Compute Engine VM instance is
 	// `gce_instance`.
-	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
 	// Required. Values for all of the labels listed in the associated monitored
 	// resource descriptor. For example, Compute Engine VM instances use the
 	// labels `"project_id"`, `"instance_id"`, and `"zone"`.
-	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]string `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// reduced labels in aggregations
-	ReducedLabels []string `protobuf:"bytes,11,rep,name=reduced_labels,json=reducedLabels,proto3" json:"reduced_labels,omitempty" firestore:"reducedLabels"`
+	ReducedLabels []string `protobuf:"bytes,11,rep,name=reduced_labels,json=reducedLabels,proto3" json:"reduced_labels,omitempty"`
 }
 
 func (m *MonitoredResource) Reset() {
@@ -1717,7 +1717,7 @@ type Strings struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Values        []string `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty" firestore:"values"`
+	Values        []string `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty"`
 }
 
 func (m *Strings) Reset() {
@@ -1798,10 +1798,10 @@ type MonitoredResourceSelector struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Types         []string `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty" firestore:"types"`
+	Types         []string `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty"`
 	// label key, e.g. "project_id", "target_id", etc
 	// Note the missing "resource.labels." prefix.
-	Labels map[string]*Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]*Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *MonitoredResourceSelector) Reset() {
@@ -1894,10 +1894,10 @@ type MetricSelector struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Types         []string `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty" firestore:"types"`
+	Types         []string `protobuf:"bytes,1,rep,name=types,proto3" json:"types,omitempty"`
 	// label key, e.g. "project_id", "target_id", etc
 	// Note the missing "metric.labels." prefix.
-	Labels map[string]*Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]*Strings `protobuf:"bytes,2,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *MetricSelector) Reset() {
@@ -1983,10 +1983,10 @@ type TimeSeriesSelector struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Metric Selector used to specify filtered Metric types and labels
-	Metric *MetricSelector `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty" firestore:"metric"`
+	Metric *MetricSelector `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"`
 	// Resource Selector used to specify filtered Monitored Resource
 	// types and labels
-	Resource *MonitoredResourceSelector `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *MonitoredResourceSelector `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
 }
 
 func (m *TimeSeriesSelector) Reset() {
@@ -2073,9 +2073,9 @@ type Distribution_Range struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The minimum of the population values.
-	Min float64 `protobuf:"fixed64,1,opt,name=min,proto3" json:"min,omitempty" firestore:"min"`
+	Min float64 `protobuf:"fixed64,1,opt,name=min,proto3" json:"min,omitempty"`
 	// The maximum of the population values.
-	Max float64 `protobuf:"fixed64,2,opt,name=max,proto3" json:"max,omitempty" firestore:"max"`
+	Max float64 `protobuf:"fixed64,2,opt,name=max,proto3" json:"max,omitempty"`
 }
 
 func (m *Distribution_Range) Reset() {
@@ -2249,19 +2249,19 @@ type isDistribution_BucketOptions_Options interface {
 
 type Distribution_BucketOptions_LinearBuckets struct {
 	// The linear bucket.
-	LinearBuckets *Distribution_BucketOptions_Linear `protobuf:"bytes,1,opt,name=linear_buckets,json=linearBuckets,proto3,oneof" firestore:"linearBuckets"`
+	LinearBuckets *Distribution_BucketOptions_Linear `protobuf:"bytes,1,opt,name=linear_buckets,json=linearBuckets,proto3,oneof"`
 }
 type Distribution_BucketOptions_ExponentialBuckets struct {
 	// The exponential buckets.
-	ExponentialBuckets *Distribution_BucketOptions_Exponential `protobuf:"bytes,2,opt,name=exponential_buckets,json=exponentialBuckets,proto3,oneof" firestore:"exponentialBuckets"`
+	ExponentialBuckets *Distribution_BucketOptions_Exponential `protobuf:"bytes,2,opt,name=exponential_buckets,json=exponentialBuckets,proto3,oneof"`
 }
 type Distribution_BucketOptions_ExplicitBuckets struct {
 	// The explicit buckets.
-	ExplicitBuckets *Distribution_BucketOptions_Explicit `protobuf:"bytes,3,opt,name=explicit_buckets,json=explicitBuckets,proto3,oneof" firestore:"explicitBuckets"`
+	ExplicitBuckets *Distribution_BucketOptions_Explicit `protobuf:"bytes,3,opt,name=explicit_buckets,json=explicitBuckets,proto3,oneof"`
 }
 type Distribution_BucketOptions_DynamicBuckets struct {
 	// TDigest dynamic bucketing
-	DynamicBuckets *Distribution_BucketOptions_Dynamic `protobuf:"bytes,9,opt,name=dynamic_buckets,json=dynamicBuckets,proto3,oneof" firestore:"dynamicBuckets"`
+	DynamicBuckets *Distribution_BucketOptions_Dynamic `protobuf:"bytes,9,opt,name=dynamic_buckets,json=dynamicBuckets,proto3,oneof"`
 }
 
 func (*Distribution_BucketOptions_LinearBuckets) isDistribution_BucketOptions_Options()      {}
@@ -2331,11 +2331,11 @@ type Distribution_BucketOptions_Linear struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Must be greater than 0.
-	NumFiniteBuckets int32 `protobuf:"varint,1,opt,name=num_finite_buckets,json=numFiniteBuckets,proto3" json:"num_finite_buckets,omitempty" firestore:"numFiniteBuckets"`
+	NumFiniteBuckets int32 `protobuf:"varint,1,opt,name=num_finite_buckets,json=numFiniteBuckets,proto3" json:"num_finite_buckets,omitempty"`
 	// Must be greater than 0.
-	Width float64 `protobuf:"fixed64,2,opt,name=width,proto3" json:"width,omitempty" firestore:"width"`
+	Width float64 `protobuf:"fixed64,2,opt,name=width,proto3" json:"width,omitempty"`
 	// Lower bound of the first bucket.
-	Offset float64 `protobuf:"fixed64,3,opt,name=offset,proto3" json:"offset,omitempty" firestore:"offset"`
+	Offset float64 `protobuf:"fixed64,3,opt,name=offset,proto3" json:"offset,omitempty"`
 }
 
 func (m *Distribution_BucketOptions_Linear) Reset() {
@@ -2444,11 +2444,11 @@ type Distribution_BucketOptions_Exponential struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Must be greater than 0.
-	NumFiniteBuckets int32 `protobuf:"varint,1,opt,name=num_finite_buckets,json=numFiniteBuckets,proto3" json:"num_finite_buckets,omitempty" firestore:"numFiniteBuckets"`
+	NumFiniteBuckets int32 `protobuf:"varint,1,opt,name=num_finite_buckets,json=numFiniteBuckets,proto3" json:"num_finite_buckets,omitempty"`
 	// Must be greater than 1.
-	GrowthFactor float64 `protobuf:"fixed64,2,opt,name=growth_factor,json=growthFactor,proto3" json:"growth_factor,omitempty" firestore:"growthFactor"`
+	GrowthFactor float64 `protobuf:"fixed64,2,opt,name=growth_factor,json=growthFactor,proto3" json:"growth_factor,omitempty"`
 	// Must be greater than 0.
-	Scale float64 `protobuf:"fixed64,3,opt,name=scale,proto3" json:"scale,omitempty" firestore:"scale"`
+	Scale float64 `protobuf:"fixed64,3,opt,name=scale,proto3" json:"scale,omitempty"`
 }
 
 func (m *Distribution_BucketOptions_Exponential) Reset() {
@@ -2559,7 +2559,7 @@ type Distribution_BucketOptions_Explicit struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The values must be monotonically increasing.
-	Bounds []float64 `protobuf:"fixed64,1,rep,packed,name=bounds,proto3" json:"bounds,omitempty" firestore:"bounds"`
+	Bounds []float64 `protobuf:"fixed64,1,rep,packed,name=bounds,proto3" json:"bounds,omitempty"`
 }
 
 func (m *Distribution_BucketOptions_Explicit) Reset() {
@@ -2632,10 +2632,10 @@ type Distribution_BucketOptions_Dynamic struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// TDigest compression rate
-	Compression float64 `protobuf:"fixed64,1,opt,name=compression,proto3" json:"compression,omitempty" firestore:"compression"`
+	Compression float64 `protobuf:"fixed64,1,opt,name=compression,proto3" json:"compression,omitempty"`
 	// Centroid means. Must be the same length as bucket counts.
 	// Each mean, count represents a weighed centroid.
-	Means []float64 `protobuf:"fixed64,2,rep,packed,name=means,proto3" json:"means,omitempty" firestore:"means"`
+	Means []float64 `protobuf:"fixed64,2,rep,packed,name=means,proto3" json:"means,omitempty"`
 }
 
 func (m *Distribution_BucketOptions_Dynamic) Reset() {

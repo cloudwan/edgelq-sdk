@@ -54,29 +54,29 @@ type ListMyOrganizationsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Requested page size. Server may return fewer Organizations than requested.
 	// If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// [ListOrganizationsResponse.next_page_token][ntt.iam.v1alpha2.ListOrganizationsResponse.next_page_token]
-	PageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *organization.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *organization.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *organization.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *organization.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A FieldMask used to filter response fields. When present, only requested
 	// fields will be present in each response item. Omitting field_mask results
 	// will cause response items to contain all present fields.
-	FieldMask         *organization.Organization_FieldMask `protobuf:"bytes,6,opt,customtype=Organization_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
-	IncludePagingInfo bool                                 `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
+	FieldMask         *organization.Organization_FieldMask `protobuf:"bytes,6,opt,customtype=Organization_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
+	IncludePagingInfo bool                                 `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
 }
 
 func (m *ListMyOrganizationsRequest) Reset() {
@@ -220,15 +220,15 @@ type ListMyOrganizationsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Organizations
-	Organizations []*organization.Organization `protobuf:"bytes,1,rep,name=organizations,proto3" json:"organizations,omitempty" firestore:"organizations"`
+	Organizations []*organization.Organization `protobuf:"bytes,1,rep,name=organizations,proto3" json:"organizations,omitempty"`
 	// A token to retrieve previous page of results. Pass this value in the
 	// [ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]
-	PrevPageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// A token to retrieve next page of results. Pass this value in the
 	// [ListOrganizationsRequest.page_token][ntt.iam.v1alpha2.ListOrganizationsRequest.page_token]
-	NextPageToken *organization.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
-	TotalCount    int32                     `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty" firestore:"totalCount"`
-	CursorOffset  int32                     `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty" firestore:"cursorOffset"`
+	NextPageToken *organization.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	TotalCount    int32                     `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	CursorOffset  int32                     `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty"`
 }
 
 func (m *ListMyOrganizationsResponse) Reset() {
@@ -359,30 +359,30 @@ type SearchMyOrganizationsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Requested page size. Server may return fewer Organizations than requested.
 	// If unspecified, server will pick an appropriate default.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Typically, this is the value of
 	// [SearchOrganizationsResponse.next_page_token][ntt.iam.v1alpha2.SearchOrganizationsResponse.next_page_token]
-	PageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination list
 	// of field path with order directive, either 'asc' or 'desc'. If direction is
 	// not provided, 'asc' is assumed. e.g. "state.nested_field asc,
 	// state.something.else desc, theme"
-	OrderBy *organization.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *organization.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *organization.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *organization.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A FieldMask used to filter response fields. When present, only requested
 	// fields will be present in each response item. Omitting field_mask results
 	// will cause response items to contain all present fields.
-	FieldMask         *organization.Organization_FieldMask `protobuf:"bytes,6,opt,customtype=Organization_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
-	IncludePagingInfo bool                                 `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
-	Phrase            string                               `protobuf:"bytes,8,opt,name=phrase,proto3" json:"phrase,omitempty" firestore:"phrase"`
+	FieldMask         *organization.Organization_FieldMask `protobuf:"bytes,6,opt,customtype=Organization_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
+	IncludePagingInfo bool                                 `protobuf:"varint,7,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
+	Phrase            string                               `protobuf:"bytes,8,opt,name=phrase,proto3" json:"phrase,omitempty"`
 }
 
 func (m *SearchMyOrganizationsRequest) Reset() {
@@ -540,15 +540,15 @@ type SearchMyOrganizationsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of Organizations
-	Organizations []*organization.Organization `protobuf:"bytes,1,rep,name=organizations,proto3" json:"organizations,omitempty" firestore:"organizations"`
+	Organizations []*organization.Organization `protobuf:"bytes,1,rep,name=organizations,proto3" json:"organizations,omitempty"`
 	// A token to retrieve previous page of results. Pass this value in the
 	// [SearchOrganizationsRequest.page_token][ntt.iam.v1alpha2.SearchOrganizationsRequest.page_token]
-	PrevPageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *organization.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// A token to retrieve next page of results. Pass this value in the
 	// [SearchOrganizationsRequest.page_token][ntt.iam.v1alpha2.SearchOrganizationsRequest.page_token]
-	NextPageToken *organization.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
-	TotalCount    int32                     `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty" firestore:"totalCount"`
-	CursorOffset  int32                     `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty" firestore:"cursorOffset"`
+	NextPageToken *organization.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	TotalCount    int32                     `protobuf:"varint,5,opt,name=total_count,json=totalCount,proto3" json:"total_count,omitempty"`
+	CursorOffset  int32                     `protobuf:"varint,6,opt,name=cursor_offset,json=cursorOffset,proto3" json:"cursor_offset,omitempty"`
 }
 
 func (m *SearchMyOrganizationsResponse) Reset() {

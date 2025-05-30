@@ -119,20 +119,20 @@ type isSimCardChange_ChangeType interface {
 type SimCardChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *SimCardChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *SimCardChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type SimCardChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *SimCardChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *SimCardChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type SimCardChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *SimCardChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *SimCardChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type SimCardChange_Removed_ struct {
 	// Removed is returned when SimCard is deleted or leaves Query view
-	Removed *SimCardChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *SimCardChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*SimCardChange_Added_) isSimCardChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type SimCardChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	SimCard       *SimCard `protobuf:"bytes,1,opt,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty" firestore:"simCard"`
+	SimCard       *SimCard `protobuf:"bytes,1,opt,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty"`
 	// Integer describing index of added SimCard in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *SimCardChange_Added) Reset() {
@@ -283,19 +283,19 @@ type SimCardChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified SimCard
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of SimCard or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchSimCardRequest] or [WatchSimCardsRequest]
-	SimCard *SimCard `protobuf:"bytes,2,opt,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty" firestore:"simCard"`
+	SimCard *SimCard `protobuf:"bytes,2,opt,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *SimCard_FieldMask `protobuf:"bytes,3,opt,customtype=SimCard_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *SimCard_FieldMask `protobuf:"bytes,3,opt,customtype=SimCard_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified SimCard.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying SimCard new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *SimCardChange_Modified) Reset() {
@@ -424,7 +424,7 @@ type SimCardChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	SimCard       *SimCard `protobuf:"bytes,1,opt,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty" firestore:"simCard"`
+	SimCard       *SimCard `protobuf:"bytes,1,opt,name=sim_card,json=simCard,proto3" json:"sim_card,omitempty"`
 }
 
 func (m *SimCardChange_Current) Reset() {
@@ -496,10 +496,10 @@ type SimCardChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed SimCard index. Not populated in stateless
 	// watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *SimCardChange_Removed) Reset() {

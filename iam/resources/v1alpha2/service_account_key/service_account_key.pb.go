@@ -112,15 +112,15 @@ type ServiceAccountKey struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Display name
-	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,7,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Public key contents
-	PublicKeyData string `protobuf:"bytes,2,opt,name=public_key_data,json=publicKeyData,proto3" json:"public_key_data,omitempty" firestore:"publicKeyData"`
+	PublicKeyData string `protobuf:"bytes,2,opt,name=public_key_data,json=publicKeyData,proto3" json:"public_key_data,omitempty"`
 	// The private key of the pair. This field is only provided in
 	// CreateServiceAccountKey responses. Private keys are NOT stored on the
 	// server.
-	PrivateKeyData string `protobuf:"bytes,3,opt,name=private_key_data,json=privateKeyData,proto3" json:"private_key_data,omitempty" firestore:"privateKeyData"`
+	PrivateKeyData string `protobuf:"bytes,3,opt,name=private_key_data,json=privateKeyData,proto3" json:"private_key_data,omitempty"`
 	// Api key is set if algorithm is equal to API_KEY and provided in
 	// CreateServiceAccountKey responses. They are not stored on the server,
 	// so caller is obliged to remember its value. If lost, its is necessary to
@@ -129,15 +129,15 @@ type ServiceAccountKey struct {
 	// - Authorization: "Bearer $API_KEY"
 	// Example for curl:
 	// $ curl -X GET -H "Authorization: Bearer $API_KEY" -s $URL
-	ApiKey string `protobuf:"bytes,9,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty" firestore:"apiKey"`
+	ApiKey string `protobuf:"bytes,9,opt,name=api_key,json=apiKey,proto3" json:"api_key,omitempty"`
 	// The algorithm used to generate the key.
-	Algorithm ServiceAccountKey_Algorithm `protobuf:"varint,4,opt,name=algorithm,proto3,enum=ntt.iam.v1alpha2.ServiceAccountKey_Algorithm" json:"algorithm,omitempty" firestore:"algorithm"`
+	Algorithm ServiceAccountKey_Algorithm `protobuf:"varint,4,opt,name=algorithm,proto3,enum=ntt.iam.v1alpha2.ServiceAccountKey_Algorithm" json:"algorithm,omitempty"`
 	// The key is not valid before this timestamp.
-	ValidNotBefore *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=valid_not_before,json=validNotBefore,proto3" json:"valid_not_before,omitempty" firestore:"validNotBefore"`
+	ValidNotBefore *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=valid_not_before,json=validNotBefore,proto3" json:"valid_not_before,omitempty"`
 	// The key is not valid after this timestamp.
-	ValidNotAfter *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=valid_not_after,json=validNotAfter,proto3" json:"valid_not_after,omitempty" firestore:"validNotAfter"`
+	ValidNotAfter *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=valid_not_after,json=validNotAfter,proto3" json:"valid_not_after,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *ServiceAccountKey) Reset() {

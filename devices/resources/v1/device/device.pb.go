@@ -291,22 +291,22 @@ type Device struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display name for the device
-	DisplayName string `protobuf:"bytes,6,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,6,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Optional. Description of the Device.
-	Description string `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Description string `protobuf:"bytes,7,opt,name=description,proto3" json:"description,omitempty"`
 	// Spec holds the expected state of the Device, meaning configurations.
-	Spec *Device_Spec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
+	Spec *Device_Spec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
 	// Status of the Device reported from the actual device.
-	Status            *Device_Status            `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
-	PublicListingSpec *Device_PublicListingSpec `protobuf:"bytes,5,opt,name=public_listing_spec,json=publicListingSpec,proto3" json:"public_listing_spec,omitempty" firestore:"publicListingSpec"`
+	Status            *Device_Status            `protobuf:"bytes,4,opt,name=status,proto3" json:"status,omitempty"`
+	PublicListingSpec *Device_PublicListingSpec `protobuf:"bytes,5,opt,name=public_listing_spec,json=publicListingSpec,proto3" json:"public_listing_spec,omitempty"`
 }
 
 func (m *Device) Reset() {
@@ -470,35 +470,35 @@ type Device_Spec struct {
 	// access to the resources in our services, that means you can revoke the
 	// permissions from the device. You can manually set an empty value to do
 	// so, or call `RemoveServiceAccountFromDevice`.
-	ServiceAccount *iam_service_account.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty" firestore:"serviceAccount"`
+	ServiceAccount *iam_service_account.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=service_account,json=serviceAccount,proto3" json:"service_account,omitempty"`
 	// Logging bucket associated with device
-	LogBucket *logging_bucket.Reference `protobuf:"bytes,14,opt,customtype=Reference,name=log_bucket,json=logBucket,proto3" json:"log_bucket,omitempty" firestore:"logBucket"`
+	LogBucket *logging_bucket.Reference `protobuf:"bytes,14,opt,customtype=Reference,name=log_bucket,json=logBucket,proto3" json:"log_bucket,omitempty"`
 	// Monitoring metrics bucket associated with device
-	MetricsBucket *monitoring_bucket.Reference `protobuf:"bytes,15,opt,customtype=Reference,name=metrics_bucket,json=metricsBucket,proto3" json:"metrics_bucket,omitempty" firestore:"metricsBucket"`
+	MetricsBucket *monitoring_bucket.Reference `protobuf:"bytes,15,opt,customtype=Reference,name=metrics_bucket,json=metricsBucket,proto3" json:"metrics_bucket,omitempty"`
 	// The expected OS version in string (e.g. 1.0.2).
 	// The device will automatically download the OS image and upgrade itself
 	// with it. You can stack the OS upgrade progress in the Condition named
 	// `OSReady` in Status.Conditions.
-	OsVersion            string                        `protobuf:"bytes,2,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty" firestore:"osVersion"`
-	NetplanYamlConfig    string                        `protobuf:"bytes,17,opt,name=netplan_yaml_config,json=netplanYamlConfig,proto3" json:"netplan_yaml_config,omitempty" firestore:"netplanYamlConfig"`
-	NetplanApiConfigMode Device_Spec_NetworkConfigMode `protobuf:"varint,12,opt,name=netplan_api_config_mode,json=netplanApiConfigMode,proto3,enum=ntt.devices.v1.Device_Spec_NetworkConfigMode" json:"netplan_api_config_mode,omitempty" firestore:"netplanApiConfigMode"`
+	OsVersion            string                        `protobuf:"bytes,2,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty"`
+	NetplanYamlConfig    string                        `protobuf:"bytes,17,opt,name=netplan_yaml_config,json=netplanYamlConfig,proto3" json:"netplan_yaml_config,omitempty"`
+	NetplanApiConfigMode Device_Spec_NetworkConfigMode `protobuf:"varint,12,opt,name=netplan_api_config_mode,json=netplanApiConfigMode,proto3,enum=ntt.devices.v1.Device_Spec_NetworkConfigMode" json:"netplan_api_config_mode,omitempty"`
 	// The URL is dynamically constructed once the device is created or updated.
 	// The URL will be based on the device hardware information
 	// URL format: base_url/dedicated_path/iso_version/architecture/os_type
-	OsImageUrl        string                         `protobuf:"bytes,5,opt,name=os_image_url,json=osImageUrl,proto3" json:"os_image_url,omitempty" firestore:"osImageUrl"`
-	SshConfig         *Device_Spec_SSHConfig         `protobuf:"bytes,6,opt,name=ssh_config,json=sshConfig,proto3" json:"ssh_config,omitempty" firestore:"sshConfig"`
-	AttestationConfig *Device_Spec_AttestationConfig `protobuf:"bytes,7,opt,name=attestation_config,json=attestationConfig,proto3" json:"attestation_config,omitempty" firestore:"attestationConfig"`
+	OsImageUrl        string                         `protobuf:"bytes,5,opt,name=os_image_url,json=osImageUrl,proto3" json:"os_image_url,omitempty"`
+	SshConfig         *Device_Spec_SSHConfig         `protobuf:"bytes,6,opt,name=ssh_config,json=sshConfig,proto3" json:"ssh_config,omitempty"`
+	AttestationConfig *Device_Spec_AttestationConfig `protobuf:"bytes,7,opt,name=attestation_config,json=attestationConfig,proto3" json:"attestation_config,omitempty"`
 	// Disables the daemon on the device for device auto discovery on the
 	// network. When it's enabled, avahi-daemon is launched on the device which
 	// listens at UDP 5353. This daemon is useful to locate the device that
 	// acquires an IP address with DHCP.
-	DisableDeviceDiscovery bool                       `protobuf:"varint,8,opt,name=disable_device_discovery,json=disableDeviceDiscovery,proto3" json:"disable_device_discovery,omitempty" firestore:"disableDeviceDiscovery"`
-	LoggingConfig          *Device_Spec_LoggingConfig `protobuf:"bytes,9,opt,name=logging_config,json=loggingConfig,proto3" json:"logging_config,omitempty" firestore:"loggingConfig"`
-	ProxyConfig            *Device_Spec_ProxyConfig   `protobuf:"bytes,10,opt,name=proxy_config,json=proxyConfig,proto3" json:"proxy_config,omitempty" firestore:"proxyConfig"`
-	Location               *Device_Spec_Location      `protobuf:"bytes,13,opt,name=location,proto3" json:"location,omitempty" firestore:"location"`
-	UsbGuard               *Device_Spec_USBGuard      `protobuf:"bytes,16,opt,name=usb_guard,json=usbGuard,proto3" json:"usb_guard,omitempty" firestore:"usbGuard"`
+	DisableDeviceDiscovery bool                       `protobuf:"varint,8,opt,name=disable_device_discovery,json=disableDeviceDiscovery,proto3" json:"disable_device_discovery,omitempty"`
+	LoggingConfig          *Device_Spec_LoggingConfig `protobuf:"bytes,9,opt,name=logging_config,json=loggingConfig,proto3" json:"logging_config,omitempty"`
+	ProxyConfig            *Device_Spec_ProxyConfig   `protobuf:"bytes,10,opt,name=proxy_config,json=proxyConfig,proto3" json:"proxy_config,omitempty"`
+	Location               *Device_Spec_Location      `protobuf:"bytes,13,opt,name=location,proto3" json:"location,omitempty"`
+	UsbGuard               *Device_Spec_USBGuard      `protobuf:"bytes,16,opt,name=usb_guard,json=usbGuard,proto3" json:"usb_guard,omitempty"`
 	// Custom Health checks for device
-	HealthChecks []*api.HealthCheckSpec `protobuf:"bytes,18,rep,name=health_checks,json=healthChecks,proto3" json:"health_checks,omitempty" firestore:"healthChecks"`
+	HealthChecks []*api.HealthCheckSpec `protobuf:"bytes,18,rep,name=health_checks,json=healthChecks,proto3" json:"health_checks,omitempty"`
 }
 
 func (m *Device_Spec) Reset() {
@@ -766,19 +766,19 @@ type Device_Status struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// List of network addresses.
-	Addresses []*Device_Status_Address `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty" firestore:"addresses"`
+	Addresses []*Device_Status_Address `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty"`
 	// List of conditions of the Device.
-	Conditions         []*Device_Status_Condition        `protobuf:"bytes,2,rep,name=conditions,proto3" json:"conditions,omitempty" firestore:"conditions"`
-	NetworkConfigState *Device_Status_NetworkConfigState `protobuf:"bytes,105,opt,name=network_config_state,json=networkConfigState,proto3" json:"network_config_state,omitempty" firestore:"networkConfigState"`
-	ProxyConfigStatus  *Device_Status_ProxyConfigStatus  `protobuf:"bytes,106,opt,name=proxy_config_status,json=proxyConfigStatus,proto3" json:"proxy_config_status,omitempty" firestore:"proxyConfigStatus"`
+	Conditions         []*Device_Status_Condition        `protobuf:"bytes,2,rep,name=conditions,proto3" json:"conditions,omitempty"`
+	NetworkConfigState *Device_Status_NetworkConfigState `protobuf:"bytes,105,opt,name=network_config_state,json=networkConfigState,proto3" json:"network_config_state,omitempty"`
+	ProxyConfigStatus  *Device_Status_ProxyConfigStatus  `protobuf:"bytes,106,opt,name=proxy_config_status,json=proxyConfigStatus,proto3" json:"proxy_config_status,omitempty"`
 	// Device detailed information
-	DeviceInfo        *Device_Status_DeviceInfo `protobuf:"bytes,3,opt,name=device_info,json=deviceInfo,proto3" json:"device_info,omitempty" firestore:"deviceInfo"`
-	AttestationStatus []*iam_iam_common.PCR     `protobuf:"bytes,4,rep,name=attestation_status,json=attestationStatus,proto3" json:"attestation_status,omitempty" firestore:"attestationStatus"`
+	DeviceInfo        *Device_Status_DeviceInfo `protobuf:"bytes,3,opt,name=device_info,json=deviceInfo,proto3" json:"device_info,omitempty"`
+	AttestationStatus []*iam_iam_common.PCR     `protobuf:"bytes,4,rep,name=attestation_status,json=attestationStatus,proto3" json:"attestation_status,omitempty"`
 	// Normalized Address.
-	NormalizedAddress *Device_Status_NormalizedAddress `protobuf:"bytes,5,opt,name=normalized_address,json=normalizedAddress,proto3" json:"normalized_address,omitempty" firestore:"normalizedAddress"`
-	ConnectionStatus  Device_Status_ConnectionStatus   `protobuf:"varint,6,opt,name=connection_status,json=connectionStatus,proto3,enum=ntt.devices.v1.Device_Status_ConnectionStatus" json:"connection_status,omitempty" firestore:"connectionStatus"`
+	NormalizedAddress *Device_Status_NormalizedAddress `protobuf:"bytes,5,opt,name=normalized_address,json=normalizedAddress,proto3" json:"normalized_address,omitempty"`
+	ConnectionStatus  Device_Status_ConnectionStatus   `protobuf:"varint,6,opt,name=connection_status,json=connectionStatus,proto3,enum=ntt.devices.v1.Device_Status_ConnectionStatus" json:"connection_status,omitempty"`
 	// Last change of connection_status
-	ConnectionStatusChangeTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=connection_status_change_time,json=connectionStatusChangeTime,proto3" json:"connection_status_change_time,omitempty" firestore:"connectionStatusChangeTime"`
+	ConnectionStatusChangeTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=connection_status_change_time,json=connectionStatusChangeTime,proto3" json:"connection_status_change_time,omitempty"`
 }
 
 func (m *Device_Status) Reset() {
@@ -961,8 +961,8 @@ type Device_PublicListingSpec struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Enabled       bool              `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty" firestore:"enabled"`
-	FieldMask     *Device_FieldMask `protobuf:"bytes,2,opt,customtype=Device_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	Enabled       bool              `protobuf:"varint,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	FieldMask     *Device_FieldMask `protobuf:"bytes,2,opt,customtype=Device_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 }
 
 func (m *Device_PublicListingSpec) Reset() {
@@ -1048,13 +1048,13 @@ type Device_Spec_SSHConfig struct {
 	state              protoimpl.MessageState
 	sizeCache          protoimpl.SizeCache
 	unknownFields      protoimpl.UnknownFields
-	DisableSshServer   bool                             `protobuf:"varint,1,opt,name=disable_ssh_server,json=disableSshServer,proto3" json:"disable_ssh_server,omitempty" firestore:"disableSshServer"`
-	DisableSshPassword bool                             `protobuf:"varint,2,opt,name=disable_ssh_password,json=disableSshPassword,proto3" json:"disable_ssh_password,omitempty" firestore:"disableSshPassword"`
-	SshAuthorized      []*Device_Spec_SSHConfig_AuthKey `protobuf:"bytes,3,rep,name=ssh_authorized,json=sshAuthorized,proto3" json:"ssh_authorized,omitempty" firestore:"sshAuthorized"`
-	IpAllowList        []string                         `protobuf:"bytes,4,rep,name=ip_allow_list,json=ipAllowList,proto3" json:"ip_allow_list,omitempty" firestore:"ipAllowList"`
-	IpDenyList         []string                         `protobuf:"bytes,5,rep,name=ip_deny_list,json=ipDenyList,proto3" json:"ip_deny_list,omitempty" firestore:"ipDenyList"`
-	RejectPeriod       *durationpb.Duration             `protobuf:"bytes,6,opt,name=reject_period,json=rejectPeriod,proto3" json:"reject_period,omitempty" firestore:"rejectPeriod"`
-	DisableSshAuthkey  bool                             `protobuf:"varint,7,opt,name=disable_ssh_authkey,json=disableSshAuthkey,proto3" json:"disable_ssh_authkey,omitempty" firestore:"disableSshAuthkey"`
+	DisableSshServer   bool                             `protobuf:"varint,1,opt,name=disable_ssh_server,json=disableSshServer,proto3" json:"disable_ssh_server,omitempty"`
+	DisableSshPassword bool                             `protobuf:"varint,2,opt,name=disable_ssh_password,json=disableSshPassword,proto3" json:"disable_ssh_password,omitempty"`
+	SshAuthorized      []*Device_Spec_SSHConfig_AuthKey `protobuf:"bytes,3,rep,name=ssh_authorized,json=sshAuthorized,proto3" json:"ssh_authorized,omitempty"`
+	IpAllowList        []string                         `protobuf:"bytes,4,rep,name=ip_allow_list,json=ipAllowList,proto3" json:"ip_allow_list,omitempty"`
+	IpDenyList         []string                         `protobuf:"bytes,5,rep,name=ip_deny_list,json=ipDenyList,proto3" json:"ip_deny_list,omitempty"`
+	RejectPeriod       *durationpb.Duration             `protobuf:"bytes,6,opt,name=reject_period,json=rejectPeriod,proto3" json:"reject_period,omitempty"`
+	DisableSshAuthkey  bool                             `protobuf:"varint,7,opt,name=disable_ssh_authkey,json=disableSshAuthkey,proto3" json:"disable_ssh_authkey,omitempty"`
 }
 
 func (m *Device_Spec_SSHConfig) Reset() {
@@ -1210,9 +1210,9 @@ type Device_Spec_AttestationConfig struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// If true, the droplet will try to attest itself.
-	AttestationExpected bool `protobuf:"varint,1,opt,name=attestation_expected,json=attestationExpected,proto3" json:"attestation_expected,omitempty" firestore:"attestationExpected"`
+	AttestationExpected bool `protobuf:"varint,1,opt,name=attestation_expected,json=attestationExpected,proto3" json:"attestation_expected,omitempty"`
 	// Attestation domain for device attestation.
-	AttestationDomain *iam_attestation_domain.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty" firestore:"attestationDomain"`
+	AttestationDomain *iam_attestation_domain.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=attestation_domain,json=attestationDomain,proto3" json:"attestation_domain,omitempty"`
 }
 
 func (m *Device_Spec_AttestationConfig) Reset() {
@@ -1301,14 +1301,14 @@ type Device_Spec_LoggingConfig struct {
 	// critical, 3 - error, 4 - warning, 5 - notice, 6 - informational, 7 -
 	// debug). Journal logs with this priority and higher will be uploaded to
 	// the server.
-	Priority int32 `protobuf:"varint,1,opt,name=priority,proto3" json:"priority,omitempty" firestore:"priority"`
+	Priority int32 `protobuf:"varint,1,opt,name=priority,proto3" json:"priority,omitempty"`
 	// List of systemd unit names to monitor for logs, e.g.
 	// NetworkManager.service, docker.service.
 	// Leave empty to export all journald logs.
-	Units []string `protobuf:"bytes,2,rep,name=units,proto3" json:"units,omitempty" firestore:"units"`
+	Units []string `protobuf:"bytes,2,rep,name=units,proto3" json:"units,omitempty"`
 	// Whether the journald log exporter is enabled.
-	EnableJournalExport    bool                                              `protobuf:"varint,3,opt,name=enable_journal_export,json=enableJournalExport,proto3" json:"enable_journal_export,omitempty" firestore:"enableJournalExport"`
-	ContainerLoggingConfig *Device_Spec_LoggingConfig_ContainerLoggingConfig `protobuf:"bytes,4,opt,name=container_logging_config,json=containerLoggingConfig,proto3" json:"container_logging_config,omitempty" firestore:"containerLoggingConfig"`
+	EnableJournalExport    bool                                              `protobuf:"varint,3,opt,name=enable_journal_export,json=enableJournalExport,proto3" json:"enable_journal_export,omitempty"`
+	ContainerLoggingConfig *Device_Spec_LoggingConfig_ContainerLoggingConfig `protobuf:"bytes,4,opt,name=container_logging_config,json=containerLoggingConfig,proto3" json:"container_logging_config,omitempty"`
 }
 
 func (m *Device_Spec_LoggingConfig) Reset() {
@@ -1421,14 +1421,14 @@ type Device_Spec_ProxyConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	HttpProxy     string `protobuf:"bytes,1,opt,name=http_proxy,json=httpProxy,proto3" json:"http_proxy,omitempty" firestore:"httpProxy"`
-	HttpsProxy    string `protobuf:"bytes,2,opt,name=https_proxy,json=httpsProxy,proto3" json:"https_proxy,omitempty" firestore:"httpsProxy"`
-	NoProxy       string `protobuf:"bytes,3,opt,name=no_proxy,json=noProxy,proto3" json:"no_proxy,omitempty" firestore:"noProxy"`
+	HttpProxy     string `protobuf:"bytes,1,opt,name=http_proxy,json=httpProxy,proto3" json:"http_proxy,omitempty"`
+	HttpsProxy    string `protobuf:"bytes,2,opt,name=https_proxy,json=httpsProxy,proto3" json:"https_proxy,omitempty"`
+	NoProxy       string `protobuf:"bytes,3,opt,name=no_proxy,json=noProxy,proto3" json:"no_proxy,omitempty"`
 	// By default proxy is applicable for all interfaces
 	// configuring proxy_interfaces allows to restrict proxy setting to be
 	// used only with specific interfaces At present this is only used for
 	// Control Plane (for eg LTE fallback)
-	ProxyInterfaces []string `protobuf:"bytes,4,rep,name=proxy_interfaces,json=proxyInterfaces,proto3" json:"proxy_interfaces,omitempty" firestore:"proxyInterfaces"`
+	ProxyInterfaces []string `protobuf:"bytes,4,rep,name=proxy_interfaces,json=proxyInterfaces,proto3" json:"proxy_interfaces,omitempty"`
 }
 
 func (m *Device_Spec_ProxyConfig) Reset() {
@@ -1542,8 +1542,8 @@ type Device_Spec_Location struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Address       string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" firestore:"address"`
-	Placement     string `protobuf:"bytes,2,opt,name=placement,proto3" json:"placement,omitempty" firestore:"placement"`
+	Address       string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Placement     string `protobuf:"bytes,2,opt,name=placement,proto3" json:"placement,omitempty"`
 }
 
 func (m *Device_Spec_Location) Reset() {
@@ -1633,9 +1633,9 @@ type Device_Spec_USBGuard struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Enable USB Guard service on the device.
-	Enable bool `protobuf:"varint,1,opt,name=enable,proto3" json:"enable,omitempty" firestore:"enable"`
+	Enable bool `protobuf:"varint,1,opt,name=enable,proto3" json:"enable,omitempty"`
 	// This is array of white list of the USB devices.
-	WhiteList []*Device_Spec_USBGuard_WhiteList `protobuf:"bytes,2,rep,name=white_list,json=whiteList,proto3" json:"white_list,omitempty" firestore:"whiteList"`
+	WhiteList []*Device_Spec_USBGuard_WhiteList `protobuf:"bytes,2,rep,name=white_list,json=whiteList,proto3" json:"white_list,omitempty"`
 }
 
 func (m *Device_Spec_USBGuard) Reset() {
@@ -1720,20 +1720,20 @@ type Device_Spec_SSHConfig_AuthKey struct {
 	state             protoimpl.MessageState
 	sizeCache         protoimpl.SizeCache
 	unknownFields     protoimpl.UnknownFields
-	SshaKey           string `protobuf:"bytes,1,opt,name=ssha_key,json=sshaKey,proto3" json:"ssha_key,omitempty" firestore:"sshaKey"`
-	CertAuthority     bool   `protobuf:"varint,2,opt,name=cert_authority,json=certAuthority,proto3" json:"cert_authority,omitempty" firestore:"certAuthority"`
-	Command           string `protobuf:"bytes,3,opt,name=command,proto3" json:"command,omitempty" firestore:"command"`
-	Environment       string `protobuf:"bytes,4,opt,name=environment,proto3" json:"environment,omitempty" firestore:"environment"`
-	From              string `protobuf:"bytes,5,opt,name=from,proto3" json:"from,omitempty" firestore:"from"`
-	NoAgentForwarding bool   `protobuf:"varint,6,opt,name=no_agent_forwarding,json=noAgentForwarding,proto3" json:"no_agent_forwarding,omitempty" firestore:"noAgentForwarding"`
-	NoPortForwarding  bool   `protobuf:"varint,7,opt,name=no_port_forwarding,json=noPortForwarding,proto3" json:"no_port_forwarding,omitempty" firestore:"noPortForwarding"`
-	NoPty             bool   `protobuf:"varint,8,opt,name=no_pty,json=noPty,proto3" json:"no_pty,omitempty" firestore:"noPty"`
-	NoUserRc          bool   `protobuf:"varint,9,opt,name=no_user_rc,json=noUserRc,proto3" json:"no_user_rc,omitempty" firestore:"noUserRc"`
-	NoX11Forwarding   bool   `protobuf:"varint,10,opt,name=no_x11_forwarding,json=noX11Forwarding,proto3" json:"no_x11_forwarding,omitempty" firestore:"noX11Forwarding"`
-	Permitopen        string `protobuf:"bytes,11,opt,name=permitopen,proto3" json:"permitopen,omitempty" firestore:"permitopen"`
-	Principals        string `protobuf:"bytes,12,opt,name=principals,proto3" json:"principals,omitempty" firestore:"principals"`
-	Tunnel            string `protobuf:"bytes,13,opt,name=tunnel,proto3" json:"tunnel,omitempty" firestore:"tunnel"`
-	Restrict          bool   `protobuf:"varint,14,opt,name=restrict,proto3" json:"restrict,omitempty" firestore:"restrict"`
+	SshaKey           string `protobuf:"bytes,1,opt,name=ssha_key,json=sshaKey,proto3" json:"ssha_key,omitempty"`
+	CertAuthority     bool   `protobuf:"varint,2,opt,name=cert_authority,json=certAuthority,proto3" json:"cert_authority,omitempty"`
+	Command           string `protobuf:"bytes,3,opt,name=command,proto3" json:"command,omitempty"`
+	Environment       string `protobuf:"bytes,4,opt,name=environment,proto3" json:"environment,omitempty"`
+	From              string `protobuf:"bytes,5,opt,name=from,proto3" json:"from,omitempty"`
+	NoAgentForwarding bool   `protobuf:"varint,6,opt,name=no_agent_forwarding,json=noAgentForwarding,proto3" json:"no_agent_forwarding,omitempty"`
+	NoPortForwarding  bool   `protobuf:"varint,7,opt,name=no_port_forwarding,json=noPortForwarding,proto3" json:"no_port_forwarding,omitempty"`
+	NoPty             bool   `protobuf:"varint,8,opt,name=no_pty,json=noPty,proto3" json:"no_pty,omitempty"`
+	NoUserRc          bool   `protobuf:"varint,9,opt,name=no_user_rc,json=noUserRc,proto3" json:"no_user_rc,omitempty"`
+	NoX11Forwarding   bool   `protobuf:"varint,10,opt,name=no_x11_forwarding,json=noX11Forwarding,proto3" json:"no_x11_forwarding,omitempty"`
+	Permitopen        string `protobuf:"bytes,11,opt,name=permitopen,proto3" json:"permitopen,omitempty"`
+	Principals        string `protobuf:"bytes,12,opt,name=principals,proto3" json:"principals,omitempty"`
+	Tunnel            string `protobuf:"bytes,13,opt,name=tunnel,proto3" json:"tunnel,omitempty"`
+	Restrict          bool   `protobuf:"varint,14,opt,name=restrict,proto3" json:"restrict,omitempty"`
 }
 
 func (m *Device_Spec_SSHConfig_AuthKey) Reset() {
@@ -1989,7 +1989,7 @@ type Device_Spec_LoggingConfig_ContainerLoggingConfig struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Enable container log export. Default is disabled
-	EnableContainerLogExport bool `protobuf:"varint,1,opt,name=enable_container_log_export,json=enableContainerLogExport,proto3" json:"enable_container_log_export,omitempty" firestore:"enableContainerLogExport"`
+	EnableContainerLogExport bool `protobuf:"varint,1,opt,name=enable_container_log_export,json=enableContainerLogExport,proto3" json:"enable_container_log_export,omitempty"`
 }
 
 func (m *Device_Spec_LoggingConfig_ContainerLoggingConfig) Reset() {
@@ -2061,8 +2061,8 @@ type Device_Spec_USBGuard_Port struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Equals        []string `protobuf:"bytes,1,rep,name=equals,proto3" json:"equals,omitempty" firestore:"equals"`
-	OneOf         []string `protobuf:"bytes,2,rep,name=one_of,json=oneOf,proto3" json:"one_of,omitempty" firestore:"oneOf"`
+	Equals        []string `protobuf:"bytes,1,rep,name=equals,proto3" json:"equals,omitempty"`
+	OneOf         []string `protobuf:"bytes,2,rep,name=one_of,json=oneOf,proto3" json:"one_of,omitempty"`
 }
 
 func (m *Device_Spec_USBGuard_Port) Reset() {
@@ -2148,8 +2148,8 @@ type Device_Spec_USBGuard_Interface struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Equals        []string `protobuf:"bytes,1,rep,name=equals,proto3" json:"equals,omitempty" firestore:"equals"`
-	OneOf         []string `protobuf:"bytes,2,rep,name=one_of,json=oneOf,proto3" json:"one_of,omitempty" firestore:"oneOf"`
+	Equals        []string `protobuf:"bytes,1,rep,name=equals,proto3" json:"equals,omitempty"`
+	OneOf         []string `protobuf:"bytes,2,rep,name=one_of,json=oneOf,proto3" json:"one_of,omitempty"`
 }
 
 func (m *Device_Spec_USBGuard_Interface) Reset() {
@@ -2236,15 +2236,15 @@ type Device_Spec_USBGuard_WhiteList struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// USB device name to be allowed to connect.
-	DeviceName string `protobuf:"bytes,1,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty" firestore:"deviceName"`
+	DeviceName string `protobuf:"bytes,1,opt,name=device_name,json=deviceName,proto3" json:"device_name,omitempty"`
 	// USB device id to be allowed to connect.
-	DeviceId string `protobuf:"bytes,2,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty" firestore:"deviceId"`
+	DeviceId string `protobuf:"bytes,2,opt,name=device_id,json=deviceId,proto3" json:"device_id,omitempty"`
 	// USB port to be allowed to connect.
-	ViaPort *Device_Spec_USBGuard_Port `protobuf:"bytes,3,opt,name=via_port,json=viaPort,proto3" json:"via_port,omitempty" firestore:"viaPort"`
+	ViaPort *Device_Spec_USBGuard_Port `protobuf:"bytes,3,opt,name=via_port,json=viaPort,proto3" json:"via_port,omitempty"`
 	// USB interface to be allowed to connect.
-	WithInterface *Device_Spec_USBGuard_Interface `protobuf:"bytes,4,opt,name=with_interface,json=withInterface,proto3" json:"with_interface,omitempty" firestore:"withInterface"`
+	WithInterface *Device_Spec_USBGuard_Interface `protobuf:"bytes,4,opt,name=with_interface,json=withInterface,proto3" json:"with_interface,omitempty"`
 	// USB connect type to be allowed to connect.
-	WithConnectType string `protobuf:"bytes,5,opt,name=with_connect_type,json=withConnectType,proto3" json:"with_connect_type,omitempty" firestore:"withConnectType"`
+	WithConnectType string `protobuf:"bytes,5,opt,name=with_connect_type,json=withConnectType,proto3" json:"with_connect_type,omitempty"`
 }
 
 func (m *Device_Spec_USBGuard_WhiteList) Reset() {
@@ -2373,9 +2373,9 @@ type Device_Status_Address struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// IPv4 or IPv6 address such as `203.0.113.5` (no suffix for subnet)
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" firestore:"address"`
+	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 	// Always `InternalIP`
-	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 }
 
 func (m *Device_Status_Address) Reset() {
@@ -2462,18 +2462,18 @@ type Device_Status_Condition struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The message describes the status.
-	Message string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty" firestore:"message"`
+	Message string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	// The reason for the status.
-	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty" firestore:"reason"`
+	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 	// The status name.
-	Status string `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Status string `protobuf:"bytes,3,opt,name=status,proto3" json:"status,omitempty"`
 	// Type name of the status.
-	Type string `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
 	// When the status has been updated last time.
 	// Deprecated
-	LastHeartBeatTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_heart_beat_time,json=lastHeartBeatTime,proto3" json:"last_heart_beat_time,omitempty" firestore:"lastHeartBeatTime"`
+	LastHeartBeatTime *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_heart_beat_time,json=lastHeartBeatTime,proto3" json:"last_heart_beat_time,omitempty"`
 	// When the status has tuned into the current value.
-	LastTransitionTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_transition_time,json=lastTransitionTime,proto3" json:"last_transition_time,omitempty" firestore:"lastTransitionTime"`
+	LastTransitionTime *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_transition_time,json=lastTransitionTime,proto3" json:"last_transition_time,omitempty"`
 }
 
 func (m *Device_Status_Condition) Reset() {
@@ -2614,12 +2614,12 @@ type Device_Status_NetworkConfigState struct {
 	state                      protoimpl.MessageState
 	sizeCache                  protoimpl.SizeCache
 	unknownFields              protoimpl.UnknownFields
-	ActiveNetworkConfigSource  Device_Status_NetworkConfigState_NetworkConfigSource `protobuf:"varint,1,opt,name=active_network_config_source,json=activeNetworkConfigSource,proto3,enum=ntt.devices.v1.Device_Status_NetworkConfigState_NetworkConfigSource" json:"active_network_config_source,omitempty" firestore:"activeNetworkConfigSource"`
-	DesiredNetworkConfigSource Device_Status_NetworkConfigState_NetworkConfigSource `protobuf:"varint,2,opt,name=desired_network_config_source,json=desiredNetworkConfigSource,proto3,enum=ntt.devices.v1.Device_Status_NetworkConfigState_NetworkConfigSource" json:"desired_network_config_source,omitempty" firestore:"desiredNetworkConfigSource"`
-	DesiredNetworkConfigError  string                                               `protobuf:"bytes,3,opt,name=desired_network_config_error,json=desiredNetworkConfigError,proto3" json:"desired_network_config_error,omitempty" firestore:"desiredNetworkConfigError"`
-	DefaultNetplanConfig       string                                               `protobuf:"bytes,7,opt,name=default_netplan_config,json=defaultNetplanConfig,proto3" json:"default_netplan_config,omitempty" firestore:"defaultNetplanConfig"`
-	ActiveNetplanConfig        string                                               `protobuf:"bytes,8,opt,name=active_netplan_config,json=activeNetplanConfig,proto3" json:"active_netplan_config,omitempty" firestore:"activeNetplanConfig"`
-	DesiredNetplanConfig       string                                               `protobuf:"bytes,9,opt,name=desired_netplan_config,json=desiredNetplanConfig,proto3" json:"desired_netplan_config,omitempty" firestore:"desiredNetplanConfig"`
+	ActiveNetworkConfigSource  Device_Status_NetworkConfigState_NetworkConfigSource `protobuf:"varint,1,opt,name=active_network_config_source,json=activeNetworkConfigSource,proto3,enum=ntt.devices.v1.Device_Status_NetworkConfigState_NetworkConfigSource" json:"active_network_config_source,omitempty"`
+	DesiredNetworkConfigSource Device_Status_NetworkConfigState_NetworkConfigSource `protobuf:"varint,2,opt,name=desired_network_config_source,json=desiredNetworkConfigSource,proto3,enum=ntt.devices.v1.Device_Status_NetworkConfigState_NetworkConfigSource" json:"desired_network_config_source,omitempty"`
+	DesiredNetworkConfigError  string                                               `protobuf:"bytes,3,opt,name=desired_network_config_error,json=desiredNetworkConfigError,proto3" json:"desired_network_config_error,omitempty"`
+	DefaultNetplanConfig       string                                               `protobuf:"bytes,7,opt,name=default_netplan_config,json=defaultNetplanConfig,proto3" json:"default_netplan_config,omitempty"`
+	ActiveNetplanConfig        string                                               `protobuf:"bytes,8,opt,name=active_netplan_config,json=activeNetplanConfig,proto3" json:"active_netplan_config,omitempty"`
+	DesiredNetplanConfig       string                                               `protobuf:"bytes,9,opt,name=desired_netplan_config,json=desiredNetplanConfig,proto3" json:"desired_netplan_config,omitempty"`
 }
 
 func (m *Device_Status_NetworkConfigState) Reset() {
@@ -2760,12 +2760,12 @@ type Device_Status_ProxyConfigStatus struct {
 	state               protoimpl.MessageState
 	sizeCache           protoimpl.SizeCache
 	unknownFields       protoimpl.UnknownFields
-	ActiveConfigSource  Device_Status_ProxyConfigStatus_ProxyConfigSource `protobuf:"varint,1,opt,name=active_config_source,json=activeConfigSource,proto3,enum=ntt.devices.v1.Device_Status_ProxyConfigStatus_ProxyConfigSource" json:"active_config_source,omitempty" firestore:"activeConfigSource"`
-	DesiredConfigSource Device_Status_ProxyConfigStatus_ProxyConfigSource `protobuf:"varint,2,opt,name=desired_config_source,json=desiredConfigSource,proto3,enum=ntt.devices.v1.Device_Status_ProxyConfigStatus_ProxyConfigSource" json:"desired_config_source,omitempty" firestore:"desiredConfigSource"`
-	ProxyConfigError    string                                            `protobuf:"bytes,3,opt,name=proxy_config_error,json=proxyConfigError,proto3" json:"proxy_config_error,omitempty" firestore:"proxyConfigError"`
-	DefaultConfig       *Device_Spec_ProxyConfig                          `protobuf:"bytes,4,opt,name=default_config,json=defaultConfig,proto3" json:"default_config,omitempty" firestore:"defaultConfig"`
-	ActiveConfig        *Device_Spec_ProxyConfig                          `protobuf:"bytes,5,opt,name=active_config,json=activeConfig,proto3" json:"active_config,omitempty" firestore:"activeConfig"`
-	ApiConfig           *Device_Spec_ProxyConfig                          `protobuf:"bytes,6,opt,name=api_config,json=apiConfig,proto3" json:"api_config,omitempty" firestore:"apiConfig"`
+	ActiveConfigSource  Device_Status_ProxyConfigStatus_ProxyConfigSource `protobuf:"varint,1,opt,name=active_config_source,json=activeConfigSource,proto3,enum=ntt.devices.v1.Device_Status_ProxyConfigStatus_ProxyConfigSource" json:"active_config_source,omitempty"`
+	DesiredConfigSource Device_Status_ProxyConfigStatus_ProxyConfigSource `protobuf:"varint,2,opt,name=desired_config_source,json=desiredConfigSource,proto3,enum=ntt.devices.v1.Device_Status_ProxyConfigStatus_ProxyConfigSource" json:"desired_config_source,omitempty"`
+	ProxyConfigError    string                                            `protobuf:"bytes,3,opt,name=proxy_config_error,json=proxyConfigError,proto3" json:"proxy_config_error,omitempty"`
+	DefaultConfig       *Device_Spec_ProxyConfig                          `protobuf:"bytes,4,opt,name=default_config,json=defaultConfig,proto3" json:"default_config,omitempty"`
+	ActiveConfig        *Device_Spec_ProxyConfig                          `protobuf:"bytes,5,opt,name=active_config,json=activeConfig,proto3" json:"active_config,omitempty"`
+	ApiConfig           *Device_Spec_ProxyConfig                          `protobuf:"bytes,6,opt,name=api_config,json=apiConfig,proto3" json:"api_config,omitempty"`
 }
 
 func (m *Device_Status_ProxyConfigStatus) Reset() {
@@ -2909,24 +2909,24 @@ type Device_Status_DeviceInfo struct {
 	unknownFields protoimpl.UnknownFields
 	// The architecture of the CPU (and the software compilied for) (e.g.
 	// `arm64`)
-	Architecture string `protobuf:"bytes,1,opt,name=architecture,proto3" json:"architecture,omitempty" firestore:"architecture"`
+	Architecture string `protobuf:"bytes,1,opt,name=architecture,proto3" json:"architecture,omitempty"`
 	// The platform hardware (e.g. `raspberry`, `generic`)
-	Hardware string `protobuf:"bytes,7,opt,name=hardware,proto3" json:"hardware,omitempty" firestore:"hardware"`
+	Hardware string `protobuf:"bytes,7,opt,name=hardware,proto3" json:"hardware,omitempty"`
 	// Base OS name (e.g. `Linux`)
-	OperatingSystem string `protobuf:"bytes,2,opt,name=operating_system,json=operatingSystem,proto3" json:"operating_system,omitempty" firestore:"operatingSystem"`
+	OperatingSystem string `protobuf:"bytes,2,opt,name=operating_system,json=operatingSystem,proto3" json:"operating_system,omitempty"`
 	// OS kernel version
-	KernelVersion string `protobuf:"bytes,3,opt,name=kernel_version,json=kernelVersion,proto3" json:"kernel_version,omitempty" firestore:"kernelVersion"`
+	KernelVersion string `protobuf:"bytes,3,opt,name=kernel_version,json=kernelVersion,proto3" json:"kernel_version,omitempty"`
 	// OS base Image name
-	OsImage string `protobuf:"bytes,4,opt,name=os_image,json=osImage,proto3" json:"os_image,omitempty" firestore:"osImage"`
+	OsImage string `protobuf:"bytes,4,opt,name=os_image,json=osImage,proto3" json:"os_image,omitempty"`
 	// Not used
-	ContainerRuntimeVersion string `protobuf:"bytes,5,opt,name=container_runtime_version,json=containerRuntimeVersion,proto3" json:"container_runtime_version,omitempty" firestore:"containerRuntimeVersion"`
+	ContainerRuntimeVersion string `protobuf:"bytes,5,opt,name=container_runtime_version,json=containerRuntimeVersion,proto3" json:"container_runtime_version,omitempty"`
 	// Liquid OS version currently used.
-	OsVersion string `protobuf:"bytes,6,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty" firestore:"osVersion"`
+	OsVersion string `protobuf:"bytes,6,opt,name=os_version,json=osVersion,proto3" json:"os_version,omitempty"`
 	// Container driver name (e.g. `/var/lib/droplet/compose`)
-	Driver                    string                                                `protobuf:"bytes,101,opt,name=driver,proto3" json:"driver,omitempty" firestore:"driver"`
-	HardwareInformation       *Device_Status_DeviceInfo_HardwareInformation         `protobuf:"bytes,102,opt,name=hardware_information,json=hardwareInformation,proto3" json:"hardware_information,omitempty" firestore:"hardwareInformation"`
-	NetworkInterfaces         map[string]*Device_Status_DeviceInfo_NetworkInterface `protobuf:"bytes,103,rep,name=network_interfaces,json=networkInterfaces,proto3" json:"network_interfaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"networkInterfaces"`
-	ControlPlaneInterfaceInfo *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo   `protobuf:"bytes,104,opt,name=control_plane_interface_info,json=controlPlaneInterfaceInfo,proto3" json:"control_plane_interface_info,omitempty" firestore:"controlPlaneInterfaceInfo"`
+	Driver                    string                                                `protobuf:"bytes,101,opt,name=driver,proto3" json:"driver,omitempty"`
+	HardwareInformation       *Device_Status_DeviceInfo_HardwareInformation         `protobuf:"bytes,102,opt,name=hardware_information,json=hardwareInformation,proto3" json:"hardware_information,omitempty"`
+	NetworkInterfaces         map[string]*Device_Status_DeviceInfo_NetworkInterface `protobuf:"bytes,103,rep,name=network_interfaces,json=networkInterfaces,proto3" json:"network_interfaces,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	ControlPlaneInterfaceInfo *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo   `protobuf:"bytes,104,opt,name=control_plane_interface_info,json=controlPlaneInterfaceInfo,proto3" json:"control_plane_interface_info,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo) Reset() {
@@ -3138,35 +3138,35 @@ type Device_Status_NormalizedAddress struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Postal code
-	PostalCode string `protobuf:"bytes,1,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty" firestore:"postalCode"`
+	PostalCode string `protobuf:"bytes,1,opt,name=postal_code,json=postalCode,proto3" json:"postal_code,omitempty"`
 	// Country code example US, JP
-	CountryCode string `protobuf:"bytes,2,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty" firestore:"countryCode"`
+	CountryCode string `protobuf:"bytes,2,opt,name=country_code,json=countryCode,proto3" json:"country_code,omitempty"`
 	// Continent, e.g. North America, Asia
-	Continent   string `protobuf:"bytes,3,opt,name=continent,proto3" json:"continent,omitempty" firestore:"continent"`
-	ContinentId string `protobuf:"bytes,4,opt,name=continent_id,json=continentId,proto3" json:"continent_id,omitempty" firestore:"continentId"`
+	Continent   string `protobuf:"bytes,3,opt,name=continent,proto3" json:"continent,omitempty"`
+	ContinentId string `protobuf:"bytes,4,opt,name=continent_id,json=continentId,proto3" json:"continent_id,omitempty"`
 	// Country name example United States, Japan
-	Country   string `protobuf:"bytes,5,opt,name=country,proto3" json:"country,omitempty" firestore:"country"`
-	CountryId string `protobuf:"bytes,6,opt,name=country_id,json=countryId,proto3" json:"country_id,omitempty" firestore:"countryId"`
+	Country   string `protobuf:"bytes,5,opt,name=country,proto3" json:"country,omitempty"`
+	CountryId string `protobuf:"bytes,6,opt,name=country_id,json=countryId,proto3" json:"country_id,omitempty"`
 	// Probe Location Administrative Area level 1 name, e.g. California
 	// (state), Chiba (prefecture)
-	AdminArea1   string `protobuf:"bytes,7,opt,name=admin_area1,json=adminArea1,proto3" json:"admin_area1,omitempty" firestore:"adminArea1"`
-	AdminArea1Id string `protobuf:"bytes,8,opt,name=admin_area1_id,json=adminArea1Id,proto3" json:"admin_area1_id,omitempty" firestore:"adminArea1Id"`
+	AdminArea1   string `protobuf:"bytes,7,opt,name=admin_area1,json=adminArea1,proto3" json:"admin_area1,omitempty"`
+	AdminArea1Id string `protobuf:"bytes,8,opt,name=admin_area1_id,json=adminArea1Id,proto3" json:"admin_area1_id,omitempty"`
 	// Probe Location Administrative Area level 2 name, e.g. Santa Clara
 	// (county), Tateyama (town)
-	AdminArea2   string `protobuf:"bytes,9,opt,name=admin_area2,json=adminArea2,proto3" json:"admin_area2,omitempty" firestore:"adminArea2"`
-	AdminArea2Id string `protobuf:"bytes,10,opt,name=admin_area2_id,json=adminArea2Id,proto3" json:"admin_area2_id,omitempty" firestore:"adminArea2Id"`
+	AdminArea2   string `protobuf:"bytes,9,opt,name=admin_area2,json=adminArea2,proto3" json:"admin_area2,omitempty"`
+	AdminArea2Id string `protobuf:"bytes,10,opt,name=admin_area2_id,json=adminArea2Id,proto3" json:"admin_area2_id,omitempty"`
 	// Probe Location Administrative Area level 3 name, e.g. Sunnyvale (city)
-	AdminArea3   string `protobuf:"bytes,11,opt,name=admin_area3,json=adminArea3,proto3" json:"admin_area3,omitempty" firestore:"adminArea3"`
-	AdminArea3Id string `protobuf:"bytes,12,opt,name=admin_area3_id,json=adminArea3Id,proto3" json:"admin_area3_id,omitempty" firestore:"adminArea3Id"`
+	AdminArea3   string `protobuf:"bytes,11,opt,name=admin_area3,json=adminArea3,proto3" json:"admin_area3,omitempty"`
+	AdminArea3Id string `protobuf:"bytes,12,opt,name=admin_area3_id,json=adminArea3Id,proto3" json:"admin_area3_id,omitempty"`
 	// Probe Location Administrative Area level 4 name, e.g. Sunnyvale (city)
-	AdminArea4   string `protobuf:"bytes,13,opt,name=admin_area4,json=adminArea4,proto3" json:"admin_area4,omitempty" firestore:"adminArea4"`
-	AdminArea4Id string `protobuf:"bytes,14,opt,name=admin_area4_id,json=adminArea4Id,proto3" json:"admin_area4_id,omitempty" firestore:"adminArea4Id"`
+	AdminArea4   string `protobuf:"bytes,13,opt,name=admin_area4,json=adminArea4,proto3" json:"admin_area4,omitempty"`
+	AdminArea4Id string `protobuf:"bytes,14,opt,name=admin_area4_id,json=adminArea4Id,proto3" json:"admin_area4_id,omitempty"`
 	// Original address.
-	Address string `protobuf:"bytes,15,opt,name=address,proto3" json:"address,omitempty" firestore:"address"`
+	Address string `protobuf:"bytes,15,opt,name=address,proto3" json:"address,omitempty"`
 	// coordinates
-	Coordinates *latlng.LatLng `protobuf:"bytes,16,opt,name=coordinates,proto3" json:"coordinates,omitempty" firestore:"coordinates"`
+	Coordinates *latlng.LatLng `protobuf:"bytes,16,opt,name=coordinates,proto3" json:"coordinates,omitempty"`
 	// location accuracy in meters
-	Accuracy float64 `protobuf:"fixed64,17,opt,name=accuracy,proto3" json:"accuracy,omitempty" firestore:"accuracy"`
+	Accuracy float64 `protobuf:"fixed64,17,opt,name=accuracy,proto3" json:"accuracy,omitempty"`
 }
 
 func (m *Device_Status_NormalizedAddress) Reset() {
@@ -3461,17 +3461,17 @@ type Device_Status_DeviceInfo_HardwareInformation struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Os            *Device_Status_DeviceInfo_HardwareInformation_OS            `protobuf:"bytes,1,opt,name=os,proto3" json:"os,omitempty" firestore:"os"`
-	Bios          *Device_Status_DeviceInfo_HardwareInformation_BIOS          `protobuf:"bytes,2,opt,name=bios,proto3" json:"bios,omitempty" firestore:"bios"`
-	System        *Device_Status_DeviceInfo_HardwareInformation_System        `protobuf:"bytes,3,opt,name=system,proto3" json:"system,omitempty" firestore:"system"`
-	Cpu           *Device_Status_DeviceInfo_HardwareInformation_CPU           `protobuf:"bytes,4,opt,name=cpu,proto3" json:"cpu,omitempty" firestore:"cpu"`
-	Block         *Device_Status_DeviceInfo_HardwareInformation_Block         `protobuf:"bytes,5,opt,name=block,proto3" json:"block,omitempty" firestore:"block"`
-	Network       *Device_Status_DeviceInfo_HardwareInformation_Network       `protobuf:"bytes,6,opt,name=network,proto3" json:"network,omitempty" firestore:"network"`
-	Gpu           *Device_Status_DeviceInfo_HardwareInformation_GPU           `protobuf:"bytes,7,opt,name=gpu,proto3" json:"gpu,omitempty" firestore:"gpu"`
-	MemoryInfo    *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo    `protobuf:"bytes,23,opt,name=memory_info,json=memoryInfo,proto3" json:"memory_info,omitempty" firestore:"memoryInfo"`
-	HailoInfo     *Device_Status_DeviceInfo_HardwareInformation_HailoInfo     `protobuf:"bytes,20,opt,name=hailo_info,json=hailoInfo,proto3" json:"hailo_info,omitempty" firestore:"hailoInfo"`
-	NvidiaInfo    *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo    `protobuf:"bytes,21,opt,name=nvidia_info,json=nvidiaInfo,proto3" json:"nvidia_info,omitempty" firestore:"nvidiaInfo"`
-	ModemStatus   []*Device_Status_DeviceInfo_HardwareInformation_ModemStatus `protobuf:"bytes,22,rep,name=modem_status,json=modemStatus,proto3" json:"modem_status,omitempty" firestore:"modemStatus"`
+	Os            *Device_Status_DeviceInfo_HardwareInformation_OS            `protobuf:"bytes,1,opt,name=os,proto3" json:"os,omitempty"`
+	Bios          *Device_Status_DeviceInfo_HardwareInformation_BIOS          `protobuf:"bytes,2,opt,name=bios,proto3" json:"bios,omitempty"`
+	System        *Device_Status_DeviceInfo_HardwareInformation_System        `protobuf:"bytes,3,opt,name=system,proto3" json:"system,omitempty"`
+	Cpu           *Device_Status_DeviceInfo_HardwareInformation_CPU           `protobuf:"bytes,4,opt,name=cpu,proto3" json:"cpu,omitempty"`
+	Block         *Device_Status_DeviceInfo_HardwareInformation_Block         `protobuf:"bytes,5,opt,name=block,proto3" json:"block,omitempty"`
+	Network       *Device_Status_DeviceInfo_HardwareInformation_Network       `protobuf:"bytes,6,opt,name=network,proto3" json:"network,omitempty"`
+	Gpu           *Device_Status_DeviceInfo_HardwareInformation_GPU           `protobuf:"bytes,7,opt,name=gpu,proto3" json:"gpu,omitempty"`
+	MemoryInfo    *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo    `protobuf:"bytes,23,opt,name=memory_info,json=memoryInfo,proto3" json:"memory_info,omitempty"`
+	HailoInfo     *Device_Status_DeviceInfo_HardwareInformation_HailoInfo     `protobuf:"bytes,20,opt,name=hailo_info,json=hailoInfo,proto3" json:"hailo_info,omitempty"`
+	NvidiaInfo    *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo    `protobuf:"bytes,21,opt,name=nvidia_info,json=nvidiaInfo,proto3" json:"nvidia_info,omitempty"`
+	ModemStatus   []*Device_Status_DeviceInfo_HardwareInformation_ModemStatus `protobuf:"bytes,22,rep,name=modem_status,json=modemStatus,proto3" json:"modem_status,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation) Reset() {
@@ -3683,16 +3683,16 @@ type Device_Status_DeviceInfo_NetworkInterface struct {
 	state               protoimpl.MessageState
 	sizeCache           protoimpl.SizeCache
 	unknownFields       protoimpl.UnknownFields
-	InterfaceName       string   `protobuf:"bytes,1,opt,name=interface_name,json=interfaceName,proto3" json:"interface_name,omitempty" firestore:"interfaceName"`
-	IpAddressV4         []string `protobuf:"bytes,2,rep,name=ip_address_v4,json=ipAddressV4,proto3" json:"ip_address_v4,omitempty" firestore:"ipAddressV4"`
-	ExternalIpAddressV4 []string `protobuf:"bytes,3,rep,name=external_ip_address_v4,json=externalIpAddressV4,proto3" json:"external_ip_address_v4,omitempty" firestore:"externalIpAddressV4"`
-	IpAddressV6         []string `protobuf:"bytes,4,rep,name=ip_address_v6,json=ipAddressV6,proto3" json:"ip_address_v6,omitempty" firestore:"ipAddressV6"`
-	ExternalIpAddressV6 []string `protobuf:"bytes,5,rep,name=external_ip_address_v6,json=externalIpAddressV6,proto3" json:"external_ip_address_v6,omitempty" firestore:"externalIpAddressV6"`
+	InterfaceName       string   `protobuf:"bytes,1,opt,name=interface_name,json=interfaceName,proto3" json:"interface_name,omitempty"`
+	IpAddressV4         []string `protobuf:"bytes,2,rep,name=ip_address_v4,json=ipAddressV4,proto3" json:"ip_address_v4,omitempty"`
+	ExternalIpAddressV4 []string `protobuf:"bytes,3,rep,name=external_ip_address_v4,json=externalIpAddressV4,proto3" json:"external_ip_address_v4,omitempty"`
+	IpAddressV6         []string `protobuf:"bytes,4,rep,name=ip_address_v6,json=ipAddressV6,proto3" json:"ip_address_v6,omitempty"`
+	ExternalIpAddressV6 []string `protobuf:"bytes,5,rep,name=external_ip_address_v6,json=externalIpAddressV6,proto3" json:"external_ip_address_v6,omitempty"`
 	// Asinfo describes the ISP (ASN) details for the interface
 	// This is resolved automatically from the external_ip_address.
-	AsInfo *Device_Status_DeviceInfo_NetworkInterface_ASInfo `protobuf:"bytes,10,opt,name=as_info,json=asInfo,proto3" json:"as_info,omitempty" firestore:"asInfo"`
+	AsInfo *Device_Status_DeviceInfo_NetworkInterface_ASInfo `protobuf:"bytes,10,opt,name=as_info,json=asInfo,proto3" json:"as_info,omitempty"`
 	// Carrier.
-	Carrier *Device_Status_DeviceInfo_NetworkInterface_Carrier `protobuf:"bytes,14,opt,name=carrier,proto3" json:"carrier,omitempty" firestore:"carrier"`
+	Carrier *Device_Status_DeviceInfo_NetworkInterface_Carrier `protobuf:"bytes,14,opt,name=carrier,proto3" json:"carrier,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_NetworkInterface) Reset() {
@@ -3847,12 +3847,12 @@ type Device_Status_DeviceInfo_ControlPlaneInterfaceInfo struct {
 	state                       protoimpl.MessageState
 	sizeCache                   protoimpl.SizeCache
 	unknownFields               protoimpl.UnknownFields
-	ActiveControlPlaneInterface string `protobuf:"bytes,1,opt,name=active_control_plane_interface,json=activeControlPlaneInterface,proto3" json:"active_control_plane_interface,omitempty" firestore:"activeControlPlaneInterface"`
-	UsesProxy                   bool   `protobuf:"varint,2,opt,name=usesProxy,proto3" json:"usesProxy,omitempty" firestore:"usesProxy"`
+	ActiveControlPlaneInterface string `protobuf:"bytes,1,opt,name=active_control_plane_interface,json=activeControlPlaneInterface,proto3" json:"active_control_plane_interface,omitempty"`
+	UsesProxy                   bool   `protobuf:"varint,2,opt,name=usesProxy,proto3" json:"usesProxy,omitempty"`
 	// is_fallback would be true if droplet could not connect using the best
 	// default route and explicitly uses this interface to connect to api
 	// endpoint
-	IsFallback bool `protobuf:"varint,3,opt,name=is_fallback,json=isFallback,proto3" json:"is_fallback,omitempty" firestore:"isFallback"`
+	IsFallback bool `protobuf:"varint,3,opt,name=is_fallback,json=isFallback,proto3" json:"is_fallback,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_ControlPlaneInterfaceInfo) Reset() {
@@ -3951,8 +3951,8 @@ type Device_Status_DeviceInfo_HardwareInformation_Capability struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Description   string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Description   string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_Capability) Reset() {
@@ -4037,10 +4037,10 @@ type Device_Status_DeviceInfo_HardwareInformation_OS struct {
 	state                   protoimpl.MessageState
 	sizeCache               protoimpl.SizeCache
 	unknownFields           protoimpl.UnknownFields
-	OperatingSystem         string `protobuf:"bytes,1,opt,name=operating_system,json=operatingSystem,proto3" json:"operating_system,omitempty" firestore:"operatingSystem"`
-	KernelVersion           string `protobuf:"bytes,2,opt,name=kernel_version,json=kernelVersion,proto3" json:"kernel_version,omitempty" firestore:"kernelVersion"`
-	OsImage                 string `protobuf:"bytes,3,opt,name=os_image,json=osImage,proto3" json:"os_image,omitempty" firestore:"osImage"`
-	ContainerRuntimeVersion string `protobuf:"bytes,4,opt,name=container_runtime_version,json=containerRuntimeVersion,proto3" json:"container_runtime_version,omitempty" firestore:"containerRuntimeVersion"`
+	OperatingSystem         string `protobuf:"bytes,1,opt,name=operating_system,json=operatingSystem,proto3" json:"operating_system,omitempty"`
+	KernelVersion           string `protobuf:"bytes,2,opt,name=kernel_version,json=kernelVersion,proto3" json:"kernel_version,omitempty"`
+	OsImage                 string `protobuf:"bytes,3,opt,name=os_image,json=osImage,proto3" json:"os_image,omitempty"`
+	ContainerRuntimeVersion string `protobuf:"bytes,4,opt,name=container_runtime_version,json=containerRuntimeVersion,proto3" json:"container_runtime_version,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_OS) Reset() {
@@ -4154,9 +4154,9 @@ type Device_Status_DeviceInfo_HardwareInformation_BIOS struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Vendor        string `protobuf:"bytes,1,opt,name=vendor,proto3" json:"vendor,omitempty" firestore:"vendor"`
-	BiosVersion   string `protobuf:"bytes,2,opt,name=bios_version,json=biosVersion,proto3" json:"bios_version,omitempty" firestore:"biosVersion"`
-	ReleaseDate   string `protobuf:"bytes,3,opt,name=release_date,json=releaseDate,proto3" json:"release_date,omitempty" firestore:"releaseDate"`
+	Vendor        string `protobuf:"bytes,1,opt,name=vendor,proto3" json:"vendor,omitempty"`
+	BiosVersion   string `protobuf:"bytes,2,opt,name=bios_version,json=biosVersion,proto3" json:"bios_version,omitempty"`
+	ReleaseDate   string `protobuf:"bytes,3,opt,name=release_date,json=releaseDate,proto3" json:"release_date,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_BIOS) Reset() {
@@ -4255,11 +4255,11 @@ type Device_Status_DeviceInfo_HardwareInformation_System struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Manufacturer  string                                                             `protobuf:"bytes,1,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
-	ProductName   string                                                             `protobuf:"bytes,2,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	Version       string                                                             `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty" firestore:"version"`
-	SerialNumber  string                                                             `protobuf:"bytes,4,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Configuration *Device_Status_DeviceInfo_HardwareInformation_System_Configuration `protobuf:"bytes,5,opt,name=configuration,proto3" json:"configuration,omitempty" firestore:"configuration"`
+	Manufacturer  string                                                             `protobuf:"bytes,1,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
+	ProductName   string                                                             `protobuf:"bytes,2,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	Version       string                                                             `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
+	SerialNumber  string                                                             `protobuf:"bytes,4,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Configuration *Device_Status_DeviceInfo_HardwareInformation_System_Configuration `protobuf:"bytes,5,opt,name=configuration,proto3" json:"configuration,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_System) Reset() {
@@ -4386,7 +4386,7 @@ type Device_Status_DeviceInfo_HardwareInformation_CPU struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Processors    []*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor `protobuf:"bytes,1,rep,name=processors,proto3" json:"processors,omitempty" firestore:"processors"`
+	Processors    []*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor `protobuf:"bytes,1,rep,name=processors,proto3" json:"processors,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_CPU) Reset() {
@@ -4457,7 +4457,7 @@ type Device_Status_DeviceInfo_HardwareInformation_Block struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Disks         []*Device_Status_DeviceInfo_HardwareInformation_Block_Disk `protobuf:"bytes,1,rep,name=disks,proto3" json:"disks,omitempty" firestore:"disks"`
+	Disks         []*Device_Status_DeviceInfo_HardwareInformation_Block_Disk `protobuf:"bytes,1,rep,name=disks,proto3" json:"disks,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_Block) Reset() {
@@ -4528,7 +4528,7 @@ type Device_Status_DeviceInfo_HardwareInformation_Network struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Nics          []*Device_Status_DeviceInfo_HardwareInformation_Network_NIC `protobuf:"bytes,1,rep,name=nics,proto3" json:"nics,omitempty" firestore:"nics"`
+	Nics          []*Device_Status_DeviceInfo_HardwareInformation_Network_NIC `protobuf:"bytes,1,rep,name=nics,proto3" json:"nics,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_Network) Reset() {
@@ -4599,7 +4599,7 @@ type Device_Status_DeviceInfo_HardwareInformation_GPU struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	GraphicCards  []*Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard `protobuf:"bytes,1,rep,name=graphic_cards,json=graphicCards,proto3" json:"graphic_cards,omitempty" firestore:"graphicCards"`
+	GraphicCards  []*Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard `protobuf:"bytes,1,rep,name=graphic_cards,json=graphicCards,proto3" json:"graphic_cards,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_GPU) Reset() {
@@ -4671,11 +4671,11 @@ type Device_Status_DeviceInfo_HardwareInformation_PCIDevice struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Address       string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty" firestore:"address"`
-	Vendor        string `protobuf:"bytes,2,opt,name=vendor,proto3" json:"vendor,omitempty" firestore:"vendor"`
-	Product       string `protobuf:"bytes,3,opt,name=product,proto3" json:"product,omitempty" firestore:"product"`
-	Name          string `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Subvendor     string `protobuf:"bytes,5,opt,name=subvendor,proto3" json:"subvendor,omitempty" firestore:"subvendor"`
+	Address       string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Vendor        string `protobuf:"bytes,2,opt,name=vendor,proto3" json:"vendor,omitempty"`
+	Product       string `protobuf:"bytes,3,opt,name=product,proto3" json:"product,omitempty"`
+	Name          string `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	Subvendor     string `protobuf:"bytes,5,opt,name=subvendor,proto3" json:"subvendor,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_PCIDevice) Reset() {
@@ -4802,9 +4802,9 @@ type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Description   string                                                                `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
-	SizeBytes     int64                                                                 `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty" firestore:"sizeBytes"`
-	MemoryBanks   []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank `protobuf:"bytes,3,rep,name=memory_banks,json=memoryBanks,proto3" json:"memory_banks,omitempty" firestore:"memoryBanks"`
+	Description   string                                                                `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
+	SizeBytes     int64                                                                 `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
+	MemoryBanks   []*Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank `protobuf:"bytes,3,rep,name=memory_banks,json=memoryBanks,proto3" json:"memory_banks,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo) Reset() {
@@ -4903,9 +4903,9 @@ type Device_Status_DeviceInfo_HardwareInformation_HailoInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Status        string                                                                    `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
-	CliVersion    string                                                                    `protobuf:"bytes,2,opt,name=cli_version,json=cliVersion,proto3" json:"cli_version,omitempty" firestore:"cliVersion"`
-	Modules       []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo `protobuf:"bytes,10,rep,name=modules,proto3" json:"modules,omitempty" firestore:"modules"`
+	Status        string                                                                    `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	CliVersion    string                                                                    `protobuf:"bytes,2,opt,name=cli_version,json=cliVersion,proto3" json:"cli_version,omitempty"`
+	Modules       []*Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo `protobuf:"bytes,10,rep,name=modules,proto3" json:"modules,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_HailoInfo) Reset() {
@@ -5004,10 +5004,10 @@ type Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Status        string                                                             `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
-	DriverVersion string                                                             `protobuf:"bytes,2,opt,name=driver_version,json=driverVersion,proto3" json:"driver_version,omitempty" firestore:"driverVersion"`
-	CudaVersion   string                                                             `protobuf:"bytes,3,opt,name=cuda_version,json=cudaVersion,proto3" json:"cuda_version,omitempty" firestore:"cudaVersion"`
-	Gpus          []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo `protobuf:"bytes,10,rep,name=gpus,proto3" json:"gpus,omitempty" firestore:"gpus"`
+	Status        string                                                             `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	DriverVersion string                                                             `protobuf:"bytes,2,opt,name=driver_version,json=driverVersion,proto3" json:"driver_version,omitempty"`
+	CudaVersion   string                                                             `protobuf:"bytes,3,opt,name=cuda_version,json=cudaVersion,proto3" json:"cuda_version,omitempty"`
+	Gpus          []*Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo `protobuf:"bytes,10,rep,name=gpus,proto3" json:"gpus,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo) Reset() {
@@ -5120,7 +5120,7 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Modem         *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem `protobuf:"bytes,1,opt,name=modem,proto3" json:"modem,omitempty" firestore:"modem"`
+	Modem         *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem `protobuf:"bytes,1,opt,name=modem,proto3" json:"modem,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus) Reset() {
@@ -5191,10 +5191,10 @@ type Device_Status_DeviceInfo_HardwareInformation_System_Configuration struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Chassis       string `protobuf:"bytes,1,opt,name=chassis,proto3" json:"chassis,omitempty" firestore:"chassis"`
-	Uuid          string `protobuf:"bytes,2,opt,name=uuid,proto3" json:"uuid,omitempty" firestore:"uuid"`
-	SkuNumber     string `protobuf:"bytes,3,opt,name=sku_number,json=skuNumber,proto3" json:"sku_number,omitempty" firestore:"skuNumber"`
-	Family        string `protobuf:"bytes,4,opt,name=family,proto3" json:"family,omitempty" firestore:"family"`
+	Chassis       string `protobuf:"bytes,1,opt,name=chassis,proto3" json:"chassis,omitempty"`
+	Uuid          string `protobuf:"bytes,2,opt,name=uuid,proto3" json:"uuid,omitempty"`
+	SkuNumber     string `protobuf:"bytes,3,opt,name=sku_number,json=skuNumber,proto3" json:"sku_number,omitempty"`
+	Family        string `protobuf:"bytes,4,opt,name=family,proto3" json:"family,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_System_Configuration) Reset() {
@@ -5307,20 +5307,20 @@ type Device_Status_DeviceInfo_HardwareInformation_CPU_Processor struct {
 	state           protoimpl.MessageState
 	sizeCache       protoimpl.SizeCache
 	unknownFields   protoimpl.UnknownFields
-	Vendor          string                                                              `protobuf:"bytes,1,opt,name=vendor,proto3" json:"vendor,omitempty" firestore:"vendor"`
-	Model           string                                                              `protobuf:"bytes,2,opt,name=model,proto3" json:"model,omitempty" firestore:"model"`
-	Capabilities    []*Device_Status_DeviceInfo_HardwareInformation_Capability          `protobuf:"bytes,3,rep,name=capabilities,proto3" json:"capabilities,omitempty" firestore:"capabilities"`
-	NumThreads      uint32                                                              `protobuf:"varint,4,opt,name=num_threads,json=numThreads,proto3" json:"num_threads,omitempty" firestore:"numThreads"`
-	NumCores        uint32                                                              `protobuf:"varint,5,opt,name=num_cores,json=numCores,proto3" json:"num_cores,omitempty" firestore:"numCores"`
-	NumEnabledCores uint32                                                              `protobuf:"varint,6,opt,name=num_enabled_cores,json=numEnabledCores,proto3" json:"num_enabled_cores,omitempty" firestore:"numEnabledCores"`
-	Name            string                                                              `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Serial          string                                                              `protobuf:"bytes,8,opt,name=serial,proto3" json:"serial,omitempty" firestore:"serial"`
-	FrequencyMhz    int64                                                               `protobuf:"varint,9,opt,name=frequency_mhz,json=frequencyMhz,proto3" json:"frequency_mhz,omitempty" firestore:"frequencyMhz"`
-	MaxFrequencyMhz int64                                                               `protobuf:"varint,10,opt,name=max_frequency_mhz,json=maxFrequencyMhz,proto3" json:"max_frequency_mhz,omitempty" firestore:"maxFrequencyMhz"`
-	CacheInfo       []*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache `protobuf:"bytes,11,rep,name=cache_info,json=cacheInfo,proto3" json:"cache_info,omitempty" firestore:"cacheInfo"`
-	Driver          string                                                              `protobuf:"bytes,12,opt,name=driver,proto3" json:"driver,omitempty" firestore:"driver"`
-	Latency         int64                                                               `protobuf:"varint,13,opt,name=latency,proto3" json:"latency,omitempty" firestore:"latency"`
-	Clock           int64                                                               `protobuf:"varint,14,opt,name=clock,proto3" json:"clock,omitempty" firestore:"clock"`
+	Vendor          string                                                              `protobuf:"bytes,1,opt,name=vendor,proto3" json:"vendor,omitempty"`
+	Model           string                                                              `protobuf:"bytes,2,opt,name=model,proto3" json:"model,omitempty"`
+	Capabilities    []*Device_Status_DeviceInfo_HardwareInformation_Capability          `protobuf:"bytes,3,rep,name=capabilities,proto3" json:"capabilities,omitempty"`
+	NumThreads      uint32                                                              `protobuf:"varint,4,opt,name=num_threads,json=numThreads,proto3" json:"num_threads,omitempty"`
+	NumCores        uint32                                                              `protobuf:"varint,5,opt,name=num_cores,json=numCores,proto3" json:"num_cores,omitempty"`
+	NumEnabledCores uint32                                                              `protobuf:"varint,6,opt,name=num_enabled_cores,json=numEnabledCores,proto3" json:"num_enabled_cores,omitempty"`
+	Name            string                                                              `protobuf:"bytes,7,opt,name=name,proto3" json:"name,omitempty"`
+	Serial          string                                                              `protobuf:"bytes,8,opt,name=serial,proto3" json:"serial,omitempty"`
+	FrequencyMhz    int64                                                               `protobuf:"varint,9,opt,name=frequency_mhz,json=frequencyMhz,proto3" json:"frequency_mhz,omitempty"`
+	MaxFrequencyMhz int64                                                               `protobuf:"varint,10,opt,name=max_frequency_mhz,json=maxFrequencyMhz,proto3" json:"max_frequency_mhz,omitempty"`
+	CacheInfo       []*Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache `protobuf:"bytes,11,rep,name=cache_info,json=cacheInfo,proto3" json:"cache_info,omitempty"`
+	Driver          string                                                              `protobuf:"bytes,12,opt,name=driver,proto3" json:"driver,omitempty"`
+	Latency         int64                                                               `protobuf:"varint,13,opt,name=latency,proto3" json:"latency,omitempty"`
+	Clock           int64                                                               `protobuf:"varint,14,opt,name=clock,proto3" json:"clock,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor) Reset() {
@@ -5573,8 +5573,8 @@ type Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Type          string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
-	SizeBytes     int64  `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty" firestore:"sizeBytes"`
+	Type          string `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"`
+	SizeBytes     int64  `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_CPU_Processor_Cache) Reset() {
@@ -5659,14 +5659,14 @@ type Device_Status_DeviceInfo_HardwareInformation_Block_Disk struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          string                                                               `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SizeBytes     int64                                                                `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty" firestore:"sizeBytes"`
-	DriveType     string                                                               `protobuf:"bytes,3,opt,name=drive_type,json=driveType,proto3" json:"drive_type,omitempty" firestore:"driveType"`
-	Vendor        string                                                               `protobuf:"bytes,4,opt,name=vendor,proto3" json:"vendor,omitempty" firestore:"vendor"`
-	Model         string                                                               `protobuf:"bytes,5,opt,name=model,proto3" json:"model,omitempty" firestore:"model"`
-	SerialNumber  string                                                               `protobuf:"bytes,6,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	Wwn           string                                                               `protobuf:"bytes,7,opt,name=wwn,proto3" json:"wwn,omitempty" firestore:"wwn"`
-	Partitions    []*Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition `protobuf:"bytes,8,rep,name=partitions,proto3" json:"partitions,omitempty" firestore:"partitions"`
+	Name          string                                                               `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	SizeBytes     int64                                                                `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
+	DriveType     string                                                               `protobuf:"bytes,3,opt,name=drive_type,json=driveType,proto3" json:"drive_type,omitempty"`
+	Vendor        string                                                               `protobuf:"bytes,4,opt,name=vendor,proto3" json:"vendor,omitempty"`
+	Model         string                                                               `protobuf:"bytes,5,opt,name=model,proto3" json:"model,omitempty"`
+	SerialNumber  string                                                               `protobuf:"bytes,6,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	Wwn           string                                                               `protobuf:"bytes,7,opt,name=wwn,proto3" json:"wwn,omitempty"`
+	Partitions    []*Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition `protobuf:"bytes,8,rep,name=partitions,proto3" json:"partitions,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_Block_Disk) Reset() {
@@ -5835,10 +5835,10 @@ type Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	SizeBytes     int64  `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty" firestore:"sizeBytes"`
-	MountPoint    string `protobuf:"bytes,3,opt,name=mount_point,json=mountPoint,proto3" json:"mount_point,omitempty" firestore:"mountPoint"`
-	Type          string `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	SizeBytes     int64  `protobuf:"varint,2,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
+	MountPoint    string `protobuf:"bytes,3,opt,name=mount_point,json=mountPoint,proto3" json:"mount_point,omitempty"`
+	Type          string `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_Block_Disk_Partition) Reset() {
@@ -5951,14 +5951,14 @@ type Device_Status_DeviceInfo_HardwareInformation_Network_NIC struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	MacAddress    string            `protobuf:"bytes,2,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty" firestore:"macAddress"`
-	Virtual       bool              `protobuf:"varint,3,opt,name=virtual,proto3" json:"virtual,omitempty" firestore:"virtual"`
-	Description   string            `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
-	ProductName   string            `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	Vendor        string            `protobuf:"bytes,6,opt,name=vendor,proto3" json:"vendor,omitempty" firestore:"vendor"`
-	Subvendor     string            `protobuf:"bytes,7,opt,name=subvendor,proto3" json:"subvendor,omitempty" firestore:"subvendor"`
-	Setting       map[string]string `protobuf:"bytes,8,rep,name=setting,proto3" json:"setting,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"setting"`
+	Name          string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	MacAddress    string            `protobuf:"bytes,2,opt,name=mac_address,json=macAddress,proto3" json:"mac_address,omitempty"`
+	Virtual       bool              `protobuf:"varint,3,opt,name=virtual,proto3" json:"virtual,omitempty"`
+	Description   string            `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	ProductName   string            `protobuf:"bytes,5,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	Vendor        string            `protobuf:"bytes,6,opt,name=vendor,proto3" json:"vendor,omitempty"`
+	Subvendor     string            `protobuf:"bytes,7,opt,name=subvendor,proto3" json:"subvendor,omitempty"`
+	Setting       map[string]string `protobuf:"bytes,8,rep,name=setting,proto3" json:"setting,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_Network_NIC) Reset() {
@@ -6127,8 +6127,8 @@ type Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Index         int64                                                   `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty" firestore:"index"`
-	Device        *Device_Status_DeviceInfo_HardwareInformation_PCIDevice `protobuf:"bytes,2,opt,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Index         int64                                                   `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+	Device        *Device_Status_DeviceInfo_HardwareInformation_PCIDevice `protobuf:"bytes,2,opt,name=device,proto3" json:"device,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_GPU_GraphicCard) Reset() {
@@ -6213,14 +6213,14 @@ type Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Description   string `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty" firestore:"description"`
-	Product       string `protobuf:"bytes,2,opt,name=product,proto3" json:"product,omitempty" firestore:"product"`
-	Vendor        string `protobuf:"bytes,3,opt,name=vendor,proto3" json:"vendor,omitempty" firestore:"vendor"`
-	Serial        string `protobuf:"bytes,4,opt,name=serial,proto3" json:"serial,omitempty" firestore:"serial"`
-	Slot          string `protobuf:"bytes,5,opt,name=slot,proto3" json:"slot,omitempty" firestore:"slot"`
-	SizeBytes     int64  `protobuf:"varint,6,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty" firestore:"sizeBytes"`
-	FrequencyHz   int64  `protobuf:"varint,7,opt,name=frequency_hz,json=frequencyHz,proto3" json:"frequency_hz,omitempty" firestore:"frequencyHz"`
-	WidthBits     int32  `protobuf:"varint,8,opt,name=width_bits,json=widthBits,proto3" json:"width_bits,omitempty" firestore:"widthBits"`
+	Description   string `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
+	Product       string `protobuf:"bytes,2,opt,name=product,proto3" json:"product,omitempty"`
+	Vendor        string `protobuf:"bytes,3,opt,name=vendor,proto3" json:"vendor,omitempty"`
+	Serial        string `protobuf:"bytes,4,opt,name=serial,proto3" json:"serial,omitempty"`
+	Slot          string `protobuf:"bytes,5,opt,name=slot,proto3" json:"slot,omitempty"`
+	SizeBytes     int64  `protobuf:"varint,6,opt,name=size_bytes,json=sizeBytes,proto3" json:"size_bytes,omitempty"`
+	FrequencyHz   int64  `protobuf:"varint,7,opt,name=frequency_hz,json=frequencyHz,proto3" json:"frequency_hz,omitempty"`
+	WidthBits     int32  `protobuf:"varint,8,opt,name=width_bits,json=widthBits,proto3" json:"width_bits,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_MemoryInfo_MemoryBank) Reset() {
@@ -6389,15 +6389,15 @@ type Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo stru
 	state                      protoimpl.MessageState
 	sizeCache                  protoimpl.SizeCache
 	unknownFields              protoimpl.UnknownFields
-	DevId                      string `protobuf:"bytes,1,opt,name=dev_id,json=devId,proto3" json:"dev_id,omitempty" firestore:"devId"`
-	ControlProtoVersion        string `protobuf:"bytes,2,opt,name=control_proto_version,json=controlProtoVersion,proto3" json:"control_proto_version,omitempty" firestore:"controlProtoVersion"`
-	FirmwareVersion            string `protobuf:"bytes,3,opt,name=firmware_version,json=firmwareVersion,proto3" json:"firmware_version,omitempty" firestore:"firmwareVersion"`
-	LoggerVersion              string `protobuf:"bytes,4,opt,name=logger_version,json=loggerVersion,proto3" json:"logger_version,omitempty" firestore:"loggerVersion"`
-	BoardName                  string `protobuf:"bytes,5,opt,name=board_name,json=boardName,proto3" json:"board_name,omitempty" firestore:"boardName"`
-	SerialNumber               string `protobuf:"bytes,6,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty" firestore:"serialNumber"`
-	PartNumber                 string `protobuf:"bytes,7,opt,name=part_number,json=partNumber,proto3" json:"part_number,omitempty" firestore:"partNumber"`
-	ProductName                string `protobuf:"bytes,8,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
-	NeuralNetworkCoreClockRate string `protobuf:"bytes,9,opt,name=neural_network_core_clock_rate,json=neuralNetworkCoreClockRate,proto3" json:"neural_network_core_clock_rate,omitempty" firestore:"neuralNetworkCoreClockRate"`
+	DevId                      string `protobuf:"bytes,1,opt,name=dev_id,json=devId,proto3" json:"dev_id,omitempty"`
+	ControlProtoVersion        string `protobuf:"bytes,2,opt,name=control_proto_version,json=controlProtoVersion,proto3" json:"control_proto_version,omitempty"`
+	FirmwareVersion            string `protobuf:"bytes,3,opt,name=firmware_version,json=firmwareVersion,proto3" json:"firmware_version,omitempty"`
+	LoggerVersion              string `protobuf:"bytes,4,opt,name=logger_version,json=loggerVersion,proto3" json:"logger_version,omitempty"`
+	BoardName                  string `protobuf:"bytes,5,opt,name=board_name,json=boardName,proto3" json:"board_name,omitempty"`
+	SerialNumber               string `protobuf:"bytes,6,opt,name=serial_number,json=serialNumber,proto3" json:"serial_number,omitempty"`
+	PartNumber                 string `protobuf:"bytes,7,opt,name=part_number,json=partNumber,proto3" json:"part_number,omitempty"`
+	ProductName                string `protobuf:"bytes,8,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
+	NeuralNetworkCoreClockRate string `protobuf:"bytes,9,opt,name=neural_network_core_clock_rate,json=neuralNetworkCoreClockRate,proto3" json:"neural_network_core_clock_rate,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_HailoInfo_HailoModuleInfo) Reset() {
@@ -6580,8 +6580,8 @@ type Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty" firestore:"id"`
-	ProductName   string `protobuf:"bytes,2,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty" firestore:"productName"`
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	ProductName   string `protobuf:"bytes,2,opt,name=product_name,json=productName,proto3" json:"product_name,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_NvidiaInfo_GpuInfo) Reset() {
@@ -6666,8 +6666,8 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettin
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	DrxCycle      string `protobuf:"bytes,1,opt,name=drx_cycle,json=drxCycle,proto3" json:"drx_cycle,omitempty" firestore:"drxCycle"`
-	MicoMode      string `protobuf:"bytes,2,opt,name=mico_mode,json=micoMode,proto3" json:"mico_mode,omitempty" firestore:"micoMode"`
+	DrxCycle      string `protobuf:"bytes,1,opt,name=drx_cycle,json=drxCycle,proto3" json:"drx_cycle,omitempty"`
+	MicoMode      string `protobuf:"bytes,2,opt,name=mico_mode,json=micoMode,proto3" json:"mico_mode,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings) Reset() {
@@ -6754,7 +6754,7 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr struct {
 	state                protoimpl.MessageState
 	sizeCache            protoimpl.SizeCache
 	unknownFields        protoimpl.UnknownFields
-	RegistrationSettings *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings `protobuf:"bytes,1,opt,name=registration_settings,json=registrationSettings,proto3" json:"registration_settings,omitempty" firestore:"registrationSettings"`
+	RegistrationSettings *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_RegistrationSettings `protobuf:"bytes,1,opt,name=registration_settings,json=registrationSettings,proto3" json:"registration_settings,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr) Reset() {
@@ -6825,10 +6825,10 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Apn           string `protobuf:"bytes,1,opt,name=apn,proto3" json:"apn,omitempty" firestore:"apn"`
-	IpType        string `protobuf:"bytes,2,opt,name=ip_type,json=ipType,proto3" json:"ip_type,omitempty" firestore:"ipType"`
-	Password      string `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty" firestore:"password"`
-	User          string `protobuf:"bytes,4,opt,name=user,proto3" json:"user,omitempty" firestore:"user"`
+	Apn           string `protobuf:"bytes,1,opt,name=apn,proto3" json:"apn,omitempty"`
+	IpType        string `protobuf:"bytes,2,opt,name=ip_type,json=ipType,proto3" json:"ip_type,omitempty"`
+	Password      string `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	User          string `protobuf:"bytes,4,opt,name=user,proto3" json:"user,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings) Reset() {
@@ -6941,8 +6941,8 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer stru
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	DbusPath      string                                                             `protobuf:"bytes,1,opt,name=dbus_path,json=dbusPath,proto3" json:"dbus_path,omitempty" firestore:"dbusPath"`
-	Settings      *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings `protobuf:"bytes,2,opt,name=settings,proto3" json:"settings,omitempty" firestore:"settings"`
+	DbusPath      string                                                             `protobuf:"bytes,1,opt,name=dbus_path,json=dbusPath,proto3" json:"dbus_path,omitempty"`
+	Settings      *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Settings `protobuf:"bytes,2,opt,name=settings,proto3" json:"settings,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer) Reset() {
@@ -7027,8 +7027,8 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps struct {
 	state           protoimpl.MessageState
 	sizeCache       protoimpl.SizeCache
 	unknownFields   protoimpl.UnknownFields
-	InitialBearer   *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer `protobuf:"bytes,1,opt,name=initial_bearer,json=initialBearer,proto3" json:"initial_bearer,omitempty" firestore:"initialBearer"`
-	UeModeOperation string                                                                  `protobuf:"bytes,2,opt,name=ue_mode_operation,json=ueModeOperation,proto3" json:"ue_mode_operation,omitempty" firestore:"ueModeOperation"`
+	InitialBearer   *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_InitialBearer `protobuf:"bytes,1,opt,name=initial_bearer,json=initialBearer,proto3" json:"initial_bearer,omitempty"`
+	UeModeOperation string                                                                  `protobuf:"bytes,2,opt,name=ue_mode_operation,json=ueModeOperation,proto3" json:"ue_mode_operation,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps) Reset() {
@@ -7113,15 +7113,15 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp struct {
 	state              protoimpl.MessageState
 	sizeCache          protoimpl.SizeCache
 	unknownFields      protoimpl.UnknownFields
-	FivegNr            *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr `protobuf:"bytes,1,opt,name=fiveg_nr,json=fivegNr,proto3" json:"fiveg_nr,omitempty" firestore:"fivegNr"`
-	EnabledLocks       []string                                                          `protobuf:"bytes,2,rep,name=enabled_locks,json=enabledLocks,proto3" json:"enabled_locks,omitempty" firestore:"enabledLocks"`
-	Eps                *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps     `protobuf:"bytes,3,opt,name=eps,proto3" json:"eps,omitempty" firestore:"eps"`
-	Imei               string                                                            `protobuf:"bytes,4,opt,name=imei,proto3" json:"imei,omitempty" firestore:"imei"`
-	OperatorCode       string                                                            `protobuf:"bytes,5,opt,name=operator_code,json=operatorCode,proto3" json:"operator_code,omitempty" firestore:"operatorCode"`
-	OperatorName       string                                                            `protobuf:"bytes,6,opt,name=operator_name,json=operatorName,proto3" json:"operator_name,omitempty" firestore:"operatorName"`
-	PacketServiceState string                                                            `protobuf:"bytes,7,opt,name=packet_service_state,json=packetServiceState,proto3" json:"packet_service_state,omitempty" firestore:"packetServiceState"`
-	Pco                string                                                            `protobuf:"bytes,8,opt,name=pco,proto3" json:"pco,omitempty" firestore:"pco"`
-	RegistrationState  string                                                            `protobuf:"bytes,9,opt,name=registration_state,json=registrationState,proto3" json:"registration_state,omitempty" firestore:"registrationState"`
+	FivegNr            *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_FiveGNr `protobuf:"bytes,1,opt,name=fiveg_nr,json=fivegNr,proto3" json:"fiveg_nr,omitempty"`
+	EnabledLocks       []string                                                          `protobuf:"bytes,2,rep,name=enabled_locks,json=enabledLocks,proto3" json:"enabled_locks,omitempty"`
+	Eps                *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Eps     `protobuf:"bytes,3,opt,name=eps,proto3" json:"eps,omitempty"`
+	Imei               string                                                            `protobuf:"bytes,4,opt,name=imei,proto3" json:"imei,omitempty"`
+	OperatorCode       string                                                            `protobuf:"bytes,5,opt,name=operator_code,json=operatorCode,proto3" json:"operator_code,omitempty"`
+	OperatorName       string                                                            `protobuf:"bytes,6,opt,name=operator_name,json=operatorName,proto3" json:"operator_name,omitempty"`
+	PacketServiceState string                                                            `protobuf:"bytes,7,opt,name=packet_service_state,json=packetServiceState,proto3" json:"packet_service_state,omitempty"`
+	Pco                string                                                            `protobuf:"bytes,8,opt,name=pco,proto3" json:"pco,omitempty"`
+	RegistrationState  string                                                            `protobuf:"bytes,9,opt,name=registration_state,json=registrationState,proto3" json:"registration_state,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp) Reset() {
@@ -7304,13 +7304,13 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma struct {
 	state                   protoimpl.MessageState
 	sizeCache               protoimpl.SizeCache
 	unknownFields           protoimpl.UnknownFields
-	ActivationState         string `protobuf:"bytes,1,opt,name=activation_state,json=activationState,proto3" json:"activation_state,omitempty" firestore:"activationState"`
-	Cdma1XRegistrationState string `protobuf:"bytes,2,opt,name=cdma1x_registration_state,json=cdma1xRegistrationState,proto3" json:"cdma1x_registration_state,omitempty" firestore:"cdma1xRegistrationState"`
-	Esn                     string `protobuf:"bytes,3,opt,name=esn,proto3" json:"esn,omitempty" firestore:"esn"`
-	EvdoRegistrationState   string `protobuf:"bytes,4,opt,name=evdo_registration_state,json=evdoRegistrationState,proto3" json:"evdo_registration_state,omitempty" firestore:"evdoRegistrationState"`
-	Meid                    string `protobuf:"bytes,5,opt,name=meid,proto3" json:"meid,omitempty" firestore:"meid"`
-	Nid                     string `protobuf:"bytes,6,opt,name=nid,proto3" json:"nid,omitempty" firestore:"nid"`
-	Sid                     string `protobuf:"bytes,7,opt,name=sid,proto3" json:"sid,omitempty" firestore:"sid"`
+	ActivationState         string `protobuf:"bytes,1,opt,name=activation_state,json=activationState,proto3" json:"activation_state,omitempty"`
+	Cdma1XRegistrationState string `protobuf:"bytes,2,opt,name=cdma1x_registration_state,json=cdma1xRegistrationState,proto3" json:"cdma1x_registration_state,omitempty"`
+	Esn                     string `protobuf:"bytes,3,opt,name=esn,proto3" json:"esn,omitempty"`
+	EvdoRegistrationState   string `protobuf:"bytes,4,opt,name=evdo_registration_state,json=evdoRegistrationState,proto3" json:"evdo_registration_state,omitempty"`
+	Meid                    string `protobuf:"bytes,5,opt,name=meid,proto3" json:"meid,omitempty"`
+	Nid                     string `protobuf:"bytes,6,opt,name=nid,proto3" json:"nid,omitempty"`
+	Sid                     string `protobuf:"bytes,7,opt,name=sid,proto3" json:"sid,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma) Reset() {
@@ -7465,8 +7465,8 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality stru
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Recent        string `protobuf:"bytes,1,opt,name=recent,proto3" json:"recent,omitempty" firestore:"recent"`
-	Value         string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Recent        string `protobuf:"bytes,1,opt,name=recent,proto3" json:"recent,omitempty"`
+	Value         string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality) Reset() {
@@ -7551,38 +7551,38 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic struct {
 	state                        protoimpl.MessageState
 	sizeCache                    protoimpl.SizeCache
 	unknownFields                protoimpl.UnknownFields
-	AccessTechnologies           []string                                                                `protobuf:"bytes,1,rep,name=access_technologies,json=accessTechnologies,proto3" json:"access_technologies,omitempty" firestore:"accessTechnologies"`
-	Bearers                      []string                                                                `protobuf:"bytes,2,rep,name=bearers,proto3" json:"bearers,omitempty" firestore:"bearers"`
-	CarrierConfiguration         string                                                                  `protobuf:"bytes,3,opt,name=carrier_configuration,json=carrierConfiguration,proto3" json:"carrier_configuration,omitempty" firestore:"carrierConfiguration"`
-	CarrierConfigurationRevision string                                                                  `protobuf:"bytes,4,opt,name=carrier_configuration_revision,json=carrierConfigurationRevision,proto3" json:"carrier_configuration_revision,omitempty" firestore:"carrierConfigurationRevision"`
-	CurrentBands                 []string                                                                `protobuf:"bytes,5,rep,name=current_bands,json=currentBands,proto3" json:"current_bands,omitempty" firestore:"currentBands"`
-	CurrentCapabilities          []string                                                                `protobuf:"bytes,6,rep,name=current_capabilities,json=currentCapabilities,proto3" json:"current_capabilities,omitempty" firestore:"currentCapabilities"`
-	CurrentModes                 string                                                                  `protobuf:"bytes,7,opt,name=current_modes,json=currentModes,proto3" json:"current_modes,omitempty" firestore:"currentModes"`
-	Device                       string                                                                  `protobuf:"bytes,8,opt,name=device,proto3" json:"device,omitempty" firestore:"device"`
-	DeviceIdentifier             string                                                                  `protobuf:"bytes,9,opt,name=device_identifier,json=deviceIdentifier,proto3" json:"device_identifier,omitempty" firestore:"deviceIdentifier"`
-	Drivers                      []string                                                                `protobuf:"bytes,10,rep,name=drivers,proto3" json:"drivers,omitempty" firestore:"drivers"`
-	EquipmentIdentifier          string                                                                  `protobuf:"bytes,11,opt,name=equipment_identifier,json=equipmentIdentifier,proto3" json:"equipment_identifier,omitempty" firestore:"equipmentIdentifier"`
-	HardwareRevision             string                                                                  `protobuf:"bytes,12,opt,name=hardware_revision,json=hardwareRevision,proto3" json:"hardware_revision,omitempty" firestore:"hardwareRevision"`
-	Manufacturer                 string                                                                  `protobuf:"bytes,13,opt,name=manufacturer,proto3" json:"manufacturer,omitempty" firestore:"manufacturer"`
-	Model                        string                                                                  `protobuf:"bytes,14,opt,name=model,proto3" json:"model,omitempty" firestore:"model"`
-	OwnNumbers                   []string                                                                `protobuf:"bytes,15,rep,name=own_numbers,json=ownNumbers,proto3" json:"own_numbers,omitempty" firestore:"ownNumbers"`
-	Plugin                       string                                                                  `protobuf:"bytes,16,opt,name=plugin,proto3" json:"plugin,omitempty" firestore:"plugin"`
-	Ports                        []string                                                                `protobuf:"bytes,17,rep,name=ports,proto3" json:"ports,omitempty" firestore:"ports"`
-	PowerState                   string                                                                  `protobuf:"bytes,18,opt,name=power_state,json=powerState,proto3" json:"power_state,omitempty" firestore:"powerState"`
-	PrimaryPort                  string                                                                  `protobuf:"bytes,19,opt,name=primary_port,json=primaryPort,proto3" json:"primary_port,omitempty" firestore:"primaryPort"`
-	PrimarySimSlot               string                                                                  `protobuf:"bytes,20,opt,name=primary_sim_slot,json=primarySimSlot,proto3" json:"primary_sim_slot,omitempty" firestore:"primarySimSlot"`
-	Revision                     string                                                                  `protobuf:"bytes,21,opt,name=revision,proto3" json:"revision,omitempty" firestore:"revision"`
-	SignalQuality                *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality `protobuf:"bytes,22,opt,name=signal_quality,json=signalQuality,proto3" json:"signal_quality,omitempty" firestore:"signalQuality"`
-	Sim                          string                                                                  `protobuf:"bytes,23,opt,name=sim,proto3" json:"sim,omitempty" firestore:"sim"`
-	SimSlots                     []string                                                                `protobuf:"bytes,24,rep,name=sim_slots,json=simSlots,proto3" json:"sim_slots,omitempty" firestore:"simSlots"`
-	State                        string                                                                  `protobuf:"bytes,25,opt,name=state,proto3" json:"state,omitempty" firestore:"state"`
-	StateFailedReason            string                                                                  `protobuf:"bytes,26,opt,name=state_failed_reason,json=stateFailedReason,proto3" json:"state_failed_reason,omitempty" firestore:"stateFailedReason"`
-	SupportedBands               []string                                                                `protobuf:"bytes,27,rep,name=supported_bands,json=supportedBands,proto3" json:"supported_bands,omitempty" firestore:"supportedBands"`
-	SupportedCapabilities        []string                                                                `protobuf:"bytes,28,rep,name=supported_capabilities,json=supportedCapabilities,proto3" json:"supported_capabilities,omitempty" firestore:"supportedCapabilities"`
-	SupportedIpFamilies          []string                                                                `protobuf:"bytes,29,rep,name=supported_ip_families,json=supportedIpFamilies,proto3" json:"supported_ip_families,omitempty" firestore:"supportedIpFamilies"`
-	SupportedModes               []string                                                                `protobuf:"bytes,30,rep,name=supported_modes,json=supportedModes,proto3" json:"supported_modes,omitempty" firestore:"supportedModes"`
-	UnlockRequired               string                                                                  `protobuf:"bytes,31,opt,name=unlock_required,json=unlockRequired,proto3" json:"unlock_required,omitempty" firestore:"unlockRequired"`
-	UnlockRetries                []string                                                                `protobuf:"bytes,32,rep,name=unlock_retries,json=unlockRetries,proto3" json:"unlock_retries,omitempty" firestore:"unlockRetries"`
+	AccessTechnologies           []string                                                                `protobuf:"bytes,1,rep,name=access_technologies,json=accessTechnologies,proto3" json:"access_technologies,omitempty"`
+	Bearers                      []string                                                                `protobuf:"bytes,2,rep,name=bearers,proto3" json:"bearers,omitempty"`
+	CarrierConfiguration         string                                                                  `protobuf:"bytes,3,opt,name=carrier_configuration,json=carrierConfiguration,proto3" json:"carrier_configuration,omitempty"`
+	CarrierConfigurationRevision string                                                                  `protobuf:"bytes,4,opt,name=carrier_configuration_revision,json=carrierConfigurationRevision,proto3" json:"carrier_configuration_revision,omitempty"`
+	CurrentBands                 []string                                                                `protobuf:"bytes,5,rep,name=current_bands,json=currentBands,proto3" json:"current_bands,omitempty"`
+	CurrentCapabilities          []string                                                                `protobuf:"bytes,6,rep,name=current_capabilities,json=currentCapabilities,proto3" json:"current_capabilities,omitempty"`
+	CurrentModes                 string                                                                  `protobuf:"bytes,7,opt,name=current_modes,json=currentModes,proto3" json:"current_modes,omitempty"`
+	Device                       string                                                                  `protobuf:"bytes,8,opt,name=device,proto3" json:"device,omitempty"`
+	DeviceIdentifier             string                                                                  `protobuf:"bytes,9,opt,name=device_identifier,json=deviceIdentifier,proto3" json:"device_identifier,omitempty"`
+	Drivers                      []string                                                                `protobuf:"bytes,10,rep,name=drivers,proto3" json:"drivers,omitempty"`
+	EquipmentIdentifier          string                                                                  `protobuf:"bytes,11,opt,name=equipment_identifier,json=equipmentIdentifier,proto3" json:"equipment_identifier,omitempty"`
+	HardwareRevision             string                                                                  `protobuf:"bytes,12,opt,name=hardware_revision,json=hardwareRevision,proto3" json:"hardware_revision,omitempty"`
+	Manufacturer                 string                                                                  `protobuf:"bytes,13,opt,name=manufacturer,proto3" json:"manufacturer,omitempty"`
+	Model                        string                                                                  `protobuf:"bytes,14,opt,name=model,proto3" json:"model,omitempty"`
+	OwnNumbers                   []string                                                                `protobuf:"bytes,15,rep,name=own_numbers,json=ownNumbers,proto3" json:"own_numbers,omitempty"`
+	Plugin                       string                                                                  `protobuf:"bytes,16,opt,name=plugin,proto3" json:"plugin,omitempty"`
+	Ports                        []string                                                                `protobuf:"bytes,17,rep,name=ports,proto3" json:"ports,omitempty"`
+	PowerState                   string                                                                  `protobuf:"bytes,18,opt,name=power_state,json=powerState,proto3" json:"power_state,omitempty"`
+	PrimaryPort                  string                                                                  `protobuf:"bytes,19,opt,name=primary_port,json=primaryPort,proto3" json:"primary_port,omitempty"`
+	PrimarySimSlot               string                                                                  `protobuf:"bytes,20,opt,name=primary_sim_slot,json=primarySimSlot,proto3" json:"primary_sim_slot,omitempty"`
+	Revision                     string                                                                  `protobuf:"bytes,21,opt,name=revision,proto3" json:"revision,omitempty"`
+	SignalQuality                *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SignalQuality `protobuf:"bytes,22,opt,name=signal_quality,json=signalQuality,proto3" json:"signal_quality,omitempty"`
+	Sim                          string                                                                  `protobuf:"bytes,23,opt,name=sim,proto3" json:"sim,omitempty"`
+	SimSlots                     []string                                                                `protobuf:"bytes,24,rep,name=sim_slots,json=simSlots,proto3" json:"sim_slots,omitempty"`
+	State                        string                                                                  `protobuf:"bytes,25,opt,name=state,proto3" json:"state,omitempty"`
+	StateFailedReason            string                                                                  `protobuf:"bytes,26,opt,name=state_failed_reason,json=stateFailedReason,proto3" json:"state_failed_reason,omitempty"`
+	SupportedBands               []string                                                                `protobuf:"bytes,27,rep,name=supported_bands,json=supportedBands,proto3" json:"supported_bands,omitempty"`
+	SupportedCapabilities        []string                                                                `protobuf:"bytes,28,rep,name=supported_capabilities,json=supportedCapabilities,proto3" json:"supported_capabilities,omitempty"`
+	SupportedIpFamilies          []string                                                                `protobuf:"bytes,29,rep,name=supported_ip_families,json=supportedIpFamilies,proto3" json:"supported_ip_families,omitempty"`
+	SupportedModes               []string                                                                `protobuf:"bytes,30,rep,name=supported_modes,json=supportedModes,proto3" json:"supported_modes,omitempty"`
+	UnlockRequired               string                                                                  `protobuf:"bytes,31,opt,name=unlock_required,json=unlockRequired,proto3" json:"unlock_required,omitempty"`
+	UnlockRetries                []string                                                                `protobuf:"bytes,32,rep,name=unlock_retries,json=unlockRetries,proto3" json:"unlock_retries,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic) Reset() {
@@ -8087,19 +8087,19 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus struct {
 	state            protoimpl.MessageState
 	sizeCache        protoimpl.SizeCache
 	unknownFields    protoimpl.UnknownFields
-	DbusPath         string   `protobuf:"bytes,1,opt,name=dbus_path,json=dbusPath,proto3" json:"dbus_path,omitempty" firestore:"dbusPath"`
-	Active           string   `protobuf:"bytes,2,opt,name=active,proto3" json:"active,omitempty" firestore:"active"`
-	Eid              string   `protobuf:"bytes,3,opt,name=eid,proto3" json:"eid,omitempty" firestore:"eid"`
-	EmergencyNumbers []string `protobuf:"bytes,4,rep,name=emergency_numbers,json=emergencyNumbers,proto3" json:"emergency_numbers,omitempty" firestore:"emergencyNumbers"`
-	EsimStatus       string   `protobuf:"bytes,5,opt,name=esim_status,json=esimStatus,proto3" json:"esim_status,omitempty" firestore:"esimStatus"`
-	Gid1             string   `protobuf:"bytes,6,opt,name=gid1,proto3" json:"gid1,omitempty" firestore:"gid1"`
-	Gid2             string   `protobuf:"bytes,7,opt,name=gid2,proto3" json:"gid2,omitempty" firestore:"gid2"`
-	Iccid            string   `protobuf:"bytes,8,opt,name=iccid,proto3" json:"iccid,omitempty" firestore:"iccid"`
-	Imsi             string   `protobuf:"bytes,9,opt,name=imsi,proto3" json:"imsi,omitempty" firestore:"imsi"`
-	OperatorCode     string   `protobuf:"bytes,10,opt,name=operator_code,json=operatorCode,proto3" json:"operator_code,omitempty" firestore:"operatorCode"`
-	OperatorName     string   `protobuf:"bytes,11,opt,name=operator_name,json=operatorName,proto3" json:"operator_name,omitempty" firestore:"operatorName"`
-	Removability     string   `protobuf:"bytes,12,opt,name=removability,proto3" json:"removability,omitempty" firestore:"removability"`
-	SimType          string   `protobuf:"bytes,13,opt,name=sim_type,json=simType,proto3" json:"sim_type,omitempty" firestore:"simType"`
+	DbusPath         string   `protobuf:"bytes,1,opt,name=dbus_path,json=dbusPath,proto3" json:"dbus_path,omitempty"`
+	Active           string   `protobuf:"bytes,2,opt,name=active,proto3" json:"active,omitempty"`
+	Eid              string   `protobuf:"bytes,3,opt,name=eid,proto3" json:"eid,omitempty"`
+	EmergencyNumbers []string `protobuf:"bytes,4,rep,name=emergency_numbers,json=emergencyNumbers,proto3" json:"emergency_numbers,omitempty"`
+	EsimStatus       string   `protobuf:"bytes,5,opt,name=esim_status,json=esimStatus,proto3" json:"esim_status,omitempty"`
+	Gid1             string   `protobuf:"bytes,6,opt,name=gid1,proto3" json:"gid1,omitempty"`
+	Gid2             string   `protobuf:"bytes,7,opt,name=gid2,proto3" json:"gid2,omitempty"`
+	Iccid            string   `protobuf:"bytes,8,opt,name=iccid,proto3" json:"iccid,omitempty"`
+	Imsi             string   `protobuf:"bytes,9,opt,name=imsi,proto3" json:"imsi,omitempty"`
+	OperatorCode     string   `protobuf:"bytes,10,opt,name=operator_code,json=operatorCode,proto3" json:"operator_code,omitempty"`
+	OperatorName     string   `protobuf:"bytes,11,opt,name=operator_name,json=operatorName,proto3" json:"operator_name,omitempty"`
+	Removability     string   `protobuf:"bytes,12,opt,name=removability,proto3" json:"removability,omitempty"`
+	SimType          string   `protobuf:"bytes,13,opt,name=sim_type,json=simType,proto3" json:"sim_type,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus) Reset() {
@@ -8338,11 +8338,11 @@ type Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	ThreeGPp      *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp             `protobuf:"bytes,1,opt,name=three_g_pp,json=threeGPp,proto3" json:"three_g_pp,omitempty" firestore:"threeGPp"`
-	Cdma          *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma                 `protobuf:"bytes,2,opt,name=cdma,proto3" json:"cdma,omitempty" firestore:"cdma"`
-	DbusPath      string                                                                         `protobuf:"bytes,3,opt,name=dbus_path,json=dbusPath,proto3" json:"dbus_path,omitempty" firestore:"dbusPath"`
-	Generic       *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic              `protobuf:"bytes,4,opt,name=generic,proto3" json:"generic,omitempty" firestore:"generic"`
-	SimStatus     map[string]*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus `protobuf:"bytes,7,rep,name=sim_status,json=simStatus,proto3" json:"sim_status,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"simStatus"`
+	ThreeGPp      *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_ThreeGpp             `protobuf:"bytes,1,opt,name=three_g_pp,json=threeGPp,proto3" json:"three_g_pp,omitempty"`
+	Cdma          *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Cdma                 `protobuf:"bytes,2,opt,name=cdma,proto3" json:"cdma,omitempty"`
+	DbusPath      string                                                                         `protobuf:"bytes,3,opt,name=dbus_path,json=dbusPath,proto3" json:"dbus_path,omitempty"`
+	Generic       *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Generic              `protobuf:"bytes,4,opt,name=generic,proto3" json:"generic,omitempty"`
+	SimStatus     map[string]*Device_Status_DeviceInfo_HardwareInformation_ModemStatus_SimStatus `protobuf:"bytes,7,rep,name=sim_status,json=simStatus,proto3" json:"sim_status,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (m *Device_Status_DeviceInfo_HardwareInformation_ModemStatus_Modem) Reset() {
@@ -8470,16 +8470,16 @@ type Device_Status_DeviceInfo_NetworkInterface_ASInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// AS Number string example AS7018
-	Asn string `protobuf:"bytes,1,opt,name=asn,proto3" json:"asn,omitempty" firestore:"asn"`
+	Asn string `protobuf:"bytes,1,opt,name=asn,proto3" json:"asn,omitempty"`
 	// AS Owner name example AT&T Services, Inc.
-	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	// Domain name example att.com
-	Domain string `protobuf:"bytes,3,opt,name=domain,proto3" json:"domain,omitempty" firestore:"domain"`
+	Domain string `protobuf:"bytes,3,opt,name=domain,proto3" json:"domain,omitempty"`
 	// Routes exported from this ASN example 12.128.0.0/9
-	Routes []string `protobuf:"bytes,4,rep,name=routes,proto3" json:"routes,omitempty" firestore:"routes"`
+	Routes []string `protobuf:"bytes,4,rep,name=routes,proto3" json:"routes,omitempty"`
 	// ASN Owner type example isp(AT&T) / hosting(google)/ business
 	// (Amazon)
-	AsnType string `protobuf:"bytes,5,opt,name=asn_type,json=asnType,proto3" json:"asn_type,omitempty" firestore:"asnType"`
+	AsnType string `protobuf:"bytes,5,opt,name=asn_type,json=asnType,proto3" json:"asn_type,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_NetworkInterface_ASInfo) Reset() {
@@ -8607,13 +8607,13 @@ type Device_Status_DeviceInfo_NetworkInterface_Carrier struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Mobile network carrier name example AT&T
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Mobile country code example 214
-	MobileCountryCode string `protobuf:"bytes,2,opt,name=mobile_country_code,json=mobileCountryCode,proto3" json:"mobile_country_code,omitempty" firestore:"mobileCountryCode"`
+	MobileCountryCode string `protobuf:"bytes,2,opt,name=mobile_country_code,json=mobileCountryCode,proto3" json:"mobile_country_code,omitempty"`
 	// Mobile network code example 7
-	MobileNetworkCode string `protobuf:"bytes,3,opt,name=mobile_network_code,json=mobileNetworkCode,proto3" json:"mobile_network_code,omitempty" firestore:"mobileNetworkCode"`
+	MobileNetworkCode string `protobuf:"bytes,3,opt,name=mobile_network_code,json=mobileNetworkCode,proto3" json:"mobile_network_code,omitempty"`
 	// Mobile location area code example 2862
-	LocationAreaCode string `protobuf:"bytes,4,opt,name=location_area_code,json=locationAreaCode,proto3" json:"location_area_code,omitempty" firestore:"locationAreaCode"`
+	LocationAreaCode string `protobuf:"bytes,4,opt,name=location_area_code,json=locationAreaCode,proto3" json:"location_area_code,omitempty"`
 }
 
 func (m *Device_Status_DeviceInfo_NetworkInterface_Carrier) Reset() {

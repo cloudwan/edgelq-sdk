@@ -59,12 +59,12 @@ type Point struct {
 	// subsequent points specifying the same start time and increasing end times,
 	// until an event resets the cumulative value to zero and sets a new start
 	// time for the following points.
-	Interval *common.TimeInterval `protobuf:"bytes,1,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *common.TimeInterval `protobuf:"bytes,1,opt,name=interval,proto3" json:"interval,omitempty"`
 	// The value of the data point.
-	Value *common.TypedValue `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Value *common.TypedValue `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 	// Additional aggregation info
 	// Used internally for batching rollup points
-	Aggregation *common.Aggregation `protobuf:"bytes,101,opt,name=aggregation,proto3" json:"aggregation,omitempty" firestore:"aggregation"`
+	Aggregation *common.Aggregation `protobuf:"bytes,101,opt,name=aggregation,proto3" json:"aggregation,omitempty"`
 }
 
 func (m *Point) Reset() {
@@ -176,17 +176,17 @@ type TimeSerie struct {
 	//
 	// Specific key is valid and understood only in single region only. If time
 	// serie is created by merging from multiple regions, key must be ignore.
-	Key []byte `protobuf:"bytes,101,opt,name=key,proto3" json:"key,omitempty" firestore:"key"`
+	Key []byte `protobuf:"bytes,101,opt,name=key,proto3" json:"key,omitempty"`
 	// Internal use - for bulk reporting of TimeSeries
-	Project string `protobuf:"bytes,102,opt,name=project,proto3" json:"project,omitempty" firestore:"project"`
+	Project string `protobuf:"bytes,102,opt,name=project,proto3" json:"project,omitempty"`
 	// Region ID associated with time serie.
-	Region string `protobuf:"bytes,103,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,103,opt,name=region,proto3" json:"region,omitempty"`
 	// The associated metric. A fully-specified metric used to identify the time
 	// series.
-	Metric *common.Metric `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty" firestore:"metric"`
+	Metric *common.Metric `protobuf:"bytes,1,opt,name=metric,proto3" json:"metric,omitempty"`
 	// The associated monitored resource.  Custom metrics can use only certain
 	// monitored resource types in their time series data.
-	Resource *common.MonitoredResource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *common.MonitoredResource `protobuf:"bytes,2,opt,name=resource,proto3" json:"resource,omitempty"`
 	// The metric kind of the time series. When listing time series, this metric
 	// kind might be different from the metric kind of the associated metric if
 	// this time series is an alignment or reduction of other time series.
@@ -196,14 +196,14 @@ type TimeSerie struct {
 	// metric's descriptor must be auto-created, then this field specifies the
 	// metric kind of the new descriptor and must be either `GAUGE` (the default)
 	// or `CUMULATIVE`.
-	MetricKind metric_descriptor.MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v3.MetricDescriptor_MetricKind" json:"metric_kind,omitempty" firestore:"metricKind"`
+	MetricKind metric_descriptor.MetricDescriptor_MetricKind `protobuf:"varint,3,opt,name=metric_kind,json=metricKind,proto3,enum=ntt.monitoring.v3.MetricDescriptor_MetricKind" json:"metric_kind,omitempty"`
 	// The value type of the time series. When listing time series, this value
 	// type might be different from the value type of the associated metric if
 	// this time series is an alignment or reduction of other time series.
 	//
 	// When creating a time series, this field is optional. If present, it must be
 	// the same as the type of the data in the `points` field.
-	ValueType metric_descriptor.MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v3.MetricDescriptor_ValueType" json:"value_type,omitempty" firestore:"valueType"`
+	ValueType metric_descriptor.MetricDescriptor_ValueType `protobuf:"varint,4,opt,name=value_type,json=valueType,proto3,enum=ntt.monitoring.v3.MetricDescriptor_ValueType" json:"value_type,omitempty"`
 	// The data points of this time series. When listing time series, points are
 	// returned in reverse time order.
 	//
@@ -212,7 +212,7 @@ type TimeSerie struct {
 	// metric. If the associated metric's descriptor must be auto-created, then
 	// the value type of the descriptor is determined by the point's type, which
 	// must be `BOOL`, `INT64`, `DOUBLE`, or `DISTRIBUTION`.
-	Points []*Point `protobuf:"bytes,5,rep,name=points,proto3" json:"points,omitempty" firestore:"points"`
+	Points []*Point `protobuf:"bytes,5,rep,name=points,proto3" json:"points,omitempty"`
 }
 
 func (m *TimeSerie) Reset() {
@@ -382,8 +382,8 @@ type BulkTimeSeries struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	TimeSeries    []*TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty" firestore:"timeSeries"`
-	PhantomFlag   bool         `protobuf:"varint,2,opt,name=phantom_flag,json=phantomFlag,proto3" json:"phantom_flag,omitempty" firestore:"phantomFlag"`
+	TimeSeries    []*TimeSerie `protobuf:"bytes,1,rep,name=time_series,json=timeSeries,proto3" json:"time_series,omitempty"`
+	PhantomFlag   bool         `protobuf:"varint,2,opt,name=phantom_flag,json=phantomFlag,proto3" json:"phantom_flag,omitempty"`
 }
 
 func (m *BulkTimeSeries) Reset() {

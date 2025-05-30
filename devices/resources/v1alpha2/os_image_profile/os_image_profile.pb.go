@@ -57,28 +57,28 @@ type OsImageProfile struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name     *Name      `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Name     *Name      `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display name of the profile
-	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// Device type for the profile
-	DeviceType *device_type.Reference `protobuf:"bytes,4,opt,customtype=Reference,name=device_type,json=deviceType,proto3" json:"device_type,omitempty" firestore:"deviceType"`
+	DeviceType *device_type.Reference `protobuf:"bytes,4,opt,customtype=Reference,name=device_type,json=deviceType,proto3" json:"device_type,omitempty"`
 	// Install runtimes and drivers for Hailo-8 and NVIDIA CUDA.
-	InstallAiAccelerator bool `protobuf:"varint,5,opt,name=install_ai_accelerator,json=installAiAccelerator,proto3" json:"install_ai_accelerator,omitempty" firestore:"installAiAccelerator"`
+	InstallAiAccelerator bool `protobuf:"varint,5,opt,name=install_ai_accelerator,json=installAiAccelerator,proto3" json:"install_ai_accelerator,omitempty"`
 	// Enable disk encryption
-	Encryption bool `protobuf:"varint,6,opt,name=encryption,proto3" json:"encryption,omitempty" firestore:"encryption"`
+	Encryption bool `protobuf:"varint,6,opt,name=encryption,proto3" json:"encryption,omitempty"`
 	// Disk Mapping YAML configuration.
-	DiskMapping string `protobuf:"bytes,7,opt,name=disk_mapping,json=diskMapping,proto3" json:"disk_mapping,omitempty" firestore:"diskMapping"`
+	DiskMapping string `protobuf:"bytes,7,opt,name=disk_mapping,json=diskMapping,proto3" json:"disk_mapping,omitempty"`
 	// Network Agent YAML configuration.
-	NetworkAgent string `protobuf:"bytes,8,opt,name=network_agent,json=networkAgent,proto3" json:"network_agent,omitempty" firestore:"networkAgent"`
+	NetworkAgent string `protobuf:"bytes,8,opt,name=network_agent,json=networkAgent,proto3" json:"network_agent,omitempty"`
 	// NTP Server settings.
-	Ntp string `protobuf:"bytes,9,opt,name=ntp,proto3" json:"ntp,omitempty" firestore:"ntp"`
+	Ntp string `protobuf:"bytes,9,opt,name=ntp,proto3" json:"ntp,omitempty"`
 	// HTTP PROXY address
-	HttpProxy string `protobuf:"bytes,10,opt,name=http_proxy,json=httpProxy,proto3" json:"http_proxy,omitempty" firestore:"httpProxy"`
+	HttpProxy string `protobuf:"bytes,10,opt,name=http_proxy,json=httpProxy,proto3" json:"http_proxy,omitempty"`
 	// HTTPS PROXY address
-	HttpsProxy string `protobuf:"bytes,11,opt,name=https_proxy,json=httpsProxy,proto3" json:"https_proxy,omitempty" firestore:"httpsProxy"`
+	HttpsProxy string `protobuf:"bytes,11,opt,name=https_proxy,json=httpsProxy,proto3" json:"https_proxy,omitempty"`
 	// NO Proxy addresses (comma separated).
-	NoProxy string `protobuf:"bytes,12,opt,name=no_proxy,json=noProxy,proto3" json:"no_proxy,omitempty" firestore:"noProxy"`
+	NoProxy string `protobuf:"bytes,12,opt,name=no_proxy,json=noProxy,proto3" json:"no_proxy,omitempty"`
 }
 
 func (m *OsImageProfile) Reset() {

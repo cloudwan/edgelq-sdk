@@ -74,13 +74,13 @@ type AcceptedPlan struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Plan with resource limits
-	Plan *plan.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty" firestore:"plan"`
+	Plan *plan.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty"`
 	// Service indicates by plan.
-	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Optional extensions over standard plan
-	Extensions []*common.Allowance `protobuf:"bytes,4,rep,name=extensions,proto3" json:"extensions,omitempty" firestore:"extensions"`
+	Extensions []*common.Allowance `protobuf:"bytes,4,rep,name=extensions,proto3" json:"extensions,omitempty"`
 	// Distribution of limits by regions. It does not need
 	// to be populated by user in Create/Update requests -
 	// system automatically distributes limits across regions
@@ -89,11 +89,11 @@ type AcceptedPlan struct {
 	// If user wants to have some specific resource distributed in
 	// certain way, they can do it by partially populating this field
 	// too. System will distribute automatically only remaining numbers.
-	RegionalDistributions []*common.RegionalDistribution `protobuf:"bytes,5,rep,name=regional_distributions,json=regionalDistributions,proto3" json:"regional_distributions,omitempty" firestore:"regionalDistributions"`
+	RegionalDistributions []*common.RegionalDistribution `protobuf:"bytes,5,rep,name=regional_distributions,json=regionalDistributions,proto3" json:"regional_distributions,omitempty"`
 	// Plan assignee
-	Assignee *AcceptedPlan_Assignee `protobuf:"bytes,6,opt,name=assignee,proto3" json:"assignee,omitempty" firestore:"assignee"`
+	Assignee *AcceptedPlan_Assignee `protobuf:"bytes,6,opt,name=assignee,proto3" json:"assignee,omitempty"`
 	// Metadata
-	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,7,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *AcceptedPlan) Reset() {
@@ -314,15 +314,15 @@ type isAcceptedPlan_Assignee_Assignee interface {
 
 type AcceptedPlan_Assignee_ProjectAssignee struct {
 	// Project for whom plan is for.
-	ProjectAssignee *iam_project.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=project_assignee,json=projectAssignee,proto3,oneof" firestore:"projectAssignee"`
+	ProjectAssignee *iam_project.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=project_assignee,json=projectAssignee,proto3,oneof"`
 }
 type AcceptedPlan_Assignee_OrganizationAssignee struct {
 	// Organization for whom plan is for.
-	OrganizationAssignee *iam_organization.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=organization_assignee,json=organizationAssignee,proto3,oneof" firestore:"organizationAssignee"`
+	OrganizationAssignee *iam_organization.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=organization_assignee,json=organizationAssignee,proto3,oneof"`
 }
 type AcceptedPlan_Assignee_SystemAssignee struct {
 	// If true, it means plan is for system itself.
-	SystemAssignee bool `protobuf:"varint,3,opt,name=system_assignee,json=systemAssignee,proto3,oneof" firestore:"systemAssignee"`
+	SystemAssignee bool `protobuf:"varint,3,opt,name=system_assignee,json=systemAssignee,proto3,oneof"`
 }
 
 func (*AcceptedPlan_Assignee_ProjectAssignee) isAcceptedPlan_Assignee_Assignee()      {}

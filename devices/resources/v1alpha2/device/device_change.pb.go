@@ -119,20 +119,20 @@ type isDeviceChange_ChangeType interface {
 type DeviceChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *DeviceChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *DeviceChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type DeviceChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *DeviceChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *DeviceChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type DeviceChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *DeviceChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *DeviceChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type DeviceChange_Removed_ struct {
 	// Removed is returned when Device is deleted or leaves Query view
-	Removed *DeviceChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *DeviceChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*DeviceChange_Added_) isDeviceChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type DeviceChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Device        *Device `protobuf:"bytes,1,opt,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Device        *Device `protobuf:"bytes,1,opt,name=device,proto3" json:"device,omitempty"`
 	// Integer describing index of added Device in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceChange_Added) Reset() {
@@ -283,19 +283,19 @@ type DeviceChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Device
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Device or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchDeviceRequest] or [WatchDevicesRequest]
-	Device *Device `protobuf:"bytes,2,opt,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Device *Device `protobuf:"bytes,2,opt,name=device,proto3" json:"device,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Device_FieldMask `protobuf:"bytes,3,opt,customtype=Device_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Device_FieldMask `protobuf:"bytes,3,opt,customtype=Device_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Device.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Device new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceChange_Modified) Reset() {
@@ -424,7 +424,7 @@ type DeviceChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Device        *Device `protobuf:"bytes,1,opt,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Device        *Device `protobuf:"bytes,1,opt,name=device,proto3" json:"device,omitempty"`
 }
 
 func (m *DeviceChange_Current) Reset() {
@@ -496,10 +496,10 @@ type DeviceChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Device index. Not populated in stateless watch
 	// type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *DeviceChange_Removed) Reset() {

@@ -218,27 +218,27 @@ type ResourceChangeLog struct {
 	//   resource.post.labels
 	//
 	// ID part should not be decoded, but treated as opaque string
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Contains scope from name field without resource ID.
 	// Used for internal purpose for filtering (logs are using custom store).
 	// Supported formats are:
 	// - organization/umbrella
 	// - projects/mars_exploration
 	// - <system>
-	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope,omitempty" firestore:"scope"`
+	Scope string `protobuf:"bytes,2,opt,name=scope,proto3" json:"scope,omitempty"`
 	// Unique identifier of request - it must match the one
 	// in the associated activity log.
-	RequestId uint64 `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty" firestore:"requestId"`
+	RequestId uint64 `protobuf:"varint,3,opt,name=request_id,json=requestId,proto3" json:"request_id,omitempty"`
 	// Time of the change - equal to request timestamp (activity log)
-	Timestamp *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty" firestore:"timestamp"`
+	Timestamp *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	// Authentication data - informs who made a change
-	Authentication *common.Authentication `protobuf:"bytes,5,opt,name=authentication,proto3" json:"authentication,omitempty" firestore:"authentication"`
+	Authentication *common.Authentication `protobuf:"bytes,5,opt,name=authentication,proto3" json:"authentication,omitempty"`
 	// Information about the service
-	Service *common.ServiceData `protobuf:"bytes,6,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *common.ServiceData `protobuf:"bytes,6,opt,name=service,proto3" json:"service,omitempty"`
 	// Describes change on the resource
-	Resource *ResourceChangeLog_ResourceChange `protobuf:"bytes,7,opt,name=resource,proto3" json:"resource,omitempty" firestore:"resource"`
+	Resource *ResourceChangeLog_ResourceChange `protobuf:"bytes,7,opt,name=resource,proto3" json:"resource,omitempty"`
 	// Describes state of the transaction
-	Transaction *ResourceChangeLog_TransactionInfo `protobuf:"bytes,8,opt,name=transaction,proto3" json:"transaction,omitempty" firestore:"transaction"`
+	Transaction *ResourceChangeLog_TransactionInfo `protobuf:"bytes,8,opt,name=transaction,proto3" json:"transaction,omitempty"`
 }
 
 func (m *ResourceChangeLog) Reset() {
@@ -410,32 +410,32 @@ type ResourceChangeLog_ResourceChange struct {
 	unknownFields protoimpl.UnknownFields
 	// Fully qualified name of the resource (eg. "RoleBinding/Public")
 	// that has changed from this request (if successful)
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// Name of the resource type for example "RoleBinding".
-	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty" firestore:"type"`
+	Type string `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
 	// Action on the resource
-	Action ResourceChangeLog_ResourceChange_Action `protobuf:"varint,3,opt,name=action,proto3,enum=ntt.audit.v1alpha2.ResourceChangeLog_ResourceChange_Action" json:"action,omitempty" firestore:"action"`
+	Action ResourceChangeLog_ResourceChange_Action `protobuf:"varint,3,opt,name=action,proto3,enum=ntt.audit.v1alpha2.ResourceChangeLog_ResourceChange_Action" json:"action,omitempty"`
 	// Field mask with different fields, populated only for
 	// update action types.
-	UpdatedFields *fieldmaskpb.FieldMask `protobuf:"bytes,6,opt,name=updated_fields,json=updatedFields,proto3" json:"updated_fields,omitempty" firestore:"updatedFields"`
+	UpdatedFields *fieldmaskpb.FieldMask `protobuf:"bytes,6,opt,name=updated_fields,json=updatedFields,proto3" json:"updated_fields,omitempty"`
 	// Previous values of updated fields. Its populated only
 	// if update_fields is provided and for those fields only.
 	// It is skipped for deletes.
-	Previous *anypb.Any `protobuf:"bytes,7,opt,name=previous,proto3" json:"previous,omitempty" firestore:"previous"`
+	Previous *anypb.Any `protobuf:"bytes,7,opt,name=previous,proto3" json:"previous,omitempty"`
 	// Current values of updated fields in case of update. Whole
 	// resource in case of creation, empty in case of deletion.
-	Current *anypb.Any `protobuf:"bytes,8,opt,name=current,proto3" json:"current,omitempty" firestore:"current"`
+	Current *anypb.Any `protobuf:"bytes,8,opt,name=current,proto3" json:"current,omitempty"`
 	// List of query-able labels. They are taken from
 	// both before and after resource, but after has higher priority
-	Labels map[string]string `protobuf:"bytes,9,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3" firestore:"labels"`
+	Labels map[string]string `protobuf:"bytes,9,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// State of the resource before change.
 	// It is empty if action is CREATE
 	// DEPRECATED and not populated for new resources
-	Pre *common.ObjectState `protobuf:"bytes,4,opt,name=pre,proto3" json:"pre,omitempty" firestore:"pre"`
+	Pre *common.ObjectState `protobuf:"bytes,4,opt,name=pre,proto3" json:"pre,omitempty"`
 	// State of the resource after change.
 	// It is empty if action is DELETE
 	// DEPRECATED and not populated for new resources
-	Post *common.ObjectState `protobuf:"bytes,5,opt,name=post,proto3" json:"post,omitempty" firestore:"post"`
+	Post *common.ObjectState `protobuf:"bytes,5,opt,name=post,proto3" json:"post,omitempty"`
 }
 
 func (m *ResourceChangeLog_ResourceChange) Reset() {
@@ -621,13 +621,13 @@ type ResourceChangeLog_TransactionInfo struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// unique identifier of the transaction.
-	Identifier string `protobuf:"bytes,1,opt,name=identifier,proto3" json:"identifier,omitempty" firestore:"identifier"`
+	Identifier string `protobuf:"bytes,1,opt,name=identifier,proto3" json:"identifier,omitempty"`
 	// Indicator of try counter. If transaction has been
 	// concluded at first try, try_counter will be 1. If
 	// on the second try, then number will be 2 (etc).
-	TryCounter int32 `protobuf:"varint,2,opt,name=try_counter,json=tryCounter,proto3" json:"try_counter,omitempty" firestore:"tryCounter"`
+	TryCounter int32 `protobuf:"varint,2,opt,name=try_counter,json=tryCounter,proto3" json:"try_counter,omitempty"`
 	// State of the transaction.
-	State ResourceChangeLog_TransactionInfo_State `protobuf:"varint,3,opt,name=state,proto3,enum=ntt.audit.v1alpha2.ResourceChangeLog_TransactionInfo_State" json:"state,omitempty" firestore:"state"`
+	State ResourceChangeLog_TransactionInfo_State `protobuf:"varint,3,opt,name=state,proto3,enum=ntt.audit.v1alpha2.ResourceChangeLog_TransactionInfo_State" json:"state,omitempty"`
 }
 
 func (m *ResourceChangeLog_TransactionInfo) Reset() {

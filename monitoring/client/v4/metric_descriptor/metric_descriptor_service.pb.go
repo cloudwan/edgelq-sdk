@@ -62,13 +62,13 @@ type BatchGetMetricDescriptorsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Names of MetricDescriptors
-	Names []*metric_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=names,proto3" json:"names,omitempty" firestore:"names"`
+	Names []*metric_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=names,proto3" json:"names,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *BatchGetMetricDescriptorsRequest) Reset() {
@@ -169,9 +169,9 @@ type BatchGetMetricDescriptorsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// found MetricDescriptors
-	MetricDescriptors []*metric_descriptor.MetricDescriptor `protobuf:"bytes,1,rep,name=metric_descriptors,json=metricDescriptors,proto3" json:"metric_descriptors,omitempty" firestore:"metricDescriptors"`
+	MetricDescriptors []*metric_descriptor.MetricDescriptor `protobuf:"bytes,1,rep,name=metric_descriptors,json=metricDescriptors,proto3" json:"metric_descriptors,omitempty"`
 	// list of not found MetricDescriptors
-	Missing []*metric_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=missing,proto3" json:"missing,omitempty" firestore:"missing"`
+	Missing []*metric_descriptor.Name `protobuf:"bytes,2,rep,customtype=Name,name=missing,proto3" json:"missing,omitempty"`
 }
 
 func (m *BatchGetMetricDescriptorsResponse) Reset() {
@@ -258,13 +258,13 @@ type WatchMetricDescriptorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of ntt.monitoring.v4.MetricDescriptor
-	Name *metric_descriptor.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *metric_descriptor.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,2,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,4,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *WatchMetricDescriptorRequest) Reset() {
@@ -364,7 +364,7 @@ type WatchMetricDescriptorResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Change        *metric_descriptor.MetricDescriptorChange `protobuf:"bytes,1,opt,name=change,proto3" json:"change,omitempty" firestore:"change"`
+	Change        *metric_descriptor.MetricDescriptorChange `protobuf:"bytes,1,opt,name=change,proto3" json:"change,omitempty"`
 }
 
 func (m *WatchMetricDescriptorResponse) Reset() {
@@ -438,50 +438,50 @@ type WatchMetricDescriptorsRequest struct {
 	unknownFields protoimpl.UnknownFields
 	// Type of a watch. Identifies how server stream data to a client, which
 	// fields in a request are allowed and which fields in response are relevant.
-	Type watch_type.WatchType `protobuf:"varint,9,opt,name=type,proto3,enum=goten.types.WatchType" json:"type,omitempty" firestore:"type"`
+	Type watch_type.WatchType `protobuf:"varint,9,opt,name=type,proto3,enum=goten.types.WatchType" json:"type,omitempty"`
 	// Parent name of ntt.monitoring.v4.MetricDescriptor
-	Parent *metric_descriptor.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *metric_descriptor.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// Requested page size. Server may return fewer MetricDescriptors than
 	// requested. If unspecified, server will pick an appropriate default. Can be
 	// populated only for stateful watch type.
-	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
+	PageSize int32 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
 	// A token identifying a page of results the server should return.
 	// Can be populated only for stateful watch type.
-	PageToken *metric_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *metric_descriptor.PagerCursor `protobuf:"bytes,3,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// Order By -
 	// https://cloud.google.com/apis/design/design_patterns#list_pagination Can be
 	// populated only for stateful watch type.
-	OrderBy *metric_descriptor.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	OrderBy *metric_descriptor.OrderBy `protobuf:"bytes,4,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// A token identifying watch resume point from previous session.
 	// Can be populated only for stateless watch type.
-	ResumeToken string `protobuf:"bytes,10,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,10,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 	// Point in the time from which we want to start getting updates. This field
 	// can be populated only for stateless watch type and if resume token is not
 	// known yet. If specified, initial snapshot will NOT be provided. It is
 	// assumed client can obtain it using separate means. Watch responses will
 	// contain resume tokens which should be used to resume broken connection.
-	StartingTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty" firestore:"startingTime"`
+	StartingTime *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=starting_time,json=startingTime,proto3" json:"starting_time,omitempty"`
 	// Filter - filter results by field criteria. Simplified SQL-like syntax with
 	// following operators:
 	// <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
 	// [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
 	// CONTAINS "severity:important" OR (state.last_error_time >
 	// "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
-	Filter *metric_descriptor.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *metric_descriptor.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view Changes to MetricDescriptor that don't
 	// affect any of masked fields won't be sent back.
-	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *metric_descriptor.MetricDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MetricDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask Changes to
 	// MetricDescriptor that don't affect any of masked fields won't be sent back.
-	View view.View `protobuf:"varint,8,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,8,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// Maximum amount of changes in each response message. Query result response
 	// is divided on the server side into chunks with size of a specified amount
 	// to limit memory footprint of each message. Responses will hold information
 	// whether more elements will continue for the actual change. If unspecified,
 	// server will pick an appropriate default.
-	MaxChunkSize int32 `protobuf:"varint,11,opt,name=max_chunk_size,json=maxChunkSize,proto3" json:"max_chunk_size,omitempty" firestore:"maxChunkSize"`
+	MaxChunkSize int32 `protobuf:"varint,11,opt,name=max_chunk_size,json=maxChunkSize,proto3" json:"max_chunk_size,omitempty"`
 }
 
 func (m *WatchMetricDescriptorsRequest) Reset() {
@@ -694,7 +694,7 @@ type WatchMetricDescriptorsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Changes of MetricDescriptors
-	MetricDescriptorChanges []*metric_descriptor.MetricDescriptorChange `protobuf:"bytes,2,rep,name=metric_descriptor_changes,json=metricDescriptorChanges,proto3" json:"metric_descriptor_changes,omitempty" firestore:"metricDescriptorChanges"`
+	MetricDescriptorChanges []*metric_descriptor.MetricDescriptorChange `protobuf:"bytes,2,rep,name=metric_descriptor_changes,json=metricDescriptorChanges,proto3" json:"metric_descriptor_changes,omitempty"`
 	// If request specified max_chunk_size (or this limit was enforced if
 	// stateless watch has been chosen), then responses with "full changeset" will
 	// be divided into chunks. Client should keep receiving messages and, once
@@ -707,14 +707,14 @@ type WatchMetricDescriptorsResponse struct {
 	// responses will be incremental - however messages may still be chunked and
 	// is_current logic still applies. is_current is always true for stateful
 	// watch if max_chunk_size was left to 0.
-	IsCurrent bool `protobuf:"varint,4,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty" firestore:"isCurrent"`
+	IsCurrent bool `protobuf:"varint,4,opt,name=is_current,json=isCurrent,proto3" json:"is_current,omitempty"`
 	// When present, PageTokens used for page navigation should be updated.
 	// Present only if is_current is true (last chunk).
-	PageTokenChange *WatchMetricDescriptorsResponse_PageTokenChange `protobuf:"bytes,3,opt,name=page_token_change,json=pageTokenChange,proto3" json:"page_token_change,omitempty" firestore:"pageTokenChange"`
+	PageTokenChange *WatchMetricDescriptorsResponse_PageTokenChange `protobuf:"bytes,3,opt,name=page_token_change,json=pageTokenChange,proto3" json:"page_token_change,omitempty"`
 	// Token that can be used if current connection drops and client needs to
 	// reconnect. Populated only for stateless watch type. Present only if
 	// is_current is true (last chunk).
-	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty" firestore:"resumeToken"`
+	ResumeToken string `protobuf:"bytes,5,opt,name=resume_token,json=resumeToken,proto3" json:"resume_token,omitempty"`
 	// Server may occasionally send information how many resources should client
 	// have in its state so far (response message without any changes, but with
 	// snapshot_size field specified). If client has different value than the one
@@ -724,7 +724,7 @@ type WatchMetricDescriptorsResponse struct {
 	// watch. In stateful those kind of errors are handled by the server side.
 	// Will be never sent together with is_current, is_soft_reset and
 	// is_hard_reset flags.
-	SnapshotSize int64 `protobuf:"varint,6,opt,name=snapshot_size,json=snapshotSize,proto3" json:"snapshot_size,omitempty" firestore:"snapshotSize"`
+	SnapshotSize int64 `protobuf:"varint,6,opt,name=snapshot_size,json=snapshotSize,proto3" json:"snapshot_size,omitempty"`
 	// In case of internal issue server may send response message with this flag.
 	// It indicates that client should drop all changes from recent responses
 	// where is_current is false only! If last message had is_current set to true,
@@ -732,7 +732,7 @@ type WatchMetricDescriptorsResponse struct {
 	// is still valid. This field should be checked only for stateless watch. In
 	// stateful those kind of errors are handled by the server side. Will never be
 	// sent along with is_current, is_hard_reset or snapshot_size.
-	IsSoftReset bool `protobuf:"varint,7,opt,name=is_soft_reset,json=isSoftReset,proto3" json:"is_soft_reset,omitempty" firestore:"isSoftReset"`
+	IsSoftReset bool `protobuf:"varint,7,opt,name=is_soft_reset,json=isSoftReset,proto3" json:"is_soft_reset,omitempty"`
 	// In case of internal issue server may send response message with this flag.
 	// After receiving, client should clear whole state (drop all changes received
 	// so far) as server will send new snapshot (MetricDescriptors will contains
@@ -740,7 +740,7 @@ type WatchMetricDescriptorsResponse struct {
 	// well. This field should be checked only for stateless watch. In stateful
 	// those kind of errors are handled by the server side. Will never be sent
 	// along with is_current, is_soft_reset or snapshot_size.
-	IsHardReset bool `protobuf:"varint,8,opt,name=is_hard_reset,json=isHardReset,proto3" json:"is_hard_reset,omitempty" firestore:"isHardReset"`
+	IsHardReset bool `protobuf:"varint,8,opt,name=is_hard_reset,json=isHardReset,proto3" json:"is_hard_reset,omitempty"`
 }
 
 func (m *WatchMetricDescriptorsResponse) Reset() {
@@ -896,9 +896,9 @@ type WatchMetricDescriptorsResponse_PageTokenChange struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// New token to retrieve previous page of results.
-	PrevPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,1,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	PrevPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,1,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// New token to retrieve next page of results.
-	NextPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
+	NextPageToken *metric_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
 }
 
 func (m *WatchMetricDescriptorsResponse_PageTokenChange) Reset() {

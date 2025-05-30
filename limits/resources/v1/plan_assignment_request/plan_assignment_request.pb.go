@@ -130,21 +130,21 @@ type PlanAssignmentRequest struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Purpose of this request
-	Request *PlanAssignmentRequest_RequestType `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty" firestore:"request"`
+	Request *PlanAssignmentRequest_RequestType `protobuf:"bytes,2,opt,name=request,proto3" json:"request,omitempty"`
 	// Service associated with this request.
-	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service *meta_service.Reference `protobuf:"bytes,3,opt,customtype=Reference,name=service,proto3" json:"service,omitempty"`
 	// Approver - it can be org or service in practice, note its always equal
 	// to the parent name of AcceptedPlan
-	Approver *accepted_plan.ParentName     `protobuf:"bytes,4,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty" firestore:"approver"`
-	Status   *PlanAssignmentRequest_Status `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty" firestore:"status"`
+	Approver *accepted_plan.ParentName     `protobuf:"bytes,4,opt,customtype=ParentName,name=approver,proto3" json:"approver,omitempty"`
+	Status   *PlanAssignmentRequest_Status `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
 }
 
 func (m *PlanAssignmentRequest) Reset() {
@@ -287,9 +287,9 @@ type PlanAssignmentRequest_Status struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Conclusion
-	Conclusion PlanAssignmentRequest_Status_Conclusion `protobuf:"varint,1,opt,name=conclusion,proto3,enum=ntt.limits.v1.PlanAssignmentRequest_Status_Conclusion" json:"conclusion,omitempty" firestore:"conclusion"`
+	Conclusion PlanAssignmentRequest_Status_Conclusion `protobuf:"varint,1,opt,name=conclusion,proto3,enum=ntt.limits.v1.PlanAssignmentRequest_Status_Conclusion" json:"conclusion,omitempty"`
 	// Optional message with reason
-	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty" firestore:"reason"`
+	Reason string `protobuf:"bytes,2,opt,name=reason,proto3" json:"reason,omitempty"`
 }
 
 func (m *PlanAssignmentRequest_Status) Reset() {
@@ -439,15 +439,15 @@ type isPlanAssignmentRequest_RequestType_Request interface {
 
 type PlanAssignmentRequest_RequestType_Assign_ struct {
 	// Assign request
-	Assign *PlanAssignmentRequest_RequestType_Assign `protobuf:"bytes,1,opt,name=assign,proto3,oneof" firestore:"assign"`
+	Assign *PlanAssignmentRequest_RequestType_Assign `protobuf:"bytes,1,opt,name=assign,proto3,oneof"`
 }
 type PlanAssignmentRequest_RequestType_Extend_ struct {
 	// Extend request
-	Extend *PlanAssignmentRequest_RequestType_Extend `protobuf:"bytes,2,opt,name=extend,proto3,oneof" firestore:"extend"`
+	Extend *PlanAssignmentRequest_RequestType_Extend `protobuf:"bytes,2,opt,name=extend,proto3,oneof"`
 }
 type PlanAssignmentRequest_RequestType_Unassign_ struct {
 	// Unassign request
-	Unassign *PlanAssignmentRequest_RequestType_Unassign `protobuf:"bytes,4,opt,name=unassign,proto3,oneof" firestore:"unassign"`
+	Unassign *PlanAssignmentRequest_RequestType_Unassign `protobuf:"bytes,4,opt,name=unassign,proto3,oneof"`
 }
 
 func (*PlanAssignmentRequest_RequestType_Assign_) isPlanAssignmentRequest_RequestType_Request()   {}
@@ -505,17 +505,17 @@ type PlanAssignmentRequest_RequestType_Assign struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Plan to apply
-	Plan *plan.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty" firestore:"plan"`
+	Plan *plan.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=plan,proto3" json:"plan,omitempty"`
 	// List of all extensions over basic plan. Extensions without specified
 	// region will apply to all regions if value of field "region" in this
 	// request is also empty. However, if "region" is specified, then
 	// extensions defined here will be applicable for this region only.
-	Extensions []*common.Allowance `protobuf:"bytes,2,rep,name=extensions,proto3" json:"extensions,omitempty" firestore:"extensions"`
+	Extensions []*common.Allowance `protobuf:"bytes,2,rep,name=extensions,proto3" json:"extensions,omitempty"`
 	// Optional region ID for the plan - if not specified,
 	// assigned plan will apply to all regions (default plan for region),
 	// BUT it will not override plans for specific region in existing
 	// PlanAssignment.
-	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region string `protobuf:"bytes,4,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (m *PlanAssignmentRequest_RequestType_Assign) Reset() {
@@ -618,9 +618,9 @@ type PlanAssignmentRequest_RequestType_Extend struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Reference to existing plan assignment
-	Assignment *plan_assignment.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=assignment,proto3" json:"assignment,omitempty" firestore:"assignment"`
+	Assignment *plan_assignment.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=assignment,proto3" json:"assignment,omitempty"`
 	// List of limits to merge within existing assignment
-	Additions []*common.Allowance `protobuf:"bytes,2,rep,name=additions,proto3" json:"additions,omitempty" firestore:"additions"`
+	Additions []*common.Allowance `protobuf:"bytes,2,rep,name=additions,proto3" json:"additions,omitempty"`
 }
 
 func (m *PlanAssignmentRequest_RequestType_Extend) Reset() {
@@ -711,8 +711,8 @@ type PlanAssignmentRequest_RequestType_Unassign struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Assignment    *plan_assignment.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=assignment,proto3" json:"assignment,omitempty" firestore:"assignment"`
-	Region        string                     `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Assignment    *plan_assignment.Reference `protobuf:"bytes,1,opt,customtype=Reference,name=assignment,proto3" json:"assignment,omitempty"`
+	Region        string                     `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (m *PlanAssignmentRequest_RequestType_Unassign) Reset() {

@@ -51,7 +51,7 @@ type MigratePlanAssignmentRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// PlanAssignment resource body
-	PlanAssignment *plan_assignment.PlanAssignment `protobuf:"bytes,2,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty" firestore:"planAssignment"`
+	PlanAssignment *plan_assignment.PlanAssignment `protobuf:"bytes,2,opt,name=plan_assignment,json=planAssignment,proto3" json:"plan_assignment,omitempty"`
 }
 
 func (m *MigratePlanAssignmentRequest) Reset() {

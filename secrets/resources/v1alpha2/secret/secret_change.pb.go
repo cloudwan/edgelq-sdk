@@ -119,20 +119,20 @@ type isSecretChange_ChangeType interface {
 type SecretChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *SecretChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *SecretChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type SecretChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *SecretChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *SecretChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type SecretChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *SecretChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *SecretChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type SecretChange_Removed_ struct {
 	// Removed is returned when Secret is deleted or leaves Query view
-	Removed *SecretChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *SecretChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*SecretChange_Added_) isSecretChange_ChangeType()    {}
@@ -193,9 +193,9 @@ type SecretChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Secret        *Secret `protobuf:"bytes,1,opt,name=secret,proto3" json:"secret,omitempty" firestore:"secret"`
+	Secret        *Secret `protobuf:"bytes,1,opt,name=secret,proto3" json:"secret,omitempty"`
 	// Integer describing index of added Secret in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *SecretChange_Added) Reset() {
@@ -283,19 +283,19 @@ type SecretChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Secret
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Secret or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchSecretRequest] or [WatchSecretsRequest]
-	Secret *Secret `protobuf:"bytes,2,opt,name=secret,proto3" json:"secret,omitempty" firestore:"secret"`
+	Secret *Secret `protobuf:"bytes,2,opt,name=secret,proto3" json:"secret,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Secret_FieldMask `protobuf:"bytes,3,opt,customtype=Secret_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Secret_FieldMask `protobuf:"bytes,3,opt,customtype=Secret_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Secret.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Secret new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *SecretChange_Modified) Reset() {
@@ -424,7 +424,7 @@ type SecretChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Secret        *Secret `protobuf:"bytes,1,opt,name=secret,proto3" json:"secret,omitempty" firestore:"secret"`
+	Secret        *Secret `protobuf:"bytes,1,opt,name=secret,proto3" json:"secret,omitempty"`
 }
 
 func (m *SecretChange_Current) Reset() {
@@ -496,10 +496,10 @@ type SecretChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Secret index. Not populated in stateless watch
 	// type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *SecretChange_Removed) Reset() {

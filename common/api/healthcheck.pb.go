@@ -57,31 +57,31 @@ type HealthCheckSpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// http_get_check specifies the http request to perform.
-	HttpGetCheck *HTTPGetCheck `protobuf:"bytes,1,opt,name=http_get_check,json=httpGetCheck,proto3" json:"http_get_check,omitempty" firestore:"httpGetCheck"`
+	HttpGetCheck *HTTPGetCheck `protobuf:"bytes,1,opt,name=http_get_check,json=httpGetCheck,proto3" json:"http_get_check,omitempty"`
 	// tcp_check specifies an action involving a TCP port.
-	TcpCheck *TCPCheck `protobuf:"bytes,2,opt,name=tcp_check,json=tcpCheck,proto3" json:"tcp_check,omitempty" firestore:"tcpCheck"`
+	TcpCheck *TCPCheck `protobuf:"bytes,2,opt,name=tcp_check,json=tcpCheck,proto3" json:"tcp_check,omitempty"`
 	// icmp_check specifies an icmp health check
-	IcmpCheck *ICMPCheck `protobuf:"bytes,3,opt,name=icmp_check,json=icmpCheck,proto3" json:"icmp_check,omitempty" firestore:"icmpCheck"`
+	IcmpCheck *ICMPCheck `protobuf:"bytes,3,opt,name=icmp_check,json=icmpCheck,proto3" json:"icmp_check,omitempty"`
 	// GRPC specifies an action involving a GRPC port.
 	// It is essential that the grpc server inplements this api
 	// https://github.com/grpc/grpc/blob/master/doc/health-checking.md
 	// If not, tcp_check should be used.
-	GrpcCheck *GRPCCheck `protobuf:"bytes,4,opt,name=grpc_check,json=grpcCheck,proto3" json:"grpc_check,omitempty" firestore:"grpcCheck"`
+	GrpcCheck *GRPCCheck `protobuf:"bytes,4,opt,name=grpc_check,json=grpcCheck,proto3" json:"grpc_check,omitempty"`
 	// Exec specifies the command to execute in the container to determine its
 	// health
-	Exec *ExecCheck `protobuf:"bytes,5,opt,name=exec,proto3" json:"exec,omitempty" firestore:"exec"`
+	Exec *ExecCheck `protobuf:"bytes,5,opt,name=exec,proto3" json:"exec,omitempty"`
 	// device_file_check is only available for device.
 	// It can be configured to ensure specific hardware is connected
 	// (eg modem /dev/cdc-wdm0, RFID reader device /dev/ttyACM0 etc)
-	DeviceFileCheck *DeviceFileCheck `protobuf:"bytes,6,opt,name=device_file_check,json=deviceFileCheck,proto3" json:"device_file_check,omitempty" firestore:"deviceFileCheck"`
+	DeviceFileCheck *DeviceFileCheck `protobuf:"bytes,6,opt,name=device_file_check,json=deviceFileCheck,proto3" json:"device_file_check,omitempty"`
 	// Timeout for the HealthCheck.
 	// Defaults to 1 second, greater than 5 seconds is not allowed
-	Timeout *durationpb.Duration `protobuf:"bytes,7,opt,name=timeout,proto3" json:"timeout,omitempty" firestore:"timeout"`
+	Timeout *durationpb.Duration `protobuf:"bytes,7,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	// Interval for health check, 60 seconds minimum interval
-	Interval *durationpb.Duration `protobuf:"bytes,8,opt,name=interval,proto3" json:"interval,omitempty" firestore:"interval"`
+	Interval *durationpb.Duration `protobuf:"bytes,8,opt,name=interval,proto3" json:"interval,omitempty"`
 	// name for the health check. A meaningful name for this might be useful as a
 	// metrics label
-	Name string `protobuf:"bytes,9,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,9,opt,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *HealthCheckSpec) Reset() {
@@ -269,21 +269,21 @@ type HTTPGetCheck struct {
 	// container IP that cannot not be known beforehand,  In all other cases,
 	// simple url string can be used
 	// Although not explicitly declared as oneof, url and http_url is oneof type
-	Url     string                `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty" firestore:"url"`
-	HttpUrl *HTTPGetCheck_HTTPUrl `protobuf:"bytes,2,opt,name=http_url,json=httpUrl,proto3" json:"http_url,omitempty" firestore:"httpUrl"`
+	Url     string                `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	HttpUrl *HTTPGetCheck_HTTPUrl `protobuf:"bytes,2,opt,name=http_url,json=httpUrl,proto3" json:"http_url,omitempty"`
 	// Custom headers to set in the request. HTTP allows repeated headers.
 	// optional
-	HttpHeaders  []*HTTPGetCheck_HTTPHeader `protobuf:"bytes,3,rep,name=http_headers,json=httpHeaders,proto3" json:"http_headers,omitempty" firestore:"httpHeaders"`
-	SkipTlsCheck bool                       `protobuf:"varint,4,opt,name=skip_tls_check,json=skipTlsCheck,proto3" json:"skip_tls_check,omitempty" firestore:"skipTlsCheck"`
+	HttpHeaders  []*HTTPGetCheck_HTTPHeader `protobuf:"bytes,3,rep,name=http_headers,json=httpHeaders,proto3" json:"http_headers,omitempty"`
+	SkipTlsCheck bool                       `protobuf:"varint,4,opt,name=skip_tls_check,json=skipTlsCheck,proto3" json:"skip_tls_check,omitempty"`
 	// optional. By default any response code >= 400 or response code == 300 are
 	// considered as failure Sometimes, the health check might actually expect
 	// 401/403/511 without proper authentication setting expected_response_code
 	// will help to consider this as successful for health check
-	ExpectedResponseCode int32 `protobuf:"varint,5,opt,name=expected_response_code,json=expectedResponseCode,proto3" json:"expected_response_code,omitempty" firestore:"expectedResponseCode"`
+	ExpectedResponseCode int32 `protobuf:"varint,5,opt,name=expected_response_code,json=expectedResponseCode,proto3" json:"expected_response_code,omitempty"`
 	// By default only Success or Failure metric will be generated.
 	// This field can be used to enable response time metric and network metrics
 	// if supported
-	EnableDetailedMetrics bool `protobuf:"varint,6,opt,name=enable_detailed_metrics,json=enableDetailedMetrics,proto3" json:"enable_detailed_metrics,omitempty" firestore:"enableDetailedMetrics"`
+	EnableDetailedMetrics bool `protobuf:"varint,6,opt,name=enable_detailed_metrics,json=enableDetailedMetrics,proto3" json:"enable_detailed_metrics,omitempty"`
 }
 
 func (m *HTTPGetCheck) Reset() {
@@ -425,10 +425,10 @@ type ICMPCheck struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// domain name or IP Addres to perform ICMP check
-	Host string `protobuf:"bytes,1,opt,name=host,proto3" json:"host,omitempty" firestore:"host"`
+	Host string `protobuf:"bytes,1,opt,name=host,proto3" json:"host,omitempty"`
 	// By default only Success or Failure metric will be generated.
 	// This field can be used to enable network metrics such as latency/jitter
-	EnableDetailedMetrics bool `protobuf:"varint,2,opt,name=enable_detailed_metrics,json=enableDetailedMetrics,proto3" json:"enable_detailed_metrics,omitempty" firestore:"enableDetailedMetrics"`
+	EnableDetailedMetrics bool `protobuf:"varint,2,opt,name=enable_detailed_metrics,json=enableDetailedMetrics,proto3" json:"enable_detailed_metrics,omitempty"`
 }
 
 func (m *ICMPCheck) Reset() {
@@ -517,11 +517,11 @@ type TCPCheck struct {
 	unknownFields protoimpl.UnknownFields
 	// Port number to access on the container or given destination.
 	// Number must be in the range 1 to 65535.
-	Port int32 `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty" firestore:"port"`
+	Port int32 `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty"`
 	// Host name to connect to.
 	// For containers this defaults to the container IP or wan interface IP in
 	// host mode networking For device, this is a mandatory parameter
-	Host string `protobuf:"bytes,2,opt,name=host,proto3" json:"host,omitempty" firestore:"host"`
+	Host string `protobuf:"bytes,2,opt,name=host,proto3" json:"host,omitempty"`
 }
 
 func (m *TCPCheck) Reset() {
@@ -608,18 +608,18 @@ type GRPCCheck struct {
 	unknownFields protoimpl.UnknownFields
 	// Port number of the gRPC service. Number must be in the range 1 to
 	// 65535.
-	Port int32 `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty" firestore:"port"`
+	Port int32 `protobuf:"varint,1,opt,name=port,proto3" json:"port,omitempty"`
 	// Service is the name of the service to place in the gRPC
 	// HealthCheckRequest (see
 	// https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
 	//
 	// If this is not specified, the default behavior is defined by gRPC.
-	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty" firestore:"service"`
+	Service string `protobuf:"bytes,2,opt,name=service,proto3" json:"service,omitempty"`
 	// Host name to connect to.
 	// For containers this defaults to the container IP or wan interface IP in
 	// host mode networking For device, this is a mandatory parameter
-	Host         string `protobuf:"bytes,3,opt,name=host,proto3" json:"host,omitempty" firestore:"host"`
-	SkipTlsCheck bool   `protobuf:"varint,4,opt,name=skip_tls_check,json=skipTlsCheck,proto3" json:"skip_tls_check,omitempty" firestore:"skipTlsCheck"`
+	Host         string `protobuf:"bytes,3,opt,name=host,proto3" json:"host,omitempty"`
+	SkipTlsCheck bool   `protobuf:"varint,4,opt,name=skip_tls_check,json=skipTlsCheck,proto3" json:"skip_tls_check,omitempty"`
 }
 
 func (m *GRPCCheck) Reset() {
@@ -739,7 +739,7 @@ type ExecCheck struct {
 	// so traditional shell instructions ('|', etc) won't work. To use a
 	// shell, you need to explicitly call out to that shell. Exit status of 0
 	// is treated as live/healthy and non-zero is unhealthy.
-	Command []string `protobuf:"bytes,1,rep,name=command,proto3" json:"command,omitempty" firestore:"command"`
+	Command []string `protobuf:"bytes,1,rep,name=command,proto3" json:"command,omitempty"`
 }
 
 func (m *ExecCheck) Reset() {
@@ -810,8 +810,8 @@ type DeviceFileCheck struct {
 	state          protoimpl.MessageState
 	sizeCache      protoimpl.SizeCache
 	unknownFields  protoimpl.UnknownFields
-	FileType       *DeviceFileCheck_FileTypeOneOf `protobuf:"bytes,1,opt,name=file_type,json=fileType,proto3" json:"file_type,omitempty" firestore:"fileType"`
-	DeviceFileName string                         `protobuf:"bytes,2,opt,name=device_file_name,json=deviceFileName,proto3" json:"device_file_name,omitempty" firestore:"deviceFileName"`
+	FileType       *DeviceFileCheck_FileTypeOneOf `protobuf:"bytes,1,opt,name=file_type,json=fileType,proto3" json:"file_type,omitempty"`
+	DeviceFileName string                         `protobuf:"bytes,2,opt,name=device_file_name,json=deviceFileName,proto3" json:"device_file_name,omitempty"`
 }
 
 func (m *DeviceFileCheck) Reset() {
@@ -897,17 +897,17 @@ type HTTPGetCheck_HTTPUrl struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Path to access on the HTTP server, defaults to /
-	Path string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty" firestore:"path"`
+	Path string `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	// port to access on the container. defaults to 80 for http and 443 for
 	// https Number must be in the range 1 to 65535.
-	Port int32 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty" firestore:"port"`
+	Port int32 `protobuf:"varint,2,opt,name=port,proto3" json:"port,omitempty"`
 	// Host name to connect to.
 	// For containers this defaults to the container IP or wan interface IP in
 	// host mode networking For device, this is a mandatory parameter
-	Host string `protobuf:"bytes,3,opt,name=host,proto3" json:"host,omitempty" firestore:"host"`
+	Host string `protobuf:"bytes,3,opt,name=host,proto3" json:"host,omitempty"`
 	// Scheme to use for connecting to the host.
 	// optional, defaults to HTTP.
-	Scheme string `protobuf:"bytes,4,opt,name=scheme,proto3" json:"scheme,omitempty" firestore:"scheme"`
+	Scheme string `protobuf:"bytes,4,opt,name=scheme,proto3" json:"scheme,omitempty"`
 }
 
 func (m *HTTPGetCheck_HTTPUrl) Reset() {
@@ -1024,9 +1024,9 @@ type HTTPGetCheck_HTTPHeader struct {
 	// The header field name.
 	// This will be canonicalized upon output, so case-variant names will be
 	// understood as the same header.
-	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	// The header field value
-	Value string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty" firestore:"value"`
+	Value string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
 }
 
 func (m *HTTPGetCheck_HTTPHeader) Reset() {
@@ -1111,11 +1111,11 @@ type DeviceFileCheck_FileTypeOneOf struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	IsDirectory   bool `protobuf:"varint,1,opt,name=is_directory,json=isDirectory,proto3" json:"is_directory,omitempty" firestore:"isDirectory"`
-	IsBlockDevice bool `protobuf:"varint,2,opt,name=is_block_device,json=isBlockDevice,proto3" json:"is_block_device,omitempty" firestore:"isBlockDevice"`
-	IsCharDevice  bool `protobuf:"varint,3,opt,name=is_char_device,json=isCharDevice,proto3" json:"is_char_device,omitempty" firestore:"isCharDevice"`
-	IsFifo        bool `protobuf:"varint,4,opt,name=is_fifo,json=isFifo,proto3" json:"is_fifo,omitempty" firestore:"isFifo"`
-	IsRegularFile bool `protobuf:"varint,5,opt,name=is_regular_file,json=isRegularFile,proto3" json:"is_regular_file,omitempty" firestore:"isRegularFile"`
+	IsDirectory   bool `protobuf:"varint,1,opt,name=is_directory,json=isDirectory,proto3" json:"is_directory,omitempty"`
+	IsBlockDevice bool `protobuf:"varint,2,opt,name=is_block_device,json=isBlockDevice,proto3" json:"is_block_device,omitempty"`
+	IsCharDevice  bool `protobuf:"varint,3,opt,name=is_char_device,json=isCharDevice,proto3" json:"is_char_device,omitempty"`
+	IsFifo        bool `protobuf:"varint,4,opt,name=is_fifo,json=isFifo,proto3" json:"is_fifo,omitempty"`
+	IsRegularFile bool `protobuf:"varint,5,opt,name=is_regular_file,json=isRegularFile,proto3" json:"is_regular_file,omitempty"`
 }
 
 func (m *DeviceFileCheck_FileTypeOneOf) Reset() {

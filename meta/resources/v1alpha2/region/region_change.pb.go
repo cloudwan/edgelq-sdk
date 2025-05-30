@@ -117,20 +117,20 @@ type isRegionChange_ChangeType interface {
 type RegionChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *RegionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *RegionChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type RegionChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *RegionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *RegionChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type RegionChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *RegionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *RegionChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type RegionChange_Removed_ struct {
 	// Removed is returned when Region is deleted or leaves Query view
-	Removed *RegionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *RegionChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*RegionChange_Added_) isRegionChange_ChangeType()    {}
@@ -191,9 +191,9 @@ type RegionChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Region        *Region `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region        *Region `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 	// Integer describing index of added Region in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RegionChange_Added) Reset() {
@@ -281,19 +281,19 @@ type RegionChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified Region
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of Region or masked difference, depending on mask_changes
 	// instrumentation of issued [WatchRegionRequest] or [WatchRegionsRequest]
-	Region *Region `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region *Region `protobuf:"bytes,2,opt,name=region,proto3" json:"region,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *Region_FieldMask `protobuf:"bytes,3,opt,customtype=Region_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *Region_FieldMask `protobuf:"bytes,3,opt,customtype=Region_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified Region.
 	// When modification doesn't affect sorted order, value will remain
 	// identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying Region new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RegionChange_Modified) Reset() {
@@ -422,7 +422,7 @@ type RegionChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Region        *Region `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty" firestore:"region"`
+	Region        *Region `protobuf:"bytes,1,opt,name=region,proto3" json:"region,omitempty"`
 }
 
 func (m *RegionChange_Current) Reset() {
@@ -494,10 +494,10 @@ type RegionChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed Region index. Not populated in stateless watch
 	// type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *RegionChange_Removed) Reset() {

@@ -123,20 +123,20 @@ type isLogDescriptorChange_ChangeType interface {
 type LogDescriptorChange_Added_ struct {
 	// Added is returned when watched document is added, either created or
 	// enters Query view
-	Added *LogDescriptorChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof" firestore:"added"`
+	Added *LogDescriptorChange_Added `protobuf:"bytes,1,opt,name=added,proto3,oneof"`
 }
 type LogDescriptorChange_Modified_ struct {
 	// Modified is returned when watched document is modified
-	Modified *LogDescriptorChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof" firestore:"modified"`
+	Modified *LogDescriptorChange_Modified `protobuf:"bytes,2,opt,name=modified,proto3,oneof"`
 }
 type LogDescriptorChange_Current_ struct {
 	// Current is returned in stateless watch when document enters query view or
 	// is modified within.
-	Current *LogDescriptorChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof" firestore:"current"`
+	Current *LogDescriptorChange_Current `protobuf:"bytes,4,opt,name=current,proto3,oneof"`
 }
 type LogDescriptorChange_Removed_ struct {
 	// Removed is returned when LogDescriptor is deleted or leaves Query view
-	Removed *LogDescriptorChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof" firestore:"removed"`
+	Removed *LogDescriptorChange_Removed `protobuf:"bytes,3,opt,name=removed,proto3,oneof"`
 }
 
 func (*LogDescriptorChange_Added_) isLogDescriptorChange_ChangeType()    {}
@@ -197,9 +197,9 @@ type LogDescriptorChange_Added struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	LogDescriptor *LogDescriptor `protobuf:"bytes,1,opt,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty" firestore:"logDescriptor"`
+	LogDescriptor *LogDescriptor `protobuf:"bytes,1,opt,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty"`
 	// Integer describing index of added LogDescriptor in resulting query view.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *LogDescriptorChange_Added) Reset() {
@@ -287,20 +287,20 @@ type LogDescriptorChange_Modified struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of modified LogDescriptor
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// New version of LogDescriptor or masked difference, depending on
 	// mask_changes instrumentation of issued [WatchLogDescriptorRequest] or
 	// [WatchLogDescriptorsRequest]
-	LogDescriptor *LogDescriptor `protobuf:"bytes,2,opt,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty" firestore:"logDescriptor"`
+	LogDescriptor *LogDescriptor `protobuf:"bytes,2,opt,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty"`
 	// Used when mask_changes is set, contains field paths of modified
 	// properties.
-	FieldMask *LogDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=LogDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *LogDescriptor_FieldMask `protobuf:"bytes,3,opt,customtype=LogDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// Previous view index specifies previous position of modified
 	// LogDescriptor. When modification doesn't affect sorted order, value will
 	// remain identical to [view_index].
-	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty" firestore:"previousViewIndex"`
+	PreviousViewIndex int32 `protobuf:"varint,4,opt,name=previous_view_index,json=previousViewIndex,proto3" json:"previous_view_index,omitempty"`
 	// Integer specifying LogDescriptor new index in resulting query view.
-	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,5,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *LogDescriptorChange_Modified) Reset() {
@@ -429,7 +429,7 @@ type LogDescriptorChange_Current struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	LogDescriptor *LogDescriptor `protobuf:"bytes,1,opt,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty" firestore:"logDescriptor"`
+	LogDescriptor *LogDescriptor `protobuf:"bytes,1,opt,name=log_descriptor,json=logDescriptor,proto3" json:"log_descriptor,omitempty"`
 }
 
 func (m *LogDescriptorChange_Current) Reset() {
@@ -501,10 +501,10 @@ type LogDescriptorChange_Removed struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name          *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Integer specifying removed LogDescriptor index. Not populated in
 	// stateless watch type.
-	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty" firestore:"viewIndex"`
+	ViewIndex int32 `protobuf:"varint,2,opt,name=view_index,json=viewIndex,proto3" json:"view_index,omitempty"`
 }
 
 func (m *LogDescriptorChange_Removed) Reset() {

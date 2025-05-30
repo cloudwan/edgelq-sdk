@@ -60,15 +60,15 @@ type RoleBinding struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Name of RoleBinding
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,8,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Applied role.
-	Role *role.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=role,proto3" json:"role,omitempty" firestore:"role"`
+	Role *role.Reference `protobuf:"bytes,2,opt,customtype=Reference,name=role,proto3" json:"role,omitempty"`
 	// Binding members
 	// Format of the string is one of:
 	// - "allUsers" (anyone)
@@ -78,30 +78,30 @@ type RoleBinding struct {
 	// - "serviceAccount:device_agent@watchdog.serviceaccounts.iam.edgelq.com"
 	// - "group:nice.group@example.com"
 	// - "domain:example.com" (anyone with exact email domain)
-	Member string `protobuf:"bytes,4,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,4,opt,name=member,proto3" json:"member,omitempty"`
 	// All scope params defined as required by a role
-	ScopeParams []*role.ScopeParam `protobuf:"bytes,5,rep,name=scope_params,json=scopeParams,proto3" json:"scope_params,omitempty" firestore:"scopeParams"`
+	ScopeParams []*role.ScopeParam `protobuf:"bytes,5,rep,name=scope_params,json=scopeParams,proto3" json:"scope_params,omitempty"`
 	// optional executable conditions to be added to the role binding.
 	// They are matched with the executable conditions in a role grants
 	// by condition reference. If there is condition defined in RoleBinding,
 	// but not in any role grant, then executable condition is applied to
 	// all role grants.
-	ExecutableConditions []*condition.ExecutableCondition `protobuf:"bytes,6,rep,name=executable_conditions,json=executableConditions,proto3" json:"executable_conditions,omitempty" firestore:"executableConditions"`
+	ExecutableConditions []*condition.ExecutableCondition `protobuf:"bytes,6,rep,name=executable_conditions,json=executableConditions,proto3" json:"executable_conditions,omitempty"`
 	// List of owned objects WITHIN role binding scope - for example
 	// if role binding is a child of project and owner_objects contain some
 	// device, member has all possible permissions for this device in project,
 	// regardless of method. In case ownership is for whole role binding scope, it
 	// will contain "-" string. This is computed based on a role with
 	// wildcard grants.
-	OwnedObjects []string `protobuf:"bytes,3,rep,name=owned_objects,json=ownedObjects,proto3" json:"owned_objects,omitempty" firestore:"ownedObjects"`
+	OwnedObjects []string `protobuf:"bytes,3,rep,name=owned_objects,json=ownedObjects,proto3" json:"owned_objects,omitempty"`
 	// Member type, its prefix from member before ':' rune, fo example "user".
 	// If member has no ':' (like allUsers), then it will contain same value.
-	MemberType string `protobuf:"bytes,9,opt,name=member_type,json=memberType,proto3" json:"member_type,omitempty" firestore:"memberType"`
+	MemberType string `protobuf:"bytes,9,opt,name=member_type,json=memberType,proto3" json:"member_type,omitempty"`
 	// Role category, taken from role itself, allows for additional filtering.
-	Category role.Role_Category `protobuf:"varint,14,opt,name=category,proto3,enum=ntt.iam.v1.Role_Category" json:"category,omitempty" firestore:"category"`
+	Category role.Role_Category `protobuf:"varint,14,opt,name=category,proto3,enum=ntt.iam.v1.Role_Category" json:"category,omitempty"`
 	// Internal field used by IAM controller to note role binding ancestry path
 	// for Group type (RoleBindings inherited from Group)
-	AncestryPath []*RoleBinding_Parent `protobuf:"bytes,7,rep,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty" firestore:"ancestryPath"`
+	AncestryPath []*RoleBinding_Parent `protobuf:"bytes,7,rep,name=ancestry_path,json=ancestryPath,proto3" json:"ancestry_path,omitempty"`
 	// Internal field used by IAM controller to note parent role binding
 	// from Parent Organization type. It is much different compared to
 	// "ancestry_path", we just need direct parent. This is because it is simpler
@@ -109,19 +109,19 @@ type RoleBinding struct {
 	// detection. Groups are complicated and it is legal for two groups containing
 	// each other as members. But organization ancestry path does not allow loops,
 	// so we can afford simple field!
-	ParentByOrg *Reference `protobuf:"bytes,12,opt,customtype=Reference,name=parent_by_org,json=parentByOrg,proto3" json:"parent_by_org,omitempty" firestore:"parentByOrg"`
+	ParentByOrg *Reference `protobuf:"bytes,12,opt,customtype=Reference,name=parent_by_org,json=parentByOrg,proto3" json:"parent_by_org,omitempty"`
 	// Internal field used to synchronize role binding with role.
 	// This value increases when we spec in a role changes in a way requiring role
 	// binding resynchronization.
-	SpecGeneration int64 `protobuf:"varint,10,opt,name=spec_generation,json=specGeneration,proto3" json:"spec_generation,omitempty" firestore:"specGeneration"`
+	SpecGeneration int64 `protobuf:"varint,10,opt,name=spec_generation,json=specGeneration,proto3" json:"spec_generation,omitempty"`
 	// Internal field indicating if role binding has owned objects.
 	// It is used for filtering, as its not possible to filter by
 	// len(owned_objects) > 0
-	HasOwnedObjects bool `protobuf:"varint,11,opt,name=has_owned_objects,json=hasOwnedObjects,proto3" json:"has_owned_objects,omitempty" firestore:"hasOwnedObjects"`
+	HasOwnedObjects bool `protobuf:"varint,11,opt,name=has_owned_objects,json=hasOwnedObjects,proto3" json:"has_owned_objects,omitempty"`
 	// If true, then this RoleBinding DOES NOT apply to child entities.
 	// TODO: For now IAM Server decides if this RB is not assignable, consider
 	// opening this.
-	DisableForChildScopes bool `protobuf:"varint,13,opt,name=disable_for_child_scopes,json=disableForChildScopes,proto3" json:"disable_for_child_scopes,omitempty" firestore:"disableForChildScopes"`
+	DisableForChildScopes bool `protobuf:"varint,13,opt,name=disable_for_child_scopes,json=disableForChildScopes,proto3" json:"disable_for_child_scopes,omitempty"`
 }
 
 func (m *RoleBinding) Reset() {
@@ -379,9 +379,9 @@ type RoleBinding_Parent struct {
 	// Role bindings which have group as member have child for each service
 	// account and user in that group. All those role bindings have one common
 	// parent pointing at group role binding
-	Parent *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *Reference `protobuf:"bytes,1,opt,customtype=Reference,name=parent,proto3" json:"parent,omitempty"`
 	// Member of the parent role binding
-	Member string `protobuf:"bytes,2,opt,name=member,proto3" json:"member,omitempty" firestore:"member"`
+	Member string `protobuf:"bytes,2,opt,name=member,proto3" json:"member,omitempty"`
 }
 
 func (m *RoleBinding_Parent) Reset() {

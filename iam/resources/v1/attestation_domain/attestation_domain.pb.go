@@ -57,15 +57,15 @@ type AttestationDomain struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,2,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,2,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,1,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Display name
-	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty" firestore:"displayName"`
+	DisplayName string `protobuf:"bytes,3,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	// If false (default), attestation verifier SHALL check CA certificate chain
 	// up to the TPM chip manufacturers CA (defined in manufacturer_ca_issuers).
 	// This step is necessary to prove that the attestation request comes from a
@@ -75,14 +75,14 @@ type AttestationDomain struct {
 	// !!INSECURE!! Without this check, any keys may come from a simulated TPM
 	// on the device. An attacker may therefore forge any key they want.
 	// Therefore, this option should only be changed for development purposes.
-	InsecureSkipManufacturerEkcertVerification bool `protobuf:"varint,4,opt,name=insecure_skip_manufacturer_ekcert_verification,json=insecureSkipManufacturerEkcertVerification,proto3" json:"insecure_skip_manufacturer_ekcert_verification,omitempty" firestore:"insecureSkipManufacturerEkcertVerification"`
+	InsecureSkipManufacturerEkcertVerification bool `protobuf:"varint,4,opt,name=insecure_skip_manufacturer_ekcert_verification,json=insecureSkipManufacturerEkcertVerification,proto3" json:"insecure_skip_manufacturer_ekcert_verification,omitempty"`
 	// Attestees wanting to attest under this attestation domain SHALL fulfill
 	// requirements of at least one of attestation policies defined in this list.
 	// Policies are checked in the order they appear on this list.
-	Policies []*AttestationDomain_Policy `protobuf:"bytes,5,rep,name=policies,proto3" json:"policies,omitempty" firestore:"policies"`
+	Policies []*AttestationDomain_Policy `protobuf:"bytes,5,rep,name=policies,proto3" json:"policies,omitempty"`
 	// Attestation policy may require atestees pubkey to be present on
 	// enrollment_list.
-	EnrollmentList []*AttestationDomain_EnrolledKey `protobuf:"bytes,6,rep,name=enrollment_list,json=enrollmentList,proto3" json:"enrollment_list,omitempty" firestore:"enrollmentList"`
+	EnrollmentList []*AttestationDomain_EnrolledKey `protobuf:"bytes,6,rep,name=enrollment_list,json=enrollmentList,proto3" json:"enrollment_list,omitempty"`
 }
 
 func (m *AttestationDomain) Reset() {
@@ -242,23 +242,23 @@ type AttestationDomain_Policy struct {
 	//
 	// Note: multiple PEM certificates may be included here by simple means of
 	// concatenation.
-	ManufacturerRootCaCertsPem string `protobuf:"bytes,1,opt,name=manufacturer_root_ca_certs_pem,json=manufacturerRootCaCertsPem,proto3" json:"manufacturer_root_ca_certs_pem,omitempty" firestore:"manufacturerRootCaCertsPem"`
+	ManufacturerRootCaCertsPem string `protobuf:"bytes,1,opt,name=manufacturer_root_ca_certs_pem,json=manufacturerRootCaCertsPem,proto3" json:"manufacturer_root_ca_certs_pem,omitempty"`
 	// If true, the attestee's pubkey SHALL be present on this
 	// AttestationDomain's enrollment list, otherwise fail the attestation.
-	RequireEnrollment bool `protobuf:"varint,2,opt,name=require_enrollment,json=requireEnrollment,proto3" json:"require_enrollment,omitempty" firestore:"requireEnrollment"`
+	RequireEnrollment bool `protobuf:"varint,2,opt,name=require_enrollment,json=requireEnrollment,proto3" json:"require_enrollment,omitempty"`
 	// If true, the verifier SHALL parse, replay and verify TPM event log
 	// provided by the atestee, otherwise fail the attestation.
 	// Note that requiring verification of event does not provide additional
 	// security. See
 	// https://github.com/google/go-attestation/blob/master/docs/event-log-disclosure.md#event-type-and-verification-footguns
-	VerifyEventLog bool `protobuf:"varint,3,opt,name=verify_event_log,json=verifyEventLog,proto3" json:"verify_event_log,omitempty" firestore:"verifyEventLog"`
+	VerifyEventLog bool `protobuf:"varint,3,opt,name=verify_event_log,json=verifyEventLog,proto3" json:"verify_event_log,omitempty"`
 	// List of expected PCR values.
 	// All PCRs on this list SHALL match exactly the PCRs provided by the
 	// atestee, otherwise the attestation SHALL be failed. The verifier SHALL
 	// perform sanity checks: PCR index/digest pairs are unique and the size of
 	// the list is sane (TODO).
 	// They can be read from TPM by running something like `tpm2_pcrread`.
-	ExpectedPcrs []*iam_common.PCR `protobuf:"bytes,4,rep,name=expected_pcrs,json=expectedPcrs,proto3" json:"expected_pcrs,omitempty" firestore:"expectedPcrs"`
+	ExpectedPcrs []*iam_common.PCR `protobuf:"bytes,4,rep,name=expected_pcrs,json=expectedPcrs,proto3" json:"expected_pcrs,omitempty"`
 }
 
 func (m *AttestationDomain_Policy) Reset() {
@@ -375,9 +375,9 @@ type AttestationDomain_EnrolledKey struct {
 	// PEM encoded EK pubkey.
 	// It can be read from TPM by running something like `tpm2_createek -G rsa
 	// -u ek.pub -c key.ctx -f pem`.
-	PubkeyPem string `protobuf:"bytes,1,opt,name=pubkey_pem,json=pubkeyPem,proto3" json:"pubkey_pem,omitempty" firestore:"pubkeyPem"`
+	PubkeyPem string `protobuf:"bytes,1,opt,name=pubkey_pem,json=pubkeyPem,proto3" json:"pubkey_pem,omitempty"`
 	// User's comments for this entry
-	Comment string `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment,omitempty" firestore:"comment"`
+	Comment string `protobuf:"bytes,2,opt,name=comment,proto3" json:"comment,omitempty"`
 }
 
 func (m *AttestationDomain_EnrolledKey) Reset() {

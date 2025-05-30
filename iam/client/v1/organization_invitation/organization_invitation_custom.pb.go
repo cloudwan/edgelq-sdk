@@ -55,7 +55,7 @@ type AcceptOrganizationInvitationRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.iam.v1.OrganizationInvitation
-	Name *organization_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *organization_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *AcceptOrganizationInvitationRequest) Reset() {
@@ -187,9 +187,9 @@ type DeclineOrganizationInvitationRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	//  name of ntt.iam.v1.OrganizationInvitation
-	Name *organization_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *organization_invitation.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Additional filter for invitations, e.g. state = "PENDING"
-	Filter *project_invitation.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *project_invitation.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 }
 
 func (m *DeclineOrganizationInvitationRequest) Reset() {
@@ -335,9 +335,9 @@ type ListMyOrganizationInvitationsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Parent name of ntt.iam.v1.OrganizationInvitation
-	Parent *organization_invitation.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty" firestore:"parent"`
+	Parent *organization_invitation.ParentName `protobuf:"bytes,1,opt,customtype=ParentName,name=parent,proto3" json:"parent,omitempty"`
 	// Additional filter for invitations, e.g. state = "PENDING"
-	Filter *organization_invitation.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *organization_invitation.Filter `protobuf:"bytes,5,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 }
 
 func (m *ListMyOrganizationInvitationsRequest) Reset() {
@@ -425,7 +425,7 @@ type ListMyOrganizationInvitationsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// The list of OrganizationInvitations
-	OrganizationInvitations []*organization_invitation.OrganizationInvitation `protobuf:"bytes,1,rep,name=organization_invitations,json=organizationInvitations,proto3" json:"organization_invitations,omitempty" firestore:"organizationInvitations"`
+	OrganizationInvitations []*organization_invitation.OrganizationInvitation `protobuf:"bytes,1,rep,name=organization_invitations,json=organizationInvitations,proto3" json:"organization_invitations,omitempty"`
 }
 
 func (m *ListMyOrganizationInvitationsResponse) Reset() {

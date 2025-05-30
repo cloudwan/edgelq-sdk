@@ -53,7 +53,7 @@ type TestNotificationChannelRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// name of ntt.monitoring.v3.NotificationChannel
-	Name *notification_channel.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *notification_channel.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 }
 
 func (m *TestNotificationChannelRequest) Reset() {

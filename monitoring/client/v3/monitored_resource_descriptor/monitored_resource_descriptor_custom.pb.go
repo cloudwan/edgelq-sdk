@@ -58,13 +58,13 @@ type GetMonitoredResourceDescriptorRequest struct {
 	// `"monitoredResourceDescriptors/{resource_type}"`.
 	// The `{resource_type}` is a predefined type, such as
 	// `cloudsql_database`.
-	Name *monitored_resource_descriptor.Name `protobuf:"bytes,3,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *monitored_resource_descriptor.Name `protobuf:"bytes,3,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 }
 
 func (m *GetMonitoredResourceDescriptorRequest) Reset() {
@@ -172,23 +172,23 @@ type ListMonitoredResourceDescriptorsRequest struct {
 	// that have an `id` label:
 	//
 	//     resource.type = starts_with("gce_") AND resource.label:id
-	Filter *monitored_resource_descriptor.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty" firestore:"filter"`
+	Filter *monitored_resource_descriptor.Filter `protobuf:"bytes,2,opt,customtype=Filter,name=filter,proto3" json:"filter,omitempty"`
 	// A positive number that is the maximum number of results to return.
-	PageSize int32                                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty" firestore:"pageSize"`
-	OrderBy  *monitored_resource_descriptor.OrderBy `protobuf:"bytes,666,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty" firestore:"orderBy"`
+	PageSize int32                                  `protobuf:"varint,3,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	OrderBy  *monitored_resource_descriptor.OrderBy `protobuf:"bytes,666,opt,customtype=OrderBy,name=order_by,json=orderBy,proto3" json:"order_by,omitempty"`
 	// If this field is not empty then it must contain the `nextPageToken` value
 	// returned by a previous call to this method.  Using this field causes the
 	// method to return additional results from the previous method call.
-	PageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty" firestore:"pageToken"`
+	PageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,4,opt,customtype=PagerCursor,name=page_token,json=pageToken,proto3" json:"page_token,omitempty"`
 	// A list of extra fields to be obtained for each response item on top of
 	// fields defined by request field view
-	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty" firestore:"fieldMask"`
+	FieldMask *monitored_resource_descriptor.MonitoredResourceDescriptor_FieldMask `protobuf:"bytes,6,opt,customtype=MonitoredResourceDescriptor_FieldMask,name=field_mask,json=fieldMask,proto3" json:"field_mask,omitempty"`
 	// View defines list of standard response fields present in response items.
 	// Additional fields can be amended by request field field_mask
-	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty" firestore:"view"`
+	View view.View `protobuf:"varint,7,opt,name=view,proto3,enum=goten.types.View" json:"view,omitempty"`
 	// Indicates if list response should contain total count and offset (fields
 	// current_offset and total_results_count).
-	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty" firestore:"includePagingInfo"`
+	IncludePagingInfo bool `protobuf:"varint,8,opt,name=include_paging_info,json=includePagingInfo,proto3" json:"include_paging_info,omitempty"`
 }
 
 func (m *ListMonitoredResourceDescriptorsRequest) Reset() {
@@ -347,19 +347,19 @@ type ListMonitoredResourceDescriptorsResponse struct {
 	unknownFields protoimpl.UnknownFields
 	// The monitored resource descriptors that are available to this project
 	// and that match `filter`, if present.
-	MonitoredResourceDescriptors []*monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,1,rep,name=monitored_resource_descriptors,json=monitoredResourceDescriptors,proto3" json:"monitored_resource_descriptors,omitempty" firestore:"monitoredResourceDescriptors"`
+	MonitoredResourceDescriptors []*monitored_resource_descriptor.MonitoredResourceDescriptor `protobuf:"bytes,1,rep,name=monitored_resource_descriptors,json=monitoredResourceDescriptors,proto3" json:"monitored_resource_descriptors,omitempty"`
 	// If there are more results than have been returned, then this field is set
 	// to a non-empty value.  To see the additional results,
 	// use that value as `pageToken` in the next call to this method.
-	NextPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty" firestore:"nextPageToken"`
-	PrevPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,666,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty" firestore:"prevPageToken"`
+	NextPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,2,opt,customtype=PagerCursor,name=next_page_token,json=nextPageToken,proto3" json:"next_page_token,omitempty"`
+	PrevPageToken *monitored_resource_descriptor.PagerCursor `protobuf:"bytes,666,opt,customtype=PagerCursor,name=prev_page_token,json=prevPageToken,proto3" json:"prev_page_token,omitempty"`
 	// Current offset from the first page (0 if no page tokens were given or
 	// paging info was not requested). Page index can be computed from offset and
 	// limit provided in a request.
-	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty" firestore:"currentOffset"`
+	CurrentOffset int32 `protobuf:"varint,5,opt,name=current_offset,json=currentOffset,proto3" json:"current_offset,omitempty"`
 	// Number of total MonitoresResourceDescriptors across all pages or 0, if
 	// there are no items or paging info was not requested.
-	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty" firestore:"totalResultsCount"`
+	TotalResultsCount int32 `protobuf:"varint,6,opt,name=total_results_count,json=totalResultsCount,proto3" json:"total_results_count,omitempty"`
 }
 
 func (m *ListMonitoredResourceDescriptorsResponse) Reset() {

@@ -55,14 +55,14 @@ type Contract struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
-	RatePlan string     `protobuf:"bytes,3,opt,name=rate_plan,json=ratePlan,proto3" json:"rate_plan,omitempty" firestore:"ratePlan"`
+	Metadata *meta.Meta `protobuf:"bytes,2,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	RatePlan string     `protobuf:"bytes,3,opt,name=rate_plan,json=ratePlan,proto3" json:"rate_plan,omitempty"`
 	// CarrierAccount contains api credential for backend to call each carrier
 	// APIs, therefore it is packed as a Secret resource. Secret resource itself
 	// must contain following data field in each carrier:
@@ -142,13 +142,13 @@ type isContract_CarrierAccount interface {
 }
 
 type Contract_Transatel struct {
-	Transatel *secrets_secret.Reference `protobuf:"bytes,5,opt,customtype=Reference,name=transatel,proto3,oneof" firestore:"transatel"`
+	Transatel *secrets_secret.Reference `protobuf:"bytes,5,opt,customtype=Reference,name=transatel,proto3,oneof"`
 }
 type Contract_Cisco struct {
-	Cisco *secrets_secret.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=cisco,proto3,oneof" firestore:"cisco"`
+	Cisco *secrets_secret.Reference `protobuf:"bytes,6,opt,customtype=Reference,name=cisco,proto3,oneof"`
 }
 type Contract_Celona struct {
-	Celona *secrets_secret.Reference `protobuf:"bytes,7,opt,customtype=Reference,name=celona,proto3,oneof" firestore:"celona"`
+	Celona *secrets_secret.Reference `protobuf:"bytes,7,opt,customtype=Reference,name=celona,proto3,oneof"`
 }
 
 func (*Contract_Transatel) isContract_CarrierAccount() {}

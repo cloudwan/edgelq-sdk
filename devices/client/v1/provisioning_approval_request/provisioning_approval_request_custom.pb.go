@@ -55,8 +55,8 @@ type ProvisionDeviceForApprovedRequestRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// name of ntt.devices.v1.ProvisioningApprovalRequest
-	Name         *provisioning_approval_request.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
-	DeviceStatus *device.Device_Status               `protobuf:"bytes,2,opt,name=device_status,json=deviceStatus,proto3" json:"device_status,omitempty" firestore:"deviceStatus"`
+	Name         *provisioning_approval_request.Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
+	DeviceStatus *device.Device_Status               `protobuf:"bytes,2,opt,name=device_status,json=deviceStatus,proto3" json:"device_status,omitempty"`
 }
 
 func (m *ProvisionDeviceForApprovedRequestRequest) Reset() {
@@ -143,7 +143,7 @@ type ProvisionDeviceForApprovedRequestResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
-	Device        *device.Device `protobuf:"bytes,1,opt,name=device,proto3" json:"device,omitempty" firestore:"device"`
+	Device        *device.Device `protobuf:"bytes,1,opt,name=device,proto3" json:"device,omitempty"`
 }
 
 func (m *ProvisionDeviceForApprovedRequestResponse) Reset() {

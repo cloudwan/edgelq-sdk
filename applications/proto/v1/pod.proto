@@ -78,6 +78,8 @@ message Pod {
 
       StateTerminated terminated = 6;
 
+      StateRestarting restarting = 11;
+
       HealthStatus health_status = 7;
 
       // service name in case of compose pod
@@ -123,6 +125,14 @@ message Pod {
         string container_id = 7;
       }
 
+      message StateRestarting {
+        // exit_code is the exist code that the process returns at the end.
+        int32 exit_code = 1;
+
+        // containerID is the ID of the container when it was running.
+        string container_id = 2;
+      }
+
       // TODO remove prefixes when the name conflict issue by gogo is resolved
       enum State {
         STATE_UNSPECIFIED = 0;
@@ -134,6 +144,8 @@ message Pod {
         TERMINATED = 3;
 
         UNKNOWN = 4;
+
+        RESTARTING = 5;
       }
     }
 

@@ -57,17 +57,17 @@ type RecoveryStoreShardingInfo struct {
 	// When creating a new instance, this field is optional and if not provided,
 	// it will be generated automatically. Last ID segment must conform to the
 	// following regex: [a-zA-Z0-9_.-]{1,128}
-	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty" firestore:"name"`
+	Name *Name `protobuf:"bytes,1,opt,customtype=Name,name=name,proto3" json:"name,omitempty"`
 	// Metadata is an object with information like create, update and delete time
 	// (for async deleted resources), has user labels/annotations, sharding
 	// information, multi-region syncing information and may have non-schema
 	// owners (useful for taking ownership of resources belonging to lower level
 	// services by higher ones).
-	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty" firestore:"metadata"`
+	Metadata *meta.Meta `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
 	// Period during which this sharding spec is valid.
-	ValidityPeriod *RecoveryStoreShardingInfo_ValidityPeriod `protobuf:"bytes,2,opt,name=validity_period,json=validityPeriod,proto3" json:"validity_period,omitempty" firestore:"validityPeriod"`
+	ValidityPeriod *RecoveryStoreShardingInfo_ValidityPeriod `protobuf:"bytes,2,opt,name=validity_period,json=validityPeriod,proto3" json:"validity_period,omitempty"`
 	// Sharding spec for given validity period.
-	Spec *RecoveryStoreShardingInfo_ShardingSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty" firestore:"spec"`
+	Spec *RecoveryStoreShardingInfo_ShardingSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec,omitempty"`
 }
 
 func (m *RecoveryStoreShardingInfo) Reset() {
@@ -183,9 +183,9 @@ type RecoveryStoreShardingInfo_ValidityPeriod struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Start time of validity period.
-	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty" firestore:"startTime"`
+	StartTime *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start_time,json=startTime,proto3" json:"start_time,omitempty"`
 	// End time of validity period.
-	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" firestore:"endTime"`
+	EndTime *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`
 }
 
 func (m *RecoveryStoreShardingInfo_ValidityPeriod) Reset() {
@@ -273,9 +273,9 @@ type RecoveryStoreShardingInfo_ShardingSpec struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 	// Defines period of time series points in a single blob.
-	TsBlobPeriod *durationpb.Duration `protobuf:"bytes,1,opt,name=ts_blob_period,json=tsBlobPeriod,proto3" json:"ts_blob_period,omitempty" firestore:"tsBlobPeriod"`
+	TsBlobPeriod *durationpb.Duration `protobuf:"bytes,1,opt,name=ts_blob_period,json=tsBlobPeriod,proto3" json:"ts_blob_period,omitempty"`
 	// Number of shards (by key) in given shard period
-	ShardsCount uint32 `protobuf:"varint,2,opt,name=shards_count,json=shardsCount,proto3" json:"shards_count,omitempty" firestore:"shardsCount"`
+	ShardsCount uint32 `protobuf:"varint,2,opt,name=shards_count,json=shardsCount,proto3" json:"shards_count,omitempty"`
 }
 
 func (m *RecoveryStoreShardingInfo_ShardingSpec) Reset() {
