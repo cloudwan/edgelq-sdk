@@ -57,6 +57,7 @@ type PolicyTemplateServiceClient interface {
 	CreatePolicyTemplate(ctx context.Context, in *CreatePolicyTemplateRequest, opts ...grpc.CallOption) (*policy_template.PolicyTemplate, error)
 	UpdatePolicyTemplate(ctx context.Context, in *UpdatePolicyTemplateRequest, opts ...grpc.CallOption) (*policy_template.PolicyTemplate, error)
 	DeletePolicyTemplate(ctx context.Context, in *DeletePolicyTemplateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchPolicyTemplates(ctx context.Context, in *SearchPolicyTemplatesRequest, opts ...grpc.CallOption) (*SearchPolicyTemplatesResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdatePolicyTemplate(ctx context.Context, in *UpdatePolicyTempl
 func (c *client) DeletePolicyTemplate(ctx context.Context, in *DeletePolicyTemplateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.alerting.v1.PolicyTemplateService/DeletePolicyTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchPolicyTemplates(ctx context.Context, in *SearchPolicyTemplatesRequest, opts ...grpc.CallOption) (*SearchPolicyTemplatesResponse, error) {
+	out := new(SearchPolicyTemplatesResponse)
+	err := c.cc.Invoke(ctx, "/ntt.alerting.v1.PolicyTemplateService/SearchPolicyTemplates", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

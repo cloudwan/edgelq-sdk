@@ -47,6 +47,7 @@ type TsConditionTemplateAccess interface {
 	GetTsConditionTemplate(context.Context, *GetQuery, ...gotenresource.GetOption) (*TsConditionTemplate, error)
 	BatchGetTsConditionTemplates(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryTsConditionTemplates(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchTsConditionTemplates(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchTsConditionTemplate(context.Context, *GetQuery, func(*TsConditionTemplateChange) error) error
 	WatchTsConditionTemplates(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SaveTsConditionTemplate(context.Context, *TsConditionTemplate, ...gotenresource.SaveOption) error
@@ -80,7 +81,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for TsConditionTemplate")
+	if asTsConditionTemplateQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchTsConditionTemplates(ctx, asTsConditionTemplateQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected TsConditionTemplate, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

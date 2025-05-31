@@ -148,6 +148,42 @@ func (a *apiLogConditionTemplateAccess) QueryLogConditionTemplates(ctx context.C
 	}, nil
 }
 
+func (a *apiLogConditionTemplateAccess) SearchLogConditionTemplates(ctx context.Context, query *log_condition_template.SearchQuery, opts ...gotenresource.QueryOption) (*log_condition_template.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &log_condition_template_client.SearchLogConditionTemplatesRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchLogConditionTemplates(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &log_condition_template.QueryResultSnapshot{
+		LogConditionTemplates: resp.LogConditionTemplates,
+		NextPageCursor:        resp.NextPageToken,
+		PrevPageCursor:        resp.PrevPageToken,
+		CurrentOffset:         resp.CurrentOffset,
+		TotalResultsCount:     resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiLogConditionTemplateAccess) WatchLogConditionTemplate(ctx context.Context, query *log_condition_template.GetQuery, observerCb func(*log_condition_template.LogConditionTemplateChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

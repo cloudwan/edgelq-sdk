@@ -148,6 +148,42 @@ func (a *apiPolicyTemplateAccess) QueryPolicyTemplates(ctx context.Context, quer
 	}, nil
 }
 
+func (a *apiPolicyTemplateAccess) SearchPolicyTemplates(ctx context.Context, query *policy_template.SearchQuery, opts ...gotenresource.QueryOption) (*policy_template.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &policy_template_client.SearchPolicyTemplatesRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchPolicyTemplates(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &policy_template.QueryResultSnapshot{
+		PolicyTemplates:   resp.PolicyTemplates,
+		NextPageCursor:    resp.NextPageToken,
+		PrevPageCursor:    resp.PrevPageToken,
+		CurrentOffset:     resp.CurrentOffset,
+		TotalResultsCount: resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiPolicyTemplateAccess) WatchPolicyTemplate(ctx context.Context, query *policy_template.GetQuery, observerCb func(*policy_template.PolicyTemplateChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

@@ -148,6 +148,42 @@ func (a *apiTsConditionTemplateAccess) QueryTsConditionTemplates(ctx context.Con
 	}, nil
 }
 
+func (a *apiTsConditionTemplateAccess) SearchTsConditionTemplates(ctx context.Context, query *ts_condition_template.SearchQuery, opts ...gotenresource.QueryOption) (*ts_condition_template.QueryResultSnapshot, error) {
+	qOpts := gotenresource.MakeQueryOptions(opts)
+	callHeaders := metadata.MD{}
+	if qOpts.GetSkipCache() {
+		callHeaders["cache-control"] = []string{"no-cache"}
+	}
+	callOpts := []grpc.CallOption{}
+	if len(callHeaders) > 0 {
+		callOpts = append(callOpts, grpc.Header(&callHeaders))
+	}
+	request := &ts_condition_template_client.SearchTsConditionTemplatesRequest{
+		Phrase:    query.Phrase,
+		Filter:    query.Filter,
+		FieldMask: query.Mask,
+	}
+	if query.Pager != nil {
+		request.PageSize = int32(query.Pager.Limit)
+		request.OrderBy = query.Pager.OrderBy
+		request.PageToken = query.Pager.Cursor
+	}
+	if query.Filter != nil && query.Filter.GetCondition() != nil {
+		request.Filter, request.Parent = getParentAndFilter(query.Filter)
+	}
+	resp, err := a.client.SearchTsConditionTemplates(ctx, request, callOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return &ts_condition_template.QueryResultSnapshot{
+		TsConditionTemplates: resp.TsConditionTemplates,
+		NextPageCursor:       resp.NextPageToken,
+		PrevPageCursor:       resp.PrevPageToken,
+		CurrentOffset:        resp.CurrentOffset,
+		TotalResultsCount:    resp.TotalResultsCount,
+	}, nil
+}
+
 func (a *apiTsConditionTemplateAccess) WatchTsConditionTemplate(ctx context.Context, query *ts_condition_template.GetQuery, observerCb func(*ts_condition_template.TsConditionTemplateChange) error) error {
 	if !query.Reference.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", query.Reference)

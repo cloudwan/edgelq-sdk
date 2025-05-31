@@ -41,6 +41,7 @@ var (
 	createPolicyTemplateDescriptor    *CreatePolicyTemplateDescriptor
 	updatePolicyTemplateDescriptor    *UpdatePolicyTemplateDescriptor
 	deletePolicyTemplateDescriptor    *DeletePolicyTemplateDescriptor
+	searchPolicyTemplatesDescriptor   *SearchPolicyTemplatesDescriptor
 )
 
 type GetPolicyTemplateDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeletePolicyTemplateDescriptor() *DeletePolicyTemplateDescriptor {
 	return deletePolicyTemplateDescriptor
 }
 
+type SearchPolicyTemplatesDescriptor struct{}
+
+type SearchPolicyTemplatesDescriptorClientMsgHandle struct{}
+
+type SearchPolicyTemplatesDescriptorServerMsgHandle struct{}
+
+func (d *SearchPolicyTemplatesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchPolicyTemplatesRequest{}
+}
+
+func (d *SearchPolicyTemplatesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchPolicyTemplatesResponse{}
+}
+
+func (d *SearchPolicyTemplatesDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchPolicyTemplatesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchPolicyTemplatesDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchPolicyTemplatesDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchPolicyTemplatesDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchPolicyTemplatesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchPolicyTemplatesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetMethodName() string {
+	return "SearchPolicyTemplates"
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetFullMethodName() string {
+	return "/ntt.alerting.v1.PolicyTemplateService/SearchPolicyTemplates"
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetProtoPkgName() string {
+	return "ntt.alerting.v1"
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetApiName() string {
+	return "PolicyTemplateService"
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetServiceDomain() string {
+	return "alerting.edgelq.com"
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return policyTemplateServiceDescriptor
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return policy_template.GetDescriptor()
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchPolicyTemplatesDescriptorClientMsgHandle{}
+}
+
+func (d *SearchPolicyTemplatesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchPolicyTemplatesDescriptorServerMsgHandle{}
+}
+
+func (h *SearchPolicyTemplatesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPolicyTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchPolicyTemplatesRequest) *policy_template.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPolicyTemplatesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchPolicyTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchPolicyTemplatesRequest) []*policy_template.Name
+	})
+	if ok {
+		return policy_template.PolicyTemplateNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchPolicyTemplatesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPolicyTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchPolicyTemplatesRequest) *policy_template.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*policy_template.ParentName)(nil)
+}
+
+func (h *SearchPolicyTemplatesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchPolicyTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchPolicyTemplatesRequest) *policy_template.PolicyTemplate
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPolicyTemplatesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchPolicyTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchPolicyTemplatesRequest) []*policy_template.PolicyTemplate
+	})
+	if ok {
+		return policy_template.PolicyTemplateList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchPolicyTemplatesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPolicyTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchPolicyTemplatesResponse) *policy_template.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPolicyTemplatesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchPolicyTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchPolicyTemplatesResponse) []*policy_template.Name
+	})
+	if ok {
+		return policy_template.PolicyTemplateNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPolicyTemplates(); len(resources) > 0 {
+			list := make(policy_template.PolicyTemplateNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (policy_template.PolicyTemplateNameList)(nil)
+}
+
+func (h *SearchPolicyTemplatesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchPolicyTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchPolicyTemplatesResponse) *policy_template.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPolicyTemplatesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchPolicyTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchPolicyTemplatesResponse) *policy_template.PolicyTemplate
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchPolicyTemplatesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchPolicyTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchPolicyTemplatesResponse) []*policy_template.PolicyTemplate
+	})
+	if ok {
+		return policy_template.PolicyTemplateList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetPolicyTemplates(); len(resources) > 0 {
+			return policy_template.PolicyTemplateList(resources)
+		}
+	}
+	return (policy_template.PolicyTemplateList)(nil)
+}
+
+func GetSearchPolicyTemplatesDescriptor() *SearchPolicyTemplatesDescriptor {
+	return searchPolicyTemplatesDescriptor
+}
+
 type PolicyTemplateServiceDescriptor struct{}
 
 func (d *PolicyTemplateServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *PolicyTemplateServiceDescriptor) AllMethodDescriptors() []gotenclient.M
 		createPolicyTemplateDescriptor,
 		updatePolicyTemplateDescriptor,
 		deletePolicyTemplateDescriptor,
+		searchPolicyTemplatesDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createPolicyTemplateDescriptor = &CreatePolicyTemplateDescriptor{}
 	updatePolicyTemplateDescriptor = &UpdatePolicyTemplateDescriptor{}
 	deletePolicyTemplateDescriptor = &DeletePolicyTemplateDescriptor{}
+	searchPolicyTemplatesDescriptor = &SearchPolicyTemplatesDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(policyTemplateServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getPolicyTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetPolicyTemplatesDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createPolicyTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updatePolicyTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deletePolicyTemplateDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchPolicyTemplatesDescriptor)
 }
 
 func init() {

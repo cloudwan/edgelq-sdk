@@ -47,6 +47,7 @@ type PolicyTemplateAccess interface {
 	GetPolicyTemplate(context.Context, *GetQuery, ...gotenresource.GetOption) (*PolicyTemplate, error)
 	BatchGetPolicyTemplates(context.Context, []*Reference, ...gotenresource.BatchGetOption) error
 	QueryPolicyTemplates(context.Context, *ListQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
+	SearchPolicyTemplates(context.Context, *SearchQuery, ...gotenresource.QueryOption) (*QueryResultSnapshot, error)
 	WatchPolicyTemplate(context.Context, *GetQuery, func(*PolicyTemplateChange) error) error
 	WatchPolicyTemplates(context.Context, *WatchQuery, func(*QueryResultChange) error) error
 	SavePolicyTemplate(context.Context, *PolicyTemplate, ...gotenresource.SaveOption) error
@@ -80,7 +81,12 @@ func (a *anyCastAccess) Query(ctx context.Context, q gotenresource.ListQuery, op
 }
 
 func (a *anyCastAccess) Search(ctx context.Context, q gotenresource.SearchQuery, opts ...gotenresource.QueryOption) (gotenresource.QueryResultSnapshot, error) {
-	return nil, status.Errorf(codes.Internal, "Search is not available for PolicyTemplate")
+	if asPolicyTemplateQuery, ok := q.(*SearchQuery); ok {
+		return a.SearchPolicyTemplates(ctx, asPolicyTemplateQuery, opts...)
+	}
+	return nil, status.Errorf(codes.Internal,
+		"Unrecognized descriptor, expected PolicyTemplate, got: %s",
+		q.GetResourceDescriptor().GetResourceTypeName().FullyQualifiedTypeName())
 }
 
 func (a *anyCastAccess) Watch(ctx context.Context, q gotenresource.GetQuery, cb func(ch gotenresource.ResourceChange) error) error {

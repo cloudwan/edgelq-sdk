@@ -41,6 +41,7 @@ var (
 	createTsConditionTemplateDescriptor    *CreateTsConditionTemplateDescriptor
 	updateTsConditionTemplateDescriptor    *UpdateTsConditionTemplateDescriptor
 	deleteTsConditionTemplateDescriptor    *DeleteTsConditionTemplateDescriptor
+	searchTsConditionTemplatesDescriptor   *SearchTsConditionTemplatesDescriptor
 )
 
 type GetTsConditionTemplateDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeleteTsConditionTemplateDescriptor() *DeleteTsConditionTemplateDescript
 	return deleteTsConditionTemplateDescriptor
 }
 
+type SearchTsConditionTemplatesDescriptor struct{}
+
+type SearchTsConditionTemplatesDescriptorClientMsgHandle struct{}
+
+type SearchTsConditionTemplatesDescriptorServerMsgHandle struct{}
+
+func (d *SearchTsConditionTemplatesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchTsConditionTemplatesRequest{}
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchTsConditionTemplatesResponse{}
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetMethodName() string {
+	return "SearchTsConditionTemplates"
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetFullMethodName() string {
+	return "/ntt.alerting.v1.TsConditionTemplateService/SearchTsConditionTemplates"
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetProtoPkgName() string {
+	return "ntt.alerting.v1"
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetApiName() string {
+	return "TsConditionTemplateService"
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetServiceDomain() string {
+	return "alerting.edgelq.com"
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return tsConditionTemplateServiceDescriptor
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return ts_condition_template.GetDescriptor()
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchTsConditionTemplatesDescriptorClientMsgHandle{}
+}
+
+func (d *SearchTsConditionTemplatesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchTsConditionTemplatesDescriptorServerMsgHandle{}
+}
+
+func (h *SearchTsConditionTemplatesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchTsConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchTsConditionTemplatesRequest) *ts_condition_template.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchTsConditionTemplatesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchTsConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchTsConditionTemplatesRequest) []*ts_condition_template.Name
+	})
+	if ok {
+		return ts_condition_template.TsConditionTemplateNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchTsConditionTemplatesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchTsConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchTsConditionTemplatesRequest) *ts_condition_template.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*ts_condition_template.ParentName)(nil)
+}
+
+func (h *SearchTsConditionTemplatesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchTsConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchTsConditionTemplatesRequest) *ts_condition_template.TsConditionTemplate
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchTsConditionTemplatesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchTsConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchTsConditionTemplatesRequest) []*ts_condition_template.TsConditionTemplate
+	})
+	if ok {
+		return ts_condition_template.TsConditionTemplateList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchTsConditionTemplatesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchTsConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchTsConditionTemplatesResponse) *ts_condition_template.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchTsConditionTemplatesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchTsConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchTsConditionTemplatesResponse) []*ts_condition_template.Name
+	})
+	if ok {
+		return ts_condition_template.TsConditionTemplateNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetTsConditionTemplates(); len(resources) > 0 {
+			list := make(ts_condition_template.TsConditionTemplateNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (ts_condition_template.TsConditionTemplateNameList)(nil)
+}
+
+func (h *SearchTsConditionTemplatesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchTsConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchTsConditionTemplatesResponse) *ts_condition_template.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchTsConditionTemplatesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchTsConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchTsConditionTemplatesResponse) *ts_condition_template.TsConditionTemplate
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchTsConditionTemplatesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchTsConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchTsConditionTemplatesResponse) []*ts_condition_template.TsConditionTemplate
+	})
+	if ok {
+		return ts_condition_template.TsConditionTemplateList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetTsConditionTemplates(); len(resources) > 0 {
+			return ts_condition_template.TsConditionTemplateList(resources)
+		}
+	}
+	return (ts_condition_template.TsConditionTemplateList)(nil)
+}
+
+func GetSearchTsConditionTemplatesDescriptor() *SearchTsConditionTemplatesDescriptor {
+	return searchTsConditionTemplatesDescriptor
+}
+
 type TsConditionTemplateServiceDescriptor struct{}
 
 func (d *TsConditionTemplateServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *TsConditionTemplateServiceDescriptor) AllMethodDescriptors() []gotencli
 		createTsConditionTemplateDescriptor,
 		updateTsConditionTemplateDescriptor,
 		deleteTsConditionTemplateDescriptor,
+		searchTsConditionTemplatesDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createTsConditionTemplateDescriptor = &CreateTsConditionTemplateDescriptor{}
 	updateTsConditionTemplateDescriptor = &UpdateTsConditionTemplateDescriptor{}
 	deleteTsConditionTemplateDescriptor = &DeleteTsConditionTemplateDescriptor{}
+	searchTsConditionTemplatesDescriptor = &SearchTsConditionTemplatesDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(tsConditionTemplateServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getTsConditionTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetTsConditionTemplatesDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createTsConditionTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateTsConditionTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteTsConditionTemplateDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchTsConditionTemplatesDescriptor)
 }
 
 func init() {

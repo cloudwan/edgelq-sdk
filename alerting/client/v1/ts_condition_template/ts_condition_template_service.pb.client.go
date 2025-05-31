@@ -57,6 +57,7 @@ type TsConditionTemplateServiceClient interface {
 	CreateTsConditionTemplate(ctx context.Context, in *CreateTsConditionTemplateRequest, opts ...grpc.CallOption) (*ts_condition_template.TsConditionTemplate, error)
 	UpdateTsConditionTemplate(ctx context.Context, in *UpdateTsConditionTemplateRequest, opts ...grpc.CallOption) (*ts_condition_template.TsConditionTemplate, error)
 	DeleteTsConditionTemplate(ctx context.Context, in *DeleteTsConditionTemplateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchTsConditionTemplates(ctx context.Context, in *SearchTsConditionTemplatesRequest, opts ...grpc.CallOption) (*SearchTsConditionTemplatesResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateTsConditionTemplate(ctx context.Context, in *UpdateTsCond
 func (c *client) DeleteTsConditionTemplate(ctx context.Context, in *DeleteTsConditionTemplateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.alerting.v1.TsConditionTemplateService/DeleteTsConditionTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchTsConditionTemplates(ctx context.Context, in *SearchTsConditionTemplatesRequest, opts ...grpc.CallOption) (*SearchTsConditionTemplatesResponse, error) {
+	out := new(SearchTsConditionTemplatesResponse)
+	err := c.cc.Invoke(ctx, "/ntt.alerting.v1.TsConditionTemplateService/SearchTsConditionTemplates", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

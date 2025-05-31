@@ -41,6 +41,7 @@ var (
 	createLogConditionTemplateDescriptor    *CreateLogConditionTemplateDescriptor
 	updateLogConditionTemplateDescriptor    *UpdateLogConditionTemplateDescriptor
 	deleteLogConditionTemplateDescriptor    *DeleteLogConditionTemplateDescriptor
+	searchLogConditionTemplatesDescriptor   *SearchLogConditionTemplatesDescriptor
 )
 
 type GetLogConditionTemplateDescriptor struct{}
@@ -1855,6 +1856,235 @@ func GetDeleteLogConditionTemplateDescriptor() *DeleteLogConditionTemplateDescri
 	return deleteLogConditionTemplateDescriptor
 }
 
+type SearchLogConditionTemplatesDescriptor struct{}
+
+type SearchLogConditionTemplatesDescriptorClientMsgHandle struct{}
+
+type SearchLogConditionTemplatesDescriptorServerMsgHandle struct{}
+
+func (d *SearchLogConditionTemplatesDescriptor) NewEmptyClientMsg() proto.Message {
+	return &SearchLogConditionTemplatesRequest{}
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) NewEmptyServerMsg() proto.Message {
+	return &SearchLogConditionTemplatesResponse{}
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) IsUnary() bool {
+	return true
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) IsClientStream() bool {
+	return false
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) IsServerStream() bool {
+	return false
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) IsCollection() bool {
+	return true
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) IsPlural() bool {
+	return true
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) HasResource() bool {
+	return true
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) RequestHasResourceBody() bool {
+	return false
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetVerb() string {
+	return "search"
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetMethodName() string {
+	return "SearchLogConditionTemplates"
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetFullMethodName() string {
+	return "/ntt.alerting.v1.LogConditionTemplateService/SearchLogConditionTemplates"
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetProtoPkgName() string {
+	return "ntt.alerting.v1"
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetApiName() string {
+	return "LogConditionTemplateService"
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetServiceDomain() string {
+	return "alerting.edgelq.com"
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetServiceVersion() string {
+	return "v1"
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetApiDescriptor() gotenclient.ApiDescriptor {
+	return logConditionTemplateServiceDescriptor
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetResourceDescriptor() gotenresource.Descriptor {
+	return log_condition_template.GetDescriptor()
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetClientMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchLogConditionTemplatesDescriptorClientMsgHandle{}
+}
+
+func (d *SearchLogConditionTemplatesDescriptor) GetServerMsgReflectHandle() gotenclient.MethodMsgHandle {
+	return &SearchLogConditionTemplatesDescriptorServerMsgHandle{}
+}
+
+func (h *SearchLogConditionTemplatesDescriptorClientMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchLogConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchLogConditionTemplatesRequest) *log_condition_template.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchLogConditionTemplatesDescriptorClientMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchLogConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchLogConditionTemplatesRequest) []*log_condition_template.Name
+	})
+	if ok {
+		return log_condition_template.LogConditionTemplateNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchLogConditionTemplatesDescriptorClientMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchLogConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchLogConditionTemplatesRequest) *log_condition_template.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	{
+		if parentName := typedMsg.GetParent(); parentName != nil {
+			return parentName
+		}
+	}
+	return (*log_condition_template.ParentName)(nil)
+}
+
+func (h *SearchLogConditionTemplatesDescriptorClientMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchLogConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchLogConditionTemplatesRequest) *log_condition_template.LogConditionTemplate
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchLogConditionTemplatesDescriptorClientMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchLogConditionTemplatesRequest)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchLogConditionTemplatesRequest) []*log_condition_template.LogConditionTemplate
+	})
+	if ok {
+		return log_condition_template.LogConditionTemplateList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	return nil
+}
+
+func (h *SearchLogConditionTemplatesDescriptorServerMsgHandle) ExtractResourceName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchLogConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceName(*SearchLogConditionTemplatesResponse) *log_condition_template.Name
+	})
+	if ok {
+		return override.OverrideExtractResourceName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchLogConditionTemplatesDescriptorServerMsgHandle) ExtractResourceNames(msg proto.Message) gotenresource.NameList {
+	typedMsg := msg.(*SearchLogConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceNames(*SearchLogConditionTemplatesResponse) []*log_condition_template.Name
+	})
+	if ok {
+		return log_condition_template.LogConditionTemplateNameList(override.OverrideExtractResourceNames(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetLogConditionTemplates(); len(resources) > 0 {
+			list := make(log_condition_template.LogConditionTemplateNameList, 0, len(resources))
+			for _, res := range resources {
+				list = append(list, res.GetName())
+			}
+			return list
+		}
+	}
+	return (log_condition_template.LogConditionTemplateNameList)(nil)
+}
+
+func (h *SearchLogConditionTemplatesDescriptorServerMsgHandle) ExtractCollectionName(msg proto.Message) gotenresource.Name {
+	typedMsg := msg.(*SearchLogConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractCollectionName(*SearchLogConditionTemplatesResponse) *log_condition_template.ParentName
+	})
+	if ok {
+		return override.OverrideExtractCollectionName(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchLogConditionTemplatesDescriptorServerMsgHandle) ExtractResourceBody(msg proto.Message) gotenresource.Resource {
+	typedMsg := msg.(*SearchLogConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBody(*SearchLogConditionTemplatesResponse) *log_condition_template.LogConditionTemplate
+	})
+	if ok {
+		return override.OverrideExtractResourceBody(typedMsg)
+	}
+	return nil
+}
+
+func (h *SearchLogConditionTemplatesDescriptorServerMsgHandle) ExtractResourceBodies(msg proto.Message) gotenresource.ResourceList {
+	typedMsg := msg.(*SearchLogConditionTemplatesResponse)
+	var asInterface interface{} = h
+	override, ok := asInterface.(interface {
+		OverrideExtractResourceBodies(*SearchLogConditionTemplatesResponse) []*log_condition_template.LogConditionTemplate
+	})
+	if ok {
+		return log_condition_template.LogConditionTemplateList(override.OverrideExtractResourceBodies(typedMsg))
+	}
+	{
+		if resources := typedMsg.GetLogConditionTemplates(); len(resources) > 0 {
+			return log_condition_template.LogConditionTemplateList(resources)
+		}
+	}
+	return (log_condition_template.LogConditionTemplateList)(nil)
+}
+
+func GetSearchLogConditionTemplatesDescriptor() *SearchLogConditionTemplatesDescriptor {
+	return searchLogConditionTemplatesDescriptor
+}
+
 type LogConditionTemplateServiceDescriptor struct{}
 
 func (d *LogConditionTemplateServiceDescriptor) AllMethodDescriptors() []gotenclient.MethodDescriptor {
@@ -1867,6 +2097,7 @@ func (d *LogConditionTemplateServiceDescriptor) AllMethodDescriptors() []gotencl
 		createLogConditionTemplateDescriptor,
 		updateLogConditionTemplateDescriptor,
 		deleteLogConditionTemplateDescriptor,
+		searchLogConditionTemplatesDescriptor,
 	}
 }
 
@@ -1904,6 +2135,7 @@ func initDescriptors() {
 	createLogConditionTemplateDescriptor = &CreateLogConditionTemplateDescriptor{}
 	updateLogConditionTemplateDescriptor = &UpdateLogConditionTemplateDescriptor{}
 	deleteLogConditionTemplateDescriptor = &DeleteLogConditionTemplateDescriptor{}
+	searchLogConditionTemplatesDescriptor = &SearchLogConditionTemplatesDescriptor{}
 	gotenclient.GetRegistry().RegisterApiDescriptor(logConditionTemplateServiceDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(getLogConditionTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(batchGetLogConditionTemplatesDescriptor)
@@ -1913,6 +2145,7 @@ func initDescriptors() {
 	gotenclient.GetRegistry().RegisterMethodDescriptor(createLogConditionTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(updateLogConditionTemplateDescriptor)
 	gotenclient.GetRegistry().RegisterMethodDescriptor(deleteLogConditionTemplateDescriptor)
+	gotenclient.GetRegistry().RegisterMethodDescriptor(searchLogConditionTemplatesDescriptor)
 }
 
 func init() {

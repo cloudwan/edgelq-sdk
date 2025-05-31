@@ -57,6 +57,7 @@ type LogConditionTemplateServiceClient interface {
 	CreateLogConditionTemplate(ctx context.Context, in *CreateLogConditionTemplateRequest, opts ...grpc.CallOption) (*log_condition_template.LogConditionTemplate, error)
 	UpdateLogConditionTemplate(ctx context.Context, in *UpdateLogConditionTemplateRequest, opts ...grpc.CallOption) (*log_condition_template.LogConditionTemplate, error)
 	DeleteLogConditionTemplate(ctx context.Context, in *DeleteLogConditionTemplateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	SearchLogConditionTemplates(ctx context.Context, in *SearchLogConditionTemplatesRequest, opts ...grpc.CallOption) (*SearchLogConditionTemplatesResponse, error)
 }
 
 type client struct {
@@ -189,6 +190,15 @@ func (c *client) UpdateLogConditionTemplate(ctx context.Context, in *UpdateLogCo
 func (c *client) DeleteLogConditionTemplate(ctx context.Context, in *DeleteLogConditionTemplateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ntt.alerting.v1.LogConditionTemplateService/DeleteLogConditionTemplate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *client) SearchLogConditionTemplates(ctx context.Context, in *SearchLogConditionTemplatesRequest, opts ...grpc.CallOption) (*SearchLogConditionTemplatesResponse, error) {
+	out := new(SearchLogConditionTemplatesResponse)
+	err := c.cc.Invoke(ctx, "/ntt.alerting.v1.LogConditionTemplateService/SearchLogConditionTemplates", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}

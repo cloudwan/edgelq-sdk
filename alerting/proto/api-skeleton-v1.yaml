@@ -98,13 +98,19 @@ resources:
     syncType: NEVER
 
 - name: PolicyTemplate
+  optIns:
+    searchable: true
   parents:
   - iam.edgelq.com/Project
 
 - name: TsConditionTemplate
+  optIns:
+    searchable: true
   parents:
   - PolicyTemplate
 
 - name: LogConditionTemplate
+  optIns:
+    searchable: true
   parents:
   - PolicyTemplate
