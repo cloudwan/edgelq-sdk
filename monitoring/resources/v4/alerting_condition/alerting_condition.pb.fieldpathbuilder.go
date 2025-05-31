@@ -824,10 +824,6 @@ func (AlertingConditionPathSelectorSpec) TimeSeries() AlertingConditionPathSelec
 	return AlertingConditionPathSelectorSpecTimeSeries{}
 }
 
-func (AlertingConditionPathSelectorSpec) Trigger() AlertingConditionPathSelectorSpecTrigger {
-	return AlertingConditionPathSelectorSpecTrigger{}
-}
-
 type AlertingConditionPathSelectorSpecTimeSeries struct{}
 
 func (AlertingConditionPathSelectorSpecTimeSeries) FieldPath() *AlertingCondition_FieldSubPath {
@@ -1455,44 +1451,6 @@ func (s AlertingConditionPathSelectorSpecTimeSeriesDuration) WithArrayOfValues(v
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
 }
 
-type AlertingConditionPathSelectorSpecTrigger struct{}
-
-func (AlertingConditionPathSelectorSpecTrigger) FieldPath() *AlertingCondition_FieldSubPath {
-	return &AlertingCondition_FieldSubPath{
-		selector: AlertingCondition_FieldPathSelectorSpec,
-		subPath:  NewAlertingConditionSpecFieldPathBuilder().Trigger().FieldPath(),
-	}
-}
-
-func (s AlertingConditionPathSelectorSpecTrigger) WithValue(value *AlertingCondition_Spec_Trigger) *AlertingCondition_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
-}
-
-func (s AlertingConditionPathSelectorSpecTrigger) WithArrayOfValues(values []*AlertingCondition_Spec_Trigger) *AlertingCondition_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
-}
-
-func (AlertingConditionPathSelectorSpecTrigger) Type() AlertingConditionPathSelectorSpecTriggerType {
-	return AlertingConditionPathSelectorSpecTriggerType{}
-}
-
-type AlertingConditionPathSelectorSpecTriggerType struct{}
-
-func (AlertingConditionPathSelectorSpecTriggerType) FieldPath() *AlertingCondition_FieldSubPath {
-	return &AlertingCondition_FieldSubPath{
-		selector: AlertingCondition_FieldPathSelectorSpec,
-		subPath:  NewAlertingConditionSpecFieldPathBuilder().Trigger().Type().FieldPath(),
-	}
-}
-
-func (s AlertingConditionPathSelectorSpecTriggerType) WithValue(value AlertingCondition_Spec_Trigger_Type) *AlertingCondition_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingCondition_FieldSubPathValue)
-}
-
-func (s AlertingConditionPathSelectorSpecTriggerType) WithArrayOfValues(values []AlertingCondition_Spec_Trigger_Type) *AlertingCondition_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingCondition_FieldSubPathArrayOfValues)
-}
-
 type AlertingConditionPathSelectorState struct{}
 
 func (AlertingConditionPathSelectorState) FieldPath() *AlertingCondition_FieldTerminalPath {
@@ -1551,9 +1509,6 @@ func NewAlertingConditionSpecFieldPathBuilder() AlertingConditionSpecFieldPathBu
 }
 func (AlertingConditionSpecFieldPathBuilder) TimeSeries() AlertingCondition_SpecPathSelectorTimeSeries {
 	return AlertingCondition_SpecPathSelectorTimeSeries{}
-}
-func (AlertingConditionSpecFieldPathBuilder) Trigger() AlertingCondition_SpecPathSelectorTrigger {
-	return AlertingCondition_SpecPathSelectorTrigger{}
 }
 
 type AlertingCondition_SpecPathSelectorTimeSeries struct{}
@@ -2193,57 +2148,6 @@ func (s AlertingCondition_SpecPathSelectorTimeSeriesDuration) WithValue(value *d
 }
 
 func (s AlertingCondition_SpecPathSelectorTimeSeriesDuration) WithArrayOfValues(values []*durationpb.Duration) *AlertingConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type AlertingCondition_SpecPathSelectorTrigger struct{}
-
-func (AlertingCondition_SpecPathSelectorTrigger) FieldPath() *AlertingConditionSpec_FieldTerminalPath {
-	return &AlertingConditionSpec_FieldTerminalPath{selector: AlertingConditionSpec_FieldPathSelectorTrigger}
-}
-
-func (s AlertingCondition_SpecPathSelectorTrigger) WithValue(value *AlertingCondition_Spec_Trigger) *AlertingConditionSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldTerminalPathValue)
-}
-
-func (s AlertingCondition_SpecPathSelectorTrigger) WithArrayOfValues(values []*AlertingCondition_Spec_Trigger) *AlertingConditionSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (AlertingCondition_SpecPathSelectorTrigger) WithSubPath(subPath AlertingConditionSpecTrigger_FieldPath) *AlertingConditionSpec_FieldSubPath {
-	return &AlertingConditionSpec_FieldSubPath{selector: AlertingConditionSpec_FieldPathSelectorTrigger, subPath: subPath}
-}
-
-func (s AlertingCondition_SpecPathSelectorTrigger) WithSubValue(subPathValue AlertingConditionSpecTrigger_FieldPathValue) *AlertingConditionSpec_FieldSubPathValue {
-	return &AlertingConditionSpec_FieldSubPathValue{AlertingConditionSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s AlertingCondition_SpecPathSelectorTrigger) WithSubArrayOfValues(subPathArrayOfValues AlertingConditionSpecTrigger_FieldPathArrayOfValues) *AlertingConditionSpec_FieldSubPathArrayOfValues {
-	return &AlertingConditionSpec_FieldSubPathArrayOfValues{AlertingConditionSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s AlertingCondition_SpecPathSelectorTrigger) WithSubArrayItemValue(subPathArrayItemValue AlertingConditionSpecTrigger_FieldPathArrayItemValue) *AlertingConditionSpec_FieldSubPathArrayItemValue {
-	return &AlertingConditionSpec_FieldSubPathArrayItemValue{AlertingConditionSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (AlertingCondition_SpecPathSelectorTrigger) Type() AlertingCondition_SpecPathSelectorTriggerType {
-	return AlertingCondition_SpecPathSelectorTriggerType{}
-}
-
-type AlertingCondition_SpecPathSelectorTriggerType struct{}
-
-func (AlertingCondition_SpecPathSelectorTriggerType) FieldPath() *AlertingConditionSpec_FieldSubPath {
-	return &AlertingConditionSpec_FieldSubPath{
-		selector: AlertingConditionSpec_FieldPathSelectorTrigger,
-		subPath:  NewAlertingConditionSpecTriggerFieldPathBuilder().Type().FieldPath(),
-	}
-}
-
-func (s AlertingCondition_SpecPathSelectorTriggerType) WithValue(value AlertingCondition_Spec_Trigger_Type) *AlertingConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingConditionSpec_FieldSubPathValue)
-}
-
-func (s AlertingCondition_SpecPathSelectorTriggerType) WithArrayOfValues(values []AlertingCondition_Spec_Trigger_Type) *AlertingConditionSpec_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpec_FieldSubPathArrayOfValues)
 }
 
@@ -2916,29 +2820,6 @@ func (s AlertingCondition_Spec_TimeSeriesPathSelectorDuration) WithValue(value *
 
 func (s AlertingCondition_Spec_TimeSeriesPathSelectorDuration) WithArrayOfValues(values []*durationpb.Duration) *AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTimeSeries_FieldTerminalPathArrayOfValues)
-}
-
-type AlertingConditionSpecTriggerFieldPathBuilder struct{}
-
-func NewAlertingConditionSpecTriggerFieldPathBuilder() AlertingConditionSpecTriggerFieldPathBuilder {
-	return AlertingConditionSpecTriggerFieldPathBuilder{}
-}
-func (AlertingConditionSpecTriggerFieldPathBuilder) Type() AlertingCondition_Spec_TriggerPathSelectorType {
-	return AlertingCondition_Spec_TriggerPathSelectorType{}
-}
-
-type AlertingCondition_Spec_TriggerPathSelectorType struct{}
-
-func (AlertingCondition_Spec_TriggerPathSelectorType) FieldPath() *AlertingConditionSpecTrigger_FieldTerminalPath {
-	return &AlertingConditionSpecTrigger_FieldTerminalPath{selector: AlertingConditionSpecTrigger_FieldPathSelectorType}
-}
-
-func (s AlertingCondition_Spec_TriggerPathSelectorType) WithValue(value AlertingCondition_Spec_Trigger_Type) *AlertingConditionSpecTrigger_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingConditionSpecTrigger_FieldTerminalPathValue)
-}
-
-func (s AlertingCondition_Spec_TriggerPathSelectorType) WithArrayOfValues(values []AlertingCondition_Spec_Trigger_Type) *AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues)
 }
 
 type AlertingConditionSpecTimeSeriesQueryFieldPathBuilder struct{}

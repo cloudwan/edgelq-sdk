@@ -47,8 +47,6 @@ message AlertingCondition {
   message Spec {
     TimeSeries time_series = 1;
 
-    Trigger trigger = 5;
-
     message TimeSeries {
       // Time Series Query
       Query query = 1;
@@ -132,14 +130,7 @@ message AlertingCondition {
       }
     }
 
-    message Trigger {
-      Type type = 1;
-
-      enum Type {
-        // Triggers on each unique TimeSeries label set violation
-        EACH = 0;
-      }
-    }
+    reserved 5;
   }
 
   message State { int64 firing_alerts_count = 1; }

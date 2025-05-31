@@ -1,0 +1,499 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition_change.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/client/v1/ts_condition;ts_condition_client";
+option java_multiple_files = false;
+option java_outer_classname = "TsConditionServiceProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// A request message of the GetTsCondition method.
+message GetTsConditionRequest {
+  // Name of ntt.alerting.v1.TsCondition
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 4;
+}
+
+// A request message of the BatchGetTsConditions method.
+message BatchGetTsConditionsRequest {
+  // Names of TsConditions
+  repeated string names = 2;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 3;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 4;
+
+  reserved 1;
+}
+
+// A response message of the BatchGetTsConditions method.
+message BatchGetTsConditionsResponse {
+  // found TsConditions
+  repeated TsCondition ts_conditions = 1;
+
+  // list of not found TsConditions
+  repeated string missing = 2;
+}
+
+// A request message of the ListTsConditions method.
+message ListTsConditionsRequest {
+  // Parent name of ntt.alerting.v1.TsCondition
+  string parent = 1;
+
+  // Requested page size. Server may return fewer TsConditions than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // ListTsConditionsResponse.next_page_token.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 7;
+
+  // Indicates if list response should contain total count and offset (fields
+  // current_offset and total_results_count).
+  bool include_paging_info = 8;
+}
+
+// A response message of the ListTsConditions method.
+message ListTsConditionsResponse {
+  // The list of TsConditions
+  repeated TsCondition ts_conditions = 1;
+
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the ListTsConditionsRequest.page_token.
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the ListTsConditionsRequest.page_token.
+  string next_page_token = 4;
+
+  // Current offset from the first page or 0 if no page tokens were given,
+  // paging info was not requested or there was an error while trying to get
+  // it). Page index can be computed from offset and limit provided in a
+  // request.
+  int32 current_offset = 5;
+
+  // Number of total TsConditions across all pages or 0, if there are no items,
+  // paging info was not requested or there was an error while trying to get it.
+  int32 total_results_count = 6;
+}
+
+// A request message of the WatchTsCondition method.
+message WatchTsConditionRequest {
+  // Name of ntt.alerting.v1.TsCondition
+  string name = 1;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 2;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 4;
+}
+
+// A response message of the WatchTsCondition method.
+message WatchTsConditionResponse { TsConditionChange change = 1; }
+
+// A request message of the WatchTsConditions method.
+message WatchTsConditionsRequest {
+  // Type of a watch. Identifies how server stream data to a client, which
+  // fields in a request are allowed and which fields in response are relevant.
+  goten.types.WatchType type = 9;
+
+  // Parent name of ntt.alerting.v1.TsCondition
+  string parent = 1;
+
+  // Requested page size. Server may return fewer TsConditions than requested.
+  // If unspecified, server will pick an appropriate default.
+  // Can be populated only for stateful watch type.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Can be populated only for stateful watch type.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination Can be
+  // populated only for stateful watch type.
+  string order_by = 4;
+
+  // A token identifying watch resume point from previous session.
+  // Can be populated only for stateless watch type.
+  string resume_token = 10;
+
+  // Point in the time from which we want to start getting updates. This field
+  // can be populated only for stateless watch type and if resume token is not
+  // known yet. If specified, initial snapshot will NOT be provided. It is
+  // assumed client can obtain it using separate means. Watch responses will
+  // contain resume tokens which should be used to resume broken connection.
+  google.protobuf.Timestamp starting_time = 12;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view Changes to TsCondition that don't
+  // affect any of masked fields won't be sent back.
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask Changes to
+  // TsCondition that don't affect any of masked fields won't be sent back.
+  goten.types.View view = 8;
+
+  // Maximum amount of changes in each response message. Query result response
+  // is divided on the server side into chunks with size of a specified amount
+  // to limit memory footprint of each message. Responses will hold information
+  // whether more elements will continue for the actual change. If unspecified,
+  // server will pick an appropriate default.
+  int32 max_chunk_size = 11;
+}
+
+// A response message of the WatchTsConditions method.
+message WatchTsConditionsResponse {
+  // Changes of TsConditions
+  repeated TsConditionChange ts_condition_changes = 2;
+
+  // If request specified max_chunk_size (or this limit was enforced if
+  // stateless watch has been chosen), then responses with "full changeset" will
+  // be divided into chunks. Client should keep receiving messages and, once
+  // is_current has value true, combine this recent message with all previous
+  // ones where is_current is false. If this is the first is_current in a whole
+  // watch stream, then it means that client should have, at this moment,
+  // contain snapshot of the current situation (or more accurately, snapshot of
+  // situation at the moment of request). All TsConditions will be of type
+  // Added/Current (depending on watch_type specified in the request). Further
+  // responses will be incremental - however messages may still be chunked and
+  // is_current logic still applies. is_current is always true for stateful
+  // watch if max_chunk_size was left to 0.
+  bool is_current = 4;
+
+  // When present, PageTokens used for page navigation should be updated.
+  // Present only if is_current is true (last chunk).
+  PageTokenChange page_token_change = 3;
+
+  // Token that can be used if current connection drops and client needs to
+  // reconnect. Populated only for stateless watch type. Present only if
+  // is_current is true (last chunk).
+  string resume_token = 5;
+
+  // Server may occasionally send information how many resources should client
+  // have in its state so far (response message without any changes, but with
+  // snapshot_size field specified). If client has different value than the one
+  // sent by the server, then it should be treated by a client as an error and
+  // should reconnect. If value is smaller then 0, then client should ignore
+  // this field as unpopulated. This field should be checked only for stateless
+  // watch. In stateful those kind of errors are handled by the server side.
+  // Will be never sent together with is_current, is_soft_reset and
+  // is_hard_reset flags.
+  int64 snapshot_size = 6;
+
+  // In case of internal issue server may send response message with this flag.
+  // It indicates that client should drop all changes from recent responses
+  // where is_current is false only! If last message had is_current set to true,
+  // client should do nothing and process normally. Resume token received before
+  // is still valid. This field should be checked only for stateless watch. In
+  // stateful those kind of errors are handled by the server side. Will never be
+  // sent along with is_current, is_hard_reset or snapshot_size.
+  bool is_soft_reset = 7;
+
+  // In case of internal issue server may send response message with this flag.
+  // After receiving, client should clear whole state (drop all changes received
+  // so far) as server will send new snapshot (TsConditions will contains
+  // changes of type Current only). Any resume tokens should be discarded as
+  // well. This field should be checked only for stateless watch. In stateful
+  // those kind of errors are handled by the server side. Will never be sent
+  // along with is_current, is_soft_reset or snapshot_size.
+  bool is_hard_reset = 8;
+
+  message PageTokenChange {
+    // New token to retrieve previous page of results.
+    string prev_page_token = 1;
+
+    // New token to retrieve next page of results.
+    string next_page_token = 2;
+  }
+}
+
+// A request message of the CreateTsCondition method.
+message CreateTsConditionRequest {
+  // Parent name of ntt.alerting.v1.TsCondition
+  string parent = 1;
+
+  // TsCondition resource body
+  TsCondition ts_condition = 2;
+
+  // Optional masking applied to response object to reduce message response
+  // size.
+  ResponseMask response_mask = 3;
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated.
+      bool skip_entire_response_body = 1;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields.
+      google.protobuf.FieldMask body_mask = 2;
+    }
+  }
+}
+
+// A request message of the UpdateTsCondition method.
+message UpdateTsConditionRequest {
+  // TsCondition resource body
+  TsCondition ts_condition = 2;
+
+  // FieldMask applied to request - change will be applied only for fields in
+  // the mask
+  google.protobuf.FieldMask update_mask = 3;
+
+  // Conditional update applied to request if update should be executed only for
+  // specific resource state. If this field is populated, then server will fetch
+  // existing resource, compare with the one stored in the cas field (after
+  // applying field mask) and proceed with update only and only if they match.
+  // Otherwise RPC error Aborted will be returned.
+  CAS cas = 4;
+
+  // If set to true, and the resource is not found,
+  // a new resource will be created.  In this situation,
+  // 'field_mask' is ignored.
+  //
+  // https://google.aip.dev/134#create-or-update
+  bool allow_missing = 5; // Optional masking applied to response object to
+
+  // reduce message response size.
+  ResponseMask response_mask = 6;
+
+  // CAS - Compare and Swap. This object is used if user wants to make update
+  // conditional based upon previous resource version.
+  message CAS {
+    // Conditional desired state of a resource before update.
+    TsCondition conditional_state = 1;
+
+    // Field paths from conditional state of resource server should check and
+    // compare.
+    google.protobuf.FieldMask field_mask = 2;
+  }
+
+  // ResponseMask allows client to reduce response message size.
+  message ResponseMask {
+    oneof masking {
+      // If this flag has value true, then response will contain just empty
+      // resource without any fields populated. Field body_mask is ignored if
+      // set.
+      bool skip_entire_response_body = 1;
+
+      // Include all fields that were actually updated during processing. Note
+      // this may be larger than update mask if some fields were computed
+      // additionally. Name is added as well.
+      bool updated_fields_only = 2;
+
+      // If this field is populated, then resource in response will contain only
+      // specific fields. If skip_entire_response_body is true, this field is
+      // ignored.
+      google.protobuf.FieldMask body_mask = 3;
+    }
+  }
+}
+
+// A request message of the DeleteTsCondition method.
+message DeleteTsConditionRequest {
+  // Name of ntt.alerting.v1.TsCondition
+  string name = 1;
+}
+
+// A request message of the SearchTsConditions method.
+message SearchTsConditionsRequest {
+  // Parent name of ntt.alerting.v1.TsCondition
+  string parent = 1;
+
+  // Requested page size. Server may return fewer TsConditions than requested.
+  // If unspecified, server will pick an appropriate default.
+  int32 page_size = 2;
+
+  // A token identifying a page of results the server should return.
+  // Typically, this is the value of
+  // SearchTsConditionsResponse.next_page_token.
+  string page_token = 3;
+
+  // Order By -
+  // https://cloud.google.com/apis/design/design_patterns#list_pagination list
+  // of field path with order directive, either 'asc' or 'desc'. If direction is
+  // not provided, 'asc' is assumed. e.g. "state.nested_field asc,
+  // state.something.else desc, theme"
+  string order_by = 4;
+
+  // Filter - filter results by field criteria. Simplified SQL-like syntax with
+  // following operators:
+  // <=, >=, =, !=, <, >, LIKE, CONTAINS (aliases CONTAIN, HAS, HAVE), IN, IS
+  // [NOT] NULL | NaN . Combine conditions with OR | AND example: 'meta.labels
+  // CONTAINS "severity:important" OR (state.last_error_time >
+  // "2018-11-15T10:00:00Z" AND state.status = "ERROR")'
+  string filter = 5;
+
+  // A list of extra fields to be obtained for each response item on top of
+  // fields defined by request field view
+  google.protobuf.FieldMask field_mask = 6;
+
+  // View defines list of standard response fields present in response items.
+  // Additional fields can be amended by request field field_mask
+  goten.types.View view = 7;
+
+  // Optional search phrase used to further filter results.
+  string phrase = 8;
+}
+
+// A response message of the SearchTsConditions method.
+message SearchTsConditionsResponse {
+  // The list of TsConditions
+  repeated TsCondition ts_conditions = 1;
+
+  // A token to retrieve previous page of results.
+  //
+  // Pass this value in the SearchTsConditionsRequest.page_token.
+  string prev_page_token = 3;
+
+  // A token to retrieve next page of results.
+  //
+  // Pass this value in the SearchTsConditionsRequest.page_token.
+  string next_page_token = 4;
+
+  // Current offset from the first page (0 if no page tokens were given). Page
+  // index can be computed from offset and limit provided in a request
+  int32 current_offset = 5;
+
+  // Number of total TsConditions across all pages.
+  int32 total_results_count = 6;
+}
+
+// TsCondition service API for Alerting
+service TsConditionService {
+  option (google.api.default_host) = "alerting.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // GetTsCondition
+  rpc GetTsCondition(GetTsConditionRequest) returns (TsCondition) {
+    option (google.api.http) = {
+      get : "/v1/{name=projects/*/policies/*/tsConditions/*}"
+    };
+  }
+
+  // BatchGetTsConditions
+  rpc BatchGetTsConditions(BatchGetTsConditionsRequest)
+      returns (BatchGetTsConditionsResponse) {
+    option (google.api.http) = {
+      get : "/v1/tsConditions:batchGet"
+    };
+  }
+
+  // ListTsConditions
+  rpc ListTsConditions(ListTsConditionsRequest)
+      returns (ListTsConditionsResponse) {
+    option (google.api.http) = {
+      get : "/v1/{parent=projects/*/policies/*}/tsConditions"
+    };
+  }
+
+  // WatchTsCondition
+  rpc WatchTsCondition(WatchTsConditionRequest)
+      returns (stream WatchTsConditionResponse) {
+    option (google.api.http) = {
+      post : "/v1/{name=projects/*/policies/*/tsConditions/*}:watch"
+    };
+  }
+
+  // WatchTsConditions
+  rpc WatchTsConditions(WatchTsConditionsRequest)
+      returns (stream WatchTsConditionsResponse) {
+    option (google.api.http) = {
+      post : "/v1/{parent=projects/*/policies/*}/tsConditions:watch"
+    };
+  }
+
+  // CreateTsCondition
+  rpc CreateTsCondition(CreateTsConditionRequest) returns (TsCondition) {
+    option (google.api.http) = {
+      post : "/v1/{parent=projects/*/policies/*}/tsConditions"
+      body : "ts_condition"
+    };
+  }
+
+  // UpdateTsCondition
+  rpc UpdateTsCondition(UpdateTsConditionRequest) returns (TsCondition) {
+    option (google.api.http) = {
+      put : "/v1/{ts_condition.name=projects/*/policies/*/tsConditions/*}"
+      body : "ts_condition"
+    };
+  }
+
+  // DeleteTsCondition
+  rpc DeleteTsCondition(DeleteTsConditionRequest)
+      returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete : "/v1/{name=projects/*/policies/*/tsConditions/*}"
+    };
+  }
+
+  // SearchTsConditions
+  rpc SearchTsConditions(SearchTsConditionsRequest)
+      returns (SearchTsConditionsResponse) {
+    option (google.api.http) = {
+      get : "/v1/{parent=projects/*/policies/*}/tsConditions:search"
+    };
+  }
+}

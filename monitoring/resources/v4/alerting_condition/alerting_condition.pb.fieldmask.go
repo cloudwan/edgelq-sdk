@@ -391,7 +391,6 @@ type AlertingCondition_Spec_FieldMask struct {
 func FullAlertingCondition_Spec_FieldMask() *AlertingCondition_Spec_FieldMask {
 	res := &AlertingCondition_Spec_FieldMask{}
 	res.Paths = append(res.Paths, &AlertingConditionSpec_FieldTerminalPath{selector: AlertingConditionSpec_FieldPathSelectorTimeSeries})
-	res.Paths = append(res.Paths, &AlertingConditionSpec_FieldTerminalPath{selector: AlertingConditionSpec_FieldPathSelectorTrigger})
 	return res
 }
 
@@ -410,7 +409,7 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 1)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*AlertingConditionSpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -440,14 +439,12 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) Reset() {
 
 func (fieldMask *AlertingCondition_Spec_FieldMask) Subtract(other *AlertingCondition_Spec_FieldMask) *AlertingCondition_Spec_FieldMask {
 	result := &AlertingCondition_Spec_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 1)
 	otherSubMasks := map[AlertingConditionSpec_FieldPathSelector]gotenobject.FieldMask{
 		AlertingConditionSpec_FieldPathSelectorTimeSeries: &AlertingCondition_Spec_TimeSeries_FieldMask{},
-		AlertingConditionSpec_FieldPathSelectorTrigger:    &AlertingCondition_Spec_Trigger_FieldMask{},
 	}
 	mySubMasks := map[AlertingConditionSpec_FieldPathSelector]gotenobject.FieldMask{
 		AlertingConditionSpec_FieldPathSelectorTimeSeries: &AlertingCondition_Spec_TimeSeries_FieldMask{},
-		AlertingConditionSpec_FieldPathSelectorTrigger:    &AlertingCondition_Spec_Trigger_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -465,8 +462,6 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) Subtract(other *AlertingCondi
 					switch tp.selector {
 					case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 						mySubMasks[AlertingConditionSpec_FieldPathSelectorTimeSeries] = FullAlertingCondition_Spec_TimeSeries_FieldMask()
-					case AlertingConditionSpec_FieldPathSelectorTrigger:
-						mySubMasks[AlertingConditionSpec_FieldPathSelectorTrigger] = FullAlertingCondition_Spec_Trigger_FieldMask()
 					}
 				} else if tp, ok := path.(*AlertingConditionSpec_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -639,8 +634,6 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) Project(source *AlertingCondi
 	result := &AlertingCondition_Spec{}
 	timeSeriesMask := &AlertingCondition_Spec_TimeSeries_FieldMask{}
 	wholeTimeSeriesAccepted := false
-	triggerMask := &AlertingCondition_Spec_Trigger_FieldMask{}
-	wholeTriggerAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -649,24 +642,16 @@ func (fieldMask *AlertingCondition_Spec_FieldMask) Project(source *AlertingCondi
 			case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 				result.TimeSeries = source.TimeSeries
 				wholeTimeSeriesAccepted = true
-			case AlertingConditionSpec_FieldPathSelectorTrigger:
-				result.Trigger = source.Trigger
-				wholeTriggerAccepted = true
 			}
 		case *AlertingConditionSpec_FieldSubPath:
 			switch tp.selector {
 			case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 				timeSeriesMask.AppendPath(tp.subPath.(AlertingConditionSpecTimeSeries_FieldPath))
-			case AlertingConditionSpec_FieldPathSelectorTrigger:
-				triggerMask.AppendPath(tp.subPath.(AlertingConditionSpecTrigger_FieldPath))
 			}
 		}
 	}
 	if wholeTimeSeriesAccepted == false && len(timeSeriesMask.Paths) > 0 {
 		result.TimeSeries = timeSeriesMask.Project(source.GetTimeSeries())
-	}
-	if wholeTriggerAccepted == false && len(triggerMask.Paths) > 0 {
-		result.Trigger = triggerMask.Project(source.GetTrigger())
 	}
 	return result
 }
@@ -1233,234 +1218,6 @@ func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) ProjectRaw(source 
 }
 
 func (fieldMask *AlertingCondition_Spec_TimeSeries_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type AlertingCondition_Spec_Trigger_FieldMask struct {
-	Paths []AlertingConditionSpecTrigger_FieldPath
-}
-
-func FullAlertingCondition_Spec_Trigger_FieldMask() *AlertingCondition_Spec_Trigger_FieldMask {
-	res := &AlertingCondition_Spec_Trigger_FieldMask{}
-	res.Paths = append(res.Paths, &AlertingConditionSpecTrigger_FieldTerminalPath{selector: AlertingConditionSpecTrigger_FieldPathSelectorType})
-	return res
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 1)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*AlertingConditionSpecTrigger_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseAlertingConditionSpecTrigger_FieldPath(raw)
-	})
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) ProtoMessage() {}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) Subtract(other *AlertingCondition_Spec_Trigger_FieldMask) *AlertingCondition_Spec_Trigger_FieldMask {
-	result := &AlertingCondition_Spec_Trigger_FieldMask{}
-	removedSelectors := make([]bool, 1)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *AlertingConditionSpecTrigger_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*AlertingCondition_Spec_Trigger_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) FilterInputFields() *AlertingCondition_Spec_Trigger_FieldMask {
-	result := &AlertingCondition_Spec_Trigger_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]AlertingConditionSpecTrigger_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseAlertingConditionSpecTrigger_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask AlertingCondition_Spec_Trigger_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask AlertingCondition_Spec_Trigger_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) AppendPath(path AlertingConditionSpecTrigger_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(AlertingConditionSpecTrigger_FieldPath))
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) GetPaths() []AlertingConditionSpecTrigger_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseAlertingConditionSpecTrigger_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) Set(target, source *AlertingCondition_Spec_Trigger) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*AlertingCondition_Spec_Trigger), source.(*AlertingCondition_Spec_Trigger))
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) Project(source *AlertingCondition_Spec_Trigger) *AlertingCondition_Spec_Trigger {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &AlertingCondition_Spec_Trigger{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *AlertingConditionSpecTrigger_FieldTerminalPath:
-			switch tp.selector {
-			case AlertingConditionSpecTrigger_FieldPathSelectorType:
-				result.Type = source.Type
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*AlertingCondition_Spec_Trigger))
-}
-
-func (fieldMask *AlertingCondition_Spec_Trigger_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/alert.proto";
+import "edgelq-sdk/alerting/proto/v1/alert_custom.proto";
+import "edgelq-sdk/alerting/proto/v1/alert_service.proto";
+import "edgelq-sdk/alerting/proto/v1/document.proto";
+import "edgelq-sdk/alerting/proto/v1/document_service.proto";
+import "edgelq-sdk/alerting/proto/v1/log_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/log_condition_service.proto";
+import "edgelq-sdk/alerting/proto/v1/log_condition_template.proto";
+import "edgelq-sdk/alerting/proto/v1/log_condition_template_service.proto";
+import "edgelq-sdk/alerting/proto/v1/notification_channel.proto";
+import "edgelq-sdk/alerting/proto/v1/notification_channel_custom.proto";
+import "edgelq-sdk/alerting/proto/v1/notification_channel_service.proto";
+import "edgelq-sdk/alerting/proto/v1/policy.proto";
+import "edgelq-sdk/alerting/proto/v1/policy_service.proto";
+import "edgelq-sdk/alerting/proto/v1/policy_template.proto";
+import "edgelq-sdk/alerting/proto/v1/policy_template_service.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition_service.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition_template.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition_template_service.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_entry.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_entry_service.proto";
+import "edgelq-sdk/audit/proto/v1/audit.proto";
+import "edgelq-sdk/iam/proto/v1/iam.proto";
+import "edgelq-sdk/logging/proto/v1/logging.proto";
+import "edgelq-sdk/monitoring/proto/v4/monitoring.proto";
+import "edgelq-sdk/secrets/proto/v1/secrets.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "goten-sdk/meta-service/proto/v1/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/client/v1/alerting;alerting_client";
+option java_multiple_files = true;
+option java_outer_classname = "AlertingProto";
+option java_package = "com.ntt.alerting.pb.v1";

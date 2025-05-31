@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/policy.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition;log_condition";
+option java_multiple_files = true;
+option java_outer_classname = "LogConditionProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// LogCondition describes when Alert based on Logs data should be raised.
+message LogCondition {
+  option (google.api.resource) = {
+    type : "alerting.edgelq.com/LogCondition"
+    pattern : "projects/{project}/policies/{policy}/logConditions/"
+              "{log_condition}"
+  };
+
+  // Name of LogCondition
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Display Name
+  string display_name = 3;
+
+  // Long description
+  string description = 4;
+
+  // List of documents useful for troubleshooting and fixing alerts triggered
+  // by this condition.
+  repeated string supporting_docs = 5;
+
+  // Defines what query is being monitored, and what content must trigger an
+  // Alert.
+  Spec spec = 6;
+
+  // Internal field.
+  Internal internal = 7;
+
+  // Spec informs what Logging queries should be monitored for alerting, and
+  // what content should be considered as violation.
+  message Spec {
+    // Specifies logging query
+    Query query = 1;
+
+    // Group by labels inform how to split monitored Logs stream. Each
+    // unique combination of label values is considered separately as own
+    // alerting bucket.
+    // All labels defined in Policy must be defined here.
+    repeated string group_by_labels = 2;
+
+    // Query specifies what logging query should be monitored.
+    message Query {
+      // Filter used to continuously observe log query output.
+      string filter = 2;
+
+      // Trigger under which Alert is raised
+      TriggerCnd trigger = 3;
+
+      // Informs how long alert should be maintained in firing state since last
+      // occurrence.
+      google.protobuf.Duration min_duration = 4;
+
+      // LabelTrigger informs what label Log must have to be considered as a
+      // violation.
+      message LabelTrigger {
+        // Label key
+        string key = 1;
+
+        // Triggering label values.
+        repeated string values = 2;
+      }
+
+      // StringPayloadTrigger informs what text content of log is
+      // triggering an alert.
+      message StringPayloadTrigger {
+        // Optional selector inside log data field. It should be ignored
+        // if log entry is just a string or byte array. It can be used if log
+        // is some JSON object, and we search for specific fields.
+        string object_selector = 1;
+
+        // Regex that log content must satisfy to trigger an alert
+        string regex = 2;
+      }
+
+      // CompositeTrigger collects multiple triggers together.
+      message CompositeTrigger {
+        // List of triggers.
+        repeated TriggerCnd triggers = 1;
+
+        // Operator combining triggers
+        Operator operator = 2;
+
+        // Operator informs if only one trigger must be satisfied to
+        // trigger an Alert, or all.
+        enum Operator {
+          // UNDEFINED is not allowed
+          UNDEFINED = 0;
+
+          // AND tells that all triggers must be on for Alert to be created
+          AND = 1;
+
+          // OR tells that Alert should be raised based on any trigger
+          // condition.
+          OR = 2;
+        }
+      }
+
+      // TriggerCnd wraps a trigger deciding when to trigger an alert.
+      // It inspects each Log individually.
+      message TriggerCnd {
+        oneof type {
+          // Trigger based on label
+          LabelTrigger label = 1;
+
+          // Trigger based on log textual content
+          StringPayloadTrigger string_content = 2;
+
+          // Composite trigger combining multiple smaller ones
+          CompositeTrigger composite = 3;
+        }
+      }
+    }
+  }
+
+  // Internal data.
+  message Internal {
+    // Informs if log condition is processed at the backend or on edge.
+    Policy.Spec.ProcessingLocation alerting_location = 1;
+  }
+}

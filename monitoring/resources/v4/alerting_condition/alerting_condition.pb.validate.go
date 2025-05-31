@@ -94,14 +94,6 @@ func (obj *AlertingCondition_Spec) GotenValidate() error {
 			return gotenvalidate.NewValidationError("Spec", "timeSeries", obj.TimeSeries, "nested object validation failed", err)
 		}
 	}
-	if obj.Trigger == nil {
-		return gotenvalidate.NewValidationError("Spec", "trigger", obj.Trigger, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Trigger).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Spec", "trigger", obj.Trigger, "nested object validation failed", err)
-		}
-	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
 	}
@@ -152,15 +144,6 @@ func (obj *AlertingCondition_Spec_TimeSeries) GotenValidate() error {
 				return gotenvalidate.NewValidationError("TimeSeries", "duration", d, "field must be greater or equal to 1m0s", nil)
 			}
 		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *AlertingCondition_Spec_Trigger) GotenValidate() error {
-	if obj == nil {
-		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

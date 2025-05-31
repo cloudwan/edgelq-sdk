@@ -1,0 +1,168 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/alert.proto";
+import "edgelq-sdk/alerting/proto/v1/policy.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notifications;notification_msg";
+
+// NotificationMsg is a notification message sent to channels,
+// according to NotificationChannel resource.
+message NotificationMsg {
+  string project_fqn = 1;
+
+  string project_display_name = 2;
+
+  string organization_fqn = 3;
+
+  string organization_display_name = 4;
+
+  string policy_fqn = 5;
+
+  string policy_display_name = 6;
+
+  AlertsGroup new_firing_alerts = 7;
+
+  AlertsGroup alerts_escalated_by_ai_to_operator = 8;
+
+  AlertsGroup alerts_awaiting_for_approval_with_ai_remediation = 9;
+
+  AlertsGroup alerts_flagged_to_ignore_by_ai = 10;
+
+  AlertsGroup alerts_with_condition_marked_for_adjusting_by_ai = 11;
+
+  AlertsGroup alerts_with_ai_remediation_applied = 12;
+
+  AlertsGroup alerts_with_operator_remediation_applied = 13;
+
+  AlertsGroup stopped_alerts = 14;
+
+  message AlertsGroup {
+    repeated ConditionAlerts by_condition = 1;
+
+    message ConditionAlerts {
+      oneof type {
+        TsCndType time_series_condition = 1;
+
+        LogCndType log_condition = 2;
+      }
+
+      repeated Alert alerts = 3;
+
+      int32 more_alerts_count = 4;
+
+      message TsCndType {
+        string fqn = 1;
+
+        string display_name = 2;
+
+        repeated Query queries = 3;
+
+        message Query {
+          string description = 1;
+
+          string filter = 2;
+
+          ntt.monitoring.v4.Aggregation aggregation = 3;
+        }
+      }
+
+      message LogCndType {
+        string fqn = 1;
+
+        string display_name = 2;
+
+        repeated Query queries = 3;
+
+        message Query {
+          string description = 1;
+
+          string filter = 2;
+        }
+      }
+
+      message Alert {
+        Type type = 1;
+
+        string fqn = 2;
+
+        string display_name = 3;
+
+        bool is_firing = 4;
+
+        google.protobuf.Timestamp start_time = 5;
+
+        google.protobuf.Timestamp stop_time = 6;
+
+        Identification identification = 7;
+
+        ViolationInfo violation_info = 8;
+
+        Alert.State.EscalationLevel escalation_level = 9;
+
+        AiHandling ai_handling = 10;
+
+        OperatorHandling operator_handling = 11;
+
+        message Identification {
+          map<string, string> log_labels = 1;
+
+          map<string, string> metric_labels = 2;
+
+          map<string, string> resource_labels = 3;
+        }
+
+        message ViolationInfo {
+          string log_value = 1;
+
+          repeated TimeSeries time_series = 2;
+
+          message TimeSeries {
+            string query = 1;
+
+            repeated double values = 2;
+
+            AlertingThreshold upper_threshold = 3;
+
+            AlertingThreshold lower_threshold = 4;
+
+            google.protobuf.Duration raised_after = 5;
+          }
+        }
+
+        message AiHandling {
+          Alert.State.AiHandlingState current_state = 1;
+
+          string troubleshooting_notes = 2;
+
+          Policy.Spec.AIAgentHandling.Remediation ai_remediation = 3;
+
+          string remediation_arg = 4;
+        }
+
+        message OperatorHandling {
+          Alert.State.OperatorHandlingState current_state = 1;
+
+          string notes = 2;
+        }
+
+        enum Type {
+          UNDEFINED = 0;
+
+          TS_BASED_ANOMALY = 1;
+
+          TS_BASED_THRESHOLD = 2;
+
+          LOG_BASED = 3;
+        }
+      }
+    }
+  }
+}

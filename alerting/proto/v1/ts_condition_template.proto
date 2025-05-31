@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition_template;ts_condition_template";
+option java_multiple_files = true;
+option java_outer_classname = "TsConditionTemplateProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// TsConditionTemplate provides pre-defined templates for TsCondition
+// resources. They may be public ones (available for all projects to be copied),
+// but also can be private and available in selected projects only.
+// They are always provided within Policy template.
+message TsConditionTemplate {
+  option (google.api.resource) = {
+    type : "alerting.edgelq.com/TsConditionTemplate"
+    pattern : "projects/{project}/policyTemplates/{policy_template}/"
+              "tsConditionTemplates/{ts_condition_template}"
+  };
+
+  // Name of TsConditionTemplate
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Display Name
+  string display_name = 3;
+
+  // Long description
+  string description = 4;
+
+  // List of supporting documents. Pointed documents must be copied if
+  // TsCondition is created in different project.
+  repeated string supporting_docs = 5;
+
+  // Pre defined template for TsCondition.Spec.
+  TsCondition.Spec spec_template = 6;
+}

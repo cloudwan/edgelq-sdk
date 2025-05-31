@@ -1,0 +1,358 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/policy.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/alert;alert";
+option java_multiple_files = true;
+option java_outer_classname = "AlertProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// Alert describes an abnormal situation indicated by TimeSeries or Logs.
+// Alert is always associated with a single resource type, as indicated
+// in Policy object.
+// It contains relevant information: TimeSeries/Logs values that caused
+// the issue, starting time, ending time, if alert stopped, current
+// handling state (by both operator and AI agent).
+// Each Alert belongs to a single TsCondition/LogCondition resource, and
+// is always associated with some unique TsEntry - they share alerting
+// resource reference.
+// Relationship Alert <-> TsEntry is N <-> 1
+// Relationship Alert <-> TsCondition/LogCondition is N <-> 1
+message Alert {
+  option (google.api.resource) = {
+    type : "alerting.edgelq.com/Alert"
+    pattern : "projects/{project}/policies/{policy}/tsConditions/"
+              "{ts_condition}/regions/{region}/alerts/{alert}"
+    pattern : "projects/{project}/policies/{policy}/logConditions/"
+              "{log_condition}/regions/{region}/alerts/{alert}"
+  };
+
+  // Name of Alert
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-zA-Z0-9_.:-]{1,128}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Display name informing about basic params (condition display name and
+  // alerting resource)
+  string display_name = 3;
+
+  // Alerting resource points to the original resource which generated alert.
+  // This meta reference works like dynamic type (any service, any resource).
+  // TODO: We could use of "DynamicReference" message type. It can be similar to
+  // OwnerReference, except it works more like reference (uses
+  // EstablishReferences...). It can support most normal behaviors, like CASCADE
+  // DELETE/UNSET.
+  goten.types.OwnerReference alerting_resource = 4;
+
+  oneof info {
+    // Informs about alert based on TimeSeries data.
+    TsInfo ts_info = 6;
+
+    // Informs about alert based on Log data.
+    LogInfo log_info = 7;
+  }
+
+  // State of alert
+  State state = 8;
+
+  // Internal field.
+  Internal internal = 9;
+
+  // TsInfo contains Alert data created based on TimeSeries data.
+  message TsInfo {
+    // Type of TimeSeries alert - based on ANOMALY or THRESHOLD.
+    Type type = 1;
+
+    // If alert type is ANOMALY, then this field is populated
+    // and informs for what window size anomaly was detected.
+    google.protobuf.Duration anomaly_window_size = 2;
+
+    // Binary key describing common metric/resource labels
+    bytes common_key = 3;
+
+    // List of metric types used in TsCondition
+    repeated string metric_types = 4;
+
+    // List of resource types used in TsCondition
+    repeated string resource_types = 5;
+
+    // Metric labels by which we grouped TimeSeries data.
+    map<string, string> common_metric_labels = 6;
+
+    // Resource labels by which we grouped TimeSeries data.
+    map<string, string> common_resource_labels = 7;
+
+    // All TimeSeries corresponding to each TsCondition.Spec.Query object,
+    // according to unique combination of group by fields: resource/metric
+    // labels.
+    repeated TimeSeries time_series = 8;
+
+    // TimeSeries object matches single TsCondition.Spec.Query object
+    // in parent TsCondition. It contains TimeSeries data points
+    // at a time of violation, along with relevant information, like
+    // thresholds specified in TsEntry.
+    message TimeSeries {
+      // Query name of the matching TsCondition.Spec.Query object
+      string query_name = 1;
+
+      // TimeSeries data values during violation start. They will
+      // be outside of lower/upper thresholds range for THRESHOLD
+      // type alerts.
+      repeated double values = 2;
+
+      // Corresponding detected anomaly values (square errors). Populated
+      // for ANOMALY type of alerts. They will be larger than
+      // anomaly threshold for ANOMALY type of alerts.
+      repeated double anomalies = 3;
+
+      // Upper threshold that was active during violation.
+      // Populated for THRESHOLD type of alerts.
+      AlertingThreshold upper_threshold = 4;
+
+      // Lower threshold that was active during violation.
+      // Populated for THRESHOLD type of alerts.
+      AlertingThreshold lower_threshold = 5;
+
+      // Anomaly threshold that was active during violation.
+      // Populated for ANOMALY type of alerts.
+      double anomaly_threshold = 7;
+
+      // Informs how long violation was active at the time
+      // of raising alert.
+      google.protobuf.Duration after_duration = 6;
+    }
+
+    // Type of TimeSeries based alert
+    enum Type {
+      UNDEFINED = 0;
+
+      // ANOMALY indicates that irregular data pattern was spotted in
+      // time series data (anomaly values crossed anomaly thresholds).
+      ANOMALY = 1;
+
+      // THRESHOLD indicates that time series values crossed specified
+      // thresholds (lower or upper threshold).
+      THRESHOLD = 2;
+    }
+  }
+
+  // LogInfo contains Alert data created based on Log data.
+  message LogInfo {
+    // Binary key describing common labels
+    bytes common_key = 1;
+
+    // List of log descriptor types specified in parent LogCondition
+    repeated string log_types = 2;
+
+    // Log labels by which we grouped Logs data.
+    map<string, string> common_log_labels = 3;
+
+    // Content of violating log
+    string violating_log = 4;
+  }
+
+  // State is responsible for managing lifecycle of Alert.
+  // Each Alert
+  message State {
+    // Informs if alert is still firing
+    bool is_firing = 1;
+
+    // Time when alert was raised
+    google.protobuf.Timestamp start_time = 2;
+
+    // Time when alert was silenced, if no longer firing
+    google.protobuf.Timestamp end_time = 3;
+
+    // Informs where notifications about alert state changes
+    // must be sent.
+    repeated Notification notification_statuses = 4;
+
+    // Informs who is handling alert as of now.
+    EscalationLevel escalation_level = 5;
+
+    // Informs current state of alert handling by AI Agent if
+    // escalation level is AI_AGENT. If alert is on operator side,
+    // it will contain last decision made by AI agent.
+    AiHandlingState ai_agent_handling_state = 6;
+
+    // Informs when was the last state change of ai_agent_handling_state field.
+    google.protobuf.Timestamp ai_agent_last_state_change_time = 7;
+
+    // Contains AI Agent troubleshooting notes. If agent SSHed to alerting
+    // resource, it will also contain history of shell for visibility purposes.
+    string ai_agent_diagnosis_notes = 8;
+
+    // Optional remediation information from AI Agent. This field may be
+    // populated when field ai_agent_handling_state switches to
+    // AI_REMEDIATION_PROPOSED, if necessary. For example, if AI Agent wants to
+    // SSH and execute some commands, it will contain these commands.
+    string ai_remediation_arg = 9;
+
+    // Remediation type proposed by AI Agent to fix an alert. This field is
+    // populated when field ai_agent_handling_state switches to
+    // AI_REMEDIATION_PROPOSED. Informs what kind of remediation AI Agent wants
+    // to execute.
+    Policy.Spec.AIAgentHandling.Remediation ai_remediation = 10;
+
+    // Informs current state of alert handling by Operator if
+    // escalation level is OPERATOR. If alert is on AI_AGENT side,
+    // it will contain last decision made by operator.
+    OperatorHandlingState operator_handling_state = 11;
+
+    // Informs when was the last state change of operator_handling_state field.
+    google.protobuf.Timestamp operator_last_state_change_time = 12;
+
+    // Optional operator notes.
+    string operator_notes = 13;
+
+    // Alert has ended and any needed notifications are processed
+    bool lifecycle_completed = 14;
+
+    // Notification informs about pending notifications that must
+    // be sent due to changes in Alert state.
+    message Notification {
+      // Kind informs what type of State has changed, and for which
+      // we need to send notifications.
+      Policy.Spec.Notification.Kind kind = 1;
+
+      // Informs about list of channels to where notification
+      // should be sent according to the corresponding kind.
+      repeated string pending_channels = 2;
+    }
+
+    // AiHandlingState informs what is a handling state
+    // of an alert from AI agent point of view. It is
+    // active when escalation_level points to AI_AGENT.
+    enum AiHandlingState {
+      // AI Agent is not involved in handling this alert.
+      AI_AGENT_NOT_INVOLVED = 0;
+
+      // Alert is new and awaits handling by AI agent.
+      // This is always initial state for AI agent after
+      // firing.
+      // It can move to AI_ESCALATED_TO_OPERATOR, AI_IGNORE_AS_TEMPORARY,
+      // AI_ADJUST_CND_ENTRY, or AI_REMEDIATION_PROPOSED.
+      AI_AWAITING_HANDLING = 1;
+
+      // This state is active is AI agent escalated alert
+      // to an operator, due to inability to solve it.
+      // This is terminal state after which handling is passed to OPERATOR,
+      // escalation_level changes.
+      AI_ESCALATED_TO_OPERATOR = 2;
+
+      // AI Agent informed that, while TimeSeries/Logs data
+      // indeed contain abnormal values, they are caused
+      // by transient and unharmful reason, and it should
+      // stop firing soon.
+      // This is false positive alert.
+      // This is semi-terminal state. It can move to AI_ESCALATED_TO_OPERATOR
+      // if alert persist despite being flagged as transient issue.
+      AI_IGNORE_AS_TEMPORARY = 3;
+
+      // AI Agent informed that this alert is a false
+      // positive, and TimeSeries/Logs violating entries
+      // in fact should not be classified as a violation.
+      // Switching alert to this state will cause corresponding
+      // TsEntry to adjust its thresholds, or retrain AI anomaly
+      // detection models.
+      // This is usually a terminal state, after which alert is silenced
+      // and TsEntry tries to assume violating data is normal.
+      // However, if thresholds cannot be updated, alert will switch to
+      // AI_ESCALATED_TO_OPERATOR.
+      AI_ADJUST_CND_ENTRY = 4;
+
+      // AI Agent identified this is a genuine alert, but for which
+      // it is able to fix. Remediation is only proposed, and requires
+      // approval from OPERATOR. Note that this is unique situation,
+      // where field escalation_level in State object points to AI_AGENT,
+      // but OPERATOR is requires to provide an update.
+      // Alert is technically still being handled by AI Agent, but
+      // waiting for OPERATOR confirmation.
+      AI_REMEDIATION_PROPOSED = 5;
+
+      // This state is followed by AI_REMEDIATION_PROPOSED after OPERATOR
+      // agrees to execute, or if automatic approval is enabled. AI Agent
+      // will then proceed to applying remediation.
+      // It will move to AI_REMEDIATION_APPLIED after remediation is applied.
+      AI_REMEDIATION_APPROVED = 6;
+
+      // This state indicates that remediation has been applied. If after some
+      // time issue persists, then it switches to AI_ESCALATED_TO_OPERATOR.
+      AI_REMEDIATION_APPLIED = 7;
+    }
+
+    // AiHandlingState informs what is a handling state
+    // of an alert from OPERATOR point of view.
+    enum OperatorHandlingState {
+      // Operator is not involved in handling this alert.
+      OP_NOT_INVOLVED = 0;
+
+      // Alert waits for Operator to handle it. This is
+      // initial state when escalation level switches to
+      // OPERATOR.
+      // From here, it can switch to any of remaining
+      // states. It may be also switched back to AI Agent
+      // if operator will it.
+      OP_AWAITING_HANDLING = 1;
+
+      // This can be a first state of Alert after OP_AWAITING_HANDLING,
+      // if operator wants to acknowledge alert without informing about
+      // final decision.
+      OP_ACKNOWLEDGED = 2;
+
+      // Operator informed that, while TimeSeries/Logs data
+      // indeed contain abnormal values, they are caused
+      // by transient and unharmful reason, and it should
+      // stop firing soon. This is false positive alert.
+      // This may be terminal state if alert stops firing soon.
+      // Otherwise, it will go back to OP_AWAITING_HANDLING.
+      OP_IGNORE_AS_TEMPORARY = 3;
+
+      // Operator informed that this alert is a false
+      // positive, and TimeSeries/Logs violating entries
+      // in fact should not be classified as a violation.
+      // Switching alert to this state will cause corresponding
+      // TsEntry to adjust its thresholds, or retrain AI anomaly
+      // detection models, whatever is relevant.
+      // This is usually a terminal state, after which alert is silenced
+      // and TsEntry tries to assume violating data is normal.
+      // However, if thresholds cannot be updated, alert will switch to
+      // OP_AWAITING_HANDLING automatically.
+      OP_ADJUST_CND_ENTRY = 4;
+
+      // This state indicates that remediation has been applied. If after some
+      // time issue persists, then it switches to OP_AWAITING_HANDLING.
+      OP_REMEDIATION_APPLIED = 5;
+    }
+
+    // EscalationLevel informs who is handling an alert.
+    enum EscalationLevel {
+      // None is invalid state.
+      NONE = 0;
+
+      // Alert is handled by AI Agent now
+      AI_AGENT = 1;
+
+      // Alert is handled by OPERATOR now.
+      OPERATOR = 2;
+    }
+  }
+
+  // Internal data.
+  message Internal { Policy.Spec.ProcessingLocation alerting_location = 1; }
+}

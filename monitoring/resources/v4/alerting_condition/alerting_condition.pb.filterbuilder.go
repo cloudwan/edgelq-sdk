@@ -2576,10 +2576,6 @@ func (b *filterCndBuilderSpec) TimeSeries() *filterCndBuilderSpecTimeSeries {
 	return &filterCndBuilderSpecTimeSeries{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpec) Trigger() *filterCndBuilderSpecTrigger {
-	return &filterCndBuilderSpecTrigger{builder: b.builder}
-}
-
 type filterCndBuilderSpecTimeSeries struct {
 	builder *FilterBuilder
 }
@@ -4507,128 +4503,6 @@ func (b *filterCndBuilderSpecTimeSeriesDuration) compare(op gotenfilter.CompareO
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().TimeSeries().Duration().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecTrigger struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecTrigger) Eq(value *AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecTrigger) Neq(value *AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecTrigger) Gt(value *AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecTrigger) Gte(value *AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecTrigger) Lt(value *AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecTrigger) Lte(value *AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecTrigger) In(values []*AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().Trigger().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTrigger) NotIn(values []*AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().Trigger().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTrigger) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().Trigger().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTrigger) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().Trigger().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTrigger) compare(op gotenfilter.CompareOperator, value *AlertingCondition_Spec_Trigger) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                         op,
-		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().Trigger().WithValue(value),
-	})
-}
-
-func (b *filterCndBuilderSpecTrigger) Type() *filterCndBuilderSpecTriggerType {
-	return &filterCndBuilderSpecTriggerType{builder: b.builder}
-}
-
-type filterCndBuilderSpecTriggerType struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecTriggerType) Eq(value AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecTriggerType) Neq(value AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecTriggerType) Gt(value AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecTriggerType) Gte(value AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecTriggerType) Lt(value AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecTriggerType) Lte(value AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecTriggerType) In(values []AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().Trigger().Type().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTriggerType) NotIn(values []AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		AlertingCondition_FieldPathArrayOfValues: NewAlertingConditionFieldPathBuilder().Spec().Trigger().Type().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecTriggerType) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().Trigger().Type().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTriggerType) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewAlertingConditionFieldPathBuilder().Spec().Trigger().Type().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecTriggerType) compare(op gotenfilter.CompareOperator, value AlertingCondition_Spec_Trigger_Type) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:                         op,
-		AlertingCondition_FieldPathValue: NewAlertingConditionFieldPathBuilder().Spec().Trigger().Type().WithValue(value),
 	})
 }
 

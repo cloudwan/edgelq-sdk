@@ -1,0 +1,110 @@
+name: alerting.edgelq.com
+proto:
+  package:
+    name: ntt.alerting
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/alerting
+    protoImportPathPrefix: edgelq/alerting/proto
+  service:
+    name: Alerting
+    defaultHost: alerting.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+imports:
+- meta.goten.com
+- audit.edgelq.com
+- iam.edgelq.com
+- monitoring.edgelq.com
+- logging.edgelq.com
+- secrets.edgelq.com
+
+resources:
+- name: Policy
+  plural: Policies
+  optIns:
+    searchable: true
+  parents:
+  - iam.edgelq.com/Project
+
+- name: Document
+  optIns:
+    searchable: true
+  parents:
+  - iam.edgelq.com/Project
+
+- name: TsCondition
+  optIns:
+    searchable: true
+  parents:
+  - Policy
+
+- name: LogCondition
+  optIns:
+    searchable: true
+  parents:
+  - Policy
+
+- name: Alert
+  parents:
+  - TsCondition
+  - LogCondition
+  scopeAttributes:
+  - Region
+  idPattern: "[a-zA-Z0-9_.:-]{1,128}"
+  multiRegion:
+    syncType: NEVER
+  actions:
+  - name: BulkSaveAlerts
+    opResourceInfo:
+      skipResourceInRequest: true
+      isCollection: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+  - name: BulkMarkAsNotified
+    opResourceInfo:
+      skipResourceInRequest: true
+      isCollection: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+
+- name: NotificationChannel
+  parents:
+  - iam.edgelq.com/Project
+  actions:
+  # Action to test a notification channel
+  - name: TestNotificationChannel
+    verb: test
+    opResourceInfo:
+      isCollection: false
+      isPlural: false
+    responseName: google.protobuf.Empty
+    skipResponseMsgGen: true
+    withStoreHandle:
+      transaction: SNAPSHOT
+      readOnly: false
+
+- name: TsEntry
+  plural: TsEntries
+  idPattern: "[\\\\w+/=]{1,256}"
+  parents:
+  - TsCondition
+  scopeAttributes:
+  - Region
+  multiRegion:
+    syncType: NEVER
+
+- name: PolicyTemplate
+  parents:
+  - iam.edgelq.com/Project
+
+- name: TsConditionTemplate
+  parents:
+  - PolicyTemplate
+
+- name: LogConditionTemplate
+  parents:
+  - PolicyTemplate

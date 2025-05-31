@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/policy.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_entry;ts_entry";
+option java_multiple_files = true;
+option java_outer_classname = "TsEntryProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// TsEntry contains stateful data for each unique Group by fields
+// combination within individual TsCondition resource. Each TsEntry
+// has own set of alerts too.
+// TsEntry contains dynamic thresholds or anomaly detection models.
+message TsEntry {
+  option (google.api.resource) = {
+    type : "alerting.edgelq.com/TsEntry"
+    pattern : "projects/{project}/policies/{policy}/tsConditions/"
+              "{ts_condition}/regions/{region}/tsEntries/{ts_entry}"
+  };
+
+  // Name of TsEntry
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [\\w+/=]{1,256}
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Identification information
+  Info info = 3;
+
+  // State with anomaly detection models and dynamic thresholds.
+  State state = 4;
+
+  // Internal field.
+  Internal internal = 5;
+
+  // Info provides unique description of a resource.
+  message Info {
+    // Alerting resource points to the original resource associated with this
+    // TsEntry. This meta reference works like dynamic type (any service, any
+    // resource).
+    // TODO: We could use of "DynamicReference" message type. It can be similar
+    // to OwnerReference, except it works more like reference (uses
+    // EstablishReferences...). It can support most normal behaviors, like
+    // CASCADE DELETE/UNSET.
+    goten.types.OwnerReference alerting_resource = 1;
+
+    // Binary time series key containing labels information.
+    bytes group_by_key = 2;
+
+    // Common metric labels
+    map<string, string> common_metric_labels = 3;
+
+    // Common resource labels.
+    map<string, string> common_resource_labels = 4;
+  }
+
+  // State contains all stateful data that is necessary for alert
+  // detection: Individualised adaptive thresholds and anomaly
+  // detection models.
+  message State {
+    // Anomaly detection models for each analysis window.
+    repeated AnomalyModelData models = 1;
+
+    // Adaptive thresholds (per each query in TsCondition).
+    repeated AdaptiveThresholdInfo thresholds = 2;
+
+    // AnomalyModelData contains data for specific analysis window.
+    message AnomalyModelData {
+      // Analysis window size.
+      google.protobuf.Duration analysis_window = 1;
+
+      // Model binary data.
+      bytes model_data = 2;
+
+      // Average training errors (one float per each query)
+      repeated double training_mean_err = 3;
+
+      // Maximum training errors (one float per each query)
+      repeated double training_max_err = 4;
+
+      // Number of epochs used to train model
+      int32 trained_in_epochs = 5;
+
+      // Informs how long it took to train this model.
+      google.protobuf.Duration trained_in = 6;
+
+      // Indicates if another training should be executed, and when.
+      google.protobuf.Timestamp train_after = 7;
+
+      // Training period that was selected for this model.
+      ntt.monitoring.v4.TimeInterval training_period = 8;
+
+      // Sensitiveness (also called anomaly thresholds) per each
+      // query in TsCondition.
+      // Alert is raised when anomaly is detected for any of
+      // time series data.
+      repeated AnomalyModelSensitiveness sensitiveness = 9;
+    }
+
+    // AnomalyModelSensitiveness defines when anomaly is considered
+    // large enough to warrant new alert creation.
+    message AnomalyModelSensitiveness {
+      // Name of the matching query in TsCondition
+      string query_name = 1;
+
+      // Threshold after which anomaly is considered too big.
+      double anomaly_threshold = 2;
+    }
+
+    // AdaptiveThresholdInfo contains dynamic adaptive thresholds.
+    message AdaptiveThresholdInfo {
+      // Matching query name in TsCondition
+      string query_name = 1;
+
+      // Lower threshold value. Values below are considered violations.
+      AlertingThreshold lower = 2;
+
+      // Upper threshold value. Values above are considered violations.
+      AlertingThreshold upper = 3;
+
+      // Contains timestamp when thresholds should be adapted and checked
+      // after.
+      google.protobuf.Timestamp next_check = 4;
+    }
+  }
+
+  // Internal data.
+  message Internal {
+    Policy.Spec.ProcessingLocation alerting_location = 1;
+
+    int32 spec_generation = 2;
+  }
+}

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/alert.proto";
+import "edgelq-sdk/alerting/proto/v1/alert_change.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/client/v1/alert;alert_client";
+option java_multiple_files = false;
+option java_outer_classname = "AlertCustomProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// A request message of the BulkSaveAlerts method.
+message BulkSaveAlertsRequest {
+  string project = 1;
+
+  repeated Alert alerts = 3;
+
+  google.protobuf.FieldMask update_mask = 4;
+}
+
+// A response message of the BulkSaveAlerts method.
+message BulkSaveAlertsResponse { repeated Alert alerts = 1; }
+
+message BulkMarkAsNotifiedRequest {
+  string project = 1;
+
+  repeated string alerts = 2;
+
+  repeated string channels = 3;
+}
+
+message BulkMarkAsNotifiedResponse {}

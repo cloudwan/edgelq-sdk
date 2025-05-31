@@ -203,16 +203,6 @@ func (o *AlertingCondition_Spec) MakeDiffFieldMask(other *AlertingCondition_Spec
 			}
 		}
 	}
-	{
-		subMask := o.GetTrigger().MakeDiffFieldMask(other.GetTrigger())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &AlertingConditionSpec_FieldTerminalPath{selector: AlertingConditionSpec_FieldPathSelectorTrigger})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &AlertingConditionSpec_FieldSubPath{selector: AlertingConditionSpec_FieldPathSelectorTrigger, subPath: subpath})
-			}
-		}
-	}
 	return res
 }
 
@@ -226,7 +216,6 @@ func (o *AlertingCondition_Spec) Clone() *AlertingCondition_Spec {
 	}
 	result := &AlertingCondition_Spec{}
 	result.TimeSeries = o.TimeSeries.Clone()
-	result.Trigger = o.Trigger.Clone()
 	return result
 }
 
@@ -240,12 +229,6 @@ func (o *AlertingCondition_Spec) Merge(source *AlertingCondition_Spec) {
 			o.TimeSeries = new(AlertingCondition_Spec_TimeSeries)
 		}
 		o.TimeSeries.Merge(source.GetTimeSeries())
-	}
-	if source.GetTrigger() != nil {
-		if o.Trigger == nil {
-			o.Trigger = new(AlertingCondition_Spec_Trigger)
-		}
-		o.Trigger.Merge(source.GetTrigger())
 	}
 }
 
@@ -407,56 +390,6 @@ func (o *AlertingCondition_Spec_TimeSeries) Merge(source *AlertingCondition_Spec
 
 func (o *AlertingCondition_Spec_TimeSeries) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*AlertingCondition_Spec_TimeSeries))
-}
-
-func (o *AlertingCondition_Spec_Trigger) GotenObjectExt() {}
-
-func (o *AlertingCondition_Spec_Trigger) MakeFullFieldMask() *AlertingCondition_Spec_Trigger_FieldMask {
-	return FullAlertingCondition_Spec_Trigger_FieldMask()
-}
-
-func (o *AlertingCondition_Spec_Trigger) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullAlertingCondition_Spec_Trigger_FieldMask()
-}
-
-func (o *AlertingCondition_Spec_Trigger) MakeDiffFieldMask(other *AlertingCondition_Spec_Trigger) *AlertingCondition_Spec_Trigger_FieldMask {
-	if o == nil && other == nil {
-		return &AlertingCondition_Spec_Trigger_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullAlertingCondition_Spec_Trigger_FieldMask()
-	}
-
-	res := &AlertingCondition_Spec_Trigger_FieldMask{}
-	if o.GetType() != other.GetType() {
-		res.Paths = append(res.Paths, &AlertingConditionSpecTrigger_FieldTerminalPath{selector: AlertingConditionSpecTrigger_FieldPathSelectorType})
-	}
-	return res
-}
-
-func (o *AlertingCondition_Spec_Trigger) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*AlertingCondition_Spec_Trigger))
-}
-
-func (o *AlertingCondition_Spec_Trigger) Clone() *AlertingCondition_Spec_Trigger {
-	if o == nil {
-		return nil
-	}
-	result := &AlertingCondition_Spec_Trigger{}
-	result.Type = o.Type
-	return result
-}
-
-func (o *AlertingCondition_Spec_Trigger) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *AlertingCondition_Spec_Trigger) Merge(source *AlertingCondition_Spec_Trigger) {
-	o.Type = source.GetType()
-}
-
-func (o *AlertingCondition_Spec_Trigger) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*AlertingCondition_Spec_Trigger))
 }
 
 func (o *AlertingCondition_Spec_TimeSeries_Query) GotenObjectExt() {}

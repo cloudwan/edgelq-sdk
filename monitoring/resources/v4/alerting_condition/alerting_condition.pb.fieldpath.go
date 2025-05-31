@@ -940,15 +940,12 @@ type AlertingConditionSpec_FieldPathSelector int32
 
 const (
 	AlertingConditionSpec_FieldPathSelectorTimeSeries AlertingConditionSpec_FieldPathSelector = 0
-	AlertingConditionSpec_FieldPathSelectorTrigger    AlertingConditionSpec_FieldPathSelector = 1
 )
 
 func (s AlertingConditionSpec_FieldPathSelector) String() string {
 	switch s {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		return "time_series"
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		return "trigger"
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", s))
 	}
@@ -962,8 +959,6 @@ func BuildAlertingConditionSpec_FieldPath(fp gotenobject.RawFieldPath) (Alerting
 		switch fp[0] {
 		case "time_series", "timeSeries", "time-series":
 			return &AlertingConditionSpec_FieldTerminalPath{selector: AlertingConditionSpec_FieldPathSelectorTimeSeries}, nil
-		case "trigger":
-			return &AlertingConditionSpec_FieldTerminalPath{selector: AlertingConditionSpec_FieldPathSelectorTrigger}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -972,12 +967,6 @@ func BuildAlertingConditionSpec_FieldPath(fp gotenobject.RawFieldPath) (Alerting
 				return nil, err
 			} else {
 				return &AlertingConditionSpec_FieldSubPath{selector: AlertingConditionSpec_FieldPathSelectorTimeSeries, subPath: subpath}, nil
-			}
-		case "trigger":
-			if subpath, err := BuildAlertingConditionSpecTrigger_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &AlertingConditionSpec_FieldSubPath{selector: AlertingConditionSpec_FieldPathSelectorTrigger, subPath: subpath}, nil
 			}
 		}
 	}
@@ -1028,10 +1017,6 @@ func (fp *AlertingConditionSpec_FieldTerminalPath) Get(source *AlertingCondition
 			if source.TimeSeries != nil {
 				values = append(values, source.TimeSeries)
 			}
-		case AlertingConditionSpec_FieldPathSelectorTrigger:
-			if source.Trigger != nil {
-				values = append(values, source.Trigger)
-			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fp.selector))
 		}
@@ -1049,9 +1034,6 @@ func (fp *AlertingConditionSpec_FieldTerminalPath) GetSingle(source *AlertingCon
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		res := source.GetTimeSeries()
 		return res, res != nil
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		res := source.GetTrigger()
-		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fp.selector))
 	}
@@ -1066,8 +1048,6 @@ func (fp *AlertingConditionSpec_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		return (*AlertingCondition_Spec_TimeSeries)(nil)
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		return (*AlertingCondition_Spec_Trigger)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fp.selector))
 	}
@@ -1078,8 +1058,6 @@ func (fp *AlertingConditionSpec_FieldTerminalPath) ClearValue(item *AlertingCond
 		switch fp.selector {
 		case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 			item.TimeSeries = nil
-		case AlertingConditionSpec_FieldPathSelectorTrigger:
-			item.Trigger = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fp.selector))
 		}
@@ -1103,8 +1081,6 @@ func (fp *AlertingConditionSpec_FieldTerminalPath) WithIValue(value interface{})
 	switch fp.selector {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		return &AlertingConditionSpec_FieldTerminalPathValue{AlertingConditionSpec_FieldTerminalPath: *fp, value: value.(*AlertingCondition_Spec_TimeSeries)}
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		return &AlertingConditionSpec_FieldTerminalPathValue{AlertingConditionSpec_FieldTerminalPath: *fp, value: value.(*AlertingCondition_Spec_Trigger)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fp.selector))
 	}
@@ -1119,8 +1095,6 @@ func (fp *AlertingConditionSpec_FieldTerminalPath) WithIArrayOfValues(values int
 	switch fp.selector {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		return &AlertingConditionSpec_FieldTerminalPathArrayOfValues{AlertingConditionSpec_FieldTerminalPath: *fp, values: values.([]*AlertingCondition_Spec_TimeSeries)}
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		return &AlertingConditionSpec_FieldTerminalPathArrayOfValues{AlertingConditionSpec_FieldTerminalPath: *fp, values: values.([]*AlertingCondition_Spec_Trigger)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fp.selector))
 	}
@@ -1156,10 +1130,6 @@ func (fps *AlertingConditionSpec_FieldSubPath) AsTimeSeriesSubPath() (AlertingCo
 	res, ok := fps.subPath.(AlertingConditionSpecTimeSeries_FieldPath)
 	return res, ok
 }
-func (fps *AlertingConditionSpec_FieldSubPath) AsTriggerSubPath() (AlertingConditionSpecTrigger_FieldPath, bool) {
-	res, ok := fps.subPath.(AlertingConditionSpecTrigger_FieldPath)
-	return res, ok
-}
 
 // String returns path representation in proto convention
 func (fps *AlertingConditionSpec_FieldSubPath) String() string {
@@ -1176,8 +1146,6 @@ func (fps *AlertingConditionSpec_FieldSubPath) Get(source *AlertingCondition_Spe
 	switch fps.selector {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		values = append(values, fps.subPath.GetRaw(source.GetTimeSeries())...)
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		values = append(values, fps.subPath.GetRaw(source.GetTrigger())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fps.selector))
 	}
@@ -1196,11 +1164,6 @@ func (fps *AlertingConditionSpec_FieldSubPath) GetSingle(source *AlertingConditi
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetTimeSeries())
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		if source.GetTrigger() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetTrigger())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fps.selector))
 	}
@@ -1220,8 +1183,6 @@ func (fps *AlertingConditionSpec_FieldSubPath) ClearValue(item *AlertingConditio
 		switch fps.selector {
 		case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 			fps.subPath.ClearValueRaw(item.TimeSeries)
-		case AlertingConditionSpec_FieldPathSelectorTrigger:
-			fps.subPath.ClearValueRaw(item.Trigger)
 		default:
 			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fps.selector))
 		}
@@ -1310,10 +1271,6 @@ func (fpv *AlertingConditionSpec_FieldTerminalPathValue) AsTimeSeriesValue() (*A
 	res, ok := fpv.value.(*AlertingCondition_Spec_TimeSeries)
 	return res, ok
 }
-func (fpv *AlertingConditionSpec_FieldTerminalPathValue) AsTriggerValue() (*AlertingCondition_Spec_Trigger, bool) {
-	res, ok := fpv.value.(*AlertingCondition_Spec_Trigger)
-	return res, ok
-}
 
 // SetTo stores value for selected field for object Spec
 func (fpv *AlertingConditionSpec_FieldTerminalPathValue) SetTo(target **AlertingCondition_Spec) {
@@ -1323,8 +1280,6 @@ func (fpv *AlertingConditionSpec_FieldTerminalPathValue) SetTo(target **Alerting
 	switch fpv.selector {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		(*target).TimeSeries = fpv.value.(*AlertingCondition_Spec_TimeSeries)
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		(*target).Trigger = fpv.value.(*AlertingCondition_Spec_Trigger)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fpv.selector))
 	}
@@ -1339,8 +1294,6 @@ func (fpv *AlertingConditionSpec_FieldTerminalPathValue) SetToRaw(target proto.M
 func (fpv *AlertingConditionSpec_FieldTerminalPathValue) CompareWith(source *AlertingCondition_Spec) (int, bool) {
 	switch fpv.selector {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
-		return 0, false
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fpv.selector))
@@ -1362,10 +1315,6 @@ func (fpvs *AlertingConditionSpec_FieldSubPathValue) AsTimeSeriesPathValue() (Al
 	res, ok := fpvs.subPathValue.(AlertingConditionSpecTimeSeries_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AlertingConditionSpec_FieldSubPathValue) AsTriggerPathValue() (AlertingConditionSpecTrigger_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(AlertingConditionSpecTrigger_FieldPathValue)
-	return res, ok
-}
 
 func (fpvs *AlertingConditionSpec_FieldSubPathValue) SetTo(target **AlertingCondition_Spec) {
 	if *target == nil {
@@ -1374,8 +1323,6 @@ func (fpvs *AlertingConditionSpec_FieldSubPathValue) SetTo(target **AlertingCond
 	switch fpvs.Selector() {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		fpvs.subPathValue.(AlertingConditionSpecTimeSeries_FieldPathValue).SetTo(&(*target).TimeSeries)
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		fpvs.subPathValue.(AlertingConditionSpecTrigger_FieldPathValue).SetTo(&(*target).Trigger)
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fpvs.Selector()))
 	}
@@ -1394,8 +1341,6 @@ func (fpvs *AlertingConditionSpec_FieldSubPathValue) CompareWith(source *Alertin
 	switch fpvs.Selector() {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		return fpvs.subPathValue.(AlertingConditionSpecTimeSeries_FieldPathValue).CompareWith(source.GetTimeSeries())
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		return fpvs.subPathValue.(AlertingConditionSpecTrigger_FieldPathValue).CompareWith(source.GetTrigger())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fpvs.Selector()))
 	}
@@ -1482,18 +1427,12 @@ func (fpaivs *AlertingConditionSpec_FieldSubPathArrayItemValue) AsTimeSeriesPath
 	res, ok := fpaivs.subPathItemValue.(AlertingConditionSpecTimeSeries_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AlertingConditionSpec_FieldSubPathArrayItemValue) AsTriggerPathItemValue() (AlertingConditionSpecTrigger_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(AlertingConditionSpecTrigger_FieldPathArrayItemValue)
-	return res, ok
-}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'Spec'
 func (fpaivs *AlertingConditionSpec_FieldSubPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec) bool {
 	switch fpaivs.Selector() {
 	case AlertingConditionSpec_FieldPathSelectorTimeSeries:
 		return fpaivs.subPathItemValue.(AlertingConditionSpecTimeSeries_FieldPathArrayItemValue).ContainsValue(source.GetTimeSeries())
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		return fpaivs.subPathItemValue.(AlertingConditionSpecTrigger_FieldPathArrayItemValue).ContainsValue(source.GetTrigger())
 	default:
 		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec: %d", fpaivs.Selector()))
 	}
@@ -1538,19 +1477,11 @@ func (fpaov *AlertingConditionSpec_FieldTerminalPathArrayOfValues) GetRawValues(
 		for _, v := range fpaov.values.([]*AlertingCondition_Spec_TimeSeries) {
 			values = append(values, v)
 		}
-	case AlertingConditionSpec_FieldPathSelectorTrigger:
-		for _, v := range fpaov.values.([]*AlertingCondition_Spec_Trigger) {
-			values = append(values, v)
-		}
 	}
 	return
 }
 func (fpaov *AlertingConditionSpec_FieldTerminalPathArrayOfValues) AsTimeSeriesArrayOfValues() ([]*AlertingCondition_Spec_TimeSeries, bool) {
 	res, ok := fpaov.values.([]*AlertingCondition_Spec_TimeSeries)
-	return res, ok
-}
-func (fpaov *AlertingConditionSpec_FieldTerminalPathArrayOfValues) AsTriggerArrayOfValues() ([]*AlertingCondition_Spec_Trigger, bool) {
-	res, ok := fpaov.values.([]*AlertingCondition_Spec_Trigger)
 	return res, ok
 }
 
@@ -1566,10 +1497,6 @@ func (fpsaov *AlertingConditionSpec_FieldSubPathArrayOfValues) GetRawValues() []
 }
 func (fpsaov *AlertingConditionSpec_FieldSubPathArrayOfValues) AsTimeSeriesPathArrayOfValues() (AlertingConditionSpecTimeSeries_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(AlertingConditionSpecTimeSeries_FieldPathArrayOfValues)
-	return res, ok
-}
-func (fpsaov *AlertingConditionSpec_FieldSubPathArrayOfValues) AsTriggerPathArrayOfValues() (AlertingConditionSpecTrigger_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(AlertingConditionSpecTrigger_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -2728,385 +2655,6 @@ func (fpsaov *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues) AsThres
 }
 func (fpsaov *AlertingConditionSpecTimeSeries_FieldSubPathArrayOfValues) AsCombineThresholdPathArrayOfValues() (AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(AlertingConditionSpecTimeSeriesCombineThreshold_FieldPathArrayOfValues)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type AlertingConditionSpecTrigger_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() AlertingConditionSpecTrigger_FieldPathSelector
-	Get(source *AlertingCondition_Spec_Trigger) []interface{}
-	GetSingle(source *AlertingCondition_Spec_Trigger) (interface{}, bool)
-	ClearValue(item *AlertingCondition_Spec_Trigger)
-
-	// Those methods build corresponding AlertingConditionSpecTrigger_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) AlertingConditionSpecTrigger_FieldPathValue
-	WithIArrayOfValues(values interface{}) AlertingConditionSpecTrigger_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) AlertingConditionSpecTrigger_FieldPathArrayItemValue
-}
-
-type AlertingConditionSpecTrigger_FieldPathSelector int32
-
-const (
-	AlertingConditionSpecTrigger_FieldPathSelectorType AlertingConditionSpecTrigger_FieldPathSelector = 0
-)
-
-func (s AlertingConditionSpecTrigger_FieldPathSelector) String() string {
-	switch s {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		return "type"
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", s))
-	}
-}
-
-func BuildAlertingConditionSpecTrigger_FieldPath(fp gotenobject.RawFieldPath) (AlertingConditionSpecTrigger_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object AlertingCondition_Spec_Trigger")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "type":
-			return &AlertingConditionSpecTrigger_FieldTerminalPath{selector: AlertingConditionSpecTrigger_FieldPathSelectorType}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object AlertingCondition_Spec_Trigger", fp)
-}
-
-func ParseAlertingConditionSpecTrigger_FieldPath(rawField string) (AlertingConditionSpecTrigger_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildAlertingConditionSpecTrigger_FieldPath(fp)
-}
-
-func MustParseAlertingConditionSpecTrigger_FieldPath(rawField string) AlertingConditionSpecTrigger_FieldPath {
-	fp, err := ParseAlertingConditionSpecTrigger_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type AlertingConditionSpecTrigger_FieldTerminalPath struct {
-	selector AlertingConditionSpecTrigger_FieldPathSelector
-}
-
-var _ AlertingConditionSpecTrigger_FieldPath = (*AlertingConditionSpecTrigger_FieldTerminalPath)(nil)
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) Selector() AlertingConditionSpecTrigger_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source AlertingCondition_Spec_Trigger
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) Get(source *AlertingCondition_Spec_Trigger) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case AlertingConditionSpecTrigger_FieldPathSelectorType:
-			values = append(values, source.Type)
-		default:
-			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*AlertingCondition_Spec_Trigger))
-}
-
-// GetSingle returns value pointed by specific field of from source AlertingCondition_Spec_Trigger
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) GetSingle(source *AlertingCondition_Spec_Trigger) (interface{}, bool) {
-	switch fp.selector {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		return source.GetType(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*AlertingCondition_Spec_Trigger))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		return AlertingCondition_Spec_Trigger_EACH
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) ClearValue(item *AlertingCondition_Spec_Trigger) {
-	if item != nil {
-		switch fp.selector {
-		case AlertingConditionSpecTrigger_FieldPathSelectorType:
-			item.Type = AlertingCondition_Spec_Trigger_EACH
-		default:
-			panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*AlertingCondition_Spec_Trigger))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == AlertingConditionSpecTrigger_FieldPathSelectorType
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) WithIValue(value interface{}) AlertingConditionSpecTrigger_FieldPathValue {
-	switch fp.selector {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		return &AlertingConditionSpecTrigger_FieldTerminalPathValue{AlertingConditionSpecTrigger_FieldTerminalPath: *fp, value: value.(AlertingCondition_Spec_Trigger_Type)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) WithIArrayOfValues(values interface{}) AlertingConditionSpecTrigger_FieldPathArrayOfValues {
-	fpaov := &AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues{AlertingConditionSpecTrigger_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		return &AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues{AlertingConditionSpecTrigger_FieldTerminalPath: *fp, values: values.([]AlertingCondition_Spec_Trigger_Type)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) WithIArrayItemValue(value interface{}) AlertingConditionSpecTrigger_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingConditionSpecTrigger_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// AlertingConditionSpecTrigger_FieldPathValue allows storing values for Trigger fields according to their type
-type AlertingConditionSpecTrigger_FieldPathValue interface {
-	AlertingConditionSpecTrigger_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **AlertingCondition_Spec_Trigger)
-	CompareWith(*AlertingCondition_Spec_Trigger) (cmp int, comparable bool)
-}
-
-func ParseAlertingConditionSpecTrigger_FieldPathValue(pathStr, valueStr string) (AlertingConditionSpecTrigger_FieldPathValue, error) {
-	fp, err := ParseAlertingConditionSpecTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Trigger field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(AlertingConditionSpecTrigger_FieldPathValue), nil
-}
-
-func MustParseAlertingConditionSpecTrigger_FieldPathValue(pathStr, valueStr string) AlertingConditionSpecTrigger_FieldPathValue {
-	fpv, err := ParseAlertingConditionSpecTrigger_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type AlertingConditionSpecTrigger_FieldTerminalPathValue struct {
-	AlertingConditionSpecTrigger_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertingConditionSpecTrigger_FieldPathValue = (*AlertingConditionSpecTrigger_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Trigger' as interface{}
-func (fpv *AlertingConditionSpecTrigger_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *AlertingConditionSpecTrigger_FieldTerminalPathValue) AsTypeValue() (AlertingCondition_Spec_Trigger_Type, bool) {
-	res, ok := fpv.value.(AlertingCondition_Spec_Trigger_Type)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Trigger
-func (fpv *AlertingConditionSpecTrigger_FieldTerminalPathValue) SetTo(target **AlertingCondition_Spec_Trigger) {
-	if *target == nil {
-		*target = new(AlertingCondition_Spec_Trigger)
-	}
-	switch fpv.selector {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		(*target).Type = fpv.value.(AlertingCondition_Spec_Trigger_Type)
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertingConditionSpecTrigger_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*AlertingCondition_Spec_Trigger)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'AlertingConditionSpecTrigger_FieldTerminalPathValue' with the value under path in 'AlertingCondition_Spec_Trigger'.
-func (fpv *AlertingConditionSpecTrigger_FieldTerminalPathValue) CompareWith(source *AlertingCondition_Spec_Trigger) (int, bool) {
-	switch fpv.selector {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		leftValue := fpv.value.(AlertingCondition_Spec_Trigger_Type)
-		rightValue := source.GetType()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingCondition_Spec_Trigger: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertingConditionSpecTrigger_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*AlertingCondition_Spec_Trigger))
-}
-
-// AlertingConditionSpecTrigger_FieldPathArrayItemValue allows storing single item in Path-specific values for Trigger according to their type
-// Present only for array (repeated) types.
-type AlertingConditionSpecTrigger_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	AlertingConditionSpecTrigger_FieldPath
-	ContainsValue(*AlertingCondition_Spec_Trigger) bool
-}
-
-// ParseAlertingConditionSpecTrigger_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseAlertingConditionSpecTrigger_FieldPathArrayItemValue(pathStr, valueStr string) (AlertingConditionSpecTrigger_FieldPathArrayItemValue, error) {
-	fp, err := ParseAlertingConditionSpecTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Trigger field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(AlertingConditionSpecTrigger_FieldPathArrayItemValue), nil
-}
-
-func MustParseAlertingConditionSpecTrigger_FieldPathArrayItemValue(pathStr, valueStr string) AlertingConditionSpecTrigger_FieldPathArrayItemValue {
-	fpaiv, err := ParseAlertingConditionSpecTrigger_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue struct {
-	AlertingConditionSpecTrigger_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertingConditionSpecTrigger_FieldPathArrayItemValue = (*AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object AlertingCondition_Spec_Trigger as interface{}
-func (fpaiv *AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue) GetSingle(source *AlertingCondition_Spec_Trigger) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*AlertingCondition_Spec_Trigger))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Trigger'
-func (fpaiv *AlertingConditionSpecTrigger_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingCondition_Spec_Trigger) bool {
-	slice := fpaiv.AlertingConditionSpecTrigger_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// AlertingConditionSpecTrigger_FieldPathArrayOfValues allows storing slice of values for Trigger fields according to their type
-type AlertingConditionSpecTrigger_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	AlertingConditionSpecTrigger_FieldPath
-}
-
-func ParseAlertingConditionSpecTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) (AlertingConditionSpecTrigger_FieldPathArrayOfValues, error) {
-	fp, err := ParseAlertingConditionSpecTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Trigger field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(AlertingConditionSpecTrigger_FieldPathArrayOfValues), nil
-}
-
-func MustParseAlertingConditionSpecTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) AlertingConditionSpecTrigger_FieldPathArrayOfValues {
-	fpaov, err := ParseAlertingConditionSpecTrigger_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues struct {
-	AlertingConditionSpecTrigger_FieldTerminalPath
-	values interface{}
-}
-
-var _ AlertingConditionSpecTrigger_FieldPathArrayOfValues = (*AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case AlertingConditionSpecTrigger_FieldPathSelectorType:
-		for _, v := range fpaov.values.([]AlertingCondition_Spec_Trigger_Type) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *AlertingConditionSpecTrigger_FieldTerminalPathArrayOfValues) AsTypeArrayOfValues() ([]AlertingCondition_Spec_Trigger_Type, bool) {
-	res, ok := fpaov.values.([]AlertingCondition_Spec_Trigger_Type)
 	return res, ok
 }
 
