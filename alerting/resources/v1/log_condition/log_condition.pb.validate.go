@@ -20,11 +20,12 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
-	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 var (
@@ -43,9 +44,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
-	_ = &logging_log.Log{}
-	_ = &durationpb.Duration{}
+	_ = &rcommon.LogCndSpec{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
 
@@ -83,36 +85,9 @@ func (obj *LogCondition) GotenValidate() error {
 			return gotenvalidate.NewValidationError("LogCondition", "internal", obj.Internal, "nested object validation failed", err)
 		}
 	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *LogCondition_Spec) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if obj.Query == nil {
-		return gotenvalidate.NewValidationError("Spec", "query", obj.Query, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Query).(gotenvalidate.Validator); ok {
+	if subobj, ok := interface{}(obj.TemplateSource).(gotenvalidate.Validator); ok {
 		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Spec", "query", obj.Query, "nested object validation failed", err)
-		}
-	}
-	if len(obj.GroupByLabels) < 1 {
-		return gotenvalidate.NewValidationError("Spec", "groupByLabels", obj.GroupByLabels, "field must have at least 1 items", nil)
-	}
-	if len(obj.GroupByLabels) > 8 {
-		return gotenvalidate.NewValidationError("Spec", "groupByLabels", obj.GroupByLabels, "field must have at most 8 items", nil)
-	}
-	if len(obj.GroupByLabels) > 1 {
-		values := make(map[string]struct{})
-		for _, v := range obj.GroupByLabels {
-			if _, ok := values[v]; ok {
-				return gotenvalidate.NewValidationError("Spec", "groupByLabels", obj.GroupByLabels, "field must contain unique items", nil)
-			}
-			values[v] = struct{}{}
+			return gotenvalidate.NewValidationError("LogCondition", "templateSource", obj.TemplateSource, "nested object validation failed", err)
 		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
@@ -129,139 +104,9 @@ func (obj *LogCondition_Internal) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *LogCondition_Spec_Query) GotenValidate() error {
+func (obj *LogCondition_TemplateSource) GotenValidate() error {
 	if obj == nil {
 		return nil
-	}
-	if obj.Trigger == nil {
-		return gotenvalidate.NewValidationError("Query", "trigger", obj.Trigger, "field is required", nil)
-	}
-	if subobj, ok := interface{}(obj.Trigger).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Query", "trigger", obj.Trigger, "nested object validation failed", err)
-		}
-	}
-	if obj.MinDuration != nil && obj.MinDuration.CheckValid() != nil {
-		err := obj.MinDuration.CheckValid()
-		return gotenvalidate.NewValidationError("Query", "minDuration", obj.MinDuration, "could not validate duration", err)
-	} else {
-		d := obj.MinDuration.AsDuration()
-
-		if obj.MinDuration != nil {
-			if !(d >= time.Duration(60000000000)) {
-				return gotenvalidate.NewValidationError("Query", "minDuration", d, "field must be greater or equal to 1m0s", nil)
-			}
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *LogCondition_Spec_Query_LabelTrigger) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if len(obj.Key) > 64 {
-		return gotenvalidate.NewValidationError("LabelTrigger", "key", obj.Key, "field must contain at most 64 characters", nil)
-	}
-	if obj.Key == "" {
-		return gotenvalidate.NewValidationError("LabelTrigger", "key", obj.Key, "field is required", nil)
-	}
-	if len(obj.Values) < 1 {
-		return gotenvalidate.NewValidationError("LabelTrigger", "values", obj.Values, "field must have at least 1 items", nil)
-	}
-	if len(obj.Values) > 25 {
-		return gotenvalidate.NewValidationError("LabelTrigger", "values", obj.Values, "field must have at most 25 items", nil)
-	}
-	if len(obj.Values) > 1 {
-		values := make(map[string]struct{})
-		for _, v := range obj.Values {
-			if _, ok := values[v]; ok {
-				return gotenvalidate.NewValidationError("LabelTrigger", "values", obj.Values, "field must contain unique items", nil)
-			}
-			values[v] = struct{}{}
-		}
-	}
-	for _, el := range obj.Values {
-
-		if len(el) > 128 {
-			return gotenvalidate.NewValidationError("LabelTrigger", "values", el, "field must contain at most 128 characters", nil)
-		}
-		if el == "" {
-			return gotenvalidate.NewValidationError("LabelTrigger", "values", el, "field is required", nil)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *LogCondition_Spec_Query_StringPayloadTrigger) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if len(obj.ObjectSelector) < 0 {
-		return gotenvalidate.NewValidationError("StringPayloadTrigger", "objectSelector", obj.ObjectSelector, "field must contain at least 0 characters", nil)
-	}
-	if len(obj.ObjectSelector) > 64 {
-		return gotenvalidate.NewValidationError("StringPayloadTrigger", "objectSelector", obj.ObjectSelector, "field must contain at most 64 characters", nil)
-	}
-	if len(obj.Regex) > 64 {
-		return gotenvalidate.NewValidationError("StringPayloadTrigger", "regex", obj.Regex, "field must contain at most 64 characters", nil)
-	}
-	if obj.Regex == "" {
-		return gotenvalidate.NewValidationError("StringPayloadTrigger", "regex", obj.Regex, "field is required", nil)
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *LogCondition_Spec_Query_CompositeTrigger) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	for idx, elem := range obj.Triggers {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("CompositeTrigger", "triggers", obj.Triggers[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	if _, ok := LogCondition_Spec_Query_CompositeTrigger_Operator_name[int32(obj.Operator)]; !ok {
-		return gotenvalidate.NewValidationError("CompositeTrigger", "operator", obj.Operator, "field must be a defined enum value", nil)
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *LogCondition_Spec_Query_TriggerCnd) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	switch opt := obj.Type.(type) {
-	case *LogCondition_Spec_Query_TriggerCnd_Label:
-		if subobj, ok := interface{}(opt.Label).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("TriggerCnd", "label", opt.Label, "nested object validation failed", err)
-			}
-		}
-	case *LogCondition_Spec_Query_TriggerCnd_StringContent:
-		if subobj, ok := interface{}(opt.StringContent).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("TriggerCnd", "stringContent", opt.StringContent, "nested object validation failed", err)
-			}
-		}
-	case *LogCondition_Spec_Query_TriggerCnd_Composite:
-		if subobj, ok := interface{}(opt.Composite).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("TriggerCnd", "composite", opt.Composite, "nested object validation failed", err)
-			}
-		}
-	default:
-		_ = opt
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

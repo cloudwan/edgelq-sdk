@@ -23,7 +23,7 @@ import (
 
 // proto imports
 import (
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -51,7 +51,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &durationpb.Duration{}
@@ -2659,7 +2659,7 @@ func (fp *TsEntryInternal_FieldTerminalPath) GetSingleRaw(source proto.Message) 
 func (fp *TsEntryInternal_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case TsEntryInternal_FieldPathSelectorAlertingLocation:
-		return policy.Policy_Spec_UNDEFINED
+		return rcommon.PolicySpec_UNDEFINED
 	case TsEntryInternal_FieldPathSelectorSpecGeneration:
 		return int32(0)
 	default:
@@ -2671,7 +2671,7 @@ func (fp *TsEntryInternal_FieldTerminalPath) ClearValue(item *TsEntry_Internal) 
 	if item != nil {
 		switch fp.selector {
 		case TsEntryInternal_FieldPathSelectorAlertingLocation:
-			item.AlertingLocation = policy.Policy_Spec_UNDEFINED
+			item.AlertingLocation = rcommon.PolicySpec_UNDEFINED
 		case TsEntryInternal_FieldPathSelectorSpecGeneration:
 			item.SpecGeneration = int32(0)
 		default:
@@ -2697,7 +2697,7 @@ func (fp *TsEntryInternal_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenob
 func (fp *TsEntryInternal_FieldTerminalPath) WithIValue(value interface{}) TsEntryInternal_FieldPathValue {
 	switch fp.selector {
 	case TsEntryInternal_FieldPathSelectorAlertingLocation:
-		return &TsEntryInternal_FieldTerminalPathValue{TsEntryInternal_FieldTerminalPath: *fp, value: value.(policy.Policy_Spec_ProcessingLocation)}
+		return &TsEntryInternal_FieldTerminalPathValue{TsEntryInternal_FieldTerminalPath: *fp, value: value.(rcommon.PolicySpec_ProcessingLocation)}
 	case TsEntryInternal_FieldPathSelectorSpecGeneration:
 		return &TsEntryInternal_FieldTerminalPathValue{TsEntryInternal_FieldTerminalPath: *fp, value: value.(int32)}
 	default:
@@ -2713,7 +2713,7 @@ func (fp *TsEntryInternal_FieldTerminalPath) WithIArrayOfValues(values interface
 	fpaov := &TsEntryInternal_FieldTerminalPathArrayOfValues{TsEntryInternal_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case TsEntryInternal_FieldPathSelectorAlertingLocation:
-		return &TsEntryInternal_FieldTerminalPathArrayOfValues{TsEntryInternal_FieldTerminalPath: *fp, values: values.([]policy.Policy_Spec_ProcessingLocation)}
+		return &TsEntryInternal_FieldTerminalPathArrayOfValues{TsEntryInternal_FieldTerminalPath: *fp, values: values.([]rcommon.PolicySpec_ProcessingLocation)}
 	case TsEntryInternal_FieldPathSelectorSpecGeneration:
 		return &TsEntryInternal_FieldTerminalPathArrayOfValues{TsEntryInternal_FieldTerminalPath: *fp, values: values.([]int32)}
 	default:
@@ -2776,8 +2776,8 @@ var _ TsEntryInternal_FieldPathValue = (*TsEntryInternal_FieldTerminalPathValue)
 func (fpv *TsEntryInternal_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *TsEntryInternal_FieldTerminalPathValue) AsAlertingLocationValue() (policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+func (fpv *TsEntryInternal_FieldTerminalPathValue) AsAlertingLocationValue() (rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 func (fpv *TsEntryInternal_FieldTerminalPathValue) AsSpecGenerationValue() (int32, bool) {
@@ -2792,7 +2792,7 @@ func (fpv *TsEntryInternal_FieldTerminalPathValue) SetTo(target **TsEntry_Intern
 	}
 	switch fpv.selector {
 	case TsEntryInternal_FieldPathSelectorAlertingLocation:
-		(*target).AlertingLocation = fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		(*target).AlertingLocation = fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	case TsEntryInternal_FieldPathSelectorSpecGeneration:
 		(*target).SpecGeneration = fpv.value.(int32)
 	default:
@@ -2809,7 +2809,7 @@ func (fpv *TsEntryInternal_FieldTerminalPathValue) SetToRaw(target proto.Message
 func (fpv *TsEntryInternal_FieldTerminalPathValue) CompareWith(source *TsEntry_Internal) (int, bool) {
 	switch fpv.selector {
 	case TsEntryInternal_FieldPathSelectorAlertingLocation:
-		leftValue := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		leftValue := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 		rightValue := source.GetAlertingLocation()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -2937,7 +2937,7 @@ var _ TsEntryInternal_FieldPathArrayOfValues = (*TsEntryInternal_FieldTerminalPa
 func (fpaov *TsEntryInternal_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case TsEntryInternal_FieldPathSelectorAlertingLocation:
-		for _, v := range fpaov.values.([]policy.Policy_Spec_ProcessingLocation) {
+		for _, v := range fpaov.values.([]rcommon.PolicySpec_ProcessingLocation) {
 			values = append(values, v)
 		}
 	case TsEntryInternal_FieldPathSelectorSpecGeneration:
@@ -2947,8 +2947,8 @@ func (fpaov *TsEntryInternal_FieldTerminalPathArrayOfValues) GetRawValues() (val
 	}
 	return
 }
-func (fpaov *TsEntryInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpaov.values.([]policy.Policy_Spec_ProcessingLocation)
+func (fpaov *TsEntryInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpaov.values.([]rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 func (fpaov *TsEntryInternal_FieldTerminalPathArrayOfValues) AsSpecGenerationArrayOfValues() ([]int32, bool) {
@@ -4422,13 +4422,13 @@ func BuildTsEntryStateAdaptiveThresholdInfo_FieldPath(fp gotenobject.RawFieldPat
 	} else {
 		switch fp[0] {
 		case "lower":
-			if subpath, err := ts_condition.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower, subPath: subpath}, nil
 			}
 		case "upper":
-			if subpath, err := ts_condition.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper, subPath: subpath}, nil
@@ -4532,9 +4532,9 @@ func (fp *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath) GetDefault() inte
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorQueryName:
 		return ""
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		return (*ts_condition.AlertingThreshold)(nil)
+		return (*rcommon.AlertingThreshold)(nil)
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		return (*ts_condition.AlertingThreshold)(nil)
+		return (*rcommon.AlertingThreshold)(nil)
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorNextCheck:
 		return (*timestamppb.Timestamp)(nil)
 	default:
@@ -4578,9 +4578,9 @@ func (fp *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath) WithIValue(value 
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorQueryName:
 		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, value: value.(string)}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, value: value.(*ts_condition.AlertingThreshold)}
+		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, value: value.(*rcommon.AlertingThreshold)}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, value: value.(*ts_condition.AlertingThreshold)}
+		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, value: value.(*rcommon.AlertingThreshold)}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorNextCheck:
 		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, value: value.(*timestamppb.Timestamp)}
 	default:
@@ -4598,9 +4598,9 @@ func (fp *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath) WithIArrayOfValue
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorQueryName:
 		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, values: values.([]string)}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, values: values.([]*ts_condition.AlertingThreshold)}
+		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, values: values.([]*rcommon.AlertingThreshold)}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, values: values.([]*ts_condition.AlertingThreshold)}
+		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, values: values.([]*rcommon.AlertingThreshold)}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorNextCheck:
 		return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath: *fp, values: values.([]*timestamppb.Timestamp)}
 	default:
@@ -4634,12 +4634,12 @@ var _ TsEntryStateAdaptiveThresholdInfo_FieldPath = (*TsEntryStateAdaptiveThresh
 func (fps *TsEntryStateAdaptiveThresholdInfo_FieldSubPath) Selector() TsEntryStateAdaptiveThresholdInfo_FieldPathSelector {
 	return fps.selector
 }
-func (fps *TsEntryStateAdaptiveThresholdInfo_FieldSubPath) AsLowerSubPath() (ts_condition.AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(ts_condition.AlertingThreshold_FieldPath)
+func (fps *TsEntryStateAdaptiveThresholdInfo_FieldSubPath) AsLowerSubPath() (rcommon.AlertingThreshold_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.AlertingThreshold_FieldPath)
 	return res, ok
 }
-func (fps *TsEntryStateAdaptiveThresholdInfo_FieldSubPath) AsUpperSubPath() (ts_condition.AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(ts_condition.AlertingThreshold_FieldPath)
+func (fps *TsEntryStateAdaptiveThresholdInfo_FieldSubPath) AsUpperSubPath() (rcommon.AlertingThreshold_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.AlertingThreshold_FieldPath)
 	return res, ok
 }
 
@@ -4792,12 +4792,12 @@ func (fpv *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue) AsQueryName
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue) AsLowerValue() (*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpv.value.(*ts_condition.AlertingThreshold)
+func (fpv *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue) AsLowerValue() (*rcommon.AlertingThreshold, bool) {
+	res, ok := fpv.value.(*rcommon.AlertingThreshold)
 	return res, ok
 }
-func (fpv *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue) AsUpperValue() (*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpv.value.(*ts_condition.AlertingThreshold)
+func (fpv *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue) AsUpperValue() (*rcommon.AlertingThreshold, bool) {
+	res, ok := fpv.value.(*rcommon.AlertingThreshold)
 	return res, ok
 }
 func (fpv *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue) AsNextCheckValue() (*timestamppb.Timestamp, bool) {
@@ -4814,9 +4814,9 @@ func (fpv *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue) SetTo(targe
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorQueryName:
 		(*target).QueryName = fpv.value.(string)
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		(*target).Lower = fpv.value.(*ts_condition.AlertingThreshold)
+		(*target).Lower = fpv.value.(*rcommon.AlertingThreshold)
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		(*target).Upper = fpv.value.(*ts_condition.AlertingThreshold)
+		(*target).Upper = fpv.value.(*rcommon.AlertingThreshold)
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorNextCheck:
 		(*target).NextCheck = fpv.value.(*timestamppb.Timestamp)
 	default:
@@ -4881,12 +4881,12 @@ type TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue struct {
 
 var _ TsEntryStateAdaptiveThresholdInfo_FieldPathValue = (*TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue)(nil)
 
-func (fpvs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue) AsLowerPathValue() (ts_condition.AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue)
+func (fpvs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue) AsLowerPathValue() (rcommon.AlertingThreshold_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue)
 	return res, ok
 }
-func (fpvs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue) AsUpperPathValue() (ts_condition.AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue)
+func (fpvs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue) AsUpperPathValue() (rcommon.AlertingThreshold_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue)
 	return res, ok
 }
 
@@ -4896,9 +4896,9 @@ func (fpvs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue) SetTo(target **
 	}
 	switch fpvs.Selector() {
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).SetTo(&(*target).Lower)
+		fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).SetTo(&(*target).Lower)
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).SetTo(&(*target).Upper)
+		fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).SetTo(&(*target).Upper)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsEntry_State_AdaptiveThresholdInfo: %d", fpvs.Selector()))
 	}
@@ -4916,9 +4916,9 @@ func (fpvs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue) GetRawValue() i
 func (fpvs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue) CompareWith(source *TsEntry_State_AdaptiveThresholdInfo) (int, bool) {
 	switch fpvs.Selector() {
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		return fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).CompareWith(source.GetLower())
+		return fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).CompareWith(source.GetLower())
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		return fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).CompareWith(source.GetUpper())
+		return fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).CompareWith(source.GetUpper())
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsEntry_State_AdaptiveThresholdInfo: %d", fpvs.Selector()))
 	}
@@ -5001,12 +5001,12 @@ type TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue struct {
 func (fpaivs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue) AsLowerPathItemValue() (ts_condition.AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue)
+func (fpaivs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue) AsLowerPathItemValue() (rcommon.AlertingThreshold_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue) AsUpperPathItemValue() (ts_condition.AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue)
+func (fpaivs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue) AsUpperPathItemValue() (rcommon.AlertingThreshold_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -5014,9 +5014,9 @@ func (fpaivs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue) AsUp
 func (fpaivs *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue) ContainsValue(source *TsEntry_State_AdaptiveThresholdInfo) bool {
 	switch fpaivs.Selector() {
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		return fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetLower())
+		return fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetLower())
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		return fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetUpper())
+		return fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetUpper())
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsEntry_State_AdaptiveThresholdInfo: %d", fpaivs.Selector()))
 	}
@@ -5062,11 +5062,11 @@ func (fpaov *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues) G
 			values = append(values, v)
 		}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-		for _, v := range fpaov.values.([]*ts_condition.AlertingThreshold) {
+		for _, v := range fpaov.values.([]*rcommon.AlertingThreshold) {
 			values = append(values, v)
 		}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-		for _, v := range fpaov.values.([]*ts_condition.AlertingThreshold) {
+		for _, v := range fpaov.values.([]*rcommon.AlertingThreshold) {
 			values = append(values, v)
 		}
 	case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorNextCheck:
@@ -5080,12 +5080,12 @@ func (fpaov *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues) A
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues) AsLowerArrayOfValues() ([]*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*ts_condition.AlertingThreshold)
+func (fpaov *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues) AsLowerArrayOfValues() ([]*rcommon.AlertingThreshold, bool) {
+	res, ok := fpaov.values.([]*rcommon.AlertingThreshold)
 	return res, ok
 }
-func (fpaov *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues) AsUpperArrayOfValues() ([]*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*ts_condition.AlertingThreshold)
+func (fpaov *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues) AsUpperArrayOfValues() ([]*rcommon.AlertingThreshold, bool) {
+	res, ok := fpaov.values.([]*rcommon.AlertingThreshold)
 	return res, ok
 }
 func (fpaov *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues) AsNextCheckArrayOfValues() ([]*timestamppb.Timestamp, bool) {
@@ -5103,11 +5103,11 @@ var _ TsEntryStateAdaptiveThresholdInfo_FieldPathArrayOfValues = (*TsEntryStateA
 func (fpsaov *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues) AsLowerPathArrayOfValues() (ts_condition.AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ts_condition.AlertingThreshold_FieldPathArrayOfValues)
+func (fpsaov *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues) AsLowerPathArrayOfValues() (rcommon.AlertingThreshold_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.AlertingThreshold_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues) AsUpperPathArrayOfValues() (ts_condition.AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ts_condition.AlertingThreshold_FieldPathArrayOfValues)
+func (fpsaov *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues) AsUpperPathArrayOfValues() (rcommon.AlertingThreshold_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.AlertingThreshold_FieldPathArrayOfValues)
 	return res, ok
 }

@@ -7,10 +7,13 @@ package notification_msg
 // proto imports
 import (
 	alert "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/alert"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -42,8 +45,11 @@ var (
 	_ = &alert.Alert{}
 	_ = &document.Document{}
 	_ = &log_condition.LogCondition{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
+	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
@@ -1080,11 +1086,11 @@ func (NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTi
 	}
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -1139,11 +1145,11 @@ func (NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTi
 	}
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -1299,11 +1305,11 @@ func (NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRem
 	}
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -1324,11 +1330,11 @@ func (NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRem
 	}
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -1341,11 +1347,11 @@ func (NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRem
 	}
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorNewFiringAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -2320,11 +2326,11 @@ func (NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsV
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -2379,11 +2385,11 @@ func (NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsV
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -2539,11 +2545,11 @@ func (NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsA
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -2564,11 +2570,11 @@ func (NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsA
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -2581,11 +2587,11 @@ func (NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsA
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsEscalatedByAiToOperatorByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -3560,11 +3566,11 @@ func (NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByCon
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -3619,11 +3625,11 @@ func (NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByCon
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -3779,11 +3785,11 @@ func (NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByCon
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -3804,11 +3810,11 @@ func (NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByCon
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -3821,11 +3827,11 @@ func (NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByCon
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsAwaitingForApprovalWithAiRemediationByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -4800,11 +4806,11 @@ func (NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViola
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -4859,11 +4865,11 @@ func (NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViola
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -5019,11 +5025,11 @@ func (NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHan
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -5044,11 +5050,11 @@ func (NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHan
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -5061,11 +5067,11 @@ func (NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHan
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsFlaggedToIgnoreByAiByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -6040,11 +6046,11 @@ func (NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByCond
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -6099,11 +6105,11 @@ func (NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByCond
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -6259,11 +6265,11 @@ func (NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByCond
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -6284,11 +6290,11 @@ func (NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByCond
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -6301,11 +6307,11 @@ func (NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByCond
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithConditionMarkedForAdjustingByAiByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -7280,11 +7286,11 @@ func (NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlerts
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -7339,11 +7345,11 @@ func (NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlerts
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -7499,11 +7505,11 @@ func (NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlerts
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -7524,11 +7530,11 @@ func (NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlerts
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -7541,11 +7547,11 @@ func (NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlerts
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithAiRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -8520,11 +8526,11 @@ func (NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByCondition
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -8579,11 +8585,11 @@ func (NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByCondition
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -8739,11 +8745,11 @@ func (NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByCondition
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -8764,11 +8770,11 @@ func (NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByCondition
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -8781,11 +8787,11 @@ func (NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByCondition
 	}
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorAlertsWithOperatorRemediationAppliedByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -9760,11 +9766,11 @@ func (NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTime
 	}
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -9819,11 +9825,11 @@ func (NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTime
 	}
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -9979,11 +9985,11 @@ func (NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemed
 	}
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -10004,11 +10010,11 @@ func (NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemed
 	}
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -10021,11 +10027,11 @@ func (NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemed
 	}
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsg_FieldSubPathValue)
 }
 
-func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
+func (s NotificationMsgPathSelectorStoppedAlertsByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsg_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsg_FieldSubPathArrayOfValues)
 }
 
@@ -10987,11 +10993,11 @@ func (NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeS
 	}
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroup_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroup_FieldSubPathArrayOfValues)
 }
 
@@ -11046,11 +11052,11 @@ func (NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeS
 	}
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroup_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroup_FieldSubPathArrayOfValues)
 }
 
@@ -11206,11 +11212,11 @@ func (NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemedi
 	}
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroup_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroup_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroup_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroup_FieldSubPathArrayOfValues)
 }
 
@@ -11231,11 +11237,11 @@ func (NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemedi
 	}
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroup_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroup_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroup_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroup_FieldSubPathArrayOfValues)
 }
 
@@ -11248,11 +11254,11 @@ func (NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemedi
 	}
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroup_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroup_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroup_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroupPathSelectorByConditionAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroup_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroup_FieldSubPathArrayOfValues)
 }
 
@@ -12212,11 +12218,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfo
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues)
 }
 
@@ -12271,11 +12277,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfo
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues)
 }
 
@@ -12431,11 +12437,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiR
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues)
 }
 
@@ -12456,11 +12462,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiR
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues)
 }
 
@@ -12473,11 +12479,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiR
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlertsPathSelectorAlertsAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlerts_FieldSubPathArrayOfValues)
 }
 
@@ -13344,11 +13350,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfo
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues)
 }
 
@@ -13403,11 +13409,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfo
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorViolationInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues)
 }
 
@@ -13573,11 +13579,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiR
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues)
 }
 
@@ -13598,11 +13604,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiR
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues)
 }
 
@@ -13615,11 +13621,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiR
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_AlertPathSelectorAiHandlingAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlert_FieldSubPathArrayOfValues)
 }
 
@@ -14156,11 +14162,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelecto
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathArrayOfValues)
 }
 
@@ -14215,11 +14221,11 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelecto
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfoPathSelectorTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfo_FieldSubPathArrayOfValues)
 }
 
@@ -14334,27 +14340,27 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAi
 	return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues)
 }
 
-func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubPath(subPath policy.PolicySpecAIAgentHandlingRemediation_FieldPath) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath {
+func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubPath(subPath rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation, subPath: subPath}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubValue(subPathValue policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubValue(subPathValue rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubArrayOfValues(subPathArrayOfValues policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubArrayOfValues(subPathArrayOfValues rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubArrayItemValue(subPathArrayItemValue policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayItemValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediation) WithSubArrayItemValue(subPathArrayItemValue rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayItemValue {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayItemValue{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -14371,15 +14377,15 @@ type NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiR
 func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationFixInSsh) FieldPath() *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath{
 		selector: NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation,
-		subPath:  policy.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().FixInSsh().FieldPath(),
+		subPath:  rcommon.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().FixInSsh().FieldPath(),
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues)
 }
 
@@ -14388,15 +14394,15 @@ type NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiR
 func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationReboot) FieldPath() *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath{
 		selector: NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation,
-		subPath:  policy.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().Reboot().FieldPath(),
+		subPath:  rcommon.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().Reboot().FieldPath(),
 	}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandlingPathSelectorAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues)
 }
 
@@ -14513,27 +14519,27 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues)
 }
 
-func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubPath(subPath ts_condition.AlertingThreshold_FieldPath) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
+func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubPath(subPath rcommon.AlertingThreshold_FieldPath) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold, subPath: subPath}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubValue(subPathValue ts_condition.AlertingThreshold_FieldPathValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubValue(subPathValue rcommon.AlertingThreshold_FieldPathValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayOfValues(subPathArrayOfValues ts_condition.AlertingThreshold_FieldPathArrayOfValues) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayOfValues(subPathArrayOfValues rcommon.AlertingThreshold_FieldPathArrayOfValues) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayItemValue(subPathArrayItemValue ts_condition.AlertingThreshold_FieldPathArrayItemValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayItemValue(subPathArrayItemValue rcommon.AlertingThreshold_FieldPathArrayItemValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -14550,7 +14556,7 @@ type NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesP
 func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThresholdValue) FieldPath() *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{
 		selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
@@ -14567,7 +14573,7 @@ type NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesP
 func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorUpperThresholdIsInclusive) FieldPath() *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{
 		selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 
@@ -14585,27 +14591,27 @@ func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue)
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues)
 }
 
-func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubPath(subPath ts_condition.AlertingThreshold_FieldPath) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
+func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubPath(subPath rcommon.AlertingThreshold_FieldPath) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold, subPath: subPath}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubValue(subPathValue ts_condition.AlertingThreshold_FieldPathValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubValue(subPathValue rcommon.AlertingThreshold_FieldPathValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayOfValues(subPathArrayOfValues ts_condition.AlertingThreshold_FieldPathArrayOfValues) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayOfValues(subPathArrayOfValues rcommon.AlertingThreshold_FieldPathArrayOfValues) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayItemValue(subPathArrayItemValue ts_condition.AlertingThreshold_FieldPathArrayItemValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue {
+func (s NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayItemValue(subPathArrayItemValue rcommon.AlertingThreshold_FieldPathArrayItemValue) *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -14622,7 +14628,7 @@ type NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesP
 func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThresholdValue) FieldPath() *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{
 		selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
@@ -14639,7 +14645,7 @@ type NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesP
 func (NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeriesPathSelectorLowerThresholdIsInclusive) FieldPath() *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath {
 	return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{
 		selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 

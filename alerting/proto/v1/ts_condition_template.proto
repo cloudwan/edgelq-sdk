@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ntt.alerting.v1;
 
-import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/specs.proto";
 import "google/api/resource.proto";
 import "goten-sdk/types/meta.proto";
 
@@ -46,5 +46,5 @@ message TsConditionTemplate {
   repeated string supporting_docs = 5;
 
   // Pre defined template for TsCondition.Spec.
-  TsCondition.Spec spec_template = 6;
+  TsCndSpec spec_template = 6;
 }

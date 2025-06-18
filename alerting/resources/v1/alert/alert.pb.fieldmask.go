@@ -19,9 +19,9 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
@@ -46,7 +46,7 @@ var (
 var (
 	_ = &log_condition.LogCondition{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
@@ -1137,11 +1137,11 @@ func (fieldMask *Alert_State_FieldMask) Subtract(other *Alert_State_FieldMask) *
 	removedSelectors := make([]bool, 14)
 	otherSubMasks := map[AlertState_FieldPathSelector]gotenobject.FieldMask{
 		AlertState_FieldPathSelectorNotificationStatuses: &Alert_State_Notification_FieldMask{},
-		AlertState_FieldPathSelectorAiRemediation:        &policy.Policy_Spec_AIAgentHandling_Remediation_FieldMask{},
+		AlertState_FieldPathSelectorAiRemediation:        &rcommon.PolicySpec_AIAgentHandling_Remediation_FieldMask{},
 	}
 	mySubMasks := map[AlertState_FieldPathSelector]gotenobject.FieldMask{
 		AlertState_FieldPathSelectorNotificationStatuses: &Alert_State_Notification_FieldMask{},
-		AlertState_FieldPathSelectorAiRemediation:        &policy.Policy_Spec_AIAgentHandling_Remediation_FieldMask{},
+		AlertState_FieldPathSelectorAiRemediation:        &rcommon.PolicySpec_AIAgentHandling_Remediation_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1160,7 +1160,7 @@ func (fieldMask *Alert_State_FieldMask) Subtract(other *Alert_State_FieldMask) *
 					case AlertState_FieldPathSelectorNotificationStatuses:
 						mySubMasks[AlertState_FieldPathSelectorNotificationStatuses] = FullAlert_State_Notification_FieldMask()
 					case AlertState_FieldPathSelectorAiRemediation:
-						mySubMasks[AlertState_FieldPathSelectorAiRemediation] = policy.FullPolicy_Spec_AIAgentHandling_Remediation_FieldMask()
+						mySubMasks[AlertState_FieldPathSelectorAiRemediation] = rcommon.FullPolicySpec_AIAgentHandling_Remediation_FieldMask()
 					}
 				} else if tp, ok := path.(*AlertState_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1324,7 +1324,7 @@ func (fieldMask *Alert_State_FieldMask) Project(source *Alert_State) *Alert_Stat
 	result := &Alert_State{}
 	notificationStatusesMask := &Alert_State_Notification_FieldMask{}
 	wholeNotificationStatusesAccepted := false
-	aiRemediationMask := &policy.Policy_Spec_AIAgentHandling_Remediation_FieldMask{}
+	aiRemediationMask := &rcommon.PolicySpec_AIAgentHandling_Remediation_FieldMask{}
 	wholeAiRemediationAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -1367,7 +1367,7 @@ func (fieldMask *Alert_State_FieldMask) Project(source *Alert_State) *Alert_Stat
 			case AlertState_FieldPathSelectorNotificationStatuses:
 				notificationStatusesMask.AppendPath(tp.subPath.(AlertStateNotification_FieldPath))
 			case AlertState_FieldPathSelectorAiRemediation:
-				aiRemediationMask.AppendPath(tp.subPath.(policy.PolicySpecAIAgentHandlingRemediation_FieldPath))
+				aiRemediationMask.AppendPath(tp.subPath.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath))
 			}
 		}
 	}
@@ -1684,12 +1684,12 @@ func (fieldMask *Alert_TsInfo_TimeSeries_FieldMask) Subtract(other *Alert_TsInfo
 	result := &Alert_TsInfo_TimeSeries_FieldMask{}
 	removedSelectors := make([]bool, 7)
 	otherSubMasks := map[AlertTsInfoTimeSeries_FieldPathSelector]gotenobject.FieldMask{
-		AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold: &ts_condition.AlertingThreshold_FieldMask{},
-		AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold: &ts_condition.AlertingThreshold_FieldMask{},
+		AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold: &rcommon.AlertingThreshold_FieldMask{},
+		AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold: &rcommon.AlertingThreshold_FieldMask{},
 	}
 	mySubMasks := map[AlertTsInfoTimeSeries_FieldPathSelector]gotenobject.FieldMask{
-		AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold: &ts_condition.AlertingThreshold_FieldMask{},
-		AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold: &ts_condition.AlertingThreshold_FieldMask{},
+		AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold: &rcommon.AlertingThreshold_FieldMask{},
+		AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold: &rcommon.AlertingThreshold_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1706,9 +1706,9 @@ func (fieldMask *Alert_TsInfo_TimeSeries_FieldMask) Subtract(other *Alert_TsInfo
 				if tp, ok := path.(*AlertTsInfoTimeSeries_FieldTerminalPath); ok {
 					switch tp.selector {
 					case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-						mySubMasks[AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold] = ts_condition.FullAlertingThreshold_FieldMask()
+						mySubMasks[AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold] = rcommon.FullAlertingThreshold_FieldMask()
 					case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-						mySubMasks[AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold] = ts_condition.FullAlertingThreshold_FieldMask()
+						mySubMasks[AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold] = rcommon.FullAlertingThreshold_FieldMask()
 					}
 				} else if tp, ok := path.(*AlertTsInfoTimeSeries_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1861,9 +1861,9 @@ func (fieldMask *Alert_TsInfo_TimeSeries_FieldMask) Project(source *Alert_TsInfo
 		return source
 	}
 	result := &Alert_TsInfo_TimeSeries{}
-	upperThresholdMask := &ts_condition.AlertingThreshold_FieldMask{}
+	upperThresholdMask := &rcommon.AlertingThreshold_FieldMask{}
 	wholeUpperThresholdAccepted := false
-	lowerThresholdMask := &ts_condition.AlertingThreshold_FieldMask{}
+	lowerThresholdMask := &rcommon.AlertingThreshold_FieldMask{}
 	wholeLowerThresholdAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -1890,9 +1890,9 @@ func (fieldMask *Alert_TsInfo_TimeSeries_FieldMask) Project(source *Alert_TsInfo
 		case *AlertTsInfoTimeSeries_FieldSubPath:
 			switch tp.selector {
 			case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-				upperThresholdMask.AppendPath(tp.subPath.(ts_condition.AlertingThreshold_FieldPath))
+				upperThresholdMask.AppendPath(tp.subPath.(rcommon.AlertingThreshold_FieldPath))
 			case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-				lowerThresholdMask.AppendPath(tp.subPath.(ts_condition.AlertingThreshold_FieldPath))
+				lowerThresholdMask.AppendPath(tp.subPath.(rcommon.AlertingThreshold_FieldPath))
 			}
 		}
 	}

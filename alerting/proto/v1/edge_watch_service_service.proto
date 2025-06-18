@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/edge_watch_service_custom.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/client/v1/edge_watch_service;edge_watch_service_client";
+option java_multiple_files = false;
+option java_outer_classname = "EdgeWatchServiceServiceProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// EdgeWatchService service API for Alerting
+service EdgeWatchServiceService {
+  option (google.api.default_host) = "alerting.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // WatchAlertData
+  rpc WatchAlertData(WatchAlertDataRequest)
+      returns (stream WatchAlertDataResponse) {
+    option (google.api.http) = {
+      post : "/v1:watchAlertData"
+    };
+  }
+}

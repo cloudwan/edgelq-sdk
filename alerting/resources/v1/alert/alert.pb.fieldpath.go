@@ -23,9 +23,9 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
@@ -54,7 +54,7 @@ var (
 var (
 	_ = &log_condition.LogCondition{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
@@ -3114,7 +3114,7 @@ func BuildAlertState_FieldPath(fp gotenobject.RawFieldPath) (AlertState_FieldPat
 				return &AlertState_FieldSubPath{selector: AlertState_FieldPathSelectorNotificationStatuses, subPath: subpath}, nil
 			}
 		case "ai_remediation", "aiRemediation", "ai-remediation":
-			if subpath, err := policy.BuildPolicySpecAIAgentHandlingRemediation_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildPolicySpecAIAgentHandlingRemediation_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertState_FieldSubPath{selector: AlertState_FieldPathSelectorAiRemediation, subPath: subpath}, nil
@@ -3283,7 +3283,7 @@ func (fp *AlertState_FieldTerminalPath) GetDefault() interface{} {
 	case AlertState_FieldPathSelectorAiRemediationArg:
 		return ""
 	case AlertState_FieldPathSelectorAiRemediation:
-		return (*policy.Policy_Spec_AIAgentHandling_Remediation)(nil)
+		return (*rcommon.PolicySpec_AIAgentHandling_Remediation)(nil)
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return Alert_State_OP_NOT_INVOLVED
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3379,7 +3379,7 @@ func (fp *AlertState_FieldTerminalPath) WithIValue(value interface{}) AlertState
 	case AlertState_FieldPathSelectorAiRemediationArg:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(string)}
 	case AlertState_FieldPathSelectorAiRemediation:
-		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(*policy.Policy_Spec_AIAgentHandling_Remediation)}
+		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)}
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return &AlertState_FieldTerminalPathValue{AlertState_FieldTerminalPath: *fp, value: value.(Alert_State_OperatorHandlingState)}
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3419,7 +3419,7 @@ func (fp *AlertState_FieldTerminalPath) WithIArrayOfValues(values interface{}) A
 	case AlertState_FieldPathSelectorAiRemediationArg:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]string)}
 	case AlertState_FieldPathSelectorAiRemediation:
-		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]*policy.Policy_Spec_AIAgentHandling_Remediation)}
+		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation)}
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		return &AlertState_FieldTerminalPathArrayOfValues{AlertState_FieldTerminalPath: *fp, values: values.([]Alert_State_OperatorHandlingState)}
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3465,8 +3465,8 @@ func (fps *AlertState_FieldSubPath) AsNotificationStatusesSubPath() (AlertStateN
 	res, ok := fps.subPath.(AlertStateNotification_FieldPath)
 	return res, ok
 }
-func (fps *AlertState_FieldSubPath) AsAiRemediationSubPath() (policy.PolicySpecAIAgentHandlingRemediation_FieldPath, bool) {
-	res, ok := fps.subPath.(policy.PolicySpecAIAgentHandlingRemediation_FieldPath)
+func (fps *AlertState_FieldSubPath) AsAiRemediationSubPath() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath)
 	return res, ok
 }
 
@@ -3655,8 +3655,8 @@ func (fpv *AlertState_FieldTerminalPathValue) AsAiRemediationArgValue() (string,
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *AlertState_FieldTerminalPathValue) AsAiRemediationValue() (*policy.Policy_Spec_AIAgentHandling_Remediation, bool) {
-	res, ok := fpv.value.(*policy.Policy_Spec_AIAgentHandling_Remediation)
+func (fpv *AlertState_FieldTerminalPathValue) AsAiRemediationValue() (*rcommon.PolicySpec_AIAgentHandling_Remediation, bool) {
+	res, ok := fpv.value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)
 	return res, ok
 }
 func (fpv *AlertState_FieldTerminalPathValue) AsOperatorHandlingStateValue() (Alert_State_OperatorHandlingState, bool) {
@@ -3701,7 +3701,7 @@ func (fpv *AlertState_FieldTerminalPathValue) SetTo(target **Alert_State) {
 	case AlertState_FieldPathSelectorAiRemediationArg:
 		(*target).AiRemediationArg = fpv.value.(string)
 	case AlertState_FieldPathSelectorAiRemediation:
-		(*target).AiRemediation = fpv.value.(*policy.Policy_Spec_AIAgentHandling_Remediation)
+		(*target).AiRemediation = fpv.value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)
 	case AlertState_FieldPathSelectorOperatorHandlingState:
 		(*target).OperatorHandlingState = fpv.value.(Alert_State_OperatorHandlingState)
 	case AlertState_FieldPathSelectorOperatorLastStateChangeTime:
@@ -3903,8 +3903,8 @@ func (fpvs *AlertState_FieldSubPathValue) AsNotificationStatusesPathValue() (Ale
 	res, ok := fpvs.subPathValue.(AlertStateNotification_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AlertState_FieldSubPathValue) AsAiRemediationPathValue() (policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue)
+func (fpvs *AlertState_FieldSubPathValue) AsAiRemediationPathValue() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue)
 	return res, ok
 }
 
@@ -3916,7 +3916,7 @@ func (fpvs *AlertState_FieldSubPathValue) SetTo(target **Alert_State) {
 	case AlertState_FieldPathSelectorNotificationStatuses:
 		panic("FieldPath setter is unsupported for array subpaths")
 	case AlertState_FieldPathSelectorAiRemediation:
-		fpvs.subPathValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue).SetTo(&(*target).AiRemediation)
+		fpvs.subPathValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue).SetTo(&(*target).AiRemediation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpvs.Selector()))
 	}
@@ -3936,7 +3936,7 @@ func (fpvs *AlertState_FieldSubPathValue) CompareWith(source *Alert_State) (int,
 	case AlertState_FieldPathSelectorNotificationStatuses:
 		return 0, false // repeated field
 	case AlertState_FieldPathSelectorAiRemediation:
-		return fpvs.subPathValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue).CompareWith(source.GetAiRemediation())
+		return fpvs.subPathValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue).CompareWith(source.GetAiRemediation())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpvs.Selector()))
 	}
@@ -4027,8 +4027,8 @@ func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsNotificationStatusesPathI
 	res, ok := fpaivs.subPathItemValue.(AlertStateNotification_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsAiRemediationPathItemValue() (policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue)
+func (fpaivs *AlertState_FieldSubPathArrayItemValue) AsAiRemediationPathItemValue() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -4038,7 +4038,7 @@ func (fpaivs *AlertState_FieldSubPathArrayItemValue) ContainsValue(source *Alert
 	case AlertState_FieldPathSelectorNotificationStatuses:
 		return false // repeated/map field
 	case AlertState_FieldPathSelectorAiRemediation:
-		return fpaivs.subPathItemValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue).ContainsValue(source.GetAiRemediation())
+		return fpaivs.subPathItemValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue).ContainsValue(source.GetAiRemediation())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_State: %d", fpaivs.Selector()))
 	}
@@ -4116,7 +4116,7 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 			values = append(values, v)
 		}
 	case AlertState_FieldPathSelectorAiRemediation:
-		for _, v := range fpaov.values.([]*policy.Policy_Spec_AIAgentHandling_Remediation) {
+		for _, v := range fpaov.values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation) {
 			values = append(values, v)
 		}
 	case AlertState_FieldPathSelectorOperatorHandlingState:
@@ -4174,8 +4174,8 @@ func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsAiRemediationArgArrayO
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsAiRemediationArrayOfValues() ([]*policy.Policy_Spec_AIAgentHandling_Remediation, bool) {
-	res, ok := fpaov.values.([]*policy.Policy_Spec_AIAgentHandling_Remediation)
+func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsAiRemediationArrayOfValues() ([]*rcommon.PolicySpec_AIAgentHandling_Remediation, bool) {
+	res, ok := fpaov.values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation)
 	return res, ok
 }
 func (fpaov *AlertState_FieldTerminalPathArrayOfValues) AsOperatorHandlingStateArrayOfValues() ([]Alert_State_OperatorHandlingState, bool) {
@@ -4209,8 +4209,8 @@ func (fpsaov *AlertState_FieldSubPathArrayOfValues) AsNotificationStatusesPathAr
 	res, ok := fpsaov.subPathArrayOfValues.(AlertStateNotification_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *AlertState_FieldSubPathArrayOfValues) AsAiRemediationPathArrayOfValues() (policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues)
+func (fpsaov *AlertState_FieldSubPathArrayOfValues) AsAiRemediationPathArrayOfValues() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -4329,7 +4329,7 @@ func (fp *AlertInternal_FieldTerminalPath) GetSingleRaw(source proto.Message) (i
 func (fp *AlertInternal_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case AlertInternal_FieldPathSelectorAlertingLocation:
-		return policy.Policy_Spec_UNDEFINED
+		return rcommon.PolicySpec_UNDEFINED
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Internal: %d", fp.selector))
 	}
@@ -4339,7 +4339,7 @@ func (fp *AlertInternal_FieldTerminalPath) ClearValue(item *Alert_Internal) {
 	if item != nil {
 		switch fp.selector {
 		case AlertInternal_FieldPathSelectorAlertingLocation:
-			item.AlertingLocation = policy.Policy_Spec_UNDEFINED
+			item.AlertingLocation = rcommon.PolicySpec_UNDEFINED
 		default:
 			panic(fmt.Sprintf("Invalid selector for Alert_Internal: %d", fp.selector))
 		}
@@ -4362,7 +4362,7 @@ func (fp *AlertInternal_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobje
 func (fp *AlertInternal_FieldTerminalPath) WithIValue(value interface{}) AlertInternal_FieldPathValue {
 	switch fp.selector {
 	case AlertInternal_FieldPathSelectorAlertingLocation:
-		return &AlertInternal_FieldTerminalPathValue{AlertInternal_FieldTerminalPath: *fp, value: value.(policy.Policy_Spec_ProcessingLocation)}
+		return &AlertInternal_FieldTerminalPathValue{AlertInternal_FieldTerminalPath: *fp, value: value.(rcommon.PolicySpec_ProcessingLocation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Internal: %d", fp.selector))
 	}
@@ -4376,7 +4376,7 @@ func (fp *AlertInternal_FieldTerminalPath) WithIArrayOfValues(values interface{}
 	fpaov := &AlertInternal_FieldTerminalPathArrayOfValues{AlertInternal_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case AlertInternal_FieldPathSelectorAlertingLocation:
-		return &AlertInternal_FieldTerminalPathArrayOfValues{AlertInternal_FieldTerminalPath: *fp, values: values.([]policy.Policy_Spec_ProcessingLocation)}
+		return &AlertInternal_FieldTerminalPathArrayOfValues{AlertInternal_FieldTerminalPath: *fp, values: values.([]rcommon.PolicySpec_ProcessingLocation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Internal: %d", fp.selector))
 	}
@@ -4437,8 +4437,8 @@ var _ AlertInternal_FieldPathValue = (*AlertInternal_FieldTerminalPathValue)(nil
 func (fpv *AlertInternal_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *AlertInternal_FieldTerminalPathValue) AsAlertingLocationValue() (policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+func (fpv *AlertInternal_FieldTerminalPathValue) AsAlertingLocationValue() (rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 
@@ -4449,7 +4449,7 @@ func (fpv *AlertInternal_FieldTerminalPathValue) SetTo(target **Alert_Internal) 
 	}
 	switch fpv.selector {
 	case AlertInternal_FieldPathSelectorAlertingLocation:
-		(*target).AlertingLocation = fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		(*target).AlertingLocation = fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_Internal: %d", fpv.selector))
 	}
@@ -4464,7 +4464,7 @@ func (fpv *AlertInternal_FieldTerminalPathValue) SetToRaw(target proto.Message) 
 func (fpv *AlertInternal_FieldTerminalPathValue) CompareWith(source *Alert_Internal) (int, bool) {
 	switch fpv.selector {
 	case AlertInternal_FieldPathSelectorAlertingLocation:
-		leftValue := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		leftValue := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 		rightValue := source.GetAlertingLocation()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -4582,14 +4582,14 @@ var _ AlertInternal_FieldPathArrayOfValues = (*AlertInternal_FieldTerminalPathAr
 func (fpaov *AlertInternal_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case AlertInternal_FieldPathSelectorAlertingLocation:
-		for _, v := range fpaov.values.([]policy.Policy_Spec_ProcessingLocation) {
+		for _, v := range fpaov.values.([]rcommon.PolicySpec_ProcessingLocation) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *AlertInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpaov.values.([]policy.Policy_Spec_ProcessingLocation)
+func (fpaov *AlertInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpaov.values.([]rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 
@@ -4666,13 +4666,13 @@ func BuildAlertTsInfoTimeSeries_FieldPath(fp gotenobject.RawFieldPath) (AlertTsI
 	} else {
 		switch fp[0] {
 		case "upper_threshold", "upperThreshold", "upper-threshold":
-			if subpath, err := ts_condition.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertTsInfoTimeSeries_FieldSubPath{selector: AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold, subPath: subpath}, nil
 			}
 		case "lower_threshold", "lowerThreshold", "lower-threshold":
-			if subpath, err := ts_condition.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &AlertTsInfoTimeSeries_FieldSubPath{selector: AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold, subPath: subpath}, nil
@@ -4798,9 +4798,9 @@ func (fp *AlertTsInfoTimeSeries_FieldTerminalPath) GetDefault() interface{} {
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalies:
 		return ([]float64)(nil)
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return (*ts_condition.AlertingThreshold)(nil)
+		return (*rcommon.AlertingThreshold)(nil)
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return (*ts_condition.AlertingThreshold)(nil)
+		return (*rcommon.AlertingThreshold)(nil)
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalyThreshold:
 		return float64(0)
 	case AlertTsInfoTimeSeries_FieldPathSelectorAfterDuration:
@@ -4859,9 +4859,9 @@ func (fp *AlertTsInfoTimeSeries_FieldTerminalPath) WithIValue(value interface{})
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalies:
 		return &AlertTsInfoTimeSeries_FieldTerminalPathValue{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, value: value.([]float64)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return &AlertTsInfoTimeSeries_FieldTerminalPathValue{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*ts_condition.AlertingThreshold)}
+		return &AlertTsInfoTimeSeries_FieldTerminalPathValue{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*rcommon.AlertingThreshold)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return &AlertTsInfoTimeSeries_FieldTerminalPathValue{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*ts_condition.AlertingThreshold)}
+		return &AlertTsInfoTimeSeries_FieldTerminalPathValue{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*rcommon.AlertingThreshold)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalyThreshold:
 		return &AlertTsInfoTimeSeries_FieldTerminalPathValue{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, value: value.(float64)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorAfterDuration:
@@ -4885,9 +4885,9 @@ func (fp *AlertTsInfoTimeSeries_FieldTerminalPath) WithIArrayOfValues(values int
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalies:
 		return &AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, values: values.([][]float64)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return &AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*ts_condition.AlertingThreshold)}
+		return &AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*rcommon.AlertingThreshold)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return &AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*ts_condition.AlertingThreshold)}
+		return &AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*rcommon.AlertingThreshold)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalyThreshold:
 		return &AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues{AlertTsInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]float64)}
 	case AlertTsInfoTimeSeries_FieldPathSelectorAfterDuration:
@@ -4927,12 +4927,12 @@ var _ AlertTsInfoTimeSeries_FieldPath = (*AlertTsInfoTimeSeries_FieldSubPath)(ni
 func (fps *AlertTsInfoTimeSeries_FieldSubPath) Selector() AlertTsInfoTimeSeries_FieldPathSelector {
 	return fps.selector
 }
-func (fps *AlertTsInfoTimeSeries_FieldSubPath) AsUpperThresholdSubPath() (ts_condition.AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(ts_condition.AlertingThreshold_FieldPath)
+func (fps *AlertTsInfoTimeSeries_FieldSubPath) AsUpperThresholdSubPath() (rcommon.AlertingThreshold_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.AlertingThreshold_FieldPath)
 	return res, ok
 }
-func (fps *AlertTsInfoTimeSeries_FieldSubPath) AsLowerThresholdSubPath() (ts_condition.AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(ts_condition.AlertingThreshold_FieldPath)
+func (fps *AlertTsInfoTimeSeries_FieldSubPath) AsLowerThresholdSubPath() (rcommon.AlertingThreshold_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.AlertingThreshold_FieldPath)
 	return res, ok
 }
 
@@ -5093,12 +5093,12 @@ func (fpv *AlertTsInfoTimeSeries_FieldTerminalPathValue) AsAnomaliesValue() ([]f
 	res, ok := fpv.value.([]float64)
 	return res, ok
 }
-func (fpv *AlertTsInfoTimeSeries_FieldTerminalPathValue) AsUpperThresholdValue() (*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpv.value.(*ts_condition.AlertingThreshold)
+func (fpv *AlertTsInfoTimeSeries_FieldTerminalPathValue) AsUpperThresholdValue() (*rcommon.AlertingThreshold, bool) {
+	res, ok := fpv.value.(*rcommon.AlertingThreshold)
 	return res, ok
 }
-func (fpv *AlertTsInfoTimeSeries_FieldTerminalPathValue) AsLowerThresholdValue() (*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpv.value.(*ts_condition.AlertingThreshold)
+func (fpv *AlertTsInfoTimeSeries_FieldTerminalPathValue) AsLowerThresholdValue() (*rcommon.AlertingThreshold, bool) {
+	res, ok := fpv.value.(*rcommon.AlertingThreshold)
 	return res, ok
 }
 func (fpv *AlertTsInfoTimeSeries_FieldTerminalPathValue) AsAnomalyThresholdValue() (float64, bool) {
@@ -5123,9 +5123,9 @@ func (fpv *AlertTsInfoTimeSeries_FieldTerminalPathValue) SetTo(target **Alert_Ts
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalies:
 		(*target).Anomalies = fpv.value.([]float64)
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		(*target).UpperThreshold = fpv.value.(*ts_condition.AlertingThreshold)
+		(*target).UpperThreshold = fpv.value.(*rcommon.AlertingThreshold)
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		(*target).LowerThreshold = fpv.value.(*ts_condition.AlertingThreshold)
+		(*target).LowerThreshold = fpv.value.(*rcommon.AlertingThreshold)
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalyThreshold:
 		(*target).AnomalyThreshold = fpv.value.(float64)
 	case AlertTsInfoTimeSeries_FieldPathSelectorAfterDuration:
@@ -5206,12 +5206,12 @@ type AlertTsInfoTimeSeries_FieldSubPathValue struct {
 
 var _ AlertTsInfoTimeSeries_FieldPathValue = (*AlertTsInfoTimeSeries_FieldSubPathValue)(nil)
 
-func (fpvs *AlertTsInfoTimeSeries_FieldSubPathValue) AsUpperThresholdPathValue() (ts_condition.AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue)
+func (fpvs *AlertTsInfoTimeSeries_FieldSubPathValue) AsUpperThresholdPathValue() (rcommon.AlertingThreshold_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue)
 	return res, ok
 }
-func (fpvs *AlertTsInfoTimeSeries_FieldSubPathValue) AsLowerThresholdPathValue() (ts_condition.AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue)
+func (fpvs *AlertTsInfoTimeSeries_FieldSubPathValue) AsLowerThresholdPathValue() (rcommon.AlertingThreshold_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue)
 	return res, ok
 }
 
@@ -5221,9 +5221,9 @@ func (fpvs *AlertTsInfoTimeSeries_FieldSubPathValue) SetTo(target **Alert_TsInfo
 	}
 	switch fpvs.Selector() {
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).SetTo(&(*target).UpperThreshold)
+		fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).SetTo(&(*target).UpperThreshold)
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).SetTo(&(*target).LowerThreshold)
+		fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).SetTo(&(*target).LowerThreshold)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_TsInfo_TimeSeries: %d", fpvs.Selector()))
 	}
@@ -5241,9 +5241,9 @@ func (fpvs *AlertTsInfoTimeSeries_FieldSubPathValue) GetRawValue() interface{} {
 func (fpvs *AlertTsInfoTimeSeries_FieldSubPathValue) CompareWith(source *Alert_TsInfo_TimeSeries) (int, bool) {
 	switch fpvs.Selector() {
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).CompareWith(source.GetUpperThreshold())
+		return fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).CompareWith(source.GetUpperThreshold())
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).CompareWith(source.GetLowerThreshold())
+		return fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).CompareWith(source.GetLowerThreshold())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_TsInfo_TimeSeries: %d", fpvs.Selector()))
 	}
@@ -5334,12 +5334,12 @@ type AlertTsInfoTimeSeries_FieldSubPathArrayItemValue struct {
 func (fpaivs *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue) AsUpperThresholdPathItemValue() (ts_condition.AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue)
+func (fpaivs *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue) AsUpperThresholdPathItemValue() (rcommon.AlertingThreshold_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue) AsLowerThresholdPathItemValue() (ts_condition.AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue)
+func (fpaivs *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue) AsLowerThresholdPathItemValue() (rcommon.AlertingThreshold_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -5347,9 +5347,9 @@ func (fpaivs *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue) AsLowerThreshold
 func (fpaivs *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue) ContainsValue(source *Alert_TsInfo_TimeSeries) bool {
 	switch fpaivs.Selector() {
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetUpperThreshold())
+		return fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetUpperThreshold())
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetLowerThreshold())
+		return fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetLowerThreshold())
 	default:
 		panic(fmt.Sprintf("Invalid selector for Alert_TsInfo_TimeSeries: %d", fpaivs.Selector()))
 	}
@@ -5403,11 +5403,11 @@ func (fpaov *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues) GetRawValues(
 			values = append(values, v)
 		}
 	case AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		for _, v := range fpaov.values.([]*ts_condition.AlertingThreshold) {
+		for _, v := range fpaov.values.([]*rcommon.AlertingThreshold) {
 			values = append(values, v)
 		}
 	case AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		for _, v := range fpaov.values.([]*ts_condition.AlertingThreshold) {
+		for _, v := range fpaov.values.([]*rcommon.AlertingThreshold) {
 			values = append(values, v)
 		}
 	case AlertTsInfoTimeSeries_FieldPathSelectorAnomalyThreshold:
@@ -5433,12 +5433,12 @@ func (fpaov *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues) AsAnomaliesAr
 	res, ok := fpaov.values.([][]float64)
 	return res, ok
 }
-func (fpaov *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues) AsUpperThresholdArrayOfValues() ([]*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*ts_condition.AlertingThreshold)
+func (fpaov *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues) AsUpperThresholdArrayOfValues() ([]*rcommon.AlertingThreshold, bool) {
+	res, ok := fpaov.values.([]*rcommon.AlertingThreshold)
 	return res, ok
 }
-func (fpaov *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues) AsLowerThresholdArrayOfValues() ([]*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*ts_condition.AlertingThreshold)
+func (fpaov *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues) AsLowerThresholdArrayOfValues() ([]*rcommon.AlertingThreshold, bool) {
+	res, ok := fpaov.values.([]*rcommon.AlertingThreshold)
 	return res, ok
 }
 func (fpaov *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues) AsAnomalyThresholdArrayOfValues() ([]float64, bool) {
@@ -5460,12 +5460,12 @@ var _ AlertTsInfoTimeSeries_FieldPathArrayOfValues = (*AlertTsInfoTimeSeries_Fie
 func (fpsaov *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues) AsUpperThresholdPathArrayOfValues() (ts_condition.AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ts_condition.AlertingThreshold_FieldPathArrayOfValues)
+func (fpsaov *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues) AsUpperThresholdPathArrayOfValues() (rcommon.AlertingThreshold_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.AlertingThreshold_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues) AsLowerThresholdPathArrayOfValues() (ts_condition.AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ts_condition.AlertingThreshold_FieldPathArrayOfValues)
+func (fpsaov *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues) AsLowerThresholdPathArrayOfValues() (rcommon.AlertingThreshold_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.AlertingThreshold_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -5596,7 +5596,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) GetSingleRaw(source proto.Me
 func (fp *AlertStateNotification_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		return policy.Policy_Spec_Notification_UNDEFINED
+		return rcommon.PolicySpec_Notification_UNDEFINED
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		return ([]*notification_channel.Reference)(nil)
 	default:
@@ -5608,7 +5608,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) ClearValue(item *Alert_State
 	if item != nil {
 		switch fp.selector {
 		case AlertStateNotification_FieldPathSelectorKind:
-			item.Kind = policy.Policy_Spec_Notification_UNDEFINED
+			item.Kind = rcommon.PolicySpec_Notification_UNDEFINED
 		case AlertStateNotification_FieldPathSelectorPendingChannels:
 			item.PendingChannels = nil
 		default:
@@ -5634,7 +5634,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) SplitIntoTerminalIPaths() []
 func (fp *AlertStateNotification_FieldTerminalPath) WithIValue(value interface{}) AlertStateNotification_FieldPathValue {
 	switch fp.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		return &AlertStateNotification_FieldTerminalPathValue{AlertStateNotification_FieldTerminalPath: *fp, value: value.(policy.Policy_Spec_Notification_Kind)}
+		return &AlertStateNotification_FieldTerminalPathValue{AlertStateNotification_FieldTerminalPath: *fp, value: value.(rcommon.PolicySpec_Notification_Kind)}
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		return &AlertStateNotification_FieldTerminalPathValue{AlertStateNotification_FieldTerminalPath: *fp, value: value.([]*notification_channel.Reference)}
 	default:
@@ -5650,7 +5650,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) WithIArrayOfValues(values in
 	fpaov := &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		return &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp, values: values.([]policy.Policy_Spec_Notification_Kind)}
+		return &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp, values: values.([]rcommon.PolicySpec_Notification_Kind)}
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		return &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp, values: values.([][]*notification_channel.Reference)}
 	default:
@@ -5715,8 +5715,8 @@ var _ AlertStateNotification_FieldPathValue = (*AlertStateNotification_FieldTerm
 func (fpv *AlertStateNotification_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *AlertStateNotification_FieldTerminalPathValue) AsKindValue() (policy.Policy_Spec_Notification_Kind, bool) {
-	res, ok := fpv.value.(policy.Policy_Spec_Notification_Kind)
+func (fpv *AlertStateNotification_FieldTerminalPathValue) AsKindValue() (rcommon.PolicySpec_Notification_Kind, bool) {
+	res, ok := fpv.value.(rcommon.PolicySpec_Notification_Kind)
 	return res, ok
 }
 func (fpv *AlertStateNotification_FieldTerminalPathValue) AsPendingChannelsValue() ([]*notification_channel.Reference, bool) {
@@ -5731,7 +5731,7 @@ func (fpv *AlertStateNotification_FieldTerminalPathValue) SetTo(target **Alert_S
 	}
 	switch fpv.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		(*target).Kind = fpv.value.(policy.Policy_Spec_Notification_Kind)
+		(*target).Kind = fpv.value.(rcommon.PolicySpec_Notification_Kind)
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		(*target).PendingChannels = fpv.value.([]*notification_channel.Reference)
 	default:
@@ -5748,7 +5748,7 @@ func (fpv *AlertStateNotification_FieldTerminalPathValue) SetToRaw(target proto.
 func (fpv *AlertStateNotification_FieldTerminalPathValue) CompareWith(source *Alert_State_Notification) (int, bool) {
 	switch fpv.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		leftValue := fpv.value.(policy.Policy_Spec_Notification_Kind)
+		leftValue := fpv.value.(rcommon.PolicySpec_Notification_Kind)
 		rightValue := source.GetKind()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -5872,7 +5872,7 @@ var _ AlertStateNotification_FieldPathArrayOfValues = (*AlertStateNotification_F
 func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		for _, v := range fpaov.values.([]policy.Policy_Spec_Notification_Kind) {
+		for _, v := range fpaov.values.([]rcommon.PolicySpec_Notification_Kind) {
 			values = append(values, v)
 		}
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
@@ -5882,8 +5882,8 @@ func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) GetRawValues
 	}
 	return
 }
-func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) AsKindArrayOfValues() ([]policy.Policy_Spec_Notification_Kind, bool) {
-	res, ok := fpaov.values.([]policy.Policy_Spec_Notification_Kind)
+func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) AsKindArrayOfValues() ([]rcommon.PolicySpec_Notification_Kind, bool) {
+	res, ok := fpaov.values.([]rcommon.PolicySpec_Notification_Kind)
 	return res, ok
 }
 func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) AsPendingChannelsArrayOfValues() ([][]*notification_channel.Reference, bool) {

@@ -19,9 +19,9 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
-	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
@@ -43,7 +43,7 @@ var (
 var (
 	_ = &document.Document{}
 	_ = &policy_template.PolicyTemplate{}
-	_ = &ts_condition.TsCondition{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &meta.Meta{}
 )
 
@@ -110,11 +110,11 @@ func (fieldMask *TsConditionTemplate_FieldMask) Subtract(other *TsConditionTempl
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[TsConditionTemplate_FieldPathSelector]gotenobject.FieldMask{
 		TsConditionTemplate_FieldPathSelectorMetadata:     &meta.Meta_FieldMask{},
-		TsConditionTemplate_FieldPathSelectorSpecTemplate: &ts_condition.TsCondition_Spec_FieldMask{},
+		TsConditionTemplate_FieldPathSelectorSpecTemplate: &rcommon.TsCndSpec_FieldMask{},
 	}
 	mySubMasks := map[TsConditionTemplate_FieldPathSelector]gotenobject.FieldMask{
 		TsConditionTemplate_FieldPathSelectorMetadata:     &meta.Meta_FieldMask{},
-		TsConditionTemplate_FieldPathSelectorSpecTemplate: &ts_condition.TsCondition_Spec_FieldMask{},
+		TsConditionTemplate_FieldPathSelectorSpecTemplate: &rcommon.TsCndSpec_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -133,7 +133,7 @@ func (fieldMask *TsConditionTemplate_FieldMask) Subtract(other *TsConditionTempl
 					case TsConditionTemplate_FieldPathSelectorMetadata:
 						mySubMasks[TsConditionTemplate_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-						mySubMasks[TsConditionTemplate_FieldPathSelectorSpecTemplate] = ts_condition.FullTsCondition_Spec_FieldMask()
+						mySubMasks[TsConditionTemplate_FieldPathSelectorSpecTemplate] = rcommon.FullTsCndSpec_FieldMask()
 					}
 				} else if tp, ok := path.(*TsConditionTemplate_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -306,7 +306,7 @@ func (fieldMask *TsConditionTemplate_FieldMask) Project(source *TsConditionTempl
 	result := &TsConditionTemplate{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	specTemplateMask := &ts_condition.TsCondition_Spec_FieldMask{}
+	specTemplateMask := &rcommon.TsCndSpec_FieldMask{}
 	wholeSpecTemplateAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -333,7 +333,7 @@ func (fieldMask *TsConditionTemplate_FieldMask) Project(source *TsConditionTempl
 			case TsConditionTemplate_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-				specTemplateMask.AppendPath(tp.subPath.(ts_condition.TsConditionSpec_FieldPath))
+				specTemplateMask.AppendPath(tp.subPath.(rcommon.TsCndSpec_FieldPath))
 			}
 		}
 	}

@@ -16,7 +16,7 @@ import (
 
 // proto imports
 import (
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -37,7 +37,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &durationpb.Duration{}
@@ -803,13 +803,13 @@ func (o *TsEntry_State_AdaptiveThresholdInfo) Merge(source *TsEntry_State_Adapti
 	o.QueryName = source.GetQueryName()
 	if source.GetLower() != nil {
 		if o.Lower == nil {
-			o.Lower = new(ts_condition.AlertingThreshold)
+			o.Lower = new(rcommon.AlertingThreshold)
 		}
 		o.Lower.Merge(source.GetLower())
 	}
 	if source.GetUpper() != nil {
 		if o.Upper == nil {
-			o.Upper = new(ts_condition.AlertingThreshold)
+			o.Upper = new(rcommon.AlertingThreshold)
 		}
 		o.Upper.Merge(source.GetUpper())
 	}

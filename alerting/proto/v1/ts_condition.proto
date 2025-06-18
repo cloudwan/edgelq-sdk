@@ -3,9 +3,10 @@ syntax = "proto3";
 package ntt.alerting.v1;
 
 import "edgelq-sdk/alerting/proto/v1/policy.proto";
-import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "edgelq-sdk/alerting/proto/v1/specs.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
 import "goten-sdk/types/meta.proto";
 
 option go_package = "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition;ts_condition";
@@ -44,7 +45,7 @@ message TsCondition {
   repeated string supporting_docs = 5;
 
   // Spec defines queries, thresholds and anomaly detector specs.
-  Spec spec = 6;
+  TsCndSpec spec = 6;
 
   // Internal field.
   Internal internal = 7;
@@ -55,186 +56,8 @@ message TsCondition {
   // "device/cpu"
   Selector filter_selector = 8;
 
-  // Spec defines time series queries and thresholds/anomaly detectors.
-  message Spec {
-    // List of observed queries. Each by default can raise alert by
-    // threshold. If anomaly detectors are specified, they try to learn
-    // all time series together.
-    repeated Query queries = 1;
-
-    // List of group by labels applied to all queries.
-    // Each unique combination of group_by is tracked separately.
-    // It has its own adaptive thresholds, its own anomaly detectors.
-    // One such representation has a form of resource TsEntry.
-    // Group by fields must define all labels defined in Policy.
-    repeated string query_group_by = 2;
-
-    // Threshold alerting configuration
-    ThresholdAlertingCfg threshold_alerting = 3;
-
-    // All anomaly detectors. Its possible to define multiple
-    // detectors with different analysis window. It is advisable
-    // to create one detector catching long window (1 day, step
-    // interval 15 minutes), followed by small window (15 minutes,
-    // step interval 1 minute). This should catch sudden and small
-    // anomalies, along with long term unexpected changes.
-    // Maintaining long window (1 day) along with small interval
-    // (1 minute) would be too costly.
-    // Other option detectors may be:
-    // 1 day / 30 minutes + 30 minutes / 1 minute.
-    repeated AnomalyAlertingCfg anomaly_alerting = 5;
-
-    // Query defines a single TimeSeries query and basic alerting thresholds.
-    message Query {
-      // Query description.
-      string name = 1;
-
-      // Time series query filter
-      string filter = 2;
-
-      // Aligner applied on individual TimeSeries.
-      ntt.monitoring.v4.Aggregation.Aligner aligner = 3;
-
-      // Reducer applied across TimeSeries according to Spec.query_group_by
-      // field in the Spec.
-      ntt.monitoring.v4.Aggregation.Reducer reducer = 4;
-
-      // Maximum value (approximated) that time series values will have for this
-      // query. It is a soft value: If higher values are detected,
-      // thresholds/anomaly models will adjust to them. If set to 0, it will be
-      // auto-detected (heuristic). If time series are negative, max_value
-      // should indicate maximum value FROM zero: Therefore, it can be a
-      // negative value.
-      double max_value = 5;
-    }
-
-    // ThresholdAlertingCfg describes when alerts of THRESHOLD type
-    // must be raised.
-    message ThresholdAlertingCfg {
-      // Operator for threshold-type alerts
-      Operator operator = 1;
-
-      // Alignment period for data points used to monitor thresholds.
-      google.protobuf.Duration alignment_period = 2;
-
-      // Violation duration after which alert must be raised.
-      google.protobuf.Duration raise_after = 3;
-
-      // Duration after which Alert stops firing when violations no longer
-      // occur. By default, equals to raise_after.
-      google.protobuf.Duration silence_after = 4;
-
-      // Thresholds per each query (in same order).
-      repeated AlertingThresholds per_query_thresholds = 5;
-
-      // This field is recommended to be set if adaptive thresholds are used.
-      // For each unique group by fields combination, dynamic thresholds will
-      // be detected based on historic data of specified length.
-      // One week by default.
-      google.protobuf.Duration adaptive_thresholds_detection_period = 6;
-
-      // AlertingThresholds represents all thresholds.
-      // When they are crossed by time series values, alert will be raised.
-      // Max thresholds are active all the time.
-      // Adaptive thresholds are active when anomaly detectors
-      // are not available (not defined or in training).
-      message AlertingThresholds {
-        // Whether upper threshold should be set and adaptive.
-        bool auto_adapt_upper = 1;
-
-        // Whether lower threshold should be set and adaptive.
-        bool auto_adapt_lower = 2;
-
-        // Maximum allowed upper threshold. When crossed ABOVE,
-        // alert is raised. Can be set to nil, but in that
-        // case max_lower is mandatory.
-        AlertingThreshold max_upper = 3;
-
-        // Maximum allowed lower threshold. When crossed BELOW,
-        // alert is raised. Can be set to nil, but in that
-        // case max_upper is mandatory.
-        AlertingThreshold max_lower = 4;
-      }
-
-      // Operator informs if whether all or one of queries must be crossed
-      // for alert to be generated.
-      enum Operator {
-        // UNDEFINED is not allowed
-        UNDEFINED = 0;
-
-        // AND indicates that all thresholds must be crossed for
-        // alert ti be triggered.
-        AND = 1;
-
-        // OR indicates that Alert should be raised if any of queries
-        // violates threshold.
-        OR = 2;
-      }
-    }
-
-    // AnomalyDetector defines AI/ML based anomaly detector.
-    // It can catch anomalies that are more sophisticated
-    // than max/min thresholds.
-    message AnomalyAlertingCfg {
-      // Sliding analysis window observed at once by AI model.
-      // For larger windows, it is highly advisable for query_ap
-      // to be accordingly larger.
-      google.protobuf.Duration analysis_window = 1;
-
-      // Duration of each time step in sliding analysis window.
-      // Anomaly detection is run after each step.
-      google.protobuf.Duration step_interval = 2;
-
-      // It is like step interval, but special used for training only.
-      // For example, we may want to run anomaly detection of size 30 minutes
-      // each 5 minutes. But in training, to reduce number of batches, we may
-      // prefer larger value, like 15 minutes or maybe even 30.
-      google.protobuf.Duration train_step_interval = 7;
-
-      // Granularity of data points within each step.
-      google.protobuf.Duration alignment_period = 3;
-
-      oneof model { LstmAutoEncoder lstm_autoencoder = 4; }
-
-      google.protobuf.Duration raise_after = 5;
-
-      google.protobuf.Duration silence_after = 6;
-
-      // LstmAutoEncoder defines LSTM AutoEncoder model for anomaly detection.
-      message LstmAutoEncoder {
-        // Hidden size. Larger increases model size.
-        int32 hidden_size = 1;
-
-        // Learn rate used in Adam optimizer.
-        // This is suggested value. System may iterate other well known
-        // working values for best detection.
-        double learn_rate = 2;
-
-        // Maximum number of epochs after which training must stop.
-        int32 max_training_epochs = 3;
-
-        // Minimum number of training epochs model must train.
-        int32 min_training_epochs = 4;
-
-        // Minimum acceptable error after training stops.
-        // When it is achieved, check samples are used to determine
-        // actual error rates.
-        // Too large value may cause overfit.
-        // This is suggested value. System may find other values
-        // giving better results.
-        double acceptable_training_error = 5;
-
-        // How much time must be obtained for training purposes.
-        google.protobuf.Duration training_period = 6;
-
-        // Training period, analysis window and training step interval
-        // directly influence how many training samples are created.
-        // Fraction is then used for detecting practical anomalies
-        // and initializing anomaly thresholds.
-        double check_period_fraction = 7;
-      }
-    }
-  }
+  // template source for current TsCondition
+  TemplateSource template_source = 9;
 
   // Internal data.
   message Internal {
@@ -242,7 +65,7 @@ message TsCondition {
 
     int32 entry_spec_generation = 2;
 
-    Policy.Spec.ProcessingLocation alerting_location = 3;
+    PolicySpec.ProcessingLocation alerting_location = 3;
   }
 
   // Selector contains detected metric/resource types and common
@@ -260,14 +83,14 @@ message TsCondition {
 
     message Strings { repeated string values = 1; }
   }
-}
 
-// AlertingThreshold defines threshold value for alerting.
-message AlertingThreshold {
-  // Value that must not be crossed.
-  double value = 1;
+  // TemplateSource describes where condition is coming from originally.
+  message TemplateSource {
+    // Reference to template
+    string template = 1;
 
-  // If true, then alert is raised when exact specified value is
-  // reached. Otherwise, it has to be crossed.
-  bool is_inclusive = 2;
+    // List of modified fields compared to the template.
+    // It is a mask of Spec object.
+    google.protobuf.FieldMask updated_fields = 2;
+  }
 }

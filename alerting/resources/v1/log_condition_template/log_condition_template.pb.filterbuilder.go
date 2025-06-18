@@ -11,11 +11,11 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -24,6 +24,10 @@ import (
 	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
+	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
@@ -45,10 +49,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition.LogCondition{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
 	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
+	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -57,6 +61,10 @@ var (
 	_ = &logging_log.Log{}
 	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
+	_ = &monitoring_metric_descriptor.MetricDescriptor{}
+	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
+	_ = &monitoring_project.Project{}
+	_ = &monitoring_time_serie.Point{}
 	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
@@ -2626,37 +2634,37 @@ type filterCndBuilderSpecTemplate struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplate) Eq(value *log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Eq(value *rcommon.LogCndSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Neq(value *log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Neq(value *rcommon.LogCndSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Gt(value *log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Gt(value *rcommon.LogCndSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Gte(value *log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Gte(value *rcommon.LogCndSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Lt(value *log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Lt(value *rcommon.LogCndSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Lte(value *log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Lte(value *rcommon.LogCndSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) In(values []*log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) In(values []*rcommon.LogCndSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		LogConditionTemplate_FieldPathArrayOfValues: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplate) NotIn(values []*log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) NotIn(values []*rcommon.LogCndSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		LogConditionTemplate_FieldPathArrayOfValues: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().WithArrayOfValues(values),
 	})
@@ -2674,7 +2682,7 @@ func (b *filterCndBuilderSpecTemplate) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplate) compare(op gotenfilter.CompareOperator, value *log_condition.LogCondition_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) compare(op gotenfilter.CompareOperator, value *rcommon.LogCndSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                            op,
 		LogConditionTemplate_FieldPathValue: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().WithValue(value),
@@ -2693,37 +2701,37 @@ type filterCndBuilderSpecTemplateQuery struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) Eq(value *log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) Eq(value *rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) Neq(value *log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) Neq(value *rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) Gt(value *log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) Gt(value *rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) Gte(value *log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) Gte(value *rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) Lt(value *log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) Lt(value *rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) Lte(value *log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) Lte(value *rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) In(values []*log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) In(values []*rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		LogConditionTemplate_FieldPathArrayOfValues: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().Query().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) NotIn(values []*log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) NotIn(values []*rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		LogConditionTemplate_FieldPathArrayOfValues: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().Query().WithArrayOfValues(values),
 	})
@@ -2741,7 +2749,7 @@ func (b *filterCndBuilderSpecTemplateQuery) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateQuery) compare(op gotenfilter.CompareOperator, value *log_condition.LogCondition_Spec_Query) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQuery) compare(op gotenfilter.CompareOperator, value *rcommon.LogCndSpec_Query) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                            op,
 		LogConditionTemplate_FieldPathValue: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().Query().WithValue(value),
@@ -2823,37 +2831,37 @@ type filterCndBuilderSpecTemplateQueryTrigger struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) Eq(value *log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) Eq(value *rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) Neq(value *log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) Neq(value *rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) Gt(value *log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) Gt(value *rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) Gte(value *log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) Gte(value *rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) Lt(value *log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) Lt(value *rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) Lte(value *log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) Lte(value *rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) In(values []*log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) In(values []*rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		LogConditionTemplate_FieldPathArrayOfValues: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().Query().Trigger().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) NotIn(values []*log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) NotIn(values []*rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		LogConditionTemplate_FieldPathArrayOfValues: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().Query().Trigger().WithArrayOfValues(values),
 	})
@@ -2871,7 +2879,7 @@ func (b *filterCndBuilderSpecTemplateQueryTrigger) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateQueryTrigger) compare(op gotenfilter.CompareOperator, value *log_condition.LogCondition_Spec_Query_TriggerCnd) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateQueryTrigger) compare(op gotenfilter.CompareOperator, value *rcommon.LogCndSpec_Query_TriggerCnd) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                            op,
 		LogConditionTemplate_FieldPathValue: NewLogConditionTemplateFieldPathBuilder().SpecTemplate().Query().Trigger().WithValue(value),

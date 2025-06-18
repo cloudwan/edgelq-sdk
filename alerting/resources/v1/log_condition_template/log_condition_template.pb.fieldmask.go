@@ -19,8 +19,8 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -42,8 +42,8 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition.LogCondition{}
 	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &meta.Meta{}
 )
 
@@ -110,11 +110,11 @@ func (fieldMask *LogConditionTemplate_FieldMask) Subtract(other *LogConditionTem
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[LogConditionTemplate_FieldPathSelector]gotenobject.FieldMask{
 		LogConditionTemplate_FieldPathSelectorMetadata:     &meta.Meta_FieldMask{},
-		LogConditionTemplate_FieldPathSelectorSpecTemplate: &log_condition.LogCondition_Spec_FieldMask{},
+		LogConditionTemplate_FieldPathSelectorSpecTemplate: &rcommon.LogCndSpec_FieldMask{},
 	}
 	mySubMasks := map[LogConditionTemplate_FieldPathSelector]gotenobject.FieldMask{
 		LogConditionTemplate_FieldPathSelectorMetadata:     &meta.Meta_FieldMask{},
-		LogConditionTemplate_FieldPathSelectorSpecTemplate: &log_condition.LogCondition_Spec_FieldMask{},
+		LogConditionTemplate_FieldPathSelectorSpecTemplate: &rcommon.LogCndSpec_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -133,7 +133,7 @@ func (fieldMask *LogConditionTemplate_FieldMask) Subtract(other *LogConditionTem
 					case LogConditionTemplate_FieldPathSelectorMetadata:
 						mySubMasks[LogConditionTemplate_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-						mySubMasks[LogConditionTemplate_FieldPathSelectorSpecTemplate] = log_condition.FullLogCondition_Spec_FieldMask()
+						mySubMasks[LogConditionTemplate_FieldPathSelectorSpecTemplate] = rcommon.FullLogCndSpec_FieldMask()
 					}
 				} else if tp, ok := path.(*LogConditionTemplate_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -306,7 +306,7 @@ func (fieldMask *LogConditionTemplate_FieldMask) Project(source *LogConditionTem
 	result := &LogConditionTemplate{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	specTemplateMask := &log_condition.LogCondition_Spec_FieldMask{}
+	specTemplateMask := &rcommon.LogCndSpec_FieldMask{}
 	wholeSpecTemplateAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -333,7 +333,7 @@ func (fieldMask *LogConditionTemplate_FieldMask) Project(source *LogConditionTem
 			case LogConditionTemplate_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-				specTemplateMask.AppendPath(tp.subPath.(log_condition.LogConditionSpec_FieldPath))
+				specTemplateMask.AppendPath(tp.subPath.(rcommon.LogCndSpec_FieldPath))
 			}
 		}
 	}

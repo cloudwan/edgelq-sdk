@@ -13,6 +13,7 @@ import (
 import (
 	alert_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/alert"
 	document_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/document"
+	edge_watch_service_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/edge_watch_service"
 	log_condition_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/log_condition"
 	log_condition_template_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/log_condition_template"
 	notification_channel_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/notification_channel"
@@ -106,6 +107,7 @@ func (d *AlertingDescriptor) AllApiDescriptors() []gotenclient.ApiDescriptor {
 	return []gotenclient.ApiDescriptor{
 		alert_client.GetAlertServiceDescriptor(),
 		document_client.GetDocumentServiceDescriptor(),
+		edge_watch_service_client.GetEdgeWatchServiceServiceDescriptor(),
 		log_condition_client.GetLogConditionServiceDescriptor(),
 		log_condition_template_client.GetLogConditionTemplateServiceDescriptor(),
 		notification_channel_client.GetNotificationChannelServiceDescriptor(),

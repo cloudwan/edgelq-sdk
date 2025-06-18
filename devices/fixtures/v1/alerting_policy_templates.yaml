@@ -1,0 +1,294 @@
+kind: "alerting.edgelq.com/PolicyTemplate"
+version: "v1"
+resources:
+- name: projects/public-alerting-templates/policyTemplates/edge-device-base-alerts
+  displayName: "Device Alerts policy on edge"
+  description: "Pre-defined policy for base edge device alerts"
+  supportingDocs:
+  - "projects/public-alerting-templates/documents/device-alerting-with-ssh"
+  specTemplate:
+    enabled: true
+    processingLocation: EDGE
+    resourceIdentity:
+      alertingResource: services/devices.edgelq.com/resources/Device
+      labels:
+      - key: device_id
+        contexts: [RESOURCE_LABEL, LOG_LABEL]
+        mappedNameSegment: device
+      namePatterns:
+      - projects/{project}/regions/{region}/devices/{device}
+    supportingQueries:
+    - tsQuery:
+        description: "pod (sum from containers) CPU utilization - 100 indicates full CPU core"
+        filterTemplate: "metric.type=\"applications.edgelq.com/pod/cpu/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields: ["resource.labels.pod_id", "resource.labels.device_id"]
+    - tsQuery:
+        description: "pod (sum from containers) memory utilization - in %, 100 is max"
+        filterTemplate: "metric.type=\"applications.edgelq.com/pod/memory/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields: [ "resource.labels.pod_id", "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device CPU Mean idle value across cores - value 100 means CPUs are idle, 0 totally busy"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/cpu/utilization\" AND metric.labels.state=\"idle\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device memory mean utilization - 100 is maximum, value in %"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/memory/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device connected status change - 0 means disconnected, 1 means connected"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/connected\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device disk mean utilization - 100 is maximum, value in %"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/disk/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.mount_point" ]
+    - tsQuery:
+        description: "Device temperature measurements in celsius degrees"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/hardware/temperature\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.chip", "metric.labels.sensor_tag" ]
+    - tsQuery:
+        description: "Various health check statuses (range 0-1)"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/healthcheck/status\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.healthcheck_name", "metric.labels.status_summary" ]
+    - tsQuery:
+        description: "Various health check response times in ms"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/healthcheck/http/responsetime\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.healthcheck_name" ]
+    - tsQuery:
+        description: "Received packets rate by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/packets_received\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - tsQuery:
+        description: "Sent packets rate by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/packets_sent\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - tsQuery:
+        description: "Dropped incoming packets delta by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/drops_in\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_DELTA
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - tsQuery:
+        description: "Dropped outgoing packets delta by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/drops_out\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_DELTA
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - logQuery:
+        description: "Device logs"
+        filterTemplate: "logDescriptor=\"projects/<project_id>/logDescriptors/devices.edgelq.com/syslog\" and labels.device_id=\"<device_id>\""
+    - restGetQuery:
+        description: "Device resource"
+        endpoint: "https://devices.<lqd_domain>"
+        pathTemplate: "/v1/projects/<project_id>/regions/<region_id>/devices/<device_id>"
+        view: "NAME"
+        fieldMask: "spec.os_version,spec.netplan_yaml_config,spec.netplan_api_config_mode,spec.os_image_url,spec.location,spec.usb_guard,spec.health_checks,status"
+    - restListQuery:
+        description: "Pod resources running on device"
+        endpoint: "https://applications.<lqd_domain>"
+        pathTemplate: "/v1/projects/<project_id>/regions/<region_id>/pods"
+        view: "NAME"
+        fieldMask: "spec,status"
+        filterTemplate: "spec.node=\"projects/<project_id>/regions/<region_id>/devices/<device_id>\""
+    aiAgent:
+      enabled: true
+      enabledConnectivity: true
+      edgeConnectivity:
+        deviceSsh:
+          clientName: llm-agent
+      remediationOptions:
+      - fixInSsh: {}
+
+- name: projects/public-alerting-templates/policyTemplates/backend-device-base-alerts
+  displayName: "Device Alerts policy on backend"
+  description: "Pre-defined policy for base backend device alerts"
+  supportingDocs:
+  - "projects/public-alerting-templates/documents/device-alerting-with-ssh"
+  specTemplate:
+    enabled: true
+    processingLocation: BACKEND
+    resourceIdentity:
+      alertingResource: services/devices.edgelq.com/resources/Device
+      labels:
+      - key: device_id
+        contexts: [RESOURCE_LABEL, LOG_LABEL]
+        mappedNameSegment: device
+      namePatterns:
+      - projects/{project}/regions/{region}/devices/{device}
+    supportingQueries:
+    - tsQuery:
+        description: "pod (sum from containers) CPU utilization - 100 indicates full CPU core"
+        filterTemplate: "metric.type=\"applications.edgelq.com/pod/cpu/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields: ["resource.labels.pod_id", "resource.labels.device_id"]
+    - tsQuery:
+        description: "pod (sum from containers) memory utilization - in %, 100 is max"
+        filterTemplate: "metric.type=\"applications.edgelq.com/pod/memory/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_SUM
+          groupByFields: [ "resource.labels.pod_id", "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device CPU Mean idle value across cores - value 100 means CPUs are idle, 0 totally busy"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/cpu/utilization\" AND metric.labels.state=\"idle\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device memory mean utilization - 100 is maximum, value in %"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/memory/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device connected status change - 0 means disconnected, 1 means connected"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/connected\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_MEAN
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id" ]
+    - tsQuery:
+        description: "Device disk mean utilization - 100 is maximum, value in %"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/disk/utilization\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.mount_point" ]
+    - tsQuery:
+        description: "Device temperature measurements in celsius degrees"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/hardware/temperature\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.chip", "metric.labels.sensor_tag" ]
+    - tsQuery:
+        description: "Various health check statuses (range 0-1)"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/healthcheck/status\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.healthcheck_name", "metric.labels.status_summary" ]
+    - tsQuery:
+        description: "Various health check response times in ms"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/healthcheck/http/responsetime\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_SUMMARY
+          crossSeriesReducer: REDUCE_MEAN
+          groupByFields: [ "resource.labels.device_id", "metric.labels.healthcheck_name" ]
+    - tsQuery:
+        description: "Received packets rate by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/packets_received\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - tsQuery:
+        description: "Sent packets rate by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/packets_sent\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_RATE
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - tsQuery:
+        description: "Dropped incoming packets delta by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/drops_in\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_DELTA
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - tsQuery:
+        description: "Dropped outgoing packets delta by interfaces on device"
+        filterTemplate: "metric.type=\"devices.edgelq.com/device/interface/drops_out\" AND resource.labels.device_id=\"<device_id>\""
+        aggregation:
+          alignmentPeriod: "60s"
+          perSeriesAligner: ALIGN_DELTA
+          crossSeriesReducer: REDUCE_SUM # Does not matter, since we group by interface_name already, so no reducing happens
+          groupByFields: [ "resource.labels.device_id", "metric.labels.interface_name" ]
+    - logQuery:
+        description: "Device logs"
+        filterTemplate: "logDescriptor=\"projects/<project_id>/logDescriptors/devices.edgelq.com/syslog\" and labels.device_id=\"<device_id>\""
+    - restGetQuery:
+        description: "Device resource"
+        endpoint: "https://devices.<lqd_domain>"
+        pathTemplate: "/v1/projects/<project_id>/regions/<region_id>/devices/<device_id>"
+        view: "NAME"
+        fieldMask: "spec.os_version,spec.netplan_yaml_config,spec.netplan_api_config_mode,spec.os_image_url,spec.location,spec.usb_guard,spec.health_checks,status"
+    - restListQuery:
+        description: "Pod resources running on device"
+        endpoint: "https://applications.<lqd_domain>"
+        pathTemplate: "/v1/projects/<project_id>/regions/<region_id>/pods"
+        view: "NAME"
+        fieldMask: "spec,status"
+        filterTemplate: "spec.node=\"projects/<project_id>/regions/<region_id>/devices/<device_id>\""
+    aiAgent:
+      enabled: true
+      enabledConnectivity: true
+      edgeConnectivity:
+        deviceSsh:
+          clientName: llm-agent
+      remediationOptions:
+      - fixInSsh: {}

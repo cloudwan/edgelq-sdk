@@ -6,13 +6,20 @@ package ts_condition
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
 	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
@@ -23,27 +30,38 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
+	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log.Log{}
+	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitoring_metric_descriptor.MetricDescriptor{}
 	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &monitoring_project.Project{}
 	_ = &monitoring_time_serie.Point{}
+	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_resource.Resource{}
@@ -80,6 +98,9 @@ func (TsConditionFieldPathBuilder) Internal() TsConditionPathSelectorInternal {
 }
 func (TsConditionFieldPathBuilder) FilterSelector() TsConditionPathSelectorFilterSelector {
 	return TsConditionPathSelectorFilterSelector{}
+}
+func (TsConditionFieldPathBuilder) TemplateSource() TsConditionPathSelectorTemplateSource {
+	return TsConditionPathSelectorTemplateSource{}
 }
 
 type TsConditionPathSelectorName struct{}
@@ -830,27 +851,27 @@ func (TsConditionPathSelectorSpec) FieldPath() *TsCondition_FieldTerminalPath {
 	return &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorSpec}
 }
 
-func (s TsConditionPathSelectorSpec) WithValue(value *TsCondition_Spec) *TsCondition_FieldTerminalPathValue {
+func (s TsConditionPathSelectorSpec) WithValue(value *rcommon.TsCndSpec) *TsCondition_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldTerminalPathValue)
 }
 
-func (s TsConditionPathSelectorSpec) WithArrayOfValues(values []*TsCondition_Spec) *TsCondition_FieldTerminalPathArrayOfValues {
+func (s TsConditionPathSelectorSpec) WithArrayOfValues(values []*rcommon.TsCndSpec) *TsCondition_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldTerminalPathArrayOfValues)
 }
 
-func (TsConditionPathSelectorSpec) WithSubPath(subPath TsConditionSpec_FieldPath) *TsCondition_FieldSubPath {
+func (TsConditionPathSelectorSpec) WithSubPath(subPath rcommon.TsCndSpec_FieldPath) *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{selector: TsCondition_FieldPathSelectorSpec, subPath: subPath}
 }
 
-func (s TsConditionPathSelectorSpec) WithSubValue(subPathValue TsConditionSpec_FieldPathValue) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpec) WithSubValue(subPathValue rcommon.TsCndSpec_FieldPathValue) *TsCondition_FieldSubPathValue {
 	return &TsCondition_FieldSubPathValue{TsCondition_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TsConditionPathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues TsConditionSpec_FieldPathArrayOfValues) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues rcommon.TsCndSpec_FieldPathArrayOfValues) *TsCondition_FieldSubPathArrayOfValues {
 	return &TsCondition_FieldSubPathArrayOfValues{TsCondition_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TsConditionPathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue TsConditionSpec_FieldPathArrayItemValue) *TsCondition_FieldSubPathArrayItemValue {
+func (s TsConditionPathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue rcommon.TsCndSpec_FieldPathArrayItemValue) *TsCondition_FieldSubPathArrayItemValue {
 	return &TsCondition_FieldSubPathArrayItemValue{TsCondition_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -875,19 +896,19 @@ type TsConditionPathSelectorSpecQueries struct{}
 func (TsConditionPathSelectorSpecQueries) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().Queries().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().Queries().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecQueries) WithValue(value []*TsCondition_Spec_Query) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecQueries) WithValue(value []*rcommon.TsCndSpec_Query) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecQueries) WithArrayOfValues(values [][]*TsCondition_Spec_Query) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecQueries) WithArrayOfValues(values [][]*rcommon.TsCndSpec_Query) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
-func (s TsConditionPathSelectorSpecQueries) WithItemValue(value *TsCondition_Spec_Query) *TsCondition_FieldSubPathArrayItemValue {
+func (s TsConditionPathSelectorSpecQueries) WithItemValue(value *rcommon.TsCndSpec_Query) *TsCondition_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*TsCondition_FieldSubPathArrayItemValue)
 }
 
@@ -916,7 +937,7 @@ type TsConditionPathSelectorSpecQueriesName struct{}
 func (TsConditionPathSelectorSpecQueriesName) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().Queries().Name().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().Queries().Name().FieldPath(),
 	}
 }
 
@@ -933,7 +954,7 @@ type TsConditionPathSelectorSpecQueriesFilter struct{}
 func (TsConditionPathSelectorSpecQueriesFilter) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().Queries().Filter().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().Queries().Filter().FieldPath(),
 	}
 }
 
@@ -950,7 +971,7 @@ type TsConditionPathSelectorSpecQueriesAligner struct{}
 func (TsConditionPathSelectorSpecQueriesAligner) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().Queries().Aligner().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().Queries().Aligner().FieldPath(),
 	}
 }
 
@@ -967,7 +988,7 @@ type TsConditionPathSelectorSpecQueriesReducer struct{}
 func (TsConditionPathSelectorSpecQueriesReducer) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().Queries().Reducer().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().Queries().Reducer().FieldPath(),
 	}
 }
 
@@ -984,7 +1005,7 @@ type TsConditionPathSelectorSpecQueriesMaxValue struct{}
 func (TsConditionPathSelectorSpecQueriesMaxValue) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().Queries().MaxValue().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().Queries().MaxValue().FieldPath(),
 	}
 }
 
@@ -1001,7 +1022,7 @@ type TsConditionPathSelectorSpecQueryGroupBy struct{}
 func (TsConditionPathSelectorSpecQueryGroupBy) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().QueryGroupBy().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().QueryGroupBy().FieldPath(),
 	}
 }
 
@@ -1022,15 +1043,15 @@ type TsConditionPathSelectorSpecThresholdAlerting struct{}
 func (TsConditionPathSelectorSpecThresholdAlerting) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlerting) WithValue(value *TsCondition_Spec_ThresholdAlertingCfg) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecThresholdAlerting) WithValue(value *rcommon.TsCndSpec_ThresholdAlertingCfg) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlerting) WithArrayOfValues(values []*TsCondition_Spec_ThresholdAlertingCfg) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecThresholdAlerting) WithArrayOfValues(values []*rcommon.TsCndSpec_ThresholdAlertingCfg) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1063,15 +1084,15 @@ type TsConditionPathSelectorSpecThresholdAlertingOperator struct{}
 func (TsConditionPathSelectorSpecThresholdAlertingOperator) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().Operator().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().Operator().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingOperator) WithValue(value TsCondition_Spec_ThresholdAlertingCfg_Operator) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecThresholdAlertingOperator) WithValue(value rcommon.TsCndSpec_ThresholdAlertingCfg_Operator) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingOperator) WithArrayOfValues(values []TsCondition_Spec_ThresholdAlertingCfg_Operator) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecThresholdAlertingOperator) WithArrayOfValues(values []rcommon.TsCndSpec_ThresholdAlertingCfg_Operator) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1080,7 +1101,7 @@ type TsConditionPathSelectorSpecThresholdAlertingAlignmentPeriod struct{}
 func (TsConditionPathSelectorSpecThresholdAlertingAlignmentPeriod) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().AlignmentPeriod().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().AlignmentPeriod().FieldPath(),
 	}
 }
 
@@ -1097,7 +1118,7 @@ type TsConditionPathSelectorSpecThresholdAlertingRaiseAfter struct{}
 func (TsConditionPathSelectorSpecThresholdAlertingRaiseAfter) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().RaiseAfter().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().RaiseAfter().FieldPath(),
 	}
 }
 
@@ -1114,7 +1135,7 @@ type TsConditionPathSelectorSpecThresholdAlertingSilenceAfter struct{}
 func (TsConditionPathSelectorSpecThresholdAlertingSilenceAfter) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().SilenceAfter().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().SilenceAfter().FieldPath(),
 	}
 }
 
@@ -1131,19 +1152,19 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds struct{}
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) WithValue(value []*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) WithValue(value []*rcommon.TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) WithArrayOfValues(values [][]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) WithArrayOfValues(values [][]*rcommon.TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) WithItemValue(value *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_FieldSubPathArrayItemValue {
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) WithItemValue(value *rcommon.TsCndSpec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*TsCondition_FieldSubPathArrayItemValue)
 }
 
@@ -1163,12 +1184,20 @@ func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) MaxLower()
 	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLower{}
 }
 
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) MinUpper() TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper {
+	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper{}
+}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholds) MinLower() TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower {
+	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower{}
+}
+
 type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsAutoAdaptUpper struct{}
 
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsAutoAdaptUpper) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().AutoAdaptUpper().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().AutoAdaptUpper().FieldPath(),
 	}
 }
 
@@ -1185,7 +1214,7 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsAutoAdaptLowe
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsAutoAdaptLower) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().AutoAdaptLower().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().AutoAdaptLower().FieldPath(),
 	}
 }
 
@@ -1202,15 +1231,15 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpper stru
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpper) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxUpper().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxUpper().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpper) WithValue(value *AlertingThreshold) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpper) WithValue(value *rcommon.AlertingThreshold) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpper) WithArrayOfValues(values []*AlertingThreshold) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpper) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1227,7 +1256,7 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpperValue
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpperValue) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxUpper().Value().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxUpper().Value().FieldPath(),
 	}
 }
 
@@ -1244,7 +1273,7 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpperIsInc
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxUpperIsInclusive) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxUpper().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxUpper().IsInclusive().FieldPath(),
 	}
 }
 
@@ -1261,15 +1290,15 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLower stru
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLower) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLower) WithValue(value *AlertingThreshold) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLower) WithValue(value *rcommon.AlertingThreshold) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1286,7 +1315,7 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLowerValue
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLowerValue) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().Value().FieldPath(),
 	}
 }
 
@@ -1303,7 +1332,7 @@ type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInc
 func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
 	}
 }
 
@@ -1315,12 +1344,130 @@ func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMaxLowerIs
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
+type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper struct{}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinUpper().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper) WithValue(value *rcommon.AlertingThreshold) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper) Value() TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperValue {
+	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperValue{}
+}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpper) IsInclusive() TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperIsInclusive {
+	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperIsInclusive{}
+}
+
+type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperValue struct{}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperValue) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinUpper().Value().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperValue) WithValue(value float64) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperValue) WithArrayOfValues(values []float64) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
+type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperIsInclusive struct{}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperIsInclusive) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinUpper().IsInclusive().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperIsInclusive) WithValue(value bool) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinUpperIsInclusive) WithArrayOfValues(values []bool) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
+type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower struct{}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower) WithValue(value *rcommon.AlertingThreshold) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower) Value() TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerValue {
+	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerValue{}
+}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLower) IsInclusive() TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive {
+	return TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive{}
+}
+
+type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerValue struct{}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerValue) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().Value().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerValue) WithValue(value float64) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerValue) WithArrayOfValues(values []float64) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
+type TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive struct{}
+
+func (TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().PerQueryThresholds().MinLower().IsInclusive().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithValue(value bool) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecThresholdAlertingPerQueryThresholdsMinLowerIsInclusive) WithArrayOfValues(values []bool) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
 type TsConditionPathSelectorSpecThresholdAlertingAdaptiveThresholdsDetectionPeriod struct{}
 
 func (TsConditionPathSelectorSpecThresholdAlertingAdaptiveThresholdsDetectionPeriod) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().ThresholdAlerting().AdaptiveThresholdsDetectionPeriod().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().ThresholdAlerting().AdaptiveThresholdsDetectionPeriod().FieldPath(),
 	}
 }
 
@@ -1337,19 +1484,19 @@ type TsConditionPathSelectorSpecAnomalyAlerting struct{}
 func (TsConditionPathSelectorSpecAnomalyAlerting) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecAnomalyAlerting) WithValue(value []*TsCondition_Spec_AnomalyAlertingCfg) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecAnomalyAlerting) WithValue(value []*rcommon.TsCndSpec_AnomalyAlertingCfg) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecAnomalyAlerting) WithArrayOfValues(values [][]*TsCondition_Spec_AnomalyAlertingCfg) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecAnomalyAlerting) WithArrayOfValues(values [][]*rcommon.TsCndSpec_AnomalyAlertingCfg) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
-func (s TsConditionPathSelectorSpecAnomalyAlerting) WithItemValue(value *TsCondition_Spec_AnomalyAlertingCfg) *TsCondition_FieldSubPathArrayItemValue {
+func (s TsConditionPathSelectorSpecAnomalyAlerting) WithItemValue(value *rcommon.TsCndSpec_AnomalyAlertingCfg) *TsCondition_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*TsCondition_FieldSubPathArrayItemValue)
 }
 
@@ -1386,7 +1533,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingAnalysisWindow struct{}
 func (TsConditionPathSelectorSpecAnomalyAlertingAnalysisWindow) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().AnalysisWindow().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().AnalysisWindow().FieldPath(),
 	}
 }
 
@@ -1403,7 +1550,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingStepInterval struct{}
 func (TsConditionPathSelectorSpecAnomalyAlertingStepInterval) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().StepInterval().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().StepInterval().FieldPath(),
 	}
 }
 
@@ -1420,7 +1567,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingTrainStepInterval struct{}
 func (TsConditionPathSelectorSpecAnomalyAlertingTrainStepInterval) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().TrainStepInterval().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().TrainStepInterval().FieldPath(),
 	}
 }
 
@@ -1437,7 +1584,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingAlignmentPeriod struct{}
 func (TsConditionPathSelectorSpecAnomalyAlertingAlignmentPeriod) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().AlignmentPeriod().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().AlignmentPeriod().FieldPath(),
 	}
 }
 
@@ -1454,15 +1601,15 @@ type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder struct{}
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().FieldPath(),
 	}
 }
 
-func (s TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder) WithValue(value *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder) WithValue(value *rcommon.TsCndSpec_AnomalyAlertingCfg_LstmAutoEncoder) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder) WithArrayOfValues(values []*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder) WithArrayOfValues(values []*rcommon.TsCndSpec_AnomalyAlertingCfg_LstmAutoEncoder) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1494,12 +1641,16 @@ func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder) CheckPeriodFrac
 	return TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderCheckPeriodFraction{}
 }
 
+func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoder) TeacherForceAtInference() TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTeacherForceAtInference {
+	return TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTeacherForceAtInference{}
+}
+
 type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderHiddenSize struct{}
 
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderHiddenSize) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().HiddenSize().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().HiddenSize().FieldPath(),
 	}
 }
 
@@ -1516,7 +1667,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderLearnRate struct{}
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderLearnRate) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().LearnRate().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().LearnRate().FieldPath(),
 	}
 }
 
@@ -1533,7 +1684,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderMaxTrainingEpochs 
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderMaxTrainingEpochs) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().MaxTrainingEpochs().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().MaxTrainingEpochs().FieldPath(),
 	}
 }
 
@@ -1550,7 +1701,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderMinTrainingEpochs 
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderMinTrainingEpochs) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().MinTrainingEpochs().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().MinTrainingEpochs().FieldPath(),
 	}
 }
 
@@ -1567,7 +1718,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderAcceptableTraining
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderAcceptableTrainingError) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().AcceptableTrainingError().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().AcceptableTrainingError().FieldPath(),
 	}
 }
 
@@ -1584,7 +1735,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTrainingPeriod str
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTrainingPeriod) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().TrainingPeriod().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().TrainingPeriod().FieldPath(),
 	}
 }
 
@@ -1601,7 +1752,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderCheckPeriodFractio
 func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderCheckPeriodFraction) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().CheckPeriodFraction().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().CheckPeriodFraction().FieldPath(),
 	}
 }
 
@@ -1613,12 +1764,29 @@ func (s TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderCheckPeriodFrac
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
+type TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTeacherForceAtInference struct{}
+
+func (TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTeacherForceAtInference) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorSpec,
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().LstmAutoencoder().TeacherForceAtInference().FieldPath(),
+	}
+}
+
+func (s TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTeacherForceAtInference) WithValue(value bool) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
+}
+
+func (s TsConditionPathSelectorSpecAnomalyAlertingLstmAutoencoderTeacherForceAtInference) WithArrayOfValues(values []bool) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
+}
+
 type TsConditionPathSelectorSpecAnomalyAlertingRaiseAfter struct{}
 
 func (TsConditionPathSelectorSpecAnomalyAlertingRaiseAfter) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().RaiseAfter().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().RaiseAfter().FieldPath(),
 	}
 }
 
@@ -1635,7 +1803,7 @@ type TsConditionPathSelectorSpecAnomalyAlertingSilenceAfter struct{}
 func (TsConditionPathSelectorSpecAnomalyAlertingSilenceAfter) FieldPath() *TsCondition_FieldSubPath {
 	return &TsCondition_FieldSubPath{
 		selector: TsCondition_FieldPathSelectorSpec,
-		subPath:  NewTsConditionSpecFieldPathBuilder().AnomalyAlerting().SilenceAfter().FieldPath(),
+		subPath:  rcommon.NewTsCndSpecFieldPathBuilder().AnomalyAlerting().SilenceAfter().FieldPath(),
 	}
 }
 
@@ -1732,11 +1900,11 @@ func (TsConditionPathSelectorInternalAlertingLocation) FieldPath() *TsCondition_
 	}
 }
 
-func (s TsConditionPathSelectorInternalAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorInternalAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorInternalAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorInternalAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
@@ -1908,833 +2076,76 @@ func (s TsConditionMapPathSelectorFilterSelectorCommonResourceLabels) WithArrayO
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
-type TsConditionSpecFieldPathBuilder struct{}
+type TsConditionPathSelectorTemplateSource struct{}
 
-func NewTsConditionSpecFieldPathBuilder() TsConditionSpecFieldPathBuilder {
-	return TsConditionSpecFieldPathBuilder{}
-}
-func (TsConditionSpecFieldPathBuilder) Queries() TsCondition_SpecPathSelectorQueries {
-	return TsCondition_SpecPathSelectorQueries{}
-}
-func (TsConditionSpecFieldPathBuilder) QueryGroupBy() TsCondition_SpecPathSelectorQueryGroupBy {
-	return TsCondition_SpecPathSelectorQueryGroupBy{}
-}
-func (TsConditionSpecFieldPathBuilder) ThresholdAlerting() TsCondition_SpecPathSelectorThresholdAlerting {
-	return TsCondition_SpecPathSelectorThresholdAlerting{}
-}
-func (TsConditionSpecFieldPathBuilder) AnomalyAlerting() TsCondition_SpecPathSelectorAnomalyAlerting {
-	return TsCondition_SpecPathSelectorAnomalyAlerting{}
+func (TsConditionPathSelectorTemplateSource) FieldPath() *TsCondition_FieldTerminalPath {
+	return &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorTemplateSource}
 }
 
-type TsCondition_SpecPathSelectorQueries struct{}
-
-func (TsCondition_SpecPathSelectorQueries) FieldPath() *TsConditionSpec_FieldTerminalPath {
-	return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueries}
+func (s TsConditionPathSelectorTemplateSource) WithValue(value *TsCondition_TemplateSource) *TsCondition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldTerminalPathValue)
 }
 
-func (s TsCondition_SpecPathSelectorQueries) WithValue(value []*TsCondition_Spec_Query) *TsConditionSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldTerminalPathValue)
+func (s TsConditionPathSelectorTemplateSource) WithArrayOfValues(values []*TsCondition_TemplateSource) *TsCondition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldTerminalPathArrayOfValues)
 }
 
-func (s TsCondition_SpecPathSelectorQueries) WithArrayOfValues(values [][]*TsCondition_Spec_Query) *TsConditionSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldTerminalPathArrayOfValues)
+func (TsConditionPathSelectorTemplateSource) WithSubPath(subPath TsConditionTemplateSource_FieldPath) *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{selector: TsCondition_FieldPathSelectorTemplateSource, subPath: subPath}
 }
 
-func (s TsCondition_SpecPathSelectorQueries) WithItemValue(value *TsCondition_Spec_Query) *TsConditionSpec_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*TsConditionSpec_FieldTerminalPathArrayItemValue)
-}
-func (TsCondition_SpecPathSelectorQueries) WithSubPath(subPath TsConditionSpecQuery_FieldPath) *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{selector: TsConditionSpec_FieldPathSelectorQueries, subPath: subPath}
+func (s TsConditionPathSelectorTemplateSource) WithSubValue(subPathValue TsConditionTemplateSource_FieldPathValue) *TsCondition_FieldSubPathValue {
+	return &TsCondition_FieldSubPathValue{TsCondition_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TsCondition_SpecPathSelectorQueries) WithSubValue(subPathValue TsConditionSpecQuery_FieldPathValue) *TsConditionSpec_FieldSubPathValue {
-	return &TsConditionSpec_FieldSubPathValue{TsConditionSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s TsConditionPathSelectorTemplateSource) WithSubArrayOfValues(subPathArrayOfValues TsConditionTemplateSource_FieldPathArrayOfValues) *TsCondition_FieldSubPathArrayOfValues {
+	return &TsCondition_FieldSubPathArrayOfValues{TsCondition_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TsCondition_SpecPathSelectorQueries) WithSubArrayOfValues(subPathArrayOfValues TsConditionSpecQuery_FieldPathArrayOfValues) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return &TsConditionSpec_FieldSubPathArrayOfValues{TsConditionSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s TsConditionPathSelectorTemplateSource) WithSubArrayItemValue(subPathArrayItemValue TsConditionTemplateSource_FieldPathArrayItemValue) *TsCondition_FieldSubPathArrayItemValue {
+	return &TsCondition_FieldSubPathArrayItemValue{TsCondition_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (s TsCondition_SpecPathSelectorQueries) WithSubArrayItemValue(subPathArrayItemValue TsConditionSpecQuery_FieldPathArrayItemValue) *TsConditionSpec_FieldSubPathArrayItemValue {
-	return &TsConditionSpec_FieldSubPathArrayItemValue{TsConditionSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (TsConditionPathSelectorTemplateSource) Template() TsConditionPathSelectorTemplateSourceTemplate {
+	return TsConditionPathSelectorTemplateSourceTemplate{}
 }
 
-func (TsCondition_SpecPathSelectorQueries) Name() TsCondition_SpecPathSelectorQueriesName {
-	return TsCondition_SpecPathSelectorQueriesName{}
+func (TsConditionPathSelectorTemplateSource) UpdatedFields() TsConditionPathSelectorTemplateSourceUpdatedFields {
+	return TsConditionPathSelectorTemplateSourceUpdatedFields{}
 }
 
-func (TsCondition_SpecPathSelectorQueries) Filter() TsCondition_SpecPathSelectorQueriesFilter {
-	return TsCondition_SpecPathSelectorQueriesFilter{}
-}
+type TsConditionPathSelectorTemplateSourceTemplate struct{}
 
-func (TsCondition_SpecPathSelectorQueries) Aligner() TsCondition_SpecPathSelectorQueriesAligner {
-	return TsCondition_SpecPathSelectorQueriesAligner{}
-}
-
-func (TsCondition_SpecPathSelectorQueries) Reducer() TsCondition_SpecPathSelectorQueriesReducer {
-	return TsCondition_SpecPathSelectorQueriesReducer{}
-}
-
-func (TsCondition_SpecPathSelectorQueries) MaxValue() TsCondition_SpecPathSelectorQueriesMaxValue {
-	return TsCondition_SpecPathSelectorQueriesMaxValue{}
-}
-
-type TsCondition_SpecPathSelectorQueriesName struct{}
-
-func (TsCondition_SpecPathSelectorQueriesName) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorQueries,
-		subPath:  NewTsConditionSpecQueryFieldPathBuilder().Name().FieldPath(),
+func (TsConditionPathSelectorTemplateSourceTemplate) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorTemplateSource,
+		subPath:  NewTsConditionTemplateSourceFieldPathBuilder().Template().FieldPath(),
 	}
 }
 
-func (s TsCondition_SpecPathSelectorQueriesName) WithValue(value string) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
+func (s TsConditionPathSelectorTemplateSourceTemplate) WithValue(value *log_condition_template.Reference) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsCondition_SpecPathSelectorQueriesName) WithArrayOfValues(values []string) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
+func (s TsConditionPathSelectorTemplateSourceTemplate) WithArrayOfValues(values []*log_condition_template.Reference) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
-type TsCondition_SpecPathSelectorQueriesFilter struct{}
+type TsConditionPathSelectorTemplateSourceUpdatedFields struct{}
 
-func (TsCondition_SpecPathSelectorQueriesFilter) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorQueries,
-		subPath:  NewTsConditionSpecQueryFieldPathBuilder().Filter().FieldPath(),
+func (TsConditionPathSelectorTemplateSourceUpdatedFields) FieldPath() *TsCondition_FieldSubPath {
+	return &TsCondition_FieldSubPath{
+		selector: TsCondition_FieldPathSelectorTemplateSource,
+		subPath:  NewTsConditionTemplateSourceFieldPathBuilder().UpdatedFields().FieldPath(),
 	}
 }
 
-func (s TsCondition_SpecPathSelectorQueriesFilter) WithValue(value *monitoring_time_serie.Filter) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
+func (s TsConditionPathSelectorTemplateSourceUpdatedFields) WithValue(value *fieldmaskpb.FieldMask) *TsCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsCondition_SpecPathSelectorQueriesFilter) WithArrayOfValues(values []*monitoring_time_serie.Filter) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorQueriesAligner struct{}
-
-func (TsCondition_SpecPathSelectorQueriesAligner) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorQueries,
-		subPath:  NewTsConditionSpecQueryFieldPathBuilder().Aligner().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorQueriesAligner) WithValue(value monitoring_common.Aggregation_Aligner) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorQueriesAligner) WithArrayOfValues(values []monitoring_common.Aggregation_Aligner) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorQueriesReducer struct{}
-
-func (TsCondition_SpecPathSelectorQueriesReducer) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorQueries,
-		subPath:  NewTsConditionSpecQueryFieldPathBuilder().Reducer().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorQueriesReducer) WithValue(value monitoring_common.Aggregation_Reducer) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorQueriesReducer) WithArrayOfValues(values []monitoring_common.Aggregation_Reducer) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorQueriesMaxValue struct{}
-
-func (TsCondition_SpecPathSelectorQueriesMaxValue) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorQueries,
-		subPath:  NewTsConditionSpecQueryFieldPathBuilder().MaxValue().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorQueriesMaxValue) WithValue(value float64) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorQueriesMaxValue) WithArrayOfValues(values []float64) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorQueryGroupBy struct{}
-
-func (TsCondition_SpecPathSelectorQueryGroupBy) FieldPath() *TsConditionSpec_FieldTerminalPath {
-	return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueryGroupBy}
-}
-
-func (s TsCondition_SpecPathSelectorQueryGroupBy) WithValue(value []string) *TsConditionSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldTerminalPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorQueryGroupBy) WithArrayOfValues(values [][]string) *TsConditionSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (s TsCondition_SpecPathSelectorQueryGroupBy) WithItemValue(value string) *TsConditionSpec_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*TsConditionSpec_FieldTerminalPathArrayItemValue)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlerting struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) FieldPath() *TsConditionSpec_FieldTerminalPath {
-	return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorThresholdAlerting}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlerting) WithValue(value *TsCondition_Spec_ThresholdAlertingCfg) *TsConditionSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldTerminalPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlerting) WithArrayOfValues(values []*TsCondition_Spec_ThresholdAlertingCfg) *TsConditionSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) WithSubPath(subPath TsConditionSpecThresholdAlertingCfg_FieldPath) *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{selector: TsConditionSpec_FieldPathSelectorThresholdAlerting, subPath: subPath}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlerting) WithSubValue(subPathValue TsConditionSpecThresholdAlertingCfg_FieldPathValue) *TsConditionSpec_FieldSubPathValue {
-	return &TsConditionSpec_FieldSubPathValue{TsConditionSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlerting) WithSubArrayOfValues(subPathArrayOfValues TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return &TsConditionSpec_FieldSubPathArrayOfValues{TsConditionSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlerting) WithSubArrayItemValue(subPathArrayItemValue TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue) *TsConditionSpec_FieldSubPathArrayItemValue {
-	return &TsConditionSpec_FieldSubPathArrayItemValue{TsConditionSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) Operator() TsCondition_SpecPathSelectorThresholdAlertingOperator {
-	return TsCondition_SpecPathSelectorThresholdAlertingOperator{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) AlignmentPeriod() TsCondition_SpecPathSelectorThresholdAlertingAlignmentPeriod {
-	return TsCondition_SpecPathSelectorThresholdAlertingAlignmentPeriod{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) RaiseAfter() TsCondition_SpecPathSelectorThresholdAlertingRaiseAfter {
-	return TsCondition_SpecPathSelectorThresholdAlertingRaiseAfter{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) SilenceAfter() TsCondition_SpecPathSelectorThresholdAlertingSilenceAfter {
-	return TsCondition_SpecPathSelectorThresholdAlertingSilenceAfter{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) PerQueryThresholds() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlerting) AdaptiveThresholdsDetectionPeriod() TsCondition_SpecPathSelectorThresholdAlertingAdaptiveThresholdsDetectionPeriod {
-	return TsCondition_SpecPathSelectorThresholdAlertingAdaptiveThresholdsDetectionPeriod{}
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingOperator struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingOperator) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().Operator().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingOperator) WithValue(value TsCondition_Spec_ThresholdAlertingCfg_Operator) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingOperator) WithArrayOfValues(values []TsCondition_Spec_ThresholdAlertingCfg_Operator) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingAlignmentPeriod struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingAlignmentPeriod) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().AlignmentPeriod().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingAlignmentPeriod) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingRaiseAfter struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingRaiseAfter) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().RaiseAfter().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingRaiseAfter) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingRaiseAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingSilenceAfter struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingSilenceAfter) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().SilenceAfter().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingSilenceAfter) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingSilenceAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) WithValue(value []*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) WithArrayOfValues(values [][]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) WithItemValue(value *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsConditionSpec_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*TsConditionSpec_FieldSubPathArrayItemValue)
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) AutoAdaptUpper() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptUpper {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptUpper{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) AutoAdaptLower() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptLower {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptLower{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) MaxUpper() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholds) MaxLower() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower{}
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptUpper struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptUpper) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().AutoAdaptUpper().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptUpper) WithValue(value bool) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptUpper) WithArrayOfValues(values []bool) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptLower struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptLower) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().AutoAdaptLower().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptLower) WithValue(value bool) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsAutoAdaptLower) WithArrayOfValues(values []bool) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxUpper().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper) WithValue(value *AlertingThreshold) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper) WithArrayOfValues(values []*AlertingThreshold) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper) Value() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperValue {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperValue{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpper) IsInclusive() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperIsInclusive {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperIsInclusive{}
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperValue struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperValue) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxUpper().Value().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperValue) WithValue(value float64) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperValue) WithArrayOfValues(values []float64) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperIsInclusive struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperIsInclusive) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxUpper().IsInclusive().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperIsInclusive) WithValue(value bool) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxUpperIsInclusive) WithArrayOfValues(values []bool) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) WithValue(value *AlertingThreshold) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) Value() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue{}
-}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLower) IsInclusive() TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive {
-	return TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive{}
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().Value().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().PerQueryThresholds().MaxLower().IsInclusive().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorThresholdAlertingAdaptiveThresholdsDetectionPeriod struct{}
-
-func (TsCondition_SpecPathSelectorThresholdAlertingAdaptiveThresholdsDetectionPeriod) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorThresholdAlerting,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder().AdaptiveThresholdsDetectionPeriod().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingAdaptiveThresholdsDetectionPeriod) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorThresholdAlertingAdaptiveThresholdsDetectionPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlerting struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) FieldPath() *TsConditionSpec_FieldTerminalPath {
-	return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlerting) WithValue(value []*TsCondition_Spec_AnomalyAlertingCfg) *TsConditionSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldTerminalPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlerting) WithArrayOfValues(values [][]*TsCondition_Spec_AnomalyAlertingCfg) *TsConditionSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlerting) WithItemValue(value *TsCondition_Spec_AnomalyAlertingCfg) *TsConditionSpec_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*TsConditionSpec_FieldTerminalPathArrayItemValue)
-}
-func (TsCondition_SpecPathSelectorAnomalyAlerting) WithSubPath(subPath TsConditionSpecAnomalyAlertingCfg_FieldPath) *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting, subPath: subPath}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlerting) WithSubValue(subPathValue TsConditionSpecAnomalyAlertingCfg_FieldPathValue) *TsConditionSpec_FieldSubPathValue {
-	return &TsConditionSpec_FieldSubPathValue{TsConditionSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlerting) WithSubArrayOfValues(subPathArrayOfValues TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return &TsConditionSpec_FieldSubPathArrayOfValues{TsConditionSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlerting) WithSubArrayItemValue(subPathArrayItemValue TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue) *TsConditionSpec_FieldSubPathArrayItemValue {
-	return &TsConditionSpec_FieldSubPathArrayItemValue{TsConditionSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) AnalysisWindow() TsCondition_SpecPathSelectorAnomalyAlertingAnalysisWindow {
-	return TsCondition_SpecPathSelectorAnomalyAlertingAnalysisWindow{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) StepInterval() TsCondition_SpecPathSelectorAnomalyAlertingStepInterval {
-	return TsCondition_SpecPathSelectorAnomalyAlertingStepInterval{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) TrainStepInterval() TsCondition_SpecPathSelectorAnomalyAlertingTrainStepInterval {
-	return TsCondition_SpecPathSelectorAnomalyAlertingTrainStepInterval{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) AlignmentPeriod() TsCondition_SpecPathSelectorAnomalyAlertingAlignmentPeriod {
-	return TsCondition_SpecPathSelectorAnomalyAlertingAlignmentPeriod{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) LstmAutoencoder() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) RaiseAfter() TsCondition_SpecPathSelectorAnomalyAlertingRaiseAfter {
-	return TsCondition_SpecPathSelectorAnomalyAlertingRaiseAfter{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlerting) SilenceAfter() TsCondition_SpecPathSelectorAnomalyAlertingSilenceAfter {
-	return TsCondition_SpecPathSelectorAnomalyAlertingSilenceAfter{}
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingAnalysisWindow struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingAnalysisWindow) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().AnalysisWindow().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingAnalysisWindow) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingAnalysisWindow) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingStepInterval struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingStepInterval) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().StepInterval().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingStepInterval) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingStepInterval) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingTrainStepInterval struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingTrainStepInterval) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().TrainStepInterval().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingTrainStepInterval) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingTrainStepInterval) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingAlignmentPeriod struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingAlignmentPeriod) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().AlignmentPeriod().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingAlignmentPeriod) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) WithValue(value *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) WithArrayOfValues(values []*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) HiddenSize() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderHiddenSize {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderHiddenSize{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) LearnRate() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderLearnRate {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderLearnRate{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) MaxTrainingEpochs() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMaxTrainingEpochs {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMaxTrainingEpochs{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) MinTrainingEpochs() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMinTrainingEpochs {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMinTrainingEpochs{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) AcceptableTrainingError() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderAcceptableTrainingError {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderAcceptableTrainingError{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) TrainingPeriod() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderTrainingPeriod {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderTrainingPeriod{}
-}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoder) CheckPeriodFraction() TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderCheckPeriodFraction {
-	return TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderCheckPeriodFraction{}
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderHiddenSize struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderHiddenSize) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().HiddenSize().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderHiddenSize) WithValue(value int32) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderHiddenSize) WithArrayOfValues(values []int32) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderLearnRate struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderLearnRate) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().LearnRate().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderLearnRate) WithValue(value float64) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderLearnRate) WithArrayOfValues(values []float64) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMaxTrainingEpochs struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMaxTrainingEpochs) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().MaxTrainingEpochs().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMaxTrainingEpochs) WithValue(value int32) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMaxTrainingEpochs) WithArrayOfValues(values []int32) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMinTrainingEpochs struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMinTrainingEpochs) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().MinTrainingEpochs().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMinTrainingEpochs) WithValue(value int32) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderMinTrainingEpochs) WithArrayOfValues(values []int32) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderAcceptableTrainingError struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderAcceptableTrainingError) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().AcceptableTrainingError().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderAcceptableTrainingError) WithValue(value float64) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderAcceptableTrainingError) WithArrayOfValues(values []float64) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderTrainingPeriod struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderTrainingPeriod) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().TrainingPeriod().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderTrainingPeriod) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderTrainingPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderCheckPeriodFraction struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderCheckPeriodFraction) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().LstmAutoencoder().CheckPeriodFraction().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderCheckPeriodFraction) WithValue(value float64) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingLstmAutoencoderCheckPeriodFraction) WithArrayOfValues(values []float64) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingRaiseAfter struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingRaiseAfter) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().RaiseAfter().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingRaiseAfter) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingRaiseAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_SpecPathSelectorAnomalyAlertingSilenceAfter struct{}
-
-func (TsCondition_SpecPathSelectorAnomalyAlertingSilenceAfter) FieldPath() *TsConditionSpec_FieldSubPath {
-	return &TsConditionSpec_FieldSubPath{
-		selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder().SilenceAfter().FieldPath(),
-	}
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingSilenceAfter) WithValue(value *durationpb.Duration) *TsConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpec_FieldSubPathValue)
-}
-
-func (s TsCondition_SpecPathSelectorAnomalyAlertingSilenceAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpec_FieldSubPathArrayOfValues)
+func (s TsConditionPathSelectorTemplateSourceUpdatedFields) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *TsCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
 type TsConditionInternalFieldPathBuilder struct{}
@@ -2786,11 +2197,11 @@ func (TsCondition_InternalPathSelectorAlertingLocation) FieldPath() *TsCondition
 	return &TsConditionInternal_FieldTerminalPath{selector: TsConditionInternal_FieldPathSelectorAlertingLocation}
 }
 
-func (s TsCondition_InternalPathSelectorAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *TsConditionInternal_FieldTerminalPathValue {
+func (s TsCondition_InternalPathSelectorAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *TsConditionInternal_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionInternal_FieldTerminalPathValue)
 }
 
-func (s TsCondition_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *TsConditionInternal_FieldTerminalPathArrayOfValues {
+func (s TsCondition_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *TsConditionInternal_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionInternal_FieldTerminalPathArrayOfValues)
 }
 
@@ -2916,993 +2327,44 @@ func (s TsCondition_SelectorMapPathSelectorCommonResourceLabels) WithArrayOfValu
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSelector_FieldPathMapArrayOfValues)
 }
 
-type TsConditionSpecQueryFieldPathBuilder struct{}
+type TsConditionTemplateSourceFieldPathBuilder struct{}
 
-func NewTsConditionSpecQueryFieldPathBuilder() TsConditionSpecQueryFieldPathBuilder {
-	return TsConditionSpecQueryFieldPathBuilder{}
+func NewTsConditionTemplateSourceFieldPathBuilder() TsConditionTemplateSourceFieldPathBuilder {
+	return TsConditionTemplateSourceFieldPathBuilder{}
 }
-func (TsConditionSpecQueryFieldPathBuilder) Name() TsCondition_Spec_QueryPathSelectorName {
-	return TsCondition_Spec_QueryPathSelectorName{}
+func (TsConditionTemplateSourceFieldPathBuilder) Template() TsCondition_TemplateSourcePathSelectorTemplate {
+	return TsCondition_TemplateSourcePathSelectorTemplate{}
 }
-func (TsConditionSpecQueryFieldPathBuilder) Filter() TsCondition_Spec_QueryPathSelectorFilter {
-	return TsCondition_Spec_QueryPathSelectorFilter{}
+func (TsConditionTemplateSourceFieldPathBuilder) UpdatedFields() TsCondition_TemplateSourcePathSelectorUpdatedFields {
+	return TsCondition_TemplateSourcePathSelectorUpdatedFields{}
 }
-func (TsConditionSpecQueryFieldPathBuilder) Aligner() TsCondition_Spec_QueryPathSelectorAligner {
-	return TsCondition_Spec_QueryPathSelectorAligner{}
-}
-func (TsConditionSpecQueryFieldPathBuilder) Reducer() TsCondition_Spec_QueryPathSelectorReducer {
-	return TsCondition_Spec_QueryPathSelectorReducer{}
-}
-func (TsConditionSpecQueryFieldPathBuilder) MaxValue() TsCondition_Spec_QueryPathSelectorMaxValue {
-	return TsCondition_Spec_QueryPathSelectorMaxValue{}
-}
-
-type TsCondition_Spec_QueryPathSelectorName struct{}
-
-func (TsCondition_Spec_QueryPathSelectorName) FieldPath() *TsConditionSpecQuery_FieldTerminalPath {
-	return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorName}
-}
-
-func (s TsCondition_Spec_QueryPathSelectorName) WithValue(value string) *TsConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecQuery_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_QueryPathSelectorName) WithArrayOfValues(values []string) *TsConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecQuery_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_QueryPathSelectorFilter struct{}
-
-func (TsCondition_Spec_QueryPathSelectorFilter) FieldPath() *TsConditionSpecQuery_FieldTerminalPath {
-	return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorFilter}
-}
-
-func (s TsCondition_Spec_QueryPathSelectorFilter) WithValue(value *monitoring_time_serie.Filter) *TsConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecQuery_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_QueryPathSelectorFilter) WithArrayOfValues(values []*monitoring_time_serie.Filter) *TsConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecQuery_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_QueryPathSelectorAligner struct{}
-
-func (TsCondition_Spec_QueryPathSelectorAligner) FieldPath() *TsConditionSpecQuery_FieldTerminalPath {
-	return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorAligner}
-}
-
-func (s TsCondition_Spec_QueryPathSelectorAligner) WithValue(value monitoring_common.Aggregation_Aligner) *TsConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecQuery_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_QueryPathSelectorAligner) WithArrayOfValues(values []monitoring_common.Aggregation_Aligner) *TsConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecQuery_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_QueryPathSelectorReducer struct{}
-
-func (TsCondition_Spec_QueryPathSelectorReducer) FieldPath() *TsConditionSpecQuery_FieldTerminalPath {
-	return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorReducer}
-}
-
-func (s TsCondition_Spec_QueryPathSelectorReducer) WithValue(value monitoring_common.Aggregation_Reducer) *TsConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecQuery_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_QueryPathSelectorReducer) WithArrayOfValues(values []monitoring_common.Aggregation_Reducer) *TsConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecQuery_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_QueryPathSelectorMaxValue struct{}
-
-func (TsCondition_Spec_QueryPathSelectorMaxValue) FieldPath() *TsConditionSpecQuery_FieldTerminalPath {
-	return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorMaxValue}
-}
-
-func (s TsCondition_Spec_QueryPathSelectorMaxValue) WithValue(value float64) *TsConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecQuery_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_QueryPathSelectorMaxValue) WithArrayOfValues(values []float64) *TsConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecQuery_FieldTerminalPathArrayOfValues)
-}
-
-type TsConditionSpecThresholdAlertingCfgFieldPathBuilder struct{}
-
-func NewTsConditionSpecThresholdAlertingCfgFieldPathBuilder() TsConditionSpecThresholdAlertingCfgFieldPathBuilder {
-	return TsConditionSpecThresholdAlertingCfgFieldPathBuilder{}
-}
-func (TsConditionSpecThresholdAlertingCfgFieldPathBuilder) Operator() TsCondition_Spec_ThresholdAlertingCfgPathSelectorOperator {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorOperator{}
-}
-func (TsConditionSpecThresholdAlertingCfgFieldPathBuilder) AlignmentPeriod() TsCondition_Spec_ThresholdAlertingCfgPathSelectorAlignmentPeriod {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorAlignmentPeriod{}
-}
-func (TsConditionSpecThresholdAlertingCfgFieldPathBuilder) RaiseAfter() TsCondition_Spec_ThresholdAlertingCfgPathSelectorRaiseAfter {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorRaiseAfter{}
-}
-func (TsConditionSpecThresholdAlertingCfgFieldPathBuilder) SilenceAfter() TsCondition_Spec_ThresholdAlertingCfgPathSelectorSilenceAfter {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorSilenceAfter{}
-}
-func (TsConditionSpecThresholdAlertingCfgFieldPathBuilder) PerQueryThresholds() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds{}
-}
-func (TsConditionSpecThresholdAlertingCfgFieldPathBuilder) AdaptiveThresholdsDetectionPeriod() TsCondition_Spec_ThresholdAlertingCfgPathSelectorAdaptiveThresholdsDetectionPeriod {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorAdaptiveThresholdsDetectionPeriod{}
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorOperator struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorOperator) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorOperator) WithValue(value TsCondition_Spec_ThresholdAlertingCfg_Operator) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorOperator) WithArrayOfValues(values []TsCondition_Spec_ThresholdAlertingCfg_Operator) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorAlignmentPeriod struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorAlignmentPeriod) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorAlignmentPeriod) WithValue(value *durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorRaiseAfter struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorRaiseAfter) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorRaiseAfter) WithValue(value *durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorRaiseAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorSilenceAfter struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorSilenceAfter) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorSilenceAfter) WithValue(value *durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorSilenceAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) WithValue(value []*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) WithArrayOfValues(values [][]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) WithItemValue(value *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue)
-}
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) WithSubPath(subPath TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath) *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds, subPath: subPath}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) WithSubValue(subPathValue TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPathValue{TsConditionSpecThresholdAlertingCfg_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) WithSubArrayOfValues(subPathArrayOfValues TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) WithSubArrayItemValue(subPathArrayItemValue TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayItemValue {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayItemValue{TsConditionSpecThresholdAlertingCfg_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) AutoAdaptUpper() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptUpper {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptUpper{}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) AutoAdaptLower() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptLower {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptLower{}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MaxUpper() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper{}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholds) MaxLower() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower{}
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptUpper struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptUpper) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().AutoAdaptUpper().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptUpper) WithValue(value bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptUpper) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptLower struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptLower) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().AutoAdaptLower().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptLower) WithValue(value bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsAutoAdaptLower) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxUpper().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper) WithValue(value *AlertingThreshold) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper) WithArrayOfValues(values []*AlertingThreshold) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper) Value() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperValue {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperValue{}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpper) IsInclusive() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperIsInclusive {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperIsInclusive{}
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperValue struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperValue) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxUpper().Value().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperValue) WithValue(value float64) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperValue) WithArrayOfValues(values []float64) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperIsInclusive struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperIsInclusive) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxUpper().IsInclusive().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperIsInclusive) WithValue(value bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxUpperIsInclusive) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) WithValue(value *AlertingThreshold) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) Value() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue{}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLower) IsInclusive() TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive {
-	return TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive{}
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().Value().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) WithValue(value float64) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerValue) WithArrayOfValues(values []float64) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds,
-		subPath:  NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder().MaxLower().IsInclusive().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) WithValue(value bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorPerQueryThresholdsMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfgPathSelectorAdaptiveThresholdsDetectionPeriod struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfgPathSelectorAdaptiveThresholdsDetectionPeriod) FieldPath() *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorAdaptiveThresholdsDetectionPeriod) WithValue(value *durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfgPathSelectorAdaptiveThresholdsDetectionPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsConditionSpecAnomalyAlertingCfgFieldPathBuilder struct{}
-
-func NewTsConditionSpecAnomalyAlertingCfgFieldPathBuilder() TsConditionSpecAnomalyAlertingCfgFieldPathBuilder {
-	return TsConditionSpecAnomalyAlertingCfgFieldPathBuilder{}
-}
-func (TsConditionSpecAnomalyAlertingCfgFieldPathBuilder) AnalysisWindow() TsCondition_Spec_AnomalyAlertingCfgPathSelectorAnalysisWindow {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorAnalysisWindow{}
-}
-func (TsConditionSpecAnomalyAlertingCfgFieldPathBuilder) StepInterval() TsCondition_Spec_AnomalyAlertingCfgPathSelectorStepInterval {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorStepInterval{}
-}
-func (TsConditionSpecAnomalyAlertingCfgFieldPathBuilder) TrainStepInterval() TsCondition_Spec_AnomalyAlertingCfgPathSelectorTrainStepInterval {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorTrainStepInterval{}
-}
-func (TsConditionSpecAnomalyAlertingCfgFieldPathBuilder) AlignmentPeriod() TsCondition_Spec_AnomalyAlertingCfgPathSelectorAlignmentPeriod {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorAlignmentPeriod{}
-}
-func (TsConditionSpecAnomalyAlertingCfgFieldPathBuilder) LstmAutoencoder() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder{}
-}
-func (TsConditionSpecAnomalyAlertingCfgFieldPathBuilder) RaiseAfter() TsCondition_Spec_AnomalyAlertingCfgPathSelectorRaiseAfter {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorRaiseAfter{}
-}
-func (TsConditionSpecAnomalyAlertingCfgFieldPathBuilder) SilenceAfter() TsCondition_Spec_AnomalyAlertingCfgPathSelectorSilenceAfter {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorSilenceAfter{}
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorAnalysisWindow struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorAnalysisWindow) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorAnalysisWindow) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorAnalysisWindow) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorStepInterval struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorStepInterval) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorStepInterval) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorStepInterval) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorTrainStepInterval struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorTrainStepInterval) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorTrainStepInterval) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorTrainStepInterval) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorAlignmentPeriod struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorAlignmentPeriod) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorAlignmentPeriod) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorAlignmentPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) WithValue(value *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) WithArrayOfValues(values []*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) WithSubPath(subPath TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath) *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder, subPath: subPath}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) WithSubValue(subPathValue TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue{TsConditionSpecAnomalyAlertingCfg_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) WithSubArrayOfValues(subPathArrayOfValues TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) WithSubArrayItemValue(subPathArrayItemValue TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayItemValue {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayItemValue{TsConditionSpecAnomalyAlertingCfg_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) HiddenSize() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderHiddenSize {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderHiddenSize{}
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) LearnRate() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderLearnRate {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderLearnRate{}
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) MaxTrainingEpochs() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMaxTrainingEpochs {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMaxTrainingEpochs{}
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) MinTrainingEpochs() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMinTrainingEpochs {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMinTrainingEpochs{}
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) AcceptableTrainingError() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderAcceptableTrainingError {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderAcceptableTrainingError{}
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) TrainingPeriod() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderTrainingPeriod {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderTrainingPeriod{}
-}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoder) CheckPeriodFraction() TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderCheckPeriodFraction {
-	return TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderCheckPeriodFraction{}
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderHiddenSize struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderHiddenSize) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder().HiddenSize().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderHiddenSize) WithValue(value int32) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderHiddenSize) WithArrayOfValues(values []int32) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderLearnRate struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderLearnRate) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder().LearnRate().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderLearnRate) WithValue(value float64) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderLearnRate) WithArrayOfValues(values []float64) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMaxTrainingEpochs struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMaxTrainingEpochs) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder().MaxTrainingEpochs().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMaxTrainingEpochs) WithValue(value int32) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMaxTrainingEpochs) WithArrayOfValues(values []int32) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMinTrainingEpochs struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMinTrainingEpochs) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder().MinTrainingEpochs().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMinTrainingEpochs) WithValue(value int32) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderMinTrainingEpochs) WithArrayOfValues(values []int32) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderAcceptableTrainingError struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderAcceptableTrainingError) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder().AcceptableTrainingError().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderAcceptableTrainingError) WithValue(value float64) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderAcceptableTrainingError) WithArrayOfValues(values []float64) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderTrainingPeriod struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderTrainingPeriod) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder().TrainingPeriod().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderTrainingPeriod) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderTrainingPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderCheckPeriodFraction struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderCheckPeriodFraction) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldSubPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{
-		selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder,
-		subPath:  NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder().CheckPeriodFraction().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderCheckPeriodFraction) WithValue(value float64) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorLstmAutoencoderCheckPeriodFraction) WithArrayOfValues(values []float64) *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorRaiseAfter struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorRaiseAfter) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorRaiseAfter) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorRaiseAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfgPathSelectorSilenceAfter struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfgPathSelectorSilenceAfter) FieldPath() *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorSilenceAfter) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfgPathSelectorSilenceAfter) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder struct{}
-
-func NewTsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder() TsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder {
-	return TsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder{}
-}
-func (TsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) AutoAdaptUpper() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptUpper {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptUpper{}
-}
-func (TsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) AutoAdaptLower() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptLower {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptLower{}
-}
-func (TsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MaxUpper() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper{}
-}
-func (TsConditionSpecThresholdAlertingCfgAlertingThresholdsFieldPathBuilder) MaxLower() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower{}
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptUpper struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptUpper) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptUpper) WithValue(value bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptUpper) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptLower struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptLower) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptLower) WithValue(value bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorAutoAdaptLower) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) WithValue(value *AlertingThreshold) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) WithArrayOfValues(values []*AlertingThreshold) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues)
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) WithSubPath(subPath AlertingThreshold_FieldPath) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper, subPath: subPath}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) WithSubValue(subPathValue AlertingThreshold_FieldPathValue) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) WithSubArrayOfValues(subPathArrayOfValues AlertingThreshold_FieldPathArrayOfValues) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) WithSubArrayItemValue(subPathArrayItemValue AlertingThreshold_FieldPathArrayItemValue) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) Value() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperValue {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperValue{}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpper) IsInclusive() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperIsInclusive {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperIsInclusive{}
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperValue struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperValue) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper,
-		subPath:  NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperValue) WithValue(value float64) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperValue) WithArrayOfValues(values []float64) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperIsInclusive struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperIsInclusive) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper,
-		subPath:  NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperIsInclusive) WithValue(value bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxUpperIsInclusive) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithValue(value *AlertingThreshold) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithArrayOfValues(values []*AlertingThreshold) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues)
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubPath(subPath AlertingThreshold_FieldPath) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower, subPath: subPath}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubValue(subPathValue AlertingThreshold_FieldPathValue) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubArrayOfValues(subPathArrayOfValues AlertingThreshold_FieldPathArrayOfValues) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) WithSubArrayItemValue(subPathArrayItemValue AlertingThreshold_FieldPathArrayItemValue) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) Value() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue{}
-}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLower) IsInclusive() TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive {
-	return TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive{}
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower,
-		subPath:  NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) WithValue(value float64) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerValue) WithArrayOfValues(values []float64) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive struct{}
-
-func (TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) FieldPath() *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{
-		selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower,
-		subPath:  NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
-	}
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) WithValue(value bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)
-}
-
-func (s TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholdsPathSelectorMaxLowerIsInclusive) WithArrayOfValues(values []bool) *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)
-}
-
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder struct{}
-
-func NewTsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder() TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder {
-	return TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder{}
-}
-func (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder) HiddenSize() TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorHiddenSize {
-	return TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorHiddenSize{}
-}
-func (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder) LearnRate() TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorLearnRate {
-	return TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorLearnRate{}
-}
-func (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder) MaxTrainingEpochs() TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMaxTrainingEpochs {
-	return TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMaxTrainingEpochs{}
-}
-func (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder) MinTrainingEpochs() TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMinTrainingEpochs {
-	return TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMinTrainingEpochs{}
-}
-func (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder) AcceptableTrainingError() TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorAcceptableTrainingError {
-	return TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorAcceptableTrainingError{}
-}
-func (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder) TrainingPeriod() TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorTrainingPeriod {
-	return TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorTrainingPeriod{}
-}
-func (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoderFieldPathBuilder) CheckPeriodFraction() TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorCheckPeriodFraction {
-	return TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorCheckPeriodFraction{}
-}
-
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorHiddenSize struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorHiddenSize) FieldPath() *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorHiddenSize) WithValue(value int32) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorHiddenSize) WithArrayOfValues(values []int32) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorLearnRate struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorLearnRate) FieldPath() *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorLearnRate) WithValue(value float64) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorLearnRate) WithArrayOfValues(values []float64) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMaxTrainingEpochs struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMaxTrainingEpochs) FieldPath() *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMaxTrainingEpochs) WithValue(value int32) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMaxTrainingEpochs) WithArrayOfValues(values []int32) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMinTrainingEpochs struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMinTrainingEpochs) FieldPath() *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMinTrainingEpochs) WithValue(value int32) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorMinTrainingEpochs) WithArrayOfValues(values []int32) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorAcceptableTrainingError struct{}
-
-func (TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorAcceptableTrainingError) FieldPath() *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError}
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorAcceptableTrainingError) WithValue(value float64) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)
-}
-
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorAcceptableTrainingError) WithArrayOfValues(values []float64) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)
-}
 
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorTrainingPeriod struct{}
+type TsCondition_TemplateSourcePathSelectorTemplate struct{}
 
-func (TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorTrainingPeriod) FieldPath() *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod}
+func (TsCondition_TemplateSourcePathSelectorTemplate) FieldPath() *TsConditionTemplateSource_FieldTerminalPath {
+	return &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorTemplate}
 }
 
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorTrainingPeriod) WithValue(value *durationpb.Duration) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)
+func (s TsCondition_TemplateSourcePathSelectorTemplate) WithValue(value *log_condition_template.Reference) *TsConditionTemplateSource_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TsConditionTemplateSource_FieldTerminalPathValue)
 }
 
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorTrainingPeriod) WithArrayOfValues(values []*durationpb.Duration) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)
+func (s TsCondition_TemplateSourcePathSelectorTemplate) WithArrayOfValues(values []*log_condition_template.Reference) *TsConditionTemplateSource_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplateSource_FieldTerminalPathArrayOfValues)
 }
 
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorCheckPeriodFraction struct{}
+type TsCondition_TemplateSourcePathSelectorUpdatedFields struct{}
 
-func (TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorCheckPeriodFraction) FieldPath() *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath {
-	return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction}
+func (TsCondition_TemplateSourcePathSelectorUpdatedFields) FieldPath() *TsConditionTemplateSource_FieldTerminalPath {
+	return &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorUpdatedFields}
 }
 
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorCheckPeriodFraction) WithValue(value float64) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)
+func (s TsCondition_TemplateSourcePathSelectorUpdatedFields) WithValue(value *fieldmaskpb.FieldMask) *TsConditionTemplateSource_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*TsConditionTemplateSource_FieldTerminalPathValue)
 }
 
-func (s TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoderPathSelectorCheckPeriodFraction) WithArrayOfValues(values []float64) *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)
+func (s TsCondition_TemplateSourcePathSelectorUpdatedFields) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *TsConditionTemplateSource_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplateSource_FieldTerminalPathArrayOfValues)
 }
 
 type TsConditionSelectorStringsFieldPathBuilder struct{}
@@ -3930,44 +2392,4 @@ func (s TsCondition_Selector_StringsPathSelectorValues) WithArrayOfValues(values
 
 func (s TsCondition_Selector_StringsPathSelectorValues) WithItemValue(value string) *TsConditionSelectorStrings_FieldTerminalPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*TsConditionSelectorStrings_FieldTerminalPathArrayItemValue)
-}
-
-type AlertingThresholdFieldPathBuilder struct{}
-
-func NewAlertingThresholdFieldPathBuilder() AlertingThresholdFieldPathBuilder {
-	return AlertingThresholdFieldPathBuilder{}
-}
-func (AlertingThresholdFieldPathBuilder) Value() AlertingThresholdPathSelectorValue {
-	return AlertingThresholdPathSelectorValue{}
-}
-func (AlertingThresholdFieldPathBuilder) IsInclusive() AlertingThresholdPathSelectorIsInclusive {
-	return AlertingThresholdPathSelectorIsInclusive{}
-}
-
-type AlertingThresholdPathSelectorValue struct{}
-
-func (AlertingThresholdPathSelectorValue) FieldPath() *AlertingThreshold_FieldTerminalPath {
-	return &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorValue}
-}
-
-func (s AlertingThresholdPathSelectorValue) WithValue(value float64) *AlertingThreshold_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingThreshold_FieldTerminalPathValue)
-}
-
-func (s AlertingThresholdPathSelectorValue) WithArrayOfValues(values []float64) *AlertingThreshold_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingThreshold_FieldTerminalPathArrayOfValues)
-}
-
-type AlertingThresholdPathSelectorIsInclusive struct{}
-
-func (AlertingThresholdPathSelectorIsInclusive) FieldPath() *AlertingThreshold_FieldTerminalPath {
-	return &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorIsInclusive}
-}
-
-func (s AlertingThresholdPathSelectorIsInclusive) WithValue(value bool) *AlertingThreshold_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*AlertingThreshold_FieldTerminalPathValue)
-}
-
-func (s AlertingThresholdPathSelectorIsInclusive) WithArrayOfValues(values []bool) *AlertingThreshold_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*AlertingThreshold_FieldTerminalPathArrayOfValues)
 }

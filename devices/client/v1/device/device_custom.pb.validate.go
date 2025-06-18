@@ -23,6 +23,7 @@ import (
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	device "github.com/cloudwan/edgelq-sdk/devices/resources/v1/device"
 	project "github.com/cloudwan/edgelq-sdk/devices/resources/v1/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -45,6 +46,7 @@ var (
 	_ = &api.Account{}
 	_ = &device.Device{}
 	_ = &project.Project{}
+	_ = &monitoring_time_serie.Point{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
 )
@@ -424,6 +426,13 @@ func (obj *DeviceMetrics_InterfaceMetric) GotenValidate() error {
 func (obj *ReportDeviceMetricsResponse) GotenValidate() error {
 	if obj == nil {
 		return nil
+	}
+	for idx, elem := range obj.NewTimeSeriesHeaders {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ReportDeviceMetricsResponse", "newTimeSeriesHeaders", obj.NewTimeSeriesHeaders[idx], "nested object validation failed", err)
+			}
+		}
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

@@ -19,11 +19,12 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
-	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -43,9 +44,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
-	_ = &logging_log.Log{}
-	_ = &durationpb.Duration{}
+	_ = &rcommon.LogCndSpec{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
 
@@ -62,6 +64,7 @@ func FullLogCondition_FieldMask() *LogCondition_FieldMask {
 	res.Paths = append(res.Paths, &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorSupportingDocs})
 	res.Paths = append(res.Paths, &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorSpec})
 	res.Paths = append(res.Paths, &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorInternal})
+	res.Paths = append(res.Paths, &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorTemplateSource})
 	return res
 }
 
@@ -80,7 +83,7 @@ func (fieldMask *LogCondition_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*LogCondition_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -110,16 +113,18 @@ func (fieldMask *LogCondition_FieldMask) Reset() {
 
 func (fieldMask *LogCondition_FieldMask) Subtract(other *LogCondition_FieldMask) *LogCondition_FieldMask {
 	result := &LogCondition_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[LogCondition_FieldPathSelector]gotenobject.FieldMask{
-		LogCondition_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		LogCondition_FieldPathSelectorSpec:     &LogCondition_Spec_FieldMask{},
-		LogCondition_FieldPathSelectorInternal: &LogCondition_Internal_FieldMask{},
+		LogCondition_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
+		LogCondition_FieldPathSelectorSpec:           &rcommon.LogCndSpec_FieldMask{},
+		LogCondition_FieldPathSelectorInternal:       &LogCondition_Internal_FieldMask{},
+		LogCondition_FieldPathSelectorTemplateSource: &LogCondition_TemplateSource_FieldMask{},
 	}
 	mySubMasks := map[LogCondition_FieldPathSelector]gotenobject.FieldMask{
-		LogCondition_FieldPathSelectorMetadata: &meta.Meta_FieldMask{},
-		LogCondition_FieldPathSelectorSpec:     &LogCondition_Spec_FieldMask{},
-		LogCondition_FieldPathSelectorInternal: &LogCondition_Internal_FieldMask{},
+		LogCondition_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
+		LogCondition_FieldPathSelectorSpec:           &rcommon.LogCndSpec_FieldMask{},
+		LogCondition_FieldPathSelectorInternal:       &LogCondition_Internal_FieldMask{},
+		LogCondition_FieldPathSelectorTemplateSource: &LogCondition_TemplateSource_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -138,9 +143,11 @@ func (fieldMask *LogCondition_FieldMask) Subtract(other *LogCondition_FieldMask)
 					case LogCondition_FieldPathSelectorMetadata:
 						mySubMasks[LogCondition_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case LogCondition_FieldPathSelectorSpec:
-						mySubMasks[LogCondition_FieldPathSelectorSpec] = FullLogCondition_Spec_FieldMask()
+						mySubMasks[LogCondition_FieldPathSelectorSpec] = rcommon.FullLogCndSpec_FieldMask()
 					case LogCondition_FieldPathSelectorInternal:
 						mySubMasks[LogCondition_FieldPathSelectorInternal] = FullLogCondition_Internal_FieldMask()
+					case LogCondition_FieldPathSelectorTemplateSource:
+						mySubMasks[LogCondition_FieldPathSelectorTemplateSource] = FullLogCondition_TemplateSource_FieldMask()
 					}
 				} else if tp, ok := path.(*LogCondition_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -314,10 +321,12 @@ func (fieldMask *LogCondition_FieldMask) Project(source *LogCondition) *LogCondi
 	result := &LogCondition{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	specMask := &LogCondition_Spec_FieldMask{}
+	specMask := &rcommon.LogCndSpec_FieldMask{}
 	wholeSpecAccepted := false
 	internalMask := &LogCondition_Internal_FieldMask{}
 	wholeInternalAccepted := false
+	templateSourceMask := &LogCondition_TemplateSource_FieldMask{}
+	wholeTemplateSourceAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -340,15 +349,20 @@ func (fieldMask *LogCondition_FieldMask) Project(source *LogCondition) *LogCondi
 			case LogCondition_FieldPathSelectorInternal:
 				result.Internal = source.Internal
 				wholeInternalAccepted = true
+			case LogCondition_FieldPathSelectorTemplateSource:
+				result.TemplateSource = source.TemplateSource
+				wholeTemplateSourceAccepted = true
 			}
 		case *LogCondition_FieldSubPath:
 			switch tp.selector {
 			case LogCondition_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case LogCondition_FieldPathSelectorSpec:
-				specMask.AppendPath(tp.subPath.(LogConditionSpec_FieldPath))
+				specMask.AppendPath(tp.subPath.(rcommon.LogCndSpec_FieldPath))
 			case LogCondition_FieldPathSelectorInternal:
 				internalMask.AppendPath(tp.subPath.(LogConditionInternal_FieldPath))
+			case LogCondition_FieldPathSelectorTemplateSource:
+				templateSourceMask.AppendPath(tp.subPath.(LogConditionTemplateSource_FieldPath))
 			}
 		}
 	}
@@ -361,6 +375,9 @@ func (fieldMask *LogCondition_FieldMask) Project(source *LogCondition) *LogCondi
 	if wholeInternalAccepted == false && len(internalMask.Paths) > 0 {
 		result.Internal = internalMask.Project(source.GetInternal())
 	}
+	if wholeTemplateSourceAccepted == false && len(templateSourceMask.Paths) > 0 {
+		result.TemplateSource = templateSourceMask.Project(source.GetTemplateSource())
+	}
 	return result
 }
 
@@ -369,274 +386,6 @@ func (fieldMask *LogCondition_FieldMask) ProjectRaw(source gotenobject.GotenObje
 }
 
 func (fieldMask *LogCondition_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type LogCondition_Spec_FieldMask struct {
-	Paths []LogConditionSpec_FieldPath
-}
-
-func FullLogCondition_Spec_FieldMask() *LogCondition_Spec_FieldMask {
-	res := &LogCondition_Spec_FieldMask{}
-	res.Paths = append(res.Paths, &LogConditionSpec_FieldTerminalPath{selector: LogConditionSpec_FieldPathSelectorQuery})
-	res.Paths = append(res.Paths, &LogConditionSpec_FieldTerminalPath{selector: LogConditionSpec_FieldPathSelectorGroupByLabels})
-	return res
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 2)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*LogConditionSpec_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseLogConditionSpec_FieldPath(raw)
-	})
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) ProtoMessage() {}
-
-func (fieldMask *LogCondition_Spec_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) Subtract(other *LogCondition_Spec_FieldMask) *LogCondition_Spec_FieldMask {
-	result := &LogCondition_Spec_FieldMask{}
-	removedSelectors := make([]bool, 2)
-	otherSubMasks := map[LogConditionSpec_FieldPathSelector]gotenobject.FieldMask{
-		LogConditionSpec_FieldPathSelectorQuery: &LogCondition_Spec_Query_FieldMask{},
-	}
-	mySubMasks := map[LogConditionSpec_FieldPathSelector]gotenobject.FieldMask{
-		LogConditionSpec_FieldPathSelectorQuery: &LogCondition_Spec_Query_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *LogConditionSpec_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *LogConditionSpec_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*LogConditionSpec_FieldTerminalPath); ok {
-					switch tp.selector {
-					case LogConditionSpec_FieldPathSelectorQuery:
-						mySubMasks[LogConditionSpec_FieldPathSelectorQuery] = FullLogCondition_Spec_Query_FieldMask()
-					}
-				} else if tp, ok := path.(*LogConditionSpec_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &LogConditionSpec_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*LogCondition_Spec_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *LogCondition_Spec_FieldMask) FilterInputFields() *LogCondition_Spec_FieldMask {
-	result := &LogCondition_Spec_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *LogCondition_Spec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]LogConditionSpec_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseLogConditionSpec_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask LogCondition_Spec_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask LogCondition_Spec_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) AppendPath(path LogConditionSpec_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(LogConditionSpec_FieldPath))
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) GetPaths() []LogConditionSpec_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseLogConditionSpec_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) Set(target, source *LogCondition_Spec) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*LogCondition_Spec), source.(*LogCondition_Spec))
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) Project(source *LogCondition_Spec) *LogCondition_Spec {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &LogCondition_Spec{}
-	queryMask := &LogCondition_Spec_Query_FieldMask{}
-	wholeQueryAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *LogConditionSpec_FieldTerminalPath:
-			switch tp.selector {
-			case LogConditionSpec_FieldPathSelectorQuery:
-				result.Query = source.Query
-				wholeQueryAccepted = true
-			case LogConditionSpec_FieldPathSelectorGroupByLabels:
-				result.GroupByLabels = source.GroupByLabels
-			}
-		case *LogConditionSpec_FieldSubPath:
-			switch tp.selector {
-			case LogConditionSpec_FieldPathSelectorQuery:
-				queryMask.AppendPath(tp.subPath.(LogConditionSpecQuery_FieldPath))
-			}
-		}
-	}
-	if wholeQueryAccepted == false && len(queryMask.Paths) > 0 {
-		result.Query = queryMask.Project(source.GetQuery())
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*LogCondition_Spec))
-}
-
-func (fieldMask *LogCondition_Spec_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -871,19 +620,18 @@ func (fieldMask *LogCondition_Internal_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type LogCondition_Spec_Query_FieldMask struct {
-	Paths []LogConditionSpecQuery_FieldPath
+type LogCondition_TemplateSource_FieldMask struct {
+	Paths []LogConditionTemplateSource_FieldPath
 }
 
-func FullLogCondition_Spec_Query_FieldMask() *LogCondition_Spec_Query_FieldMask {
-	res := &LogCondition_Spec_Query_FieldMask{}
-	res.Paths = append(res.Paths, &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorFilter})
-	res.Paths = append(res.Paths, &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorTrigger})
-	res.Paths = append(res.Paths, &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorMinDuration})
+func FullLogCondition_TemplateSource_FieldMask() *LogCondition_TemplateSource_FieldMask {
+	res := &LogCondition_TemplateSource_FieldMask{}
+	res.Paths = append(res.Paths, &LogConditionTemplateSource_FieldTerminalPath{selector: LogConditionTemplateSource_FieldPathSelectorTemplate})
+	res.Paths = append(res.Paths, &LogConditionTemplateSource_FieldTerminalPath{selector: LogConditionTemplateSource_FieldPathSelectorUpdatedFields})
 	return res
 }
 
-func (fieldMask *LogCondition_Spec_Query_FieldMask) String() string {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -894,246 +642,13 @@ func (fieldMask *LogCondition_Spec_Query_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-func (fieldMask *LogCondition_Spec_Query_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 3)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*LogConditionSpecQuery_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseLogConditionSpecQuery_FieldPath(raw)
-	})
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) ProtoMessage() {}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) Subtract(other *LogCondition_Spec_Query_FieldMask) *LogCondition_Spec_Query_FieldMask {
-	result := &LogCondition_Spec_Query_FieldMask{}
-	removedSelectors := make([]bool, 3)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *LogConditionSpecQuery_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*LogCondition_Spec_Query_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *LogCondition_Spec_Query_FieldMask) FilterInputFields() *LogCondition_Spec_Query_FieldMask {
-	result := &LogCondition_Spec_Query_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *LogCondition_Spec_Query_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]LogConditionSpecQuery_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseLogConditionSpecQuery_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask LogCondition_Spec_Query_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask LogCondition_Spec_Query_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) AppendPath(path LogConditionSpecQuery_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(LogConditionSpecQuery_FieldPath))
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) GetPaths() []LogConditionSpecQuery_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseLogConditionSpecQuery_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) Set(target, source *LogCondition_Spec_Query) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*LogCondition_Spec_Query), source.(*LogCondition_Spec_Query))
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) Project(source *LogCondition_Spec_Query) *LogCondition_Spec_Query {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &LogCondition_Spec_Query{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *LogConditionSpecQuery_FieldTerminalPath:
-			switch tp.selector {
-			case LogConditionSpecQuery_FieldPathSelectorFilter:
-				result.Filter = source.Filter
-			case LogConditionSpecQuery_FieldPathSelectorTrigger:
-				result.Trigger = source.Trigger
-			case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-				result.MinDuration = source.MinDuration
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*LogCondition_Spec_Query))
-}
-
-func (fieldMask *LogCondition_Spec_Query_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type LogCondition_Spec_Query_LabelTrigger_FieldMask struct {
-	Paths []LogConditionSpecQueryLabelTrigger_FieldPath
-}
-
-func FullLogCondition_Spec_Query_LabelTrigger_FieldMask() *LogCondition_Spec_Query_LabelTrigger_FieldMask {
-	res := &LogCondition_Spec_Query_LabelTrigger_FieldMask{}
-	res.Paths = append(res.Paths, &LogConditionSpecQueryLabelTrigger_FieldTerminalPath{selector: LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey})
-	res.Paths = append(res.Paths, &LogConditionSpecQueryLabelTrigger_FieldTerminalPath{selector: LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues})
-	return res
-}
-
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) IsFull() bool {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
 	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*LogConditionSpecQueryLabelTrigger_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*LogConditionTemplateSource_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -1145,27 +660,27 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseLogConditionSpecQueryLabelTrigger_FieldPath(raw)
+		return ParseLogConditionTemplateSource_FieldPath(raw)
 	})
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) ProtoMessage() {}
+func (fieldMask *LogCondition_TemplateSource_FieldMask) ProtoMessage() {}
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Reset() {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Subtract(other *LogCondition_Spec_Query_LabelTrigger_FieldMask) *LogCondition_Spec_Query_LabelTrigger_FieldMask {
-	result := &LogCondition_Spec_Query_LabelTrigger_FieldMask{}
+func (fieldMask *LogCondition_TemplateSource_FieldMask) Subtract(other *LogCondition_TemplateSource_FieldMask) *LogCondition_TemplateSource_FieldMask {
+	result := &LogCondition_TemplateSource_FieldMask{}
 	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *LogConditionSpecQueryLabelTrigger_FieldTerminalPath:
+		case *LogConditionTemplateSource_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -1181,19 +696,19 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Subtract(other 
 	return result
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*LogCondition_Spec_Query_LabelTrigger_FieldMask))
+func (fieldMask *LogCondition_TemplateSource_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*LogCondition_TemplateSource_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) FilterInputFields() *LogCondition_Spec_Query_LabelTrigger_FieldMask {
-	result := &LogCondition_Spec_Query_LabelTrigger_FieldMask{}
+func (fieldMask *LogCondition_TemplateSource_FieldMask) FilterInputFields() *LogCondition_TemplateSource_FieldMask {
+	result := &LogCondition_TemplateSource_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -1201,13 +716,13 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) ToProtoFieldMas
 	return protoFieldMask
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]LogConditionSpecQueryLabelTrigger_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]LogConditionTemplateSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseLogConditionSpecQueryLabelTrigger_FieldPath(strPath)
+		path, err := ParseLogConditionTemplateSource_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -1217,12 +732,12 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) FromProtoFieldM
 }
 
 // implement methods required by customType
-func (fieldMask LogCondition_Spec_Query_LabelTrigger_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask LogCondition_TemplateSource_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1233,15 +748,15 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Unmarshal(data 
 	return nil
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Size() int {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask LogCondition_Spec_Query_LabelTrigger_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask LogCondition_TemplateSource_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1252,22 +767,22 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) UnmarshalJSON(d
 	return nil
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) AppendPath(path LogConditionSpecQueryLabelTrigger_FieldPath) {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) AppendPath(path LogConditionTemplateSource_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(LogConditionSpecQueryLabelTrigger_FieldPath))
+func (fieldMask *LogCondition_TemplateSource_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(LogConditionTemplateSource_FieldPath))
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) GetPaths() []LogConditionSpecQueryLabelTrigger_FieldPath {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) GetPaths() []LogConditionTemplateSource_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -1278,8 +793,8 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) GetRawPaths() [
 	return rawPaths
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseLogConditionSpecQueryLabelTrigger_FieldPath(raw)
+func (fieldMask *LogCondition_TemplateSource_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseLogConditionTemplateSource_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -1287,7 +802,7 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) SetFromCliFlag(
 	return nil
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Set(target, source *LogCondition_Spec_Query_LabelTrigger) {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) Set(target, source *LogCondition_TemplateSource) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -1298,500 +813,38 @@ func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Set(target, sou
 	}
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*LogCondition_Spec_Query_LabelTrigger), source.(*LogCondition_Spec_Query_LabelTrigger))
+func (fieldMask *LogCondition_TemplateSource_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*LogCondition_TemplateSource), source.(*LogCondition_TemplateSource))
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) Project(source *LogCondition_Spec_Query_LabelTrigger) *LogCondition_Spec_Query_LabelTrigger {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) Project(source *LogCondition_TemplateSource) *LogCondition_TemplateSource {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &LogCondition_Spec_Query_LabelTrigger{}
+	result := &LogCondition_TemplateSource{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *LogConditionSpecQueryLabelTrigger_FieldTerminalPath:
+		case *LogConditionTemplateSource_FieldTerminalPath:
 			switch tp.selector {
-			case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-				result.Key = source.Key
-			case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-				result.Values = source.Values
+			case LogConditionTemplateSource_FieldPathSelectorTemplate:
+				result.Template = source.Template
+			case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+				result.UpdatedFields = source.UpdatedFields
 			}
 		}
 	}
 	return result
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*LogCondition_Spec_Query_LabelTrigger))
+func (fieldMask *LogCondition_TemplateSource_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*LogCondition_TemplateSource))
 }
 
-func (fieldMask *LogCondition_Spec_Query_LabelTrigger_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type LogCondition_Spec_Query_StringPayloadTrigger_FieldMask struct {
-	Paths []LogConditionSpecQueryStringPayloadTrigger_FieldPath
-}
-
-func FullLogCondition_Spec_Query_StringPayloadTrigger_FieldMask() *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask {
-	res := &LogCondition_Spec_Query_StringPayloadTrigger_FieldMask{}
-	res.Paths = append(res.Paths, &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath{selector: LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector})
-	res.Paths = append(res.Paths, &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath{selector: LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex})
-	return res
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 2)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(raw)
-	})
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) ProtoMessage() {}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) Subtract(other *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask {
-	result := &LogCondition_Spec_Query_StringPayloadTrigger_FieldMask{}
-	removedSelectors := make([]bool, 2)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*LogCondition_Spec_Query_StringPayloadTrigger_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) FilterInputFields() *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask {
-	result := &LogCondition_Spec_Query_StringPayloadTrigger_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]LogConditionSpecQueryStringPayloadTrigger_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) AppendPath(path LogConditionSpecQueryStringPayloadTrigger_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(LogConditionSpecQueryStringPayloadTrigger_FieldPath))
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) GetPaths() []LogConditionSpecQueryStringPayloadTrigger_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) Set(target, source *LogCondition_Spec_Query_StringPayloadTrigger) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*LogCondition_Spec_Query_StringPayloadTrigger), source.(*LogCondition_Spec_Query_StringPayloadTrigger))
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) Project(source *LogCondition_Spec_Query_StringPayloadTrigger) *LogCondition_Spec_Query_StringPayloadTrigger {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &LogCondition_Spec_Query_StringPayloadTrigger{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath:
-			switch tp.selector {
-			case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-				result.ObjectSelector = source.ObjectSelector
-			case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-				result.Regex = source.Regex
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*LogCondition_Spec_Query_StringPayloadTrigger))
-}
-
-func (fieldMask *LogCondition_Spec_Query_StringPayloadTrigger_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type LogCondition_Spec_Query_CompositeTrigger_FieldMask struct {
-	Paths []LogConditionSpecQueryCompositeTrigger_FieldPath
-}
-
-func FullLogCondition_Spec_Query_CompositeTrigger_FieldMask() *LogCondition_Spec_Query_CompositeTrigger_FieldMask {
-	res := &LogCondition_Spec_Query_CompositeTrigger_FieldMask{}
-	res.Paths = append(res.Paths, &LogConditionSpecQueryCompositeTrigger_FieldTerminalPath{selector: LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers})
-	res.Paths = append(res.Paths, &LogConditionSpecQueryCompositeTrigger_FieldTerminalPath{selector: LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator})
-	return res
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 2)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*LogConditionSpecQueryCompositeTrigger_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseLogConditionSpecQueryCompositeTrigger_FieldPath(raw)
-	})
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) ProtoMessage() {}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) Subtract(other *LogCondition_Spec_Query_CompositeTrigger_FieldMask) *LogCondition_Spec_Query_CompositeTrigger_FieldMask {
-	result := &LogCondition_Spec_Query_CompositeTrigger_FieldMask{}
-	removedSelectors := make([]bool, 2)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*LogCondition_Spec_Query_CompositeTrigger_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) FilterInputFields() *LogCondition_Spec_Query_CompositeTrigger_FieldMask {
-	result := &LogCondition_Spec_Query_CompositeTrigger_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]LogConditionSpecQueryCompositeTrigger_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask LogCondition_Spec_Query_CompositeTrigger_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask LogCondition_Spec_Query_CompositeTrigger_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) AppendPath(path LogConditionSpecQueryCompositeTrigger_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(LogConditionSpecQueryCompositeTrigger_FieldPath))
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) GetPaths() []LogConditionSpecQueryCompositeTrigger_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) Set(target, source *LogCondition_Spec_Query_CompositeTrigger) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*LogCondition_Spec_Query_CompositeTrigger), source.(*LogCondition_Spec_Query_CompositeTrigger))
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) Project(source *LogCondition_Spec_Query_CompositeTrigger) *LogCondition_Spec_Query_CompositeTrigger {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &LogCondition_Spec_Query_CompositeTrigger{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath:
-			switch tp.selector {
-			case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-				result.Triggers = source.Triggers
-			case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-				result.Operator = source.Operator
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*LogCondition_Spec_Query_CompositeTrigger))
-}
-
-func (fieldMask *LogCondition_Spec_Query_CompositeTrigger_FieldMask) PathsCount() int {
+func (fieldMask *LogCondition_TemplateSource_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

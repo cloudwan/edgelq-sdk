@@ -1,0 +1,84 @@
+kind: "alerting.edgelq.com/Document"
+version: "v1"
+resources:
+- name: "projects/public-alerting-templates/documents/device-alerting-with-ssh"
+  title: "General Device Alerting Document"
+  mimeType: "text/markdown"
+  content: >
+    General notes:
+    Try to figure out problem from attached time series, logs, and resource states/specs.
+    If you need more information, check field status.connectionStatus in device resource.
+    If value is "CONNECTED", you can use SSH to connect to the device. Otherwise, if value is "DISCONNECTED",
+    and context data is not sufficient, ESCALATE.
+
+- name: "projects/public-alerting-templates/documents/device-cpu-alerting"
+  title: "Device CPU Alerting Document"
+  mimeType: "text/markdown"
+  content: >
+    When you see a CPU related alert (low idleness) on a Device resource, look at time series metrics for running pods.
+    If any pod shows high CPU usage, then please do one of two following things:
+    * If CPU usage is not too high (be reasonable), execute ADJUST command on an alert - we dont want to handle alerts
+      that have too sensitive thresholds.
+    * If CPU utilization of pod is very high, try to infer more information from other time series, or logs.
+      Try to collect as much information as possible, then execute ESCALATE.
+    * If you see from logs that some special event is happening (like device upgrade), then
+      you can IGNORE the alert.
+    
+    However, if no pod shows particularly high CPU utilization, SSH into device and check list of processes, if possible.
+    Try to investigate what process is causing high CPU utilization (low idleness). You can use commands like "top -b -n 1",
+    or some "ps". Note what process is causing high CPU utilization. Provide this information in the comment.
+
+- name: "projects/public-alerting-templates/documents/device-memory-alerting"
+  title: "Device Memory Alerting Document"
+  mimeType: "text/markdown"
+  content: >
+    When a memory utilization alert is triggered:
+    * Review the memory utilization time series for the device.
+    * Check for recent spikes or drops in usage.
+    * If memory usage is high, identify which pods are consuming the most memory (see relevant metrics).
+    * If no pod is responsible, SSH into the device and run commands like "free -h" or "top -b -n 1" to check memory usage.
+    * If memory usage dropped unexpectedly, check for recent restarts or OOM (Out Of Memory) events in logs.
+
+- name: "projects/public-alerting-templates/documents/device-disk-alerting"
+  title: "Device Disk Alerting Document"
+  mimeType: "text/markdown"
+  content: >
+    When a disk utilization alert is triggered:
+    * Review disk utilization metrics for each partition (mount point).
+    * If utilization is high, SSH into the device and run "df -h" and/or "du -sh /*" to find large files or directories.
+    * Check for recent log or data growth.
+    * If disk usage dropped unexpectedly, investigate for deleted files, log rotation, or possible data loss.
+    * If unable to access the device, escalate the alert.
+
+- name: "projects/public-alerting-templates/documents/device-temperature-alerting"
+  title: "Device Temperature Alerting Document"
+  mimeType: "text/markdown"
+  content: >
+    When a temperature alert is triggered:
+    * Review temperature metrics for all chips/sensors on the device.
+    * Identify which component (CPU, GPU, etc.) is overheating.
+    * Check for recent workload spikes or environmental changes (e.g., room temperature). Correlate with high CPU too.
+    * If possible, SSH into the device and check fan status or sensor readings.
+    Usually you will need to ESCALATE this alert, as temperature issues can lead to hardware damage,
+    and immediate action may be required from someone physically present at the device location.
+    Provide necessary information in the comment.
+
+- name: "projects/public-alerting-templates/documents/device-connectivity-alerting"
+  title: "Device Connectivity Alerting Document"
+  mimeType: "text/markdown"
+  content: >
+    When a connectivity alert is triggered:
+    * Check the device's connection status in the resource details. Its possible it is back online now.
+    * Review recent connectivity metrics and logs for patterns of disconnection.
+    
+    It is possible that device was intentionally shut down, in which case you can IGNORE the alert.
+
+- name: "projects/public-alerting-templates/documents/device-health-check-alerting"
+  title: "Device Health Check Alerting Document"
+  mimeType: "text/markdown"
+  content: >
+    When a connectivity alert is triggered:
+    * Check the device's connection status in the resource details. Its possible it is back online now.
+    * Review recent connectivity metrics and logs for patterns of disconnection.
+    
+    It is possible that device was intentionally shut down, in which case you can IGNORE the alert.

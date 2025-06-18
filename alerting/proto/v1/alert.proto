@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package ntt.alerting.v1;
 
-import "edgelq-sdk/alerting/proto/v1/policy.proto";
-import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/specs.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
@@ -207,7 +206,7 @@ message Alert {
     // populated when field ai_agent_handling_state switches to
     // AI_REMEDIATION_PROPOSED. Informs what kind of remediation AI Agent wants
     // to execute.
-    Policy.Spec.AIAgentHandling.Remediation ai_remediation = 10;
+    PolicySpec.AIAgentHandling.Remediation ai_remediation = 10;
 
     // Informs current state of alert handling by Operator if
     // escalation level is OPERATOR. If alert is on AI_AGENT side,
@@ -228,7 +227,7 @@ message Alert {
     message Notification {
       // Kind informs what type of State has changed, and for which
       // we need to send notifications.
-      Policy.Spec.Notification.Kind kind = 1;
+      PolicySpec.Notification.Kind kind = 1;
 
       // Informs about list of channels to where notification
       // should be sent according to the corresponding kind.
@@ -354,5 +353,5 @@ message Alert {
   }
 
   // Internal data.
-  message Internal { Policy.Spec.ProcessingLocation alerting_location = 1; }
+  message Internal { PolicySpec.ProcessingLocation alerting_location = 1; }
 }

@@ -11,14 +11,21 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
 	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
@@ -29,8 +36,10 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -43,20 +52,29 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
+	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log.Log{}
+	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitoring_metric_descriptor.MetricDescriptor{}
 	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &monitoring_project.Project{}
 	_ = &monitoring_time_serie.Point{}
+	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_resource.Resource{}
@@ -4536,37 +4554,37 @@ type filterCndBuilderStateThresholdsLower struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStateThresholdsLower) Eq(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) Eq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStateThresholdsLower) Neq(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) Neq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStateThresholdsLower) Gt(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) Gt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStateThresholdsLower) Gte(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) Gte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStateThresholdsLower) Lt(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) Lt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStateThresholdsLower) Lte(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) Lte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStateThresholdsLower) In(values []*ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) In(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TsEntry_FieldPathArrayOfValues: NewTsEntryFieldPathBuilder().State().Thresholds().Lower().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateThresholdsLower) NotIn(values []*ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) NotIn(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TsEntry_FieldPathArrayOfValues: NewTsEntryFieldPathBuilder().State().Thresholds().Lower().WithArrayOfValues(values),
 	})
@@ -4584,7 +4602,7 @@ func (b *filterCndBuilderStateThresholdsLower) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderStateThresholdsLower) compare(op gotenfilter.CompareOperator, value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsLower) compare(op gotenfilter.CompareOperator, value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		TsEntry_FieldPathValue: NewTsEntryFieldPathBuilder().State().Thresholds().Lower().WithValue(value),
@@ -4721,37 +4739,37 @@ type filterCndBuilderStateThresholdsUpper struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) Eq(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) Eq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) Neq(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) Neq(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) Gt(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) Gt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) Gte(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) Gte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) Lt(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) Lt(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) Lte(value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) Lte(value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) In(values []*ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) In(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TsEntry_FieldPathArrayOfValues: NewTsEntryFieldPathBuilder().State().Thresholds().Upper().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) NotIn(values []*ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) NotIn(values []*rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TsEntry_FieldPathArrayOfValues: NewTsEntryFieldPathBuilder().State().Thresholds().Upper().WithArrayOfValues(values),
 	})
@@ -4769,7 +4787,7 @@ func (b *filterCndBuilderStateThresholdsUpper) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderStateThresholdsUpper) compare(op gotenfilter.CompareOperator, value *ts_condition.AlertingThreshold) *FilterBuilder {
+func (b *filterCndBuilderStateThresholdsUpper) compare(op gotenfilter.CompareOperator, value *rcommon.AlertingThreshold) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		TsEntry_FieldPathValue: NewTsEntryFieldPathBuilder().State().Thresholds().Upper().WithValue(value),
@@ -5032,37 +5050,37 @@ type filterCndBuilderInternalAlertingLocation struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) Eq(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) Eq(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) Neq(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) Neq(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) Gt(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) Gt(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) Gte(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) Gte(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) Lt(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) Lt(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) Lte(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) Lte(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) In(values []policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) In(values []rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TsEntry_FieldPathArrayOfValues: NewTsEntryFieldPathBuilder().Internal().AlertingLocation().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) NotIn(values []policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) NotIn(values []rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TsEntry_FieldPathArrayOfValues: NewTsEntryFieldPathBuilder().Internal().AlertingLocation().WithArrayOfValues(values),
 	})
@@ -5080,7 +5098,7 @@ func (b *filterCndBuilderInternalAlertingLocation) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderInternalAlertingLocation) compare(op gotenfilter.CompareOperator, value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderInternalAlertingLocation) compare(op gotenfilter.CompareOperator, value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:               op,
 		TsEntry_FieldPathValue: NewTsEntryFieldPathBuilder().Internal().AlertingLocation().WithValue(value),

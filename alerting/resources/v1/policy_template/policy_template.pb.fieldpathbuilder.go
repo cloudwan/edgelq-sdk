@@ -6,20 +6,31 @@ package policy_template
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
+	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -27,13 +38,24 @@ import (
 var (
 	_ = &document.Document{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
+	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log.Log{}
+	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
+	_ = &monitoring_metric_descriptor.MetricDescriptor{}
+	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
+	_ = &monitoring_project.Project{}
+	_ = &monitoring_time_serie.Point{}
+	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_resource.Resource{}
@@ -814,27 +836,27 @@ func (PolicyTemplatePathSelectorSpecTemplate) FieldPath() *PolicyTemplate_FieldT
 	return &PolicyTemplate_FieldTerminalPath{selector: PolicyTemplate_FieldPathSelectorSpecTemplate}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplate) WithValue(value *policy.Policy_Spec) *PolicyTemplate_FieldTerminalPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplate) WithValue(value *rcommon.PolicySpec) *PolicyTemplate_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldTerminalPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplate) WithArrayOfValues(values []*policy.Policy_Spec) *PolicyTemplate_FieldTerminalPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplate) WithArrayOfValues(values []*rcommon.PolicySpec) *PolicyTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldTerminalPathArrayOfValues)
 }
 
-func (PolicyTemplatePathSelectorSpecTemplate) WithSubPath(subPath policy.PolicySpec_FieldPath) *PolicyTemplate_FieldSubPath {
+func (PolicyTemplatePathSelectorSpecTemplate) WithSubPath(subPath rcommon.PolicySpec_FieldPath) *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{selector: PolicyTemplate_FieldPathSelectorSpecTemplate, subPath: subPath}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplate) WithSubValue(subPathValue policy.PolicySpec_FieldPathValue) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplate) WithSubValue(subPathValue rcommon.PolicySpec_FieldPathValue) *PolicyTemplate_FieldSubPathValue {
 	return &PolicyTemplate_FieldSubPathValue{PolicyTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplate) WithSubArrayOfValues(subPathArrayOfValues policy.PolicySpec_FieldPathArrayOfValues) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplate) WithSubArrayOfValues(subPathArrayOfValues rcommon.PolicySpec_FieldPathArrayOfValues) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return &PolicyTemplate_FieldSubPathArrayOfValues{PolicyTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplate) WithSubArrayItemValue(subPathArrayItemValue policy.PolicySpec_FieldPathArrayItemValue) *PolicyTemplate_FieldSubPathArrayItemValue {
+func (s PolicyTemplatePathSelectorSpecTemplate) WithSubArrayItemValue(subPathArrayItemValue rcommon.PolicySpec_FieldPathArrayItemValue) *PolicyTemplate_FieldSubPathArrayItemValue {
 	return &PolicyTemplate_FieldSubPathArrayItemValue{PolicyTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -867,7 +889,7 @@ type PolicyTemplatePathSelectorSpecTemplateEnabled struct{}
 func (PolicyTemplatePathSelectorSpecTemplateEnabled) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().Enabled().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Enabled().FieldPath(),
 	}
 }
 
@@ -884,15 +906,15 @@ type PolicyTemplatePathSelectorSpecTemplateProcessingLocation struct{}
 func (PolicyTemplatePathSelectorSpecTemplateProcessingLocation) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ProcessingLocation().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ProcessingLocation().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateProcessingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateProcessingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateProcessingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateProcessingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -901,19 +923,19 @@ type PolicyTemplatePathSelectorSpecTemplateNotifications struct{}
 func (PolicyTemplatePathSelectorSpecTemplateNotifications) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().Notifications().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithValue(value []*policy.Policy_Spec_Notification) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithValue(value []*rcommon.PolicySpec_Notification) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithArrayOfValues(values [][]*policy.Policy_Spec_Notification) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithArrayOfValues(values [][]*rcommon.PolicySpec_Notification) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithItemValue(value *policy.Policy_Spec_Notification) *PolicyTemplate_FieldSubPathArrayItemValue {
+func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithItemValue(value *rcommon.PolicySpec_Notification) *PolicyTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -938,19 +960,19 @@ type PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds struct{}
 func (PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().Notifications().EnabledKinds().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().EnabledKinds().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithValue(value []policy.Policy_Spec_Notification_Kind) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithValue(value []rcommon.PolicySpec_Notification_Kind) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithArrayOfValues(values [][]policy.Policy_Spec_Notification_Kind) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithArrayOfValues(values [][]rcommon.PolicySpec_Notification_Kind) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithItemValue(value policy.Policy_Spec_Notification_Kind) *PolicyTemplate_FieldSubPathArrayItemValue {
+func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithItemValue(value rcommon.PolicySpec_Notification_Kind) *PolicyTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -959,7 +981,7 @@ type PolicyTemplatePathSelectorSpecTemplateNotificationsChannel struct{}
 func (PolicyTemplatePathSelectorSpecTemplateNotificationsChannel) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().Notifications().Channel().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().Channel().FieldPath(),
 	}
 }
 
@@ -976,7 +998,7 @@ type PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg stru
 func (PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().Notifications().MaxAlertBodiesInMsg().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().MaxAlertBodiesInMsg().FieldPath(),
 	}
 }
 
@@ -993,7 +1015,7 @@ type PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhen
 func (PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhenOverflowing) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().Notifications().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
 	}
 }
 
@@ -1010,15 +1032,15 @@ type PolicyTemplatePathSelectorSpecTemplateResourceIdentity struct{}
 func (PolicyTemplatePathSelectorSpecTemplateResourceIdentity) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ResourceIdentity().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ResourceIdentity().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentity) WithValue(value *policy.Policy_Spec_ResourceIdentity) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentity) WithValue(value *rcommon.PolicySpec_ResourceIdentity) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentity) WithArrayOfValues(values []*policy.Policy_Spec_ResourceIdentity) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentity) WithArrayOfValues(values []*rcommon.PolicySpec_ResourceIdentity) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1039,7 +1061,7 @@ type PolicyTemplatePathSelectorSpecTemplateResourceIdentityAlertingResource stru
 func (PolicyTemplatePathSelectorSpecTemplateResourceIdentityAlertingResource) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ResourceIdentity().AlertingResource().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ResourceIdentity().AlertingResource().FieldPath(),
 	}
 }
 
@@ -1056,19 +1078,19 @@ type PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels struct{}
 func (PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels) WithValue(value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels) WithValue(value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels) WithArrayOfValues(values [][]*policy.Policy_Spec_ResourceIdentity_LabelInfo) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels) WithArrayOfValues(values [][]*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels) WithItemValue(value *policy.Policy_Spec_ResourceIdentity_LabelInfo) *PolicyTemplate_FieldSubPathArrayItemValue {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabels) WithItemValue(value *rcommon.PolicySpec_ResourceIdentity_LabelInfo) *PolicyTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -1089,7 +1111,7 @@ type PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsKey struct{}
 func (PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsKey) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().Key().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().Key().FieldPath(),
 	}
 }
 
@@ -1106,19 +1128,19 @@ type PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts struct
 func (PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().Contexts().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().Contexts().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts) WithValue(value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts) WithValue(value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts) WithArrayOfValues(values [][]policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts) WithArrayOfValues(values [][]rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts) WithItemValue(value policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *PolicyTemplate_FieldSubPathArrayItemValue {
+func (s PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsContexts) WithItemValue(value rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *PolicyTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -1127,7 +1149,7 @@ type PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsMappedNameSegme
 func (PolicyTemplatePathSelectorSpecTemplateResourceIdentityLabelsMappedNameSegment) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().MappedNameSegment().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ResourceIdentity().Labels().MappedNameSegment().FieldPath(),
 	}
 }
 
@@ -1144,7 +1166,7 @@ type PolicyTemplatePathSelectorSpecTemplateResourceIdentityNamePatterns struct{}
 func (PolicyTemplatePathSelectorSpecTemplateResourceIdentityNamePatterns) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().ResourceIdentity().NamePatterns().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().ResourceIdentity().NamePatterns().FieldPath(),
 	}
 }
 
@@ -1165,19 +1187,19 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueries struct{}
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueries) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueries) WithValue(value []*policy.Policy_Spec_SupportingAlertQuery) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueries) WithValue(value []*rcommon.PolicySpec_SupportingAlertQuery) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueries) WithArrayOfValues(values [][]*policy.Policy_Spec_SupportingAlertQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueries) WithArrayOfValues(values [][]*rcommon.PolicySpec_SupportingAlertQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueries) WithItemValue(value *policy.Policy_Spec_SupportingAlertQuery) *PolicyTemplate_FieldSubPathArrayItemValue {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueries) WithItemValue(value *rcommon.PolicySpec_SupportingAlertQuery) *PolicyTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -1202,15 +1224,15 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQuery struct{}
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQuery) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQuery) WithValue(value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQuery) WithValue(value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQuery) WithArrayOfValues(values []*policy.Policy_Spec_SupportingAlertQuery_TsQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQuery) WithArrayOfValues(values []*rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1231,7 +1253,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryDescription s
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryDescription) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Description().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Description().FieldPath(),
 	}
 }
 
@@ -1248,7 +1270,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryFilterTemplat
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryFilterTemplate) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().FilterTemplate().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().FilterTemplate().FieldPath(),
 	}
 }
 
@@ -1265,7 +1287,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregation s
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregation) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().FieldPath(),
 	}
 }
 
@@ -1298,7 +1320,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationAl
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationAlignmentPeriod) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().AlignmentPeriod().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().AlignmentPeriod().FieldPath(),
 	}
 }
 
@@ -1315,7 +1337,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationPe
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationPerSeriesAligner) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().PerSeriesAligner().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().PerSeriesAligner().FieldPath(),
 	}
 }
 
@@ -1332,7 +1354,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationCr
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationCrossSeriesReducer) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().CrossSeriesReducer().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().CrossSeriesReducer().FieldPath(),
 	}
 }
 
@@ -1349,7 +1371,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationGr
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesTsQueryAggregationGroupByFields) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().GroupByFields().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().TsQuery().Aggregation().GroupByFields().FieldPath(),
 	}
 }
 
@@ -1370,15 +1392,15 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQuery struct{}
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQuery) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().LogQuery().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().LogQuery().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQuery) WithValue(value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQuery) WithValue(value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQuery) WithArrayOfValues(values []*policy.Policy_Spec_SupportingAlertQuery_LogQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQuery) WithArrayOfValues(values []*rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1395,7 +1417,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQueryDescription 
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQueryDescription) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().LogQuery().Description().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().LogQuery().Description().FieldPath(),
 	}
 }
 
@@ -1412,7 +1434,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQueryFilterTempla
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesLogQueryFilterTemplate) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().LogQuery().FilterTemplate().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().LogQuery().FilterTemplate().FieldPath(),
 	}
 }
 
@@ -1429,15 +1451,15 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQuery struct{
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQuery) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQuery) WithValue(value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQuery) WithValue(value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQuery) WithArrayOfValues(values []*policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQuery) WithArrayOfValues(values []*rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1466,7 +1488,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryDescript
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryDescription) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().Description().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().Description().FieldPath(),
 	}
 }
 
@@ -1483,7 +1505,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryEndpoint
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryEndpoint) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().Endpoint().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().Endpoint().FieldPath(),
 	}
 }
 
@@ -1500,7 +1522,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryPathTemp
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryPathTemplate) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().PathTemplate().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().PathTemplate().FieldPath(),
 	}
 }
 
@@ -1517,7 +1539,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryView str
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryView) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().View().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().View().FieldPath(),
 	}
 }
 
@@ -1534,7 +1556,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryFieldMas
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestGetQueryFieldMask) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().FieldMask().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestGetQuery().FieldMask().FieldPath(),
 	}
 }
 
@@ -1551,15 +1573,15 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQuery struct
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQuery) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQuery) WithValue(value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQuery) WithValue(value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQuery) WithArrayOfValues(values []*policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQuery) WithArrayOfValues(values []*rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1592,7 +1614,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryDescrip
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryDescription) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().Description().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().Description().FieldPath(),
 	}
 }
 
@@ -1609,7 +1631,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryEndpoin
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryEndpoint) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().Endpoint().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().Endpoint().FieldPath(),
 	}
 }
 
@@ -1626,7 +1648,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryPathTem
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryPathTemplate) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().PathTemplate().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().PathTemplate().FieldPath(),
 	}
 }
 
@@ -1643,7 +1665,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryView st
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryView) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().View().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().View().FieldPath(),
 	}
 }
 
@@ -1660,7 +1682,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryFieldMa
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryFieldMask) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().FieldMask().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().FieldMask().FieldPath(),
 	}
 }
 
@@ -1677,7 +1699,7 @@ type PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryFilterT
 func (PolicyTemplatePathSelectorSpecTemplateSupportingQueriesRestListQueryFilterTemplate) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().FilterTemplate().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().SupportingQueries().RestListQuery().FilterTemplate().FieldPath(),
 	}
 }
 
@@ -1694,15 +1716,15 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgent struct{}
 func (PolicyTemplatePathSelectorSpecTemplateAiAgent) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgent) WithValue(value *policy.Policy_Spec_AIAgentHandling) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgent) WithValue(value *rcommon.PolicySpec_AIAgentHandling) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgent) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgent) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1731,7 +1753,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEnabled struct{}
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEnabled) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().Enabled().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().Enabled().FieldPath(),
 	}
 }
 
@@ -1748,7 +1770,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEnabledConnectivity struct{}
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEnabledConnectivity) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EnabledConnectivity().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EnabledConnectivity().FieldPath(),
 	}
 }
 
@@ -1765,7 +1787,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentAutoAcceptRemediation struct{}
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentAutoAcceptRemediation) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().AutoAcceptRemediation().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().AutoAcceptRemediation().FieldPath(),
 	}
 }
 
@@ -1782,15 +1804,15 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivity struct{}
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivity) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivity) WithValue(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivity) WithValue(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivity) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivity) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1815,15 +1837,15 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSsh stru
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSsh) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().DeviceSsh().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().DeviceSsh().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1836,7 +1858,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSshClien
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityDeviceSshClientName) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().DeviceSsh().ClientName().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().DeviceSsh().ClientName().FieldPath(),
 	}
 }
 
@@ -1853,15 +1875,15 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSsh str
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSsh) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1886,7 +1908,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshServ
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshServiceDomain) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ServiceDomain().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ServiceDomain().FieldPath(),
 	}
 }
 
@@ -1903,7 +1925,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshProv
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshProviderNameTmpl) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ProviderNameTmpl().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ProviderNameTmpl().FieldPath(),
 	}
 }
 
@@ -1920,7 +1942,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshClie
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshClientName) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ClientName().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ClientName().FieldPath(),
 	}
 }
 
@@ -1937,7 +1959,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshServ
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityProxiesSshServiceName) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ServiceName().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().ProxiesSsh().ServiceName().FieldPath(),
 	}
 }
 
@@ -1954,15 +1976,15 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSsh struct{
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSsh) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().PodSsh().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().PodSsh().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -1979,7 +2001,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSshClientNa
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSshClientName) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().PodSsh().ClientName().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().PodSsh().ClientName().FieldPath(),
 	}
 }
 
@@ -1996,7 +2018,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSshUsername
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityPodSshUsername) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().PodSsh().Username().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().PodSsh().Username().FieldPath(),
 	}
 }
 
@@ -2013,7 +2035,7 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityAllowedBins st
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentEdgeConnectivityAllowedBins) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().AllowedBins().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().EdgeConnectivity().AllowedBins().FieldPath(),
 	}
 }
 
@@ -2034,19 +2056,19 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions struct{}
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().RemediationOptions().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().RemediationOptions().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions) WithValue(value []*policy.Policy_Spec_AIAgentHandling_Remediation) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions) WithValue(value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions) WithArrayOfValues(values [][]*policy.Policy_Spec_AIAgentHandling_Remediation) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions) WithArrayOfValues(values [][]*rcommon.PolicySpec_AIAgentHandling_Remediation) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions) WithItemValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *PolicyTemplate_FieldSubPathArrayItemValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptions) WithItemValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *PolicyTemplate_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
 }
 
@@ -2063,15 +2085,15 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsFixInSsh str
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsFixInSsh) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().RemediationOptions().FixInSsh().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().RemediationOptions().FixInSsh().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -2080,14 +2102,14 @@ type PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsReboot struc
 func (PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsReboot) FieldPath() *PolicyTemplate_FieldSubPath {
 	return &PolicyTemplate_FieldSubPath{
 		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  policy.NewPolicySpecFieldPathBuilder().AiAgent().RemediationOptions().Reboot().FieldPath(),
+		subPath:  rcommon.NewPolicySpecFieldPathBuilder().AiAgent().RemediationOptions().Reboot().FieldPath(),
 	}
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *PolicyTemplate_FieldSubPathValue {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *PolicyTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
 }
 
-func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *PolicyTemplate_FieldSubPathArrayOfValues {
+func (s PolicyTemplatePathSelectorSpecTemplateAiAgentRemediationOptionsReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }

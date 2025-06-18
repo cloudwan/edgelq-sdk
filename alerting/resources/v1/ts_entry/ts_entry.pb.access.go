@@ -17,7 +17,7 @@ import (
 
 // proto imports
 import (
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -39,7 +39,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &durationpb.Duration{}

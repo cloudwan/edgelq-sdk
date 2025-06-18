@@ -19,7 +19,7 @@ import (
 
 // proto imports
 import (
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -43,7 +43,7 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &durationpb.Duration{}
@@ -1814,12 +1814,12 @@ func (fieldMask *TsEntry_State_AdaptiveThresholdInfo_FieldMask) Subtract(other *
 	result := &TsEntry_State_AdaptiveThresholdInfo_FieldMask{}
 	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[TsEntryStateAdaptiveThresholdInfo_FieldPathSelector]gotenobject.FieldMask{
-		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower: &ts_condition.AlertingThreshold_FieldMask{},
-		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper: &ts_condition.AlertingThreshold_FieldMask{},
+		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower: &rcommon.AlertingThreshold_FieldMask{},
+		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper: &rcommon.AlertingThreshold_FieldMask{},
 	}
 	mySubMasks := map[TsEntryStateAdaptiveThresholdInfo_FieldPathSelector]gotenobject.FieldMask{
-		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower: &ts_condition.AlertingThreshold_FieldMask{},
-		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper: &ts_condition.AlertingThreshold_FieldMask{},
+		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower: &rcommon.AlertingThreshold_FieldMask{},
+		TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper: &rcommon.AlertingThreshold_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -1836,9 +1836,9 @@ func (fieldMask *TsEntry_State_AdaptiveThresholdInfo_FieldMask) Subtract(other *
 				if tp, ok := path.(*TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath); ok {
 					switch tp.selector {
 					case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-						mySubMasks[TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower] = ts_condition.FullAlertingThreshold_FieldMask()
+						mySubMasks[TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower] = rcommon.FullAlertingThreshold_FieldMask()
 					case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-						mySubMasks[TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper] = ts_condition.FullAlertingThreshold_FieldMask()
+						mySubMasks[TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper] = rcommon.FullAlertingThreshold_FieldMask()
 					}
 				} else if tp, ok := path.(*TsEntryStateAdaptiveThresholdInfo_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -1991,9 +1991,9 @@ func (fieldMask *TsEntry_State_AdaptiveThresholdInfo_FieldMask) Project(source *
 		return source
 	}
 	result := &TsEntry_State_AdaptiveThresholdInfo{}
-	lowerMask := &ts_condition.AlertingThreshold_FieldMask{}
+	lowerMask := &rcommon.AlertingThreshold_FieldMask{}
 	wholeLowerAccepted := false
-	upperMask := &ts_condition.AlertingThreshold_FieldMask{}
+	upperMask := &rcommon.AlertingThreshold_FieldMask{}
 	wholeUpperAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -2014,9 +2014,9 @@ func (fieldMask *TsEntry_State_AdaptiveThresholdInfo_FieldMask) Project(source *
 		case *TsEntryStateAdaptiveThresholdInfo_FieldSubPath:
 			switch tp.selector {
 			case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower:
-				lowerMask.AppendPath(tp.subPath.(ts_condition.AlertingThreshold_FieldPath))
+				lowerMask.AppendPath(tp.subPath.(rcommon.AlertingThreshold_FieldPath))
 			case TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper:
-				upperMask.AppendPath(tp.subPath.(ts_condition.AlertingThreshold_FieldPath))
+				upperMask.AppendPath(tp.subPath.(rcommon.AlertingThreshold_FieldPath))
 			}
 		}
 	}

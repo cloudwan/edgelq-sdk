@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/alerting/proto/v1/alert.proto";
+import "edgelq-sdk/alerting/proto/v1/log_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/policy.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/ts_entry.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/client/v1/edge_watch_service;edge_watch_service_client";
+option java_multiple_files = false;
+option java_outer_classname = "EdgeWatchServiceCustomProto";
+option java_package = "com.ntt.alerting.pb.v1";
+
+// A request message of the WatchAlertData method.
+// This is special combined watch of 5 streams dedicated specifically
+// for edge alerter component. It reduces number of watch streams and
+// therefore connections maintained by server (and slightly agent).
+message WatchAlertDataRequest {
+  string project = 1;
+
+  string alerting_resource_name = 2;
+
+  string alerting_resource_kind = 3;
+}
+
+// A response message of the WatchAlertData method.
+message WatchAlertDataResponse {
+  repeated Alert alerts_to_add = 1;
+
+  repeated TsEntry ts_entries_to_add = 2;
+
+  repeated Policy policies_to_add = 3;
+
+  repeated TsCondition ts_cnds_to_add = 4;
+
+  repeated LogCondition log_cnds_to_add = 5;
+
+  repeated string alert_names_to_remove = 6;
+
+  repeated string ts_entry_names_to_remove = 7;
+
+  repeated string policy_names_to_remove = 8;
+
+  repeated string ts_cnd_names_to_remove = 9;
+
+  repeated string log_cnd_names_to_remove = 10;
+
+  bool reset_alerts = 11;
+
+  bool reset_ts_entries = 12;
+
+  bool reset_policies = 13;
+
+  bool reset_ts_cnds = 14;
+
+  bool reset_log_cnds = 15;
+}

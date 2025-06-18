@@ -21,6 +21,7 @@ import (
 // proto imports
 import (
 	alert "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/alert"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
@@ -49,6 +50,7 @@ var (
 	_ = &alert.Alert{}
 	_ = &log_condition.LogCondition{}
 	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}

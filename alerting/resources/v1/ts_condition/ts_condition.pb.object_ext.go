@@ -16,12 +16,12 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
-	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -38,10 +38,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &monitoring_time_serie.Point{}
-	_ = &durationpb.Duration{}
+	_ = &rcommon.LogCndSpec{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
 
@@ -125,6 +125,16 @@ func (o *TsCondition) MakeDiffFieldMask(other *TsCondition) *TsCondition_FieldMa
 			}
 		}
 	}
+	{
+		subMask := o.GetTemplateSource().MakeDiffFieldMask(other.GetTemplateSource())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorTemplateSource})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &TsCondition_FieldSubPath{selector: TsCondition_FieldPathSelectorTemplateSource, subPath: subpath})
+			}
+		}
+	}
 	return res
 }
 
@@ -166,6 +176,7 @@ func (o *TsCondition) Clone() *TsCondition {
 	result.Spec = o.Spec.Clone()
 	result.Internal = o.Internal.Clone()
 	result.FilterSelector = o.FilterSelector.Clone()
+	result.TemplateSource = o.TemplateSource.Clone()
 	return result
 }
 
@@ -222,7 +233,7 @@ func (o *TsCondition) Merge(source *TsCondition) {
 
 	if source.GetSpec() != nil {
 		if o.Spec == nil {
-			o.Spec = new(TsCondition_Spec)
+			o.Spec = new(rcommon.TsCndSpec)
 		}
 		o.Spec.Merge(source.GetSpec())
 	}
@@ -238,171 +249,16 @@ func (o *TsCondition) Merge(source *TsCondition) {
 		}
 		o.FilterSelector.Merge(source.GetFilterSelector())
 	}
+	if source.GetTemplateSource() != nil {
+		if o.TemplateSource == nil {
+			o.TemplateSource = new(TsCondition_TemplateSource)
+		}
+		o.TemplateSource.Merge(source.GetTemplateSource())
+	}
 }
 
 func (o *TsCondition) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*TsCondition))
-}
-
-func (o *TsCondition_Spec) GotenObjectExt() {}
-
-func (o *TsCondition_Spec) MakeFullFieldMask() *TsCondition_Spec_FieldMask {
-	return FullTsCondition_Spec_FieldMask()
-}
-
-func (o *TsCondition_Spec) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullTsCondition_Spec_FieldMask()
-}
-
-func (o *TsCondition_Spec) MakeDiffFieldMask(other *TsCondition_Spec) *TsCondition_Spec_FieldMask {
-	if o == nil && other == nil {
-		return &TsCondition_Spec_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullTsCondition_Spec_FieldMask()
-	}
-
-	res := &TsCondition_Spec_FieldMask{}
-
-	if len(o.GetQueries()) == len(other.GetQueries()) {
-		for i, lValue := range o.GetQueries() {
-			rValue := other.GetQueries()[i]
-			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueries})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueries})
-	}
-
-	if len(o.GetQueryGroupBy()) == len(other.GetQueryGroupBy()) {
-		for i, lValue := range o.GetQueryGroupBy() {
-			rValue := other.GetQueryGroupBy()[i]
-			if lValue != rValue {
-				res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueryGroupBy})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueryGroupBy})
-	}
-	{
-		subMask := o.GetThresholdAlerting().MakeDiffFieldMask(other.GetThresholdAlerting())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorThresholdAlerting})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &TsConditionSpec_FieldSubPath{selector: TsConditionSpec_FieldPathSelectorThresholdAlerting, subPath: subpath})
-			}
-		}
-	}
-
-	if len(o.GetAnomalyAlerting()) == len(other.GetAnomalyAlerting()) {
-		for i, lValue := range o.GetAnomalyAlerting() {
-			rValue := other.GetAnomalyAlerting()[i]
-			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting})
-	}
-	return res
-}
-
-func (o *TsCondition_Spec) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*TsCondition_Spec))
-}
-
-func (o *TsCondition_Spec) Clone() *TsCondition_Spec {
-	if o == nil {
-		return nil
-	}
-	result := &TsCondition_Spec{}
-	result.Queries = make([]*TsCondition_Spec_Query, len(o.Queries))
-	for i, sourceValue := range o.Queries {
-		result.Queries[i] = sourceValue.Clone()
-	}
-	result.QueryGroupBy = make([]string, len(o.QueryGroupBy))
-	for i, sourceValue := range o.QueryGroupBy {
-		result.QueryGroupBy[i] = sourceValue
-	}
-	result.ThresholdAlerting = o.ThresholdAlerting.Clone()
-	result.AnomalyAlerting = make([]*TsCondition_Spec_AnomalyAlertingCfg, len(o.AnomalyAlerting))
-	for i, sourceValue := range o.AnomalyAlerting {
-		result.AnomalyAlerting[i] = sourceValue.Clone()
-	}
-	return result
-}
-
-func (o *TsCondition_Spec) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *TsCondition_Spec) Merge(source *TsCondition_Spec) {
-	for _, sourceValue := range source.GetQueries() {
-		exists := false
-		for _, currentValue := range o.Queries {
-			if proto.Equal(sourceValue, currentValue) {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement *TsCondition_Spec_Query
-			if sourceValue != nil {
-				newDstElement = new(TsCondition_Spec_Query)
-				newDstElement.Merge(sourceValue)
-			}
-			o.Queries = append(o.Queries, newDstElement)
-		}
-	}
-
-	for _, sourceValue := range source.GetQueryGroupBy() {
-		exists := false
-		for _, currentValue := range o.QueryGroupBy {
-			if currentValue == sourceValue {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement string
-			newDstElement = sourceValue
-			o.QueryGroupBy = append(o.QueryGroupBy, newDstElement)
-		}
-	}
-
-	if source.GetThresholdAlerting() != nil {
-		if o.ThresholdAlerting == nil {
-			o.ThresholdAlerting = new(TsCondition_Spec_ThresholdAlertingCfg)
-		}
-		o.ThresholdAlerting.Merge(source.GetThresholdAlerting())
-	}
-	for _, sourceValue := range source.GetAnomalyAlerting() {
-		exists := false
-		for _, currentValue := range o.AnomalyAlerting {
-			if proto.Equal(sourceValue, currentValue) {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement *TsCondition_Spec_AnomalyAlertingCfg
-			if sourceValue != nil {
-				newDstElement = new(TsCondition_Spec_AnomalyAlertingCfg)
-				newDstElement.Merge(sourceValue)
-			}
-			o.AnomalyAlerting = append(o.AnomalyAlerting, newDstElement)
-		}
-	}
-
-}
-
-func (o *TsCondition_Spec) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*TsCondition_Spec))
 }
 
 func (o *TsCondition_Internal) GotenObjectExt() {}
@@ -636,535 +492,84 @@ func (o *TsCondition_Selector) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*TsCondition_Selector))
 }
 
-func (o *TsCondition_Spec_Query) GotenObjectExt() {}
+func (o *TsCondition_TemplateSource) GotenObjectExt() {}
 
-func (o *TsCondition_Spec_Query) MakeFullFieldMask() *TsCondition_Spec_Query_FieldMask {
-	return FullTsCondition_Spec_Query_FieldMask()
+func (o *TsCondition_TemplateSource) MakeFullFieldMask() *TsCondition_TemplateSource_FieldMask {
+	return FullTsCondition_TemplateSource_FieldMask()
 }
 
-func (o *TsCondition_Spec_Query) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullTsCondition_Spec_Query_FieldMask()
+func (o *TsCondition_TemplateSource) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullTsCondition_TemplateSource_FieldMask()
 }
 
-func (o *TsCondition_Spec_Query) MakeDiffFieldMask(other *TsCondition_Spec_Query) *TsCondition_Spec_Query_FieldMask {
+func (o *TsCondition_TemplateSource) MakeDiffFieldMask(other *TsCondition_TemplateSource) *TsCondition_TemplateSource_FieldMask {
 	if o == nil && other == nil {
-		return &TsCondition_Spec_Query_FieldMask{}
+		return &TsCondition_TemplateSource_FieldMask{}
 	}
 	if o == nil || other == nil {
-		return FullTsCondition_Spec_Query_FieldMask()
+		return FullTsCondition_TemplateSource_FieldMask()
 	}
 
-	res := &TsCondition_Spec_Query_FieldMask{}
-	if o.GetName() != other.GetName() {
-		res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorName})
+	res := &TsCondition_TemplateSource_FieldMask{}
+	if o.GetTemplate().String() != other.GetTemplate().String() {
+		res.Paths = append(res.Paths, &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorTemplate})
 	}
-	if o.GetFilter().String() != other.GetFilter().String() {
-		res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorFilter})
-	}
-	if o.GetAligner() != other.GetAligner() {
-		res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorAligner})
-	}
-	if o.GetReducer() != other.GetReducer() {
-		res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorReducer})
-	}
-	if o.GetMaxValue() != other.GetMaxValue() {
-		res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorMaxValue})
+	if !proto.Equal(o.GetUpdatedFields(), other.GetUpdatedFields()) {
+		res.Paths = append(res.Paths, &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorUpdatedFields})
 	}
 	return res
 }
 
-func (o *TsCondition_Spec_Query) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*TsCondition_Spec_Query))
+func (o *TsCondition_TemplateSource) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*TsCondition_TemplateSource))
 }
 
-func (o *TsCondition_Spec_Query) Clone() *TsCondition_Spec_Query {
+func (o *TsCondition_TemplateSource) Clone() *TsCondition_TemplateSource {
 	if o == nil {
 		return nil
 	}
-	result := &TsCondition_Spec_Query{}
-	result.Name = o.Name
-	if o.Filter == nil {
-		result.Filter = nil
-	} else if data, err := o.Filter.ProtoString(); err != nil {
+	result := &TsCondition_TemplateSource{}
+	if o.Template == nil {
+		result.Template = nil
+	} else if data, err := o.Template.ProtoString(); err != nil {
 		panic(err)
 	} else {
-		result.Filter = &monitoring_time_serie.Filter{}
-		if err := result.Filter.ParseProtoString(data); err != nil {
+		result.Template = &log_condition_template.Reference{}
+		if err := result.Template.ParseProtoString(data); err != nil {
 			panic(err)
 		}
 	}
-	result.Aligner = o.Aligner
-	result.Reducer = o.Reducer
-	result.MaxValue = o.MaxValue
+	result.UpdatedFields = proto.Clone(o.UpdatedFields).(*fieldmaskpb.FieldMask)
 	return result
 }
 
-func (o *TsCondition_Spec_Query) CloneRaw() gotenobject.GotenObjectExt {
+func (o *TsCondition_TemplateSource) CloneRaw() gotenobject.GotenObjectExt {
 	return o.Clone()
 }
 
-func (o *TsCondition_Spec_Query) Merge(source *TsCondition_Spec_Query) {
-	o.Name = source.GetName()
-	if source.GetFilter() != nil {
-		if data, err := source.GetFilter().ProtoString(); err != nil {
+func (o *TsCondition_TemplateSource) Merge(source *TsCondition_TemplateSource) {
+	if source.GetTemplate() != nil {
+		if data, err := source.GetTemplate().ProtoString(); err != nil {
 			panic(err)
 		} else {
-			o.Filter = &monitoring_time_serie.Filter{}
-			if err := o.Filter.ParseProtoString(data); err != nil {
+			o.Template = &log_condition_template.Reference{}
+			if err := o.Template.ParseProtoString(data); err != nil {
 				panic(err)
 			}
 		}
 	} else {
-		o.Filter = nil
+		o.Template = nil
 	}
-	o.Aligner = source.GetAligner()
-	o.Reducer = source.GetReducer()
-	o.MaxValue = source.GetMaxValue()
-}
-
-func (o *TsCondition_Spec_Query) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*TsCondition_Spec_Query))
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) GotenObjectExt() {}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) MakeFullFieldMask() *TsCondition_Spec_ThresholdAlertingCfg_FieldMask {
-	return FullTsCondition_Spec_ThresholdAlertingCfg_FieldMask()
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullTsCondition_Spec_ThresholdAlertingCfg_FieldMask()
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) MakeDiffFieldMask(other *TsCondition_Spec_ThresholdAlertingCfg) *TsCondition_Spec_ThresholdAlertingCfg_FieldMask {
-	if o == nil && other == nil {
-		return &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullTsCondition_Spec_ThresholdAlertingCfg_FieldMask()
-	}
-
-	res := &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{}
-	if o.GetOperator() != other.GetOperator() {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator})
-	}
-	if !proto.Equal(o.GetAlignmentPeriod(), other.GetAlignmentPeriod()) {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod})
-	}
-	if !proto.Equal(o.GetRaiseAfter(), other.GetRaiseAfter()) {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter})
-	}
-	if !proto.Equal(o.GetSilenceAfter(), other.GetSilenceAfter()) {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter})
-	}
-
-	if len(o.GetPerQueryThresholds()) == len(other.GetPerQueryThresholds()) {
-		for i, lValue := range o.GetPerQueryThresholds() {
-			rValue := other.GetPerQueryThresholds()[i]
-			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds})
-				break
-			}
+	if source.GetUpdatedFields() != nil {
+		if o.UpdatedFields == nil {
+			o.UpdatedFields = new(fieldmaskpb.FieldMask)
 		}
-	} else {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds})
-	}
-	if !proto.Equal(o.GetAdaptiveThresholdsDetectionPeriod(), other.GetAdaptiveThresholdsDetectionPeriod()) {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod})
-	}
-	return res
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) Clone() *TsCondition_Spec_ThresholdAlertingCfg {
-	if o == nil {
-		return nil
-	}
-	result := &TsCondition_Spec_ThresholdAlertingCfg{}
-	result.Operator = o.Operator
-	result.AlignmentPeriod = proto.Clone(o.AlignmentPeriod).(*durationpb.Duration)
-	result.RaiseAfter = proto.Clone(o.RaiseAfter).(*durationpb.Duration)
-	result.SilenceAfter = proto.Clone(o.SilenceAfter).(*durationpb.Duration)
-	result.PerQueryThresholds = make([]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds, len(o.PerQueryThresholds))
-	for i, sourceValue := range o.PerQueryThresholds {
-		result.PerQueryThresholds[i] = sourceValue.Clone()
-	}
-	result.AdaptiveThresholdsDetectionPeriod = proto.Clone(o.AdaptiveThresholdsDetectionPeriod).(*durationpb.Duration)
-	return result
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg) Merge(source *TsCondition_Spec_ThresholdAlertingCfg) {
-	o.Operator = source.GetOperator()
-	if source.GetAlignmentPeriod() != nil {
-		if o.AlignmentPeriod == nil {
-			o.AlignmentPeriod = new(durationpb.Duration)
-		}
-		proto.Merge(o.AlignmentPeriod, source.GetAlignmentPeriod())
-	}
-	if source.GetRaiseAfter() != nil {
-		if o.RaiseAfter == nil {
-			o.RaiseAfter = new(durationpb.Duration)
-		}
-		proto.Merge(o.RaiseAfter, source.GetRaiseAfter())
-	}
-	if source.GetSilenceAfter() != nil {
-		if o.SilenceAfter == nil {
-			o.SilenceAfter = new(durationpb.Duration)
-		}
-		proto.Merge(o.SilenceAfter, source.GetSilenceAfter())
-	}
-	for _, sourceValue := range source.GetPerQueryThresholds() {
-		exists := false
-		for _, currentValue := range o.PerQueryThresholds {
-			if proto.Equal(sourceValue, currentValue) {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds
-			if sourceValue != nil {
-				newDstElement = new(TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-				newDstElement.Merge(sourceValue)
-			}
-			o.PerQueryThresholds = append(o.PerQueryThresholds, newDstElement)
-		}
-	}
-
-	if source.GetAdaptiveThresholdsDetectionPeriod() != nil {
-		if o.AdaptiveThresholdsDetectionPeriod == nil {
-			o.AdaptiveThresholdsDetectionPeriod = new(durationpb.Duration)
-		}
-		proto.Merge(o.AdaptiveThresholdsDetectionPeriod, source.GetAdaptiveThresholdsDetectionPeriod())
+		proto.Merge(o.UpdatedFields, source.GetUpdatedFields())
 	}
 }
 
-func (o *TsCondition_Spec_ThresholdAlertingCfg) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) GotenObjectExt() {}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) MakeFullFieldMask() *TsCondition_Spec_AnomalyAlertingCfg_FieldMask {
-	return FullTsCondition_Spec_AnomalyAlertingCfg_FieldMask()
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullTsCondition_Spec_AnomalyAlertingCfg_FieldMask()
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) MakeDiffFieldMask(other *TsCondition_Spec_AnomalyAlertingCfg) *TsCondition_Spec_AnomalyAlertingCfg_FieldMask {
-	if o == nil && other == nil {
-		return &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullTsCondition_Spec_AnomalyAlertingCfg_FieldMask()
-	}
-
-	res := &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{}
-	if !proto.Equal(o.GetAnalysisWindow(), other.GetAnalysisWindow()) {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow})
-	}
-	if !proto.Equal(o.GetStepInterval(), other.GetStepInterval()) {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval})
-	}
-	if !proto.Equal(o.GetTrainStepInterval(), other.GetTrainStepInterval()) {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval})
-	}
-	if !proto.Equal(o.GetAlignmentPeriod(), other.GetAlignmentPeriod()) {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod})
-	}
-	{
-		_, leftSelected := o.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder)
-		_, rightSelected := other.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder)
-		if leftSelected == rightSelected {
-			subMask := o.GetLstmAutoencoder().MakeDiffFieldMask(other.GetLstmAutoencoder())
-			if subMask.IsFull() {
-				res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder})
-			} else {
-				for _, subpath := range subMask.Paths {
-					res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder, subPath: subpath})
-				}
-			}
-		} else {
-			res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder})
-		}
-	}
-	if !proto.Equal(o.GetRaiseAfter(), other.GetRaiseAfter()) {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter})
-	}
-	if !proto.Equal(o.GetSilenceAfter(), other.GetSilenceAfter()) {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter})
-	}
-	return res
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) Clone() *TsCondition_Spec_AnomalyAlertingCfg {
-	if o == nil {
-		return nil
-	}
-	result := &TsCondition_Spec_AnomalyAlertingCfg{}
-	result.AnalysisWindow = proto.Clone(o.AnalysisWindow).(*durationpb.Duration)
-	result.StepInterval = proto.Clone(o.StepInterval).(*durationpb.Duration)
-	result.TrainStepInterval = proto.Clone(o.TrainStepInterval).(*durationpb.Duration)
-	result.AlignmentPeriod = proto.Clone(o.AlignmentPeriod).(*durationpb.Duration)
-	if o, ok := o.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); ok {
-		result.Model = (*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder)(nil)
-		if o != nil {
-			result.Model = &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder{}
-			result := result.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder)
-			result.LstmAutoencoder = o.LstmAutoencoder.Clone()
-		}
-	}
-	result.RaiseAfter = proto.Clone(o.RaiseAfter).(*durationpb.Duration)
-	result.SilenceAfter = proto.Clone(o.SilenceAfter).(*durationpb.Duration)
-	return result
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) Merge(source *TsCondition_Spec_AnomalyAlertingCfg) {
-	if source.GetAnalysisWindow() != nil {
-		if o.AnalysisWindow == nil {
-			o.AnalysisWindow = new(durationpb.Duration)
-		}
-		proto.Merge(o.AnalysisWindow, source.GetAnalysisWindow())
-	}
-	if source.GetStepInterval() != nil {
-		if o.StepInterval == nil {
-			o.StepInterval = new(durationpb.Duration)
-		}
-		proto.Merge(o.StepInterval, source.GetStepInterval())
-	}
-	if source.GetTrainStepInterval() != nil {
-		if o.TrainStepInterval == nil {
-			o.TrainStepInterval = new(durationpb.Duration)
-		}
-		proto.Merge(o.TrainStepInterval, source.GetTrainStepInterval())
-	}
-	if source.GetAlignmentPeriod() != nil {
-		if o.AlignmentPeriod == nil {
-			o.AlignmentPeriod = new(durationpb.Duration)
-		}
-		proto.Merge(o.AlignmentPeriod, source.GetAlignmentPeriod())
-	}
-	if source, ok := source.GetModel().(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); ok {
-		if dstOneOf, ok := o.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); !ok || dstOneOf == nil {
-			o.Model = &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder{}
-		}
-		if source != nil {
-			o := o.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder)
-			if source.LstmAutoencoder != nil {
-				if o.LstmAutoencoder == nil {
-					o.LstmAutoencoder = new(TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-				}
-				o.LstmAutoencoder.Merge(source.LstmAutoencoder)
-			}
-		}
-	}
-	if source.GetRaiseAfter() != nil {
-		if o.RaiseAfter == nil {
-			o.RaiseAfter = new(durationpb.Duration)
-		}
-		proto.Merge(o.RaiseAfter, source.GetRaiseAfter())
-	}
-	if source.GetSilenceAfter() != nil {
-		if o.SilenceAfter == nil {
-			o.SilenceAfter = new(durationpb.Duration)
-		}
-		proto.Merge(o.SilenceAfter, source.GetSilenceAfter())
-	}
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) GotenObjectExt() {}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) MakeFullFieldMask() *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask {
-	return FullTsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask()
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullTsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask()
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) MakeDiffFieldMask(other *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask {
-	if o == nil && other == nil {
-		return &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullTsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask()
-	}
-
-	res := &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{}
-	if o.GetAutoAdaptUpper() != other.GetAutoAdaptUpper() {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper})
-	}
-	if o.GetAutoAdaptLower() != other.GetAutoAdaptLower() {
-		res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower})
-	}
-	{
-		subMask := o.GetMaxUpper().MakeDiffFieldMask(other.GetMaxUpper())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper, subPath: subpath})
-			}
-		}
-	}
-	{
-		subMask := o.GetMaxLower().MakeDiffFieldMask(other.GetMaxLower())
-		if subMask.IsFull() {
-			res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower})
-		} else {
-			for _, subpath := range subMask.Paths {
-				res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower, subPath: subpath})
-			}
-		}
-	}
-	return res
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) Clone() *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds {
-	if o == nil {
-		return nil
-	}
-	result := &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds{}
-	result.AutoAdaptUpper = o.AutoAdaptUpper
-	result.AutoAdaptLower = o.AutoAdaptLower
-	result.MaxUpper = o.MaxUpper.Clone()
-	result.MaxLower = o.MaxLower.Clone()
-	return result
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) Merge(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) {
-	o.AutoAdaptUpper = source.GetAutoAdaptUpper()
-	o.AutoAdaptLower = source.GetAutoAdaptLower()
-	if source.GetMaxUpper() != nil {
-		if o.MaxUpper == nil {
-			o.MaxUpper = new(AlertingThreshold)
-		}
-		o.MaxUpper.Merge(source.GetMaxUpper())
-	}
-	if source.GetMaxLower() != nil {
-		if o.MaxLower == nil {
-			o.MaxLower = new(AlertingThreshold)
-		}
-		o.MaxLower.Merge(source.GetMaxLower())
-	}
-}
-
-func (o *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) GotenObjectExt() {}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) MakeFullFieldMask() *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask {
-	return FullTsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask()
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullTsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask()
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) MakeDiffFieldMask(other *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask {
-	if o == nil && other == nil {
-		return &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullTsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask()
-	}
-
-	res := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{}
-	if o.GetHiddenSize() != other.GetHiddenSize() {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize})
-	}
-	if o.GetLearnRate() != other.GetLearnRate() {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate})
-	}
-	if o.GetMaxTrainingEpochs() != other.GetMaxTrainingEpochs() {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs})
-	}
-	if o.GetMinTrainingEpochs() != other.GetMinTrainingEpochs() {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs})
-	}
-	if o.GetAcceptableTrainingError() != other.GetAcceptableTrainingError() {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError})
-	}
-	if !proto.Equal(o.GetTrainingPeriod(), other.GetTrainingPeriod()) {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod})
-	}
-	if o.GetCheckPeriodFraction() != other.GetCheckPeriodFraction() {
-		res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction})
-	}
-	return res
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) Clone() *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder {
-	if o == nil {
-		return nil
-	}
-	result := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder{}
-	result.HiddenSize = o.HiddenSize
-	result.LearnRate = o.LearnRate
-	result.MaxTrainingEpochs = o.MaxTrainingEpochs
-	result.MinTrainingEpochs = o.MinTrainingEpochs
-	result.AcceptableTrainingError = o.AcceptableTrainingError
-	result.TrainingPeriod = proto.Clone(o.TrainingPeriod).(*durationpb.Duration)
-	result.CheckPeriodFraction = o.CheckPeriodFraction
-	return result
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) Merge(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) {
-	o.HiddenSize = source.GetHiddenSize()
-	o.LearnRate = source.GetLearnRate()
-	o.MaxTrainingEpochs = source.GetMaxTrainingEpochs()
-	o.MinTrainingEpochs = source.GetMinTrainingEpochs()
-	o.AcceptableTrainingError = source.GetAcceptableTrainingError()
-	if source.GetTrainingPeriod() != nil {
-		if o.TrainingPeriod == nil {
-			o.TrainingPeriod = new(durationpb.Duration)
-		}
-		proto.Merge(o.TrainingPeriod, source.GetTrainingPeriod())
-	}
-	o.CheckPeriodFraction = source.GetCheckPeriodFraction()
-}
-
-func (o *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
+func (o *TsCondition_TemplateSource) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*TsCondition_TemplateSource))
 }
 
 func (o *TsCondition_Selector_Strings) GotenObjectExt() {}
@@ -1241,59 +646,4 @@ func (o *TsCondition_Selector_Strings) Merge(source *TsCondition_Selector_String
 
 func (o *TsCondition_Selector_Strings) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*TsCondition_Selector_Strings))
-}
-
-func (o *AlertingThreshold) GotenObjectExt() {}
-
-func (o *AlertingThreshold) MakeFullFieldMask() *AlertingThreshold_FieldMask {
-	return FullAlertingThreshold_FieldMask()
-}
-
-func (o *AlertingThreshold) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullAlertingThreshold_FieldMask()
-}
-
-func (o *AlertingThreshold) MakeDiffFieldMask(other *AlertingThreshold) *AlertingThreshold_FieldMask {
-	if o == nil && other == nil {
-		return &AlertingThreshold_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullAlertingThreshold_FieldMask()
-	}
-
-	res := &AlertingThreshold_FieldMask{}
-	if o.GetValue() != other.GetValue() {
-		res.Paths = append(res.Paths, &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorValue})
-	}
-	if o.GetIsInclusive() != other.GetIsInclusive() {
-		res.Paths = append(res.Paths, &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorIsInclusive})
-	}
-	return res
-}
-
-func (o *AlertingThreshold) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*AlertingThreshold))
-}
-
-func (o *AlertingThreshold) Clone() *AlertingThreshold {
-	if o == nil {
-		return nil
-	}
-	result := &AlertingThreshold{}
-	result.Value = o.Value
-	result.IsInclusive = o.IsInclusive
-	return result
-}
-
-func (o *AlertingThreshold) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *AlertingThreshold) Merge(source *AlertingThreshold) {
-	o.Value = source.GetValue()
-	o.IsInclusive = source.GetIsInclusive()
-}
-
-func (o *AlertingThreshold) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*AlertingThreshold))
 }

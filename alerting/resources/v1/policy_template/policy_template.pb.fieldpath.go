@@ -23,8 +23,8 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -50,7 +50,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
 )
@@ -129,7 +129,7 @@ func BuildPolicyTemplate_FieldPath(fp gotenobject.RawFieldPath) (PolicyTemplate_
 				return &PolicyTemplate_FieldSubPath{selector: PolicyTemplate_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "spec_template", "specTemplate", "spec-template":
-			if subpath, err := policy.BuildPolicySpec_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildPolicySpec_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &PolicyTemplate_FieldSubPath{selector: PolicyTemplate_FieldPathSelectorSpecTemplate, subPath: subpath}, nil
@@ -252,7 +252,7 @@ func (fp *PolicyTemplate_FieldTerminalPath) GetDefault() interface{} {
 	case PolicyTemplate_FieldPathSelectorSupportingDocs:
 		return ([]*document.Reference)(nil)
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		return (*policy.Policy_Spec)(nil)
+		return (*rcommon.PolicySpec)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PolicyTemplate: %d", fp.selector))
 	}
@@ -308,7 +308,7 @@ func (fp *PolicyTemplate_FieldTerminalPath) WithIValue(value interface{}) Policy
 	case PolicyTemplate_FieldPathSelectorSupportingDocs:
 		return &PolicyTemplate_FieldTerminalPathValue{PolicyTemplate_FieldTerminalPath: *fp, value: value.([]*document.Reference)}
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		return &PolicyTemplate_FieldTerminalPathValue{PolicyTemplate_FieldTerminalPath: *fp, value: value.(*policy.Policy_Spec)}
+		return &PolicyTemplate_FieldTerminalPathValue{PolicyTemplate_FieldTerminalPath: *fp, value: value.(*rcommon.PolicySpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PolicyTemplate: %d", fp.selector))
 	}
@@ -332,7 +332,7 @@ func (fp *PolicyTemplate_FieldTerminalPath) WithIArrayOfValues(values interface{
 	case PolicyTemplate_FieldPathSelectorSupportingDocs:
 		return &PolicyTemplate_FieldTerminalPathArrayOfValues{PolicyTemplate_FieldTerminalPath: *fp, values: values.([][]*document.Reference)}
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		return &PolicyTemplate_FieldTerminalPathArrayOfValues{PolicyTemplate_FieldTerminalPath: *fp, values: values.([]*policy.Policy_Spec)}
+		return &PolicyTemplate_FieldTerminalPathArrayOfValues{PolicyTemplate_FieldTerminalPath: *fp, values: values.([]*rcommon.PolicySpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for PolicyTemplate: %d", fp.selector))
 	}
@@ -370,8 +370,8 @@ func (fps *PolicyTemplate_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *PolicyTemplate_FieldSubPath) AsSpecTemplateSubPath() (policy.PolicySpec_FieldPath, bool) {
-	res, ok := fps.subPath.(policy.PolicySpec_FieldPath)
+func (fps *PolicyTemplate_FieldSubPath) AsSpecTemplateSubPath() (rcommon.PolicySpec_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.PolicySpec_FieldPath)
 	return res, ok
 }
 
@@ -540,8 +540,8 @@ func (fpv *PolicyTemplate_FieldTerminalPathValue) AsSupportingDocsValue() ([]*do
 	res, ok := fpv.value.([]*document.Reference)
 	return res, ok
 }
-func (fpv *PolicyTemplate_FieldTerminalPathValue) AsSpecTemplateValue() (*policy.Policy_Spec, bool) {
-	res, ok := fpv.value.(*policy.Policy_Spec)
+func (fpv *PolicyTemplate_FieldTerminalPathValue) AsSpecTemplateValue() (*rcommon.PolicySpec, bool) {
+	res, ok := fpv.value.(*rcommon.PolicySpec)
 	return res, ok
 }
 
@@ -562,7 +562,7 @@ func (fpv *PolicyTemplate_FieldTerminalPathValue) SetTo(target **PolicyTemplate)
 	case PolicyTemplate_FieldPathSelectorSupportingDocs:
 		(*target).SupportingDocs = fpv.value.([]*document.Reference)
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		(*target).SpecTemplate = fpv.value.(*policy.Policy_Spec)
+		(*target).SpecTemplate = fpv.value.(*rcommon.PolicySpec)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PolicyTemplate: %d", fpv.selector))
 	}
@@ -641,8 +641,8 @@ func (fpvs *PolicyTemplate_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_F
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *PolicyTemplate_FieldSubPathValue) AsSpecTemplatePathValue() (policy.PolicySpec_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(policy.PolicySpec_FieldPathValue)
+func (fpvs *PolicyTemplate_FieldSubPathValue) AsSpecTemplatePathValue() (rcommon.PolicySpec_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.PolicySpec_FieldPathValue)
 	return res, ok
 }
 
@@ -654,7 +654,7 @@ func (fpvs *PolicyTemplate_FieldSubPathValue) SetTo(target **PolicyTemplate) {
 	case PolicyTemplate_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		fpvs.subPathValue.(policy.PolicySpec_FieldPathValue).SetTo(&(*target).SpecTemplate)
+		fpvs.subPathValue.(rcommon.PolicySpec_FieldPathValue).SetTo(&(*target).SpecTemplate)
 	default:
 		panic(fmt.Sprintf("Invalid selector for PolicyTemplate: %d", fpvs.Selector()))
 	}
@@ -674,7 +674,7 @@ func (fpvs *PolicyTemplate_FieldSubPathValue) CompareWith(source *PolicyTemplate
 	case PolicyTemplate_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		return fpvs.subPathValue.(policy.PolicySpec_FieldPathValue).CompareWith(source.GetSpecTemplate())
+		return fpvs.subPathValue.(rcommon.PolicySpec_FieldPathValue).CompareWith(source.GetSpecTemplate())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PolicyTemplate: %d", fpvs.Selector()))
 	}
@@ -765,8 +765,8 @@ func (fpaivs *PolicyTemplate_FieldSubPathArrayItemValue) AsMetadataPathItemValue
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *PolicyTemplate_FieldSubPathArrayItemValue) AsSpecTemplatePathItemValue() (policy.PolicySpec_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(policy.PolicySpec_FieldPathArrayItemValue)
+func (fpaivs *PolicyTemplate_FieldSubPathArrayItemValue) AsSpecTemplatePathItemValue() (rcommon.PolicySpec_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.PolicySpec_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -776,7 +776,7 @@ func (fpaivs *PolicyTemplate_FieldSubPathArrayItemValue) ContainsValue(source *P
 	case PolicyTemplate_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		return fpaivs.subPathItemValue.(policy.PolicySpec_FieldPathArrayItemValue).ContainsValue(source.GetSpecTemplate())
+		return fpaivs.subPathItemValue.(rcommon.PolicySpec_FieldPathArrayItemValue).ContainsValue(source.GetSpecTemplate())
 	default:
 		panic(fmt.Sprintf("Invalid selector for PolicyTemplate: %d", fpaivs.Selector()))
 	}
@@ -838,7 +838,7 @@ func (fpaov *PolicyTemplate_FieldTerminalPathArrayOfValues) GetRawValues() (valu
 			values = append(values, v)
 		}
 	case PolicyTemplate_FieldPathSelectorSpecTemplate:
-		for _, v := range fpaov.values.([]*policy.Policy_Spec) {
+		for _, v := range fpaov.values.([]*rcommon.PolicySpec) {
 			values = append(values, v)
 		}
 	}
@@ -864,8 +864,8 @@ func (fpaov *PolicyTemplate_FieldTerminalPathArrayOfValues) AsSupportingDocsArra
 	res, ok := fpaov.values.([][]*document.Reference)
 	return res, ok
 }
-func (fpaov *PolicyTemplate_FieldTerminalPathArrayOfValues) AsSpecTemplateArrayOfValues() ([]*policy.Policy_Spec, bool) {
-	res, ok := fpaov.values.([]*policy.Policy_Spec)
+func (fpaov *PolicyTemplate_FieldTerminalPathArrayOfValues) AsSpecTemplateArrayOfValues() ([]*rcommon.PolicySpec, bool) {
+	res, ok := fpaov.values.([]*rcommon.PolicySpec)
 	return res, ok
 }
 
@@ -883,7 +883,7 @@ func (fpsaov *PolicyTemplate_FieldSubPathArrayOfValues) AsMetadataPathArrayOfVal
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *PolicyTemplate_FieldSubPathArrayOfValues) AsSpecTemplatePathArrayOfValues() (policy.PolicySpec_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(policy.PolicySpec_FieldPathArrayOfValues)
+func (fpsaov *PolicyTemplate_FieldSubPathArrayOfValues) AsSpecTemplatePathArrayOfValues() (rcommon.PolicySpec_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.PolicySpec_FieldPathArrayOfValues)
 	return res, ok
 }

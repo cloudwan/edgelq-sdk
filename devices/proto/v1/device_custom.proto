@@ -5,6 +5,7 @@ package ntt.devices.v1;
 import "edgelq-sdk/common/api/credentials.proto";
 import "edgelq-sdk/devices/proto/v1/device.proto";
 import "edgelq-sdk/devices/proto/v1/device_change.proto";
+import "edgelq-sdk/monitoring/proto/v4/time_serie.proto";
 import "google/protobuf/duration.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -308,9 +309,11 @@ message DeviceMetrics {
 }
 
 message ReportDeviceMetricsResponse {
-  // CreateTimeSeries call failed, likely a temporary issue.
-  // droplet can retry without closing the stream
-  bool ts_create_failed = 1;
+  // List of newly seen time series headers with unique binary key
+  // observed in corresponding ReportDeviceMetricsRequest.
+  repeated ntt.monitoring.v4.TimeSerie new_time_series_headers = 2;
+
+  reserved 1;
 }
 
 enum MobileNetworkType {

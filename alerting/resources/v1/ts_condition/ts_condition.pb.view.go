@@ -12,12 +12,12 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
-	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -30,10 +30,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &monitoring_time_serie.Point{}
-	_ = &durationpb.Duration{}
+	_ = &rcommon.LogCndSpec{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
 

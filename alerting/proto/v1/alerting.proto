@@ -7,6 +7,8 @@ import "edgelq-sdk/alerting/proto/v1/alert_custom.proto";
 import "edgelq-sdk/alerting/proto/v1/alert_service.proto";
 import "edgelq-sdk/alerting/proto/v1/document.proto";
 import "edgelq-sdk/alerting/proto/v1/document_service.proto";
+import "edgelq-sdk/alerting/proto/v1/edge_watch_service_custom.proto";
+import "edgelq-sdk/alerting/proto/v1/edge_watch_service_service.proto";
 import "edgelq-sdk/alerting/proto/v1/log_condition.proto";
 import "edgelq-sdk/alerting/proto/v1/log_condition_service.proto";
 import "edgelq-sdk/alerting/proto/v1/log_condition_template.proto";

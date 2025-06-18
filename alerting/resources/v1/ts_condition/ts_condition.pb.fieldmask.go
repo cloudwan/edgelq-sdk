@@ -19,12 +19,12 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
-	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -44,10 +44,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &monitoring_time_serie.Point{}
-	_ = &durationpb.Duration{}
+	_ = &rcommon.LogCndSpec{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
 
@@ -65,6 +65,7 @@ func FullTsCondition_FieldMask() *TsCondition_FieldMask {
 	res.Paths = append(res.Paths, &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorSpec})
 	res.Paths = append(res.Paths, &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorInternal})
 	res.Paths = append(res.Paths, &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorFilterSelector})
+	res.Paths = append(res.Paths, &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorTemplateSource})
 	return res
 }
 
@@ -83,7 +84,7 @@ func (fieldMask *TsCondition_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 8)
+	presentSelectors := make([]bool, 9)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*TsCondition_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -113,18 +114,20 @@ func (fieldMask *TsCondition_FieldMask) Reset() {
 
 func (fieldMask *TsCondition_FieldMask) Subtract(other *TsCondition_FieldMask) *TsCondition_FieldMask {
 	result := &TsCondition_FieldMask{}
-	removedSelectors := make([]bool, 8)
+	removedSelectors := make([]bool, 9)
 	otherSubMasks := map[TsCondition_FieldPathSelector]gotenobject.FieldMask{
 		TsCondition_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
-		TsCondition_FieldPathSelectorSpec:           &TsCondition_Spec_FieldMask{},
+		TsCondition_FieldPathSelectorSpec:           &rcommon.TsCndSpec_FieldMask{},
 		TsCondition_FieldPathSelectorInternal:       &TsCondition_Internal_FieldMask{},
 		TsCondition_FieldPathSelectorFilterSelector: &TsCondition_Selector_FieldMask{},
+		TsCondition_FieldPathSelectorTemplateSource: &TsCondition_TemplateSource_FieldMask{},
 	}
 	mySubMasks := map[TsCondition_FieldPathSelector]gotenobject.FieldMask{
 		TsCondition_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
-		TsCondition_FieldPathSelectorSpec:           &TsCondition_Spec_FieldMask{},
+		TsCondition_FieldPathSelectorSpec:           &rcommon.TsCndSpec_FieldMask{},
 		TsCondition_FieldPathSelectorInternal:       &TsCondition_Internal_FieldMask{},
 		TsCondition_FieldPathSelectorFilterSelector: &TsCondition_Selector_FieldMask{},
+		TsCondition_FieldPathSelectorTemplateSource: &TsCondition_TemplateSource_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -143,11 +146,13 @@ func (fieldMask *TsCondition_FieldMask) Subtract(other *TsCondition_FieldMask) *
 					case TsCondition_FieldPathSelectorMetadata:
 						mySubMasks[TsCondition_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case TsCondition_FieldPathSelectorSpec:
-						mySubMasks[TsCondition_FieldPathSelectorSpec] = FullTsCondition_Spec_FieldMask()
+						mySubMasks[TsCondition_FieldPathSelectorSpec] = rcommon.FullTsCndSpec_FieldMask()
 					case TsCondition_FieldPathSelectorInternal:
 						mySubMasks[TsCondition_FieldPathSelectorInternal] = FullTsCondition_Internal_FieldMask()
 					case TsCondition_FieldPathSelectorFilterSelector:
 						mySubMasks[TsCondition_FieldPathSelectorFilterSelector] = FullTsCondition_Selector_FieldMask()
+					case TsCondition_FieldPathSelectorTemplateSource:
+						mySubMasks[TsCondition_FieldPathSelectorTemplateSource] = FullTsCondition_TemplateSource_FieldMask()
 					}
 				} else if tp, ok := path.(*TsCondition_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -322,12 +327,14 @@ func (fieldMask *TsCondition_FieldMask) Project(source *TsCondition) *TsConditio
 	result := &TsCondition{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	specMask := &TsCondition_Spec_FieldMask{}
+	specMask := &rcommon.TsCndSpec_FieldMask{}
 	wholeSpecAccepted := false
 	internalMask := &TsCondition_Internal_FieldMask{}
 	wholeInternalAccepted := false
 	filterSelectorMask := &TsCondition_Selector_FieldMask{}
 	wholeFilterSelectorAccepted := false
+	templateSourceMask := &TsCondition_TemplateSource_FieldMask{}
+	wholeTemplateSourceAccepted := false
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
@@ -353,17 +360,22 @@ func (fieldMask *TsCondition_FieldMask) Project(source *TsCondition) *TsConditio
 			case TsCondition_FieldPathSelectorFilterSelector:
 				result.FilterSelector = source.FilterSelector
 				wholeFilterSelectorAccepted = true
+			case TsCondition_FieldPathSelectorTemplateSource:
+				result.TemplateSource = source.TemplateSource
+				wholeTemplateSourceAccepted = true
 			}
 		case *TsCondition_FieldSubPath:
 			switch tp.selector {
 			case TsCondition_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case TsCondition_FieldPathSelectorSpec:
-				specMask.AppendPath(tp.subPath.(TsConditionSpec_FieldPath))
+				specMask.AppendPath(tp.subPath.(rcommon.TsCndSpec_FieldPath))
 			case TsCondition_FieldPathSelectorInternal:
 				internalMask.AppendPath(tp.subPath.(TsConditionInternal_FieldPath))
 			case TsCondition_FieldPathSelectorFilterSelector:
 				filterSelectorMask.AppendPath(tp.subPath.(TsConditionSelector_FieldPath))
+			case TsCondition_FieldPathSelectorTemplateSource:
+				templateSourceMask.AppendPath(tp.subPath.(TsConditionTemplateSource_FieldPath))
 			}
 		}
 	}
@@ -379,6 +391,9 @@ func (fieldMask *TsCondition_FieldMask) Project(source *TsCondition) *TsConditio
 	if wholeFilterSelectorAccepted == false && len(filterSelectorMask.Paths) > 0 {
 		result.FilterSelector = filterSelectorMask.Project(source.GetFilterSelector())
 	}
+	if wholeTemplateSourceAccepted == false && len(templateSourceMask.Paths) > 0 {
+		result.TemplateSource = templateSourceMask.Project(source.GetTemplateSource())
+	}
 	return result
 }
 
@@ -387,308 +402,6 @@ func (fieldMask *TsCondition_FieldMask) ProjectRaw(source gotenobject.GotenObjec
 }
 
 func (fieldMask *TsCondition_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type TsCondition_Spec_FieldMask struct {
-	Paths []TsConditionSpec_FieldPath
-}
-
-func FullTsCondition_Spec_FieldMask() *TsCondition_Spec_FieldMask {
-	res := &TsCondition_Spec_FieldMask{}
-	res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueries})
-	res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueryGroupBy})
-	res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorThresholdAlerting})
-	res.Paths = append(res.Paths, &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting})
-	return res
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 4)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*TsConditionSpec_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseTsConditionSpec_FieldPath(raw)
-	})
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) ProtoMessage() {}
-
-func (fieldMask *TsCondition_Spec_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) Subtract(other *TsCondition_Spec_FieldMask) *TsCondition_Spec_FieldMask {
-	result := &TsCondition_Spec_FieldMask{}
-	removedSelectors := make([]bool, 4)
-	otherSubMasks := map[TsConditionSpec_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpec_FieldPathSelectorQueries:           &TsCondition_Spec_Query_FieldMask{},
-		TsConditionSpec_FieldPathSelectorThresholdAlerting: &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{},
-		TsConditionSpec_FieldPathSelectorAnomalyAlerting:   &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{},
-	}
-	mySubMasks := map[TsConditionSpec_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpec_FieldPathSelectorQueries:           &TsCondition_Spec_Query_FieldMask{},
-		TsConditionSpec_FieldPathSelectorThresholdAlerting: &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{},
-		TsConditionSpec_FieldPathSelectorAnomalyAlerting:   &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *TsConditionSpec_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *TsConditionSpec_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*TsConditionSpec_FieldTerminalPath); ok {
-					switch tp.selector {
-					case TsConditionSpec_FieldPathSelectorQueries:
-						mySubMasks[TsConditionSpec_FieldPathSelectorQueries] = FullTsCondition_Spec_Query_FieldMask()
-					case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-						mySubMasks[TsConditionSpec_FieldPathSelectorThresholdAlerting] = FullTsCondition_Spec_ThresholdAlertingCfg_FieldMask()
-					case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-						mySubMasks[TsConditionSpec_FieldPathSelectorAnomalyAlerting] = FullTsCondition_Spec_AnomalyAlertingCfg_FieldMask()
-					}
-				} else if tp, ok := path.(*TsConditionSpec_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &TsConditionSpec_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*TsCondition_Spec_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *TsCondition_Spec_FieldMask) FilterInputFields() *TsCondition_Spec_FieldMask {
-	result := &TsCondition_Spec_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *TsCondition_Spec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]TsConditionSpec_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseTsConditionSpec_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask TsCondition_Spec_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask TsCondition_Spec_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) AppendPath(path TsConditionSpec_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(TsConditionSpec_FieldPath))
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) GetPaths() []TsConditionSpec_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseTsConditionSpec_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) Set(target, source *TsCondition_Spec) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*TsCondition_Spec), source.(*TsCondition_Spec))
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) Project(source *TsCondition_Spec) *TsCondition_Spec {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &TsCondition_Spec{}
-	queriesMask := &TsCondition_Spec_Query_FieldMask{}
-	wholeQueriesAccepted := false
-	thresholdAlertingMask := &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{}
-	wholeThresholdAlertingAccepted := false
-	anomalyAlertingMask := &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{}
-	wholeAnomalyAlertingAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *TsConditionSpec_FieldTerminalPath:
-			switch tp.selector {
-			case TsConditionSpec_FieldPathSelectorQueries:
-				result.Queries = source.Queries
-				wholeQueriesAccepted = true
-			case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-				result.QueryGroupBy = source.QueryGroupBy
-			case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-				result.ThresholdAlerting = source.ThresholdAlerting
-				wholeThresholdAlertingAccepted = true
-			case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-				result.AnomalyAlerting = source.AnomalyAlerting
-				wholeAnomalyAlertingAccepted = true
-			}
-		case *TsConditionSpec_FieldSubPath:
-			switch tp.selector {
-			case TsConditionSpec_FieldPathSelectorQueries:
-				queriesMask.AppendPath(tp.subPath.(TsConditionSpecQuery_FieldPath))
-			case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-				thresholdAlertingMask.AppendPath(tp.subPath.(TsConditionSpecThresholdAlertingCfg_FieldPath))
-			case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-				anomalyAlertingMask.AppendPath(tp.subPath.(TsConditionSpecAnomalyAlertingCfg_FieldPath))
-			}
-		}
-	}
-	if wholeQueriesAccepted == false && len(queriesMask.Paths) > 0 {
-		for _, sourceItem := range source.GetQueries() {
-			result.Queries = append(result.Queries, queriesMask.Project(sourceItem))
-		}
-	}
-	if wholeThresholdAlertingAccepted == false && len(thresholdAlertingMask.Paths) > 0 {
-		result.ThresholdAlerting = thresholdAlertingMask.Project(source.GetThresholdAlerting())
-	}
-	if wholeAnomalyAlertingAccepted == false && len(anomalyAlertingMask.Paths) > 0 {
-		for _, sourceItem := range source.GetAnomalyAlerting() {
-			result.AnomalyAlerting = append(result.AnomalyAlerting, anomalyAlertingMask.Project(sourceItem))
-		}
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*TsCondition_Spec))
-}
-
-func (fieldMask *TsCondition_Spec_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -1195,21 +908,18 @@ func (fieldMask *TsCondition_Selector_FieldMask) PathsCount() int {
 	return len(fieldMask.Paths)
 }
 
-type TsCondition_Spec_Query_FieldMask struct {
-	Paths []TsConditionSpecQuery_FieldPath
+type TsCondition_TemplateSource_FieldMask struct {
+	Paths []TsConditionTemplateSource_FieldPath
 }
 
-func FullTsCondition_Spec_Query_FieldMask() *TsCondition_Spec_Query_FieldMask {
-	res := &TsCondition_Spec_Query_FieldMask{}
-	res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorName})
-	res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorFilter})
-	res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorAligner})
-	res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorReducer})
-	res.Paths = append(res.Paths, &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorMaxValue})
+func FullTsCondition_TemplateSource_FieldMask() *TsCondition_TemplateSource_FieldMask {
+	res := &TsCondition_TemplateSource_FieldMask{}
+	res.Paths = append(res.Paths, &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorTemplate})
+	res.Paths = append(res.Paths, &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorUpdatedFields})
 	return res
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) String() string {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) String() string {
 	if fieldMask == nil {
 		return "<nil>"
 	}
@@ -1220,13 +930,13 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) String() string {
 	return strings.Join(pathsStr, ", ")
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) IsFull() bool {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 5)
+	presentSelectors := make([]bool, 2)
 	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*TsConditionSpecQuery_FieldTerminalPath); ok {
+		if asFinal, ok := path.(*TsConditionTemplateSource_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
 		}
 	}
@@ -1238,27 +948,27 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) IsFull() bool {
 	return true
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) ProtoReflect() preflect.Message {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) ProtoReflect() preflect.Message {
 	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseTsConditionSpecQuery_FieldPath(raw)
+		return ParseTsConditionTemplateSource_FieldPath(raw)
 	})
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) ProtoMessage() {}
+func (fieldMask *TsCondition_TemplateSource_FieldMask) ProtoMessage() {}
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) Reset() {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) Reset() {
 	if fieldMask != nil {
 		fieldMask.Paths = nil
 	}
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) Subtract(other *TsCondition_Spec_Query_FieldMask) *TsCondition_Spec_Query_FieldMask {
-	result := &TsCondition_Spec_Query_FieldMask{}
-	removedSelectors := make([]bool, 5)
+func (fieldMask *TsCondition_TemplateSource_FieldMask) Subtract(other *TsCondition_TemplateSource_FieldMask) *TsCondition_TemplateSource_FieldMask {
+	result := &TsCondition_TemplateSource_FieldMask{}
+	removedSelectors := make([]bool, 2)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
-		case *TsConditionSpecQuery_FieldTerminalPath:
+		case *TsConditionTemplateSource_FieldTerminalPath:
 			removedSelectors[int(tp.selector)] = true
 		}
 	}
@@ -1274,19 +984,19 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) Subtract(other *TsCondition_S
 	return result
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*TsCondition_Spec_Query_FieldMask))
+func (fieldMask *TsCondition_TemplateSource_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*TsCondition_TemplateSource_FieldMask))
 }
 
 // FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *TsCondition_Spec_Query_FieldMask) FilterInputFields() *TsCondition_Spec_Query_FieldMask {
-	result := &TsCondition_Spec_Query_FieldMask{}
+func (fieldMask *TsCondition_TemplateSource_FieldMask) FilterInputFields() *TsCondition_TemplateSource_FieldMask {
+	result := &TsCondition_TemplateSource_FieldMask{}
 	result.Paths = append(result.Paths, fieldMask.Paths...)
 	return result
 }
 
 // ToFieldMask is used for proto conversions
-func (fieldMask *TsCondition_Spec_Query_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	for _, path := range fieldMask.Paths {
 		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
@@ -1294,13 +1004,13 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) ToProtoFieldMask() *googlefie
 	return protoFieldMask
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
 	if fieldMask == nil {
 		return status.Error(codes.Internal, "target field mask is nil")
 	}
-	fieldMask.Paths = make([]TsConditionSpecQuery_FieldPath, 0, len(protoFieldMask.Paths))
+	fieldMask.Paths = make([]TsConditionTemplateSource_FieldPath, 0, len(protoFieldMask.Paths))
 	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseTsConditionSpecQuery_FieldPath(strPath)
+		path, err := ParseTsConditionTemplateSource_FieldPath(strPath)
 		if err != nil {
 			return err
 		}
@@ -1310,12 +1020,12 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) FromProtoFieldMask(protoField
 }
 
 // implement methods required by customType
-func (fieldMask TsCondition_Spec_Query_FieldMask) Marshal() ([]byte, error) {
+func (fieldMask TsCondition_TemplateSource_FieldMask) Marshal() ([]byte, error) {
 	protoFieldMask := fieldMask.ToProtoFieldMask()
 	return proto.Marshal(protoFieldMask)
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) Unmarshal(data []byte) error {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) Unmarshal(data []byte) error {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1326,15 +1036,15 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) Unmarshal(data []byte) error 
 	return nil
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) Size() int {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) Size() int {
 	return proto.Size(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask TsCondition_Spec_Query_FieldMask) MarshalJSON() ([]byte, error) {
+func (fieldMask TsCondition_TemplateSource_FieldMask) MarshalJSON() ([]byte, error) {
 	return json.Marshal(fieldMask.ToProtoFieldMask())
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) UnmarshalJSON(data []byte) error {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) UnmarshalJSON(data []byte) error {
 	protoFieldMask := &googlefieldmaskpb.FieldMask{}
 	if err := json.Unmarshal(data, protoFieldMask); err != nil {
 		return err
@@ -1345,22 +1055,22 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) UnmarshalJSON(data []byte) er
 	return nil
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) AppendPath(path TsConditionSpecQuery_FieldPath) {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) AppendPath(path TsConditionTemplateSource_FieldPath) {
 	fieldMask.Paths = append(fieldMask.Paths, path)
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(TsConditionSpecQuery_FieldPath))
+func (fieldMask *TsCondition_TemplateSource_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(TsConditionTemplateSource_FieldPath))
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) GetPaths() []TsConditionSpecQuery_FieldPath {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) GetPaths() []TsConditionTemplateSource_FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
 	return fieldMask.Paths
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) GetRawPaths() []gotenobject.FieldPath {
 	if fieldMask == nil {
 		return nil
 	}
@@ -1371,8 +1081,8 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) GetRawPaths() []gotenobject.F
 	return rawPaths
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseTsConditionSpecQuery_FieldPath(raw)
+func (fieldMask *TsCondition_TemplateSource_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseTsConditionTemplateSource_FieldPath(raw)
 	if err != nil {
 		return err
 	}
@@ -1380,7 +1090,7 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) SetFromCliFlag(raw string) er
 	return nil
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) Set(target, source *TsCondition_Spec_Query) {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) Set(target, source *TsCondition_TemplateSource) {
 	for _, path := range fieldMask.Paths {
 		val, _ := path.GetSingle(source)
 		// if val is nil, then field does not exist in source, skip
@@ -1391,1152 +1101,38 @@ func (fieldMask *TsCondition_Spec_Query_FieldMask) Set(target, source *TsConditi
 	}
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*TsCondition_Spec_Query), source.(*TsCondition_Spec_Query))
+func (fieldMask *TsCondition_TemplateSource_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*TsCondition_TemplateSource), source.(*TsCondition_TemplateSource))
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) Project(source *TsCondition_Spec_Query) *TsCondition_Spec_Query {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) Project(source *TsCondition_TemplateSource) *TsCondition_TemplateSource {
 	if source == nil {
 		return nil
 	}
 	if fieldMask == nil {
 		return source
 	}
-	result := &TsCondition_Spec_Query{}
+	result := &TsCondition_TemplateSource{}
 
 	for _, p := range fieldMask.Paths {
 		switch tp := p.(type) {
-		case *TsConditionSpecQuery_FieldTerminalPath:
+		case *TsConditionTemplateSource_FieldTerminalPath:
 			switch tp.selector {
-			case TsConditionSpecQuery_FieldPathSelectorName:
-				result.Name = source.Name
-			case TsConditionSpecQuery_FieldPathSelectorFilter:
-				result.Filter = source.Filter
-			case TsConditionSpecQuery_FieldPathSelectorAligner:
-				result.Aligner = source.Aligner
-			case TsConditionSpecQuery_FieldPathSelectorReducer:
-				result.Reducer = source.Reducer
-			case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-				result.MaxValue = source.MaxValue
+			case TsConditionTemplateSource_FieldPathSelectorTemplate:
+				result.Template = source.Template
+			case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+				result.UpdatedFields = source.UpdatedFields
 			}
 		}
 	}
 	return result
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*TsCondition_Spec_Query))
+func (fieldMask *TsCondition_TemplateSource_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*TsCondition_TemplateSource))
 }
 
-func (fieldMask *TsCondition_Spec_Query_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_FieldMask struct {
-	Paths []TsConditionSpecThresholdAlertingCfg_FieldPath
-}
-
-func FullTsCondition_Spec_ThresholdAlertingCfg_FieldMask() *TsCondition_Spec_ThresholdAlertingCfg_FieldMask {
-	res := &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{}
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod})
-	return res
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 6)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseTsConditionSpecThresholdAlertingCfg_FieldPath(raw)
-	})
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) ProtoMessage() {}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) Subtract(other *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) *TsCondition_Spec_ThresholdAlertingCfg_FieldMask {
-	result := &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{}
-	removedSelectors := make([]bool, 6)
-	otherSubMasks := map[TsConditionSpecThresholdAlertingCfg_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds: &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{},
-	}
-	mySubMasks := map[TsConditionSpecThresholdAlertingCfg_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds: &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *TsConditionSpecThresholdAlertingCfg_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*TsConditionSpecThresholdAlertingCfg_FieldTerminalPath); ok {
-					switch tp.selector {
-					case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-						mySubMasks[TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds] = FullTsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask()
-					}
-				} else if tp, ok := path.(*TsConditionSpecThresholdAlertingCfg_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &TsConditionSpecThresholdAlertingCfg_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*TsCondition_Spec_ThresholdAlertingCfg_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) FilterInputFields() *TsCondition_Spec_ThresholdAlertingCfg_FieldMask {
-	result := &TsCondition_Spec_ThresholdAlertingCfg_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]TsConditionSpecThresholdAlertingCfg_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask TsCondition_Spec_ThresholdAlertingCfg_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask TsCondition_Spec_ThresholdAlertingCfg_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) AppendPath(path TsConditionSpecThresholdAlertingCfg_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(TsConditionSpecThresholdAlertingCfg_FieldPath))
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) GetPaths() []TsConditionSpecThresholdAlertingCfg_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) Set(target, source *TsCondition_Spec_ThresholdAlertingCfg) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*TsCondition_Spec_ThresholdAlertingCfg), source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) Project(source *TsCondition_Spec_ThresholdAlertingCfg) *TsCondition_Spec_ThresholdAlertingCfg {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &TsCondition_Spec_ThresholdAlertingCfg{}
-	perQueryThresholdsMask := &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{}
-	wholePerQueryThresholdsAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath:
-			switch tp.selector {
-			case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-				result.Operator = source.Operator
-			case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-				result.AlignmentPeriod = source.AlignmentPeriod
-			case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-				result.RaiseAfter = source.RaiseAfter
-			case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-				result.SilenceAfter = source.SilenceAfter
-			case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-				result.PerQueryThresholds = source.PerQueryThresholds
-				wholePerQueryThresholdsAccepted = true
-			case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-				result.AdaptiveThresholdsDetectionPeriod = source.AdaptiveThresholdsDetectionPeriod
-			}
-		case *TsConditionSpecThresholdAlertingCfg_FieldSubPath:
-			switch tp.selector {
-			case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-				perQueryThresholdsMask.AppendPath(tp.subPath.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath))
-			}
-		}
-	}
-	if wholePerQueryThresholdsAccepted == false && len(perQueryThresholdsMask.Paths) > 0 {
-		for _, sourceItem := range source.GetPerQueryThresholds() {
-			result.PerQueryThresholds = append(result.PerQueryThresholds, perQueryThresholdsMask.Project(sourceItem))
-		}
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfg_FieldMask struct {
-	Paths []TsConditionSpecAnomalyAlertingCfg_FieldPath
-}
-
-func FullTsCondition_Spec_AnomalyAlertingCfg_FieldMask() *TsCondition_Spec_AnomalyAlertingCfg_FieldMask {
-	res := &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{}
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter})
-	return res
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 7)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(raw)
-	})
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) ProtoMessage() {}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) Subtract(other *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) *TsCondition_Spec_AnomalyAlertingCfg_FieldMask {
-	result := &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{}
-	removedSelectors := make([]bool, 7)
-	otherSubMasks := map[TsConditionSpecAnomalyAlertingCfg_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder: &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{},
-	}
-	mySubMasks := map[TsConditionSpecAnomalyAlertingCfg_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder: &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *TsConditionSpecAnomalyAlertingCfg_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath); ok {
-					switch tp.selector {
-					case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-						mySubMasks[TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder] = FullTsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask()
-					}
-				} else if tp, ok := path.(*TsConditionSpecAnomalyAlertingCfg_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*TsCondition_Spec_AnomalyAlertingCfg_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) FilterInputFields() *TsCondition_Spec_AnomalyAlertingCfg_FieldMask {
-	result := &TsCondition_Spec_AnomalyAlertingCfg_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]TsConditionSpecAnomalyAlertingCfg_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask TsCondition_Spec_AnomalyAlertingCfg_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask TsCondition_Spec_AnomalyAlertingCfg_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) AppendPath(path TsConditionSpecAnomalyAlertingCfg_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(TsConditionSpecAnomalyAlertingCfg_FieldPath))
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) GetPaths() []TsConditionSpecAnomalyAlertingCfg_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) Set(target, source *TsCondition_Spec_AnomalyAlertingCfg) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*TsCondition_Spec_AnomalyAlertingCfg), source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) Project(source *TsCondition_Spec_AnomalyAlertingCfg) *TsCondition_Spec_AnomalyAlertingCfg {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &TsCondition_Spec_AnomalyAlertingCfg{}
-	lstmAutoencoderMask := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{}
-	wholeLstmAutoencoderAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath:
-			switch tp.selector {
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-				result.AnalysisWindow = source.AnalysisWindow
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-				result.StepInterval = source.StepInterval
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-				result.TrainStepInterval = source.TrainStepInterval
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-				result.AlignmentPeriod = source.AlignmentPeriod
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-				if source, ok := source.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); ok {
-					result.Model = &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder{
-						LstmAutoencoder: source.LstmAutoencoder,
-					}
-				}
-				wholeLstmAutoencoderAccepted = true
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-				result.RaiseAfter = source.RaiseAfter
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-				result.SilenceAfter = source.SilenceAfter
-			}
-		case *TsConditionSpecAnomalyAlertingCfg_FieldSubPath:
-			switch tp.selector {
-			case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-				lstmAutoencoderMask.AppendPath(tp.subPath.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath))
-			}
-		}
-	}
-	if wholeLstmAutoencoderAccepted == false && len(lstmAutoencoderMask.Paths) > 0 {
-		if asOneOf, ok := source.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); ok {
-			result.Model = (*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder)(nil)
-			if asOneOf != nil {
-				oneOfRes := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder{}
-				oneOfRes.LstmAutoencoder = lstmAutoencoderMask.Project(asOneOf.LstmAutoencoder)
-				result.Model = oneOfRes
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask struct {
-	Paths []TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath
-}
-
-func FullTsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask() *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask {
-	res := &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{}
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper})
-	res.Paths = append(res.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower})
-	return res
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 4)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(raw)
-	})
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) ProtoMessage() {}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Subtract(other *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask {
-	result := &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{}
-	removedSelectors := make([]bool, 4)
-	otherSubMasks := map[TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper: &AlertingThreshold_FieldMask{},
-		TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower: &AlertingThreshold_FieldMask{},
-	}
-	mySubMasks := map[TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector]gotenobject.FieldMask{
-		TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper: &AlertingThreshold_FieldMask{},
-		TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower: &AlertingThreshold_FieldMask{},
-	}
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		case *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath:
-			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
-				if tp, ok := path.(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath); ok {
-					switch tp.selector {
-					case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-						mySubMasks[TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper] = FullAlertingThreshold_FieldMask()
-					case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-						mySubMasks[TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower] = FullAlertingThreshold_FieldMask()
-					}
-				} else if tp, ok := path.(*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath); ok {
-					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
-				}
-			} else {
-				result.Paths = append(result.Paths, path)
-			}
-		}
-	}
-	for selector, mySubMask := range mySubMasks {
-		if mySubMask.PathsCount() > 0 {
-			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
-				result.Paths = append(result.Paths, &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: selector, subPath: allowedPath})
-			}
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) FilterInputFields() *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask {
-	result := &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) AppendPath(path TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath))
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) GetPaths() []TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Set(target, source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds), source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) Project(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds{}
-	maxUpperMask := &AlertingThreshold_FieldMask{}
-	wholeMaxUpperAccepted := false
-	maxLowerMask := &AlertingThreshold_FieldMask{}
-	wholeMaxLowerAccepted := false
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath:
-			switch tp.selector {
-			case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-				result.AutoAdaptUpper = source.AutoAdaptUpper
-			case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-				result.AutoAdaptLower = source.AutoAdaptLower
-			case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-				result.MaxUpper = source.MaxUpper
-				wholeMaxUpperAccepted = true
-			case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-				result.MaxLower = source.MaxLower
-				wholeMaxLowerAccepted = true
-			}
-		case *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath:
-			switch tp.selector {
-			case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-				maxUpperMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
-			case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-				maxLowerMask.AppendPath(tp.subPath.(AlertingThreshold_FieldPath))
-			}
-		}
-	}
-	if wholeMaxUpperAccepted == false && len(maxUpperMask.Paths) > 0 {
-		result.MaxUpper = maxUpperMask.Project(source.GetMaxUpper())
-	}
-	if wholeMaxLowerAccepted == false && len(maxLowerMask.Paths) > 0 {
-		result.MaxLower = maxLowerMask.Project(source.GetMaxLower())
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-func (fieldMask *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask struct {
-	Paths []TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath
-}
-
-func FullTsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask() *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask {
-	res := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{}
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod})
-	res.Paths = append(res.Paths, &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction})
-	return res
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 7)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(raw)
-	})
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) ProtoMessage() {}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) Subtract(other *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask {
-	result := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{}
-	removedSelectors := make([]bool, 7)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) FilterInputFields() *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask {
-	result := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) AppendPath(path TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath))
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) GetPaths() []TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) Set(target, source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder), source.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) Project(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath:
-			switch tp.selector {
-			case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-				result.HiddenSize = source.HiddenSize
-			case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-				result.LearnRate = source.LearnRate
-			case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-				result.MaxTrainingEpochs = source.MaxTrainingEpochs
-			case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-				result.MinTrainingEpochs = source.MinTrainingEpochs
-			case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-				result.AcceptableTrainingError = source.AcceptableTrainingError
-			case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-				result.TrainingPeriod = source.TrainingPeriod
-			case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-				result.CheckPeriodFraction = source.CheckPeriodFraction
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-func (fieldMask *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder_FieldMask) PathsCount() int {
+func (fieldMask *TsCondition_TemplateSource_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -2765,237 +1361,6 @@ func (fieldMask *TsCondition_Selector_Strings_FieldMask) ProjectRaw(source goten
 }
 
 func (fieldMask *TsCondition_Selector_Strings_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type AlertingThreshold_FieldMask struct {
-	Paths []AlertingThreshold_FieldPath
-}
-
-func FullAlertingThreshold_FieldMask() *AlertingThreshold_FieldMask {
-	res := &AlertingThreshold_FieldMask{}
-	res.Paths = append(res.Paths, &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorValue})
-	res.Paths = append(res.Paths, &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorIsInclusive})
-	return res
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 2)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*AlertingThreshold_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParseAlertingThreshold_FieldPath(raw)
-	})
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) ProtoMessage() {}
-
-func (fieldMask *AlertingThreshold_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) Subtract(other *AlertingThreshold_FieldMask) *AlertingThreshold_FieldMask {
-	result := &AlertingThreshold_FieldMask{}
-	removedSelectors := make([]bool, 2)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *AlertingThreshold_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*AlertingThreshold_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *AlertingThreshold_FieldMask) FilterInputFields() *AlertingThreshold_FieldMask {
-	result := &AlertingThreshold_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *AlertingThreshold_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]AlertingThreshold_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParseAlertingThreshold_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask AlertingThreshold_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask AlertingThreshold_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) AppendPath(path AlertingThreshold_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(AlertingThreshold_FieldPath))
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) GetPaths() []AlertingThreshold_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParseAlertingThreshold_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) Set(target, source *AlertingThreshold) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*AlertingThreshold), source.(*AlertingThreshold))
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) Project(source *AlertingThreshold) *AlertingThreshold {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &AlertingThreshold{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *AlertingThreshold_FieldTerminalPath:
-			switch tp.selector {
-			case AlertingThreshold_FieldPathSelectorValue:
-				result.Value = source.Value
-			case AlertingThreshold_FieldPathSelectorIsInclusive:
-				result.IsInclusive = source.IsInclusive
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*AlertingThreshold))
-}
-
-func (fieldMask *AlertingThreshold_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

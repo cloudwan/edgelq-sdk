@@ -16,8 +16,8 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -36,8 +36,8 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition.LogCondition{}
 	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &meta.Meta{}
 )
 
@@ -196,7 +196,7 @@ func (o *LogConditionTemplate) Merge(source *LogConditionTemplate) {
 
 	if source.GetSpecTemplate() != nil {
 		if o.SpecTemplate == nil {
-			o.SpecTemplate = new(log_condition.LogCondition_Spec)
+			o.SpecTemplate = new(rcommon.LogCndSpec)
 		}
 		o.SpecTemplate.Merge(source.GetSpecTemplate())
 	}

@@ -6,9 +6,13 @@ package log_condition
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -17,6 +21,10 @@ import (
 	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
+	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
@@ -32,8 +40,12 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
+	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
+	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -42,6 +54,10 @@ var (
 	_ = &logging_log.Log{}
 	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
+	_ = &monitoring_metric_descriptor.MetricDescriptor{}
+	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
+	_ = &monitoring_project.Project{}
+	_ = &monitoring_time_serie.Point{}
 	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
@@ -79,6 +95,9 @@ func (LogConditionFieldPathBuilder) Spec() LogConditionPathSelectorSpec {
 }
 func (LogConditionFieldPathBuilder) Internal() LogConditionPathSelectorInternal {
 	return LogConditionPathSelectorInternal{}
+}
+func (LogConditionFieldPathBuilder) TemplateSource() LogConditionPathSelectorTemplateSource {
+	return LogConditionPathSelectorTemplateSource{}
 }
 
 type LogConditionPathSelectorName struct{}
@@ -829,27 +848,27 @@ func (LogConditionPathSelectorSpec) FieldPath() *LogCondition_FieldTerminalPath 
 	return &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorSpec}
 }
 
-func (s LogConditionPathSelectorSpec) WithValue(value *LogCondition_Spec) *LogCondition_FieldTerminalPathValue {
+func (s LogConditionPathSelectorSpec) WithValue(value *rcommon.LogCndSpec) *LogCondition_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*LogCondition_FieldTerminalPathValue)
 }
 
-func (s LogConditionPathSelectorSpec) WithArrayOfValues(values []*LogCondition_Spec) *LogCondition_FieldTerminalPathArrayOfValues {
+func (s LogConditionPathSelectorSpec) WithArrayOfValues(values []*rcommon.LogCndSpec) *LogCondition_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogCondition_FieldTerminalPathArrayOfValues)
 }
 
-func (LogConditionPathSelectorSpec) WithSubPath(subPath LogConditionSpec_FieldPath) *LogCondition_FieldSubPath {
+func (LogConditionPathSelectorSpec) WithSubPath(subPath rcommon.LogCndSpec_FieldPath) *LogCondition_FieldSubPath {
 	return &LogCondition_FieldSubPath{selector: LogCondition_FieldPathSelectorSpec, subPath: subPath}
 }
 
-func (s LogConditionPathSelectorSpec) WithSubValue(subPathValue LogConditionSpec_FieldPathValue) *LogCondition_FieldSubPathValue {
+func (s LogConditionPathSelectorSpec) WithSubValue(subPathValue rcommon.LogCndSpec_FieldPathValue) *LogCondition_FieldSubPathValue {
 	return &LogCondition_FieldSubPathValue{LogCondition_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s LogConditionPathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues LogConditionSpec_FieldPathArrayOfValues) *LogCondition_FieldSubPathArrayOfValues {
+func (s LogConditionPathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues rcommon.LogCndSpec_FieldPathArrayOfValues) *LogCondition_FieldSubPathArrayOfValues {
 	return &LogCondition_FieldSubPathArrayOfValues{LogCondition_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s LogConditionPathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue LogConditionSpec_FieldPathArrayItemValue) *LogCondition_FieldSubPathArrayItemValue {
+func (s LogConditionPathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue rcommon.LogCndSpec_FieldPathArrayItemValue) *LogCondition_FieldSubPathArrayItemValue {
 	return &LogCondition_FieldSubPathArrayItemValue{LogCondition_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -866,15 +885,15 @@ type LogConditionPathSelectorSpecQuery struct{}
 func (LogConditionPathSelectorSpecQuery) FieldPath() *LogCondition_FieldSubPath {
 	return &LogCondition_FieldSubPath{
 		selector: LogCondition_FieldPathSelectorSpec,
-		subPath:  NewLogConditionSpecFieldPathBuilder().Query().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().FieldPath(),
 	}
 }
 
-func (s LogConditionPathSelectorSpecQuery) WithValue(value *LogCondition_Spec_Query) *LogCondition_FieldSubPathValue {
+func (s LogConditionPathSelectorSpecQuery) WithValue(value *rcommon.LogCndSpec_Query) *LogCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogCondition_FieldSubPathValue)
 }
 
-func (s LogConditionPathSelectorSpecQuery) WithArrayOfValues(values []*LogCondition_Spec_Query) *LogCondition_FieldSubPathArrayOfValues {
+func (s LogConditionPathSelectorSpecQuery) WithArrayOfValues(values []*rcommon.LogCndSpec_Query) *LogCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogCondition_FieldSubPathArrayOfValues)
 }
 
@@ -895,7 +914,7 @@ type LogConditionPathSelectorSpecQueryFilter struct{}
 func (LogConditionPathSelectorSpecQueryFilter) FieldPath() *LogCondition_FieldSubPath {
 	return &LogCondition_FieldSubPath{
 		selector: LogCondition_FieldPathSelectorSpec,
-		subPath:  NewLogConditionSpecFieldPathBuilder().Query().Filter().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().Filter().FieldPath(),
 	}
 }
 
@@ -912,15 +931,15 @@ type LogConditionPathSelectorSpecQueryTrigger struct{}
 func (LogConditionPathSelectorSpecQueryTrigger) FieldPath() *LogCondition_FieldSubPath {
 	return &LogCondition_FieldSubPath{
 		selector: LogCondition_FieldPathSelectorSpec,
-		subPath:  NewLogConditionSpecFieldPathBuilder().Query().Trigger().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().Trigger().FieldPath(),
 	}
 }
 
-func (s LogConditionPathSelectorSpecQueryTrigger) WithValue(value *LogCondition_Spec_Query_TriggerCnd) *LogCondition_FieldSubPathValue {
+func (s LogConditionPathSelectorSpecQueryTrigger) WithValue(value *rcommon.LogCndSpec_Query_TriggerCnd) *LogCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogCondition_FieldSubPathValue)
 }
 
-func (s LogConditionPathSelectorSpecQueryTrigger) WithArrayOfValues(values []*LogCondition_Spec_Query_TriggerCnd) *LogCondition_FieldSubPathArrayOfValues {
+func (s LogConditionPathSelectorSpecQueryTrigger) WithArrayOfValues(values []*rcommon.LogCndSpec_Query_TriggerCnd) *LogCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogCondition_FieldSubPathArrayOfValues)
 }
 
@@ -929,7 +948,7 @@ type LogConditionPathSelectorSpecQueryMinDuration struct{}
 func (LogConditionPathSelectorSpecQueryMinDuration) FieldPath() *LogCondition_FieldSubPath {
 	return &LogCondition_FieldSubPath{
 		selector: LogCondition_FieldPathSelectorSpec,
-		subPath:  NewLogConditionSpecFieldPathBuilder().Query().MinDuration().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().MinDuration().FieldPath(),
 	}
 }
 
@@ -946,7 +965,7 @@ type LogConditionPathSelectorSpecGroupByLabels struct{}
 func (LogConditionPathSelectorSpecGroupByLabels) FieldPath() *LogCondition_FieldSubPath {
 	return &LogCondition_FieldSubPath{
 		selector: LogCondition_FieldPathSelectorSpec,
-		subPath:  NewLogConditionSpecFieldPathBuilder().GroupByLabels().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().GroupByLabels().FieldPath(),
 	}
 }
 
@@ -1005,135 +1024,84 @@ func (LogConditionPathSelectorInternalAlertingLocation) FieldPath() *LogConditio
 	}
 }
 
-func (s LogConditionPathSelectorInternalAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *LogCondition_FieldSubPathValue {
+func (s LogConditionPathSelectorInternalAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *LogCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogCondition_FieldSubPathValue)
 }
 
-func (s LogConditionPathSelectorInternalAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *LogCondition_FieldSubPathArrayOfValues {
+func (s LogConditionPathSelectorInternalAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *LogCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogCondition_FieldSubPathArrayOfValues)
 }
 
-type LogConditionSpecFieldPathBuilder struct{}
+type LogConditionPathSelectorTemplateSource struct{}
 
-func NewLogConditionSpecFieldPathBuilder() LogConditionSpecFieldPathBuilder {
-	return LogConditionSpecFieldPathBuilder{}
-}
-func (LogConditionSpecFieldPathBuilder) Query() LogCondition_SpecPathSelectorQuery {
-	return LogCondition_SpecPathSelectorQuery{}
-}
-func (LogConditionSpecFieldPathBuilder) GroupByLabels() LogCondition_SpecPathSelectorGroupByLabels {
-	return LogCondition_SpecPathSelectorGroupByLabels{}
+func (LogConditionPathSelectorTemplateSource) FieldPath() *LogCondition_FieldTerminalPath {
+	return &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorTemplateSource}
 }
 
-type LogCondition_SpecPathSelectorQuery struct{}
-
-func (LogCondition_SpecPathSelectorQuery) FieldPath() *LogConditionSpec_FieldTerminalPath {
-	return &LogConditionSpec_FieldTerminalPath{selector: LogConditionSpec_FieldPathSelectorQuery}
+func (s LogConditionPathSelectorTemplateSource) WithValue(value *LogCondition_TemplateSource) *LogCondition_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*LogCondition_FieldTerminalPathValue)
 }
 
-func (s LogCondition_SpecPathSelectorQuery) WithValue(value *LogCondition_Spec_Query) *LogConditionSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpec_FieldTerminalPathValue)
+func (s LogConditionPathSelectorTemplateSource) WithArrayOfValues(values []*LogCondition_TemplateSource) *LogCondition_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogCondition_FieldTerminalPathArrayOfValues)
 }
 
-func (s LogCondition_SpecPathSelectorQuery) WithArrayOfValues(values []*LogCondition_Spec_Query) *LogConditionSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpec_FieldTerminalPathArrayOfValues)
+func (LogConditionPathSelectorTemplateSource) WithSubPath(subPath LogConditionTemplateSource_FieldPath) *LogCondition_FieldSubPath {
+	return &LogCondition_FieldSubPath{selector: LogCondition_FieldPathSelectorTemplateSource, subPath: subPath}
 }
 
-func (LogCondition_SpecPathSelectorQuery) WithSubPath(subPath LogConditionSpecQuery_FieldPath) *LogConditionSpec_FieldSubPath {
-	return &LogConditionSpec_FieldSubPath{selector: LogConditionSpec_FieldPathSelectorQuery, subPath: subPath}
+func (s LogConditionPathSelectorTemplateSource) WithSubValue(subPathValue LogConditionTemplateSource_FieldPathValue) *LogCondition_FieldSubPathValue {
+	return &LogCondition_FieldSubPathValue{LogCondition_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s LogCondition_SpecPathSelectorQuery) WithSubValue(subPathValue LogConditionSpecQuery_FieldPathValue) *LogConditionSpec_FieldSubPathValue {
-	return &LogConditionSpec_FieldSubPathValue{LogConditionSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
+func (s LogConditionPathSelectorTemplateSource) WithSubArrayOfValues(subPathArrayOfValues LogConditionTemplateSource_FieldPathArrayOfValues) *LogCondition_FieldSubPathArrayOfValues {
+	return &LogCondition_FieldSubPathArrayOfValues{LogCondition_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s LogCondition_SpecPathSelectorQuery) WithSubArrayOfValues(subPathArrayOfValues LogConditionSpecQuery_FieldPathArrayOfValues) *LogConditionSpec_FieldSubPathArrayOfValues {
-	return &LogConditionSpec_FieldSubPathArrayOfValues{LogConditionSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
+func (s LogConditionPathSelectorTemplateSource) WithSubArrayItemValue(subPathArrayItemValue LogConditionTemplateSource_FieldPathArrayItemValue) *LogCondition_FieldSubPathArrayItemValue {
+	return &LogCondition_FieldSubPathArrayItemValue{LogCondition_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
-func (s LogCondition_SpecPathSelectorQuery) WithSubArrayItemValue(subPathArrayItemValue LogConditionSpecQuery_FieldPathArrayItemValue) *LogConditionSpec_FieldSubPathArrayItemValue {
-	return &LogConditionSpec_FieldSubPathArrayItemValue{LogConditionSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
+func (LogConditionPathSelectorTemplateSource) Template() LogConditionPathSelectorTemplateSourceTemplate {
+	return LogConditionPathSelectorTemplateSourceTemplate{}
 }
 
-func (LogCondition_SpecPathSelectorQuery) Filter() LogCondition_SpecPathSelectorQueryFilter {
-	return LogCondition_SpecPathSelectorQueryFilter{}
+func (LogConditionPathSelectorTemplateSource) UpdatedFields() LogConditionPathSelectorTemplateSourceUpdatedFields {
+	return LogConditionPathSelectorTemplateSourceUpdatedFields{}
 }
 
-func (LogCondition_SpecPathSelectorQuery) Trigger() LogCondition_SpecPathSelectorQueryTrigger {
-	return LogCondition_SpecPathSelectorQueryTrigger{}
-}
+type LogConditionPathSelectorTemplateSourceTemplate struct{}
 
-func (LogCondition_SpecPathSelectorQuery) MinDuration() LogCondition_SpecPathSelectorQueryMinDuration {
-	return LogCondition_SpecPathSelectorQueryMinDuration{}
-}
-
-type LogCondition_SpecPathSelectorQueryFilter struct{}
-
-func (LogCondition_SpecPathSelectorQueryFilter) FieldPath() *LogConditionSpec_FieldSubPath {
-	return &LogConditionSpec_FieldSubPath{
-		selector: LogConditionSpec_FieldPathSelectorQuery,
-		subPath:  NewLogConditionSpecQueryFieldPathBuilder().Filter().FieldPath(),
+func (LogConditionPathSelectorTemplateSourceTemplate) FieldPath() *LogCondition_FieldSubPath {
+	return &LogCondition_FieldSubPath{
+		selector: LogCondition_FieldPathSelectorTemplateSource,
+		subPath:  NewLogConditionTemplateSourceFieldPathBuilder().Template().FieldPath(),
 	}
 }
 
-func (s LogCondition_SpecPathSelectorQueryFilter) WithValue(value *logging_log.Filter) *LogConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpec_FieldSubPathValue)
+func (s LogConditionPathSelectorTemplateSourceTemplate) WithValue(value *log_condition_template.Reference) *LogCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LogCondition_FieldSubPathValue)
 }
 
-func (s LogCondition_SpecPathSelectorQueryFilter) WithArrayOfValues(values []*logging_log.Filter) *LogConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpec_FieldSubPathArrayOfValues)
+func (s LogConditionPathSelectorTemplateSourceTemplate) WithArrayOfValues(values []*log_condition_template.Reference) *LogCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogCondition_FieldSubPathArrayOfValues)
 }
 
-type LogCondition_SpecPathSelectorQueryTrigger struct{}
+type LogConditionPathSelectorTemplateSourceUpdatedFields struct{}
 
-func (LogCondition_SpecPathSelectorQueryTrigger) FieldPath() *LogConditionSpec_FieldSubPath {
-	return &LogConditionSpec_FieldSubPath{
-		selector: LogConditionSpec_FieldPathSelectorQuery,
-		subPath:  NewLogConditionSpecQueryFieldPathBuilder().Trigger().FieldPath(),
+func (LogConditionPathSelectorTemplateSourceUpdatedFields) FieldPath() *LogCondition_FieldSubPath {
+	return &LogCondition_FieldSubPath{
+		selector: LogCondition_FieldPathSelectorTemplateSource,
+		subPath:  NewLogConditionTemplateSourceFieldPathBuilder().UpdatedFields().FieldPath(),
 	}
 }
 
-func (s LogCondition_SpecPathSelectorQueryTrigger) WithValue(value *LogCondition_Spec_Query_TriggerCnd) *LogConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpec_FieldSubPathValue)
+func (s LogConditionPathSelectorTemplateSourceUpdatedFields) WithValue(value *fieldmaskpb.FieldMask) *LogCondition_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*LogCondition_FieldSubPathValue)
 }
 
-func (s LogCondition_SpecPathSelectorQueryTrigger) WithArrayOfValues(values []*LogCondition_Spec_Query_TriggerCnd) *LogConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type LogCondition_SpecPathSelectorQueryMinDuration struct{}
-
-func (LogCondition_SpecPathSelectorQueryMinDuration) FieldPath() *LogConditionSpec_FieldSubPath {
-	return &LogConditionSpec_FieldSubPath{
-		selector: LogConditionSpec_FieldPathSelectorQuery,
-		subPath:  NewLogConditionSpecQueryFieldPathBuilder().MinDuration().FieldPath(),
-	}
-}
-
-func (s LogCondition_SpecPathSelectorQueryMinDuration) WithValue(value *durationpb.Duration) *LogConditionSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpec_FieldSubPathValue)
-}
-
-func (s LogCondition_SpecPathSelectorQueryMinDuration) WithArrayOfValues(values []*durationpb.Duration) *LogConditionSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpec_FieldSubPathArrayOfValues)
-}
-
-type LogCondition_SpecPathSelectorGroupByLabels struct{}
-
-func (LogCondition_SpecPathSelectorGroupByLabels) FieldPath() *LogConditionSpec_FieldTerminalPath {
-	return &LogConditionSpec_FieldTerminalPath{selector: LogConditionSpec_FieldPathSelectorGroupByLabels}
-}
-
-func (s LogCondition_SpecPathSelectorGroupByLabels) WithValue(value []string) *LogConditionSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpec_FieldTerminalPathValue)
-}
-
-func (s LogCondition_SpecPathSelectorGroupByLabels) WithArrayOfValues(values [][]string) *LogConditionSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (s LogCondition_SpecPathSelectorGroupByLabels) WithItemValue(value string) *LogConditionSpec_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*LogConditionSpec_FieldTerminalPathArrayItemValue)
+func (s LogConditionPathSelectorTemplateSourceUpdatedFields) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *LogCondition_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogCondition_FieldSubPathArrayOfValues)
 }
 
 type LogConditionInternalFieldPathBuilder struct{}
@@ -1151,195 +1119,50 @@ func (LogCondition_InternalPathSelectorAlertingLocation) FieldPath() *LogConditi
 	return &LogConditionInternal_FieldTerminalPath{selector: LogConditionInternal_FieldPathSelectorAlertingLocation}
 }
 
-func (s LogCondition_InternalPathSelectorAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *LogConditionInternal_FieldTerminalPathValue {
+func (s LogCondition_InternalPathSelectorAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *LogConditionInternal_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*LogConditionInternal_FieldTerminalPathValue)
 }
 
-func (s LogCondition_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *LogConditionInternal_FieldTerminalPathArrayOfValues {
+func (s LogCondition_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *LogConditionInternal_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionInternal_FieldTerminalPathArrayOfValues)
 }
 
-type LogConditionSpecQueryFieldPathBuilder struct{}
+type LogConditionTemplateSourceFieldPathBuilder struct{}
 
-func NewLogConditionSpecQueryFieldPathBuilder() LogConditionSpecQueryFieldPathBuilder {
-	return LogConditionSpecQueryFieldPathBuilder{}
+func NewLogConditionTemplateSourceFieldPathBuilder() LogConditionTemplateSourceFieldPathBuilder {
+	return LogConditionTemplateSourceFieldPathBuilder{}
 }
-func (LogConditionSpecQueryFieldPathBuilder) Filter() LogCondition_Spec_QueryPathSelectorFilter {
-	return LogCondition_Spec_QueryPathSelectorFilter{}
+func (LogConditionTemplateSourceFieldPathBuilder) Template() LogCondition_TemplateSourcePathSelectorTemplate {
+	return LogCondition_TemplateSourcePathSelectorTemplate{}
 }
-func (LogConditionSpecQueryFieldPathBuilder) Trigger() LogCondition_Spec_QueryPathSelectorTrigger {
-	return LogCondition_Spec_QueryPathSelectorTrigger{}
-}
-func (LogConditionSpecQueryFieldPathBuilder) MinDuration() LogCondition_Spec_QueryPathSelectorMinDuration {
-	return LogCondition_Spec_QueryPathSelectorMinDuration{}
+func (LogConditionTemplateSourceFieldPathBuilder) UpdatedFields() LogCondition_TemplateSourcePathSelectorUpdatedFields {
+	return LogCondition_TemplateSourcePathSelectorUpdatedFields{}
 }
 
-type LogCondition_Spec_QueryPathSelectorFilter struct{}
+type LogCondition_TemplateSourcePathSelectorTemplate struct{}
 
-func (LogCondition_Spec_QueryPathSelectorFilter) FieldPath() *LogConditionSpecQuery_FieldTerminalPath {
-	return &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorFilter}
+func (LogCondition_TemplateSourcePathSelectorTemplate) FieldPath() *LogConditionTemplateSource_FieldTerminalPath {
+	return &LogConditionTemplateSource_FieldTerminalPath{selector: LogConditionTemplateSource_FieldPathSelectorTemplate}
 }
 
-func (s LogCondition_Spec_QueryPathSelectorFilter) WithValue(value *logging_log.Filter) *LogConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQuery_FieldTerminalPathValue)
+func (s LogCondition_TemplateSourcePathSelectorTemplate) WithValue(value *log_condition_template.Reference) *LogConditionTemplateSource_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*LogConditionTemplateSource_FieldTerminalPathValue)
 }
 
-func (s LogCondition_Spec_QueryPathSelectorFilter) WithArrayOfValues(values []*logging_log.Filter) *LogConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQuery_FieldTerminalPathArrayOfValues)
+func (s LogCondition_TemplateSourcePathSelectorTemplate) WithArrayOfValues(values []*log_condition_template.Reference) *LogConditionTemplateSource_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionTemplateSource_FieldTerminalPathArrayOfValues)
 }
 
-type LogCondition_Spec_QueryPathSelectorTrigger struct{}
+type LogCondition_TemplateSourcePathSelectorUpdatedFields struct{}
 
-func (LogCondition_Spec_QueryPathSelectorTrigger) FieldPath() *LogConditionSpecQuery_FieldTerminalPath {
-	return &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorTrigger}
+func (LogCondition_TemplateSourcePathSelectorUpdatedFields) FieldPath() *LogConditionTemplateSource_FieldTerminalPath {
+	return &LogConditionTemplateSource_FieldTerminalPath{selector: LogConditionTemplateSource_FieldPathSelectorUpdatedFields}
 }
 
-func (s LogCondition_Spec_QueryPathSelectorTrigger) WithValue(value *LogCondition_Spec_Query_TriggerCnd) *LogConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQuery_FieldTerminalPathValue)
+func (s LogCondition_TemplateSourcePathSelectorUpdatedFields) WithValue(value *fieldmaskpb.FieldMask) *LogConditionTemplateSource_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*LogConditionTemplateSource_FieldTerminalPathValue)
 }
 
-func (s LogCondition_Spec_QueryPathSelectorTrigger) WithArrayOfValues(values []*LogCondition_Spec_Query_TriggerCnd) *LogConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQuery_FieldTerminalPathArrayOfValues)
-}
-
-type LogCondition_Spec_QueryPathSelectorMinDuration struct{}
-
-func (LogCondition_Spec_QueryPathSelectorMinDuration) FieldPath() *LogConditionSpecQuery_FieldTerminalPath {
-	return &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorMinDuration}
-}
-
-func (s LogCondition_Spec_QueryPathSelectorMinDuration) WithValue(value *durationpb.Duration) *LogConditionSpecQuery_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQuery_FieldTerminalPathValue)
-}
-
-func (s LogCondition_Spec_QueryPathSelectorMinDuration) WithArrayOfValues(values []*durationpb.Duration) *LogConditionSpecQuery_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQuery_FieldTerminalPathArrayOfValues)
-}
-
-type LogConditionSpecQueryLabelTriggerFieldPathBuilder struct{}
-
-func NewLogConditionSpecQueryLabelTriggerFieldPathBuilder() LogConditionSpecQueryLabelTriggerFieldPathBuilder {
-	return LogConditionSpecQueryLabelTriggerFieldPathBuilder{}
-}
-func (LogConditionSpecQueryLabelTriggerFieldPathBuilder) Key() LogCondition_Spec_Query_LabelTriggerPathSelectorKey {
-	return LogCondition_Spec_Query_LabelTriggerPathSelectorKey{}
-}
-func (LogConditionSpecQueryLabelTriggerFieldPathBuilder) Values() LogCondition_Spec_Query_LabelTriggerPathSelectorValues {
-	return LogCondition_Spec_Query_LabelTriggerPathSelectorValues{}
-}
-
-type LogCondition_Spec_Query_LabelTriggerPathSelectorKey struct{}
-
-func (LogCondition_Spec_Query_LabelTriggerPathSelectorKey) FieldPath() *LogConditionSpecQueryLabelTrigger_FieldTerminalPath {
-	return &LogConditionSpecQueryLabelTrigger_FieldTerminalPath{selector: LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey}
-}
-
-func (s LogCondition_Spec_Query_LabelTriggerPathSelectorKey) WithValue(value string) *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue)
-}
-
-func (s LogCondition_Spec_Query_LabelTriggerPathSelectorKey) WithArrayOfValues(values []string) *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues)
-}
-
-type LogCondition_Spec_Query_LabelTriggerPathSelectorValues struct{}
-
-func (LogCondition_Spec_Query_LabelTriggerPathSelectorValues) FieldPath() *LogConditionSpecQueryLabelTrigger_FieldTerminalPath {
-	return &LogConditionSpecQueryLabelTrigger_FieldTerminalPath{selector: LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues}
-}
-
-func (s LogCondition_Spec_Query_LabelTriggerPathSelectorValues) WithValue(value []string) *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue)
-}
-
-func (s LogCondition_Spec_Query_LabelTriggerPathSelectorValues) WithArrayOfValues(values [][]string) *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues)
-}
-
-func (s LogCondition_Spec_Query_LabelTriggerPathSelectorValues) WithItemValue(value string) *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue)
-}
-
-type LogConditionSpecQueryStringPayloadTriggerFieldPathBuilder struct{}
-
-func NewLogConditionSpecQueryStringPayloadTriggerFieldPathBuilder() LogConditionSpecQueryStringPayloadTriggerFieldPathBuilder {
-	return LogConditionSpecQueryStringPayloadTriggerFieldPathBuilder{}
-}
-func (LogConditionSpecQueryStringPayloadTriggerFieldPathBuilder) ObjectSelector() LogCondition_Spec_Query_StringPayloadTriggerPathSelectorObjectSelector {
-	return LogCondition_Spec_Query_StringPayloadTriggerPathSelectorObjectSelector{}
-}
-func (LogConditionSpecQueryStringPayloadTriggerFieldPathBuilder) Regex() LogCondition_Spec_Query_StringPayloadTriggerPathSelectorRegex {
-	return LogCondition_Spec_Query_StringPayloadTriggerPathSelectorRegex{}
-}
-
-type LogCondition_Spec_Query_StringPayloadTriggerPathSelectorObjectSelector struct{}
-
-func (LogCondition_Spec_Query_StringPayloadTriggerPathSelectorObjectSelector) FieldPath() *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath {
-	return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath{selector: LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector}
-}
-
-func (s LogCondition_Spec_Query_StringPayloadTriggerPathSelectorObjectSelector) WithValue(value string) *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue)
-}
-
-func (s LogCondition_Spec_Query_StringPayloadTriggerPathSelectorObjectSelector) WithArrayOfValues(values []string) *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues)
-}
-
-type LogCondition_Spec_Query_StringPayloadTriggerPathSelectorRegex struct{}
-
-func (LogCondition_Spec_Query_StringPayloadTriggerPathSelectorRegex) FieldPath() *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath {
-	return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath{selector: LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex}
-}
-
-func (s LogCondition_Spec_Query_StringPayloadTriggerPathSelectorRegex) WithValue(value string) *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue)
-}
-
-func (s LogCondition_Spec_Query_StringPayloadTriggerPathSelectorRegex) WithArrayOfValues(values []string) *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues)
-}
-
-type LogConditionSpecQueryCompositeTriggerFieldPathBuilder struct{}
-
-func NewLogConditionSpecQueryCompositeTriggerFieldPathBuilder() LogConditionSpecQueryCompositeTriggerFieldPathBuilder {
-	return LogConditionSpecQueryCompositeTriggerFieldPathBuilder{}
-}
-func (LogConditionSpecQueryCompositeTriggerFieldPathBuilder) Triggers() LogCondition_Spec_Query_CompositeTriggerPathSelectorTriggers {
-	return LogCondition_Spec_Query_CompositeTriggerPathSelectorTriggers{}
-}
-func (LogConditionSpecQueryCompositeTriggerFieldPathBuilder) Operator() LogCondition_Spec_Query_CompositeTriggerPathSelectorOperator {
-	return LogCondition_Spec_Query_CompositeTriggerPathSelectorOperator{}
-}
-
-type LogCondition_Spec_Query_CompositeTriggerPathSelectorTriggers struct{}
-
-func (LogCondition_Spec_Query_CompositeTriggerPathSelectorTriggers) FieldPath() *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath {
-	return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPath{selector: LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers}
-}
-
-func (s LogCondition_Spec_Query_CompositeTriggerPathSelectorTriggers) WithValue(value []*LogCondition_Spec_Query_TriggerCnd) *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue)
-}
-
-func (s LogCondition_Spec_Query_CompositeTriggerPathSelectorTriggers) WithArrayOfValues(values [][]*LogCondition_Spec_Query_TriggerCnd) *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues)
-}
-
-func (s LogCondition_Spec_Query_CompositeTriggerPathSelectorTriggers) WithItemValue(value *LogCondition_Spec_Query_TriggerCnd) *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue)
-}
-
-type LogCondition_Spec_Query_CompositeTriggerPathSelectorOperator struct{}
-
-func (LogCondition_Spec_Query_CompositeTriggerPathSelectorOperator) FieldPath() *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath {
-	return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPath{selector: LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator}
-}
-
-func (s LogCondition_Spec_Query_CompositeTriggerPathSelectorOperator) WithValue(value LogCondition_Spec_Query_CompositeTrigger_Operator) *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue)
-}
-
-func (s LogCondition_Spec_Query_CompositeTriggerPathSelectorOperator) WithArrayOfValues(values []LogCondition_Spec_Query_CompositeTrigger_Operator) *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues)
+func (s LogCondition_TemplateSourcePathSelectorUpdatedFields) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *LogConditionTemplateSource_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionTemplateSource_FieldTerminalPathArrayOfValues)
 }

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package ntt.alerting.v1;
 
-import "edgelq-sdk/alerting/proto/v1/policy.proto";
+import "edgelq-sdk/alerting/proto/v1/specs.proto";
 import "google/api/resource.proto";
 import "goten-sdk/types/meta.proto";
 
@@ -44,5 +44,5 @@ message PolicyTemplate {
   repeated string supporting_docs = 5;
 
   // Spec template
-  Policy.Spec spec_template = 6;
+  PolicySpec spec_template = 6;
 }

@@ -11,20 +11,31 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
+	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -38,13 +49,24 @@ var (
 var (
 	_ = &document.Document{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
+	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log.Log{}
+	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
+	_ = &monitoring_metric_descriptor.MetricDescriptor{}
+	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
+	_ = &monitoring_project.Project{}
+	_ = &monitoring_time_serie.Point{}
+	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_resource.Resource{}
@@ -2610,37 +2632,37 @@ type filterCndBuilderSpecTemplate struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplate) Eq(value *policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Eq(value *rcommon.PolicySpec) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Neq(value *policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Neq(value *rcommon.PolicySpec) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Gt(value *policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Gt(value *rcommon.PolicySpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Gte(value *policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Gte(value *rcommon.PolicySpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Lt(value *policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Lt(value *rcommon.PolicySpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) Lte(value *policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) Lte(value *rcommon.PolicySpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplate) In(values []*policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) In(values []*rcommon.PolicySpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplate) NotIn(values []*policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) NotIn(values []*rcommon.PolicySpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().WithArrayOfValues(values),
 	})
@@ -2658,7 +2680,7 @@ func (b *filterCndBuilderSpecTemplate) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplate) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplate) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().WithValue(value),
@@ -2752,37 +2774,37 @@ type filterCndBuilderSpecTemplateProcessingLocation struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) Eq(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) Eq(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) Neq(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) Neq(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) Gt(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) Gt(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) Gte(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) Gte(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) Lt(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) Lt(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) Lte(value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) Lte(value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) In(values []policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) In(values []rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ProcessingLocation().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) NotIn(values []policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) NotIn(values []rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ProcessingLocation().WithArrayOfValues(values),
 	})
@@ -2800,7 +2822,7 @@ func (b *filterCndBuilderSpecTemplateProcessingLocation) IsNan() *FilterBuilder 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateProcessingLocation) compare(op gotenfilter.CompareOperator, value policy.Policy_Spec_ProcessingLocation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateProcessingLocation) compare(op gotenfilter.CompareOperator, value rcommon.PolicySpec_ProcessingLocation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ProcessingLocation().WithValue(value),
@@ -2811,37 +2833,37 @@ type filterCndBuilderSpecTemplateNotifications struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) Eq(value []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) Eq(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) Neq(value []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) Neq(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) Gt(value []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) Gt(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) Gte(value []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) Gte(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) Lt(value []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) Lt(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) Lte(value []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) Lte(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) In(values [][]*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) In(values [][]*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) NotIn(values [][]*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) NotIn(values [][]*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().WithArrayOfValues(values),
 	})
@@ -2859,7 +2881,7 @@ func (b *filterCndBuilderSpecTemplateNotifications) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) Contains(value *policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) Contains(value *rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().FieldPath(),
@@ -2867,7 +2889,7 @@ func (b *filterCndBuilderSpecTemplateNotifications) Contains(value *policy.Polic
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) ContainsAnyOf(values []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) ContainsAnyOf(values []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2880,7 +2902,7 @@ func (b *filterCndBuilderSpecTemplateNotifications) ContainsAnyOf(values []*poli
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) ContainsAll(values []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) ContainsAll(values []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2893,7 +2915,7 @@ func (b *filterCndBuilderSpecTemplateNotifications) ContainsAll(values []*policy
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotifications) compare(op gotenfilter.CompareOperator, value []*policy.Policy_Spec_Notification) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotifications) compare(op gotenfilter.CompareOperator, value []*rcommon.PolicySpec_Notification) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().WithValue(value),
@@ -2920,37 +2942,37 @@ type filterCndBuilderSpecTemplateNotificationsEnabledKinds struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Eq(value []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Eq(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Neq(value []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Neq(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Gt(value []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Gt(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Gte(value []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Gte(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Lt(value []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Lt(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Lte(value []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Lte(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) In(values [][]policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) In(values [][]rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().EnabledKinds().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) NotIn(values [][]policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) NotIn(values [][]rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().EnabledKinds().WithArrayOfValues(values),
 	})
@@ -2968,7 +2990,7 @@ func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) IsNan() *FilterB
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Contains(value policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Contains(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().EnabledKinds().FieldPath(),
@@ -2976,7 +2998,7 @@ func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) Contains(value p
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) ContainsAnyOf(values []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) ContainsAnyOf(values []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().EnabledKinds()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -2989,7 +3011,7 @@ func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) ContainsAnyOf(va
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) ContainsAll(values []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) ContainsAll(values []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().EnabledKinds()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3002,7 +3024,7 @@ func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) ContainsAll(valu
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) compare(op gotenfilter.CompareOperator, value []policy.Policy_Spec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateNotificationsEnabledKinds) compare(op gotenfilter.CompareOperator, value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().Notifications().EnabledKinds().WithValue(value),
@@ -3190,37 +3212,37 @@ type filterCndBuilderSpecTemplateResourceIdentity struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) Eq(value *policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) Eq(value *rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) Neq(value *policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) Neq(value *rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) Gt(value *policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) Gt(value *rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) Gte(value *policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) Gte(value *rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) Lt(value *policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) Lt(value *rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) Lte(value *policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) Lte(value *rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) In(values []*policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) In(values []*rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) NotIn(values []*policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) NotIn(values []*rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().WithArrayOfValues(values),
 	})
@@ -3238,7 +3260,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentity) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentity) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_ResourceIdentity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentity) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_ResourceIdentity) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().WithValue(value),
@@ -3320,37 +3342,37 @@ type filterCndBuilderSpecTemplateResourceIdentityLabels struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Eq(value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Eq(value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Neq(value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Neq(value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Gt(value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Gt(value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Gte(value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Gte(value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Lt(value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Lt(value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Lte(value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Lte(value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) In(values [][]*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) In(values [][]*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) NotIn(values [][]*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) NotIn(values [][]*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().WithArrayOfValues(values),
 	})
@@ -3368,7 +3390,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) IsNan() *FilterBuil
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Contains(value *policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Contains(value *rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().FieldPath(),
@@ -3376,7 +3398,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) Contains(value *pol
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) ContainsAnyOf(values []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) ContainsAnyOf(values []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3389,7 +3411,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) ContainsAnyOf(value
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) ContainsAll(values []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) ContainsAll(values []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3402,7 +3424,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) ContainsAll(values 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) compare(op gotenfilter.CompareOperator, value []*policy.Policy_Spec_ResourceIdentity_LabelInfo) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabels) compare(op gotenfilter.CompareOperator, value []*rcommon.PolicySpec_ResourceIdentity_LabelInfo) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().WithValue(value),
@@ -3484,37 +3506,37 @@ type filterCndBuilderSpecTemplateResourceIdentityLabelsContexts struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Eq(value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Eq(value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Neq(value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Neq(value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Gt(value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Gt(value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Gte(value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Gte(value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Lt(value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Lt(value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Lte(value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Lte(value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) In(values [][]policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) In(values [][]rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().Contexts().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) NotIn(values [][]policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) NotIn(values [][]rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().Contexts().WithArrayOfValues(values),
 	})
@@ -3532,7 +3554,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) IsNan() *Fi
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Contains(value policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Contains(value rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().Contexts().FieldPath(),
@@ -3540,7 +3562,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) Contains(va
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) ContainsAnyOf(values []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) ContainsAnyOf(values []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().Contexts()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3553,7 +3575,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) ContainsAny
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) ContainsAll(values []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) ContainsAll(values []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().Contexts()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3566,7 +3588,7 @@ func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) ContainsAll
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) compare(op gotenfilter.CompareOperator, value []policy.Policy_Spec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateResourceIdentityLabelsContexts) compare(op gotenfilter.CompareOperator, value []rcommon.PolicySpec_ResourceIdentity_LabelInfo_UsageContext) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().ResourceIdentity().Labels().Contexts().WithValue(value),
@@ -3729,37 +3751,37 @@ type filterCndBuilderSpecTemplateSupportingQueries struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) Eq(value []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) Eq(value []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) Neq(value []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) Neq(value []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) Gt(value []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) Gt(value []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) Gte(value []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) Gte(value []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) Lt(value []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) Lt(value []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) Lte(value []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) Lte(value []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) In(values [][]*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) In(values [][]*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) NotIn(values [][]*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) NotIn(values [][]*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().WithArrayOfValues(values),
 	})
@@ -3777,7 +3799,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueries) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) Contains(value *policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) Contains(value *rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().FieldPath(),
@@ -3785,7 +3807,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueries) Contains(value *policy.P
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) ContainsAnyOf(values []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) ContainsAnyOf(values []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3798,7 +3820,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueries) ContainsAnyOf(values []*
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) ContainsAll(values []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) ContainsAll(values []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3811,7 +3833,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueries) ContainsAll(values []*po
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueries) compare(op gotenfilter.CompareOperator, value []*policy.Policy_Spec_SupportingAlertQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueries) compare(op gotenfilter.CompareOperator, value []*rcommon.PolicySpec_SupportingAlertQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().WithValue(value),
@@ -3838,37 +3860,37 @@ type filterCndBuilderSpecTemplateSupportingQueriesTsQuery struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Eq(value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Eq(value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Neq(value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Neq(value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Gt(value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Gt(value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Gte(value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Gte(value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Lt(value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Lt(value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Lte(value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) Lte(value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) In(values []*policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) In(values []*rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().TsQuery().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) NotIn(values []*policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) NotIn(values []*rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().TsQuery().WithArrayOfValues(values),
 	})
@@ -3886,7 +3908,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) IsNan() *FilterBu
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_SupportingAlertQuery_TsQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesTsQuery) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_SupportingAlertQuery_TsQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().TsQuery().WithValue(value),
@@ -4372,37 +4394,37 @@ type filterCndBuilderSpecTemplateSupportingQueriesLogQuery struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Eq(value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Eq(value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Neq(value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Neq(value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Gt(value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Gt(value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Gte(value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Gte(value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Lt(value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Lt(value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Lte(value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) Lte(value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) In(values []*policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) In(values []*rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().LogQuery().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) NotIn(values []*policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) NotIn(values []*rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().LogQuery().WithArrayOfValues(values),
 	})
@@ -4420,7 +4442,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) IsNan() *FilterB
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_SupportingAlertQuery_LogQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesLogQuery) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_SupportingAlertQuery_LogQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().LogQuery().WithValue(value),
@@ -4557,37 +4579,37 @@ type filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Eq(value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Eq(value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Neq(value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Neq(value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Gt(value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Gt(value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Gte(value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Gte(value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Lt(value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Lt(value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Lte(value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) Lte(value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) In(values []*policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) In(values []*rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().RestGetQuery().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) NotIn(values []*policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) NotIn(values []*rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().RestGetQuery().WithArrayOfValues(values),
 	})
@@ -4605,7 +4627,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) IsNan() *Fil
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestGetQuery) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_SupportingAlertQuery_RestGetQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().RestGetQuery().WithValue(value),
@@ -4931,37 +4953,37 @@ type filterCndBuilderSpecTemplateSupportingQueriesRestListQuery struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Eq(value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Eq(value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Neq(value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Neq(value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Gt(value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Gt(value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Gte(value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Gte(value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Lt(value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Lt(value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Lte(value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) Lte(value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) In(values []*policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) In(values []*rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().RestListQuery().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) NotIn(values []*policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) NotIn(values []*rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().RestListQuery().WithArrayOfValues(values),
 	})
@@ -4979,7 +5001,7 @@ func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) IsNan() *Fi
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateSupportingQueriesRestListQuery) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_SupportingAlertQuery_RestListQuery) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().SupportingQueries().RestListQuery().WithValue(value),
@@ -5368,37 +5390,37 @@ type filterCndBuilderSpecTemplateAiAgent struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) Eq(value *policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) Eq(value *rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) Neq(value *policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) Neq(value *rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) Gt(value *policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) Gt(value *rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) Gte(value *policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) Gte(value *rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) Lt(value *policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) Lt(value *rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) Lte(value *policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) Lte(value *rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) In(values []*policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) In(values []*rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) NotIn(values []*policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) NotIn(values []*rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().WithArrayOfValues(values),
 	})
@@ -5416,7 +5438,7 @@ func (b *filterCndBuilderSpecTemplateAiAgent) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgent) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_AIAgentHandling) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgent) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_AIAgentHandling) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().WithValue(value),
@@ -5624,37 +5646,37 @@ type filterCndBuilderSpecTemplateAiAgentEdgeConnectivity struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Eq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Eq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Neq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Neq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Gt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Gt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Gte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Gte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Lt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Lt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Lte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) Lte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) In(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) In(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) NotIn(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) NotIn(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().WithArrayOfValues(values),
 	})
@@ -5672,7 +5694,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) IsNan() *FilterBui
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivity) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().WithValue(value),
@@ -5699,37 +5721,37 @@ type filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Eq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Eq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Neq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Neq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Gt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Gt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Gte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Gte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Lt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Lt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Lte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) Lte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) In(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) In(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().DeviceSsh().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) NotIn(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) NotIn(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().DeviceSsh().WithArrayOfValues(values),
 	})
@@ -5747,7 +5769,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) IsNan() *
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityDeviceSsh) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_DeviceSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().DeviceSsh().WithValue(value),
@@ -5821,37 +5843,37 @@ type filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Eq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Eq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Neq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Neq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Gt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Gt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Gte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Gte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Lt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Lt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Lte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) Lte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) In(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) In(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().ProxiesSsh().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) NotIn(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) NotIn(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().ProxiesSsh().WithArrayOfValues(values),
 	})
@@ -5869,7 +5891,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) IsNan() 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityProxiesSsh) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_ProxiesSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().ProxiesSsh().WithValue(value),
@@ -6132,37 +6154,37 @@ type filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Eq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Eq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Neq(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Neq(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Gt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Gt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Gte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Gte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Lt(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Lt(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Lte(value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) Lte(value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) In(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) In(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().PodSsh().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) NotIn(values []*policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) NotIn(values []*rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().PodSsh().WithArrayOfValues(values),
 	})
@@ -6180,7 +6202,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) IsNan() *Fil
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentEdgeConnectivityPodSsh) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_AIAgentHandling_EdgeConnectivity_PodSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().EdgeConnectivity().PodSsh().WithValue(value),
@@ -6410,37 +6432,37 @@ type filterCndBuilderSpecTemplateAiAgentRemediationOptions struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Eq(value []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Eq(value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Neq(value []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Neq(value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Gt(value []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Gt(value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Gte(value []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Gte(value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Lt(value []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Lt(value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Lte(value []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Lte(value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) In(values [][]*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) In(values [][]*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) NotIn(values [][]*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) NotIn(values [][]*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().WithArrayOfValues(values),
 	})
@@ -6458,7 +6480,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) IsNan() *FilterB
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Contains(value *policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Contains(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().FieldPath(),
@@ -6466,7 +6488,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) Contains(value *
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) ContainsAnyOf(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) ContainsAnyOf(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6479,7 +6501,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) ContainsAnyOf(va
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) ContainsAll(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) ContainsAll(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	pathSelector := NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions()
 	itemValues := make([]PolicyTemplate_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -6492,7 +6514,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) ContainsAll(valu
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) compare(op gotenfilter.CompareOperator, value []*policy.Policy_Spec_AIAgentHandling_Remediation) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptions) compare(op gotenfilter.CompareOperator, value []*rcommon.PolicySpec_AIAgentHandling_Remediation) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().WithValue(value),
@@ -6511,37 +6533,37 @@ type filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Eq(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Eq(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Neq(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Neq(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Gt(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Gt(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Gte(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Gte(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Lt(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Lt(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Lte(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) Lte(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) In(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) In(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().FixInSsh().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) NotIn(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) NotIn(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().FixInSsh().WithArrayOfValues(values),
 	})
@@ -6559,7 +6581,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) IsNan() 
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsFixInSsh) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().FixInSsh().WithValue(value),
@@ -6570,37 +6592,37 @@ type filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Eq(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Eq(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Neq(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Neq(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Gt(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Gt(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Gte(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Gte(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Lt(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Lt(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Lte(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) Lte(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) In(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) In(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().Reboot().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) NotIn(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) NotIn(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		PolicyTemplate_FieldPathArrayOfValues: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().Reboot().WithArrayOfValues(values),
 	})
@@ -6618,7 +6640,7 @@ func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) IsNan() *F
 	})
 }
 
-func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) compare(op gotenfilter.CompareOperator, value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
+func (b *filterCndBuilderSpecTemplateAiAgentRemediationOptionsReboot) compare(op gotenfilter.CompareOperator, value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                      op,
 		PolicyTemplate_FieldPathValue: NewPolicyTemplateFieldPathBuilder().SpecTemplate().AiAgent().RemediationOptions().Reboot().WithValue(value),

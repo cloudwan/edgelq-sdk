@@ -114,3 +114,14 @@ resources:
     searchable: true
   parents:
   - PolicyTemplate
+
+apis:
+- name: EdgeWatchService
+  actions:
+  - name: WatchAlertData
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    streamingResponse: true

@@ -12,6 +12,7 @@ import (
 import (
 	alert_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/alert"
 	document_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/document"
+	edge_watch_service_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/edge_watch_service"
 	log_condition_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/log_condition"
 	log_condition_template_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/log_condition_template"
 	notification_channel_client "github.com/cloudwan/edgelq-sdk/alerting/client/v1/notification_channel"
@@ -64,6 +65,7 @@ var (
 type AlertingClient interface {
 	alert_client.AlertServiceClient
 	document_client.DocumentServiceClient
+	edge_watch_service_client.EdgeWatchServiceServiceClient
 	log_condition_client.LogConditionServiceClient
 	log_condition_template_client.LogConditionTemplateServiceClient
 	notification_channel_client.NotificationChannelServiceClient
@@ -77,6 +79,7 @@ type AlertingClient interface {
 type alertingClient struct {
 	alert_client.AlertServiceClient
 	document_client.DocumentServiceClient
+	edge_watch_service_client.EdgeWatchServiceServiceClient
 	log_condition_client.LogConditionServiceClient
 	log_condition_template_client.LogConditionTemplateServiceClient
 	notification_channel_client.NotificationChannelServiceClient
@@ -91,6 +94,7 @@ func NewAlertingClient(cc grpc.ClientConnInterface) AlertingClient {
 	return &alertingClient{
 		AlertServiceClient:                alert_client.NewAlertServiceClient(cc),
 		DocumentServiceClient:             document_client.NewDocumentServiceClient(cc),
+		EdgeWatchServiceServiceClient:     edge_watch_service_client.NewEdgeWatchServiceServiceClient(cc),
 		LogConditionServiceClient:         log_condition_client.NewLogConditionServiceClient(cc),
 		LogConditionTemplateServiceClient: log_condition_template_client.NewLogConditionTemplateServiceClient(cc),
 		NotificationChannelServiceClient:  notification_channel_client.NewNotificationChannelServiceClient(cc),

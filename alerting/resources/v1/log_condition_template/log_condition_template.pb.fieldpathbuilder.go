@@ -6,11 +6,11 @@ package log_condition_template
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
@@ -19,6 +19,10 @@ import (
 	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
+	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
@@ -34,10 +38,10 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition.LogCondition{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
 	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
+	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -46,6 +50,10 @@ var (
 	_ = &logging_log.Log{}
 	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
+	_ = &monitoring_metric_descriptor.MetricDescriptor{}
+	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
+	_ = &monitoring_project.Project{}
+	_ = &monitoring_time_serie.Point{}
 	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
@@ -830,27 +838,27 @@ func (LogConditionTemplatePathSelectorSpecTemplate) FieldPath() *LogConditionTem
 	return &LogConditionTemplate_FieldTerminalPath{selector: LogConditionTemplate_FieldPathSelectorSpecTemplate}
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplate) WithValue(value *log_condition.LogCondition_Spec) *LogConditionTemplate_FieldTerminalPathValue {
+func (s LogConditionTemplatePathSelectorSpecTemplate) WithValue(value *rcommon.LogCndSpec) *LogConditionTemplate_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*LogConditionTemplate_FieldTerminalPathValue)
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplate) WithArrayOfValues(values []*log_condition.LogCondition_Spec) *LogConditionTemplate_FieldTerminalPathArrayOfValues {
+func (s LogConditionTemplatePathSelectorSpecTemplate) WithArrayOfValues(values []*rcommon.LogCndSpec) *LogConditionTemplate_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionTemplate_FieldTerminalPathArrayOfValues)
 }
 
-func (LogConditionTemplatePathSelectorSpecTemplate) WithSubPath(subPath log_condition.LogConditionSpec_FieldPath) *LogConditionTemplate_FieldSubPath {
+func (LogConditionTemplatePathSelectorSpecTemplate) WithSubPath(subPath rcommon.LogCndSpec_FieldPath) *LogConditionTemplate_FieldSubPath {
 	return &LogConditionTemplate_FieldSubPath{selector: LogConditionTemplate_FieldPathSelectorSpecTemplate, subPath: subPath}
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplate) WithSubValue(subPathValue log_condition.LogConditionSpec_FieldPathValue) *LogConditionTemplate_FieldSubPathValue {
+func (s LogConditionTemplatePathSelectorSpecTemplate) WithSubValue(subPathValue rcommon.LogCndSpec_FieldPathValue) *LogConditionTemplate_FieldSubPathValue {
 	return &LogConditionTemplate_FieldSubPathValue{LogConditionTemplate_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplate) WithSubArrayOfValues(subPathArrayOfValues log_condition.LogConditionSpec_FieldPathArrayOfValues) *LogConditionTemplate_FieldSubPathArrayOfValues {
+func (s LogConditionTemplatePathSelectorSpecTemplate) WithSubArrayOfValues(subPathArrayOfValues rcommon.LogCndSpec_FieldPathArrayOfValues) *LogConditionTemplate_FieldSubPathArrayOfValues {
 	return &LogConditionTemplate_FieldSubPathArrayOfValues{LogConditionTemplate_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplate) WithSubArrayItemValue(subPathArrayItemValue log_condition.LogConditionSpec_FieldPathArrayItemValue) *LogConditionTemplate_FieldSubPathArrayItemValue {
+func (s LogConditionTemplatePathSelectorSpecTemplate) WithSubArrayItemValue(subPathArrayItemValue rcommon.LogCndSpec_FieldPathArrayItemValue) *LogConditionTemplate_FieldSubPathArrayItemValue {
 	return &LogConditionTemplate_FieldSubPathArrayItemValue{LogConditionTemplate_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -867,15 +875,15 @@ type LogConditionTemplatePathSelectorSpecTemplateQuery struct{}
 func (LogConditionTemplatePathSelectorSpecTemplateQuery) FieldPath() *LogConditionTemplate_FieldSubPath {
 	return &LogConditionTemplate_FieldSubPath{
 		selector: LogConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  log_condition.NewLogConditionSpecFieldPathBuilder().Query().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().FieldPath(),
 	}
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplateQuery) WithValue(value *log_condition.LogCondition_Spec_Query) *LogConditionTemplate_FieldSubPathValue {
+func (s LogConditionTemplatePathSelectorSpecTemplateQuery) WithValue(value *rcommon.LogCndSpec_Query) *LogConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogConditionTemplate_FieldSubPathValue)
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplateQuery) WithArrayOfValues(values []*log_condition.LogCondition_Spec_Query) *LogConditionTemplate_FieldSubPathArrayOfValues {
+func (s LogConditionTemplatePathSelectorSpecTemplateQuery) WithArrayOfValues(values []*rcommon.LogCndSpec_Query) *LogConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -896,7 +904,7 @@ type LogConditionTemplatePathSelectorSpecTemplateQueryFilter struct{}
 func (LogConditionTemplatePathSelectorSpecTemplateQueryFilter) FieldPath() *LogConditionTemplate_FieldSubPath {
 	return &LogConditionTemplate_FieldSubPath{
 		selector: LogConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  log_condition.NewLogConditionSpecFieldPathBuilder().Query().Filter().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().Filter().FieldPath(),
 	}
 }
 
@@ -913,15 +921,15 @@ type LogConditionTemplatePathSelectorSpecTemplateQueryTrigger struct{}
 func (LogConditionTemplatePathSelectorSpecTemplateQueryTrigger) FieldPath() *LogConditionTemplate_FieldSubPath {
 	return &LogConditionTemplate_FieldSubPath{
 		selector: LogConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  log_condition.NewLogConditionSpecFieldPathBuilder().Query().Trigger().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().Trigger().FieldPath(),
 	}
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplateQueryTrigger) WithValue(value *log_condition.LogCondition_Spec_Query_TriggerCnd) *LogConditionTemplate_FieldSubPathValue {
+func (s LogConditionTemplatePathSelectorSpecTemplateQueryTrigger) WithValue(value *rcommon.LogCndSpec_Query_TriggerCnd) *LogConditionTemplate_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*LogConditionTemplate_FieldSubPathValue)
 }
 
-func (s LogConditionTemplatePathSelectorSpecTemplateQueryTrigger) WithArrayOfValues(values []*log_condition.LogCondition_Spec_Query_TriggerCnd) *LogConditionTemplate_FieldSubPathArrayOfValues {
+func (s LogConditionTemplatePathSelectorSpecTemplateQueryTrigger) WithArrayOfValues(values []*rcommon.LogCndSpec_Query_TriggerCnd) *LogConditionTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*LogConditionTemplate_FieldSubPathArrayOfValues)
 }
 
@@ -930,7 +938,7 @@ type LogConditionTemplatePathSelectorSpecTemplateQueryMinDuration struct{}
 func (LogConditionTemplatePathSelectorSpecTemplateQueryMinDuration) FieldPath() *LogConditionTemplate_FieldSubPath {
 	return &LogConditionTemplate_FieldSubPath{
 		selector: LogConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  log_condition.NewLogConditionSpecFieldPathBuilder().Query().MinDuration().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().Query().MinDuration().FieldPath(),
 	}
 }
 
@@ -947,7 +955,7 @@ type LogConditionTemplatePathSelectorSpecTemplateGroupByLabels struct{}
 func (LogConditionTemplatePathSelectorSpecTemplateGroupByLabels) FieldPath() *LogConditionTemplate_FieldSubPath {
 	return &LogConditionTemplate_FieldSubPath{
 		selector: LogConditionTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  log_condition.NewLogConditionSpecFieldPathBuilder().GroupByLabels().FieldPath(),
+		subPath:  rcommon.NewLogCndSpecFieldPathBuilder().GroupByLabels().FieldPath(),
 	}
 }
 

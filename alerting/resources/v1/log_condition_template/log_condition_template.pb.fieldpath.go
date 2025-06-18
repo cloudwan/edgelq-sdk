@@ -23,8 +23,8 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -50,8 +50,8 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition.LogCondition{}
 	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &meta.Meta{}
 )
 
@@ -129,7 +129,7 @@ func BuildLogConditionTemplate_FieldPath(fp gotenobject.RawFieldPath) (LogCondit
 				return &LogConditionTemplate_FieldSubPath{selector: LogConditionTemplate_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "spec_template", "specTemplate", "spec-template":
-			if subpath, err := log_condition.BuildLogConditionSpec_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildLogCndSpec_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &LogConditionTemplate_FieldSubPath{selector: LogConditionTemplate_FieldPathSelectorSpecTemplate, subPath: subpath}, nil
@@ -252,7 +252,7 @@ func (fp *LogConditionTemplate_FieldTerminalPath) GetDefault() interface{} {
 	case LogConditionTemplate_FieldPathSelectorSupportingDocs:
 		return ([]*document.Reference)(nil)
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		return (*log_condition.LogCondition_Spec)(nil)
+		return (*rcommon.LogCndSpec)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogConditionTemplate: %d", fp.selector))
 	}
@@ -308,7 +308,7 @@ func (fp *LogConditionTemplate_FieldTerminalPath) WithIValue(value interface{}) 
 	case LogConditionTemplate_FieldPathSelectorSupportingDocs:
 		return &LogConditionTemplate_FieldTerminalPathValue{LogConditionTemplate_FieldTerminalPath: *fp, value: value.([]*document.Reference)}
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		return &LogConditionTemplate_FieldTerminalPathValue{LogConditionTemplate_FieldTerminalPath: *fp, value: value.(*log_condition.LogCondition_Spec)}
+		return &LogConditionTemplate_FieldTerminalPathValue{LogConditionTemplate_FieldTerminalPath: *fp, value: value.(*rcommon.LogCndSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogConditionTemplate: %d", fp.selector))
 	}
@@ -332,7 +332,7 @@ func (fp *LogConditionTemplate_FieldTerminalPath) WithIArrayOfValues(values inte
 	case LogConditionTemplate_FieldPathSelectorSupportingDocs:
 		return &LogConditionTemplate_FieldTerminalPathArrayOfValues{LogConditionTemplate_FieldTerminalPath: *fp, values: values.([][]*document.Reference)}
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		return &LogConditionTemplate_FieldTerminalPathArrayOfValues{LogConditionTemplate_FieldTerminalPath: *fp, values: values.([]*log_condition.LogCondition_Spec)}
+		return &LogConditionTemplate_FieldTerminalPathArrayOfValues{LogConditionTemplate_FieldTerminalPath: *fp, values: values.([]*rcommon.LogCndSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogConditionTemplate: %d", fp.selector))
 	}
@@ -370,8 +370,8 @@ func (fps *LogConditionTemplate_FieldSubPath) AsMetadataSubPath() (meta.Meta_Fie
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *LogConditionTemplate_FieldSubPath) AsSpecTemplateSubPath() (log_condition.LogConditionSpec_FieldPath, bool) {
-	res, ok := fps.subPath.(log_condition.LogConditionSpec_FieldPath)
+func (fps *LogConditionTemplate_FieldSubPath) AsSpecTemplateSubPath() (rcommon.LogCndSpec_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.LogCndSpec_FieldPath)
 	return res, ok
 }
 
@@ -540,8 +540,8 @@ func (fpv *LogConditionTemplate_FieldTerminalPathValue) AsSupportingDocsValue() 
 	res, ok := fpv.value.([]*document.Reference)
 	return res, ok
 }
-func (fpv *LogConditionTemplate_FieldTerminalPathValue) AsSpecTemplateValue() (*log_condition.LogCondition_Spec, bool) {
-	res, ok := fpv.value.(*log_condition.LogCondition_Spec)
+func (fpv *LogConditionTemplate_FieldTerminalPathValue) AsSpecTemplateValue() (*rcommon.LogCndSpec, bool) {
+	res, ok := fpv.value.(*rcommon.LogCndSpec)
 	return res, ok
 }
 
@@ -562,7 +562,7 @@ func (fpv *LogConditionTemplate_FieldTerminalPathValue) SetTo(target **LogCondit
 	case LogConditionTemplate_FieldPathSelectorSupportingDocs:
 		(*target).SupportingDocs = fpv.value.([]*document.Reference)
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		(*target).SpecTemplate = fpv.value.(*log_condition.LogCondition_Spec)
+		(*target).SpecTemplate = fpv.value.(*rcommon.LogCndSpec)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogConditionTemplate: %d", fpv.selector))
 	}
@@ -641,8 +641,8 @@ func (fpvs *LogConditionTemplate_FieldSubPathValue) AsMetadataPathValue() (meta.
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *LogConditionTemplate_FieldSubPathValue) AsSpecTemplatePathValue() (log_condition.LogConditionSpec_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(log_condition.LogConditionSpec_FieldPathValue)
+func (fpvs *LogConditionTemplate_FieldSubPathValue) AsSpecTemplatePathValue() (rcommon.LogCndSpec_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.LogCndSpec_FieldPathValue)
 	return res, ok
 }
 
@@ -654,7 +654,7 @@ func (fpvs *LogConditionTemplate_FieldSubPathValue) SetTo(target **LogConditionT
 	case LogConditionTemplate_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		fpvs.subPathValue.(log_condition.LogConditionSpec_FieldPathValue).SetTo(&(*target).SpecTemplate)
+		fpvs.subPathValue.(rcommon.LogCndSpec_FieldPathValue).SetTo(&(*target).SpecTemplate)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogConditionTemplate: %d", fpvs.Selector()))
 	}
@@ -674,7 +674,7 @@ func (fpvs *LogConditionTemplate_FieldSubPathValue) CompareWith(source *LogCondi
 	case LogConditionTemplate_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		return fpvs.subPathValue.(log_condition.LogConditionSpec_FieldPathValue).CompareWith(source.GetSpecTemplate())
+		return fpvs.subPathValue.(rcommon.LogCndSpec_FieldPathValue).CompareWith(source.GetSpecTemplate())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogConditionTemplate: %d", fpvs.Selector()))
 	}
@@ -765,8 +765,8 @@ func (fpaivs *LogConditionTemplate_FieldSubPathArrayItemValue) AsMetadataPathIte
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *LogConditionTemplate_FieldSubPathArrayItemValue) AsSpecTemplatePathItemValue() (log_condition.LogConditionSpec_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(log_condition.LogConditionSpec_FieldPathArrayItemValue)
+func (fpaivs *LogConditionTemplate_FieldSubPathArrayItemValue) AsSpecTemplatePathItemValue() (rcommon.LogCndSpec_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.LogCndSpec_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -776,7 +776,7 @@ func (fpaivs *LogConditionTemplate_FieldSubPathArrayItemValue) ContainsValue(sou
 	case LogConditionTemplate_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		return fpaivs.subPathItemValue.(log_condition.LogConditionSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpecTemplate())
+		return fpaivs.subPathItemValue.(rcommon.LogCndSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpecTemplate())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogConditionTemplate: %d", fpaivs.Selector()))
 	}
@@ -838,7 +838,7 @@ func (fpaov *LogConditionTemplate_FieldTerminalPathArrayOfValues) GetRawValues()
 			values = append(values, v)
 		}
 	case LogConditionTemplate_FieldPathSelectorSpecTemplate:
-		for _, v := range fpaov.values.([]*log_condition.LogCondition_Spec) {
+		for _, v := range fpaov.values.([]*rcommon.LogCndSpec) {
 			values = append(values, v)
 		}
 	}
@@ -864,8 +864,8 @@ func (fpaov *LogConditionTemplate_FieldTerminalPathArrayOfValues) AsSupportingDo
 	res, ok := fpaov.values.([][]*document.Reference)
 	return res, ok
 }
-func (fpaov *LogConditionTemplate_FieldTerminalPathArrayOfValues) AsSpecTemplateArrayOfValues() ([]*log_condition.LogCondition_Spec, bool) {
-	res, ok := fpaov.values.([]*log_condition.LogCondition_Spec)
+func (fpaov *LogConditionTemplate_FieldTerminalPathArrayOfValues) AsSpecTemplateArrayOfValues() ([]*rcommon.LogCndSpec, bool) {
+	res, ok := fpaov.values.([]*rcommon.LogCndSpec)
 	return res, ok
 }
 
@@ -883,7 +883,7 @@ func (fpsaov *LogConditionTemplate_FieldSubPathArrayOfValues) AsMetadataPathArra
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *LogConditionTemplate_FieldSubPathArrayOfValues) AsSpecTemplatePathArrayOfValues() (log_condition.LogConditionSpec_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(log_condition.LogConditionSpec_FieldPathArrayOfValues)
+func (fpsaov *LogConditionTemplate_FieldSubPathArrayOfValues) AsSpecTemplatePathArrayOfValues() (rcommon.LogCndSpec_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.LogCndSpec_FieldPathArrayOfValues)
 	return res, ok
 }

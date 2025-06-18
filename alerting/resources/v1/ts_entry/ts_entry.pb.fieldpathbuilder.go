@@ -6,14 +6,21 @@ package ts_entry
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
 	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
@@ -24,28 +31,39 @@ import (
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
+	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log.Log{}
+	_ = &logging_log_descriptor.LogDescriptor{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitoring_metric_descriptor.MetricDescriptor{}
 	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
 	_ = &monitoring_project.Project{}
 	_ = &monitoring_time_serie.Point{}
+	_ = &anypb.Any{}
 	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
 	_ = &meta_resource.Resource{}
@@ -1485,11 +1503,11 @@ func (TsEntryPathSelectorStateThresholdsLower) FieldPath() *TsEntry_FieldSubPath
 	}
 }
 
-func (s TsEntryPathSelectorStateThresholdsLower) WithValue(value *ts_condition.AlertingThreshold) *TsEntry_FieldSubPathValue {
+func (s TsEntryPathSelectorStateThresholdsLower) WithValue(value *rcommon.AlertingThreshold) *TsEntry_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntry_FieldSubPathValue)
 }
 
-func (s TsEntryPathSelectorStateThresholdsLower) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *TsEntry_FieldSubPathArrayOfValues {
+func (s TsEntryPathSelectorStateThresholdsLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsEntry_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntry_FieldSubPathArrayOfValues)
 }
 
@@ -1544,11 +1562,11 @@ func (TsEntryPathSelectorStateThresholdsUpper) FieldPath() *TsEntry_FieldSubPath
 	}
 }
 
-func (s TsEntryPathSelectorStateThresholdsUpper) WithValue(value *ts_condition.AlertingThreshold) *TsEntry_FieldSubPathValue {
+func (s TsEntryPathSelectorStateThresholdsUpper) WithValue(value *rcommon.AlertingThreshold) *TsEntry_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntry_FieldSubPathValue)
 }
 
-func (s TsEntryPathSelectorStateThresholdsUpper) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *TsEntry_FieldSubPathArrayOfValues {
+func (s TsEntryPathSelectorStateThresholdsUpper) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsEntry_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntry_FieldSubPathArrayOfValues)
 }
 
@@ -1658,11 +1676,11 @@ func (TsEntryPathSelectorInternalAlertingLocation) FieldPath() *TsEntry_FieldSub
 	}
 }
 
-func (s TsEntryPathSelectorInternalAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *TsEntry_FieldSubPathValue {
+func (s TsEntryPathSelectorInternalAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *TsEntry_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntry_FieldSubPathValue)
 }
 
-func (s TsEntryPathSelectorInternalAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *TsEntry_FieldSubPathArrayOfValues {
+func (s TsEntryPathSelectorInternalAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *TsEntry_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntry_FieldSubPathArrayOfValues)
 }
 
@@ -2365,11 +2383,11 @@ func (TsEntry_StatePathSelectorThresholdsLower) FieldPath() *TsEntryState_FieldS
 	}
 }
 
-func (s TsEntry_StatePathSelectorThresholdsLower) WithValue(value *ts_condition.AlertingThreshold) *TsEntryState_FieldSubPathValue {
+func (s TsEntry_StatePathSelectorThresholdsLower) WithValue(value *rcommon.AlertingThreshold) *TsEntryState_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntryState_FieldSubPathValue)
 }
 
-func (s TsEntry_StatePathSelectorThresholdsLower) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *TsEntryState_FieldSubPathArrayOfValues {
+func (s TsEntry_StatePathSelectorThresholdsLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsEntryState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntryState_FieldSubPathArrayOfValues)
 }
 
@@ -2424,11 +2442,11 @@ func (TsEntry_StatePathSelectorThresholdsUpper) FieldPath() *TsEntryState_FieldS
 	}
 }
 
-func (s TsEntry_StatePathSelectorThresholdsUpper) WithValue(value *ts_condition.AlertingThreshold) *TsEntryState_FieldSubPathValue {
+func (s TsEntry_StatePathSelectorThresholdsUpper) WithValue(value *rcommon.AlertingThreshold) *TsEntryState_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntryState_FieldSubPathValue)
 }
 
-func (s TsEntry_StatePathSelectorThresholdsUpper) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *TsEntryState_FieldSubPathArrayOfValues {
+func (s TsEntry_StatePathSelectorThresholdsUpper) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsEntryState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntryState_FieldSubPathArrayOfValues)
 }
 
@@ -2509,11 +2527,11 @@ func (TsEntry_InternalPathSelectorAlertingLocation) FieldPath() *TsEntryInternal
 	return &TsEntryInternal_FieldTerminalPath{selector: TsEntryInternal_FieldPathSelectorAlertingLocation}
 }
 
-func (s TsEntry_InternalPathSelectorAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *TsEntryInternal_FieldTerminalPathValue {
+func (s TsEntry_InternalPathSelectorAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *TsEntryInternal_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntryInternal_FieldTerminalPathValue)
 }
 
-func (s TsEntry_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *TsEntryInternal_FieldTerminalPathArrayOfValues {
+func (s TsEntry_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *TsEntryInternal_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntryInternal_FieldTerminalPathArrayOfValues)
 }
 
@@ -2895,27 +2913,27 @@ func (TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) FieldPath() *TsEntry
 	return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath{selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithValue(value *ts_condition.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithValue(value *rcommon.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue)
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues)
 }
 
-func (TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubPath(subPath ts_condition.AlertingThreshold_FieldPath) *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
+func (TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubPath(subPath rcommon.AlertingThreshold_FieldPath) *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower, subPath: subPath}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubValue(subPathValue ts_condition.AlertingThreshold_FieldPathValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubValue(subPathValue rcommon.AlertingThreshold_FieldPathValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue{TsEntryStateAdaptiveThresholdInfo_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubArrayOfValues(subPathArrayOfValues ts_condition.AlertingThreshold_FieldPathArrayOfValues) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubArrayOfValues(subPathArrayOfValues rcommon.AlertingThreshold_FieldPathArrayOfValues) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubArrayItemValue(subPathArrayItemValue ts_condition.AlertingThreshold_FieldPathArrayItemValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorLower) WithSubArrayItemValue(subPathArrayItemValue rcommon.AlertingThreshold_FieldPathArrayItemValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue{TsEntryStateAdaptiveThresholdInfo_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -2932,7 +2950,7 @@ type TsEntry_State_AdaptiveThresholdInfoPathSelectorLowerValue struct{}
 func (TsEntry_State_AdaptiveThresholdInfoPathSelectorLowerValue) FieldPath() *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{
 		selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
@@ -2949,7 +2967,7 @@ type TsEntry_State_AdaptiveThresholdInfoPathSelectorLowerIsInclusive struct{}
 func (TsEntry_State_AdaptiveThresholdInfoPathSelectorLowerIsInclusive) FieldPath() *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{
 		selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorLower,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 
@@ -2967,27 +2985,27 @@ func (TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) FieldPath() *TsEntry
 	return &TsEntryStateAdaptiveThresholdInfo_FieldTerminalPath{selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithValue(value *ts_condition.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithValue(value *rcommon.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathValue)
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithArrayOfValues(values []*rcommon.AlertingThreshold) *TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsEntryStateAdaptiveThresholdInfo_FieldTerminalPathArrayOfValues)
 }
 
-func (TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubPath(subPath ts_condition.AlertingThreshold_FieldPath) *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
+func (TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubPath(subPath rcommon.AlertingThreshold_FieldPath) *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper, subPath: subPath}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubValue(subPathValue ts_condition.AlertingThreshold_FieldPathValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubValue(subPathValue rcommon.AlertingThreshold_FieldPathValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPathValue{TsEntryStateAdaptiveThresholdInfo_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubArrayOfValues(subPathArrayOfValues ts_condition.AlertingThreshold_FieldPathArrayOfValues) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubArrayOfValues(subPathArrayOfValues rcommon.AlertingThreshold_FieldPathArrayOfValues) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayOfValues{TsEntryStateAdaptiveThresholdInfo_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubArrayItemValue(subPathArrayItemValue ts_condition.AlertingThreshold_FieldPathArrayItemValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue {
+func (s TsEntry_State_AdaptiveThresholdInfoPathSelectorUpper) WithSubArrayItemValue(subPathArrayItemValue rcommon.AlertingThreshold_FieldPathArrayItemValue) *TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPathArrayItemValue{TsEntryStateAdaptiveThresholdInfo_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -3004,7 +3022,7 @@ type TsEntry_State_AdaptiveThresholdInfoPathSelectorUpperValue struct{}
 func (TsEntry_State_AdaptiveThresholdInfoPathSelectorUpperValue) FieldPath() *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{
 		selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
@@ -3021,7 +3039,7 @@ type TsEntry_State_AdaptiveThresholdInfoPathSelectorUpperIsInclusive struct{}
 func (TsEntry_State_AdaptiveThresholdInfoPathSelectorUpperIsInclusive) FieldPath() *TsEntryStateAdaptiveThresholdInfo_FieldSubPath {
 	return &TsEntryStateAdaptiveThresholdInfo_FieldSubPath{
 		selector: TsEntryStateAdaptiveThresholdInfo_FieldPathSelectorUpper,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 

@@ -19,8 +19,8 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -42,7 +42,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
 )
@@ -110,11 +110,11 @@ func (fieldMask *PolicyTemplate_FieldMask) Subtract(other *PolicyTemplate_FieldM
 	removedSelectors := make([]bool, 6)
 	otherSubMasks := map[PolicyTemplate_FieldPathSelector]gotenobject.FieldMask{
 		PolicyTemplate_FieldPathSelectorMetadata:     &meta.Meta_FieldMask{},
-		PolicyTemplate_FieldPathSelectorSpecTemplate: &policy.Policy_Spec_FieldMask{},
+		PolicyTemplate_FieldPathSelectorSpecTemplate: &rcommon.PolicySpec_FieldMask{},
 	}
 	mySubMasks := map[PolicyTemplate_FieldPathSelector]gotenobject.FieldMask{
 		PolicyTemplate_FieldPathSelectorMetadata:     &meta.Meta_FieldMask{},
-		PolicyTemplate_FieldPathSelectorSpecTemplate: &policy.Policy_Spec_FieldMask{},
+		PolicyTemplate_FieldPathSelectorSpecTemplate: &rcommon.PolicySpec_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -133,7 +133,7 @@ func (fieldMask *PolicyTemplate_FieldMask) Subtract(other *PolicyTemplate_FieldM
 					case PolicyTemplate_FieldPathSelectorMetadata:
 						mySubMasks[PolicyTemplate_FieldPathSelectorMetadata] = meta.FullMeta_FieldMask()
 					case PolicyTemplate_FieldPathSelectorSpecTemplate:
-						mySubMasks[PolicyTemplate_FieldPathSelectorSpecTemplate] = policy.FullPolicy_Spec_FieldMask()
+						mySubMasks[PolicyTemplate_FieldPathSelectorSpecTemplate] = rcommon.FullPolicySpec_FieldMask()
 					}
 				} else if tp, ok := path.(*PolicyTemplate_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -306,7 +306,7 @@ func (fieldMask *PolicyTemplate_FieldMask) Project(source *PolicyTemplate) *Poli
 	result := &PolicyTemplate{}
 	metadataMask := &meta.Meta_FieldMask{}
 	wholeMetadataAccepted := false
-	specTemplateMask := &policy.Policy_Spec_FieldMask{}
+	specTemplateMask := &rcommon.PolicySpec_FieldMask{}
 	wholeSpecTemplateAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -333,7 +333,7 @@ func (fieldMask *PolicyTemplate_FieldMask) Project(source *PolicyTemplate) *Poli
 			case PolicyTemplate_FieldPathSelectorMetadata:
 				metadataMask.AppendPath(tp.subPath.(meta.Meta_FieldPath))
 			case PolicyTemplate_FieldPathSelectorSpecTemplate:
-				specTemplateMask.AppendPath(tp.subPath.(policy.PolicySpec_FieldPath))
+				specTemplateMask.AppendPath(tp.subPath.(rcommon.PolicySpec_FieldPath))
 			}
 		}
 	}

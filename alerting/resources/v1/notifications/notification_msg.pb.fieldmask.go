@@ -20,6 +20,7 @@ import (
 // proto imports
 import (
 	alert "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/alert"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
@@ -49,6 +50,7 @@ var (
 	_ = &alert.Alert{}
 	_ = &log_condition.LogCondition{}
 	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -3024,10 +3026,10 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling_Fi
 	result := &NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling_FieldMask{}
 	removedSelectors := make([]bool, 4)
 	otherSubMasks := map[NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelector]gotenobject.FieldMask{
-		NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation: &policy.Policy_Spec_AIAgentHandling_Remediation_FieldMask{},
+		NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation: &rcommon.PolicySpec_AIAgentHandling_Remediation_FieldMask{},
 	}
 	mySubMasks := map[NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelector]gotenobject.FieldMask{
-		NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation: &policy.Policy_Spec_AIAgentHandling_Remediation_FieldMask{},
+		NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation: &rcommon.PolicySpec_AIAgentHandling_Remediation_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -3044,7 +3046,7 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling_Fi
 				if tp, ok := path.(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath); ok {
 					switch tp.selector {
 					case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-						mySubMasks[NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation] = policy.FullPolicy_Spec_AIAgentHandling_Remediation_FieldMask()
+						mySubMasks[NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation] = rcommon.FullPolicySpec_AIAgentHandling_Remediation_FieldMask()
 					}
 				} else if tp, ok := path.(*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -3197,7 +3199,7 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling_Fi
 		return source
 	}
 	result := &NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling{}
-	aiRemediationMask := &policy.Policy_Spec_AIAgentHandling_Remediation_FieldMask{}
+	aiRemediationMask := &rcommon.PolicySpec_AIAgentHandling_Remediation_FieldMask{}
 	wholeAiRemediationAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -3217,7 +3219,7 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling_Fi
 		case *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath:
 			switch tp.selector {
 			case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-				aiRemediationMask.AppendPath(tp.subPath.(policy.PolicySpecAIAgentHandlingRemediation_FieldPath))
+				aiRemediationMask.AppendPath(tp.subPath.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath))
 			}
 		}
 	}
@@ -3532,12 +3534,12 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo
 	result := &NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries_FieldMask{}
 	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelector]gotenobject.FieldMask{
-		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold: &ts_condition.AlertingThreshold_FieldMask{},
-		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold: &ts_condition.AlertingThreshold_FieldMask{},
+		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold: &rcommon.AlertingThreshold_FieldMask{},
+		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold: &rcommon.AlertingThreshold_FieldMask{},
 	}
 	mySubMasks := map[NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelector]gotenobject.FieldMask{
-		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold: &ts_condition.AlertingThreshold_FieldMask{},
-		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold: &ts_condition.AlertingThreshold_FieldMask{},
+		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold: &rcommon.AlertingThreshold_FieldMask{},
+		NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold: &rcommon.AlertingThreshold_FieldMask{},
 	}
 
 	for _, path := range other.GetPaths() {
@@ -3554,9 +3556,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo
 				if tp, ok := path.(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath); ok {
 					switch tp.selector {
 					case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-						mySubMasks[NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold] = ts_condition.FullAlertingThreshold_FieldMask()
+						mySubMasks[NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold] = rcommon.FullAlertingThreshold_FieldMask()
 					case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-						mySubMasks[NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold] = ts_condition.FullAlertingThreshold_FieldMask()
+						mySubMasks[NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold] = rcommon.FullAlertingThreshold_FieldMask()
 					}
 				} else if tp, ok := path.(*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath); ok {
 					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
@@ -3709,9 +3711,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo
 		return source
 	}
 	result := &NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries{}
-	upperThresholdMask := &ts_condition.AlertingThreshold_FieldMask{}
+	upperThresholdMask := &rcommon.AlertingThreshold_FieldMask{}
 	wholeUpperThresholdAccepted := false
-	lowerThresholdMask := &ts_condition.AlertingThreshold_FieldMask{}
+	lowerThresholdMask := &rcommon.AlertingThreshold_FieldMask{}
 	wholeLowerThresholdAccepted := false
 
 	for _, p := range fieldMask.Paths {
@@ -3734,9 +3736,9 @@ func (fieldMask *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo
 		case *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath:
 			switch tp.selector {
 			case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-				upperThresholdMask.AppendPath(tp.subPath.(ts_condition.AlertingThreshold_FieldPath))
+				upperThresholdMask.AppendPath(tp.subPath.(rcommon.AlertingThreshold_FieldPath))
 			case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-				lowerThresholdMask.AppendPath(tp.subPath.(ts_condition.AlertingThreshold_FieldPath))
+				lowerThresholdMask.AppendPath(tp.subPath.(rcommon.AlertingThreshold_FieldPath))
 			}
 		}
 	}

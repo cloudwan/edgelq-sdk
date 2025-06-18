@@ -12,9 +12,9 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
@@ -32,7 +32,7 @@ var (
 var (
 	_ = &log_condition.LogCondition{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
@@ -51,7 +51,7 @@ func ResourceViewFieldMask(viewName view.View, extraMask *Alert_FieldMask) *Aler
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "alerting_resource.name", "state.is_firing", "state.escalation_level", "state.ai_agent_handling_state", "state.operator_handling_state", "state.start_time", "state.end_time")
 		break
 	case view.View_DETAIL:
-		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "alerting_resource", "ts_info.type", "ts_info.anomaly_window_size", "ts_info.metric_types", "ts_info.resource_types", "ts_info.common_metric_labels", "ts_info.common_resource_labels", "ts_info.time_series", "log_info.types", "log_info.common_log_labels", "log_info.violating_log", "state.is_firing", "state.escalation_level", "state.ai_agent_handling_state", "state.ai_agent_diagnosis_notes", "state.ai_remediation_arg", "state.operator_handling_state", "state.operator_notes", "state.start_time", "state.end_time")
+		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name", "alerting_resource", "ts_info.type", "ts_info.anomaly_window_size", "ts_info.metric_types", "ts_info.resource_types", "ts_info.common_metric_labels", "ts_info.common_resource_labels", "ts_info.time_series", "log_info.log_types", "log_info.common_log_labels", "log_info.violating_log", "state.is_firing", "state.escalation_level", "state.ai_agent_handling_state", "state.ai_agent_diagnosis_notes", "state.ai_remediation_arg", "state.operator_handling_state", "state.operator_notes", "state.start_time", "state.end_time")
 		break
 	case view.View_NAME:
 		protoFieldMask.Paths = append(protoFieldMask.Paths, "name", "display_name")

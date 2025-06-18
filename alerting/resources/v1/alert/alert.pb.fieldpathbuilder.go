@@ -6,10 +6,13 @@ package alert
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
@@ -40,8 +43,11 @@ import (
 var (
 	_ = &document.Document{}
 	_ = &log_condition.LogCondition{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
+	_ = &policy_template.PolicyTemplate{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
@@ -1337,11 +1343,11 @@ func (AlertPathSelectorTsInfoTimeSeriesUpperThreshold) FieldPath() *Alert_FieldS
 	}
 }
 
-func (s AlertPathSelectorTsInfoTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorTsInfoTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorTsInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorTsInfoTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -1396,11 +1402,11 @@ func (AlertPathSelectorTsInfoTimeSeriesLowerThreshold) FieldPath() *Alert_FieldS
 	}
 }
 
-func (s AlertPathSelectorTsInfoTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorTsInfoTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorTsInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorTsInfoTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -1796,11 +1802,11 @@ func (AlertPathSelectorStateNotificationStatusesKind) FieldPath() *Alert_FieldSu
 	}
 }
 
-func (s AlertPathSelectorStateNotificationStatusesKind) WithValue(value policy.Policy_Spec_Notification_Kind) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorStateNotificationStatusesKind) WithValue(value rcommon.PolicySpec_Notification_Kind) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorStateNotificationStatusesKind) WithArrayOfValues(values []policy.Policy_Spec_Notification_Kind) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorStateNotificationStatusesKind) WithArrayOfValues(values []rcommon.PolicySpec_Notification_Kind) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -1919,11 +1925,11 @@ func (AlertPathSelectorStateAiRemediation) FieldPath() *Alert_FieldSubPath {
 	}
 }
 
-func (s AlertPathSelectorStateAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorStateAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorStateAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorStateAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -1944,11 +1950,11 @@ func (AlertPathSelectorStateAiRemediationFixInSsh) FieldPath() *Alert_FieldSubPa
 	}
 }
 
-func (s AlertPathSelectorStateAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorStateAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorStateAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorStateAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -1961,11 +1967,11 @@ func (AlertPathSelectorStateAiRemediationReboot) FieldPath() *Alert_FieldSubPath
 	}
 }
 
-func (s AlertPathSelectorStateAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorStateAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorStateAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorStateAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -2080,11 +2086,11 @@ func (AlertPathSelectorInternalAlertingLocation) FieldPath() *Alert_FieldSubPath
 	}
 }
 
-func (s AlertPathSelectorInternalAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorInternalAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorInternalAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorInternalAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -2393,11 +2399,11 @@ func (Alert_TsInfoPathSelectorTimeSeriesUpperThreshold) FieldPath() *AlertTsInfo
 	}
 }
 
-func (s Alert_TsInfoPathSelectorTimeSeriesUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *AlertTsInfo_FieldSubPathValue {
+func (s Alert_TsInfoPathSelectorTimeSeriesUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *AlertTsInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertTsInfo_FieldSubPathValue)
 }
 
-func (s Alert_TsInfoPathSelectorTimeSeriesUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *AlertTsInfo_FieldSubPathArrayOfValues {
+func (s Alert_TsInfoPathSelectorTimeSeriesUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *AlertTsInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertTsInfo_FieldSubPathArrayOfValues)
 }
 
@@ -2452,11 +2458,11 @@ func (Alert_TsInfoPathSelectorTimeSeriesLowerThreshold) FieldPath() *AlertTsInfo
 	}
 }
 
-func (s Alert_TsInfoPathSelectorTimeSeriesLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *AlertTsInfo_FieldSubPathValue {
+func (s Alert_TsInfoPathSelectorTimeSeriesLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *AlertTsInfo_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertTsInfo_FieldSubPathValue)
 }
 
-func (s Alert_TsInfoPathSelectorTimeSeriesLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *AlertTsInfo_FieldSubPathArrayOfValues {
+func (s Alert_TsInfoPathSelectorTimeSeriesLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *AlertTsInfo_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertTsInfo_FieldSubPathArrayOfValues)
 }
 
@@ -2774,11 +2780,11 @@ func (Alert_StatePathSelectorNotificationStatusesKind) FieldPath() *AlertState_F
 	}
 }
 
-func (s Alert_StatePathSelectorNotificationStatusesKind) WithValue(value policy.Policy_Spec_Notification_Kind) *AlertState_FieldSubPathValue {
+func (s Alert_StatePathSelectorNotificationStatusesKind) WithValue(value rcommon.PolicySpec_Notification_Kind) *AlertState_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertState_FieldSubPathValue)
 }
 
-func (s Alert_StatePathSelectorNotificationStatusesKind) WithArrayOfValues(values []policy.Policy_Spec_Notification_Kind) *AlertState_FieldSubPathArrayOfValues {
+func (s Alert_StatePathSelectorNotificationStatusesKind) WithArrayOfValues(values []rcommon.PolicySpec_Notification_Kind) *AlertState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldSubPathArrayOfValues)
 }
 
@@ -2879,27 +2885,27 @@ func (Alert_StatePathSelectorAiRemediation) FieldPath() *AlertState_FieldTermina
 	return &AlertState_FieldTerminalPath{selector: AlertState_FieldPathSelectorAiRemediation}
 }
 
-func (s Alert_StatePathSelectorAiRemediation) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation) *AlertState_FieldTerminalPathValue {
+func (s Alert_StatePathSelectorAiRemediation) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation) *AlertState_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertState_FieldTerminalPathValue)
 }
 
-func (s Alert_StatePathSelectorAiRemediation) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation) *AlertState_FieldTerminalPathArrayOfValues {
+func (s Alert_StatePathSelectorAiRemediation) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation) *AlertState_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldTerminalPathArrayOfValues)
 }
 
-func (Alert_StatePathSelectorAiRemediation) WithSubPath(subPath policy.PolicySpecAIAgentHandlingRemediation_FieldPath) *AlertState_FieldSubPath {
+func (Alert_StatePathSelectorAiRemediation) WithSubPath(subPath rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath) *AlertState_FieldSubPath {
 	return &AlertState_FieldSubPath{selector: AlertState_FieldPathSelectorAiRemediation, subPath: subPath}
 }
 
-func (s Alert_StatePathSelectorAiRemediation) WithSubValue(subPathValue policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue) *AlertState_FieldSubPathValue {
+func (s Alert_StatePathSelectorAiRemediation) WithSubValue(subPathValue rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue) *AlertState_FieldSubPathValue {
 	return &AlertState_FieldSubPathValue{AlertState_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s Alert_StatePathSelectorAiRemediation) WithSubArrayOfValues(subPathArrayOfValues policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues) *AlertState_FieldSubPathArrayOfValues {
+func (s Alert_StatePathSelectorAiRemediation) WithSubArrayOfValues(subPathArrayOfValues rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues) *AlertState_FieldSubPathArrayOfValues {
 	return &AlertState_FieldSubPathArrayOfValues{AlertState_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s Alert_StatePathSelectorAiRemediation) WithSubArrayItemValue(subPathArrayItemValue policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue) *AlertState_FieldSubPathArrayItemValue {
+func (s Alert_StatePathSelectorAiRemediation) WithSubArrayItemValue(subPathArrayItemValue rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue) *AlertState_FieldSubPathArrayItemValue {
 	return &AlertState_FieldSubPathArrayItemValue{AlertState_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -2916,15 +2922,15 @@ type Alert_StatePathSelectorAiRemediationFixInSsh struct{}
 func (Alert_StatePathSelectorAiRemediationFixInSsh) FieldPath() *AlertState_FieldSubPath {
 	return &AlertState_FieldSubPath{
 		selector: AlertState_FieldPathSelectorAiRemediation,
-		subPath:  policy.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().FixInSsh().FieldPath(),
+		subPath:  rcommon.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().FixInSsh().FieldPath(),
 	}
 }
 
-func (s Alert_StatePathSelectorAiRemediationFixInSsh) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *AlertState_FieldSubPathValue {
+func (s Alert_StatePathSelectorAiRemediationFixInSsh) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *AlertState_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertState_FieldSubPathValue)
 }
 
-func (s Alert_StatePathSelectorAiRemediationFixInSsh) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_FixInSSH) *AlertState_FieldSubPathArrayOfValues {
+func (s Alert_StatePathSelectorAiRemediationFixInSsh) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_FixInSSH) *AlertState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldSubPathArrayOfValues)
 }
 
@@ -2933,15 +2939,15 @@ type Alert_StatePathSelectorAiRemediationReboot struct{}
 func (Alert_StatePathSelectorAiRemediationReboot) FieldPath() *AlertState_FieldSubPath {
 	return &AlertState_FieldSubPath{
 		selector: AlertState_FieldPathSelectorAiRemediation,
-		subPath:  policy.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().Reboot().FieldPath(),
+		subPath:  rcommon.NewPolicySpecAIAgentHandlingRemediationFieldPathBuilder().Reboot().FieldPath(),
 	}
 }
 
-func (s Alert_StatePathSelectorAiRemediationReboot) WithValue(value *policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *AlertState_FieldSubPathValue {
+func (s Alert_StatePathSelectorAiRemediationReboot) WithValue(value *rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *AlertState_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertState_FieldSubPathValue)
 }
 
-func (s Alert_StatePathSelectorAiRemediationReboot) WithArrayOfValues(values []*policy.Policy_Spec_AIAgentHandling_Remediation_Reboot) *AlertState_FieldSubPathArrayOfValues {
+func (s Alert_StatePathSelectorAiRemediationReboot) WithArrayOfValues(values []*rcommon.PolicySpec_AIAgentHandling_Remediation_Reboot) *AlertState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldSubPathArrayOfValues)
 }
 
@@ -3016,11 +3022,11 @@ func (Alert_InternalPathSelectorAlertingLocation) FieldPath() *AlertInternal_Fie
 	return &AlertInternal_FieldTerminalPath{selector: AlertInternal_FieldPathSelectorAlertingLocation}
 }
 
-func (s Alert_InternalPathSelectorAlertingLocation) WithValue(value policy.Policy_Spec_ProcessingLocation) *AlertInternal_FieldTerminalPathValue {
+func (s Alert_InternalPathSelectorAlertingLocation) WithValue(value rcommon.PolicySpec_ProcessingLocation) *AlertInternal_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertInternal_FieldTerminalPathValue)
 }
 
-func (s Alert_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []policy.Policy_Spec_ProcessingLocation) *AlertInternal_FieldTerminalPathArrayOfValues {
+func (s Alert_InternalPathSelectorAlertingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *AlertInternal_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertInternal_FieldTerminalPathArrayOfValues)
 }
 
@@ -3107,27 +3113,27 @@ func (Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) FieldPath() *AlertTsInf
 	return &AlertTsInfoTimeSeries_FieldTerminalPath{selector: AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithValue(value *ts_condition.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathValue {
+func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithValue(value *rcommon.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertTsInfoTimeSeries_FieldTerminalPathValue)
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues {
+func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues)
 }
 
-func (Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubPath(subPath ts_condition.AlertingThreshold_FieldPath) *AlertTsInfoTimeSeries_FieldSubPath {
+func (Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubPath(subPath rcommon.AlertingThreshold_FieldPath) *AlertTsInfoTimeSeries_FieldSubPath {
 	return &AlertTsInfoTimeSeries_FieldSubPath{selector: AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold, subPath: subPath}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubValue(subPathValue ts_condition.AlertingThreshold_FieldPathValue) *AlertTsInfoTimeSeries_FieldSubPathValue {
+func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubValue(subPathValue rcommon.AlertingThreshold_FieldPathValue) *AlertTsInfoTimeSeries_FieldSubPathValue {
 	return &AlertTsInfoTimeSeries_FieldSubPathValue{AlertTsInfoTimeSeries_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayOfValues(subPathArrayOfValues ts_condition.AlertingThreshold_FieldPathArrayOfValues) *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues {
+func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayOfValues(subPathArrayOfValues rcommon.AlertingThreshold_FieldPathArrayOfValues) *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues {
 	return &AlertTsInfoTimeSeries_FieldSubPathArrayOfValues{AlertTsInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayItemValue(subPathArrayItemValue ts_condition.AlertingThreshold_FieldPathArrayItemValue) *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue {
+func (s Alert_TsInfo_TimeSeriesPathSelectorUpperThreshold) WithSubArrayItemValue(subPathArrayItemValue rcommon.AlertingThreshold_FieldPathArrayItemValue) *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue {
 	return &AlertTsInfoTimeSeries_FieldSubPathArrayItemValue{AlertTsInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -3144,7 +3150,7 @@ type Alert_TsInfo_TimeSeriesPathSelectorUpperThresholdValue struct{}
 func (Alert_TsInfo_TimeSeriesPathSelectorUpperThresholdValue) FieldPath() *AlertTsInfoTimeSeries_FieldSubPath {
 	return &AlertTsInfoTimeSeries_FieldSubPath{
 		selector: AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
@@ -3161,7 +3167,7 @@ type Alert_TsInfo_TimeSeriesPathSelectorUpperThresholdIsInclusive struct{}
 func (Alert_TsInfo_TimeSeriesPathSelectorUpperThresholdIsInclusive) FieldPath() *AlertTsInfoTimeSeries_FieldSubPath {
 	return &AlertTsInfoTimeSeries_FieldSubPath{
 		selector: AlertTsInfoTimeSeries_FieldPathSelectorUpperThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 
@@ -3179,27 +3185,27 @@ func (Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) FieldPath() *AlertTsInf
 	return &AlertTsInfoTimeSeries_FieldTerminalPath{selector: AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithValue(value *ts_condition.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathValue {
+func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithValue(value *rcommon.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertTsInfoTimeSeries_FieldTerminalPathValue)
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithArrayOfValues(values []*ts_condition.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues {
+func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithArrayOfValues(values []*rcommon.AlertingThreshold) *AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertTsInfoTimeSeries_FieldTerminalPathArrayOfValues)
 }
 
-func (Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubPath(subPath ts_condition.AlertingThreshold_FieldPath) *AlertTsInfoTimeSeries_FieldSubPath {
+func (Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubPath(subPath rcommon.AlertingThreshold_FieldPath) *AlertTsInfoTimeSeries_FieldSubPath {
 	return &AlertTsInfoTimeSeries_FieldSubPath{selector: AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold, subPath: subPath}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubValue(subPathValue ts_condition.AlertingThreshold_FieldPathValue) *AlertTsInfoTimeSeries_FieldSubPathValue {
+func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubValue(subPathValue rcommon.AlertingThreshold_FieldPathValue) *AlertTsInfoTimeSeries_FieldSubPathValue {
 	return &AlertTsInfoTimeSeries_FieldSubPathValue{AlertTsInfoTimeSeries_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayOfValues(subPathArrayOfValues ts_condition.AlertingThreshold_FieldPathArrayOfValues) *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues {
+func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayOfValues(subPathArrayOfValues rcommon.AlertingThreshold_FieldPathArrayOfValues) *AlertTsInfoTimeSeries_FieldSubPathArrayOfValues {
 	return &AlertTsInfoTimeSeries_FieldSubPathArrayOfValues{AlertTsInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayItemValue(subPathArrayItemValue ts_condition.AlertingThreshold_FieldPathArrayItemValue) *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue {
+func (s Alert_TsInfo_TimeSeriesPathSelectorLowerThreshold) WithSubArrayItemValue(subPathArrayItemValue rcommon.AlertingThreshold_FieldPathArrayItemValue) *AlertTsInfoTimeSeries_FieldSubPathArrayItemValue {
 	return &AlertTsInfoTimeSeries_FieldSubPathArrayItemValue{AlertTsInfoTimeSeries_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -3216,7 +3222,7 @@ type Alert_TsInfo_TimeSeriesPathSelectorLowerThresholdValue struct{}
 func (Alert_TsInfo_TimeSeriesPathSelectorLowerThresholdValue) FieldPath() *AlertTsInfoTimeSeries_FieldSubPath {
 	return &AlertTsInfoTimeSeries_FieldSubPath{
 		selector: AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().Value().FieldPath(),
 	}
 }
 
@@ -3233,7 +3239,7 @@ type Alert_TsInfo_TimeSeriesPathSelectorLowerThresholdIsInclusive struct{}
 func (Alert_TsInfo_TimeSeriesPathSelectorLowerThresholdIsInclusive) FieldPath() *AlertTsInfoTimeSeries_FieldSubPath {
 	return &AlertTsInfoTimeSeries_FieldSubPath{
 		selector: AlertTsInfoTimeSeries_FieldPathSelectorLowerThreshold,
-		subPath:  ts_condition.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
+		subPath:  rcommon.NewAlertingThresholdFieldPathBuilder().IsInclusive().FieldPath(),
 	}
 }
 
@@ -3291,11 +3297,11 @@ func (Alert_State_NotificationPathSelectorKind) FieldPath() *AlertStateNotificat
 	return &AlertStateNotification_FieldTerminalPath{selector: AlertStateNotification_FieldPathSelectorKind}
 }
 
-func (s Alert_State_NotificationPathSelectorKind) WithValue(value policy.Policy_Spec_Notification_Kind) *AlertStateNotification_FieldTerminalPathValue {
+func (s Alert_State_NotificationPathSelectorKind) WithValue(value rcommon.PolicySpec_Notification_Kind) *AlertStateNotification_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertStateNotification_FieldTerminalPathValue)
 }
 
-func (s Alert_State_NotificationPathSelectorKind) WithArrayOfValues(values []policy.Policy_Spec_Notification_Kind) *AlertStateNotification_FieldTerminalPathArrayOfValues {
+func (s Alert_State_NotificationPathSelectorKind) WithArrayOfValues(values []rcommon.PolicySpec_Notification_Kind) *AlertStateNotification_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertStateNotification_FieldTerminalPathArrayOfValues)
 }
 

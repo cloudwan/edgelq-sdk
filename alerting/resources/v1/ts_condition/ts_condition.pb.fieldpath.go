@@ -23,12 +23,12 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
-	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
-	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -52,10 +52,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
-	_ = &monitoring_common.LabelDescriptor{}
-	_ = &monitoring_time_serie.Point{}
-	_ = &durationpb.Duration{}
+	_ = &rcommon.LogCndSpec{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
 
@@ -86,6 +86,7 @@ const (
 	TsCondition_FieldPathSelectorSpec           TsCondition_FieldPathSelector = 5
 	TsCondition_FieldPathSelectorInternal       TsCondition_FieldPathSelector = 6
 	TsCondition_FieldPathSelectorFilterSelector TsCondition_FieldPathSelector = 7
+	TsCondition_FieldPathSelectorTemplateSource TsCondition_FieldPathSelector = 8
 )
 
 func (s TsCondition_FieldPathSelector) String() string {
@@ -106,6 +107,8 @@ func (s TsCondition_FieldPathSelector) String() string {
 		return "internal"
 	case TsCondition_FieldPathSelectorFilterSelector:
 		return "filter_selector"
+	case TsCondition_FieldPathSelectorTemplateSource:
+		return "template_source"
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", s))
 	}
@@ -133,6 +136,8 @@ func BuildTsCondition_FieldPath(fp gotenobject.RawFieldPath) (TsCondition_FieldP
 			return &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorInternal}, nil
 		case "filter_selector", "filterSelector", "filter-selector":
 			return &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorFilterSelector}, nil
+		case "template_source", "templateSource", "template-source":
+			return &TsCondition_FieldTerminalPath{selector: TsCondition_FieldPathSelectorTemplateSource}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -143,7 +148,7 @@ func BuildTsCondition_FieldPath(fp gotenobject.RawFieldPath) (TsCondition_FieldP
 				return &TsCondition_FieldSubPath{selector: TsCondition_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "spec":
-			if subpath, err := BuildTsConditionSpec_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildTsCndSpec_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &TsCondition_FieldSubPath{selector: TsCondition_FieldPathSelectorSpec, subPath: subpath}, nil
@@ -159,6 +164,12 @@ func BuildTsCondition_FieldPath(fp gotenobject.RawFieldPath) (TsCondition_FieldP
 				return nil, err
 			} else {
 				return &TsCondition_FieldSubPath{selector: TsCondition_FieldPathSelectorFilterSelector, subPath: subpath}, nil
+			}
+		case "template_source", "templateSource", "template-source":
+			if subpath, err := BuildTsConditionTemplateSource_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &TsCondition_FieldSubPath{selector: TsCondition_FieldPathSelectorTemplateSource, subPath: subpath}, nil
 			}
 		}
 	}
@@ -233,6 +244,10 @@ func (fp *TsCondition_FieldTerminalPath) Get(source *TsCondition) (values []inte
 			if source.FilterSelector != nil {
 				values = append(values, source.FilterSelector)
 			}
+		case TsCondition_FieldPathSelectorTemplateSource:
+			if source.TemplateSource != nil {
+				values = append(values, source.TemplateSource)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fp.selector))
 		}
@@ -269,6 +284,9 @@ func (fp *TsCondition_FieldTerminalPath) GetSingle(source *TsCondition) (interfa
 	case TsCondition_FieldPathSelectorFilterSelector:
 		res := source.GetFilterSelector()
 		return res, res != nil
+	case TsCondition_FieldPathSelectorTemplateSource:
+		res := source.GetTemplateSource()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fp.selector))
 	}
@@ -292,11 +310,13 @@ func (fp *TsCondition_FieldTerminalPath) GetDefault() interface{} {
 	case TsCondition_FieldPathSelectorSupportingDocs:
 		return ([]*document.Reference)(nil)
 	case TsCondition_FieldPathSelectorSpec:
-		return (*TsCondition_Spec)(nil)
+		return (*rcommon.TsCndSpec)(nil)
 	case TsCondition_FieldPathSelectorInternal:
 		return (*TsCondition_Internal)(nil)
 	case TsCondition_FieldPathSelectorFilterSelector:
 		return (*TsCondition_Selector)(nil)
+	case TsCondition_FieldPathSelectorTemplateSource:
+		return (*TsCondition_TemplateSource)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fp.selector))
 	}
@@ -321,6 +341,8 @@ func (fp *TsCondition_FieldTerminalPath) ClearValue(item *TsCondition) {
 			item.Internal = nil
 		case TsCondition_FieldPathSelectorFilterSelector:
 			item.FilterSelector = nil
+		case TsCondition_FieldPathSelectorTemplateSource:
+			item.TemplateSource = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fp.selector))
 		}
@@ -356,11 +378,13 @@ func (fp *TsCondition_FieldTerminalPath) WithIValue(value interface{}) TsConditi
 	case TsCondition_FieldPathSelectorSupportingDocs:
 		return &TsCondition_FieldTerminalPathValue{TsCondition_FieldTerminalPath: *fp, value: value.([]*document.Reference)}
 	case TsCondition_FieldPathSelectorSpec:
-		return &TsCondition_FieldTerminalPathValue{TsCondition_FieldTerminalPath: *fp, value: value.(*TsCondition_Spec)}
+		return &TsCondition_FieldTerminalPathValue{TsCondition_FieldTerminalPath: *fp, value: value.(*rcommon.TsCndSpec)}
 	case TsCondition_FieldPathSelectorInternal:
 		return &TsCondition_FieldTerminalPathValue{TsCondition_FieldTerminalPath: *fp, value: value.(*TsCondition_Internal)}
 	case TsCondition_FieldPathSelectorFilterSelector:
 		return &TsCondition_FieldTerminalPathValue{TsCondition_FieldTerminalPath: *fp, value: value.(*TsCondition_Selector)}
+	case TsCondition_FieldPathSelectorTemplateSource:
+		return &TsCondition_FieldTerminalPathValue{TsCondition_FieldTerminalPath: *fp, value: value.(*TsCondition_TemplateSource)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fp.selector))
 	}
@@ -384,11 +408,13 @@ func (fp *TsCondition_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 	case TsCondition_FieldPathSelectorSupportingDocs:
 		return &TsCondition_FieldTerminalPathArrayOfValues{TsCondition_FieldTerminalPath: *fp, values: values.([][]*document.Reference)}
 	case TsCondition_FieldPathSelectorSpec:
-		return &TsCondition_FieldTerminalPathArrayOfValues{TsCondition_FieldTerminalPath: *fp, values: values.([]*TsCondition_Spec)}
+		return &TsCondition_FieldTerminalPathArrayOfValues{TsCondition_FieldTerminalPath: *fp, values: values.([]*rcommon.TsCndSpec)}
 	case TsCondition_FieldPathSelectorInternal:
 		return &TsCondition_FieldTerminalPathArrayOfValues{TsCondition_FieldTerminalPath: *fp, values: values.([]*TsCondition_Internal)}
 	case TsCondition_FieldPathSelectorFilterSelector:
 		return &TsCondition_FieldTerminalPathArrayOfValues{TsCondition_FieldTerminalPath: *fp, values: values.([]*TsCondition_Selector)}
+	case TsCondition_FieldPathSelectorTemplateSource:
+		return &TsCondition_FieldTerminalPathArrayOfValues{TsCondition_FieldTerminalPath: *fp, values: values.([]*TsCondition_TemplateSource)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fp.selector))
 	}
@@ -426,8 +452,8 @@ func (fps *TsCondition_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, b
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *TsCondition_FieldSubPath) AsSpecSubPath() (TsConditionSpec_FieldPath, bool) {
-	res, ok := fps.subPath.(TsConditionSpec_FieldPath)
+func (fps *TsCondition_FieldSubPath) AsSpecSubPath() (rcommon.TsCndSpec_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.TsCndSpec_FieldPath)
 	return res, ok
 }
 func (fps *TsCondition_FieldSubPath) AsInternalSubPath() (TsConditionInternal_FieldPath, bool) {
@@ -436,6 +462,10 @@ func (fps *TsCondition_FieldSubPath) AsInternalSubPath() (TsConditionInternal_Fi
 }
 func (fps *TsCondition_FieldSubPath) AsFilterSelectorSubPath() (TsConditionSelector_FieldPath, bool) {
 	res, ok := fps.subPath.(TsConditionSelector_FieldPath)
+	return res, ok
+}
+func (fps *TsCondition_FieldSubPath) AsTemplateSourceSubPath() (TsConditionTemplateSource_FieldPath, bool) {
+	res, ok := fps.subPath.(TsConditionTemplateSource_FieldPath)
 	return res, ok
 }
 
@@ -460,6 +490,8 @@ func (fps *TsCondition_FieldSubPath) Get(source *TsCondition) (values []interfac
 		values = append(values, fps.subPath.GetRaw(source.GetInternal())...)
 	case TsCondition_FieldPathSelectorFilterSelector:
 		values = append(values, fps.subPath.GetRaw(source.GetFilterSelector())...)
+	case TsCondition_FieldPathSelectorTemplateSource:
+		values = append(values, fps.subPath.GetRaw(source.GetTemplateSource())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fps.selector))
 	}
@@ -493,6 +525,11 @@ func (fps *TsCondition_FieldSubPath) GetSingle(source *TsCondition) (interface{}
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetFilterSelector())
+	case TsCondition_FieldPathSelectorTemplateSource:
+		if source.GetTemplateSource() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetTemplateSource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fps.selector))
 	}
@@ -518,6 +555,8 @@ func (fps *TsCondition_FieldSubPath) ClearValue(item *TsCondition) {
 			fps.subPath.ClearValueRaw(item.Internal)
 		case TsCondition_FieldPathSelectorFilterSelector:
 			fps.subPath.ClearValueRaw(item.FilterSelector)
+		case TsCondition_FieldPathSelectorTemplateSource:
+			fps.subPath.ClearValueRaw(item.TemplateSource)
 		default:
 			panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fps.selector))
 		}
@@ -622,8 +661,8 @@ func (fpv *TsCondition_FieldTerminalPathValue) AsSupportingDocsValue() ([]*docum
 	res, ok := fpv.value.([]*document.Reference)
 	return res, ok
 }
-func (fpv *TsCondition_FieldTerminalPathValue) AsSpecValue() (*TsCondition_Spec, bool) {
-	res, ok := fpv.value.(*TsCondition_Spec)
+func (fpv *TsCondition_FieldTerminalPathValue) AsSpecValue() (*rcommon.TsCndSpec, bool) {
+	res, ok := fpv.value.(*rcommon.TsCndSpec)
 	return res, ok
 }
 func (fpv *TsCondition_FieldTerminalPathValue) AsInternalValue() (*TsCondition_Internal, bool) {
@@ -632,6 +671,10 @@ func (fpv *TsCondition_FieldTerminalPathValue) AsInternalValue() (*TsCondition_I
 }
 func (fpv *TsCondition_FieldTerminalPathValue) AsFilterSelectorValue() (*TsCondition_Selector, bool) {
 	res, ok := fpv.value.(*TsCondition_Selector)
+	return res, ok
+}
+func (fpv *TsCondition_FieldTerminalPathValue) AsTemplateSourceValue() (*TsCondition_TemplateSource, bool) {
+	res, ok := fpv.value.(*TsCondition_TemplateSource)
 	return res, ok
 }
 
@@ -652,11 +695,13 @@ func (fpv *TsCondition_FieldTerminalPathValue) SetTo(target **TsCondition) {
 	case TsCondition_FieldPathSelectorSupportingDocs:
 		(*target).SupportingDocs = fpv.value.([]*document.Reference)
 	case TsCondition_FieldPathSelectorSpec:
-		(*target).Spec = fpv.value.(*TsCondition_Spec)
+		(*target).Spec = fpv.value.(*rcommon.TsCndSpec)
 	case TsCondition_FieldPathSelectorInternal:
 		(*target).Internal = fpv.value.(*TsCondition_Internal)
 	case TsCondition_FieldPathSelectorFilterSelector:
 		(*target).FilterSelector = fpv.value.(*TsCondition_Selector)
+	case TsCondition_FieldPathSelectorTemplateSource:
+		(*target).TemplateSource = fpv.value.(*TsCondition_TemplateSource)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fpv.selector))
 	}
@@ -719,6 +764,8 @@ func (fpv *TsCondition_FieldTerminalPathValue) CompareWith(source *TsCondition) 
 		return 0, false
 	case TsCondition_FieldPathSelectorFilterSelector:
 		return 0, false
+	case TsCondition_FieldPathSelectorTemplateSource:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fpv.selector))
 	}
@@ -739,8 +786,8 @@ func (fpvs *TsCondition_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_Fiel
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *TsCondition_FieldSubPathValue) AsSpecPathValue() (TsConditionSpec_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(TsConditionSpec_FieldPathValue)
+func (fpvs *TsCondition_FieldSubPathValue) AsSpecPathValue() (rcommon.TsCndSpec_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.TsCndSpec_FieldPathValue)
 	return res, ok
 }
 func (fpvs *TsCondition_FieldSubPathValue) AsInternalPathValue() (TsConditionInternal_FieldPathValue, bool) {
@@ -749,6 +796,10 @@ func (fpvs *TsCondition_FieldSubPathValue) AsInternalPathValue() (TsConditionInt
 }
 func (fpvs *TsCondition_FieldSubPathValue) AsFilterSelectorPathValue() (TsConditionSelector_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(TsConditionSelector_FieldPathValue)
+	return res, ok
+}
+func (fpvs *TsCondition_FieldSubPathValue) AsTemplateSourcePathValue() (TsConditionTemplateSource_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(TsConditionTemplateSource_FieldPathValue)
 	return res, ok
 }
 
@@ -760,11 +811,13 @@ func (fpvs *TsCondition_FieldSubPathValue) SetTo(target **TsCondition) {
 	case TsCondition_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case TsCondition_FieldPathSelectorSpec:
-		fpvs.subPathValue.(TsConditionSpec_FieldPathValue).SetTo(&(*target).Spec)
+		fpvs.subPathValue.(rcommon.TsCndSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case TsCondition_FieldPathSelectorInternal:
 		fpvs.subPathValue.(TsConditionInternal_FieldPathValue).SetTo(&(*target).Internal)
 	case TsCondition_FieldPathSelectorFilterSelector:
 		fpvs.subPathValue.(TsConditionSelector_FieldPathValue).SetTo(&(*target).FilterSelector)
+	case TsCondition_FieldPathSelectorTemplateSource:
+		fpvs.subPathValue.(TsConditionTemplateSource_FieldPathValue).SetTo(&(*target).TemplateSource)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fpvs.Selector()))
 	}
@@ -784,11 +837,13 @@ func (fpvs *TsCondition_FieldSubPathValue) CompareWith(source *TsCondition) (int
 	case TsCondition_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case TsCondition_FieldPathSelectorSpec:
-		return fpvs.subPathValue.(TsConditionSpec_FieldPathValue).CompareWith(source.GetSpec())
+		return fpvs.subPathValue.(rcommon.TsCndSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case TsCondition_FieldPathSelectorInternal:
 		return fpvs.subPathValue.(TsConditionInternal_FieldPathValue).CompareWith(source.GetInternal())
 	case TsCondition_FieldPathSelectorFilterSelector:
 		return fpvs.subPathValue.(TsConditionSelector_FieldPathValue).CompareWith(source.GetFilterSelector())
+	case TsCondition_FieldPathSelectorTemplateSource:
+		return fpvs.subPathValue.(TsConditionTemplateSource_FieldPathValue).CompareWith(source.GetTemplateSource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fpvs.Selector()))
 	}
@@ -879,8 +934,8 @@ func (fpaivs *TsCondition_FieldSubPathArrayItemValue) AsMetadataPathItemValue() 
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *TsCondition_FieldSubPathArrayItemValue) AsSpecPathItemValue() (TsConditionSpec_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(TsConditionSpec_FieldPathArrayItemValue)
+func (fpaivs *TsCondition_FieldSubPathArrayItemValue) AsSpecPathItemValue() (rcommon.TsCndSpec_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.TsCndSpec_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *TsCondition_FieldSubPathArrayItemValue) AsInternalPathItemValue() (TsConditionInternal_FieldPathArrayItemValue, bool) {
@@ -891,6 +946,10 @@ func (fpaivs *TsCondition_FieldSubPathArrayItemValue) AsFilterSelectorPathItemVa
 	res, ok := fpaivs.subPathItemValue.(TsConditionSelector_FieldPathArrayItemValue)
 	return res, ok
 }
+func (fpaivs *TsCondition_FieldSubPathArrayItemValue) AsTemplateSourcePathItemValue() (TsConditionTemplateSource_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(TsConditionTemplateSource_FieldPathArrayItemValue)
+	return res, ok
+}
 
 // Contains returns a boolean indicating if value that is being held is present in given 'TsCondition'
 func (fpaivs *TsCondition_FieldSubPathArrayItemValue) ContainsValue(source *TsCondition) bool {
@@ -898,11 +957,13 @@ func (fpaivs *TsCondition_FieldSubPathArrayItemValue) ContainsValue(source *TsCo
 	case TsCondition_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case TsCondition_FieldPathSelectorSpec:
-		return fpaivs.subPathItemValue.(TsConditionSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
+		return fpaivs.subPathItemValue.(rcommon.TsCndSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case TsCondition_FieldPathSelectorInternal:
 		return fpaivs.subPathItemValue.(TsConditionInternal_FieldPathArrayItemValue).ContainsValue(source.GetInternal())
 	case TsCondition_FieldPathSelectorFilterSelector:
 		return fpaivs.subPathItemValue.(TsConditionSelector_FieldPathArrayItemValue).ContainsValue(source.GetFilterSelector())
+	case TsCondition_FieldPathSelectorTemplateSource:
+		return fpaivs.subPathItemValue.(TsConditionTemplateSource_FieldPathArrayItemValue).ContainsValue(source.GetTemplateSource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition: %d", fpaivs.Selector()))
 	}
@@ -964,7 +1025,7 @@ func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 			values = append(values, v)
 		}
 	case TsCondition_FieldPathSelectorSpec:
-		for _, v := range fpaov.values.([]*TsCondition_Spec) {
+		for _, v := range fpaov.values.([]*rcommon.TsCndSpec) {
 			values = append(values, v)
 		}
 	case TsCondition_FieldPathSelectorInternal:
@@ -973,6 +1034,10 @@ func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 		}
 	case TsCondition_FieldPathSelectorFilterSelector:
 		for _, v := range fpaov.values.([]*TsCondition_Selector) {
+			values = append(values, v)
+		}
+	case TsCondition_FieldPathSelectorTemplateSource:
+		for _, v := range fpaov.values.([]*TsCondition_TemplateSource) {
 			values = append(values, v)
 		}
 	}
@@ -998,8 +1063,8 @@ func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) AsSupportingDocsArrayOf
 	res, ok := fpaov.values.([][]*document.Reference)
 	return res, ok
 }
-func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*TsCondition_Spec, bool) {
-	res, ok := fpaov.values.([]*TsCondition_Spec)
+func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*rcommon.TsCndSpec, bool) {
+	res, ok := fpaov.values.([]*rcommon.TsCndSpec)
 	return res, ok
 }
 func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) AsInternalArrayOfValues() ([]*TsCondition_Internal, bool) {
@@ -1008,6 +1073,10 @@ func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) AsInternalArrayOfValues
 }
 func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) AsFilterSelectorArrayOfValues() ([]*TsCondition_Selector, bool) {
 	res, ok := fpaov.values.([]*TsCondition_Selector)
+	return res, ok
+}
+func (fpaov *TsCondition_FieldTerminalPathArrayOfValues) AsTemplateSourceArrayOfValues() ([]*TsCondition_TemplateSource, bool) {
+	res, ok := fpaov.values.([]*TsCondition_TemplateSource)
 	return res, ok
 }
 
@@ -1025,8 +1094,8 @@ func (fpsaov *TsCondition_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValues
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *TsCondition_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (TsConditionSpec_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(TsConditionSpec_FieldPathArrayOfValues)
+func (fpsaov *TsCondition_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (rcommon.TsCndSpec_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.TsCndSpec_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *TsCondition_FieldSubPathArrayOfValues) AsInternalPathArrayOfValues() (TsConditionInternal_FieldPathArrayOfValues, bool) {
@@ -1037,792 +1106,8 @@ func (fpsaov *TsCondition_FieldSubPathArrayOfValues) AsFilterSelectorPathArrayOf
 	res, ok := fpsaov.subPathArrayOfValues.(TsConditionSelector_FieldPathArrayOfValues)
 	return res, ok
 }
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type TsConditionSpec_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() TsConditionSpec_FieldPathSelector
-	Get(source *TsCondition_Spec) []interface{}
-	GetSingle(source *TsCondition_Spec) (interface{}, bool)
-	ClearValue(item *TsCondition_Spec)
-
-	// Those methods build corresponding TsConditionSpec_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) TsConditionSpec_FieldPathValue
-	WithIArrayOfValues(values interface{}) TsConditionSpec_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) TsConditionSpec_FieldPathArrayItemValue
-}
-
-type TsConditionSpec_FieldPathSelector int32
-
-const (
-	TsConditionSpec_FieldPathSelectorQueries           TsConditionSpec_FieldPathSelector = 0
-	TsConditionSpec_FieldPathSelectorQueryGroupBy      TsConditionSpec_FieldPathSelector = 1
-	TsConditionSpec_FieldPathSelectorThresholdAlerting TsConditionSpec_FieldPathSelector = 2
-	TsConditionSpec_FieldPathSelectorAnomalyAlerting   TsConditionSpec_FieldPathSelector = 3
-)
-
-func (s TsConditionSpec_FieldPathSelector) String() string {
-	switch s {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return "queries"
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		return "query_group_by"
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		return "threshold_alerting"
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return "anomaly_alerting"
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", s))
-	}
-}
-
-func BuildTsConditionSpec_FieldPath(fp gotenobject.RawFieldPath) (TsConditionSpec_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object TsCondition_Spec")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "queries":
-			return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueries}, nil
-		case "query_group_by", "queryGroupBy", "query-group-by":
-			return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorQueryGroupBy}, nil
-		case "threshold_alerting", "thresholdAlerting", "threshold-alerting":
-			return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorThresholdAlerting}, nil
-		case "anomaly_alerting", "anomalyAlerting", "anomaly-alerting":
-			return &TsConditionSpec_FieldTerminalPath{selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "queries":
-			if subpath, err := BuildTsConditionSpecQuery_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &TsConditionSpec_FieldSubPath{selector: TsConditionSpec_FieldPathSelectorQueries, subPath: subpath}, nil
-			}
-		case "threshold_alerting", "thresholdAlerting", "threshold-alerting":
-			if subpath, err := BuildTsConditionSpecThresholdAlertingCfg_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &TsConditionSpec_FieldSubPath{selector: TsConditionSpec_FieldPathSelectorThresholdAlerting, subPath: subpath}, nil
-			}
-		case "anomaly_alerting", "anomalyAlerting", "anomaly-alerting":
-			if subpath, err := BuildTsConditionSpecAnomalyAlertingCfg_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &TsConditionSpec_FieldSubPath{selector: TsConditionSpec_FieldPathSelectorAnomalyAlerting, subPath: subpath}, nil
-			}
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TsCondition_Spec", fp)
-}
-
-func ParseTsConditionSpec_FieldPath(rawField string) (TsConditionSpec_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildTsConditionSpec_FieldPath(fp)
-}
-
-func MustParseTsConditionSpec_FieldPath(rawField string) TsConditionSpec_FieldPath {
-	fp, err := ParseTsConditionSpec_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type TsConditionSpec_FieldTerminalPath struct {
-	selector TsConditionSpec_FieldPathSelector
-}
-
-var _ TsConditionSpec_FieldPath = (*TsConditionSpec_FieldTerminalPath)(nil)
-
-func (fp *TsConditionSpec_FieldTerminalPath) Selector() TsConditionSpec_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *TsConditionSpec_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *TsConditionSpec_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source TsCondition_Spec
-func (fp *TsConditionSpec_FieldTerminalPath) Get(source *TsCondition_Spec) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case TsConditionSpec_FieldPathSelectorQueries:
-			for _, value := range source.GetQueries() {
-				values = append(values, value)
-			}
-		case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-			for _, value := range source.GetQueryGroupBy() {
-				values = append(values, value)
-			}
-		case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-			if source.ThresholdAlerting != nil {
-				values = append(values, source.ThresholdAlerting)
-			}
-		case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-			for _, value := range source.GetAnomalyAlerting() {
-				values = append(values, value)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*TsCondition_Spec))
-}
-
-// GetSingle returns value pointed by specific field of from source TsCondition_Spec
-func (fp *TsConditionSpec_FieldTerminalPath) GetSingle(source *TsCondition_Spec) (interface{}, bool) {
-	switch fp.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		res := source.GetQueries()
-		return res, res != nil
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		res := source.GetQueryGroupBy()
-		return res, res != nil
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		res := source.GetThresholdAlerting()
-		return res, res != nil
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		res := source.GetAnomalyAlerting()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*TsCondition_Spec))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *TsConditionSpec_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return ([]*TsCondition_Spec_Query)(nil)
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		return ([]string)(nil)
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		return (*TsCondition_Spec_ThresholdAlertingCfg)(nil)
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return ([]*TsCondition_Spec_AnomalyAlertingCfg)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) ClearValue(item *TsCondition_Spec) {
-	if item != nil {
-		switch fp.selector {
-		case TsConditionSpec_FieldPathSelectorQueries:
-			item.Queries = nil
-		case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-			item.QueryGroupBy = nil
-		case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-			item.ThresholdAlerting = nil
-		case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-			item.AnomalyAlerting = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*TsCondition_Spec))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *TsConditionSpec_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == TsConditionSpec_FieldPathSelectorQueryGroupBy
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) WithIValue(value interface{}) TsConditionSpec_FieldPathValue {
-	switch fp.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return &TsConditionSpec_FieldTerminalPathValue{TsConditionSpec_FieldTerminalPath: *fp, value: value.([]*TsCondition_Spec_Query)}
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		return &TsConditionSpec_FieldTerminalPathValue{TsConditionSpec_FieldTerminalPath: *fp, value: value.([]string)}
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		return &TsConditionSpec_FieldTerminalPathValue{TsConditionSpec_FieldTerminalPath: *fp, value: value.(*TsCondition_Spec_ThresholdAlertingCfg)}
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return &TsConditionSpec_FieldTerminalPathValue{TsConditionSpec_FieldTerminalPath: *fp, value: value.([]*TsCondition_Spec_AnomalyAlertingCfg)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) TsConditionSpec_FieldPathArrayOfValues {
-	fpaov := &TsConditionSpec_FieldTerminalPathArrayOfValues{TsConditionSpec_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return &TsConditionSpec_FieldTerminalPathArrayOfValues{TsConditionSpec_FieldTerminalPath: *fp, values: values.([][]*TsCondition_Spec_Query)}
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		return &TsConditionSpec_FieldTerminalPathArrayOfValues{TsConditionSpec_FieldTerminalPath: *fp, values: values.([][]string)}
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		return &TsConditionSpec_FieldTerminalPathArrayOfValues{TsConditionSpec_FieldTerminalPath: *fp, values: values.([]*TsCondition_Spec_ThresholdAlertingCfg)}
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return &TsConditionSpec_FieldTerminalPathArrayOfValues{TsConditionSpec_FieldTerminalPath: *fp, values: values.([][]*TsCondition_Spec_AnomalyAlertingCfg)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) WithIArrayItemValue(value interface{}) TsConditionSpec_FieldPathArrayItemValue {
-	switch fp.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return &TsConditionSpec_FieldTerminalPathArrayItemValue{TsConditionSpec_FieldTerminalPath: *fp, value: value.(*TsCondition_Spec_Query)}
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		return &TsConditionSpec_FieldTerminalPathArrayItemValue{TsConditionSpec_FieldTerminalPath: *fp, value: value.(string)}
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return &TsConditionSpec_FieldTerminalPathArrayItemValue{TsConditionSpec_FieldTerminalPath: *fp, value: value.(*TsCondition_Spec_AnomalyAlertingCfg)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpec_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-type TsConditionSpec_FieldSubPath struct {
-	selector TsConditionSpec_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ TsConditionSpec_FieldPath = (*TsConditionSpec_FieldSubPath)(nil)
-
-func (fps *TsConditionSpec_FieldSubPath) Selector() TsConditionSpec_FieldPathSelector {
-	return fps.selector
-}
-func (fps *TsConditionSpec_FieldSubPath) AsQueriesSubPath() (TsConditionSpecQuery_FieldPath, bool) {
-	res, ok := fps.subPath.(TsConditionSpecQuery_FieldPath)
-	return res, ok
-}
-func (fps *TsConditionSpec_FieldSubPath) AsThresholdAlertingSubPath() (TsConditionSpecThresholdAlertingCfg_FieldPath, bool) {
-	res, ok := fps.subPath.(TsConditionSpecThresholdAlertingCfg_FieldPath)
-	return res, ok
-}
-func (fps *TsConditionSpec_FieldSubPath) AsAnomalyAlertingSubPath() (TsConditionSpecAnomalyAlertingCfg_FieldPath, bool) {
-	res, ok := fps.subPath.(TsConditionSpecAnomalyAlertingCfg_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *TsConditionSpec_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *TsConditionSpec_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source TsCondition_Spec
-func (fps *TsConditionSpec_FieldSubPath) Get(source *TsCondition_Spec) (values []interface{}) {
-	switch fps.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		for _, item := range source.GetQueries() {
-			values = append(values, fps.subPath.GetRaw(item)...)
-		}
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		values = append(values, fps.subPath.GetRaw(source.GetThresholdAlerting())...)
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		for _, item := range source.GetAnomalyAlerting() {
-			values = append(values, fps.subPath.GetRaw(item)...)
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *TsConditionSpec_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*TsCondition_Spec))
-}
-
-// GetSingle returns value of selected field from source TsCondition_Spec
-func (fps *TsConditionSpec_FieldSubPath) GetSingle(source *TsCondition_Spec) (interface{}, bool) {
-	switch fps.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		if len(source.GetQueries()) == 0 {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetQueries()[0])
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		if source.GetThresholdAlerting() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetThresholdAlerting())
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		if len(source.GetAnomalyAlerting()) == 0 {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetAnomalyAlerting()[0])
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fps.selector))
-	}
-}
-
-func (fps *TsConditionSpec_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*TsCondition_Spec))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *TsConditionSpec_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *TsConditionSpec_FieldSubPath) ClearValue(item *TsCondition_Spec) {
-	if item != nil {
-		switch fps.selector {
-		case TsConditionSpec_FieldPathSelectorQueries:
-			for _, subItem := range item.Queries {
-				fps.subPath.ClearValueRaw(subItem)
-			}
-		case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-			fps.subPath.ClearValueRaw(item.ThresholdAlerting)
-		case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-			for _, subItem := range item.AnomalyAlerting {
-				fps.subPath.ClearValueRaw(subItem)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *TsConditionSpec_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*TsCondition_Spec))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *TsConditionSpec_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *TsConditionSpec_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&TsConditionSpec_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *TsConditionSpec_FieldSubPath) WithIValue(value interface{}) TsConditionSpec_FieldPathValue {
-	return &TsConditionSpec_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *TsConditionSpec_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *TsConditionSpec_FieldSubPath) WithIArrayOfValues(values interface{}) TsConditionSpec_FieldPathArrayOfValues {
-	return &TsConditionSpec_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *TsConditionSpec_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *TsConditionSpec_FieldSubPath) WithIArrayItemValue(value interface{}) TsConditionSpec_FieldPathArrayItemValue {
-	return &TsConditionSpec_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *TsConditionSpec_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// TsConditionSpec_FieldPathValue allows storing values for Spec fields according to their type
-type TsConditionSpec_FieldPathValue interface {
-	TsConditionSpec_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **TsCondition_Spec)
-	CompareWith(*TsCondition_Spec) (cmp int, comparable bool)
-}
-
-func ParseTsConditionSpec_FieldPathValue(pathStr, valueStr string) (TsConditionSpec_FieldPathValue, error) {
-	fp, err := ParseTsConditionSpec_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Spec field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(TsConditionSpec_FieldPathValue), nil
-}
-
-func MustParseTsConditionSpec_FieldPathValue(pathStr, valueStr string) TsConditionSpec_FieldPathValue {
-	fpv, err := ParseTsConditionSpec_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type TsConditionSpec_FieldTerminalPathValue struct {
-	TsConditionSpec_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpec_FieldPathValue = (*TsConditionSpec_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Spec' as interface{}
-func (fpv *TsConditionSpec_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *TsConditionSpec_FieldTerminalPathValue) AsQueriesValue() ([]*TsCondition_Spec_Query, bool) {
-	res, ok := fpv.value.([]*TsCondition_Spec_Query)
-	return res, ok
-}
-func (fpv *TsConditionSpec_FieldTerminalPathValue) AsQueryGroupByValue() ([]string, bool) {
-	res, ok := fpv.value.([]string)
-	return res, ok
-}
-func (fpv *TsConditionSpec_FieldTerminalPathValue) AsThresholdAlertingValue() (*TsCondition_Spec_ThresholdAlertingCfg, bool) {
-	res, ok := fpv.value.(*TsCondition_Spec_ThresholdAlertingCfg)
-	return res, ok
-}
-func (fpv *TsConditionSpec_FieldTerminalPathValue) AsAnomalyAlertingValue() ([]*TsCondition_Spec_AnomalyAlertingCfg, bool) {
-	res, ok := fpv.value.([]*TsCondition_Spec_AnomalyAlertingCfg)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Spec
-func (fpv *TsConditionSpec_FieldTerminalPathValue) SetTo(target **TsCondition_Spec) {
-	if *target == nil {
-		*target = new(TsCondition_Spec)
-	}
-	switch fpv.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		(*target).Queries = fpv.value.([]*TsCondition_Spec_Query)
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		(*target).QueryGroupBy = fpv.value.([]string)
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		(*target).ThresholdAlerting = fpv.value.(*TsCondition_Spec_ThresholdAlertingCfg)
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		(*target).AnomalyAlerting = fpv.value.([]*TsCondition_Spec_AnomalyAlertingCfg)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpec_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'TsConditionSpec_FieldTerminalPathValue' with the value under path in 'TsCondition_Spec'.
-func (fpv *TsConditionSpec_FieldTerminalPathValue) CompareWith(source *TsCondition_Spec) (int, bool) {
-	switch fpv.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return 0, false
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		return 0, false
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		return 0, false
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return 0, false
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpec_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*TsCondition_Spec))
-}
-
-type TsConditionSpec_FieldSubPathValue struct {
-	TsConditionSpec_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ TsConditionSpec_FieldPathValue = (*TsConditionSpec_FieldSubPathValue)(nil)
-
-func (fpvs *TsConditionSpec_FieldSubPathValue) AsQueriesPathValue() (TsConditionSpecQuery_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(TsConditionSpecQuery_FieldPathValue)
-	return res, ok
-}
-func (fpvs *TsConditionSpec_FieldSubPathValue) AsThresholdAlertingPathValue() (TsConditionSpecThresholdAlertingCfg_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(TsConditionSpecThresholdAlertingCfg_FieldPathValue)
-	return res, ok
-}
-func (fpvs *TsConditionSpec_FieldSubPathValue) AsAnomalyAlertingPathValue() (TsConditionSpecAnomalyAlertingCfg_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(TsConditionSpecAnomalyAlertingCfg_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *TsConditionSpec_FieldSubPathValue) SetTo(target **TsCondition_Spec) {
-	if *target == nil {
-		*target = new(TsCondition_Spec)
-	}
-	switch fpvs.Selector() {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		panic("FieldPath setter is unsupported for array subpaths")
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		fpvs.subPathValue.(TsConditionSpecThresholdAlertingCfg_FieldPathValue).SetTo(&(*target).ThresholdAlerting)
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		panic("FieldPath setter is unsupported for array subpaths")
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpec_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *TsConditionSpec_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *TsConditionSpec_FieldSubPathValue) CompareWith(source *TsCondition_Spec) (int, bool) {
-	switch fpvs.Selector() {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return 0, false // repeated field
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		return fpvs.subPathValue.(TsConditionSpecThresholdAlertingCfg_FieldPathValue).CompareWith(source.GetThresholdAlerting())
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return 0, false // repeated field
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpec_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*TsCondition_Spec))
-}
-
-// TsConditionSpec_FieldPathArrayItemValue allows storing single item in Path-specific values for Spec according to their type
-// Present only for array (repeated) types.
-type TsConditionSpec_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	TsConditionSpec_FieldPath
-	ContainsValue(*TsCondition_Spec) bool
-}
-
-// ParseTsConditionSpec_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseTsConditionSpec_FieldPathArrayItemValue(pathStr, valueStr string) (TsConditionSpec_FieldPathArrayItemValue, error) {
-	fp, err := ParseTsConditionSpec_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Spec field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(TsConditionSpec_FieldPathArrayItemValue), nil
-}
-
-func MustParseTsConditionSpec_FieldPathArrayItemValue(pathStr, valueStr string) TsConditionSpec_FieldPathArrayItemValue {
-	fpaiv, err := ParseTsConditionSpec_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type TsConditionSpec_FieldTerminalPathArrayItemValue struct {
-	TsConditionSpec_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpec_FieldPathArrayItemValue = (*TsConditionSpec_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object TsCondition_Spec as interface{}
-func (fpaiv *TsConditionSpec_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-func (fpaiv *TsConditionSpec_FieldTerminalPathArrayItemValue) AsQueriesItemValue() (*TsCondition_Spec_Query, bool) {
-	res, ok := fpaiv.value.(*TsCondition_Spec_Query)
-	return res, ok
-}
-func (fpaiv *TsConditionSpec_FieldTerminalPathArrayItemValue) AsQueryGroupByItemValue() (string, bool) {
-	res, ok := fpaiv.value.(string)
-	return res, ok
-}
-func (fpaiv *TsConditionSpec_FieldTerminalPathArrayItemValue) AsAnomalyAlertingItemValue() (*TsCondition_Spec_AnomalyAlertingCfg, bool) {
-	res, ok := fpaiv.value.(*TsCondition_Spec_AnomalyAlertingCfg)
-	return res, ok
-}
-
-func (fpaiv *TsConditionSpec_FieldTerminalPathArrayItemValue) GetSingle(source *TsCondition_Spec) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *TsConditionSpec_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*TsCondition_Spec))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Spec'
-func (fpaiv *TsConditionSpec_FieldTerminalPathArrayItemValue) ContainsValue(source *TsCondition_Spec) bool {
-	slice := fpaiv.TsConditionSpec_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type TsConditionSpec_FieldSubPathArrayItemValue struct {
-	TsConditionSpec_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *TsConditionSpec_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *TsConditionSpec_FieldSubPathArrayItemValue) AsQueriesPathItemValue() (TsConditionSpecQuery_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(TsConditionSpecQuery_FieldPathArrayItemValue)
-	return res, ok
-}
-func (fpaivs *TsConditionSpec_FieldSubPathArrayItemValue) AsThresholdAlertingPathItemValue() (TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue)
-	return res, ok
-}
-func (fpaivs *TsConditionSpec_FieldSubPathArrayItemValue) AsAnomalyAlertingPathItemValue() (TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Spec'
-func (fpaivs *TsConditionSpec_FieldSubPathArrayItemValue) ContainsValue(source *TsCondition_Spec) bool {
-	switch fpaivs.Selector() {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		return false // repeated/map field
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		return fpaivs.subPathItemValue.(TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue).ContainsValue(source.GetThresholdAlerting())
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		return false // repeated/map field
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec: %d", fpaivs.Selector()))
-	}
-}
-
-// TsConditionSpec_FieldPathArrayOfValues allows storing slice of values for Spec fields according to their type
-type TsConditionSpec_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	TsConditionSpec_FieldPath
-}
-
-func ParseTsConditionSpec_FieldPathArrayOfValues(pathStr, valuesStr string) (TsConditionSpec_FieldPathArrayOfValues, error) {
-	fp, err := ParseTsConditionSpec_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Spec field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(TsConditionSpec_FieldPathArrayOfValues), nil
-}
-
-func MustParseTsConditionSpec_FieldPathArrayOfValues(pathStr, valuesStr string) TsConditionSpec_FieldPathArrayOfValues {
-	fpaov, err := ParseTsConditionSpec_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type TsConditionSpec_FieldTerminalPathArrayOfValues struct {
-	TsConditionSpec_FieldTerminalPath
-	values interface{}
-}
-
-var _ TsConditionSpec_FieldPathArrayOfValues = (*TsConditionSpec_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *TsConditionSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case TsConditionSpec_FieldPathSelectorQueries:
-		for _, v := range fpaov.values.([][]*TsCondition_Spec_Query) {
-			values = append(values, v)
-		}
-	case TsConditionSpec_FieldPathSelectorQueryGroupBy:
-		for _, v := range fpaov.values.([][]string) {
-			values = append(values, v)
-		}
-	case TsConditionSpec_FieldPathSelectorThresholdAlerting:
-		for _, v := range fpaov.values.([]*TsCondition_Spec_ThresholdAlertingCfg) {
-			values = append(values, v)
-		}
-	case TsConditionSpec_FieldPathSelectorAnomalyAlerting:
-		for _, v := range fpaov.values.([][]*TsCondition_Spec_AnomalyAlertingCfg) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *TsConditionSpec_FieldTerminalPathArrayOfValues) AsQueriesArrayOfValues() ([][]*TsCondition_Spec_Query, bool) {
-	res, ok := fpaov.values.([][]*TsCondition_Spec_Query)
-	return res, ok
-}
-func (fpaov *TsConditionSpec_FieldTerminalPathArrayOfValues) AsQueryGroupByArrayOfValues() ([][]string, bool) {
-	res, ok := fpaov.values.([][]string)
-	return res, ok
-}
-func (fpaov *TsConditionSpec_FieldTerminalPathArrayOfValues) AsThresholdAlertingArrayOfValues() ([]*TsCondition_Spec_ThresholdAlertingCfg, bool) {
-	res, ok := fpaov.values.([]*TsCondition_Spec_ThresholdAlertingCfg)
-	return res, ok
-}
-func (fpaov *TsConditionSpec_FieldTerminalPathArrayOfValues) AsAnomalyAlertingArrayOfValues() ([][]*TsCondition_Spec_AnomalyAlertingCfg, bool) {
-	res, ok := fpaov.values.([][]*TsCondition_Spec_AnomalyAlertingCfg)
-	return res, ok
-}
-
-type TsConditionSpec_FieldSubPathArrayOfValues struct {
-	TsConditionSpec_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ TsConditionSpec_FieldPathArrayOfValues = (*TsConditionSpec_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *TsConditionSpec_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *TsConditionSpec_FieldSubPathArrayOfValues) AsQueriesPathArrayOfValues() (TsConditionSpecQuery_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(TsConditionSpecQuery_FieldPathArrayOfValues)
-	return res, ok
-}
-func (fpsaov *TsConditionSpec_FieldSubPathArrayOfValues) AsThresholdAlertingPathArrayOfValues() (TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues)
-	return res, ok
-}
-func (fpsaov *TsConditionSpec_FieldSubPathArrayOfValues) AsAnomalyAlertingPathArrayOfValues() (TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues)
+func (fpsaov *TsCondition_FieldSubPathArrayOfValues) AsTemplateSourcePathArrayOfValues() (TsConditionTemplateSource_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(TsConditionTemplateSource_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -1964,7 +1249,7 @@ func (fp *TsConditionInternal_FieldTerminalPath) GetDefault() interface{} {
 	case TsConditionInternal_FieldPathSelectorEntrySpecGeneration:
 		return int32(0)
 	case TsConditionInternal_FieldPathSelectorAlertingLocation:
-		return policy.Policy_Spec_UNDEFINED
+		return rcommon.PolicySpec_UNDEFINED
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition_Internal: %d", fp.selector))
 	}
@@ -1978,7 +1263,7 @@ func (fp *TsConditionInternal_FieldTerminalPath) ClearValue(item *TsCondition_In
 		case TsConditionInternal_FieldPathSelectorEntrySpecGeneration:
 			item.EntrySpecGeneration = int32(0)
 		case TsConditionInternal_FieldPathSelectorAlertingLocation:
-			item.AlertingLocation = policy.Policy_Spec_UNDEFINED
+			item.AlertingLocation = rcommon.PolicySpec_UNDEFINED
 		default:
 			panic(fmt.Sprintf("Invalid selector for TsCondition_Internal: %d", fp.selector))
 		}
@@ -2007,7 +1292,7 @@ func (fp *TsConditionInternal_FieldTerminalPath) WithIValue(value interface{}) T
 	case TsConditionInternal_FieldPathSelectorEntrySpecGeneration:
 		return &TsConditionInternal_FieldTerminalPathValue{TsConditionInternal_FieldTerminalPath: *fp, value: value.(int32)}
 	case TsConditionInternal_FieldPathSelectorAlertingLocation:
-		return &TsConditionInternal_FieldTerminalPathValue{TsConditionInternal_FieldTerminalPath: *fp, value: value.(policy.Policy_Spec_ProcessingLocation)}
+		return &TsConditionInternal_FieldTerminalPathValue{TsConditionInternal_FieldTerminalPath: *fp, value: value.(rcommon.PolicySpec_ProcessingLocation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition_Internal: %d", fp.selector))
 	}
@@ -2025,7 +1310,7 @@ func (fp *TsConditionInternal_FieldTerminalPath) WithIArrayOfValues(values inter
 	case TsConditionInternal_FieldPathSelectorEntrySpecGeneration:
 		return &TsConditionInternal_FieldTerminalPathArrayOfValues{TsConditionInternal_FieldTerminalPath: *fp, values: values.([]int32)}
 	case TsConditionInternal_FieldPathSelectorAlertingLocation:
-		return &TsConditionInternal_FieldTerminalPathArrayOfValues{TsConditionInternal_FieldTerminalPath: *fp, values: values.([]policy.Policy_Spec_ProcessingLocation)}
+		return &TsConditionInternal_FieldTerminalPathArrayOfValues{TsConditionInternal_FieldTerminalPath: *fp, values: values.([]rcommon.PolicySpec_ProcessingLocation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition_Internal: %d", fp.selector))
 	}
@@ -2094,8 +1379,8 @@ func (fpv *TsConditionInternal_FieldTerminalPathValue) AsEntrySpecGenerationValu
 	res, ok := fpv.value.(int32)
 	return res, ok
 }
-func (fpv *TsConditionInternal_FieldTerminalPathValue) AsAlertingLocationValue() (policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+func (fpv *TsConditionInternal_FieldTerminalPathValue) AsAlertingLocationValue() (rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 
@@ -2110,7 +1395,7 @@ func (fpv *TsConditionInternal_FieldTerminalPathValue) SetTo(target **TsConditio
 	case TsConditionInternal_FieldPathSelectorEntrySpecGeneration:
 		(*target).EntrySpecGeneration = fpv.value.(int32)
 	case TsConditionInternal_FieldPathSelectorAlertingLocation:
-		(*target).AlertingLocation = fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		(*target).AlertingLocation = fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsCondition_Internal: %d", fpv.selector))
 	}
@@ -2137,7 +1422,7 @@ func (fpv *TsConditionInternal_FieldTerminalPathValue) CompareWith(source *TsCon
 			return 1, true
 		}
 	case TsConditionInternal_FieldPathSelectorAlertingLocation:
-		leftValue := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		leftValue := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 		rightValue := source.GetAlertingLocation()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -2263,7 +1548,7 @@ func (fpaov *TsConditionInternal_FieldTerminalPathArrayOfValues) GetRawValues() 
 			values = append(values, v)
 		}
 	case TsConditionInternal_FieldPathSelectorAlertingLocation:
-		for _, v := range fpaov.values.([]policy.Policy_Spec_ProcessingLocation) {
+		for _, v := range fpaov.values.([]rcommon.PolicySpec_ProcessingLocation) {
 			values = append(values, v)
 		}
 	}
@@ -2277,8 +1562,8 @@ func (fpaov *TsConditionInternal_FieldTerminalPathArrayOfValues) AsEntrySpecGene
 	res, ok := fpaov.values.([]int32)
 	return res, ok
 }
-func (fpaov *TsConditionInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpaov.values.([]policy.Policy_Spec_ProcessingLocation)
+func (fpaov *TsConditionInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpaov.values.([]rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 
@@ -3033,455 +2318,365 @@ func (fpmaov *TsConditionSelector_FieldPathMapArrayOfValues) AsCommonResourceLab
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type TsConditionSpecQuery_FieldPath interface {
+type TsConditionTemplateSource_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() TsConditionSpecQuery_FieldPathSelector
-	Get(source *TsCondition_Spec_Query) []interface{}
-	GetSingle(source *TsCondition_Spec_Query) (interface{}, bool)
-	ClearValue(item *TsCondition_Spec_Query)
+	Selector() TsConditionTemplateSource_FieldPathSelector
+	Get(source *TsCondition_TemplateSource) []interface{}
+	GetSingle(source *TsCondition_TemplateSource) (interface{}, bool)
+	ClearValue(item *TsCondition_TemplateSource)
 
-	// Those methods build corresponding TsConditionSpecQuery_FieldPathValue
+	// Those methods build corresponding TsConditionTemplateSource_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) TsConditionSpecQuery_FieldPathValue
-	WithIArrayOfValues(values interface{}) TsConditionSpecQuery_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) TsConditionSpecQuery_FieldPathArrayItemValue
+	WithIValue(value interface{}) TsConditionTemplateSource_FieldPathValue
+	WithIArrayOfValues(values interface{}) TsConditionTemplateSource_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) TsConditionTemplateSource_FieldPathArrayItemValue
 }
 
-type TsConditionSpecQuery_FieldPathSelector int32
+type TsConditionTemplateSource_FieldPathSelector int32
 
 const (
-	TsConditionSpecQuery_FieldPathSelectorName     TsConditionSpecQuery_FieldPathSelector = 0
-	TsConditionSpecQuery_FieldPathSelectorFilter   TsConditionSpecQuery_FieldPathSelector = 1
-	TsConditionSpecQuery_FieldPathSelectorAligner  TsConditionSpecQuery_FieldPathSelector = 2
-	TsConditionSpecQuery_FieldPathSelectorReducer  TsConditionSpecQuery_FieldPathSelector = 3
-	TsConditionSpecQuery_FieldPathSelectorMaxValue TsConditionSpecQuery_FieldPathSelector = 4
+	TsConditionTemplateSource_FieldPathSelectorTemplate      TsConditionTemplateSource_FieldPathSelector = 0
+	TsConditionTemplateSource_FieldPathSelectorUpdatedFields TsConditionTemplateSource_FieldPathSelector = 1
 )
 
-func (s TsConditionSpecQuery_FieldPathSelector) String() string {
+func (s TsConditionTemplateSource_FieldPathSelector) String() string {
 	switch s {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		return "name"
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
-		return "filter"
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		return "aligner"
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		return "reducer"
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		return "max_value"
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		return "template"
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return "updated_fields"
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", s))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", s))
 	}
 }
 
-func BuildTsConditionSpecQuery_FieldPath(fp gotenobject.RawFieldPath) (TsConditionSpecQuery_FieldPath, error) {
+func BuildTsConditionTemplateSource_FieldPath(fp gotenobject.RawFieldPath) (TsConditionTemplateSource_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object TsCondition_Spec_Query")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object TsCondition_TemplateSource")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "name":
-			return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorName}, nil
-		case "filter":
-			return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorFilter}, nil
-		case "aligner":
-			return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorAligner}, nil
-		case "reducer":
-			return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorReducer}, nil
-		case "max_value", "maxValue", "max-value":
-			return &TsConditionSpecQuery_FieldTerminalPath{selector: TsConditionSpecQuery_FieldPathSelectorMaxValue}, nil
+		case "template":
+			return &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorTemplate}, nil
+		case "updated_fields", "updatedFields", "updated-fields":
+			return &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorUpdatedFields}, nil
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TsCondition_Spec_Query", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TsCondition_TemplateSource", fp)
 }
 
-func ParseTsConditionSpecQuery_FieldPath(rawField string) (TsConditionSpecQuery_FieldPath, error) {
+func ParseTsConditionTemplateSource_FieldPath(rawField string) (TsConditionTemplateSource_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildTsConditionSpecQuery_FieldPath(fp)
+	return BuildTsConditionTemplateSource_FieldPath(fp)
 }
 
-func MustParseTsConditionSpecQuery_FieldPath(rawField string) TsConditionSpecQuery_FieldPath {
-	fp, err := ParseTsConditionSpecQuery_FieldPath(rawField)
+func MustParseTsConditionTemplateSource_FieldPath(rawField string) TsConditionTemplateSource_FieldPath {
+	fp, err := ParseTsConditionTemplateSource_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type TsConditionSpecQuery_FieldTerminalPath struct {
-	selector TsConditionSpecQuery_FieldPathSelector
+type TsConditionTemplateSource_FieldTerminalPath struct {
+	selector TsConditionTemplateSource_FieldPathSelector
 }
 
-var _ TsConditionSpecQuery_FieldPath = (*TsConditionSpecQuery_FieldTerminalPath)(nil)
+var _ TsConditionTemplateSource_FieldPath = (*TsConditionTemplateSource_FieldTerminalPath)(nil)
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) Selector() TsConditionSpecQuery_FieldPathSelector {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) Selector() TsConditionTemplateSource_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *TsConditionSpecQuery_FieldTerminalPath) String() string {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *TsConditionSpecQuery_FieldTerminalPath) JSONString() string {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source TsCondition_Spec_Query
-func (fp *TsConditionSpecQuery_FieldTerminalPath) Get(source *TsCondition_Spec_Query) (values []interface{}) {
+// Get returns all values pointed by specific field from source TsCondition_TemplateSource
+func (fp *TsConditionTemplateSource_FieldTerminalPath) Get(source *TsCondition_TemplateSource) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case TsConditionSpecQuery_FieldPathSelectorName:
-			values = append(values, source.Name)
-		case TsConditionSpecQuery_FieldPathSelectorFilter:
-			if source.Filter != nil {
-				values = append(values, source.Filter)
+		case TsConditionTemplateSource_FieldPathSelectorTemplate:
+			if source.Template != nil {
+				values = append(values, source.Template)
 			}
-		case TsConditionSpecQuery_FieldPathSelectorAligner:
-			values = append(values, source.Aligner)
-		case TsConditionSpecQuery_FieldPathSelectorReducer:
-			values = append(values, source.Reducer)
-		case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-			values = append(values, source.MaxValue)
+		case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+			if source.UpdatedFields != nil {
+				values = append(values, source.UpdatedFields)
+			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*TsCondition_Spec_Query))
+func (fp *TsConditionTemplateSource_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*TsCondition_TemplateSource))
 }
 
-// GetSingle returns value pointed by specific field of from source TsCondition_Spec_Query
-func (fp *TsConditionSpecQuery_FieldTerminalPath) GetSingle(source *TsCondition_Spec_Query) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source TsCondition_TemplateSource
+func (fp *TsConditionTemplateSource_FieldTerminalPath) GetSingle(source *TsCondition_TemplateSource) (interface{}, bool) {
 	switch fp.selector {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		return source.GetName(), source != nil
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
-		res := source.GetFilter()
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		res := source.GetTemplate()
 		return res, res != nil
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		return source.GetAligner(), source != nil
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		return source.GetReducer(), source != nil
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		return source.GetMaxValue(), source != nil
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		res := source.GetUpdatedFields()
+		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*TsCondition_Spec_Query))
+func (fp *TsConditionTemplateSource_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*TsCondition_TemplateSource))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *TsConditionSpecQuery_FieldTerminalPath) GetDefault() interface{} {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		return ""
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
-		return (*monitoring_time_serie.Filter)(nil)
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		return monitoring_common.Aggregation_ALIGN_NONE
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		return monitoring_common.Aggregation_REDUCE_NONE
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		return float64(0)
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		return (*log_condition_template.Reference)(nil)
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return (*fieldmaskpb.FieldMask)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) ClearValue(item *TsCondition_Spec_Query) {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) ClearValue(item *TsCondition_TemplateSource) {
 	if item != nil {
 		switch fp.selector {
-		case TsConditionSpecQuery_FieldPathSelectorName:
-			item.Name = ""
-		case TsConditionSpecQuery_FieldPathSelectorFilter:
-			item.Filter = nil
-		case TsConditionSpecQuery_FieldPathSelectorAligner:
-			item.Aligner = monitoring_common.Aggregation_ALIGN_NONE
-		case TsConditionSpecQuery_FieldPathSelectorReducer:
-			item.Reducer = monitoring_common.Aggregation_REDUCE_NONE
-		case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-			item.MaxValue = float64(0)
+		case TsConditionTemplateSource_FieldPathSelectorTemplate:
+			item.Template = nil
+		case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+			item.UpdatedFields = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*TsCondition_Spec_Query))
+func (fp *TsConditionTemplateSource_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*TsCondition_TemplateSource))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *TsConditionSpecQuery_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == TsConditionSpecQuery_FieldPathSelectorName ||
-		fp.selector == TsConditionSpecQuery_FieldPathSelectorFilter ||
-		fp.selector == TsConditionSpecQuery_FieldPathSelectorAligner ||
-		fp.selector == TsConditionSpecQuery_FieldPathSelectorReducer ||
-		fp.selector == TsConditionSpecQuery_FieldPathSelectorMaxValue
+func (fp *TsConditionTemplateSource_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == TsConditionTemplateSource_FieldPathSelectorTemplate ||
+		fp.selector == TsConditionTemplateSource_FieldPathSelectorUpdatedFields
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) WithIValue(value interface{}) TsConditionSpecQuery_FieldPathValue {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) WithIValue(value interface{}) TsConditionTemplateSource_FieldPathValue {
 	switch fp.selector {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		return &TsConditionSpecQuery_FieldTerminalPathValue{TsConditionSpecQuery_FieldTerminalPath: *fp, value: value.(string)}
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
-		return &TsConditionSpecQuery_FieldTerminalPathValue{TsConditionSpecQuery_FieldTerminalPath: *fp, value: value.(*monitoring_time_serie.Filter)}
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		return &TsConditionSpecQuery_FieldTerminalPathValue{TsConditionSpecQuery_FieldTerminalPath: *fp, value: value.(monitoring_common.Aggregation_Aligner)}
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		return &TsConditionSpecQuery_FieldTerminalPathValue{TsConditionSpecQuery_FieldTerminalPath: *fp, value: value.(monitoring_common.Aggregation_Reducer)}
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		return &TsConditionSpecQuery_FieldTerminalPathValue{TsConditionSpecQuery_FieldTerminalPath: *fp, value: value.(float64)}
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		return &TsConditionTemplateSource_FieldTerminalPathValue{TsConditionTemplateSource_FieldTerminalPath: *fp, value: value.(*log_condition_template.Reference)}
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return &TsConditionTemplateSource_FieldTerminalPathValue{TsConditionTemplateSource_FieldTerminalPath: *fp, value: value.(*fieldmaskpb.FieldMask)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) WithIArrayOfValues(values interface{}) TsConditionSpecQuery_FieldPathArrayOfValues {
-	fpaov := &TsConditionSpecQuery_FieldTerminalPathArrayOfValues{TsConditionSpecQuery_FieldTerminalPath: *fp}
+func (fp *TsConditionTemplateSource_FieldTerminalPath) WithIArrayOfValues(values interface{}) TsConditionTemplateSource_FieldPathArrayOfValues {
+	fpaov := &TsConditionTemplateSource_FieldTerminalPathArrayOfValues{TsConditionTemplateSource_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		return &TsConditionSpecQuery_FieldTerminalPathArrayOfValues{TsConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]string)}
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
-		return &TsConditionSpecQuery_FieldTerminalPathArrayOfValues{TsConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]*monitoring_time_serie.Filter)}
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		return &TsConditionSpecQuery_FieldTerminalPathArrayOfValues{TsConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]monitoring_common.Aggregation_Aligner)}
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		return &TsConditionSpecQuery_FieldTerminalPathArrayOfValues{TsConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]monitoring_common.Aggregation_Reducer)}
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		return &TsConditionSpecQuery_FieldTerminalPathArrayOfValues{TsConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]float64)}
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		return &TsConditionTemplateSource_FieldTerminalPathArrayOfValues{TsConditionTemplateSource_FieldTerminalPath: *fp, values: values.([]*log_condition_template.Reference)}
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return &TsConditionTemplateSource_FieldTerminalPathArrayOfValues{TsConditionTemplateSource_FieldTerminalPath: *fp, values: values.([]*fieldmaskpb.FieldMask)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) WithIArrayItemValue(value interface{}) TsConditionSpecQuery_FieldPathArrayItemValue {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) WithIArrayItemValue(value interface{}) TsConditionTemplateSource_FieldPathArrayItemValue {
 	switch fp.selector {
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *TsConditionSpecQuery_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *TsConditionTemplateSource_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-// TsConditionSpecQuery_FieldPathValue allows storing values for Query fields according to their type
-type TsConditionSpecQuery_FieldPathValue interface {
-	TsConditionSpecQuery_FieldPath
+// TsConditionTemplateSource_FieldPathValue allows storing values for TemplateSource fields according to their type
+type TsConditionTemplateSource_FieldPathValue interface {
+	TsConditionTemplateSource_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **TsCondition_Spec_Query)
-	CompareWith(*TsCondition_Spec_Query) (cmp int, comparable bool)
+	SetTo(target **TsCondition_TemplateSource)
+	CompareWith(*TsCondition_TemplateSource) (cmp int, comparable bool)
 }
 
-func ParseTsConditionSpecQuery_FieldPathValue(pathStr, valueStr string) (TsConditionSpecQuery_FieldPathValue, error) {
-	fp, err := ParseTsConditionSpecQuery_FieldPath(pathStr)
+func ParseTsConditionTemplateSource_FieldPathValue(pathStr, valueStr string) (TsConditionTemplateSource_FieldPathValue, error) {
+	fp, err := ParseTsConditionTemplateSource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Query field path value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateSource field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(TsConditionSpecQuery_FieldPathValue), nil
+	return fpv.(TsConditionTemplateSource_FieldPathValue), nil
 }
 
-func MustParseTsConditionSpecQuery_FieldPathValue(pathStr, valueStr string) TsConditionSpecQuery_FieldPathValue {
-	fpv, err := ParseTsConditionSpecQuery_FieldPathValue(pathStr, valueStr)
+func MustParseTsConditionTemplateSource_FieldPathValue(pathStr, valueStr string) TsConditionTemplateSource_FieldPathValue {
+	fpv, err := ParseTsConditionTemplateSource_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type TsConditionSpecQuery_FieldTerminalPathValue struct {
-	TsConditionSpecQuery_FieldTerminalPath
+type TsConditionTemplateSource_FieldTerminalPathValue struct {
+	TsConditionTemplateSource_FieldTerminalPath
 	value interface{}
 }
 
-var _ TsConditionSpecQuery_FieldPathValue = (*TsConditionSpecQuery_FieldTerminalPathValue)(nil)
+var _ TsConditionTemplateSource_FieldPathValue = (*TsConditionTemplateSource_FieldTerminalPathValue)(nil)
 
-// GetRawValue returns raw value stored under selected path for 'Query' as interface{}
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) GetRawValue() interface{} {
+// GetRawValue returns raw value stored under selected path for 'TemplateSource' as interface{}
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) AsNameValue() (string, bool) {
-	res, ok := fpv.value.(string)
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) AsTemplateValue() (*log_condition_template.Reference, bool) {
+	res, ok := fpv.value.(*log_condition_template.Reference)
 	return res, ok
 }
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) AsFilterValue() (*monitoring_time_serie.Filter, bool) {
-	res, ok := fpv.value.(*monitoring_time_serie.Filter)
-	return res, ok
-}
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) AsAlignerValue() (monitoring_common.Aggregation_Aligner, bool) {
-	res, ok := fpv.value.(monitoring_common.Aggregation_Aligner)
-	return res, ok
-}
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) AsReducerValue() (monitoring_common.Aggregation_Reducer, bool) {
-	res, ok := fpv.value.(monitoring_common.Aggregation_Reducer)
-	return res, ok
-}
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) AsMaxValueValue() (float64, bool) {
-	res, ok := fpv.value.(float64)
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) AsUpdatedFieldsValue() (*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpv.value.(*fieldmaskpb.FieldMask)
 	return res, ok
 }
 
-// SetTo stores value for selected field for object Query
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) SetTo(target **TsCondition_Spec_Query) {
+// SetTo stores value for selected field for object TemplateSource
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) SetTo(target **TsCondition_TemplateSource) {
 	if *target == nil {
-		*target = new(TsCondition_Spec_Query)
+		*target = new(TsCondition_TemplateSource)
 	}
 	switch fpv.selector {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		(*target).Name = fpv.value.(string)
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
-		(*target).Filter = fpv.value.(*monitoring_time_serie.Filter)
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		(*target).Aligner = fpv.value.(monitoring_common.Aggregation_Aligner)
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		(*target).Reducer = fpv.value.(monitoring_common.Aggregation_Reducer)
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		(*target).MaxValue = fpv.value.(float64)
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		(*target).Template = fpv.value.(*log_condition_template.Reference)
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		(*target).UpdatedFields = fpv.value.(*fieldmaskpb.FieldMask)
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fpv.selector))
 	}
 }
 
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_Query)
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*TsCondition_TemplateSource)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'TsConditionSpecQuery_FieldTerminalPathValue' with the value under path in 'TsCondition_Spec_Query'.
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) CompareWith(source *TsCondition_Spec_Query) (int, bool) {
+// CompareWith compares value in the 'TsConditionTemplateSource_FieldTerminalPathValue' with the value under path in 'TsCondition_TemplateSource'.
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) CompareWith(source *TsCondition_TemplateSource) (int, bool) {
 	switch fpv.selector {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetName()
-		if (leftValue) == (rightValue) {
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		leftValue := fpv.value.(*log_condition_template.Reference)
+		rightValue := source.GetTemplate()
+		if leftValue == nil {
+			if rightValue != nil {
+				return -1, true
+			}
 			return 0, true
-		} else if (leftValue) < (rightValue) {
+		}
+		if rightValue == nil {
+			return 1, true
+		}
+		if leftValue.String() == rightValue.String() {
+			return 0, true
+		} else if leftValue.String() < rightValue.String() {
 			return -1, true
 		} else {
 			return 1, true
 		}
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
 		return 0, false
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		leftValue := fpv.value.(monitoring_common.Aggregation_Aligner)
-		rightValue := source.GetAligner()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		leftValue := fpv.value.(monitoring_common.Aggregation_Reducer)
-		rightValue := source.GetReducer()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		leftValue := fpv.value.(float64)
-		rightValue := source.GetMaxValue()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
 	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_Query: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for TsCondition_TemplateSource: %d", fpv.selector))
 	}
 }
 
-func (fpv *TsConditionSpecQuery_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*TsCondition_Spec_Query))
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*TsCondition_TemplateSource))
 }
 
-// TsConditionSpecQuery_FieldPathArrayItemValue allows storing single item in Path-specific values for Query according to their type
+// TsConditionTemplateSource_FieldPathArrayItemValue allows storing single item in Path-specific values for TemplateSource according to their type
 // Present only for array (repeated) types.
-type TsConditionSpecQuery_FieldPathArrayItemValue interface {
+type TsConditionTemplateSource_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	TsConditionSpecQuery_FieldPath
-	ContainsValue(*TsCondition_Spec_Query) bool
+	TsConditionTemplateSource_FieldPath
+	ContainsValue(*TsCondition_TemplateSource) bool
 }
 
-// ParseTsConditionSpecQuery_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseTsConditionSpecQuery_FieldPathArrayItemValue(pathStr, valueStr string) (TsConditionSpecQuery_FieldPathArrayItemValue, error) {
-	fp, err := ParseTsConditionSpecQuery_FieldPath(pathStr)
+// ParseTsConditionTemplateSource_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseTsConditionTemplateSource_FieldPathArrayItemValue(pathStr, valueStr string) (TsConditionTemplateSource_FieldPathArrayItemValue, error) {
+	fp, err := ParseTsConditionTemplateSource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Query field path array item value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateSource field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(TsConditionSpecQuery_FieldPathArrayItemValue), nil
+	return fpaiv.(TsConditionTemplateSource_FieldPathArrayItemValue), nil
 }
 
-func MustParseTsConditionSpecQuery_FieldPathArrayItemValue(pathStr, valueStr string) TsConditionSpecQuery_FieldPathArrayItemValue {
-	fpaiv, err := ParseTsConditionSpecQuery_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParseTsConditionTemplateSource_FieldPathArrayItemValue(pathStr, valueStr string) TsConditionTemplateSource_FieldPathArrayItemValue {
+	fpaiv, err := ParseTsConditionTemplateSource_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type TsConditionSpecQuery_FieldTerminalPathArrayItemValue struct {
-	TsConditionSpecQuery_FieldTerminalPath
+type TsConditionTemplateSource_FieldTerminalPathArrayItemValue struct {
+	TsConditionTemplateSource_FieldTerminalPath
 	value interface{}
 }
 
-var _ TsConditionSpecQuery_FieldPathArrayItemValue = (*TsConditionSpecQuery_FieldTerminalPathArrayItemValue)(nil)
+var _ TsConditionTemplateSource_FieldPathArrayItemValue = (*TsConditionTemplateSource_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object TsCondition_Spec_Query as interface{}
-func (fpaiv *TsConditionSpecQuery_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object TsCondition_TemplateSource as interface{}
+func (fpaiv *TsConditionTemplateSource_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
 
-func (fpaiv *TsConditionSpecQuery_FieldTerminalPathArrayItemValue) GetSingle(source *TsCondition_Spec_Query) (interface{}, bool) {
+func (fpaiv *TsConditionTemplateSource_FieldTerminalPathArrayItemValue) GetSingle(source *TsCondition_TemplateSource) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *TsConditionSpecQuery_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*TsCondition_Spec_Query))
+func (fpaiv *TsConditionTemplateSource_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*TsCondition_TemplateSource))
 }
 
-// Contains returns a boolean indicating if value that is being held is present in given 'Query'
-func (fpaiv *TsConditionSpecQuery_FieldTerminalPathArrayItemValue) ContainsValue(source *TsCondition_Spec_Query) bool {
-	slice := fpaiv.TsConditionSpecQuery_FieldTerminalPath.Get(source)
+// Contains returns a boolean indicating if value that is being held is present in given 'TemplateSource'
+func (fpaiv *TsConditionTemplateSource_FieldTerminalPathArrayItemValue) ContainsValue(source *TsCondition_TemplateSource) bool {
+	slice := fpaiv.TsConditionTemplateSource_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -3494,3233 +2689,58 @@ func (fpaiv *TsConditionSpecQuery_FieldTerminalPathArrayItemValue) ContainsValue
 	return false
 }
 
-// TsConditionSpecQuery_FieldPathArrayOfValues allows storing slice of values for Query fields according to their type
-type TsConditionSpecQuery_FieldPathArrayOfValues interface {
+// TsConditionTemplateSource_FieldPathArrayOfValues allows storing slice of values for TemplateSource fields according to their type
+type TsConditionTemplateSource_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	TsConditionSpecQuery_FieldPath
+	TsConditionTemplateSource_FieldPath
 }
 
-func ParseTsConditionSpecQuery_FieldPathArrayOfValues(pathStr, valuesStr string) (TsConditionSpecQuery_FieldPathArrayOfValues, error) {
-	fp, err := ParseTsConditionSpecQuery_FieldPath(pathStr)
+func ParseTsConditionTemplateSource_FieldPathArrayOfValues(pathStr, valuesStr string) (TsConditionTemplateSource_FieldPathArrayOfValues, error) {
+	fp, err := ParseTsConditionTemplateSource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Query field path array of values from %s: %v", valuesStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateSource field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(TsConditionSpecQuery_FieldPathArrayOfValues), nil
+	return fpaov.(TsConditionTemplateSource_FieldPathArrayOfValues), nil
 }
 
-func MustParseTsConditionSpecQuery_FieldPathArrayOfValues(pathStr, valuesStr string) TsConditionSpecQuery_FieldPathArrayOfValues {
-	fpaov, err := ParseTsConditionSpecQuery_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParseTsConditionTemplateSource_FieldPathArrayOfValues(pathStr, valuesStr string) TsConditionTemplateSource_FieldPathArrayOfValues {
+	fpaov, err := ParseTsConditionTemplateSource_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type TsConditionSpecQuery_FieldTerminalPathArrayOfValues struct {
-	TsConditionSpecQuery_FieldTerminalPath
+type TsConditionTemplateSource_FieldTerminalPathArrayOfValues struct {
+	TsConditionTemplateSource_FieldTerminalPath
 	values interface{}
 }
 
-var _ TsConditionSpecQuery_FieldPathArrayOfValues = (*TsConditionSpecQuery_FieldTerminalPathArrayOfValues)(nil)
+var _ TsConditionTemplateSource_FieldPathArrayOfValues = (*TsConditionTemplateSource_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *TsConditionSpecQuery_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case TsConditionSpecQuery_FieldPathSelectorName:
-		for _, v := range fpaov.values.([]string) {
+	case TsConditionTemplateSource_FieldPathSelectorTemplate:
+		for _, v := range fpaov.values.([]*log_condition_template.Reference) {
 			values = append(values, v)
 		}
-	case TsConditionSpecQuery_FieldPathSelectorFilter:
-		for _, v := range fpaov.values.([]*monitoring_time_serie.Filter) {
-			values = append(values, v)
-		}
-	case TsConditionSpecQuery_FieldPathSelectorAligner:
-		for _, v := range fpaov.values.([]monitoring_common.Aggregation_Aligner) {
-			values = append(values, v)
-		}
-	case TsConditionSpecQuery_FieldPathSelectorReducer:
-		for _, v := range fpaov.values.([]monitoring_common.Aggregation_Reducer) {
-			values = append(values, v)
-		}
-	case TsConditionSpecQuery_FieldPathSelectorMaxValue:
-		for _, v := range fpaov.values.([]float64) {
+	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		for _, v := range fpaov.values.([]*fieldmaskpb.FieldMask) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *TsConditionSpecQuery_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
+func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) AsTemplateArrayOfValues() ([]*log_condition_template.Reference, bool) {
+	res, ok := fpaov.values.([]*log_condition_template.Reference)
 	return res, ok
 }
-func (fpaov *TsConditionSpecQuery_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*monitoring_time_serie.Filter, bool) {
-	res, ok := fpaov.values.([]*monitoring_time_serie.Filter)
-	return res, ok
-}
-func (fpaov *TsConditionSpecQuery_FieldTerminalPathArrayOfValues) AsAlignerArrayOfValues() ([]monitoring_common.Aggregation_Aligner, bool) {
-	res, ok := fpaov.values.([]monitoring_common.Aggregation_Aligner)
-	return res, ok
-}
-func (fpaov *TsConditionSpecQuery_FieldTerminalPathArrayOfValues) AsReducerArrayOfValues() ([]monitoring_common.Aggregation_Reducer, bool) {
-	res, ok := fpaov.values.([]monitoring_common.Aggregation_Reducer)
-	return res, ok
-}
-func (fpaov *TsConditionSpecQuery_FieldTerminalPathArrayOfValues) AsMaxValueArrayOfValues() ([]float64, bool) {
-	res, ok := fpaov.values.([]float64)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type TsConditionSpecThresholdAlertingCfg_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() TsConditionSpecThresholdAlertingCfg_FieldPathSelector
-	Get(source *TsCondition_Spec_ThresholdAlertingCfg) []interface{}
-	GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg) (interface{}, bool)
-	ClearValue(item *TsCondition_Spec_ThresholdAlertingCfg)
-
-	// Those methods build corresponding TsConditionSpecThresholdAlertingCfg_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathValue
-	WithIArrayOfValues(values interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldPathSelector int32
-
-const (
-	TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator                          TsConditionSpecThresholdAlertingCfg_FieldPathSelector = 0
-	TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod                   TsConditionSpecThresholdAlertingCfg_FieldPathSelector = 1
-	TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter                        TsConditionSpecThresholdAlertingCfg_FieldPathSelector = 2
-	TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter                      TsConditionSpecThresholdAlertingCfg_FieldPathSelector = 3
-	TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds                TsConditionSpecThresholdAlertingCfg_FieldPathSelector = 4
-	TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod TsConditionSpecThresholdAlertingCfg_FieldPathSelector = 5
-)
-
-func (s TsConditionSpecThresholdAlertingCfg_FieldPathSelector) String() string {
-	switch s {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		return "operator"
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return "alignment_period"
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		return "raise_after"
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		return "silence_after"
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return "per_query_thresholds"
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		return "adaptive_thresholds_detection_period"
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", s))
-	}
-}
-
-func BuildTsConditionSpecThresholdAlertingCfg_FieldPath(fp gotenobject.RawFieldPath) (TsConditionSpecThresholdAlertingCfg_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object TsCondition_Spec_ThresholdAlertingCfg")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "operator":
-			return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator}, nil
-		case "alignment_period", "alignmentPeriod", "alignment-period":
-			return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod}, nil
-		case "raise_after", "raiseAfter", "raise-after":
-			return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter}, nil
-		case "silence_after", "silenceAfter", "silence-after":
-			return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter}, nil
-		case "per_query_thresholds", "perQueryThresholds", "per-query-thresholds":
-			return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds}, nil
-		case "adaptive_thresholds_detection_period", "adaptiveThresholdsDetectionPeriod", "adaptive-thresholds-detection-period":
-			return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "per_query_thresholds", "perQueryThresholds", "per-query-thresholds":
-			if subpath, err := BuildTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &TsConditionSpecThresholdAlertingCfg_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds, subPath: subpath}, nil
-			}
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TsCondition_Spec_ThresholdAlertingCfg", fp)
-}
-
-func ParseTsConditionSpecThresholdAlertingCfg_FieldPath(rawField string) (TsConditionSpecThresholdAlertingCfg_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildTsConditionSpecThresholdAlertingCfg_FieldPath(fp)
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfg_FieldPath(rawField string) TsConditionSpecThresholdAlertingCfg_FieldPath {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldTerminalPath struct {
-	selector TsConditionSpecThresholdAlertingCfg_FieldPathSelector
-}
-
-var _ TsConditionSpecThresholdAlertingCfg_FieldPath = (*TsConditionSpecThresholdAlertingCfg_FieldTerminalPath)(nil)
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) Selector() TsConditionSpecThresholdAlertingCfg_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source TsCondition_Spec_ThresholdAlertingCfg
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) Get(source *TsCondition_Spec_ThresholdAlertingCfg) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-			values = append(values, source.Operator)
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-			if source.AlignmentPeriod != nil {
-				values = append(values, source.AlignmentPeriod)
-			}
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-			if source.RaiseAfter != nil {
-				values = append(values, source.RaiseAfter)
-			}
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-			if source.SilenceAfter != nil {
-				values = append(values, source.SilenceAfter)
-			}
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-			for _, value := range source.GetPerQueryThresholds() {
-				values = append(values, value)
-			}
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-			if source.AdaptiveThresholdsDetectionPeriod != nil {
-				values = append(values, source.AdaptiveThresholdsDetectionPeriod)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// GetSingle returns value pointed by specific field of from source TsCondition_Spec_ThresholdAlertingCfg
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg) (interface{}, bool) {
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		return source.GetOperator(), source != nil
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		res := source.GetAlignmentPeriod()
-		return res, res != nil
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		res := source.GetRaiseAfter()
-		return res, res != nil
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		res := source.GetSilenceAfter()
-		return res, res != nil
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		res := source.GetPerQueryThresholds()
-		return res, res != nil
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		res := source.GetAdaptiveThresholdsDetectionPeriod()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		return TsCondition_Spec_ThresholdAlertingCfg_UNDEFINED
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return ([]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)(nil)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		return (*durationpb.Duration)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) ClearValue(item *TsCondition_Spec_ThresholdAlertingCfg) {
-	if item != nil {
-		switch fp.selector {
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-			item.Operator = TsCondition_Spec_ThresholdAlertingCfg_UNDEFINED
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-			item.AlignmentPeriod = nil
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-			item.RaiseAfter = nil
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-			item.SilenceAfter = nil
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-			item.PerQueryThresholds = nil
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-			item.AdaptiveThresholdsDetectionPeriod = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator ||
-		fp.selector == TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod ||
-		fp.selector == TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter ||
-		fp.selector == TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter ||
-		fp.selector == TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) WithIValue(value interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathValue {
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, value: value.(TsCondition_Spec_ThresholdAlertingCfg_Operator)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, value: value.([]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) WithIArrayOfValues(values interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues {
-	fpaov := &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, values: values.([]TsCondition_Spec_ThresholdAlertingCfg_Operator)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, values: values.([][]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) WithIArrayItemValue(value interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue {
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return &TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue{TsConditionSpecThresholdAlertingCfg_FieldTerminalPath: *fp, value: value.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfg_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldSubPath struct {
-	selector TsConditionSpecThresholdAlertingCfg_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ TsConditionSpecThresholdAlertingCfg_FieldPath = (*TsConditionSpecThresholdAlertingCfg_FieldSubPath)(nil)
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) Selector() TsConditionSpecThresholdAlertingCfg_FieldPathSelector {
-	return fps.selector
-}
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) AsPerQueryThresholdsSubPath() (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath, bool) {
-	res, ok := fps.subPath.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source TsCondition_Spec_ThresholdAlertingCfg
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) Get(source *TsCondition_Spec_ThresholdAlertingCfg) (values []interface{}) {
-	switch fps.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		for _, item := range source.GetPerQueryThresholds() {
-			values = append(values, fps.subPath.GetRaw(item)...)
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// GetSingle returns value of selected field from source TsCondition_Spec_ThresholdAlertingCfg
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg) (interface{}, bool) {
-	switch fps.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		if len(source.GetPerQueryThresholds()) == 0 {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetPerQueryThresholds()[0])
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fps.selector))
-	}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) ClearValue(item *TsCondition_Spec_ThresholdAlertingCfg) {
-	if item != nil {
-		switch fps.selector {
-		case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-			for _, subItem := range item.PerQueryThresholds {
-				fps.subPath.ClearValueRaw(subItem)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&TsConditionSpecThresholdAlertingCfg_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) WithIValue(value interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathValue {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) WithIArrayOfValues(values interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) WithIArrayItemValue(value interface{}) TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue {
-	return &TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfg_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// TsConditionSpecThresholdAlertingCfg_FieldPathValue allows storing values for ThresholdAlertingCfg fields according to their type
-type TsConditionSpecThresholdAlertingCfg_FieldPathValue interface {
-	TsConditionSpecThresholdAlertingCfg_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **TsCondition_Spec_ThresholdAlertingCfg)
-	CompareWith(*TsCondition_Spec_ThresholdAlertingCfg) (cmp int, comparable bool)
-}
-
-func ParseTsConditionSpecThresholdAlertingCfg_FieldPathValue(pathStr, valueStr string) (TsConditionSpecThresholdAlertingCfg_FieldPathValue, error) {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing ThresholdAlertingCfg field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(TsConditionSpecThresholdAlertingCfg_FieldPathValue), nil
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfg_FieldPathValue(pathStr, valueStr string) TsConditionSpecThresholdAlertingCfg_FieldPathValue {
-	fpv, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue struct {
-	TsConditionSpecThresholdAlertingCfg_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecThresholdAlertingCfg_FieldPathValue = (*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'ThresholdAlertingCfg' as interface{}
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) AsOperatorValue() (TsCondition_Spec_ThresholdAlertingCfg_Operator, bool) {
-	res, ok := fpv.value.(TsCondition_Spec_ThresholdAlertingCfg_Operator)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) AsAlignmentPeriodValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) AsRaiseAfterValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) AsSilenceAfterValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) AsPerQueryThresholdsValue() ([]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds, bool) {
-	res, ok := fpv.value.([]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) AsAdaptiveThresholdsDetectionPeriodValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object ThresholdAlertingCfg
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) SetTo(target **TsCondition_Spec_ThresholdAlertingCfg) {
-	if *target == nil {
-		*target = new(TsCondition_Spec_ThresholdAlertingCfg)
-	}
-	switch fpv.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		(*target).Operator = fpv.value.(TsCondition_Spec_ThresholdAlertingCfg_Operator)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		(*target).AlignmentPeriod = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		(*target).RaiseAfter = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		(*target).SilenceAfter = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		(*target).PerQueryThresholds = fpv.value.([]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		(*target).AdaptiveThresholdsDetectionPeriod = fpv.value.(*durationpb.Duration)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_ThresholdAlertingCfg)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue' with the value under path in 'TsCondition_Spec_ThresholdAlertingCfg'.
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) CompareWith(source *TsCondition_Spec_ThresholdAlertingCfg) (int, bool) {
-	switch fpv.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		leftValue := fpv.value.(TsCondition_Spec_ThresholdAlertingCfg_Operator)
-		rightValue := source.GetOperator()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetAlignmentPeriod()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetRaiseAfter()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetSilenceAfter()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return 0, false
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetAdaptiveThresholdsDetectionPeriod()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldSubPathValue struct {
-	TsConditionSpecThresholdAlertingCfg_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ TsConditionSpecThresholdAlertingCfg_FieldPathValue = (*TsConditionSpecThresholdAlertingCfg_FieldSubPathValue)(nil)
-
-func (fpvs *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue) AsPerQueryThresholdsPathValue() (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue) SetTo(target **TsCondition_Spec_ThresholdAlertingCfg) {
-	if *target == nil {
-		*target = new(TsCondition_Spec_ThresholdAlertingCfg)
-	}
-	switch fpvs.Selector() {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		panic("FieldPath setter is unsupported for array subpaths")
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_ThresholdAlertingCfg)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue) CompareWith(source *TsCondition_Spec_ThresholdAlertingCfg) (int, bool) {
-	switch fpvs.Selector() {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return 0, false // repeated field
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfg_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue allows storing single item in Path-specific values for ThresholdAlertingCfg according to their type
-// Present only for array (repeated) types.
-type TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	TsConditionSpecThresholdAlertingCfg_FieldPath
-	ContainsValue(*TsCondition_Spec_ThresholdAlertingCfg) bool
-}
-
-// ParseTsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseTsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue(pathStr, valueStr string) (TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue, error) {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing ThresholdAlertingCfg field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue), nil
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue(pathStr, valueStr string) TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue {
-	fpaiv, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue struct {
-	TsConditionSpecThresholdAlertingCfg_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecThresholdAlertingCfg_FieldPathArrayItemValue = (*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object TsCondition_Spec_ThresholdAlertingCfg as interface{}
-func (fpaiv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-func (fpaiv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue) AsPerQueryThresholdsItemValue() (*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds, bool) {
-	res, ok := fpaiv.value.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	return res, ok
-}
-
-func (fpaiv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue) GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*TsCondition_Spec_ThresholdAlertingCfg))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'ThresholdAlertingCfg'
-func (fpaiv *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayItemValue) ContainsValue(source *TsCondition_Spec_ThresholdAlertingCfg) bool {
-	slice := fpaiv.TsConditionSpecThresholdAlertingCfg_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayItemValue struct {
-	TsConditionSpecThresholdAlertingCfg_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayItemValue) AsPerQueryThresholdsPathItemValue() (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'ThresholdAlertingCfg'
-func (fpaivs *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayItemValue) ContainsValue(source *TsCondition_Spec_ThresholdAlertingCfg) bool {
-	switch fpaivs.Selector() {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		return false // repeated/map field
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg: %d", fpaivs.Selector()))
-	}
-}
-
-// TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues allows storing slice of values for ThresholdAlertingCfg fields according to their type
-type TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	TsConditionSpecThresholdAlertingCfg_FieldPath
-}
-
-func ParseTsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues(pathStr, valuesStr string) (TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues, error) {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing ThresholdAlertingCfg field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues), nil
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues(pathStr, valuesStr string) TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues {
-	fpaov, err := ParseTsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues struct {
-	TsConditionSpecThresholdAlertingCfg_FieldTerminalPath
-	values interface{}
-}
-
-var _ TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues = (*TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorOperator:
-		for _, v := range fpaov.values.([]TsCondition_Spec_ThresholdAlertingCfg_Operator) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorRaiseAfter:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorSilenceAfter:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorPerQueryThresholds:
-		for _, v := range fpaov.values.([][]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfg_FieldPathSelectorAdaptiveThresholdsDetectionPeriod:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues) AsOperatorArrayOfValues() ([]TsCondition_Spec_ThresholdAlertingCfg_Operator, bool) {
-	res, ok := fpaov.values.([]TsCondition_Spec_ThresholdAlertingCfg_Operator)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues) AsAlignmentPeriodArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues) AsRaiseAfterArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues) AsSilenceAfterArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues) AsPerQueryThresholdsArrayOfValues() ([][]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds, bool) {
-	res, ok := fpaov.values.([][]*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfg_FieldTerminalPathArrayOfValues) AsAdaptiveThresholdsDetectionPeriodArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-
-type TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues struct {
-	TsConditionSpecThresholdAlertingCfg_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ TsConditionSpecThresholdAlertingCfg_FieldPathArrayOfValues = (*TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *TsConditionSpecThresholdAlertingCfg_FieldSubPathArrayOfValues) AsPerQueryThresholdsPathArrayOfValues() (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type TsConditionSpecAnomalyAlertingCfg_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() TsConditionSpecAnomalyAlertingCfg_FieldPathSelector
-	Get(source *TsCondition_Spec_AnomalyAlertingCfg) []interface{}
-	GetSingle(source *TsCondition_Spec_AnomalyAlertingCfg) (interface{}, bool)
-	ClearValue(item *TsCondition_Spec_AnomalyAlertingCfg)
-
-	// Those methods build corresponding TsConditionSpecAnomalyAlertingCfg_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathValue
-	WithIArrayOfValues(values interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldPathSelector int32
-
-const (
-	TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow    TsConditionSpecAnomalyAlertingCfg_FieldPathSelector = 0
-	TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval      TsConditionSpecAnomalyAlertingCfg_FieldPathSelector = 1
-	TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval TsConditionSpecAnomalyAlertingCfg_FieldPathSelector = 2
-	TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod   TsConditionSpecAnomalyAlertingCfg_FieldPathSelector = 3
-	TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder   TsConditionSpecAnomalyAlertingCfg_FieldPathSelector = 4
-	TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter        TsConditionSpecAnomalyAlertingCfg_FieldPathSelector = 5
-	TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter      TsConditionSpecAnomalyAlertingCfg_FieldPathSelector = 6
-)
-
-func (s TsConditionSpecAnomalyAlertingCfg_FieldPathSelector) String() string {
-	switch s {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		return "analysis_window"
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		return "step_interval"
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		return "train_step_interval"
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return "alignment_period"
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		return "lstm_autoencoder"
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		return "raise_after"
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		return "silence_after"
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", s))
-	}
-}
-
-func BuildTsConditionSpecAnomalyAlertingCfg_FieldPath(fp gotenobject.RawFieldPath) (TsConditionSpecAnomalyAlertingCfg_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object TsCondition_Spec_AnomalyAlertingCfg")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "analysis_window", "analysisWindow", "analysis-window":
-			return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow}, nil
-		case "step_interval", "stepInterval", "step-interval":
-			return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval}, nil
-		case "train_step_interval", "trainStepInterval", "train-step-interval":
-			return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval}, nil
-		case "alignment_period", "alignmentPeriod", "alignment-period":
-			return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod}, nil
-		case "lstm_autoencoder", "lstmAutoencoder", "lstm-autoencoder":
-			return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder}, nil
-		case "raise_after", "raiseAfter", "raise-after":
-			return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter}, nil
-		case "silence_after", "silenceAfter", "silence-after":
-			return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "lstm_autoencoder", "lstmAutoencoder", "lstm-autoencoder":
-			if subpath, err := BuildTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &TsConditionSpecAnomalyAlertingCfg_FieldSubPath{selector: TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder, subPath: subpath}, nil
-			}
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TsCondition_Spec_AnomalyAlertingCfg", fp)
-}
-
-func ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(rawField string) (TsConditionSpecAnomalyAlertingCfg_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildTsConditionSpecAnomalyAlertingCfg_FieldPath(fp)
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfg_FieldPath(rawField string) TsConditionSpecAnomalyAlertingCfg_FieldPath {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath struct {
-	selector TsConditionSpecAnomalyAlertingCfg_FieldPathSelector
-}
-
-var _ TsConditionSpecAnomalyAlertingCfg_FieldPath = (*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath)(nil)
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) Selector() TsConditionSpecAnomalyAlertingCfg_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source TsCondition_Spec_AnomalyAlertingCfg
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) Get(source *TsCondition_Spec_AnomalyAlertingCfg) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-			if source.AnalysisWindow != nil {
-				values = append(values, source.AnalysisWindow)
-			}
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-			if source.StepInterval != nil {
-				values = append(values, source.StepInterval)
-			}
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-			if source.TrainStepInterval != nil {
-				values = append(values, source.TrainStepInterval)
-			}
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-			if source.AlignmentPeriod != nil {
-				values = append(values, source.AlignmentPeriod)
-			}
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-			if source, ok := source.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); ok && source != nil {
-				if source.LstmAutoencoder != nil {
-					values = append(values, source.LstmAutoencoder)
-				}
-			}
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-			if source.RaiseAfter != nil {
-				values = append(values, source.RaiseAfter)
-			}
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-			if source.SilenceAfter != nil {
-				values = append(values, source.SilenceAfter)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// GetSingle returns value pointed by specific field of from source TsCondition_Spec_AnomalyAlertingCfg
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) GetSingle(source *TsCondition_Spec_AnomalyAlertingCfg) (interface{}, bool) {
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		res := source.GetAnalysisWindow()
-		return res, res != nil
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		res := source.GetStepInterval()
-		return res, res != nil
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		res := source.GetTrainStepInterval()
-		return res, res != nil
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		res := source.GetAlignmentPeriod()
-		return res, res != nil
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		// if object nil or oneof not active, return "default" type with false flag.
-		if source == nil {
-			return source.GetLstmAutoencoder(), false
-		}
-		_, oneOfSelected := source.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder)
-		if !oneOfSelected {
-			return source.GetLstmAutoencoder(), false // to return "type" information
-		}
-		res := source.GetLstmAutoencoder()
-		return res, res != nil
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		res := source.GetRaiseAfter()
-		return res, res != nil
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		res := source.GetSilenceAfter()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		return (*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)(nil)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		return (*durationpb.Duration)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) ClearValue(item *TsCondition_Spec_AnomalyAlertingCfg) {
-	if item != nil {
-		switch fp.selector {
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-			item.AnalysisWindow = nil
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-			item.StepInterval = nil
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-			item.TrainStepInterval = nil
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-			item.AlignmentPeriod = nil
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-			if item, ok := item.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); ok {
-				item.LstmAutoencoder = nil
-			}
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-			item.RaiseAfter = nil
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-			item.SilenceAfter = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) WithIValue(value interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathValue {
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, value: value.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) WithIArrayOfValues(values interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues {
-	fpaov := &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, values: values.([]*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		return &TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) WithIArrayItemValue(value interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldSubPath struct {
-	selector TsConditionSpecAnomalyAlertingCfg_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ TsConditionSpecAnomalyAlertingCfg_FieldPath = (*TsConditionSpecAnomalyAlertingCfg_FieldSubPath)(nil)
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) Selector() TsConditionSpecAnomalyAlertingCfg_FieldPathSelector {
-	return fps.selector
-}
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) AsLstmAutoencoderSubPath() (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath, bool) {
-	res, ok := fps.subPath.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source TsCondition_Spec_AnomalyAlertingCfg
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) Get(source *TsCondition_Spec_AnomalyAlertingCfg) (values []interface{}) {
-	switch fps.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		values = append(values, fps.subPath.GetRaw(source.GetLstmAutoencoder())...)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// GetSingle returns value of selected field from source TsCondition_Spec_AnomalyAlertingCfg
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) GetSingle(source *TsCondition_Spec_AnomalyAlertingCfg) (interface{}, bool) {
-	switch fps.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		if source.GetLstmAutoencoder() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetLstmAutoencoder())
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fps.selector))
-	}
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) ClearValue(item *TsCondition_Spec_AnomalyAlertingCfg) {
-	if item != nil {
-		switch fps.selector {
-		case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-			if item.Model != nil {
-				if item, ok := item.Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); ok {
-					fps.subPath.ClearValueRaw(item.LstmAutoencoder)
-				}
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) WithIValue(value interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathValue {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) WithIArrayOfValues(values interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) WithIArrayItemValue(value interface{}) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue {
-	return &TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *TsConditionSpecAnomalyAlertingCfg_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// TsConditionSpecAnomalyAlertingCfg_FieldPathValue allows storing values for AnomalyAlertingCfg fields according to their type
-type TsConditionSpecAnomalyAlertingCfg_FieldPathValue interface {
-	TsConditionSpecAnomalyAlertingCfg_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **TsCondition_Spec_AnomalyAlertingCfg)
-	CompareWith(*TsCondition_Spec_AnomalyAlertingCfg) (cmp int, comparable bool)
-}
-
-func ParseTsConditionSpecAnomalyAlertingCfg_FieldPathValue(pathStr, valueStr string) (TsConditionSpecAnomalyAlertingCfg_FieldPathValue, error) {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AnomalyAlertingCfg field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(TsConditionSpecAnomalyAlertingCfg_FieldPathValue), nil
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfg_FieldPathValue(pathStr, valueStr string) TsConditionSpecAnomalyAlertingCfg_FieldPathValue {
-	fpv, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue struct {
-	TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecAnomalyAlertingCfg_FieldPathValue = (*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'AnomalyAlertingCfg' as interface{}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) AsAnalysisWindowValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) AsStepIntervalValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) AsTrainStepIntervalValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) AsAlignmentPeriodValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) AsLstmAutoencoderValue() (*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder, bool) {
-	res, ok := fpv.value.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) AsRaiseAfterValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) AsSilenceAfterValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object AnomalyAlertingCfg
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) SetTo(target **TsCondition_Spec_AnomalyAlertingCfg) {
-	if *target == nil {
-		*target = new(TsCondition_Spec_AnomalyAlertingCfg)
-	}
-	switch fpv.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		(*target).AnalysisWindow = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		(*target).StepInterval = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		(*target).TrainStepInterval = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		(*target).AlignmentPeriod = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		if _, ok := (*target).Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); !ok {
-			(*target).Model = &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder{}
-		}
-		(*target).Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder).LstmAutoencoder = fpv.value.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		(*target).RaiseAfter = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		(*target).SilenceAfter = fpv.value.(*durationpb.Duration)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_AnomalyAlertingCfg)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue' with the value under path in 'TsCondition_Spec_AnomalyAlertingCfg'.
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) CompareWith(source *TsCondition_Spec_AnomalyAlertingCfg) (int, bool) {
-	switch fpv.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetAnalysisWindow()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetStepInterval()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetTrainStepInterval()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetAlignmentPeriod()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		return 0, false
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetRaiseAfter()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetSilenceAfter()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue struct {
-	TsConditionSpecAnomalyAlertingCfg_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ TsConditionSpecAnomalyAlertingCfg_FieldPathValue = (*TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue)(nil)
-
-func (fpvs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue) AsLstmAutoencoderPathValue() (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue) SetTo(target **TsCondition_Spec_AnomalyAlertingCfg) {
-	if *target == nil {
-		*target = new(TsCondition_Spec_AnomalyAlertingCfg)
-	}
-	switch fpvs.Selector() {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		if _, ok := (*target).Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder); !ok {
-			(*target).Model = &TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder{}
-		}
-		fpvs.subPathValue.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue).SetTo(&(*target).Model.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoencoder).LstmAutoencoder)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_AnomalyAlertingCfg)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue) CompareWith(source *TsCondition_Spec_AnomalyAlertingCfg) (int, bool) {
-	switch fpvs.Selector() {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		return fpvs.subPathValue.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue).CompareWith(source.GetLstmAutoencoder())
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue allows storing single item in Path-specific values for AnomalyAlertingCfg according to their type
-// Present only for array (repeated) types.
-type TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	TsConditionSpecAnomalyAlertingCfg_FieldPath
-	ContainsValue(*TsCondition_Spec_AnomalyAlertingCfg) bool
-}
-
-// ParseTsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseTsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue(pathStr, valueStr string) (TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue, error) {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AnomalyAlertingCfg field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue), nil
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue(pathStr, valueStr string) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue {
-	fpaiv, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayItemValue struct {
-	TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecAnomalyAlertingCfg_FieldPathArrayItemValue = (*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object TsCondition_Spec_AnomalyAlertingCfg as interface{}
-func (fpaiv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayItemValue) GetSingle(source *TsCondition_Spec_AnomalyAlertingCfg) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*TsCondition_Spec_AnomalyAlertingCfg))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'AnomalyAlertingCfg'
-func (fpaiv *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayItemValue) ContainsValue(source *TsCondition_Spec_AnomalyAlertingCfg) bool {
-	slice := fpaiv.TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayItemValue struct {
-	TsConditionSpecAnomalyAlertingCfg_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayItemValue) AsLstmAutoencoderPathItemValue() (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'AnomalyAlertingCfg'
-func (fpaivs *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayItemValue) ContainsValue(source *TsCondition_Spec_AnomalyAlertingCfg) bool {
-	switch fpaivs.Selector() {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		return fpaivs.subPathItemValue.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue).ContainsValue(source.GetLstmAutoencoder())
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg: %d", fpaivs.Selector()))
-	}
-}
-
-// TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues allows storing slice of values for AnomalyAlertingCfg fields according to their type
-type TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	TsConditionSpecAnomalyAlertingCfg_FieldPath
-}
-
-func ParseTsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues(pathStr, valuesStr string) (TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues, error) {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AnomalyAlertingCfg field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues), nil
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues(pathStr, valuesStr string) TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues {
-	fpaov, err := ParseTsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues struct {
-	TsConditionSpecAnomalyAlertingCfg_FieldTerminalPath
-	values interface{}
-}
-
-var _ TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues = (*TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAnalysisWindow:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorStepInterval:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorTrainStepInterval:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorAlignmentPeriod:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorLstmAutoencoder:
-		for _, v := range fpaov.values.([]*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorRaiseAfter:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfg_FieldPathSelectorSilenceAfter:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) AsAnalysisWindowArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) AsStepIntervalArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) AsTrainStepIntervalArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) AsAlignmentPeriodArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) AsLstmAutoencoderArrayOfValues() ([]*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder, bool) {
-	res, ok := fpaov.values.([]*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) AsRaiseAfterArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfg_FieldTerminalPathArrayOfValues) AsSilenceAfterArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-
-type TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues struct {
-	TsConditionSpecAnomalyAlertingCfg_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ TsConditionSpecAnomalyAlertingCfg_FieldPathArrayOfValues = (*TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *TsConditionSpecAnomalyAlertingCfg_FieldSubPathArrayOfValues) AsLstmAutoencoderPathArrayOfValues() (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector
-	Get(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) []interface{}
-	GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (interface{}, bool)
-	ClearValue(item *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-
-	// Those methods build corresponding TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue
-	WithIArrayOfValues(values interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector int32
-
-const (
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 0
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 1
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper       TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 2
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower       TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector = 3
-)
-
-func (s TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector) String() string {
-	switch s {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		return "auto_adapt_upper"
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		return "auto_adapt_lower"
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		return "max_upper"
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		return "max_lower"
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", s))
-	}
-}
-
-func BuildTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(fp gotenobject.RawFieldPath) (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "auto_adapt_upper", "autoAdaptUpper", "auto-adapt-upper":
-			return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper}, nil
-		case "auto_adapt_lower", "autoAdaptLower", "auto-adapt-lower":
-			return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower}, nil
-		case "max_upper", "maxUpper", "max-upper":
-			return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper}, nil
-		case "max_lower", "maxLower", "max-lower":
-			return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "max_upper", "maxUpper", "max-upper":
-			if subpath, err := BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper, subPath: subpath}, nil
-			}
-		case "max_lower", "maxLower", "max-lower":
-			if subpath, err := BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath{selector: TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower, subPath: subpath}, nil
-			}
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds", fp)
-}
-
-func ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(rawField string) (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(fp)
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(rawField string) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath struct {
-	selector TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector
-}
-
-var _ TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath = (*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath)(nil)
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Selector() TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) Get(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-			values = append(values, source.AutoAdaptUpper)
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-			values = append(values, source.AutoAdaptLower)
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-			if source.MaxUpper != nil {
-				values = append(values, source.MaxUpper)
-			}
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-			if source.MaxLower != nil {
-				values = append(values, source.MaxLower)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// GetSingle returns value pointed by specific field of from source TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (interface{}, bool) {
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		return source.GetAutoAdaptUpper(), source != nil
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		return source.GetAutoAdaptLower(), source != nil
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		res := source.GetMaxUpper()
-		return res, res != nil
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		res := source.GetMaxLower()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		return false
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		return false
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		return (*AlertingThreshold)(nil)
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		return (*AlertingThreshold)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) ClearValue(item *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) {
-	if item != nil {
-		switch fp.selector {
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-			item.AutoAdaptUpper = false
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-			item.AutoAdaptLower = false
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-			item.MaxUpper = nil
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-			item.MaxLower = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper ||
-		fp.selector == TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) WithIValue(value interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue {
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, value: value.(bool)}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, value: value.(bool)}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, value: value.(*AlertingThreshold)}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, value: value.(*AlertingThreshold)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) WithIArrayOfValues(values interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues {
-	fpaov := &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, values: values.([]bool)}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, values: values.([]bool)}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, values: values.([]*AlertingThreshold)}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues{TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath: *fp, values: values.([]*AlertingThreshold)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) WithIArrayItemValue(value interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath struct {
-	selector TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath = (*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath)(nil)
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) Selector() TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelector {
-	return fps.selector
-}
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) AsMaxUpperSubPath() (AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(AlertingThreshold_FieldPath)
-	return res, ok
-}
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) AsMaxLowerSubPath() (AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(AlertingThreshold_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) Get(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (values []interface{}) {
-	switch fps.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		values = append(values, fps.subPath.GetRaw(source.GetMaxUpper())...)
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		values = append(values, fps.subPath.GetRaw(source.GetMaxLower())...)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// GetSingle returns value of selected field from source TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (interface{}, bool) {
-	switch fps.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		if source.GetMaxUpper() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetMaxUpper())
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		if source.GetMaxLower() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetMaxLower())
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fps.selector))
-	}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) ClearValue(item *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) {
-	if item != nil {
-		switch fps.selector {
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-			fps.subPath.ClearValueRaw(item.MaxUpper)
-		case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-			fps.subPath.ClearValueRaw(item.MaxLower)
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) WithIValue(value interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) WithIArrayOfValues(values interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) WithIArrayItemValue(value interface{}) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue {
-	return &TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue allows storing values for AlertingThresholds fields according to their type
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue interface {
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	CompareWith(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (cmp int, comparable bool)
-}
-
-func ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue(pathStr, valueStr string) (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue, error) {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertingThresholds field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue), nil
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue(pathStr, valueStr string) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue {
-	fpv, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue struct {
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue = (*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'AlertingThresholds' as interface{}
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) AsAutoAdaptUpperValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) AsAutoAdaptLowerValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) AsMaxUpperValue() (*AlertingThreshold, bool) {
-	res, ok := fpv.value.(*AlertingThreshold)
-	return res, ok
-}
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) AsMaxLowerValue() (*AlertingThreshold, bool) {
-	res, ok := fpv.value.(*AlertingThreshold)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object AlertingThresholds
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) SetTo(target **TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) {
-	if *target == nil {
-		*target = new(TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	}
-	switch fpv.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		(*target).AutoAdaptUpper = fpv.value.(bool)
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		(*target).AutoAdaptLower = fpv.value.(bool)
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		(*target).MaxUpper = fpv.value.(*AlertingThreshold)
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		(*target).MaxLower = fpv.value.(*AlertingThreshold)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue' with the value under path in 'TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds'.
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) CompareWith(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (int, bool) {
-	switch fpv.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetAutoAdaptUpper()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetAutoAdaptLower()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		return 0, false
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		return 0, false
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue struct {
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathValue = (*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue)(nil)
-
-func (fpvs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue) AsMaxUpperPathValue() (AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(AlertingThreshold_FieldPathValue)
-	return res, ok
-}
-func (fpvs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue) AsMaxLowerPathValue() (AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(AlertingThreshold_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue) SetTo(target **TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) {
-	if *target == nil {
-		*target = new(TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	}
-	switch fpvs.Selector() {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		fpvs.subPathValue.(AlertingThreshold_FieldPathValue).SetTo(&(*target).MaxUpper)
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		fpvs.subPathValue.(AlertingThreshold_FieldPathValue).SetTo(&(*target).MaxLower)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue) CompareWith(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (int, bool) {
-	switch fpvs.Selector() {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		return fpvs.subPathValue.(AlertingThreshold_FieldPathValue).CompareWith(source.GetMaxUpper())
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		return fpvs.subPathValue.(AlertingThreshold_FieldPathValue).CompareWith(source.GetMaxLower())
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue allows storing single item in Path-specific values for AlertingThresholds according to their type
-// Present only for array (repeated) types.
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath
-	ContainsValue(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) bool
-}
-
-// ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue(pathStr, valueStr string) (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue, error) {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertingThresholds field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue), nil
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue(pathStr, valueStr string) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue {
-	fpaiv, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayItemValue struct {
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayItemValue = (*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds as interface{}
-func (fpaiv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayItemValue) GetSingle(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'AlertingThresholds'
-func (fpaiv *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayItemValue) ContainsValue(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) bool {
-	slice := fpaiv.TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue struct {
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue) AsMaxUpperPathItemValue() (AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(AlertingThreshold_FieldPathArrayItemValue)
-	return res, ok
-}
-func (fpaivs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue) AsMaxLowerPathItemValue() (AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(AlertingThreshold_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'AlertingThresholds'
-func (fpaivs *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayItemValue) ContainsValue(source *TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds) bool {
-	switch fpaivs.Selector() {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		return fpaivs.subPathItemValue.(AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetMaxUpper())
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		return fpaivs.subPathItemValue.(AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetMaxLower())
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_ThresholdAlertingCfg_AlertingThresholds: %d", fpaivs.Selector()))
-	}
-}
-
-// TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues allows storing slice of values for AlertingThresholds fields according to their type
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath
-}
-
-func ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues(pathStr, valuesStr string) (TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues, error) {
-	fp, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertingThresholds field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues), nil
-}
-
-func MustParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues(pathStr, valuesStr string) TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues {
-	fpaov, err := ParseTsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues struct {
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPath
-	values interface{}
-}
-
-var _ TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues = (*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptUpper:
-		for _, v := range fpaov.values.([]bool) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorAutoAdaptLower:
-		for _, v := range fpaov.values.([]bool) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxUpper:
-		for _, v := range fpaov.values.([]*AlertingThreshold) {
-			values = append(values, v)
-		}
-	case TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathSelectorMaxLower:
-		for _, v := range fpaov.values.([]*AlertingThreshold) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues) AsAutoAdaptUpperArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues) AsAutoAdaptLowerArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues) AsMaxUpperArrayOfValues() ([]*AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*AlertingThreshold)
-	return res, ok
-}
-func (fpaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldTerminalPathArrayOfValues) AsMaxLowerArrayOfValues() ([]*AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*AlertingThreshold)
-	return res, ok
-}
-
-type TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues struct {
-	TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldPathArrayOfValues = (*TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues) AsMaxUpperPathArrayOfValues() (AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(AlertingThreshold_FieldPathArrayOfValues)
-	return res, ok
-}
-func (fpsaov *TsConditionSpecThresholdAlertingCfgAlertingThresholds_FieldSubPathArrayOfValues) AsMaxLowerPathArrayOfValues() (AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(AlertingThreshold_FieldPathArrayOfValues)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector
-	Get(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) []interface{}
-	GetSingle(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) (interface{}, bool)
-	ClearValue(item *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-
-	// Those methods build corresponding TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue
-	WithIArrayOfValues(values interface{}) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue
-}
-
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector int32
-
-const (
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize              TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector = 0
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate               TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector = 1
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs       TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector = 2
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs       TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector = 3
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector = 4
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod          TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector = 5
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction     TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector = 6
-)
-
-func (s TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector) String() string {
-	switch s {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		return "hidden_size"
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		return "learn_rate"
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		return "max_training_epochs"
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		return "min_training_epochs"
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		return "acceptable_training_error"
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		return "training_period"
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		return "check_period_fraction"
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", s))
-	}
-}
-
-func BuildTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(fp gotenobject.RawFieldPath) (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "hidden_size", "hiddenSize", "hidden-size":
-			return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize}, nil
-		case "learn_rate", "learnRate", "learn-rate":
-			return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate}, nil
-		case "max_training_epochs", "maxTrainingEpochs", "max-training-epochs":
-			return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs}, nil
-		case "min_training_epochs", "minTrainingEpochs", "min-training-epochs":
-			return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs}, nil
-		case "acceptable_training_error", "acceptableTrainingError", "acceptable-training-error":
-			return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError}, nil
-		case "training_period", "trainingPeriod", "training-period":
-			return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod}, nil
-		case "check_period_fraction", "checkPeriodFraction", "check-period-fraction":
-			return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath{selector: TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder", fp)
-}
-
-func ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(rawField string) (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(fp)
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(rawField string) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath struct {
-	selector TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector
-}
-
-var _ TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath = (*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath)(nil)
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) Selector() TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) Get(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-			values = append(values, source.HiddenSize)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-			values = append(values, source.LearnRate)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-			values = append(values, source.MaxTrainingEpochs)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-			values = append(values, source.MinTrainingEpochs)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-			values = append(values, source.AcceptableTrainingError)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-			if source.TrainingPeriod != nil {
-				values = append(values, source.TrainingPeriod)
-			}
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-			values = append(values, source.CheckPeriodFraction)
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-// GetSingle returns value pointed by specific field of from source TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) GetSingle(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) (interface{}, bool) {
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		return source.GetHiddenSize(), source != nil
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		return source.GetLearnRate(), source != nil
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		return source.GetMaxTrainingEpochs(), source != nil
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		return source.GetMinTrainingEpochs(), source != nil
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		return source.GetAcceptableTrainingError(), source != nil
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		res := source.GetTrainingPeriod()
-		return res, res != nil
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		return source.GetCheckPeriodFraction(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		return int32(0)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		return float64(0)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		return int32(0)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		return int32(0)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		return float64(0)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		return (*durationpb.Duration)(nil)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		return float64(0)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) ClearValue(item *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) {
-	if item != nil {
-		switch fp.selector {
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-			item.HiddenSize = int32(0)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-			item.LearnRate = float64(0)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-			item.MaxTrainingEpochs = int32(0)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-			item.MinTrainingEpochs = int32(0)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-			item.AcceptableTrainingError = float64(0)
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-			item.TrainingPeriod = nil
-		case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-			item.CheckPeriodFraction = float64(0)
-		default:
-			panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod ||
-		fp.selector == TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) WithIValue(value interface{}) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue {
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, value: value.(int32)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, value: value.(float64)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, value: value.(int32)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, value: value.(int32)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, value: value.(float64)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, value: value.(float64)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) WithIArrayOfValues(values interface{}) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues {
-	fpaov := &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, values: values.([]int32)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, values: values.([]float64)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, values: values.([]int32)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, values: values.([]int32)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, values: values.([]float64)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		return &TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues{TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath: *fp, values: values.([]float64)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) WithIArrayItemValue(value interface{}) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fp.selector))
-	}
-}
-
-func (fp *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue allows storing values for LstmAutoEncoder fields according to their type
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue interface {
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-	CompareWith(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) (cmp int, comparable bool)
-}
-
-func ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue(pathStr, valueStr string) (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue, error) {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing LstmAutoEncoder field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue), nil
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue(pathStr, valueStr string) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue {
-	fpv, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue struct {
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathValue = (*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'LstmAutoEncoder' as interface{}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) AsHiddenSizeValue() (int32, bool) {
-	res, ok := fpv.value.(int32)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) AsLearnRateValue() (float64, bool) {
-	res, ok := fpv.value.(float64)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) AsMaxTrainingEpochsValue() (int32, bool) {
-	res, ok := fpv.value.(int32)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) AsMinTrainingEpochsValue() (int32, bool) {
-	res, ok := fpv.value.(int32)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) AsAcceptableTrainingErrorValue() (float64, bool) {
-	res, ok := fpv.value.(float64)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) AsTrainingPeriodValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
-	return res, ok
-}
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) AsCheckPeriodFractionValue() (float64, bool) {
-	res, ok := fpv.value.(float64)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object LstmAutoEncoder
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) SetTo(target **TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) {
-	if *target == nil {
-		*target = new(TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-	}
-	switch fpv.selector {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		(*target).HiddenSize = fpv.value.(int32)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		(*target).LearnRate = fpv.value.(float64)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		(*target).MaxTrainingEpochs = fpv.value.(int32)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		(*target).MinTrainingEpochs = fpv.value.(int32)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		(*target).AcceptableTrainingError = fpv.value.(float64)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		(*target).TrainingPeriod = fpv.value.(*durationpb.Duration)
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		(*target).CheckPeriodFraction = fpv.value.(float64)
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue' with the value under path in 'TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder'.
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) CompareWith(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) (int, bool) {
-	switch fpv.selector {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		leftValue := fpv.value.(int32)
-		rightValue := source.GetHiddenSize()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		leftValue := fpv.value.(float64)
-		rightValue := source.GetLearnRate()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		leftValue := fpv.value.(int32)
-		rightValue := source.GetMaxTrainingEpochs()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		leftValue := fpv.value.(int32)
-		rightValue := source.GetMinTrainingEpochs()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		leftValue := fpv.value.(float64)
-		rightValue := source.GetAcceptableTrainingError()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetTrainingPeriod()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
-			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		leftValue := fpv.value.(float64)
-		rightValue := source.GetCheckPeriodFraction()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder: %d", fpv.selector))
-	}
-}
-
-func (fpv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-// TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue allows storing single item in Path-specific values for LstmAutoEncoder according to their type
-// Present only for array (repeated) types.
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath
-	ContainsValue(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) bool
-}
-
-// ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue(pathStr, valueStr string) (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue, error) {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing LstmAutoEncoder field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue), nil
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue(pathStr, valueStr string) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue {
-	fpaiv, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayItemValue struct {
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath
-	value interface{}
-}
-
-var _ TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayItemValue = (*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder as interface{}
-func (fpaiv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayItemValue) GetSingle(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'LstmAutoEncoder'
-func (fpaiv *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayItemValue) ContainsValue(source *TsCondition_Spec_AnomalyAlertingCfg_LstmAutoEncoder) bool {
-	slice := fpaiv.TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues allows storing slice of values for LstmAutoEncoder fields according to their type
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath
-}
-
-func ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues(pathStr, valuesStr string) (TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues, error) {
-	fp, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing LstmAutoEncoder field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues), nil
-}
-
-func MustParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues(pathStr, valuesStr string) TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues {
-	fpaov, err := ParseTsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues struct {
-	TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPath
-	values interface{}
-}
-
-var _ TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathArrayOfValues = (*TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorHiddenSize:
-		for _, v := range fpaov.values.([]int32) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorLearnRate:
-		for _, v := range fpaov.values.([]float64) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMaxTrainingEpochs:
-		for _, v := range fpaov.values.([]int32) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorMinTrainingEpochs:
-		for _, v := range fpaov.values.([]int32) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorAcceptableTrainingError:
-		for _, v := range fpaov.values.([]float64) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorTrainingPeriod:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	case TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldPathSelectorCheckPeriodFraction:
-		for _, v := range fpaov.values.([]float64) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) AsHiddenSizeArrayOfValues() ([]int32, bool) {
-	res, ok := fpaov.values.([]int32)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) AsLearnRateArrayOfValues() ([]float64, bool) {
-	res, ok := fpaov.values.([]float64)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) AsMaxTrainingEpochsArrayOfValues() ([]int32, bool) {
-	res, ok := fpaov.values.([]int32)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) AsMinTrainingEpochsArrayOfValues() ([]int32, bool) {
-	res, ok := fpaov.values.([]int32)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) AsAcceptableTrainingErrorArrayOfValues() ([]float64, bool) {
-	res, ok := fpaov.values.([]float64)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) AsTrainingPeriodArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-func (fpaov *TsConditionSpecAnomalyAlertingCfgLstmAutoEncoder_FieldTerminalPathArrayOfValues) AsCheckPeriodFractionArrayOfValues() ([]float64, bool) {
-	res, ok := fpaov.values.([]float64)
+func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) AsUpdatedFieldsArrayOfValues() ([]*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpaov.values.([]*fieldmaskpb.FieldMask)
 	return res, ok
 }
 
@@ -7101,426 +3121,5 @@ func (fpaov *TsConditionSelectorStrings_FieldTerminalPathArrayOfValues) GetRawVa
 }
 func (fpaov *TsConditionSelectorStrings_FieldTerminalPathArrayOfValues) AsValuesArrayOfValues() ([][]string, bool) {
 	res, ok := fpaov.values.([][]string)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type AlertingThreshold_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() AlertingThreshold_FieldPathSelector
-	Get(source *AlertingThreshold) []interface{}
-	GetSingle(source *AlertingThreshold) (interface{}, bool)
-	ClearValue(item *AlertingThreshold)
-
-	// Those methods build corresponding AlertingThreshold_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) AlertingThreshold_FieldPathValue
-	WithIArrayOfValues(values interface{}) AlertingThreshold_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) AlertingThreshold_FieldPathArrayItemValue
-}
-
-type AlertingThreshold_FieldPathSelector int32
-
-const (
-	AlertingThreshold_FieldPathSelectorValue       AlertingThreshold_FieldPathSelector = 0
-	AlertingThreshold_FieldPathSelectorIsInclusive AlertingThreshold_FieldPathSelector = 1
-)
-
-func (s AlertingThreshold_FieldPathSelector) String() string {
-	switch s {
-	case AlertingThreshold_FieldPathSelectorValue:
-		return "value"
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		return "is_inclusive"
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", s))
-	}
-}
-
-func BuildAlertingThreshold_FieldPath(fp gotenobject.RawFieldPath) (AlertingThreshold_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object AlertingThreshold")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "value":
-			return &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorValue}, nil
-		case "is_inclusive", "isInclusive", "is-inclusive":
-			return &AlertingThreshold_FieldTerminalPath{selector: AlertingThreshold_FieldPathSelectorIsInclusive}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object AlertingThreshold", fp)
-}
-
-func ParseAlertingThreshold_FieldPath(rawField string) (AlertingThreshold_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildAlertingThreshold_FieldPath(fp)
-}
-
-func MustParseAlertingThreshold_FieldPath(rawField string) AlertingThreshold_FieldPath {
-	fp, err := ParseAlertingThreshold_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type AlertingThreshold_FieldTerminalPath struct {
-	selector AlertingThreshold_FieldPathSelector
-}
-
-var _ AlertingThreshold_FieldPath = (*AlertingThreshold_FieldTerminalPath)(nil)
-
-func (fp *AlertingThreshold_FieldTerminalPath) Selector() AlertingThreshold_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *AlertingThreshold_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *AlertingThreshold_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source AlertingThreshold
-func (fp *AlertingThreshold_FieldTerminalPath) Get(source *AlertingThreshold) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case AlertingThreshold_FieldPathSelectorValue:
-			values = append(values, source.Value)
-		case AlertingThreshold_FieldPathSelectorIsInclusive:
-			values = append(values, source.IsInclusive)
-		default:
-			panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*AlertingThreshold))
-}
-
-// GetSingle returns value pointed by specific field of from source AlertingThreshold
-func (fp *AlertingThreshold_FieldTerminalPath) GetSingle(source *AlertingThreshold) (interface{}, bool) {
-	switch fp.selector {
-	case AlertingThreshold_FieldPathSelectorValue:
-		return source.GetValue(), source != nil
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		return source.GetIsInclusive(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*AlertingThreshold))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *AlertingThreshold_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case AlertingThreshold_FieldPathSelectorValue:
-		return float64(0)
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		return false
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) ClearValue(item *AlertingThreshold) {
-	if item != nil {
-		switch fp.selector {
-		case AlertingThreshold_FieldPathSelectorValue:
-			item.Value = float64(0)
-		case AlertingThreshold_FieldPathSelectorIsInclusive:
-			item.IsInclusive = false
-		default:
-			panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*AlertingThreshold))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *AlertingThreshold_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == AlertingThreshold_FieldPathSelectorValue ||
-		fp.selector == AlertingThreshold_FieldPathSelectorIsInclusive
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) WithIValue(value interface{}) AlertingThreshold_FieldPathValue {
-	switch fp.selector {
-	case AlertingThreshold_FieldPathSelectorValue:
-		return &AlertingThreshold_FieldTerminalPathValue{AlertingThreshold_FieldTerminalPath: *fp, value: value.(float64)}
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		return &AlertingThreshold_FieldTerminalPathValue{AlertingThreshold_FieldTerminalPath: *fp, value: value.(bool)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) WithIArrayOfValues(values interface{}) AlertingThreshold_FieldPathArrayOfValues {
-	fpaov := &AlertingThreshold_FieldTerminalPathArrayOfValues{AlertingThreshold_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case AlertingThreshold_FieldPathSelectorValue:
-		return &AlertingThreshold_FieldTerminalPathArrayOfValues{AlertingThreshold_FieldTerminalPath: *fp, values: values.([]float64)}
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		return &AlertingThreshold_FieldTerminalPathArrayOfValues{AlertingThreshold_FieldTerminalPath: *fp, values: values.([]bool)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) WithIArrayItemValue(value interface{}) AlertingThreshold_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fp.selector))
-	}
-}
-
-func (fp *AlertingThreshold_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// AlertingThreshold_FieldPathValue allows storing values for AlertingThreshold fields according to their type
-type AlertingThreshold_FieldPathValue interface {
-	AlertingThreshold_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **AlertingThreshold)
-	CompareWith(*AlertingThreshold) (cmp int, comparable bool)
-}
-
-func ParseAlertingThreshold_FieldPathValue(pathStr, valueStr string) (AlertingThreshold_FieldPathValue, error) {
-	fp, err := ParseAlertingThreshold_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertingThreshold field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(AlertingThreshold_FieldPathValue), nil
-}
-
-func MustParseAlertingThreshold_FieldPathValue(pathStr, valueStr string) AlertingThreshold_FieldPathValue {
-	fpv, err := ParseAlertingThreshold_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type AlertingThreshold_FieldTerminalPathValue struct {
-	AlertingThreshold_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertingThreshold_FieldPathValue = (*AlertingThreshold_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'AlertingThreshold' as interface{}
-func (fpv *AlertingThreshold_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *AlertingThreshold_FieldTerminalPathValue) AsValueValue() (float64, bool) {
-	res, ok := fpv.value.(float64)
-	return res, ok
-}
-func (fpv *AlertingThreshold_FieldTerminalPathValue) AsIsInclusiveValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object AlertingThreshold
-func (fpv *AlertingThreshold_FieldTerminalPathValue) SetTo(target **AlertingThreshold) {
-	if *target == nil {
-		*target = new(AlertingThreshold)
-	}
-	switch fpv.selector {
-	case AlertingThreshold_FieldPathSelectorValue:
-		(*target).Value = fpv.value.(float64)
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		(*target).IsInclusive = fpv.value.(bool)
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertingThreshold_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*AlertingThreshold)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'AlertingThreshold_FieldTerminalPathValue' with the value under path in 'AlertingThreshold'.
-func (fpv *AlertingThreshold_FieldTerminalPathValue) CompareWith(source *AlertingThreshold) (int, bool) {
-	switch fpv.selector {
-	case AlertingThreshold_FieldPathSelectorValue:
-		leftValue := fpv.value.(float64)
-		rightValue := source.GetValue()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetIsInclusive()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for AlertingThreshold: %d", fpv.selector))
-	}
-}
-
-func (fpv *AlertingThreshold_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*AlertingThreshold))
-}
-
-// AlertingThreshold_FieldPathArrayItemValue allows storing single item in Path-specific values for AlertingThreshold according to their type
-// Present only for array (repeated) types.
-type AlertingThreshold_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	AlertingThreshold_FieldPath
-	ContainsValue(*AlertingThreshold) bool
-}
-
-// ParseAlertingThreshold_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseAlertingThreshold_FieldPathArrayItemValue(pathStr, valueStr string) (AlertingThreshold_FieldPathArrayItemValue, error) {
-	fp, err := ParseAlertingThreshold_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertingThreshold field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(AlertingThreshold_FieldPathArrayItemValue), nil
-}
-
-func MustParseAlertingThreshold_FieldPathArrayItemValue(pathStr, valueStr string) AlertingThreshold_FieldPathArrayItemValue {
-	fpaiv, err := ParseAlertingThreshold_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type AlertingThreshold_FieldTerminalPathArrayItemValue struct {
-	AlertingThreshold_FieldTerminalPath
-	value interface{}
-}
-
-var _ AlertingThreshold_FieldPathArrayItemValue = (*AlertingThreshold_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object AlertingThreshold as interface{}
-func (fpaiv *AlertingThreshold_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *AlertingThreshold_FieldTerminalPathArrayItemValue) GetSingle(source *AlertingThreshold) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *AlertingThreshold_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*AlertingThreshold))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'AlertingThreshold'
-func (fpaiv *AlertingThreshold_FieldTerminalPathArrayItemValue) ContainsValue(source *AlertingThreshold) bool {
-	slice := fpaiv.AlertingThreshold_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// AlertingThreshold_FieldPathArrayOfValues allows storing slice of values for AlertingThreshold fields according to their type
-type AlertingThreshold_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	AlertingThreshold_FieldPath
-}
-
-func ParseAlertingThreshold_FieldPathArrayOfValues(pathStr, valuesStr string) (AlertingThreshold_FieldPathArrayOfValues, error) {
-	fp, err := ParseAlertingThreshold_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing AlertingThreshold field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(AlertingThreshold_FieldPathArrayOfValues), nil
-}
-
-func MustParseAlertingThreshold_FieldPathArrayOfValues(pathStr, valuesStr string) AlertingThreshold_FieldPathArrayOfValues {
-	fpaov, err := ParseAlertingThreshold_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type AlertingThreshold_FieldTerminalPathArrayOfValues struct {
-	AlertingThreshold_FieldTerminalPath
-	values interface{}
-}
-
-var _ AlertingThreshold_FieldPathArrayOfValues = (*AlertingThreshold_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *AlertingThreshold_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case AlertingThreshold_FieldPathSelectorValue:
-		for _, v := range fpaov.values.([]float64) {
-			values = append(values, v)
-		}
-	case AlertingThreshold_FieldPathSelectorIsInclusive:
-		for _, v := range fpaov.values.([]bool) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *AlertingThreshold_FieldTerminalPathArrayOfValues) AsValueArrayOfValues() ([]float64, bool) {
-	res, ok := fpaov.values.([]float64)
-	return res, ok
-}
-func (fpaov *AlertingThreshold_FieldTerminalPathArrayOfValues) AsIsInclusiveArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
 	return res, ok
 }

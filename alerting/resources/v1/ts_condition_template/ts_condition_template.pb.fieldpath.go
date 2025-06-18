@@ -23,9 +23,9 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
-	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
 
@@ -51,7 +51,7 @@ var (
 var (
 	_ = &document.Document{}
 	_ = &policy_template.PolicyTemplate{}
-	_ = &ts_condition.TsCondition{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &meta.Meta{}
 )
 
@@ -129,7 +129,7 @@ func BuildTsConditionTemplate_FieldPath(fp gotenobject.RawFieldPath) (TsConditio
 				return &TsConditionTemplate_FieldSubPath{selector: TsConditionTemplate_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "spec_template", "specTemplate", "spec-template":
-			if subpath, err := ts_condition.BuildTsConditionSpec_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildTsCndSpec_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &TsConditionTemplate_FieldSubPath{selector: TsConditionTemplate_FieldPathSelectorSpecTemplate, subPath: subpath}, nil
@@ -252,7 +252,7 @@ func (fp *TsConditionTemplate_FieldTerminalPath) GetDefault() interface{} {
 	case TsConditionTemplate_FieldPathSelectorSupportingDocs:
 		return ([]*document.Reference)(nil)
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		return (*ts_condition.TsCondition_Spec)(nil)
+		return (*rcommon.TsCndSpec)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsConditionTemplate: %d", fp.selector))
 	}
@@ -308,7 +308,7 @@ func (fp *TsConditionTemplate_FieldTerminalPath) WithIValue(value interface{}) T
 	case TsConditionTemplate_FieldPathSelectorSupportingDocs:
 		return &TsConditionTemplate_FieldTerminalPathValue{TsConditionTemplate_FieldTerminalPath: *fp, value: value.([]*document.Reference)}
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		return &TsConditionTemplate_FieldTerminalPathValue{TsConditionTemplate_FieldTerminalPath: *fp, value: value.(*ts_condition.TsCondition_Spec)}
+		return &TsConditionTemplate_FieldTerminalPathValue{TsConditionTemplate_FieldTerminalPath: *fp, value: value.(*rcommon.TsCndSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsConditionTemplate: %d", fp.selector))
 	}
@@ -332,7 +332,7 @@ func (fp *TsConditionTemplate_FieldTerminalPath) WithIArrayOfValues(values inter
 	case TsConditionTemplate_FieldPathSelectorSupportingDocs:
 		return &TsConditionTemplate_FieldTerminalPathArrayOfValues{TsConditionTemplate_FieldTerminalPath: *fp, values: values.([][]*document.Reference)}
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		return &TsConditionTemplate_FieldTerminalPathArrayOfValues{TsConditionTemplate_FieldTerminalPath: *fp, values: values.([]*ts_condition.TsCondition_Spec)}
+		return &TsConditionTemplate_FieldTerminalPathArrayOfValues{TsConditionTemplate_FieldTerminalPath: *fp, values: values.([]*rcommon.TsCndSpec)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsConditionTemplate: %d", fp.selector))
 	}
@@ -370,8 +370,8 @@ func (fps *TsConditionTemplate_FieldSubPath) AsMetadataSubPath() (meta.Meta_Fiel
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *TsConditionTemplate_FieldSubPath) AsSpecTemplateSubPath() (ts_condition.TsConditionSpec_FieldPath, bool) {
-	res, ok := fps.subPath.(ts_condition.TsConditionSpec_FieldPath)
+func (fps *TsConditionTemplate_FieldSubPath) AsSpecTemplateSubPath() (rcommon.TsCndSpec_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.TsCndSpec_FieldPath)
 	return res, ok
 }
 
@@ -540,8 +540,8 @@ func (fpv *TsConditionTemplate_FieldTerminalPathValue) AsSupportingDocsValue() (
 	res, ok := fpv.value.([]*document.Reference)
 	return res, ok
 }
-func (fpv *TsConditionTemplate_FieldTerminalPathValue) AsSpecTemplateValue() (*ts_condition.TsCondition_Spec, bool) {
-	res, ok := fpv.value.(*ts_condition.TsCondition_Spec)
+func (fpv *TsConditionTemplate_FieldTerminalPathValue) AsSpecTemplateValue() (*rcommon.TsCndSpec, bool) {
+	res, ok := fpv.value.(*rcommon.TsCndSpec)
 	return res, ok
 }
 
@@ -562,7 +562,7 @@ func (fpv *TsConditionTemplate_FieldTerminalPathValue) SetTo(target **TsConditio
 	case TsConditionTemplate_FieldPathSelectorSupportingDocs:
 		(*target).SupportingDocs = fpv.value.([]*document.Reference)
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		(*target).SpecTemplate = fpv.value.(*ts_condition.TsCondition_Spec)
+		(*target).SpecTemplate = fpv.value.(*rcommon.TsCndSpec)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsConditionTemplate: %d", fpv.selector))
 	}
@@ -641,8 +641,8 @@ func (fpvs *TsConditionTemplate_FieldSubPathValue) AsMetadataPathValue() (meta.M
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *TsConditionTemplate_FieldSubPathValue) AsSpecTemplatePathValue() (ts_condition.TsConditionSpec_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ts_condition.TsConditionSpec_FieldPathValue)
+func (fpvs *TsConditionTemplate_FieldSubPathValue) AsSpecTemplatePathValue() (rcommon.TsCndSpec_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.TsCndSpec_FieldPathValue)
 	return res, ok
 }
 
@@ -654,7 +654,7 @@ func (fpvs *TsConditionTemplate_FieldSubPathValue) SetTo(target **TsConditionTem
 	case TsConditionTemplate_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		fpvs.subPathValue.(ts_condition.TsConditionSpec_FieldPathValue).SetTo(&(*target).SpecTemplate)
+		fpvs.subPathValue.(rcommon.TsCndSpec_FieldPathValue).SetTo(&(*target).SpecTemplate)
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsConditionTemplate: %d", fpvs.Selector()))
 	}
@@ -674,7 +674,7 @@ func (fpvs *TsConditionTemplate_FieldSubPathValue) CompareWith(source *TsConditi
 	case TsConditionTemplate_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		return fpvs.subPathValue.(ts_condition.TsConditionSpec_FieldPathValue).CompareWith(source.GetSpecTemplate())
+		return fpvs.subPathValue.(rcommon.TsCndSpec_FieldPathValue).CompareWith(source.GetSpecTemplate())
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsConditionTemplate: %d", fpvs.Selector()))
 	}
@@ -765,8 +765,8 @@ func (fpaivs *TsConditionTemplate_FieldSubPathArrayItemValue) AsMetadataPathItem
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *TsConditionTemplate_FieldSubPathArrayItemValue) AsSpecTemplatePathItemValue() (ts_condition.TsConditionSpec_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ts_condition.TsConditionSpec_FieldPathArrayItemValue)
+func (fpaivs *TsConditionTemplate_FieldSubPathArrayItemValue) AsSpecTemplatePathItemValue() (rcommon.TsCndSpec_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.TsCndSpec_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -776,7 +776,7 @@ func (fpaivs *TsConditionTemplate_FieldSubPathArrayItemValue) ContainsValue(sour
 	case TsConditionTemplate_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		return fpaivs.subPathItemValue.(ts_condition.TsConditionSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpecTemplate())
+		return fpaivs.subPathItemValue.(rcommon.TsCndSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpecTemplate())
 	default:
 		panic(fmt.Sprintf("Invalid selector for TsConditionTemplate: %d", fpaivs.Selector()))
 	}
@@ -838,7 +838,7 @@ func (fpaov *TsConditionTemplate_FieldTerminalPathArrayOfValues) GetRawValues() 
 			values = append(values, v)
 		}
 	case TsConditionTemplate_FieldPathSelectorSpecTemplate:
-		for _, v := range fpaov.values.([]*ts_condition.TsCondition_Spec) {
+		for _, v := range fpaov.values.([]*rcommon.TsCndSpec) {
 			values = append(values, v)
 		}
 	}
@@ -864,8 +864,8 @@ func (fpaov *TsConditionTemplate_FieldTerminalPathArrayOfValues) AsSupportingDoc
 	res, ok := fpaov.values.([][]*document.Reference)
 	return res, ok
 }
-func (fpaov *TsConditionTemplate_FieldTerminalPathArrayOfValues) AsSpecTemplateArrayOfValues() ([]*ts_condition.TsCondition_Spec, bool) {
-	res, ok := fpaov.values.([]*ts_condition.TsCondition_Spec)
+func (fpaov *TsConditionTemplate_FieldTerminalPathArrayOfValues) AsSpecTemplateArrayOfValues() ([]*rcommon.TsCndSpec, bool) {
+	res, ok := fpaov.values.([]*rcommon.TsCndSpec)
 	return res, ok
 }
 
@@ -883,7 +883,7 @@ func (fpsaov *TsConditionTemplate_FieldSubPathArrayOfValues) AsMetadataPathArray
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *TsConditionTemplate_FieldSubPathArrayOfValues) AsSpecTemplatePathArrayOfValues() (ts_condition.TsConditionSpec_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ts_condition.TsConditionSpec_FieldPathArrayOfValues)
+func (fpsaov *TsConditionTemplate_FieldSubPathArrayOfValues) AsSpecTemplatePathArrayOfValues() (rcommon.TsCndSpec_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.TsCndSpec_FieldPathArrayOfValues)
 	return res, ok
 }

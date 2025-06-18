@@ -16,9 +16,9 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
@@ -40,7 +40,7 @@ var (
 var (
 	_ = &log_condition.LogCondition{}
 	_ = &notification_channel.NotificationChannel{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &durationpb.Duration{}
 	_ = &timestamppb.Timestamp{}
@@ -754,7 +754,7 @@ func (o *Alert_State) Merge(source *Alert_State) {
 	o.AiRemediationArg = source.GetAiRemediationArg()
 	if source.GetAiRemediation() != nil {
 		if o.AiRemediation == nil {
-			o.AiRemediation = new(policy.Policy_Spec_AIAgentHandling_Remediation)
+			o.AiRemediation = new(rcommon.PolicySpec_AIAgentHandling_Remediation)
 		}
 		o.AiRemediation.Merge(source.GetAiRemediation())
 	}
@@ -961,13 +961,13 @@ func (o *Alert_TsInfo_TimeSeries) Merge(source *Alert_TsInfo_TimeSeries) {
 
 	if source.GetUpperThreshold() != nil {
 		if o.UpperThreshold == nil {
-			o.UpperThreshold = new(ts_condition.AlertingThreshold)
+			o.UpperThreshold = new(rcommon.AlertingThreshold)
 		}
 		o.UpperThreshold.Merge(source.GetUpperThreshold())
 	}
 	if source.GetLowerThreshold() != nil {
 		if o.LowerThreshold == nil {
-			o.LowerThreshold = new(ts_condition.AlertingThreshold)
+			o.LowerThreshold = new(rcommon.AlertingThreshold)
 		}
 		o.LowerThreshold.Merge(source.GetLowerThreshold())
 	}

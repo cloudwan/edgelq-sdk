@@ -17,6 +17,7 @@ import (
 // proto imports
 import (
 	alert "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/alert"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
@@ -43,6 +44,7 @@ var (
 	_ = &alert.Alert{}
 	_ = &log_condition.LogCondition{}
 	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -1351,7 +1353,7 @@ func (o *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling) Merge(sou
 	o.TroubleshootingNotes = source.GetTroubleshootingNotes()
 	if source.GetAiRemediation() != nil {
 		if o.AiRemediation == nil {
-			o.AiRemediation = new(policy.Policy_Spec_AIAgentHandling_Remediation)
+			o.AiRemediation = new(rcommon.PolicySpec_AIAgentHandling_Remediation)
 		}
 		o.AiRemediation.Merge(source.GetAiRemediation())
 	}
@@ -1521,13 +1523,13 @@ func (o *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSer
 
 	if source.GetUpperThreshold() != nil {
 		if o.UpperThreshold == nil {
-			o.UpperThreshold = new(ts_condition.AlertingThreshold)
+			o.UpperThreshold = new(rcommon.AlertingThreshold)
 		}
 		o.UpperThreshold.Merge(source.GetUpperThreshold())
 	}
 	if source.GetLowerThreshold() != nil {
 		if o.LowerThreshold == nil {
-			o.LowerThreshold = new(ts_condition.AlertingThreshold)
+			o.LowerThreshold = new(rcommon.AlertingThreshold)
 		}
 		o.LowerThreshold.Merge(source.GetLowerThreshold())
 	}

@@ -12,8 +12,8 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 )
@@ -28,7 +28,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
 	_ = &meta.Meta{}
 )

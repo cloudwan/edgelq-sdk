@@ -97,12 +97,58 @@ resources:
     - services/monitoring.edgelq.com/permissions/timeSeries.create
     - services/logging.edgelq.com/permissions/buckets!attach
     - services/monitoring.edgelq.com/permissions/buckets!attach
+    - services/monitoring.edgelq.com/permissions/timeSeries.list
+    - services/logging.edgelq.com/permissions/logs.list
 
   # TODO: Uncomment, requires some applications code change (adding secrets to role binding)
   #- subScope: regions/{region}/secrets/{secret}
   #  permissions:
   #  - services/secrets.edgelq.com/permissions/secrets.get
   #  - services/secrets.edgelq.com/permissions/secrets.sensitiveData
+
+  - permissions:
+    - services/alerting.edgelq.com/permissions/watchAlertData
+    requestFieldConditions:
+    - path: alerting_resource_name
+      value: projects/{project}/regions/{region}/devices/{device}
+    - path: alerting_resource_kind
+      value: devices.edgelq.com/Device
+
+  - permissions:
+    - services/alerting.edgelq.com/permissions/tsEntries.create
+    - services/alerting.edgelq.com/permissions/tsEntries.delete
+    - services/alerting.edgelq.com/permissions/tsEntries.update
+    - services/alerting.edgelq.com/permissions/tsEntries.get
+    - services/alerting.edgelq.com/permissions/tsEntries.list
+    - services/alerting.edgelq.com/permissions/tsEntries.watch
+    - services/alerting.edgelq.com/permissions/tsEntries.batchGet
+    resourceFieldConditions:
+    - path: info.alerting_resource.name
+      value: projects/{project}/regions/{region}/devices/{device}
+    - path: info.alerting_resource.kind
+      value: devices.edgelq.com/Device
+
+  - permissions:
+    - services/alerting.edgelq.com/permissions/alerts.create
+    - services/alerting.edgelq.com/permissions/alerts.delete
+    - services/alerting.edgelq.com/permissions/alerts.update
+    - services/alerting.edgelq.com/permissions/alerts.get
+    - services/alerting.edgelq.com/permissions/alerts.list
+    - services/alerting.edgelq.com/permissions/alerts.watch
+    - services/alerting.edgelq.com/permissions/alerts.batchGet
+    resourceFieldConditions:
+    - path: alerting_resource.name
+      value: projects/{project}/regions/{region}/devices/{device}
+    - path: alerting_resource.kind
+      value: devices.edgelq.com/Device
+
+  - permissions:
+    - services/alerting.edgelq.com/permissions/alerts.bulkSave
+    requestFieldConditions:
+    - path: alerts.alerting_resource.name
+      value: projects/{project}/regions/{region}/devices/{device}
+    - path: alerts.alerting_resource.kind
+      value: devices.edgelq.com/Device
 
 - name: services/devices.edgelq.com/roles/v1-device-provisioner
   displayName: V1 Device provisioner

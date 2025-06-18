@@ -24,6 +24,7 @@ import (
 // proto imports
 import (
 	alert "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/alert"
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	log_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	ts_condition "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition"
@@ -57,6 +58,7 @@ var (
 	_ = &alert.Alert{}
 	_ = &log_condition.LogCondition{}
 	_ = &policy.Policy{}
+	_ = &rcommon.LogCndSpec{}
 	_ = &ts_condition.TsCondition{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
@@ -7887,7 +7889,7 @@ func BuildNotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPath(fp 
 	} else {
 		switch fp[0] {
 		case "ai_remediation", "aiRemediation", "ai-remediation":
-			if subpath, err := policy.BuildPolicySpecAIAgentHandlingRemediation_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildPolicySpecAIAgentHandlingRemediation_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation, subPath: subpath}, nil
@@ -7987,7 +7989,7 @@ func (fp *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminal
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorTroubleshootingNotes:
 		return ""
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		return (*policy.Policy_Spec_AIAgentHandling_Remediation)(nil)
+		return (*rcommon.PolicySpec_AIAgentHandling_Remediation)(nil)
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorRemediationArg:
 		return ""
 	default:
@@ -8034,7 +8036,7 @@ func (fp *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminal
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorTroubleshootingNotes:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, value: value.(string)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, value: value.(*policy.Policy_Spec_AIAgentHandling_Remediation)}
+		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, value: value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorRemediationArg:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, value: value.(string)}
 	default:
@@ -8054,7 +8056,7 @@ func (fp *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminal
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorTroubleshootingNotes:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, values: values.([]string)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, values: values.([]*policy.Policy_Spec_AIAgentHandling_Remediation)}
+		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, values: values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorRemediationArg:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
@@ -8088,8 +8090,8 @@ var _ NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPath = (*Not
 func (fps *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath) Selector() NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelector {
 	return fps.selector
 }
-func (fps *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath) AsAiRemediationSubPath() (policy.PolicySpecAIAgentHandlingRemediation_FieldPath, bool) {
-	res, ok := fps.subPath.(policy.PolicySpecAIAgentHandlingRemediation_FieldPath)
+func (fps *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPath) AsAiRemediationSubPath() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPath)
 	return res, ok
 }
 
@@ -8237,8 +8239,8 @@ func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTermina
 	res, ok := fpv.value.(string)
 	return res, ok
 }
-func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue) AsAiRemediationValue() (*policy.Policy_Spec_AIAgentHandling_Remediation, bool) {
-	res, ok := fpv.value.(*policy.Policy_Spec_AIAgentHandling_Remediation)
+func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue) AsAiRemediationValue() (*rcommon.PolicySpec_AIAgentHandling_Remediation, bool) {
+	res, ok := fpv.value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)
 	return res, ok
 }
 func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathValue) AsRemediationArgValue() (string, bool) {
@@ -8257,7 +8259,7 @@ func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTermina
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorTroubleshootingNotes:
 		(*target).TroubleshootingNotes = fpv.value.(string)
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		(*target).AiRemediation = fpv.value.(*policy.Policy_Spec_AIAgentHandling_Remediation)
+		(*target).AiRemediation = fpv.value.(*rcommon.PolicySpec_AIAgentHandling_Remediation)
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorRemediationArg:
 		(*target).RemediationArg = fpv.value.(string)
 	default:
@@ -8321,8 +8323,8 @@ type NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue 
 
 var _ NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathValue = (*NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue)(nil)
 
-func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue) AsAiRemediationPathValue() (policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue)
+func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue) AsAiRemediationPathValue() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue)
 	return res, ok
 }
 
@@ -8332,7 +8334,7 @@ func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPat
 	}
 	switch fpvs.Selector() {
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		fpvs.subPathValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue).SetTo(&(*target).AiRemediation)
+		fpvs.subPathValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue).SetTo(&(*target).AiRemediation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling: %d", fpvs.Selector()))
 	}
@@ -8350,7 +8352,7 @@ func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPat
 func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathValue) CompareWith(source *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling) (int, bool) {
 	switch fpvs.Selector() {
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		return fpvs.subPathValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathValue).CompareWith(source.GetAiRemediation())
+		return fpvs.subPathValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathValue).CompareWith(source.GetAiRemediation())
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling: %d", fpvs.Selector()))
 	}
@@ -8433,8 +8435,8 @@ type NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayI
 func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayItemValue) AsAiRemediationPathItemValue() (policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue)
+func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayItemValue) AsAiRemediationPathItemValue() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -8442,7 +8444,7 @@ func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubP
 func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayItemValue) ContainsValue(source *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling) bool {
 	switch fpaivs.Selector() {
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		return fpaivs.subPathItemValue.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue).ContainsValue(source.GetAiRemediation())
+		return fpaivs.subPathItemValue.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayItemValue).ContainsValue(source.GetAiRemediation())
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationMsg_AlertsGroup_ConditionAlerts_Alert_AiHandling: %d", fpaivs.Selector()))
 	}
@@ -8492,7 +8494,7 @@ func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTermi
 			values = append(values, v)
 		}
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorAiRemediation:
-		for _, v := range fpaov.values.([]*policy.Policy_Spec_AIAgentHandling_Remediation) {
+		for _, v := range fpaov.values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation) {
 			values = append(values, v)
 		}
 	case NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathSelectorRemediationArg:
@@ -8510,8 +8512,8 @@ func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTermi
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }
-func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues) AsAiRemediationArrayOfValues() ([]*policy.Policy_Spec_AIAgentHandling_Remediation, bool) {
-	res, ok := fpaov.values.([]*policy.Policy_Spec_AIAgentHandling_Remediation)
+func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues) AsAiRemediationArrayOfValues() ([]*rcommon.PolicySpec_AIAgentHandling_Remediation, bool) {
+	res, ok := fpaov.values.([]*rcommon.PolicySpec_AIAgentHandling_Remediation)
 	return res, ok
 }
 func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldTerminalPathArrayOfValues) AsRemediationArgArrayOfValues() ([]string, bool) {
@@ -8529,8 +8531,8 @@ var _ NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldPathArrayOfV
 func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues) AsAiRemediationPathArrayOfValues() (policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(policy.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues)
+func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertAiHandling_FieldSubPathArrayOfValues) AsAiRemediationPathArrayOfValues() (rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.PolicySpecAIAgentHandlingRemediation_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -9018,13 +9020,13 @@ func BuildNotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_
 	} else {
 		switch fp[0] {
 		case "upper_threshold", "upperThreshold", "upper-threshold":
-			if subpath, err := ts_condition.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold, subPath: subpath}, nil
 			}
 		case "lower_threshold", "lowerThreshold", "lower-threshold":
-			if subpath, err := ts_condition.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildAlertingThreshold_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath{selector: NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold, subPath: subpath}, nil
@@ -9137,9 +9139,9 @@ func (fp *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorValues:
 		return ([]float64)(nil)
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return (*ts_condition.AlertingThreshold)(nil)
+		return (*rcommon.AlertingThreshold)(nil)
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return (*ts_condition.AlertingThreshold)(nil)
+		return (*rcommon.AlertingThreshold)(nil)
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorRaisedAfter:
 		return (*durationpb.Duration)(nil)
 	default:
@@ -9188,9 +9190,9 @@ func (fp *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorValues:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, value: value.([]float64)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*ts_condition.AlertingThreshold)}
+		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*rcommon.AlertingThreshold)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*ts_condition.AlertingThreshold)}
+		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*rcommon.AlertingThreshold)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorRaisedAfter:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
 	default:
@@ -9210,9 +9212,9 @@ func (fp *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorValues:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, values: values.([][]float64)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*ts_condition.AlertingThreshold)}
+		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*rcommon.AlertingThreshold)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*ts_condition.AlertingThreshold)}
+		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*rcommon.AlertingThreshold)}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorRaisedAfter:
 		return &NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues{NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
 	default:
@@ -9248,12 +9250,12 @@ var _ NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_Fiel
 func (fps *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath) Selector() NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelector {
 	return fps.selector
 }
-func (fps *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath) AsUpperThresholdSubPath() (ts_condition.AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(ts_condition.AlertingThreshold_FieldPath)
+func (fps *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath) AsUpperThresholdSubPath() (rcommon.AlertingThreshold_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.AlertingThreshold_FieldPath)
 	return res, ok
 }
-func (fps *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath) AsLowerThresholdSubPath() (ts_condition.AlertingThreshold_FieldPath, bool) {
-	res, ok := fps.subPath.(ts_condition.AlertingThreshold_FieldPath)
+func (fps *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPath) AsLowerThresholdSubPath() (rcommon.AlertingThreshold_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.AlertingThreshold_FieldPath)
 	return res, ok
 }
 
@@ -9410,12 +9412,12 @@ func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries
 	res, ok := fpv.value.([]float64)
 	return res, ok
 }
-func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue) AsUpperThresholdValue() (*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpv.value.(*ts_condition.AlertingThreshold)
+func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue) AsUpperThresholdValue() (*rcommon.AlertingThreshold, bool) {
+	res, ok := fpv.value.(*rcommon.AlertingThreshold)
 	return res, ok
 }
-func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue) AsLowerThresholdValue() (*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpv.value.(*ts_condition.AlertingThreshold)
+func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue) AsLowerThresholdValue() (*rcommon.AlertingThreshold, bool) {
+	res, ok := fpv.value.(*rcommon.AlertingThreshold)
 	return res, ok
 }
 func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathValue) AsRaisedAfterValue() (*durationpb.Duration, bool) {
@@ -9434,9 +9436,9 @@ func (fpv *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorValues:
 		(*target).Values = fpv.value.([]float64)
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		(*target).UpperThreshold = fpv.value.(*ts_condition.AlertingThreshold)
+		(*target).UpperThreshold = fpv.value.(*rcommon.AlertingThreshold)
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		(*target).LowerThreshold = fpv.value.(*ts_condition.AlertingThreshold)
+		(*target).LowerThreshold = fpv.value.(*rcommon.AlertingThreshold)
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorRaisedAfter:
 		(*target).RaisedAfter = fpv.value.(*durationpb.Duration)
 	default:
@@ -9503,12 +9505,12 @@ type NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_Field
 
 var _ NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathValue = (*NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue)(nil)
 
-func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue) AsUpperThresholdPathValue() (ts_condition.AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue)
+func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue) AsUpperThresholdPathValue() (rcommon.AlertingThreshold_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue)
 	return res, ok
 }
-func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue) AsLowerThresholdPathValue() (ts_condition.AlertingThreshold_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue)
+func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue) AsLowerThresholdPathValue() (rcommon.AlertingThreshold_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue)
 	return res, ok
 }
 
@@ -9518,9 +9520,9 @@ func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSerie
 	}
 	switch fpvs.Selector() {
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).SetTo(&(*target).UpperThreshold)
+		fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).SetTo(&(*target).UpperThreshold)
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).SetTo(&(*target).LowerThreshold)
+		fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).SetTo(&(*target).LowerThreshold)
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries: %d", fpvs.Selector()))
 	}
@@ -9538,9 +9540,9 @@ func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSerie
 func (fpvs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathValue) CompareWith(source *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries) (int, bool) {
 	switch fpvs.Selector() {
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).CompareWith(source.GetUpperThreshold())
+		return fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).CompareWith(source.GetUpperThreshold())
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return fpvs.subPathValue.(ts_condition.AlertingThreshold_FieldPathValue).CompareWith(source.GetLowerThreshold())
+		return fpvs.subPathValue.(rcommon.AlertingThreshold_FieldPathValue).CompareWith(source.GetLowerThreshold())
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries: %d", fpvs.Selector()))
 	}
@@ -9627,12 +9629,12 @@ type NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_Field
 func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue) AsUpperThresholdPathItemValue() (ts_condition.AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue)
+func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue) AsUpperThresholdPathItemValue() (rcommon.AlertingThreshold_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue) AsLowerThresholdPathItemValue() (ts_condition.AlertingThreshold_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue)
+func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue) AsLowerThresholdPathItemValue() (rcommon.AlertingThreshold_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -9640,9 +9642,9 @@ func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSer
 func (fpaivs *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayItemValue) ContainsValue(source *NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries) bool {
 	switch fpaivs.Selector() {
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		return fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetUpperThreshold())
+		return fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetUpperThreshold())
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		return fpaivs.subPathItemValue.(ts_condition.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetLowerThreshold())
+		return fpaivs.subPathItemValue.(rcommon.AlertingThreshold_FieldPathArrayItemValue).ContainsValue(source.GetLowerThreshold())
 	default:
 		panic(fmt.Sprintf("Invalid selector for NotificationMsg_AlertsGroup_ConditionAlerts_Alert_ViolationInfo_TimeSeries: %d", fpaivs.Selector()))
 	}
@@ -9692,11 +9694,11 @@ func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeri
 			values = append(values, v)
 		}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorUpperThreshold:
-		for _, v := range fpaov.values.([]*ts_condition.AlertingThreshold) {
+		for _, v := range fpaov.values.([]*rcommon.AlertingThreshold) {
 			values = append(values, v)
 		}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorLowerThreshold:
-		for _, v := range fpaov.values.([]*ts_condition.AlertingThreshold) {
+		for _, v := range fpaov.values.([]*rcommon.AlertingThreshold) {
 			values = append(values, v)
 		}
 	case NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldPathSelectorRaisedAfter:
@@ -9714,12 +9716,12 @@ func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeri
 	res, ok := fpaov.values.([][]float64)
 	return res, ok
 }
-func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues) AsUpperThresholdArrayOfValues() ([]*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*ts_condition.AlertingThreshold)
+func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues) AsUpperThresholdArrayOfValues() ([]*rcommon.AlertingThreshold, bool) {
+	res, ok := fpaov.values.([]*rcommon.AlertingThreshold)
 	return res, ok
 }
-func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues) AsLowerThresholdArrayOfValues() ([]*ts_condition.AlertingThreshold, bool) {
-	res, ok := fpaov.values.([]*ts_condition.AlertingThreshold)
+func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues) AsLowerThresholdArrayOfValues() ([]*rcommon.AlertingThreshold, bool) {
+	res, ok := fpaov.values.([]*rcommon.AlertingThreshold)
 	return res, ok
 }
 func (fpaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldTerminalPathArrayOfValues) AsRaisedAfterArrayOfValues() ([]*durationpb.Duration, bool) {
@@ -9737,11 +9739,11 @@ var _ NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_Fiel
 func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues) AsUpperThresholdPathArrayOfValues() (ts_condition.AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ts_condition.AlertingThreshold_FieldPathArrayOfValues)
+func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues) AsUpperThresholdPathArrayOfValues() (rcommon.AlertingThreshold_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.AlertingThreshold_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues) AsLowerThresholdPathArrayOfValues() (ts_condition.AlertingThreshold_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(ts_condition.AlertingThreshold_FieldPathArrayOfValues)
+func (fpsaov *NotificationMsgAlertsGroupConditionAlertsAlertViolationInfoTimeSeries_FieldSubPathArrayOfValues) AsLowerThresholdPathArrayOfValues() (rcommon.AlertingThreshold_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.AlertingThreshold_FieldPathArrayOfValues)
 	return res, ok
 }

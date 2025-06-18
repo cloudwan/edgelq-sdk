@@ -3,8 +3,7 @@ syntax = "proto3";
 package ntt.alerting.v1;
 
 import "edgelq-sdk/alerting/proto/v1/alert.proto";
-import "edgelq-sdk/alerting/proto/v1/policy.proto";
-import "edgelq-sdk/alerting/proto/v1/ts_condition.proto";
+import "edgelq-sdk/alerting/proto/v1/specs.proto";
 import "edgelq-sdk/monitoring/proto/v4/common.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
@@ -142,7 +141,7 @@ message NotificationMsg {
 
           string troubleshooting_notes = 2;
 
-          Policy.Spec.AIAgentHandling.Remediation ai_remediation = 3;
+          PolicySpec.AIAgentHandling.Remediation ai_remediation = 3;
 
           string remediation_arg = 4;
         }

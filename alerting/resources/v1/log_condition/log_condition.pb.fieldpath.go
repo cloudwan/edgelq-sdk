@@ -23,11 +23,12 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
-	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -51,9 +52,10 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
-	_ = &logging_log.Log{}
-	_ = &durationpb.Duration{}
+	_ = &rcommon.LogCndSpec{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
 
@@ -83,6 +85,7 @@ const (
 	LogCondition_FieldPathSelectorSupportingDocs LogCondition_FieldPathSelector = 4
 	LogCondition_FieldPathSelectorSpec           LogCondition_FieldPathSelector = 5
 	LogCondition_FieldPathSelectorInternal       LogCondition_FieldPathSelector = 6
+	LogCondition_FieldPathSelectorTemplateSource LogCondition_FieldPathSelector = 7
 )
 
 func (s LogCondition_FieldPathSelector) String() string {
@@ -101,6 +104,8 @@ func (s LogCondition_FieldPathSelector) String() string {
 		return "spec"
 	case LogCondition_FieldPathSelectorInternal:
 		return "internal"
+	case LogCondition_FieldPathSelectorTemplateSource:
+		return "template_source"
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", s))
 	}
@@ -126,6 +131,8 @@ func BuildLogCondition_FieldPath(fp gotenobject.RawFieldPath) (LogCondition_Fiel
 			return &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorSpec}, nil
 		case "internal":
 			return &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorInternal}, nil
+		case "template_source", "templateSource", "template-source":
+			return &LogCondition_FieldTerminalPath{selector: LogCondition_FieldPathSelectorTemplateSource}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -136,7 +143,7 @@ func BuildLogCondition_FieldPath(fp gotenobject.RawFieldPath) (LogCondition_Fiel
 				return &LogCondition_FieldSubPath{selector: LogCondition_FieldPathSelectorMetadata, subPath: subpath}, nil
 			}
 		case "spec":
-			if subpath, err := BuildLogConditionSpec_FieldPath(fp[1:]); err != nil {
+			if subpath, err := rcommon.BuildLogCndSpec_FieldPath(fp[1:]); err != nil {
 				return nil, err
 			} else {
 				return &LogCondition_FieldSubPath{selector: LogCondition_FieldPathSelectorSpec, subPath: subpath}, nil
@@ -146,6 +153,12 @@ func BuildLogCondition_FieldPath(fp gotenobject.RawFieldPath) (LogCondition_Fiel
 				return nil, err
 			} else {
 				return &LogCondition_FieldSubPath{selector: LogCondition_FieldPathSelectorInternal, subPath: subpath}, nil
+			}
+		case "template_source", "templateSource", "template-source":
+			if subpath, err := BuildLogConditionTemplateSource_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &LogCondition_FieldSubPath{selector: LogCondition_FieldPathSelectorTemplateSource, subPath: subpath}, nil
 			}
 		}
 	}
@@ -216,6 +229,10 @@ func (fp *LogCondition_FieldTerminalPath) Get(source *LogCondition) (values []in
 			if source.Internal != nil {
 				values = append(values, source.Internal)
 			}
+		case LogCondition_FieldPathSelectorTemplateSource:
+			if source.TemplateSource != nil {
+				values = append(values, source.TemplateSource)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fp.selector))
 		}
@@ -249,6 +266,9 @@ func (fp *LogCondition_FieldTerminalPath) GetSingle(source *LogCondition) (inter
 	case LogCondition_FieldPathSelectorInternal:
 		res := source.GetInternal()
 		return res, res != nil
+	case LogCondition_FieldPathSelectorTemplateSource:
+		res := source.GetTemplateSource()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fp.selector))
 	}
@@ -272,9 +292,11 @@ func (fp *LogCondition_FieldTerminalPath) GetDefault() interface{} {
 	case LogCondition_FieldPathSelectorSupportingDocs:
 		return ([]*document.Reference)(nil)
 	case LogCondition_FieldPathSelectorSpec:
-		return (*LogCondition_Spec)(nil)
+		return (*rcommon.LogCndSpec)(nil)
 	case LogCondition_FieldPathSelectorInternal:
 		return (*LogCondition_Internal)(nil)
+	case LogCondition_FieldPathSelectorTemplateSource:
+		return (*LogCondition_TemplateSource)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fp.selector))
 	}
@@ -297,6 +319,8 @@ func (fp *LogCondition_FieldTerminalPath) ClearValue(item *LogCondition) {
 			item.Spec = nil
 		case LogCondition_FieldPathSelectorInternal:
 			item.Internal = nil
+		case LogCondition_FieldPathSelectorTemplateSource:
+			item.TemplateSource = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fp.selector))
 		}
@@ -332,9 +356,11 @@ func (fp *LogCondition_FieldTerminalPath) WithIValue(value interface{}) LogCondi
 	case LogCondition_FieldPathSelectorSupportingDocs:
 		return &LogCondition_FieldTerminalPathValue{LogCondition_FieldTerminalPath: *fp, value: value.([]*document.Reference)}
 	case LogCondition_FieldPathSelectorSpec:
-		return &LogCondition_FieldTerminalPathValue{LogCondition_FieldTerminalPath: *fp, value: value.(*LogCondition_Spec)}
+		return &LogCondition_FieldTerminalPathValue{LogCondition_FieldTerminalPath: *fp, value: value.(*rcommon.LogCndSpec)}
 	case LogCondition_FieldPathSelectorInternal:
 		return &LogCondition_FieldTerminalPathValue{LogCondition_FieldTerminalPath: *fp, value: value.(*LogCondition_Internal)}
+	case LogCondition_FieldPathSelectorTemplateSource:
+		return &LogCondition_FieldTerminalPathValue{LogCondition_FieldTerminalPath: *fp, value: value.(*LogCondition_TemplateSource)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fp.selector))
 	}
@@ -358,9 +384,11 @@ func (fp *LogCondition_FieldTerminalPath) WithIArrayOfValues(values interface{})
 	case LogCondition_FieldPathSelectorSupportingDocs:
 		return &LogCondition_FieldTerminalPathArrayOfValues{LogCondition_FieldTerminalPath: *fp, values: values.([][]*document.Reference)}
 	case LogCondition_FieldPathSelectorSpec:
-		return &LogCondition_FieldTerminalPathArrayOfValues{LogCondition_FieldTerminalPath: *fp, values: values.([]*LogCondition_Spec)}
+		return &LogCondition_FieldTerminalPathArrayOfValues{LogCondition_FieldTerminalPath: *fp, values: values.([]*rcommon.LogCndSpec)}
 	case LogCondition_FieldPathSelectorInternal:
 		return &LogCondition_FieldTerminalPathArrayOfValues{LogCondition_FieldTerminalPath: *fp, values: values.([]*LogCondition_Internal)}
+	case LogCondition_FieldPathSelectorTemplateSource:
+		return &LogCondition_FieldTerminalPathArrayOfValues{LogCondition_FieldTerminalPath: *fp, values: values.([]*LogCondition_TemplateSource)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fp.selector))
 	}
@@ -398,12 +426,16 @@ func (fps *LogCondition_FieldSubPath) AsMetadataSubPath() (meta.Meta_FieldPath, 
 	res, ok := fps.subPath.(meta.Meta_FieldPath)
 	return res, ok
 }
-func (fps *LogCondition_FieldSubPath) AsSpecSubPath() (LogConditionSpec_FieldPath, bool) {
-	res, ok := fps.subPath.(LogConditionSpec_FieldPath)
+func (fps *LogCondition_FieldSubPath) AsSpecSubPath() (rcommon.LogCndSpec_FieldPath, bool) {
+	res, ok := fps.subPath.(rcommon.LogCndSpec_FieldPath)
 	return res, ok
 }
 func (fps *LogCondition_FieldSubPath) AsInternalSubPath() (LogConditionInternal_FieldPath, bool) {
 	res, ok := fps.subPath.(LogConditionInternal_FieldPath)
+	return res, ok
+}
+func (fps *LogCondition_FieldSubPath) AsTemplateSourceSubPath() (LogConditionTemplateSource_FieldPath, bool) {
+	res, ok := fps.subPath.(LogConditionTemplateSource_FieldPath)
 	return res, ok
 }
 
@@ -426,6 +458,8 @@ func (fps *LogCondition_FieldSubPath) Get(source *LogCondition) (values []interf
 		values = append(values, fps.subPath.GetRaw(source.GetSpec())...)
 	case LogCondition_FieldPathSelectorInternal:
 		values = append(values, fps.subPath.GetRaw(source.GetInternal())...)
+	case LogCondition_FieldPathSelectorTemplateSource:
+		values = append(values, fps.subPath.GetRaw(source.GetTemplateSource())...)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fps.selector))
 	}
@@ -454,6 +488,11 @@ func (fps *LogCondition_FieldSubPath) GetSingle(source *LogCondition) (interface
 			return nil, false
 		}
 		return fps.subPath.GetSingleRaw(source.GetInternal())
+	case LogCondition_FieldPathSelectorTemplateSource:
+		if source.GetTemplateSource() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetTemplateSource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fps.selector))
 	}
@@ -477,6 +516,8 @@ func (fps *LogCondition_FieldSubPath) ClearValue(item *LogCondition) {
 			fps.subPath.ClearValueRaw(item.Spec)
 		case LogCondition_FieldPathSelectorInternal:
 			fps.subPath.ClearValueRaw(item.Internal)
+		case LogCondition_FieldPathSelectorTemplateSource:
+			fps.subPath.ClearValueRaw(item.TemplateSource)
 		default:
 			panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fps.selector))
 		}
@@ -581,12 +622,16 @@ func (fpv *LogCondition_FieldTerminalPathValue) AsSupportingDocsValue() ([]*docu
 	res, ok := fpv.value.([]*document.Reference)
 	return res, ok
 }
-func (fpv *LogCondition_FieldTerminalPathValue) AsSpecValue() (*LogCondition_Spec, bool) {
-	res, ok := fpv.value.(*LogCondition_Spec)
+func (fpv *LogCondition_FieldTerminalPathValue) AsSpecValue() (*rcommon.LogCndSpec, bool) {
+	res, ok := fpv.value.(*rcommon.LogCndSpec)
 	return res, ok
 }
 func (fpv *LogCondition_FieldTerminalPathValue) AsInternalValue() (*LogCondition_Internal, bool) {
 	res, ok := fpv.value.(*LogCondition_Internal)
+	return res, ok
+}
+func (fpv *LogCondition_FieldTerminalPathValue) AsTemplateSourceValue() (*LogCondition_TemplateSource, bool) {
+	res, ok := fpv.value.(*LogCondition_TemplateSource)
 	return res, ok
 }
 
@@ -607,9 +652,11 @@ func (fpv *LogCondition_FieldTerminalPathValue) SetTo(target **LogCondition) {
 	case LogCondition_FieldPathSelectorSupportingDocs:
 		(*target).SupportingDocs = fpv.value.([]*document.Reference)
 	case LogCondition_FieldPathSelectorSpec:
-		(*target).Spec = fpv.value.(*LogCondition_Spec)
+		(*target).Spec = fpv.value.(*rcommon.LogCndSpec)
 	case LogCondition_FieldPathSelectorInternal:
 		(*target).Internal = fpv.value.(*LogCondition_Internal)
+	case LogCondition_FieldPathSelectorTemplateSource:
+		(*target).TemplateSource = fpv.value.(*LogCondition_TemplateSource)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fpv.selector))
 	}
@@ -670,6 +717,8 @@ func (fpv *LogCondition_FieldTerminalPathValue) CompareWith(source *LogCondition
 		return 0, false
 	case LogCondition_FieldPathSelectorInternal:
 		return 0, false
+	case LogCondition_FieldPathSelectorTemplateSource:
+		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fpv.selector))
 	}
@@ -690,12 +739,16 @@ func (fpvs *LogCondition_FieldSubPathValue) AsMetadataPathValue() (meta.Meta_Fie
 	res, ok := fpvs.subPathValue.(meta.Meta_FieldPathValue)
 	return res, ok
 }
-func (fpvs *LogCondition_FieldSubPathValue) AsSpecPathValue() (LogConditionSpec_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(LogConditionSpec_FieldPathValue)
+func (fpvs *LogCondition_FieldSubPathValue) AsSpecPathValue() (rcommon.LogCndSpec_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(rcommon.LogCndSpec_FieldPathValue)
 	return res, ok
 }
 func (fpvs *LogCondition_FieldSubPathValue) AsInternalPathValue() (LogConditionInternal_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(LogConditionInternal_FieldPathValue)
+	return res, ok
+}
+func (fpvs *LogCondition_FieldSubPathValue) AsTemplateSourcePathValue() (LogConditionTemplateSource_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(LogConditionTemplateSource_FieldPathValue)
 	return res, ok
 }
 
@@ -707,9 +760,11 @@ func (fpvs *LogCondition_FieldSubPathValue) SetTo(target **LogCondition) {
 	case LogCondition_FieldPathSelectorMetadata:
 		fpvs.subPathValue.(meta.Meta_FieldPathValue).SetTo(&(*target).Metadata)
 	case LogCondition_FieldPathSelectorSpec:
-		fpvs.subPathValue.(LogConditionSpec_FieldPathValue).SetTo(&(*target).Spec)
+		fpvs.subPathValue.(rcommon.LogCndSpec_FieldPathValue).SetTo(&(*target).Spec)
 	case LogCondition_FieldPathSelectorInternal:
 		fpvs.subPathValue.(LogConditionInternal_FieldPathValue).SetTo(&(*target).Internal)
+	case LogCondition_FieldPathSelectorTemplateSource:
+		fpvs.subPathValue.(LogConditionTemplateSource_FieldPathValue).SetTo(&(*target).TemplateSource)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fpvs.Selector()))
 	}
@@ -729,9 +784,11 @@ func (fpvs *LogCondition_FieldSubPathValue) CompareWith(source *LogCondition) (i
 	case LogCondition_FieldPathSelectorMetadata:
 		return fpvs.subPathValue.(meta.Meta_FieldPathValue).CompareWith(source.GetMetadata())
 	case LogCondition_FieldPathSelectorSpec:
-		return fpvs.subPathValue.(LogConditionSpec_FieldPathValue).CompareWith(source.GetSpec())
+		return fpvs.subPathValue.(rcommon.LogCndSpec_FieldPathValue).CompareWith(source.GetSpec())
 	case LogCondition_FieldPathSelectorInternal:
 		return fpvs.subPathValue.(LogConditionInternal_FieldPathValue).CompareWith(source.GetInternal())
+	case LogCondition_FieldPathSelectorTemplateSource:
+		return fpvs.subPathValue.(LogConditionTemplateSource_FieldPathValue).CompareWith(source.GetTemplateSource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fpvs.Selector()))
 	}
@@ -822,12 +879,16 @@ func (fpaivs *LogCondition_FieldSubPathArrayItemValue) AsMetadataPathItemValue()
 	res, ok := fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue)
 	return res, ok
 }
-func (fpaivs *LogCondition_FieldSubPathArrayItemValue) AsSpecPathItemValue() (LogConditionSpec_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(LogConditionSpec_FieldPathArrayItemValue)
+func (fpaivs *LogCondition_FieldSubPathArrayItemValue) AsSpecPathItemValue() (rcommon.LogCndSpec_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(rcommon.LogCndSpec_FieldPathArrayItemValue)
 	return res, ok
 }
 func (fpaivs *LogCondition_FieldSubPathArrayItemValue) AsInternalPathItemValue() (LogConditionInternal_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(LogConditionInternal_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *LogCondition_FieldSubPathArrayItemValue) AsTemplateSourcePathItemValue() (LogConditionTemplateSource_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(LogConditionTemplateSource_FieldPathArrayItemValue)
 	return res, ok
 }
 
@@ -837,9 +898,11 @@ func (fpaivs *LogCondition_FieldSubPathArrayItemValue) ContainsValue(source *Log
 	case LogCondition_FieldPathSelectorMetadata:
 		return fpaivs.subPathItemValue.(meta.Meta_FieldPathArrayItemValue).ContainsValue(source.GetMetadata())
 	case LogCondition_FieldPathSelectorSpec:
-		return fpaivs.subPathItemValue.(LogConditionSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
+		return fpaivs.subPathItemValue.(rcommon.LogCndSpec_FieldPathArrayItemValue).ContainsValue(source.GetSpec())
 	case LogCondition_FieldPathSelectorInternal:
 		return fpaivs.subPathItemValue.(LogConditionInternal_FieldPathArrayItemValue).ContainsValue(source.GetInternal())
+	case LogCondition_FieldPathSelectorTemplateSource:
+		return fpaivs.subPathItemValue.(LogConditionTemplateSource_FieldPathArrayItemValue).ContainsValue(source.GetTemplateSource())
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition: %d", fpaivs.Selector()))
 	}
@@ -901,11 +964,15 @@ func (fpaov *LogCondition_FieldTerminalPathArrayOfValues) GetRawValues() (values
 			values = append(values, v)
 		}
 	case LogCondition_FieldPathSelectorSpec:
-		for _, v := range fpaov.values.([]*LogCondition_Spec) {
+		for _, v := range fpaov.values.([]*rcommon.LogCndSpec) {
 			values = append(values, v)
 		}
 	case LogCondition_FieldPathSelectorInternal:
 		for _, v := range fpaov.values.([]*LogCondition_Internal) {
+			values = append(values, v)
+		}
+	case LogCondition_FieldPathSelectorTemplateSource:
+		for _, v := range fpaov.values.([]*LogCondition_TemplateSource) {
 			values = append(values, v)
 		}
 	}
@@ -931,12 +998,16 @@ func (fpaov *LogCondition_FieldTerminalPathArrayOfValues) AsSupportingDocsArrayO
 	res, ok := fpaov.values.([][]*document.Reference)
 	return res, ok
 }
-func (fpaov *LogCondition_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*LogCondition_Spec, bool) {
-	res, ok := fpaov.values.([]*LogCondition_Spec)
+func (fpaov *LogCondition_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*rcommon.LogCndSpec, bool) {
+	res, ok := fpaov.values.([]*rcommon.LogCndSpec)
 	return res, ok
 }
 func (fpaov *LogCondition_FieldTerminalPathArrayOfValues) AsInternalArrayOfValues() ([]*LogCondition_Internal, bool) {
 	res, ok := fpaov.values.([]*LogCondition_Internal)
+	return res, ok
+}
+func (fpaov *LogCondition_FieldTerminalPathArrayOfValues) AsTemplateSourceArrayOfValues() ([]*LogCondition_TemplateSource, bool) {
+	res, ok := fpaov.values.([]*LogCondition_TemplateSource)
 	return res, ok
 }
 
@@ -954,634 +1025,16 @@ func (fpsaov *LogCondition_FieldSubPathArrayOfValues) AsMetadataPathArrayOfValue
 	res, ok := fpsaov.subPathArrayOfValues.(meta.Meta_FieldPathArrayOfValues)
 	return res, ok
 }
-func (fpsaov *LogCondition_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (LogConditionSpec_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(LogConditionSpec_FieldPathArrayOfValues)
+func (fpsaov *LogCondition_FieldSubPathArrayOfValues) AsSpecPathArrayOfValues() (rcommon.LogCndSpec_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(rcommon.LogCndSpec_FieldPathArrayOfValues)
 	return res, ok
 }
 func (fpsaov *LogCondition_FieldSubPathArrayOfValues) AsInternalPathArrayOfValues() (LogConditionInternal_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(LogConditionInternal_FieldPathArrayOfValues)
 	return res, ok
 }
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type LogConditionSpec_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() LogConditionSpec_FieldPathSelector
-	Get(source *LogCondition_Spec) []interface{}
-	GetSingle(source *LogCondition_Spec) (interface{}, bool)
-	ClearValue(item *LogCondition_Spec)
-
-	// Those methods build corresponding LogConditionSpec_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) LogConditionSpec_FieldPathValue
-	WithIArrayOfValues(values interface{}) LogConditionSpec_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) LogConditionSpec_FieldPathArrayItemValue
-}
-
-type LogConditionSpec_FieldPathSelector int32
-
-const (
-	LogConditionSpec_FieldPathSelectorQuery         LogConditionSpec_FieldPathSelector = 0
-	LogConditionSpec_FieldPathSelectorGroupByLabels LogConditionSpec_FieldPathSelector = 1
-)
-
-func (s LogConditionSpec_FieldPathSelector) String() string {
-	switch s {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		return "query"
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		return "group_by_labels"
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", s))
-	}
-}
-
-func BuildLogConditionSpec_FieldPath(fp gotenobject.RawFieldPath) (LogConditionSpec_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object LogCondition_Spec")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "query":
-			return &LogConditionSpec_FieldTerminalPath{selector: LogConditionSpec_FieldPathSelectorQuery}, nil
-		case "group_by_labels", "groupByLabels", "group-by-labels":
-			return &LogConditionSpec_FieldTerminalPath{selector: LogConditionSpec_FieldPathSelectorGroupByLabels}, nil
-		}
-	} else {
-		switch fp[0] {
-		case "query":
-			if subpath, err := BuildLogConditionSpecQuery_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &LogConditionSpec_FieldSubPath{selector: LogConditionSpec_FieldPathSelectorQuery, subPath: subpath}, nil
-			}
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object LogCondition_Spec", fp)
-}
-
-func ParseLogConditionSpec_FieldPath(rawField string) (LogConditionSpec_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildLogConditionSpec_FieldPath(fp)
-}
-
-func MustParseLogConditionSpec_FieldPath(rawField string) LogConditionSpec_FieldPath {
-	fp, err := ParseLogConditionSpec_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type LogConditionSpec_FieldTerminalPath struct {
-	selector LogConditionSpec_FieldPathSelector
-}
-
-var _ LogConditionSpec_FieldPath = (*LogConditionSpec_FieldTerminalPath)(nil)
-
-func (fp *LogConditionSpec_FieldTerminalPath) Selector() LogConditionSpec_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *LogConditionSpec_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *LogConditionSpec_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source LogCondition_Spec
-func (fp *LogConditionSpec_FieldTerminalPath) Get(source *LogCondition_Spec) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case LogConditionSpec_FieldPathSelectorQuery:
-			if source.Query != nil {
-				values = append(values, source.Query)
-			}
-		case LogConditionSpec_FieldPathSelectorGroupByLabels:
-			for _, value := range source.GetGroupByLabels() {
-				values = append(values, value)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*LogCondition_Spec))
-}
-
-// GetSingle returns value pointed by specific field of from source LogCondition_Spec
-func (fp *LogConditionSpec_FieldTerminalPath) GetSingle(source *LogCondition_Spec) (interface{}, bool) {
-	switch fp.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		res := source.GetQuery()
-		return res, res != nil
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		res := source.GetGroupByLabels()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*LogCondition_Spec))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *LogConditionSpec_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		return (*LogCondition_Spec_Query)(nil)
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		return ([]string)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) ClearValue(item *LogCondition_Spec) {
-	if item != nil {
-		switch fp.selector {
-		case LogConditionSpec_FieldPathSelectorQuery:
-			item.Query = nil
-		case LogConditionSpec_FieldPathSelectorGroupByLabels:
-			item.GroupByLabels = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*LogCondition_Spec))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *LogConditionSpec_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == LogConditionSpec_FieldPathSelectorGroupByLabels
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) WithIValue(value interface{}) LogConditionSpec_FieldPathValue {
-	switch fp.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		return &LogConditionSpec_FieldTerminalPathValue{LogConditionSpec_FieldTerminalPath: *fp, value: value.(*LogCondition_Spec_Query)}
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		return &LogConditionSpec_FieldTerminalPathValue{LogConditionSpec_FieldTerminalPath: *fp, value: value.([]string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) LogConditionSpec_FieldPathArrayOfValues {
-	fpaov := &LogConditionSpec_FieldTerminalPathArrayOfValues{LogConditionSpec_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		return &LogConditionSpec_FieldTerminalPathArrayOfValues{LogConditionSpec_FieldTerminalPath: *fp, values: values.([]*LogCondition_Spec_Query)}
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		return &LogConditionSpec_FieldTerminalPathArrayOfValues{LogConditionSpec_FieldTerminalPath: *fp, values: values.([][]string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) WithIArrayItemValue(value interface{}) LogConditionSpec_FieldPathArrayItemValue {
-	switch fp.selector {
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		return &LogConditionSpec_FieldTerminalPathArrayItemValue{LogConditionSpec_FieldTerminalPath: *fp, value: value.(string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpec_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-type LogConditionSpec_FieldSubPath struct {
-	selector LogConditionSpec_FieldPathSelector
-	subPath  gotenobject.FieldPath
-}
-
-var _ LogConditionSpec_FieldPath = (*LogConditionSpec_FieldSubPath)(nil)
-
-func (fps *LogConditionSpec_FieldSubPath) Selector() LogConditionSpec_FieldPathSelector {
-	return fps.selector
-}
-func (fps *LogConditionSpec_FieldSubPath) AsQuerySubPath() (LogConditionSpecQuery_FieldPath, bool) {
-	res, ok := fps.subPath.(LogConditionSpecQuery_FieldPath)
-	return res, ok
-}
-
-// String returns path representation in proto convention
-func (fps *LogConditionSpec_FieldSubPath) String() string {
-	return fps.selector.String() + "." + fps.subPath.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fps *LogConditionSpec_FieldSubPath) JSONString() string {
-	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
-}
-
-// Get returns all values pointed by selected field from source LogCondition_Spec
-func (fps *LogConditionSpec_FieldSubPath) Get(source *LogCondition_Spec) (values []interface{}) {
-	switch fps.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		values = append(values, fps.subPath.GetRaw(source.GetQuery())...)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fps.selector))
-	}
-	return
-}
-
-func (fps *LogConditionSpec_FieldSubPath) GetRaw(source proto.Message) []interface{} {
-	return fps.Get(source.(*LogCondition_Spec))
-}
-
-// GetSingle returns value of selected field from source LogCondition_Spec
-func (fps *LogConditionSpec_FieldSubPath) GetSingle(source *LogCondition_Spec) (interface{}, bool) {
-	switch fps.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		if source.GetQuery() == nil {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetQuery())
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fps.selector))
-	}
-}
-
-func (fps *LogConditionSpec_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fps.GetSingle(source.(*LogCondition_Spec))
-}
-
-// GetDefault returns a default value of the field type
-func (fps *LogConditionSpec_FieldSubPath) GetDefault() interface{} {
-	return fps.subPath.GetDefault()
-}
-
-func (fps *LogConditionSpec_FieldSubPath) ClearValue(item *LogCondition_Spec) {
-	if item != nil {
-		switch fps.selector {
-		case LogConditionSpec_FieldPathSelectorQuery:
-			fps.subPath.ClearValueRaw(item.Query)
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fps.selector))
-		}
-	}
-}
-
-func (fps *LogConditionSpec_FieldSubPath) ClearValueRaw(item proto.Message) {
-	fps.ClearValue(item.(*LogCondition_Spec))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fps *LogConditionSpec_FieldSubPath) IsLeaf() bool {
-	return fps.subPath.IsLeaf()
-}
-
-func (fps *LogConditionSpec_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	iPaths := []gotenobject.FieldPath{&LogConditionSpec_FieldTerminalPath{selector: fps.selector}}
-	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
-	return iPaths
-}
-
-func (fps *LogConditionSpec_FieldSubPath) WithIValue(value interface{}) LogConditionSpec_FieldPathValue {
-	return &LogConditionSpec_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
-}
-
-func (fps *LogConditionSpec_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fps.WithIValue(value)
-}
-
-func (fps *LogConditionSpec_FieldSubPath) WithIArrayOfValues(values interface{}) LogConditionSpec_FieldPathArrayOfValues {
-	return &LogConditionSpec_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
-}
-
-func (fps *LogConditionSpec_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fps.WithIArrayOfValues(values)
-}
-
-func (fps *LogConditionSpec_FieldSubPath) WithIArrayItemValue(value interface{}) LogConditionSpec_FieldPathArrayItemValue {
-	return &LogConditionSpec_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
-}
-
-func (fps *LogConditionSpec_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fps.WithIArrayItemValue(value)
-}
-
-// LogConditionSpec_FieldPathValue allows storing values for Spec fields according to their type
-type LogConditionSpec_FieldPathValue interface {
-	LogConditionSpec_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **LogCondition_Spec)
-	CompareWith(*LogCondition_Spec) (cmp int, comparable bool)
-}
-
-func ParseLogConditionSpec_FieldPathValue(pathStr, valueStr string) (LogConditionSpec_FieldPathValue, error) {
-	fp, err := ParseLogConditionSpec_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Spec field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(LogConditionSpec_FieldPathValue), nil
-}
-
-func MustParseLogConditionSpec_FieldPathValue(pathStr, valueStr string) LogConditionSpec_FieldPathValue {
-	fpv, err := ParseLogConditionSpec_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type LogConditionSpec_FieldTerminalPathValue struct {
-	LogConditionSpec_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpec_FieldPathValue = (*LogConditionSpec_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Spec' as interface{}
-func (fpv *LogConditionSpec_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *LogConditionSpec_FieldTerminalPathValue) AsQueryValue() (*LogCondition_Spec_Query, bool) {
-	res, ok := fpv.value.(*LogCondition_Spec_Query)
-	return res, ok
-}
-func (fpv *LogConditionSpec_FieldTerminalPathValue) AsGroupByLabelsValue() ([]string, bool) {
-	res, ok := fpv.value.([]string)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Spec
-func (fpv *LogConditionSpec_FieldTerminalPathValue) SetTo(target **LogCondition_Spec) {
-	if *target == nil {
-		*target = new(LogCondition_Spec)
-	}
-	switch fpv.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		(*target).Query = fpv.value.(*LogCondition_Spec_Query)
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		(*target).GroupByLabels = fpv.value.([]string)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpec_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*LogCondition_Spec)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'LogConditionSpec_FieldTerminalPathValue' with the value under path in 'LogCondition_Spec'.
-func (fpv *LogConditionSpec_FieldTerminalPathValue) CompareWith(source *LogCondition_Spec) (int, bool) {
-	switch fpv.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		return 0, false
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		return 0, false
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpec_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*LogCondition_Spec))
-}
-
-type LogConditionSpec_FieldSubPathValue struct {
-	LogConditionSpec_FieldPath
-	subPathValue gotenobject.FieldPathValue
-}
-
-var _ LogConditionSpec_FieldPathValue = (*LogConditionSpec_FieldSubPathValue)(nil)
-
-func (fpvs *LogConditionSpec_FieldSubPathValue) AsQueryPathValue() (LogConditionSpecQuery_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(LogConditionSpecQuery_FieldPathValue)
-	return res, ok
-}
-
-func (fpvs *LogConditionSpec_FieldSubPathValue) SetTo(target **LogCondition_Spec) {
-	if *target == nil {
-		*target = new(LogCondition_Spec)
-	}
-	switch fpvs.Selector() {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		fpvs.subPathValue.(LogConditionSpecQuery_FieldPathValue).SetTo(&(*target).Query)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *LogConditionSpec_FieldSubPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*LogCondition_Spec)
-	fpvs.SetTo(&typedObject)
-}
-
-func (fpvs *LogConditionSpec_FieldSubPathValue) GetRawValue() interface{} {
-	return fpvs.subPathValue.GetRawValue()
-}
-
-func (fpvs *LogConditionSpec_FieldSubPathValue) CompareWith(source *LogCondition_Spec) (int, bool) {
-	switch fpvs.Selector() {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		return fpvs.subPathValue.(LogConditionSpecQuery_FieldPathValue).CompareWith(source.GetQuery())
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fpvs.Selector()))
-	}
-}
-
-func (fpvs *LogConditionSpec_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpvs.CompareWith(source.(*LogCondition_Spec))
-}
-
-// LogConditionSpec_FieldPathArrayItemValue allows storing single item in Path-specific values for Spec according to their type
-// Present only for array (repeated) types.
-type LogConditionSpec_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	LogConditionSpec_FieldPath
-	ContainsValue(*LogCondition_Spec) bool
-}
-
-// ParseLogConditionSpec_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseLogConditionSpec_FieldPathArrayItemValue(pathStr, valueStr string) (LogConditionSpec_FieldPathArrayItemValue, error) {
-	fp, err := ParseLogConditionSpec_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Spec field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(LogConditionSpec_FieldPathArrayItemValue), nil
-}
-
-func MustParseLogConditionSpec_FieldPathArrayItemValue(pathStr, valueStr string) LogConditionSpec_FieldPathArrayItemValue {
-	fpaiv, err := ParseLogConditionSpec_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type LogConditionSpec_FieldTerminalPathArrayItemValue struct {
-	LogConditionSpec_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpec_FieldPathArrayItemValue = (*LogConditionSpec_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object LogCondition_Spec as interface{}
-func (fpaiv *LogConditionSpec_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-func (fpaiv *LogConditionSpec_FieldTerminalPathArrayItemValue) AsGroupByLabelsItemValue() (string, bool) {
-	res, ok := fpaiv.value.(string)
-	return res, ok
-}
-
-func (fpaiv *LogConditionSpec_FieldTerminalPathArrayItemValue) GetSingle(source *LogCondition_Spec) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *LogConditionSpec_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*LogCondition_Spec))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Spec'
-func (fpaiv *LogConditionSpec_FieldTerminalPathArrayItemValue) ContainsValue(source *LogCondition_Spec) bool {
-	slice := fpaiv.LogConditionSpec_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-type LogConditionSpec_FieldSubPathArrayItemValue struct {
-	LogConditionSpec_FieldPath
-	subPathItemValue gotenobject.FieldPathArrayItemValue
-}
-
-// GetRawValue returns stored array item value
-func (fpaivs *LogConditionSpec_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaivs.subPathItemValue.GetRawItemValue()
-}
-func (fpaivs *LogConditionSpec_FieldSubPathArrayItemValue) AsQueryPathItemValue() (LogConditionSpecQuery_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(LogConditionSpecQuery_FieldPathArrayItemValue)
-	return res, ok
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Spec'
-func (fpaivs *LogConditionSpec_FieldSubPathArrayItemValue) ContainsValue(source *LogCondition_Spec) bool {
-	switch fpaivs.Selector() {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		return fpaivs.subPathItemValue.(LogConditionSpecQuery_FieldPathArrayItemValue).ContainsValue(source.GetQuery())
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec: %d", fpaivs.Selector()))
-	}
-}
-
-// LogConditionSpec_FieldPathArrayOfValues allows storing slice of values for Spec fields according to their type
-type LogConditionSpec_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	LogConditionSpec_FieldPath
-}
-
-func ParseLogConditionSpec_FieldPathArrayOfValues(pathStr, valuesStr string) (LogConditionSpec_FieldPathArrayOfValues, error) {
-	fp, err := ParseLogConditionSpec_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Spec field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(LogConditionSpec_FieldPathArrayOfValues), nil
-}
-
-func MustParseLogConditionSpec_FieldPathArrayOfValues(pathStr, valuesStr string) LogConditionSpec_FieldPathArrayOfValues {
-	fpaov, err := ParseLogConditionSpec_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type LogConditionSpec_FieldTerminalPathArrayOfValues struct {
-	LogConditionSpec_FieldTerminalPath
-	values interface{}
-}
-
-var _ LogConditionSpec_FieldPathArrayOfValues = (*LogConditionSpec_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *LogConditionSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case LogConditionSpec_FieldPathSelectorQuery:
-		for _, v := range fpaov.values.([]*LogCondition_Spec_Query) {
-			values = append(values, v)
-		}
-	case LogConditionSpec_FieldPathSelectorGroupByLabels:
-		for _, v := range fpaov.values.([][]string) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *LogConditionSpec_FieldTerminalPathArrayOfValues) AsQueryArrayOfValues() ([]*LogCondition_Spec_Query, bool) {
-	res, ok := fpaov.values.([]*LogCondition_Spec_Query)
-	return res, ok
-}
-func (fpaov *LogConditionSpec_FieldTerminalPathArrayOfValues) AsGroupByLabelsArrayOfValues() ([][]string, bool) {
-	res, ok := fpaov.values.([][]string)
-	return res, ok
-}
-
-type LogConditionSpec_FieldSubPathArrayOfValues struct {
-	LogConditionSpec_FieldPath
-	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
-}
-
-var _ LogConditionSpec_FieldPathArrayOfValues = (*LogConditionSpec_FieldSubPathArrayOfValues)(nil)
-
-func (fpsaov *LogConditionSpec_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
-	return fpsaov.subPathArrayOfValues.GetRawValues()
-}
-func (fpsaov *LogConditionSpec_FieldSubPathArrayOfValues) AsQueryPathArrayOfValues() (LogConditionSpecQuery_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(LogConditionSpecQuery_FieldPathArrayOfValues)
+func (fpsaov *LogCondition_FieldSubPathArrayOfValues) AsTemplateSourcePathArrayOfValues() (LogConditionTemplateSource_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(LogConditionTemplateSource_FieldPathArrayOfValues)
 	return res, ok
 }
 
@@ -1700,7 +1153,7 @@ func (fp *LogConditionInternal_FieldTerminalPath) GetSingleRaw(source proto.Mess
 func (fp *LogConditionInternal_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case LogConditionInternal_FieldPathSelectorAlertingLocation:
-		return policy.Policy_Spec_UNDEFINED
+		return rcommon.PolicySpec_UNDEFINED
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition_Internal: %d", fp.selector))
 	}
@@ -1710,7 +1163,7 @@ func (fp *LogConditionInternal_FieldTerminalPath) ClearValue(item *LogCondition_
 	if item != nil {
 		switch fp.selector {
 		case LogConditionInternal_FieldPathSelectorAlertingLocation:
-			item.AlertingLocation = policy.Policy_Spec_UNDEFINED
+			item.AlertingLocation = rcommon.PolicySpec_UNDEFINED
 		default:
 			panic(fmt.Sprintf("Invalid selector for LogCondition_Internal: %d", fp.selector))
 		}
@@ -1733,7 +1186,7 @@ func (fp *LogConditionInternal_FieldTerminalPath) SplitIntoTerminalIPaths() []go
 func (fp *LogConditionInternal_FieldTerminalPath) WithIValue(value interface{}) LogConditionInternal_FieldPathValue {
 	switch fp.selector {
 	case LogConditionInternal_FieldPathSelectorAlertingLocation:
-		return &LogConditionInternal_FieldTerminalPathValue{LogConditionInternal_FieldTerminalPath: *fp, value: value.(policy.Policy_Spec_ProcessingLocation)}
+		return &LogConditionInternal_FieldTerminalPathValue{LogConditionInternal_FieldTerminalPath: *fp, value: value.(rcommon.PolicySpec_ProcessingLocation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition_Internal: %d", fp.selector))
 	}
@@ -1747,7 +1200,7 @@ func (fp *LogConditionInternal_FieldTerminalPath) WithIArrayOfValues(values inte
 	fpaov := &LogConditionInternal_FieldTerminalPathArrayOfValues{LogConditionInternal_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case LogConditionInternal_FieldPathSelectorAlertingLocation:
-		return &LogConditionInternal_FieldTerminalPathArrayOfValues{LogConditionInternal_FieldTerminalPath: *fp, values: values.([]policy.Policy_Spec_ProcessingLocation)}
+		return &LogConditionInternal_FieldTerminalPathArrayOfValues{LogConditionInternal_FieldTerminalPath: *fp, values: values.([]rcommon.PolicySpec_ProcessingLocation)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition_Internal: %d", fp.selector))
 	}
@@ -1808,8 +1261,8 @@ var _ LogConditionInternal_FieldPathValue = (*LogConditionInternal_FieldTerminal
 func (fpv *LogConditionInternal_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *LogConditionInternal_FieldTerminalPathValue) AsAlertingLocationValue() (policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+func (fpv *LogConditionInternal_FieldTerminalPathValue) AsAlertingLocationValue() (rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 
@@ -1820,7 +1273,7 @@ func (fpv *LogConditionInternal_FieldTerminalPathValue) SetTo(target **LogCondit
 	}
 	switch fpv.selector {
 	case LogConditionInternal_FieldPathSelectorAlertingLocation:
-		(*target).AlertingLocation = fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		(*target).AlertingLocation = fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 	default:
 		panic(fmt.Sprintf("Invalid selector for LogCondition_Internal: %d", fpv.selector))
 	}
@@ -1835,7 +1288,7 @@ func (fpv *LogConditionInternal_FieldTerminalPathValue) SetToRaw(target proto.Me
 func (fpv *LogConditionInternal_FieldTerminalPathValue) CompareWith(source *LogCondition_Internal) (int, bool) {
 	switch fpv.selector {
 	case LogConditionInternal_FieldPathSelectorAlertingLocation:
-		leftValue := fpv.value.(policy.Policy_Spec_ProcessingLocation)
+		leftValue := fpv.value.(rcommon.PolicySpec_ProcessingLocation)
 		rightValue := source.GetAlertingLocation()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -1953,330 +1406,299 @@ var _ LogConditionInternal_FieldPathArrayOfValues = (*LogConditionInternal_Field
 func (fpaov *LogConditionInternal_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case LogConditionInternal_FieldPathSelectorAlertingLocation:
-		for _, v := range fpaov.values.([]policy.Policy_Spec_ProcessingLocation) {
+		for _, v := range fpaov.values.([]rcommon.PolicySpec_ProcessingLocation) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *LogConditionInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]policy.Policy_Spec_ProcessingLocation, bool) {
-	res, ok := fpaov.values.([]policy.Policy_Spec_ProcessingLocation)
+func (fpaov *LogConditionInternal_FieldTerminalPathArrayOfValues) AsAlertingLocationArrayOfValues() ([]rcommon.PolicySpec_ProcessingLocation, bool) {
+	res, ok := fpaov.values.([]rcommon.PolicySpec_ProcessingLocation)
 	return res, ok
 }
 
 // FieldPath provides implementation to handle
 // https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type LogConditionSpecQuery_FieldPath interface {
+type LogConditionTemplateSource_FieldPath interface {
 	gotenobject.FieldPath
-	Selector() LogConditionSpecQuery_FieldPathSelector
-	Get(source *LogCondition_Spec_Query) []interface{}
-	GetSingle(source *LogCondition_Spec_Query) (interface{}, bool)
-	ClearValue(item *LogCondition_Spec_Query)
+	Selector() LogConditionTemplateSource_FieldPathSelector
+	Get(source *LogCondition_TemplateSource) []interface{}
+	GetSingle(source *LogCondition_TemplateSource) (interface{}, bool)
+	ClearValue(item *LogCondition_TemplateSource)
 
-	// Those methods build corresponding LogConditionSpecQuery_FieldPathValue
+	// Those methods build corresponding LogConditionTemplateSource_FieldPathValue
 	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) LogConditionSpecQuery_FieldPathValue
-	WithIArrayOfValues(values interface{}) LogConditionSpecQuery_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) LogConditionSpecQuery_FieldPathArrayItemValue
+	WithIValue(value interface{}) LogConditionTemplateSource_FieldPathValue
+	WithIArrayOfValues(values interface{}) LogConditionTemplateSource_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) LogConditionTemplateSource_FieldPathArrayItemValue
 }
 
-type LogConditionSpecQuery_FieldPathSelector int32
+type LogConditionTemplateSource_FieldPathSelector int32
 
 const (
-	LogConditionSpecQuery_FieldPathSelectorFilter      LogConditionSpecQuery_FieldPathSelector = 0
-	LogConditionSpecQuery_FieldPathSelectorTrigger     LogConditionSpecQuery_FieldPathSelector = 1
-	LogConditionSpecQuery_FieldPathSelectorMinDuration LogConditionSpecQuery_FieldPathSelector = 2
+	LogConditionTemplateSource_FieldPathSelectorTemplate      LogConditionTemplateSource_FieldPathSelector = 0
+	LogConditionTemplateSource_FieldPathSelectorUpdatedFields LogConditionTemplateSource_FieldPathSelector = 1
 )
 
-func (s LogConditionSpecQuery_FieldPathSelector) String() string {
+func (s LogConditionTemplateSource_FieldPathSelector) String() string {
 	switch s {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		return "filter"
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		return "trigger"
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		return "min_duration"
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		return "template"
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return "updated_fields"
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", s))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", s))
 	}
 }
 
-func BuildLogConditionSpecQuery_FieldPath(fp gotenobject.RawFieldPath) (LogConditionSpecQuery_FieldPath, error) {
+func BuildLogConditionTemplateSource_FieldPath(fp gotenobject.RawFieldPath) (LogConditionTemplateSource_FieldPath, error) {
 	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object LogCondition_Spec_Query")
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object LogCondition_TemplateSource")
 	}
 	if len(fp) == 1 {
 		switch fp[0] {
-		case "filter":
-			return &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorFilter}, nil
-		case "trigger":
-			return &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorTrigger}, nil
-		case "min_duration", "minDuration", "min-duration":
-			return &LogConditionSpecQuery_FieldTerminalPath{selector: LogConditionSpecQuery_FieldPathSelectorMinDuration}, nil
+		case "template":
+			return &LogConditionTemplateSource_FieldTerminalPath{selector: LogConditionTemplateSource_FieldPathSelectorTemplate}, nil
+		case "updated_fields", "updatedFields", "updated-fields":
+			return &LogConditionTemplateSource_FieldTerminalPath{selector: LogConditionTemplateSource_FieldPathSelectorUpdatedFields}, nil
 		}
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object LogCondition_Spec_Query", fp)
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object LogCondition_TemplateSource", fp)
 }
 
-func ParseLogConditionSpecQuery_FieldPath(rawField string) (LogConditionSpecQuery_FieldPath, error) {
+func ParseLogConditionTemplateSource_FieldPath(rawField string) (LogConditionTemplateSource_FieldPath, error) {
 	fp, err := gotenobject.ParseRawFieldPath(rawField)
 	if err != nil {
 		return nil, err
 	}
-	return BuildLogConditionSpecQuery_FieldPath(fp)
+	return BuildLogConditionTemplateSource_FieldPath(fp)
 }
 
-func MustParseLogConditionSpecQuery_FieldPath(rawField string) LogConditionSpecQuery_FieldPath {
-	fp, err := ParseLogConditionSpecQuery_FieldPath(rawField)
+func MustParseLogConditionTemplateSource_FieldPath(rawField string) LogConditionTemplateSource_FieldPath {
+	fp, err := ParseLogConditionTemplateSource_FieldPath(rawField)
 	if err != nil {
 		panic(err)
 	}
 	return fp
 }
 
-type LogConditionSpecQuery_FieldTerminalPath struct {
-	selector LogConditionSpecQuery_FieldPathSelector
+type LogConditionTemplateSource_FieldTerminalPath struct {
+	selector LogConditionTemplateSource_FieldPathSelector
 }
 
-var _ LogConditionSpecQuery_FieldPath = (*LogConditionSpecQuery_FieldTerminalPath)(nil)
+var _ LogConditionTemplateSource_FieldPath = (*LogConditionTemplateSource_FieldTerminalPath)(nil)
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) Selector() LogConditionSpecQuery_FieldPathSelector {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) Selector() LogConditionTemplateSource_FieldPathSelector {
 	return fp.selector
 }
 
 // String returns path representation in proto convention
-func (fp *LogConditionSpecQuery_FieldTerminalPath) String() string {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) String() string {
 	return fp.selector.String()
 }
 
 // JSONString returns path representation is JSON convention
-func (fp *LogConditionSpecQuery_FieldTerminalPath) JSONString() string {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) JSONString() string {
 	return strcase.ToLowerCamel(fp.String())
 }
 
-// Get returns all values pointed by specific field from source LogCondition_Spec_Query
-func (fp *LogConditionSpecQuery_FieldTerminalPath) Get(source *LogCondition_Spec_Query) (values []interface{}) {
+// Get returns all values pointed by specific field from source LogCondition_TemplateSource
+func (fp *LogConditionTemplateSource_FieldTerminalPath) Get(source *LogCondition_TemplateSource) (values []interface{}) {
 	if source != nil {
 		switch fp.selector {
-		case LogConditionSpecQuery_FieldPathSelectorFilter:
-			if source.Filter != nil {
-				values = append(values, source.Filter)
+		case LogConditionTemplateSource_FieldPathSelectorTemplate:
+			if source.Template != nil {
+				values = append(values, source.Template)
 			}
-		case LogConditionSpecQuery_FieldPathSelectorTrigger:
-			if source.Trigger != nil {
-				values = append(values, source.Trigger)
-			}
-		case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-			if source.MinDuration != nil {
-				values = append(values, source.MinDuration)
+		case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+			if source.UpdatedFields != nil {
+				values = append(values, source.UpdatedFields)
 			}
 		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fp.selector))
 		}
 	}
 	return
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*LogCondition_Spec_Query))
+func (fp *LogConditionTemplateSource_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*LogCondition_TemplateSource))
 }
 
-// GetSingle returns value pointed by specific field of from source LogCondition_Spec_Query
-func (fp *LogConditionSpecQuery_FieldTerminalPath) GetSingle(source *LogCondition_Spec_Query) (interface{}, bool) {
+// GetSingle returns value pointed by specific field of from source LogCondition_TemplateSource
+func (fp *LogConditionTemplateSource_FieldTerminalPath) GetSingle(source *LogCondition_TemplateSource) (interface{}, bool) {
 	switch fp.selector {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		res := source.GetFilter()
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		res := source.GetTemplate()
 		return res, res != nil
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		res := source.GetTrigger()
-		return res, res != nil
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		res := source.GetMinDuration()
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		res := source.GetUpdatedFields()
 		return res, res != nil
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*LogCondition_Spec_Query))
+func (fp *LogConditionTemplateSource_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*LogCondition_TemplateSource))
 }
 
 // GetDefault returns a default value of the field type
-func (fp *LogConditionSpecQuery_FieldTerminalPath) GetDefault() interface{} {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		return (*logging_log.Filter)(nil)
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		return (*LogCondition_Spec_Query_TriggerCnd)(nil)
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		return (*durationpb.Duration)(nil)
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		return (*log_condition_template.Reference)(nil)
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return (*fieldmaskpb.FieldMask)(nil)
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) ClearValue(item *LogCondition_Spec_Query) {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) ClearValue(item *LogCondition_TemplateSource) {
 	if item != nil {
 		switch fp.selector {
-		case LogConditionSpecQuery_FieldPathSelectorFilter:
-			item.Filter = nil
-		case LogConditionSpecQuery_FieldPathSelectorTrigger:
-			item.Trigger = nil
-		case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-			item.MinDuration = nil
+		case LogConditionTemplateSource_FieldPathSelectorTemplate:
+			item.Template = nil
+		case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+			item.UpdatedFields = nil
 		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fp.selector))
+			panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fp.selector))
 		}
 	}
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*LogCondition_Spec_Query))
+func (fp *LogConditionTemplateSource_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*LogCondition_TemplateSource))
 }
 
 // IsLeaf - whether field path is holds simple value
-func (fp *LogConditionSpecQuery_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == LogConditionSpecQuery_FieldPathSelectorFilter ||
-		fp.selector == LogConditionSpecQuery_FieldPathSelectorTrigger ||
-		fp.selector == LogConditionSpecQuery_FieldPathSelectorMinDuration
+func (fp *LogConditionTemplateSource_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == LogConditionTemplateSource_FieldPathSelectorTemplate ||
+		fp.selector == LogConditionTemplateSource_FieldPathSelectorUpdatedFields
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
 	return []gotenobject.FieldPath{fp}
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) WithIValue(value interface{}) LogConditionSpecQuery_FieldPathValue {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) WithIValue(value interface{}) LogConditionTemplateSource_FieldPathValue {
 	switch fp.selector {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		return &LogConditionSpecQuery_FieldTerminalPathValue{LogConditionSpecQuery_FieldTerminalPath: *fp, value: value.(*logging_log.Filter)}
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		return &LogConditionSpecQuery_FieldTerminalPathValue{LogConditionSpecQuery_FieldTerminalPath: *fp, value: value.(*LogCondition_Spec_Query_TriggerCnd)}
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		return &LogConditionSpecQuery_FieldTerminalPathValue{LogConditionSpecQuery_FieldTerminalPath: *fp, value: value.(*durationpb.Duration)}
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		return &LogConditionTemplateSource_FieldTerminalPathValue{LogConditionTemplateSource_FieldTerminalPath: *fp, value: value.(*log_condition_template.Reference)}
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return &LogConditionTemplateSource_FieldTerminalPathValue{LogConditionTemplateSource_FieldTerminalPath: *fp, value: value.(*fieldmaskpb.FieldMask)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
 	return fp.WithIValue(value)
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) WithIArrayOfValues(values interface{}) LogConditionSpecQuery_FieldPathArrayOfValues {
-	fpaov := &LogConditionSpecQuery_FieldTerminalPathArrayOfValues{LogConditionSpecQuery_FieldTerminalPath: *fp}
+func (fp *LogConditionTemplateSource_FieldTerminalPath) WithIArrayOfValues(values interface{}) LogConditionTemplateSource_FieldPathArrayOfValues {
+	fpaov := &LogConditionTemplateSource_FieldTerminalPathArrayOfValues{LogConditionTemplateSource_FieldTerminalPath: *fp}
 	switch fp.selector {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		return &LogConditionSpecQuery_FieldTerminalPathArrayOfValues{LogConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]*logging_log.Filter)}
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		return &LogConditionSpecQuery_FieldTerminalPathArrayOfValues{LogConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]*LogCondition_Spec_Query_TriggerCnd)}
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		return &LogConditionSpecQuery_FieldTerminalPathArrayOfValues{LogConditionSpecQuery_FieldTerminalPath: *fp, values: values.([]*durationpb.Duration)}
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		return &LogConditionTemplateSource_FieldTerminalPathArrayOfValues{LogConditionTemplateSource_FieldTerminalPath: *fp, values: values.([]*log_condition_template.Reference)}
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		return &LogConditionTemplateSource_FieldTerminalPathArrayOfValues{LogConditionTemplateSource_FieldTerminalPath: *fp, values: values.([]*fieldmaskpb.FieldMask)}
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fp.selector))
 	}
 	return fpaov
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
 	return fp.WithIArrayOfValues(values)
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) WithIArrayItemValue(value interface{}) LogConditionSpecQuery_FieldPathArrayItemValue {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) WithIArrayItemValue(value interface{}) LogConditionTemplateSource_FieldPathArrayItemValue {
 	switch fp.selector {
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fp.selector))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fp.selector))
 	}
 }
 
-func (fp *LogConditionSpecQuery_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+func (fp *LogConditionTemplateSource_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
 	return fp.WithIArrayItemValue(value)
 }
 
-// LogConditionSpecQuery_FieldPathValue allows storing values for Query fields according to their type
-type LogConditionSpecQuery_FieldPathValue interface {
-	LogConditionSpecQuery_FieldPath
+// LogConditionTemplateSource_FieldPathValue allows storing values for TemplateSource fields according to their type
+type LogConditionTemplateSource_FieldPathValue interface {
+	LogConditionTemplateSource_FieldPath
 	gotenobject.FieldPathValue
-	SetTo(target **LogCondition_Spec_Query)
-	CompareWith(*LogCondition_Spec_Query) (cmp int, comparable bool)
+	SetTo(target **LogCondition_TemplateSource)
+	CompareWith(*LogCondition_TemplateSource) (cmp int, comparable bool)
 }
 
-func ParseLogConditionSpecQuery_FieldPathValue(pathStr, valueStr string) (LogConditionSpecQuery_FieldPathValue, error) {
-	fp, err := ParseLogConditionSpecQuery_FieldPath(pathStr)
+func ParseLogConditionTemplateSource_FieldPathValue(pathStr, valueStr string) (LogConditionTemplateSource_FieldPathValue, error) {
+	fp, err := ParseLogConditionTemplateSource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Query field path value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateSource field path value from %s: %v", valueStr, err)
 	}
-	return fpv.(LogConditionSpecQuery_FieldPathValue), nil
+	return fpv.(LogConditionTemplateSource_FieldPathValue), nil
 }
 
-func MustParseLogConditionSpecQuery_FieldPathValue(pathStr, valueStr string) LogConditionSpecQuery_FieldPathValue {
-	fpv, err := ParseLogConditionSpecQuery_FieldPathValue(pathStr, valueStr)
+func MustParseLogConditionTemplateSource_FieldPathValue(pathStr, valueStr string) LogConditionTemplateSource_FieldPathValue {
+	fpv, err := ParseLogConditionTemplateSource_FieldPathValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpv
 }
 
-type LogConditionSpecQuery_FieldTerminalPathValue struct {
-	LogConditionSpecQuery_FieldTerminalPath
+type LogConditionTemplateSource_FieldTerminalPathValue struct {
+	LogConditionTemplateSource_FieldTerminalPath
 	value interface{}
 }
 
-var _ LogConditionSpecQuery_FieldPathValue = (*LogConditionSpecQuery_FieldTerminalPathValue)(nil)
+var _ LogConditionTemplateSource_FieldPathValue = (*LogConditionTemplateSource_FieldTerminalPathValue)(nil)
 
-// GetRawValue returns raw value stored under selected path for 'Query' as interface{}
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) GetRawValue() interface{} {
+// GetRawValue returns raw value stored under selected path for 'TemplateSource' as interface{}
+func (fpv *LogConditionTemplateSource_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) AsFilterValue() (*logging_log.Filter, bool) {
-	res, ok := fpv.value.(*logging_log.Filter)
+func (fpv *LogConditionTemplateSource_FieldTerminalPathValue) AsTemplateValue() (*log_condition_template.Reference, bool) {
+	res, ok := fpv.value.(*log_condition_template.Reference)
 	return res, ok
 }
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) AsTriggerValue() (*LogCondition_Spec_Query_TriggerCnd, bool) {
-	res, ok := fpv.value.(*LogCondition_Spec_Query_TriggerCnd)
-	return res, ok
-}
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) AsMinDurationValue() (*durationpb.Duration, bool) {
-	res, ok := fpv.value.(*durationpb.Duration)
+func (fpv *LogConditionTemplateSource_FieldTerminalPathValue) AsUpdatedFieldsValue() (*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpv.value.(*fieldmaskpb.FieldMask)
 	return res, ok
 }
 
-// SetTo stores value for selected field for object Query
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) SetTo(target **LogCondition_Spec_Query) {
+// SetTo stores value for selected field for object TemplateSource
+func (fpv *LogConditionTemplateSource_FieldTerminalPathValue) SetTo(target **LogCondition_TemplateSource) {
 	if *target == nil {
-		*target = new(LogCondition_Spec_Query)
+		*target = new(LogCondition_TemplateSource)
 	}
 	switch fpv.selector {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		(*target).Filter = fpv.value.(*logging_log.Filter)
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		(*target).Trigger = fpv.value.(*LogCondition_Spec_Query_TriggerCnd)
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		(*target).MinDuration = fpv.value.(*durationpb.Duration)
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		(*target).Template = fpv.value.(*log_condition_template.Reference)
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		(*target).UpdatedFields = fpv.value.(*fieldmaskpb.FieldMask)
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fpv.selector))
 	}
 }
 
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*LogCondition_Spec_Query)
+func (fpv *LogConditionTemplateSource_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*LogCondition_TemplateSource)
 	fpv.SetTo(&typedObject)
 }
 
-// CompareWith compares value in the 'LogConditionSpecQuery_FieldTerminalPathValue' with the value under path in 'LogCondition_Spec_Query'.
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) CompareWith(source *LogCondition_Spec_Query) (int, bool) {
+// CompareWith compares value in the 'LogConditionTemplateSource_FieldTerminalPathValue' with the value under path in 'LogCondition_TemplateSource'.
+func (fpv *LogConditionTemplateSource_FieldTerminalPathValue) CompareWith(source *LogCondition_TemplateSource) (int, bool) {
 	switch fpv.selector {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		return 0, false
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		return 0, false
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		leftValue := fpv.value.(*durationpb.Duration)
-		rightValue := source.GetMinDuration()
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		leftValue := fpv.value.(*log_condition_template.Reference)
+		rightValue := source.GetTemplate()
 		if leftValue == nil {
 			if rightValue != nil {
 				return -1, true
@@ -2286,504 +1708,76 @@ func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) CompareWith(source *Log
 		if rightValue == nil {
 			return 1, true
 		}
-		if leftValue.AsDuration() == rightValue.AsDuration() {
+		if leftValue.String() == rightValue.String() {
 			return 0, true
-		} else if leftValue.AsDuration() < rightValue.AsDuration() {
+		} else if leftValue.String() < rightValue.String() {
 			return -1, true
 		} else {
 			return 1, true
 		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpecQuery_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*LogCondition_Spec_Query))
-}
-
-// LogConditionSpecQuery_FieldPathArrayItemValue allows storing single item in Path-specific values for Query according to their type
-// Present only for array (repeated) types.
-type LogConditionSpecQuery_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	LogConditionSpecQuery_FieldPath
-	ContainsValue(*LogCondition_Spec_Query) bool
-}
-
-// ParseLogConditionSpecQuery_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseLogConditionSpecQuery_FieldPathArrayItemValue(pathStr, valueStr string) (LogConditionSpecQuery_FieldPathArrayItemValue, error) {
-	fp, err := ParseLogConditionSpecQuery_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Query field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(LogConditionSpecQuery_FieldPathArrayItemValue), nil
-}
-
-func MustParseLogConditionSpecQuery_FieldPathArrayItemValue(pathStr, valueStr string) LogConditionSpecQuery_FieldPathArrayItemValue {
-	fpaiv, err := ParseLogConditionSpecQuery_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type LogConditionSpecQuery_FieldTerminalPathArrayItemValue struct {
-	LogConditionSpecQuery_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpecQuery_FieldPathArrayItemValue = (*LogConditionSpecQuery_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object LogCondition_Spec_Query as interface{}
-func (fpaiv *LogConditionSpecQuery_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *LogConditionSpecQuery_FieldTerminalPathArrayItemValue) GetSingle(source *LogCondition_Spec_Query) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *LogConditionSpecQuery_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*LogCondition_Spec_Query))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Query'
-func (fpaiv *LogConditionSpecQuery_FieldTerminalPathArrayItemValue) ContainsValue(source *LogCondition_Spec_Query) bool {
-	slice := fpaiv.LogConditionSpecQuery_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// LogConditionSpecQuery_FieldPathArrayOfValues allows storing slice of values for Query fields according to their type
-type LogConditionSpecQuery_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	LogConditionSpecQuery_FieldPath
-}
-
-func ParseLogConditionSpecQuery_FieldPathArrayOfValues(pathStr, valuesStr string) (LogConditionSpecQuery_FieldPathArrayOfValues, error) {
-	fp, err := ParseLogConditionSpecQuery_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Query field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(LogConditionSpecQuery_FieldPathArrayOfValues), nil
-}
-
-func MustParseLogConditionSpecQuery_FieldPathArrayOfValues(pathStr, valuesStr string) LogConditionSpecQuery_FieldPathArrayOfValues {
-	fpaov, err := ParseLogConditionSpecQuery_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type LogConditionSpecQuery_FieldTerminalPathArrayOfValues struct {
-	LogConditionSpecQuery_FieldTerminalPath
-	values interface{}
-}
-
-var _ LogConditionSpecQuery_FieldPathArrayOfValues = (*LogConditionSpecQuery_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *LogConditionSpecQuery_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case LogConditionSpecQuery_FieldPathSelectorFilter:
-		for _, v := range fpaov.values.([]*logging_log.Filter) {
-			values = append(values, v)
-		}
-	case LogConditionSpecQuery_FieldPathSelectorTrigger:
-		for _, v := range fpaov.values.([]*LogCondition_Spec_Query_TriggerCnd) {
-			values = append(values, v)
-		}
-	case LogConditionSpecQuery_FieldPathSelectorMinDuration:
-		for _, v := range fpaov.values.([]*durationpb.Duration) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *LogConditionSpecQuery_FieldTerminalPathArrayOfValues) AsFilterArrayOfValues() ([]*logging_log.Filter, bool) {
-	res, ok := fpaov.values.([]*logging_log.Filter)
-	return res, ok
-}
-func (fpaov *LogConditionSpecQuery_FieldTerminalPathArrayOfValues) AsTriggerArrayOfValues() ([]*LogCondition_Spec_Query_TriggerCnd, bool) {
-	res, ok := fpaov.values.([]*LogCondition_Spec_Query_TriggerCnd)
-	return res, ok
-}
-func (fpaov *LogConditionSpecQuery_FieldTerminalPathArrayOfValues) AsMinDurationArrayOfValues() ([]*durationpb.Duration, bool) {
-	res, ok := fpaov.values.([]*durationpb.Duration)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type LogConditionSpecQueryLabelTrigger_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() LogConditionSpecQueryLabelTrigger_FieldPathSelector
-	Get(source *LogCondition_Spec_Query_LabelTrigger) []interface{}
-	GetSingle(source *LogCondition_Spec_Query_LabelTrigger) (interface{}, bool)
-	ClearValue(item *LogCondition_Spec_Query_LabelTrigger)
-
-	// Those methods build corresponding LogConditionSpecQueryLabelTrigger_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) LogConditionSpecQueryLabelTrigger_FieldPathValue
-	WithIArrayOfValues(values interface{}) LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue
-}
-
-type LogConditionSpecQueryLabelTrigger_FieldPathSelector int32
-
-const (
-	LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey    LogConditionSpecQueryLabelTrigger_FieldPathSelector = 0
-	LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues LogConditionSpecQueryLabelTrigger_FieldPathSelector = 1
-)
-
-func (s LogConditionSpecQueryLabelTrigger_FieldPathSelector) String() string {
-	switch s {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		return "key"
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		return "values"
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", s))
-	}
-}
-
-func BuildLogConditionSpecQueryLabelTrigger_FieldPath(fp gotenobject.RawFieldPath) (LogConditionSpecQueryLabelTrigger_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object LogCondition_Spec_Query_LabelTrigger")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "key":
-			return &LogConditionSpecQueryLabelTrigger_FieldTerminalPath{selector: LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey}, nil
-		case "values":
-			return &LogConditionSpecQueryLabelTrigger_FieldTerminalPath{selector: LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object LogCondition_Spec_Query_LabelTrigger", fp)
-}
-
-func ParseLogConditionSpecQueryLabelTrigger_FieldPath(rawField string) (LogConditionSpecQueryLabelTrigger_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildLogConditionSpecQueryLabelTrigger_FieldPath(fp)
-}
-
-func MustParseLogConditionSpecQueryLabelTrigger_FieldPath(rawField string) LogConditionSpecQueryLabelTrigger_FieldPath {
-	fp, err := ParseLogConditionSpecQueryLabelTrigger_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type LogConditionSpecQueryLabelTrigger_FieldTerminalPath struct {
-	selector LogConditionSpecQueryLabelTrigger_FieldPathSelector
-}
-
-var _ LogConditionSpecQueryLabelTrigger_FieldPath = (*LogConditionSpecQueryLabelTrigger_FieldTerminalPath)(nil)
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) Selector() LogConditionSpecQueryLabelTrigger_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source LogCondition_Spec_Query_LabelTrigger
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) Get(source *LogCondition_Spec_Query_LabelTrigger) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-			values = append(values, source.Key)
-		case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-			for _, value := range source.GetValues() {
-				values = append(values, value)
-			}
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*LogCondition_Spec_Query_LabelTrigger))
-}
-
-// GetSingle returns value pointed by specific field of from source LogCondition_Spec_Query_LabelTrigger
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) GetSingle(source *LogCondition_Spec_Query_LabelTrigger) (interface{}, bool) {
-	switch fp.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		return source.GetKey(), source != nil
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		res := source.GetValues()
-		return res, res != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*LogCondition_Spec_Query_LabelTrigger))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		return ""
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		return ([]string)(nil)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) ClearValue(item *LogCondition_Spec_Query_LabelTrigger) {
-	if item != nil {
-		switch fp.selector {
-		case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-			item.Key = ""
-		case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-			item.Values = nil
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*LogCondition_Spec_Query_LabelTrigger))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey ||
-		fp.selector == LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) WithIValue(value interface{}) LogConditionSpecQueryLabelTrigger_FieldPathValue {
-	switch fp.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		return &LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue{LogConditionSpecQueryLabelTrigger_FieldTerminalPath: *fp, value: value.(string)}
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		return &LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue{LogConditionSpecQueryLabelTrigger_FieldTerminalPath: *fp, value: value.([]string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) WithIArrayOfValues(values interface{}) LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues {
-	fpaov := &LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryLabelTrigger_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		return &LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryLabelTrigger_FieldTerminalPath: *fp, values: values.([]string)}
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		return &LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryLabelTrigger_FieldTerminalPath: *fp, values: values.([][]string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) WithIArrayItemValue(value interface{}) LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue {
-	switch fp.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		return &LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue{LogConditionSpecQueryLabelTrigger_FieldTerminalPath: *fp, value: value.(string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryLabelTrigger_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// LogConditionSpecQueryLabelTrigger_FieldPathValue allows storing values for LabelTrigger fields according to their type
-type LogConditionSpecQueryLabelTrigger_FieldPathValue interface {
-	LogConditionSpecQueryLabelTrigger_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **LogCondition_Spec_Query_LabelTrigger)
-	CompareWith(*LogCondition_Spec_Query_LabelTrigger) (cmp int, comparable bool)
-}
-
-func ParseLogConditionSpecQueryLabelTrigger_FieldPathValue(pathStr, valueStr string) (LogConditionSpecQueryLabelTrigger_FieldPathValue, error) {
-	fp, err := ParseLogConditionSpecQueryLabelTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing LabelTrigger field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(LogConditionSpecQueryLabelTrigger_FieldPathValue), nil
-}
-
-func MustParseLogConditionSpecQueryLabelTrigger_FieldPathValue(pathStr, valueStr string) LogConditionSpecQueryLabelTrigger_FieldPathValue {
-	fpv, err := ParseLogConditionSpecQueryLabelTrigger_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue struct {
-	LogConditionSpecQueryLabelTrigger_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpecQueryLabelTrigger_FieldPathValue = (*LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'LabelTrigger' as interface{}
-func (fpv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue) AsKeyValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue) AsValuesValue() ([]string, bool) {
-	res, ok := fpv.value.([]string)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object LabelTrigger
-func (fpv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue) SetTo(target **LogCondition_Spec_Query_LabelTrigger) {
-	if *target == nil {
-		*target = new(LogCondition_Spec_Query_LabelTrigger)
-	}
-	switch fpv.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		(*target).Key = fpv.value.(string)
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		(*target).Values = fpv.value.([]string)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*LogCondition_Spec_Query_LabelTrigger)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue' with the value under path in 'LogCondition_Spec_Query_LabelTrigger'.
-func (fpv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue) CompareWith(source *LogCondition_Spec_Query_LabelTrigger) (int, bool) {
-	switch fpv.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetKey()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
 		return 0, false
 	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_LabelTrigger: %d", fpv.selector))
+		panic(fmt.Sprintf("Invalid selector for LogCondition_TemplateSource: %d", fpv.selector))
 	}
 }
 
-func (fpv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*LogCondition_Spec_Query_LabelTrigger))
+func (fpv *LogConditionTemplateSource_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*LogCondition_TemplateSource))
 }
 
-// LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue allows storing single item in Path-specific values for LabelTrigger according to their type
+// LogConditionTemplateSource_FieldPathArrayItemValue allows storing single item in Path-specific values for TemplateSource according to their type
 // Present only for array (repeated) types.
-type LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue interface {
+type LogConditionTemplateSource_FieldPathArrayItemValue interface {
 	gotenobject.FieldPathArrayItemValue
-	LogConditionSpecQueryLabelTrigger_FieldPath
-	ContainsValue(*LogCondition_Spec_Query_LabelTrigger) bool
+	LogConditionTemplateSource_FieldPath
+	ContainsValue(*LogCondition_TemplateSource) bool
 }
 
-// ParseLogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseLogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue(pathStr, valueStr string) (LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue, error) {
-	fp, err := ParseLogConditionSpecQueryLabelTrigger_FieldPath(pathStr)
+// ParseLogConditionTemplateSource_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseLogConditionTemplateSource_FieldPathArrayItemValue(pathStr, valueStr string) (LogConditionTemplateSource_FieldPathArrayItemValue, error) {
+	fp, err := ParseLogConditionTemplateSource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing LabelTrigger field path array item value from %s: %v", valueStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateSource field path array item value from %s: %v", valueStr, err)
 	}
-	return fpaiv.(LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue), nil
+	return fpaiv.(LogConditionTemplateSource_FieldPathArrayItemValue), nil
 }
 
-func MustParseLogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue(pathStr, valueStr string) LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue {
-	fpaiv, err := ParseLogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue(pathStr, valueStr)
+func MustParseLogConditionTemplateSource_FieldPathArrayItemValue(pathStr, valueStr string) LogConditionTemplateSource_FieldPathArrayItemValue {
+	fpaiv, err := ParseLogConditionTemplateSource_FieldPathArrayItemValue(pathStr, valueStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaiv
 }
 
-type LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue struct {
-	LogConditionSpecQueryLabelTrigger_FieldTerminalPath
+type LogConditionTemplateSource_FieldTerminalPathArrayItemValue struct {
+	LogConditionTemplateSource_FieldTerminalPath
 	value interface{}
 }
 
-var _ LogConditionSpecQueryLabelTrigger_FieldPathArrayItemValue = (*LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue)(nil)
+var _ LogConditionTemplateSource_FieldPathArrayItemValue = (*LogConditionTemplateSource_FieldTerminalPathArrayItemValue)(nil)
 
-// GetRawValue returns stored element value for array in object LogCondition_Spec_Query_LabelTrigger as interface{}
-func (fpaiv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+// GetRawValue returns stored element value for array in object LogCondition_TemplateSource as interface{}
+func (fpaiv *LogConditionTemplateSource_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue) AsValuesItemValue() (string, bool) {
-	res, ok := fpaiv.value.(string)
-	return res, ok
-}
 
-func (fpaiv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue) GetSingle(source *LogCondition_Spec_Query_LabelTrigger) (interface{}, bool) {
+func (fpaiv *LogConditionTemplateSource_FieldTerminalPathArrayItemValue) GetSingle(source *LogCondition_TemplateSource) (interface{}, bool) {
 	return nil, false
 }
 
-func (fpaiv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*LogCondition_Spec_Query_LabelTrigger))
+func (fpaiv *LogConditionTemplateSource_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*LogCondition_TemplateSource))
 }
 
-// Contains returns a boolean indicating if value that is being held is present in given 'LabelTrigger'
-func (fpaiv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue) ContainsValue(source *LogCondition_Spec_Query_LabelTrigger) bool {
-	slice := fpaiv.LogConditionSpecQueryLabelTrigger_FieldTerminalPath.Get(source)
+// Contains returns a boolean indicating if value that is being held is present in given 'TemplateSource'
+func (fpaiv *LogConditionTemplateSource_FieldTerminalPathArrayItemValue) ContainsValue(source *LogCondition_TemplateSource) bool {
+	slice := fpaiv.LogConditionTemplateSource_FieldTerminalPath.Get(source)
 	for _, v := range slice {
 		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
 			if proto.Equal(asProtoMsg, v.(proto.Message)) {
@@ -2796,900 +1790,57 @@ func (fpaiv *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayItemValue) 
 	return false
 }
 
-// LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues allows storing slice of values for LabelTrigger fields according to their type
-type LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues interface {
+// LogConditionTemplateSource_FieldPathArrayOfValues allows storing slice of values for TemplateSource fields according to their type
+type LogConditionTemplateSource_FieldPathArrayOfValues interface {
 	gotenobject.FieldPathArrayOfValues
-	LogConditionSpecQueryLabelTrigger_FieldPath
+	LogConditionTemplateSource_FieldPath
 }
 
-func ParseLogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) (LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues, error) {
-	fp, err := ParseLogConditionSpecQueryLabelTrigger_FieldPath(pathStr)
+func ParseLogConditionTemplateSource_FieldPathArrayOfValues(pathStr, valuesStr string) (LogConditionTemplateSource_FieldPathArrayOfValues, error) {
+	fp, err := ParseLogConditionTemplateSource_FieldPath(pathStr)
 	if err != nil {
 		return nil, err
 	}
 	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
 	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing LabelTrigger field path array of values from %s: %v", valuesStr, err)
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing TemplateSource field path array of values from %s: %v", valuesStr, err)
 	}
-	return fpaov.(LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues), nil
+	return fpaov.(LogConditionTemplateSource_FieldPathArrayOfValues), nil
 }
 
-func MustParseLogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues {
-	fpaov, err := ParseLogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues(pathStr, valuesStr)
+func MustParseLogConditionTemplateSource_FieldPathArrayOfValues(pathStr, valuesStr string) LogConditionTemplateSource_FieldPathArrayOfValues {
+	fpaov, err := ParseLogConditionTemplateSource_FieldPathArrayOfValues(pathStr, valuesStr)
 	if err != nil {
 		panic(err)
 	}
 	return fpaov
 }
 
-type LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues struct {
-	LogConditionSpecQueryLabelTrigger_FieldTerminalPath
+type LogConditionTemplateSource_FieldTerminalPathArrayOfValues struct {
+	LogConditionTemplateSource_FieldTerminalPath
 	values interface{}
 }
 
-var _ LogConditionSpecQueryLabelTrigger_FieldPathArrayOfValues = (*LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues)(nil)
+var _ LogConditionTemplateSource_FieldPathArrayOfValues = (*LogConditionTemplateSource_FieldTerminalPathArrayOfValues)(nil)
 
-func (fpaov *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+func (fpaov *LogConditionTemplateSource_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorKey:
-		for _, v := range fpaov.values.([]string) {
+	case LogConditionTemplateSource_FieldPathSelectorTemplate:
+		for _, v := range fpaov.values.([]*log_condition_template.Reference) {
 			values = append(values, v)
 		}
-	case LogConditionSpecQueryLabelTrigger_FieldPathSelectorValues:
-		for _, v := range fpaov.values.([][]string) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues) AsKeyArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-func (fpaov *LogConditionSpecQueryLabelTrigger_FieldTerminalPathArrayOfValues) AsValuesArrayOfValues() ([][]string, bool) {
-	res, ok := fpaov.values.([][]string)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type LogConditionSpecQueryStringPayloadTrigger_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() LogConditionSpecQueryStringPayloadTrigger_FieldPathSelector
-	Get(source *LogCondition_Spec_Query_StringPayloadTrigger) []interface{}
-	GetSingle(source *LogCondition_Spec_Query_StringPayloadTrigger) (interface{}, bool)
-	ClearValue(item *LogCondition_Spec_Query_StringPayloadTrigger)
-
-	// Those methods build corresponding LogConditionSpecQueryStringPayloadTrigger_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) LogConditionSpecQueryStringPayloadTrigger_FieldPathValue
-	WithIArrayOfValues(values interface{}) LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue
-}
-
-type LogConditionSpecQueryStringPayloadTrigger_FieldPathSelector int32
-
-const (
-	LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector LogConditionSpecQueryStringPayloadTrigger_FieldPathSelector = 0
-	LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex          LogConditionSpecQueryStringPayloadTrigger_FieldPathSelector = 1
-)
-
-func (s LogConditionSpecQueryStringPayloadTrigger_FieldPathSelector) String() string {
-	switch s {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		return "object_selector"
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		return "regex"
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", s))
-	}
-}
-
-func BuildLogConditionSpecQueryStringPayloadTrigger_FieldPath(fp gotenobject.RawFieldPath) (LogConditionSpecQueryStringPayloadTrigger_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object LogCondition_Spec_Query_StringPayloadTrigger")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "object_selector", "objectSelector", "object-selector":
-			return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath{selector: LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector}, nil
-		case "regex":
-			return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath{selector: LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object LogCondition_Spec_Query_StringPayloadTrigger", fp)
-}
-
-func ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(rawField string) (LogConditionSpecQueryStringPayloadTrigger_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildLogConditionSpecQueryStringPayloadTrigger_FieldPath(fp)
-}
-
-func MustParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(rawField string) LogConditionSpecQueryStringPayloadTrigger_FieldPath {
-	fp, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath struct {
-	selector LogConditionSpecQueryStringPayloadTrigger_FieldPathSelector
-}
-
-var _ LogConditionSpecQueryStringPayloadTrigger_FieldPath = (*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath)(nil)
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) Selector() LogConditionSpecQueryStringPayloadTrigger_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source LogCondition_Spec_Query_StringPayloadTrigger
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) Get(source *LogCondition_Spec_Query_StringPayloadTrigger) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-			values = append(values, source.ObjectSelector)
-		case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-			values = append(values, source.Regex)
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*LogCondition_Spec_Query_StringPayloadTrigger))
-}
-
-// GetSingle returns value pointed by specific field of from source LogCondition_Spec_Query_StringPayloadTrigger
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) GetSingle(source *LogCondition_Spec_Query_StringPayloadTrigger) (interface{}, bool) {
-	switch fp.selector {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		return source.GetObjectSelector(), source != nil
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		return source.GetRegex(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*LogCondition_Spec_Query_StringPayloadTrigger))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		return ""
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		return ""
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) ClearValue(item *LogCondition_Spec_Query_StringPayloadTrigger) {
-	if item != nil {
-		switch fp.selector {
-		case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-			item.ObjectSelector = ""
-		case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-			item.Regex = ""
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*LogCondition_Spec_Query_StringPayloadTrigger))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector ||
-		fp.selector == LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) WithIValue(value interface{}) LogConditionSpecQueryStringPayloadTrigger_FieldPathValue {
-	switch fp.selector {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue{LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath: *fp, value: value.(string)}
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue{LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath: *fp, value: value.(string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) WithIArrayOfValues(values interface{}) LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues {
-	fpaov := &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath: *fp, values: values.([]string)}
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		return &LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath: *fp, values: values.([]string)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) WithIArrayItemValue(value interface{}) LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue {
-	switch fp.selector {
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// LogConditionSpecQueryStringPayloadTrigger_FieldPathValue allows storing values for StringPayloadTrigger fields according to their type
-type LogConditionSpecQueryStringPayloadTrigger_FieldPathValue interface {
-	LogConditionSpecQueryStringPayloadTrigger_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **LogCondition_Spec_Query_StringPayloadTrigger)
-	CompareWith(*LogCondition_Spec_Query_StringPayloadTrigger) (cmp int, comparable bool)
-}
-
-func ParseLogConditionSpecQueryStringPayloadTrigger_FieldPathValue(pathStr, valueStr string) (LogConditionSpecQueryStringPayloadTrigger_FieldPathValue, error) {
-	fp, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing StringPayloadTrigger field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(LogConditionSpecQueryStringPayloadTrigger_FieldPathValue), nil
-}
-
-func MustParseLogConditionSpecQueryStringPayloadTrigger_FieldPathValue(pathStr, valueStr string) LogConditionSpecQueryStringPayloadTrigger_FieldPathValue {
-	fpv, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue struct {
-	LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpecQueryStringPayloadTrigger_FieldPathValue = (*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'StringPayloadTrigger' as interface{}
-func (fpv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue) AsObjectSelectorValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-func (fpv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue) AsRegexValue() (string, bool) {
-	res, ok := fpv.value.(string)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object StringPayloadTrigger
-func (fpv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue) SetTo(target **LogCondition_Spec_Query_StringPayloadTrigger) {
-	if *target == nil {
-		*target = new(LogCondition_Spec_Query_StringPayloadTrigger)
-	}
-	switch fpv.selector {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		(*target).ObjectSelector = fpv.value.(string)
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		(*target).Regex = fpv.value.(string)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*LogCondition_Spec_Query_StringPayloadTrigger)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue' with the value under path in 'LogCondition_Spec_Query_StringPayloadTrigger'.
-func (fpv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue) CompareWith(source *LogCondition_Spec_Query_StringPayloadTrigger) (int, bool) {
-	switch fpv.selector {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetObjectSelector()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		leftValue := fpv.value.(string)
-		rightValue := source.GetRegex()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_StringPayloadTrigger: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*LogCondition_Spec_Query_StringPayloadTrigger))
-}
-
-// LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue allows storing single item in Path-specific values for StringPayloadTrigger according to their type
-// Present only for array (repeated) types.
-type LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	LogConditionSpecQueryStringPayloadTrigger_FieldPath
-	ContainsValue(*LogCondition_Spec_Query_StringPayloadTrigger) bool
-}
-
-// ParseLogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseLogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue(pathStr, valueStr string) (LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue, error) {
-	fp, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing StringPayloadTrigger field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue), nil
-}
-
-func MustParseLogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue(pathStr, valueStr string) LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue {
-	fpaiv, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayItemValue struct {
-	LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayItemValue = (*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object LogCondition_Spec_Query_StringPayloadTrigger as interface{}
-func (fpaiv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-
-func (fpaiv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayItemValue) GetSingle(source *LogCondition_Spec_Query_StringPayloadTrigger) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*LogCondition_Spec_Query_StringPayloadTrigger))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'StringPayloadTrigger'
-func (fpaiv *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayItemValue) ContainsValue(source *LogCondition_Spec_Query_StringPayloadTrigger) bool {
-	slice := fpaiv.LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues allows storing slice of values for StringPayloadTrigger fields according to their type
-type LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	LogConditionSpecQueryStringPayloadTrigger_FieldPath
-}
-
-func ParseLogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) (LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues, error) {
-	fp, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing StringPayloadTrigger field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues), nil
-}
-
-func MustParseLogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues {
-	fpaov, err := ParseLogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues struct {
-	LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPath
-	values interface{}
-}
-
-var _ LogConditionSpecQueryStringPayloadTrigger_FieldPathArrayOfValues = (*LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorObjectSelector:
-		for _, v := range fpaov.values.([]string) {
-			values = append(values, v)
-		}
-	case LogConditionSpecQueryStringPayloadTrigger_FieldPathSelectorRegex:
-		for _, v := range fpaov.values.([]string) {
+	case LogConditionTemplateSource_FieldPathSelectorUpdatedFields:
+		for _, v := range fpaov.values.([]*fieldmaskpb.FieldMask) {
 			values = append(values, v)
 		}
 	}
 	return
 }
-func (fpaov *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues) AsObjectSelectorArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
+func (fpaov *LogConditionTemplateSource_FieldTerminalPathArrayOfValues) AsTemplateArrayOfValues() ([]*log_condition_template.Reference, bool) {
+	res, ok := fpaov.values.([]*log_condition_template.Reference)
 	return res, ok
 }
-func (fpaov *LogConditionSpecQueryStringPayloadTrigger_FieldTerminalPathArrayOfValues) AsRegexArrayOfValues() ([]string, bool) {
-	res, ok := fpaov.values.([]string)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type LogConditionSpecQueryCompositeTrigger_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() LogConditionSpecQueryCompositeTrigger_FieldPathSelector
-	Get(source *LogCondition_Spec_Query_CompositeTrigger) []interface{}
-	GetSingle(source *LogCondition_Spec_Query_CompositeTrigger) (interface{}, bool)
-	ClearValue(item *LogCondition_Spec_Query_CompositeTrigger)
-
-	// Those methods build corresponding LogConditionSpecQueryCompositeTrigger_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) LogConditionSpecQueryCompositeTrigger_FieldPathValue
-	WithIArrayOfValues(values interface{}) LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue
-}
-
-type LogConditionSpecQueryCompositeTrigger_FieldPathSelector int32
-
-const (
-	LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers LogConditionSpecQueryCompositeTrigger_FieldPathSelector = 0
-	LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator LogConditionSpecQueryCompositeTrigger_FieldPathSelector = 1
-)
-
-func (s LogConditionSpecQueryCompositeTrigger_FieldPathSelector) String() string {
-	switch s {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		return "triggers"
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		return "operator"
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", s))
-	}
-}
-
-func BuildLogConditionSpecQueryCompositeTrigger_FieldPath(fp gotenobject.RawFieldPath) (LogConditionSpecQueryCompositeTrigger_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object LogCondition_Spec_Query_CompositeTrigger")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "triggers":
-			return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPath{selector: LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers}, nil
-		case "operator":
-			return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPath{selector: LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object LogCondition_Spec_Query_CompositeTrigger", fp)
-}
-
-func ParseLogConditionSpecQueryCompositeTrigger_FieldPath(rawField string) (LogConditionSpecQueryCompositeTrigger_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildLogConditionSpecQueryCompositeTrigger_FieldPath(fp)
-}
-
-func MustParseLogConditionSpecQueryCompositeTrigger_FieldPath(rawField string) LogConditionSpecQueryCompositeTrigger_FieldPath {
-	fp, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type LogConditionSpecQueryCompositeTrigger_FieldTerminalPath struct {
-	selector LogConditionSpecQueryCompositeTrigger_FieldPathSelector
-}
-
-var _ LogConditionSpecQueryCompositeTrigger_FieldPath = (*LogConditionSpecQueryCompositeTrigger_FieldTerminalPath)(nil)
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) Selector() LogConditionSpecQueryCompositeTrigger_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source LogCondition_Spec_Query_CompositeTrigger
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) Get(source *LogCondition_Spec_Query_CompositeTrigger) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-			for _, value := range source.GetTriggers() {
-				values = append(values, value)
-			}
-		case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-			values = append(values, source.Operator)
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*LogCondition_Spec_Query_CompositeTrigger))
-}
-
-// GetSingle returns value pointed by specific field of from source LogCondition_Spec_Query_CompositeTrigger
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) GetSingle(source *LogCondition_Spec_Query_CompositeTrigger) (interface{}, bool) {
-	switch fp.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		res := source.GetTriggers()
-		return res, res != nil
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		return source.GetOperator(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*LogCondition_Spec_Query_CompositeTrigger))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		return ([]*LogCondition_Spec_Query_TriggerCnd)(nil)
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		return LogCondition_Spec_Query_CompositeTrigger_UNDEFINED
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) ClearValue(item *LogCondition_Spec_Query_CompositeTrigger) {
-	if item != nil {
-		switch fp.selector {
-		case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-			item.Triggers = nil
-		case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-			item.Operator = LogCondition_Spec_Query_CompositeTrigger_UNDEFINED
-		default:
-			panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*LogCondition_Spec_Query_CompositeTrigger))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers ||
-		fp.selector == LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) WithIValue(value interface{}) LogConditionSpecQueryCompositeTrigger_FieldPathValue {
-	switch fp.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue{LogConditionSpecQueryCompositeTrigger_FieldTerminalPath: *fp, value: value.([]*LogCondition_Spec_Query_TriggerCnd)}
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue{LogConditionSpecQueryCompositeTrigger_FieldTerminalPath: *fp, value: value.(LogCondition_Spec_Query_CompositeTrigger_Operator)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) WithIArrayOfValues(values interface{}) LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues {
-	fpaov := &LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryCompositeTrigger_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryCompositeTrigger_FieldTerminalPath: *fp, values: values.([][]*LogCondition_Spec_Query_TriggerCnd)}
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues{LogConditionSpecQueryCompositeTrigger_FieldTerminalPath: *fp, values: values.([]LogCondition_Spec_Query_CompositeTrigger_Operator)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) WithIArrayItemValue(value interface{}) LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue {
-	switch fp.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		return &LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue{LogConditionSpecQueryCompositeTrigger_FieldTerminalPath: *fp, value: value.(*LogCondition_Spec_Query_TriggerCnd)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fp.selector))
-	}
-}
-
-func (fp *LogConditionSpecQueryCompositeTrigger_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// LogConditionSpecQueryCompositeTrigger_FieldPathValue allows storing values for CompositeTrigger fields according to their type
-type LogConditionSpecQueryCompositeTrigger_FieldPathValue interface {
-	LogConditionSpecQueryCompositeTrigger_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **LogCondition_Spec_Query_CompositeTrigger)
-	CompareWith(*LogCondition_Spec_Query_CompositeTrigger) (cmp int, comparable bool)
-}
-
-func ParseLogConditionSpecQueryCompositeTrigger_FieldPathValue(pathStr, valueStr string) (LogConditionSpecQueryCompositeTrigger_FieldPathValue, error) {
-	fp, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing CompositeTrigger field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(LogConditionSpecQueryCompositeTrigger_FieldPathValue), nil
-}
-
-func MustParseLogConditionSpecQueryCompositeTrigger_FieldPathValue(pathStr, valueStr string) LogConditionSpecQueryCompositeTrigger_FieldPathValue {
-	fpv, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue struct {
-	LogConditionSpecQueryCompositeTrigger_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpecQueryCompositeTrigger_FieldPathValue = (*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'CompositeTrigger' as interface{}
-func (fpv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue) AsTriggersValue() ([]*LogCondition_Spec_Query_TriggerCnd, bool) {
-	res, ok := fpv.value.([]*LogCondition_Spec_Query_TriggerCnd)
-	return res, ok
-}
-func (fpv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue) AsOperatorValue() (LogCondition_Spec_Query_CompositeTrigger_Operator, bool) {
-	res, ok := fpv.value.(LogCondition_Spec_Query_CompositeTrigger_Operator)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object CompositeTrigger
-func (fpv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue) SetTo(target **LogCondition_Spec_Query_CompositeTrigger) {
-	if *target == nil {
-		*target = new(LogCondition_Spec_Query_CompositeTrigger)
-	}
-	switch fpv.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		(*target).Triggers = fpv.value.([]*LogCondition_Spec_Query_TriggerCnd)
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		(*target).Operator = fpv.value.(LogCondition_Spec_Query_CompositeTrigger_Operator)
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*LogCondition_Spec_Query_CompositeTrigger)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue' with the value under path in 'LogCondition_Spec_Query_CompositeTrigger'.
-func (fpv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue) CompareWith(source *LogCondition_Spec_Query_CompositeTrigger) (int, bool) {
-	switch fpv.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		return 0, false
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		leftValue := fpv.value.(LogCondition_Spec_Query_CompositeTrigger_Operator)
-		rightValue := source.GetOperator()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for LogCondition_Spec_Query_CompositeTrigger: %d", fpv.selector))
-	}
-}
-
-func (fpv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*LogCondition_Spec_Query_CompositeTrigger))
-}
-
-// LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue allows storing single item in Path-specific values for CompositeTrigger according to their type
-// Present only for array (repeated) types.
-type LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	LogConditionSpecQueryCompositeTrigger_FieldPath
-	ContainsValue(*LogCondition_Spec_Query_CompositeTrigger) bool
-}
-
-// ParseLogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParseLogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue(pathStr, valueStr string) (LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue, error) {
-	fp, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing CompositeTrigger field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue), nil
-}
-
-func MustParseLogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue(pathStr, valueStr string) LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue {
-	fpaiv, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue struct {
-	LogConditionSpecQueryCompositeTrigger_FieldTerminalPath
-	value interface{}
-}
-
-var _ LogConditionSpecQueryCompositeTrigger_FieldPathArrayItemValue = (*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object LogCondition_Spec_Query_CompositeTrigger as interface{}
-func (fpaiv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-func (fpaiv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue) AsTriggersItemValue() (*LogCondition_Spec_Query_TriggerCnd, bool) {
-	res, ok := fpaiv.value.(*LogCondition_Spec_Query_TriggerCnd)
-	return res, ok
-}
-
-func (fpaiv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue) GetSingle(source *LogCondition_Spec_Query_CompositeTrigger) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*LogCondition_Spec_Query_CompositeTrigger))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'CompositeTrigger'
-func (fpaiv *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayItemValue) ContainsValue(source *LogCondition_Spec_Query_CompositeTrigger) bool {
-	slice := fpaiv.LogConditionSpecQueryCompositeTrigger_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues allows storing slice of values for CompositeTrigger fields according to their type
-type LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	LogConditionSpecQueryCompositeTrigger_FieldPath
-}
-
-func ParseLogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) (LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues, error) {
-	fp, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing CompositeTrigger field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues), nil
-}
-
-func MustParseLogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues(pathStr, valuesStr string) LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues {
-	fpaov, err := ParseLogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues struct {
-	LogConditionSpecQueryCompositeTrigger_FieldTerminalPath
-	values interface{}
-}
-
-var _ LogConditionSpecQueryCompositeTrigger_FieldPathArrayOfValues = (*LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorTriggers:
-		for _, v := range fpaov.values.([][]*LogCondition_Spec_Query_TriggerCnd) {
-			values = append(values, v)
-		}
-	case LogConditionSpecQueryCompositeTrigger_FieldPathSelectorOperator:
-		for _, v := range fpaov.values.([]LogCondition_Spec_Query_CompositeTrigger_Operator) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues) AsTriggersArrayOfValues() ([][]*LogCondition_Spec_Query_TriggerCnd, bool) {
-	res, ok := fpaov.values.([][]*LogCondition_Spec_Query_TriggerCnd)
-	return res, ok
-}
-func (fpaov *LogConditionSpecQueryCompositeTrigger_FieldTerminalPathArrayOfValues) AsOperatorArrayOfValues() ([]LogCondition_Spec_Query_CompositeTrigger_Operator, bool) {
-	res, ok := fpaov.values.([]LogCondition_Spec_Query_CompositeTrigger_Operator)
+func (fpaov *LogConditionTemplateSource_FieldTerminalPathArrayOfValues) AsUpdatedFieldsArrayOfValues() ([]*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpaov.values.([]*fieldmaskpb.FieldMask)
 	return res, ok
 }

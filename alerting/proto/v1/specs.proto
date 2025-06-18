@@ -1,0 +1,817 @@
+syntax = "proto3";
+
+package ntt.alerting.v1;
+
+import "edgelq-sdk/monitoring/proto/v4/common.proto";
+import "google/api/resource.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common;rcommon";
+
+// LogCndSpec informs what Logging queries should be monitored for alerting, and
+// what content should be considered as violation.
+message LogCndSpec {
+  // Specifies logging query
+  Query query = 1;
+
+  // Group by labels inform how to split monitored Logs stream. Each
+  // unique combination of label values is considered separately as own
+  // alerting bucket.
+  // All labels defined in Policy must be defined here.
+  repeated string group_by_labels = 2;
+
+  // Query specifies what logging query should be monitored.
+  message Query {
+    // Filter used to continuously observe log query output.
+    string filter = 2;
+
+    // Trigger under which Alert is raised
+    TriggerCnd trigger = 3;
+
+    // Informs how long alert should be maintained in firing state since last
+    // occurrence.
+    google.protobuf.Duration min_duration = 4;
+
+    // LabelTrigger informs what label Log must have to be considered as a
+    // violation.
+    message LabelTrigger {
+      // Label key
+      string key = 1;
+
+      // Triggering label values.
+      repeated string values = 2;
+    }
+
+    // StringPayloadTrigger informs what text content of log is
+    // triggering an alert.
+    message StringPayloadTrigger {
+      // Optional selector inside log data field. It should be ignored
+      // if log entry is just a string or byte array. It can be used if log
+      // is some JSON object, and we search for specific fields.
+      string object_selector = 1;
+
+      // Regex that log content must satisfy to trigger an alert
+      string regex = 2;
+    }
+
+    // CompositeTrigger collects multiple triggers together.
+    message CompositeTrigger {
+      // List of triggers.
+      repeated TriggerCnd triggers = 1;
+
+      // Operator combining triggers
+      Operator operator = 2;
+
+      // Operator informs if only one trigger must be satisfied to
+      // trigger an Alert, or all.
+      enum Operator {
+        // UNDEFINED is not allowed
+        UNDEFINED = 0;
+
+        // AND tells that all triggers must be on for Alert to be created
+        AND = 1;
+
+        // OR tells that Alert should be raised based on any trigger
+        // condition.
+        OR = 2;
+      }
+    }
+
+    // TriggerCnd wraps a trigger deciding when to trigger an alert.
+    // It inspects each Log individually.
+    message TriggerCnd {
+      oneof type {
+        // Trigger based on label
+        LabelTrigger label = 1;
+
+        // Trigger based on log textual content
+        StringPayloadTrigger string_content = 2;
+
+        // Composite trigger combining multiple smaller ones
+        CompositeTrigger composite = 3;
+      }
+    }
+  }
+}
+
+// TsCndSpec defines time series queries and thresholds/anomaly detectors.
+message TsCndSpec {
+  // List of observed queries. Each by default can raise alert by
+  // threshold. If anomaly detectors are specified, they try to learn
+  // all time series together.
+  repeated Query queries = 1;
+
+  // List of group by labels applied to all queries.
+  // Each unique combination of group_by is tracked separately.
+  // It has its own adaptive thresholds, its own anomaly detectors.
+  // One such representation has a form of resource TsEntry.
+  // Group by fields must define all labels defined in Policy.
+  repeated string query_group_by = 2;
+
+  // Threshold alerting configuration
+  ThresholdAlertingCfg threshold_alerting = 3;
+
+  // All anomaly detectors. Its possible to define multiple
+  // detectors with different analysis window. It is advisable
+  // to create one detector catching long window (1 day, step
+  // interval 15 minutes), followed by small window (15 minutes,
+  // step interval 1 minute). This should catch sudden and small
+  // anomalies, along with long term unexpected changes.
+  // Maintaining long window (1 day) along with small interval
+  // (1 minute) would be too costly.
+  // Other option detectors may be:
+  // 1 day / 30 minutes + 30 minutes / 1 minute.
+  repeated AnomalyAlertingCfg anomaly_alerting = 5;
+
+  // Query defines a single TimeSeries query and basic alerting thresholds.
+  message Query {
+    // Query description.
+    string name = 1;
+
+    // Time series query filter
+    string filter = 2;
+
+    // Aligner applied on individual TimeSeries.
+    ntt.monitoring.v4.Aggregation.Aligner aligner = 3;
+
+    // Reducer applied across TimeSeries according to Spec.query_group_by
+    // field in the Spec.
+    ntt.monitoring.v4.Aggregation.Reducer reducer = 4;
+
+    // Maximum value (approximated) that time series values will have for this
+    // query. It is a soft value: If higher values are detected,
+    // thresholds/anomaly models will adjust to them. If set to 0, it will be
+    // auto-detected (heuristic). If time series are negative, max_value
+    // should indicate maximum value FROM zero: Therefore, it can be a
+    // negative value.
+    double max_value = 5;
+  }
+
+  // ThresholdAlertingCfg describes when alerts of THRESHOLD type
+  // must be raised.
+  message ThresholdAlertingCfg {
+    // Operator for threshold-type alerts
+    Operator operator = 1;
+
+    // Alignment period for data points used to monitor thresholds.
+    google.protobuf.Duration alignment_period = 2;
+
+    // Violation duration after which alert must be raised.
+    google.protobuf.Duration raise_after = 3;
+
+    // Duration after which Alert stops firing when violations no longer
+    // occur. By default, equals to raise_after.
+    google.protobuf.Duration silence_after = 4;
+
+    // Thresholds per each query (in same order).
+    repeated AlertingThresholds per_query_thresholds = 5;
+
+    // This field is recommended to be set if adaptive thresholds are used.
+    // For each unique group by fields combination, dynamic thresholds will
+    // be detected based on historic data of specified length.
+    // One week by default.
+    google.protobuf.Duration adaptive_thresholds_detection_period = 6;
+
+    // AlertingThresholds represents all thresholds.
+    // When they are crossed by time series values, alert will be raised.
+    // Max thresholds are active all the time.
+    // Adaptive thresholds are active when anomaly detectors
+    // are not available (not defined or in training).
+    // It is also possible to set minimal lower/upper thresholds,
+    // to avoid adaptive thresholds being to insensitive.
+    // Overall, alert is raised when value drops below
+    // lower threshold or above upper threshold. Working
+    // allowed range is between.
+    // Values must always satisfy condition:
+    // Upper max > Upper min > Lower min > Lower max
+    message AlertingThresholds {
+      // Whether upper threshold should be set and adaptive.
+      bool auto_adapt_upper = 1;
+
+      // Whether lower threshold should be set and adaptive.
+      bool auto_adapt_lower = 2;
+
+      // Maximum allowed upper threshold. When crossed ABOVE,
+      // alert is raised. Can be set to nil, but in that
+      // case max_lower is mandatory.
+      // Adaptive upper threshold cannot be set below it.
+      AlertingThreshold max_upper = 3;
+
+      // Maximum allowed lower threshold. When crossed BELOW,
+      // alert is raised. Can be set to nil, but in that
+      // case max_upper is mandatory.
+      // Adaptive lower threshold cannot be set below it.
+      AlertingThreshold max_lower = 4;
+
+      // Minimal allowed adaptive upper threshold.
+      // It is applicable only if auto_adapt_upper is true.
+      // Adaptive upper threshold cannot be set below it.
+      // It must be smaller than max_upper.
+      AlertingThreshold min_upper = 5;
+
+      // Minimal allowed adaptive lower threshold.
+      // It is applicable only if auto_adapt_lower is true.
+      // Adaptive lower threshold cannot be set above it.
+      // It must be bigger than max_lower.
+      AlertingThreshold min_lower = 6;
+    }
+
+    // Operator informs if whether all or one of queries must be crossed
+    // for alert to be generated.
+    enum Operator {
+      // UNDEFINED is not allowed
+      UNDEFINED = 0;
+
+      // AND indicates that all thresholds must be crossed for
+      // alert ti be triggered.
+      AND = 1;
+
+      // OR indicates that Alert should be raised if any of queries
+      // violates threshold.
+      OR = 2;
+    }
+  }
+
+  // AnomalyDetector defines AI/ML based anomaly detector.
+  // It can catch anomalies that are more sophisticated
+  // than max/min thresholds.
+  message AnomalyAlertingCfg {
+    // Sliding analysis window observed at once by AI model.
+    // For larger windows, it is highly advisable for query_ap
+    // to be accordingly larger.
+    google.protobuf.Duration analysis_window = 1;
+
+    // Duration of each time step in sliding analysis window.
+    // Anomaly detection is run after each step.
+    google.protobuf.Duration step_interval = 2;
+
+    // It is like step interval, but special used for training only.
+    // For example, we may want to run anomaly detection of size 30 minutes
+    // each 5 minutes. But in training, to reduce number of batches, we may
+    // prefer larger value, like 15 minutes or maybe even 30.
+    google.protobuf.Duration train_step_interval = 7;
+
+    // Granularity of data points within each step.
+    google.protobuf.Duration alignment_period = 3;
+
+    oneof model { LstmAutoEncoder lstm_autoencoder = 4; }
+
+    google.protobuf.Duration raise_after = 5;
+
+    google.protobuf.Duration silence_after = 6;
+
+    // LstmAutoEncoder defines LSTM AutoEncoder model for anomaly detection.
+    message LstmAutoEncoder {
+      // Hidden size. Larger increases model size.
+      int32 hidden_size = 1;
+
+      // Learn rate used in Adam optimizer.
+      // This is suggested value. System may iterate other well known
+      // working values for best detection.
+      double learn_rate = 2;
+
+      // Maximum number of epochs after which training must stop.
+      int32 max_training_epochs = 3;
+
+      // Minimum number of training epochs model must train.
+      int32 min_training_epochs = 4;
+
+      // Minimum acceptable error after training stops.
+      // When it is achieved, check samples are used to determine
+      // actual error rates.
+      // Too large value may cause overfit.
+      // This is suggested value. System may find other values
+      // giving better results.
+      double acceptable_training_error = 5;
+
+      // How much time must be obtained for training purposes.
+      google.protobuf.Duration training_period = 6;
+
+      // Training period, analysis window and training step interval
+      // directly influence how many training samples are created.
+      // Fraction is then used for detecting practical anomalies
+      // and initializing anomaly thresholds.
+      double check_period_fraction = 7;
+
+      // Enables teacher force mode during inference.
+      // It greatly reduces false positives, but may
+      // silence some actual small anomalies.
+      // It is especially important when time series data
+      // can change behavior persistently. For example, new
+      // workload was added to CPU.
+      bool teacher_force_at_inference = 8;
+    }
+  }
+}
+
+// PolicySpec defines common specification parts shared by all conditions
+// within:
+// * Enabled flag
+// * Processing location
+// * Bindings with notification channels
+// * Standard troubleshooting queries to be executed for triggered alerts.
+// * Shared resource type identity
+// * Whether and how AI agent should be handling alerts
+message PolicySpec {
+  // Enabled controls whether conditions within are active or not.
+  bool enabled = 1;
+
+  // Decides whether alerting is executed in backend or at the edge.
+  // This field cannot be modified.
+  ProcessingLocation processing_location = 2;
+
+  // Notification specification. It is possible to attach
+  // multiple channels, each with different notification kinds.
+  repeated Notification notifications = 3;
+
+  // Resource identity shared by all conditions/alerts within policy.
+  ResourceIdentity resource_identity = 6;
+
+  // List of all supporting queries to be executed for alerts within Policy.
+  repeated SupportingAlertQuery supporting_queries = 7;
+
+  // Defines AI agent handling for alerts within this policy
+  AIAgentHandling ai_agent = 8;
+
+  // Notification informs where and when to send notifications
+  // about alerts created within this Policy.
+  message Notification {
+    // List of alert state change kinds when we want to send a notification.
+    repeated Kind enabled_kinds = 1;
+
+    // Connected NotificationChannel resource. Must be specified.
+    string channel = 2;
+
+    // If bigger than 0, then number of alert bodies in message
+    // will be cut to this value.
+    int32 max_alert_bodies_in_msg = 3;
+
+    // This field matters if max_alert_bodies_in_msg is bigger than 0.
+    // If this field has value true, then notification message will only
+    // inform how many alerts additionally were raised on top of provided
+    // in the notification.
+    // If false, multiple notifications will be generated.
+    bool put_only_alerts_counter_when_overflowing = 4;
+
+    // Kind specifies interesting alert state change which may
+    // trigger a notification generation.
+    enum Kind {
+      // Undefined is not allowed
+      UNDEFINED = 0;
+
+      // This kind must be used if we want to generate a notification
+      // for a new firing alert.
+      NEW_FIRING = 1;
+
+      // This kind must be used if we want to generate a notification
+      // for an alert that has been pushed to Operator (escalated by
+      // AI Agent).
+      AI_ESCALATED_TO_OPERATOR = 2;
+
+      // This kind must be used if we want to generate a notification
+      // for an alert which received remediation recommendation by
+      // AI Agent, and which requires operator approval.
+      AI_REMEDIATION_AWAITING_APPROVAL = 3;
+
+      // This kind must be used if we want to generate a notification
+      // for an alert which has been considered as a temporary violation
+      // by AI Agent.
+      AI_IGNORED_AS_TMP = 4;
+
+      // This kind must be used if we want to generate a notification
+      // for an alert which has been considered as a false positive,
+      // and for which alerting thresholds should be adjusted.
+      AI_ADJUSTED_ENTRIES = 5;
+
+      // This kind must be used if we want to generate a notification
+      // for an alert for which AI agent applied recommendation.
+      AI_REMEDIATION_APPLIED = 6;
+
+      // This kind must be used if we want to generate a notification
+      // for an alert for which operator applied recommendation.
+      OP_REMEDIATION_APPLIED = 7;
+
+      // This kind must be used if we want to generate a notification
+      // for an alert that stopped firing.
+      STOPPED_FIRING = 8;
+    }
+  }
+
+  // ResourceIdentity informs which MAIN resource type is generating
+  // time series/logs on which conditions are built. For core EdgeLQ,
+  // ResourceIdentity must point always to devices.edgelq.com/Device
+  // resource, even if we are creating policy for
+  // applications.edgelq.com/Pod conditions.
+  // 3rd party services can pick something else.
+  // In EdgeLQ, it will be necessary to create separate Policy
+  // objects, if one is for Device conditions, and other for Pod
+  // conditions. Both will point to devices.edgelq.com/Device as
+  // main resource identity, both will have to specify device_id
+  // LabelInfo. Second one will have to specify pod_id LabelInfo.
+  message ResourceIdentity {
+    // Reference to primary alerting resource kind.
+    // For EdgeLQ, it is services/devices.edgelq.com/resources/Device
+    // resource. Pods belong to device, so everything is device scoped. 3rd
+    // party services can provide different resource type.
+    string alerting_resource = 1;
+
+    // All interesting labels that can be found in ALL Log/Ts Conditions
+    // group by fields within Policy.
+    // It is necessary to provide labels to at least satisfy name pattern
+    // of main alerting_resource. It is optional to provide more labels,
+    // in order to identify auxiliary resources.
+    // By default, there are 2 built-in LabelInfo objects:
+    // * key: "project_id", points to project name segment. It is mapped
+    //   to project of TimeSeries or Log object
+    // * key: "region_id", points to region name segment. It is mapped
+    //   to region of TimeSeries or Log object.
+    repeated LabelInfo labels = 2;
+
+    // List of name patterns of main alerting resource kind.
+    // Note that all name segments (divided by each even "/" character)
+    // must be satisfied within labels.mapped_name_segment fields,
+    // with exception of "project" and "region", which are built-in.
+    // TODO: As of now, only one pattern. However, it should be possible to
+    // deduce name patterns from meta.goten.com service, so they are not
+    // provided here at all.
+    // Name pattern must conform to standard goten style name pattern. For
+    // example, name pattern of devices.edgelq.com/Device is
+    // "projects/{project}/regions/{region}/devices/{device}".
+    repeated string name_patterns = 3;
+
+    // LabelInfo binds a label from Log/TimeSeries object into
+    // specific name segment of a resource associated with an Alert
+    // raised within current Policy.
+    // Multiple LabelInfo instances within ResourceIdentity are used to
+    // reconstruct full resource names.
+    // For example, resource type devices.edgelq.com/Device has a single
+    // known name pattern
+    // projects/{project}/regions/{region}/devices/{device}. There are 3 name
+    // segments: project, region, and device. Segments "project" and "region"
+    // are built-in always and dont have to be defined. Policy owner will have
+    // to provide single LabelInfo in this case, for device segment only.
+    // LabelInfo may be used to point to other auxiliary resources. For
+    // example, if Policy focuses on conditions for
+    // applications.edgelq.com/Pod resource type, administrator can create
+    // Policy with 2 LabelInfo objects: One with device_id as primary key,
+    // because it will be Device generating all time series (also for pods),
+    // then other LabelInfo must contain object with key equal to pod_id.
+    message LabelInfo {
+      // Label key that must be present in TsCondition/LogCondition group by
+      // fields list. Refer to labels defined in relevant
+      // monitoring.edgelq.com/MonitoredResourceDescriptor,
+      // monitoring.edgelq.com/MetricDescriptor, or
+      // logging.edgelq.com/LogDescriptor resources for which you want to
+      // create conditions. Note that "key" must match exactly one of a labels
+      // (byte to byte) specified in interesting descriptors. For example, in
+      // MonitoredResourceDescriptor of type devices.edgelq.com/Device you may
+      // find label with key "device_id". This must be specified in
+      // LabelInfo.key if you want to create Policy focusing on Device
+      // resource.
+      string key = 1;
+
+      // List of all contexts where label with specified key can be found.
+      // It may be more than one position. For example device_id label can
+      // be found in LogDescriptor or MonitoredResourceDescriptor. In this
+      // case, we need to set 2 values in contexts field: RESOURCE_LABEL and
+      // LOG_LABEL.
+      repeated UsageContext contexts = 2;
+
+      // Name segment value in name pattern. This is always
+      // lowerSingularCamelCase resource type name. For example, for LabelInfo
+      // with key device_id, if it points to devices.edgelq.com/Device
+      // resource type, mapped_name_segment must be equal to "device" value
+      // (which is lower camel case).
+      string mapped_name_segment = 3;
+
+      // UsageContext exact descriptor type where label key can be found.
+      enum UsageContext {
+        // UNDEFINED - not allowed
+        UNDEFINED = 0;
+
+        // Indicates that label of given key can be found in
+        // monitoring.edgelq.com/MetricDescriptor resource.
+        METRIC_LABEL = 1;
+
+        // Indicates that label of given key can be found in
+        // monitoring.edgelq.com/MonitoredResourceDescriptor resource.
+        RESOURCE_LABEL = 2;
+
+        // Indicates that label of given key can be found in
+        // logging.edgelq.com/LogDescriptor resource.
+        LOG_LABEL = 3;
+      }
+    }
+  }
+
+  // SupportingAlertQuery specifies a common supporting troubleshooting query
+  // that can be used to investigate any Alert within current Policy.
+  // This is especially important for alerts handling by AI agent. Outputs
+  // from these queries can be used by AI agents.
+  //
+  // Important: Many query spec string fields have _template suffix. It means
+  // that their values may contain variable values that are replaced for each
+  // specific Alert instance. Those variables have a format: <$LABEL_KEY>,
+  // where $LABEL_KEY must be one of the label keys specified in
+  // resource_identity field. For example, if we can have a Policy like this:
+  // {
+  //   "resourceIdentity": {
+  //     "alertingResource": "services/devices.edgelq.com/resources/Device",
+  //     "labels": [
+  //       {
+  //         "key": "device_id",
+  //         "contexts": [RESOURCE_LABEL, LOG_LABEL],
+  //         "mappedNameSegment": "device"
+  //       }
+  //     ],
+  //     "namePatterns":
+  //     ["projects/{project}/regions/{region}/devices/{device}"]
+  //   },
+  //   "supportingQueries": [
+  //      {
+  //        "tsQuery": {
+  //          "description": "..."
+  //          "filterTemplate":
+  //          "metric.type=\"devices.edgelq.com/Device/connected\"
+  //            AND resource.labels.device_id=\"<device_id>\""
+  //          "aggregation": {...}
+  //        }
+  //      }
+  //   ]
+  // }
+  // In above example, we define one LabelInfo with device_id field.
+  // Therefore, alerting service will find and replace each substring
+  // <device_id> with specific value from Alert resource. If we have Alert
+  // with label device_id = "test-x", Alerting service will execute TimeSeries
+  // query with filter metric.type=\"devices.edgelq.com/Device/connected\" AND
+  //   resource.labels.device_id=\"test-x\""
+  // Note that values <project_id> and <region_id> are always built-in, and
+  // will expand to project/region indicated by Alert.
+  message SupportingAlertQuery {
+    oneof query {
+      // Time Series query
+      TsQuery ts_query = 1;
+
+      // Log query
+      LogQuery log_query = 2;
+
+      // Rest Get query
+      RestGetQuery rest_get_query = 5;
+
+      // Rest List query
+      RestListQuery rest_list_query = 6;
+    }
+
+    // TsQuery describes TimeSeries query to execute for each specific alert.
+    // Time interval will be set around alert time.
+    message TsQuery {
+      // Query description.
+      string description = 1;
+
+      // TimeSeries filter template. All substrings <$LABEL_KEY> will be
+      // replaced according to the resource_identity.labels field.
+      string filter_template = 2;
+
+      // TimeSeries aggregation object.
+      ntt.monitoring.v4.Aggregation aggregation = 3;
+    }
+
+    // LogQuery describes Log query to execute for each specific alert.
+    // Time interval will be set around alert time.
+    message LogQuery {
+      // Query description.
+      string description = 1;
+
+      // Log filter template. All substrings <$LABEL_KEY> will be
+      // replaced according to the resource_identity.labels field.
+      string filter_template = 2;
+    }
+
+    // RestGetQuery allows to fetch specific resource body to be included in
+    // investigation data.
+    // It is optimized for fetching resources from EdgeLQ style services.
+    // It is not possible as of now to use GRPC API, because alerting resource
+    // can be used by 3rd party service on top of EdgeLQ platform.
+    message RestGetQuery {
+      // Description of resource we are fetching
+      string description = 1;
+
+      // Endpoint (with scheme) from which we want to fetch resource. For
+      // example, it can be https://devices.apis.edgelq.com value, if we want
+      // to access a resource from devices.edgelq.com service. Endpoint may
+      // differ depending on environment (production or staging).
+      // TODO: Replace with reference to meta.goten.com/Service
+      string endpoint = 2;
+
+      // Path template to be appended to access specific resource.
+      // EdgeLQ based services use standard paths for Get requests.
+      // It is: /$API_VERSION/$RESOURCE_NAME.
+      // For example, path_template for devices.edgelq.com/Device
+      // resource in version v1, path_template must have a format:
+      // "/v1/projects/<project_id>/regions/<region_id>/devices/<device_id>".
+      // All substrings <$LABEL_KEY> will be replaced according to the
+      // resource_identity.labels field.
+      string path_template = 3;
+
+      // It must be NAME, BASIC, DETAIL or FULL - like in each standard Get
+      // request in EdgeLQ based platform.
+      string view = 4;
+
+      // List of additional fields to obtain on top of those defined within
+      // view. Fields must be comma separated, and use lower_snake_case
+      // notion.
+      string field_mask = 5;
+    }
+
+    // RestListQuery allows to fetch specific list of resource bodies to be
+    // included in investigation data.
+    // It is optimized for fetching resources from EdgeLQ style services.
+    // It is not possible as of now to use GRPC API, because alerting resource
+    // can be used by 3rd party service on top of EdgeLQ platform.
+    message RestListQuery {
+      // Description of resources we are fetching
+      string description = 1;
+
+      // Endpoint (with scheme) from which we want to fetch resource. For
+      // example, it can be https://applications.apis.edgelq.com value, if we
+      // want to access a resource from applications.edgelq.com service.
+      // Endpoint may differ depending on environment (production or staging).
+      // TODO: Replace with reference to meta.goten.com/Service
+      string endpoint = 2;
+
+      // Path template to be appended to access specific resource.
+      // EdgeLQ based services use standard paths for List requests.
+      // It is:
+      // /$API_VERSION/$RESOURCE_PARENT_NAME/$PLURAL_RESOURCE_TYPE_NAME. For
+      // example, to fetch list of pods (applications.edgelq.com service), we
+      // would use path_template like this:
+      // "/v1/projects/<project_id>/regions/<region_id>/pods".
+      // All substrings <$LABEL_KEY> will be replaced according to the
+      // resource_identity.labels field.
+      string path_template = 3;
+
+      // It must be NAME, BASIC, DETAIL or FULL - like in each standard List
+      // request in EdgeLQ based platform.
+      string view = 4;
+
+      // List of additional fields to obtain on top of those defined within
+      // view. Fields must be comma separated, and use lower_snake_case
+      // notion.
+      string field_mask = 5;
+
+      // Optional filter template to be used to filter collection. For
+      // example, if we want to obtain list of pods running on a device, we
+      // should populate it with value:
+      // "spec.node=\"projects/<project_id>/regions/<region_id>/devices/<device_id>\"".
+      string filter_template = 6;
+    }
+  }
+
+  // AIAgentHandling defines instructions for AI agent how to handle alerts
+  // generated within current Policy.
+  message AIAgentHandling {
+    // Whether AI agent handling is enabled.
+    bool enabled = 1;
+
+    // Whether AI agent is allowed to SSH into alerting resource for further
+    // investigation outside of defined queries. To have an effect, it is
+    // necessary to specify edge_connectivity field.
+    bool enabled_connectivity = 2;
+
+    // Whether remediation's proposed by AI agent should be automatically
+    // accepted without operator consent (full autonomous mode).
+    bool auto_accept_remediation = 3;
+
+    // Describes how to connect to alerting resource in a context of Alert.
+    EdgeConnectivity edge_connectivity = 4;
+
+    // Specifies list of suggested remediations for AI agent to apply
+    repeated Remediation remediation_options = 6;
+
+    // EdgeConnectivity describes means of accessing alerting resource for
+    // troubleshooting purposes.
+    message EdgeConnectivity {
+      oneof type {
+        // Device SSH connectivity
+        DeviceSSH device_ssh = 1;
+
+        // Proxies SSH connectivity
+        ProxiesSSH proxies_ssh = 2;
+
+        // Pod SSH connectivity
+        PodSSH pod_ssh = 3;
+      }
+
+      // Optional list of allowed binaries that AI agent can use. This can be
+      // used to restrict potential errors, or indicate what utils are
+      // available.
+      repeated string allowed_bins = 4;
+
+      // DeviceSSH informs that AI agent can SSH into alerting resource using
+      // standard droplet-exposed SSH tunnel.
+      // It is necessary to provide LabelInfo with device_id key in resource
+      // identity, but its possible to use DeviceSSH connectivity for
+      // non-Device alerts too. It is only necessary that alerting resource
+      // runs a droplet process.
+      message DeviceSSH {
+        // Client name for self-identification. Can be any unique name like
+        // "llm-alerting-agent".
+        string client_name = 1;
+      }
+
+      // ProxiesSSH informs that AI agent can SSH into alerting resource using
+      // proxies service, standard SSH connectivity messages. It is assumed
+      // that some process on alerting resource is connected to proxies
+      // exposing SSH tunnel. Refer to Connect method in Proxies.
+      message ProxiesSSH {
+        // Service domain to use in Connect request.
+        string service_domain = 1;
+
+        // Provider name template to use in Connect request.
+        // All substrings <$LABEL_KEY> will be replaced according to the
+        // resource_identity.labels field, plus special <project_id> and
+        // <region_id>.
+        string provider_name_tmpl = 2;
+
+        // Client name for self-identification. Can be any unique name like
+        // "llm-alerting-agent".
+        string client_name = 3;
+
+        // Service name to use in Connect request.
+        string service_name = 4;
+      }
+
+      // PodSSH can be used if application is running as a Pod supported by
+      // droplet.
+      // TODO: Not implemented
+      message PodSSH {
+        // Client name for self-identification. Can be any unique name like
+        // "llm-alerting-agent".
+        string client_name = 1;
+
+        // Username to use.
+        string username = 2;
+      }
+    }
+
+    // Remediation indicates option available to AI agent.
+    message Remediation {
+      oneof type {
+        // FixInSSH remediation type.
+        FixInSSH fix_in_ssh = 1;
+
+        // Reboot remediation type.
+        // It can be specified only if resource identity points to
+        // devices.edgelq.com/Device, and if pod_id is specified as
+        // one of the available labels.
+        Reboot reboot = 2;
+      }
+
+      // FixInSSH declares that issue should be fixed using SSH shell.
+      // AI Agent should provide a command to execute in shell.
+      // This option can be used only if EdgeConnectivity is specified.
+      message FixInSSH {}
+
+      // Reboot is a special type of remediation applicable only and only
+      // for pods -> it is necessary to provide LabelInfo with pod_id key.
+      // Pod will be restarted to remediate an issue.
+      message Reboot {}
+    }
+  }
+
+  // ProcessingLocation indicates if alerts should be detected on Edge
+  // or in backend. Edge may be preferred for various reasons:
+  // * Alerts can be raised closer to the source.
+  // * Conditions can use more sophisticated methods, like local small AI
+  // anomaly
+  //   detector models. In backend, performance may not be guaranteed, if
+  //   there are a lot of pending trainings.
+  // Backend is preferred when:
+  // * We want to alert based on metrics that dont make sense on edge (like
+  // connectivity).
+  // * Alerting resoucrce is not "edge" type. For example, we monitor some
+  // network targets
+  //   monitored by multiple distributed probes.
+  enum ProcessingLocation {
+    // UNDEFINED is invalid
+    UNDEFINED = 0;
+
+    // Alerts will be detected and generated in the backend.
+    BACKEND = 1;
+
+    // Alerts will be detected and generated on the edge.
+    EDGE = 2;
+  }
+}
+
+// AlertingThreshold defines threshold value for alerting.
+message AlertingThreshold {
+  // Value that must not be crossed.
+  double value = 1;
+
+  // If true, then alert is raised when exact specified value is
+  // reached. Otherwise, it has to be crossed.
+  bool is_inclusive = 2;
+}
