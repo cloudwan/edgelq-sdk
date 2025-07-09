@@ -258,12 +258,14 @@ func (a *apiProvisioningPolicyAccess) SaveProvisioningPolicy(ctx context.Context
 	return nil
 }
 
-func (a *apiProvisioningPolicyAccess) DeleteProvisioningPolicy(ctx context.Context, ref *provisioning_policy.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiProvisioningPolicyAccess) DeleteProvisioningPolicy(ctx context.Context, ref *provisioning_policy.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &provisioning_policy_client.DeleteProvisioningPolicyRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteProvisioningPolicy(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *provisioning_policy.Filter) (*provisioning_p
 		resultFilter = &provisioning_policy.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(provisioning_policy.GetDescriptor())
 }
 
 func init() {

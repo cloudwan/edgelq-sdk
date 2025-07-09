@@ -1,7 +1,0 @@
-kind: "iam.edgelq.com/Condition"
-version: "v1"
-resources:
-- name: projects/<project>/conditions/device-attestation-<attestationId>
-  displayName: Device With Attestation
-  attestationCondition:
-    domain: projects/<project>/attestationDomains/<attestationId>

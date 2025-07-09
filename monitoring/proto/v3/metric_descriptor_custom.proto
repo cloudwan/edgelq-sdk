@@ -190,4 +190,8 @@ message DeleteMetricDescriptorRequest {
   // An example of `{metric_id}` is:
   // `"custom.googleapis.com/my_test_metric"`.
   string name = 3;
+
+  // If true, call will not return NotFound error if deleted resource does not
+  // exist.
+  bool allow_missing = 4;
 }

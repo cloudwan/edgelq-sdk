@@ -258,12 +258,14 @@ func (a *apiTsEntryAccess) SaveTsEntry(ctx context.Context, res *ts_entry.TsEntr
 	return nil
 }
 
-func (a *apiTsEntryAccess) DeleteTsEntry(ctx context.Context, ref *ts_entry.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiTsEntryAccess) DeleteTsEntry(ctx context.Context, ref *ts_entry.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &ts_entry_client.DeleteTsEntryRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteTsEntry(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *ts_entry.Filter) (*ts_entry.Filter, *ts_entr
 		resultFilter = &ts_entry.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(ts_entry.GetDescriptor())
 }
 
 func init() {

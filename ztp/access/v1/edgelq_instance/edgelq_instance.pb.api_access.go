@@ -258,12 +258,14 @@ func (a *apiEdgelqInstanceAccess) SaveEdgelqInstance(ctx context.Context, res *e
 	return nil
 }
 
-func (a *apiEdgelqInstanceAccess) DeleteEdgelqInstance(ctx context.Context, ref *edgelq_instance.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiEdgelqInstanceAccess) DeleteEdgelqInstance(ctx context.Context, ref *edgelq_instance.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &edgelq_instance_client.DeleteEdgelqInstanceRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteEdgelqInstance(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *edgelq_instance.Filter) (*edgelq_instance.Fi
 		resultFilter = &edgelq_instance.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(edgelq_instance.GetDescriptor())
 }
 
 func init() {

@@ -1,8 +1,0 @@
-kind: applications.edgelq.com/Project
-version: v1
-resources:
-- name: projects/<project>
-  multiRegionPolicy: <multiRegionPolicy>
-  metadata:
-    labels: <metadataLabels>
-    services: <metadataServices>

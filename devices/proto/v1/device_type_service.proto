@@ -346,6 +346,10 @@ message UpdateDeviceTypeRequest {
 message DeleteDeviceTypeRequest {
   // Name of ntt.devices.v1.DeviceType
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // DeviceType service API for Devices

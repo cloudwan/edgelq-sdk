@@ -252,15 +252,21 @@ func (a *apiUserAccess) SaveUser(ctx context.Context, res *user.User, opts ...go
 	return nil
 }
 
-func (a *apiUserAccess) DeleteUser(ctx context.Context, ref *user.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiUserAccess) DeleteUser(ctx context.Context, ref *user.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &user_client.DeleteUserRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteUser(ctx, request)
 	return err
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(user.GetDescriptor())
 }
 
 func init() {

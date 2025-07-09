@@ -356,6 +356,10 @@ message UpdateOsImageProfileRequest {
 message DeleteOsImageProfileRequest {
   // Name of ntt.devices.v1alpha2.OsImageProfile
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // OsImageProfile service API for Devices

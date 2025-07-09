@@ -513,6 +513,7 @@ func FullServiceData_FieldMask() *ServiceData_FieldMask {
 	res := &ServiceData_FieldMask{}
 	res.Paths = append(res.Paths, &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorName})
 	res.Paths = append(res.Paths, &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorRegionId})
+	res.Paths = append(res.Paths, &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorHostname})
 	return res
 }
 
@@ -531,7 +532,7 @@ func (fieldMask *ServiceData_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 2)
+	presentSelectors := make([]bool, 3)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*ServiceData_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -561,7 +562,7 @@ func (fieldMask *ServiceData_FieldMask) Reset() {
 
 func (fieldMask *ServiceData_FieldMask) Subtract(other *ServiceData_FieldMask) *ServiceData_FieldMask {
 	result := &ServiceData_FieldMask{}
-	removedSelectors := make([]bool, 2)
+	removedSelectors := make([]bool, 3)
 
 	for _, path := range other.GetPaths() {
 		switch tp := path.(type) {
@@ -719,6 +720,8 @@ func (fieldMask *ServiceData_FieldMask) Project(source *ServiceData) *ServiceDat
 				result.Name = source.Name
 			case ServiceData_FieldPathSelectorRegionId:
 				result.RegionId = source.RegionId
+			case ServiceData_FieldPathSelectorHostname:
+				result.Hostname = source.Hostname
 			}
 		}
 	}

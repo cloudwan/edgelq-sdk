@@ -35,6 +35,9 @@ message ServiceData {
 
   // Region of the service handling this request.
   string region_id = 2;
+
+  // Server hostname handling this request.
+  string hostname = 3;
 }
 
 // State of the object - can be resource, request or response.

@@ -258,12 +258,14 @@ func (a *apiDeviceAccess) SaveDevice(ctx context.Context, res *device.Device, op
 	return nil
 }
 
-func (a *apiDeviceAccess) DeleteDevice(ctx context.Context, ref *device.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiDeviceAccess) DeleteDevice(ctx context.Context, ref *device.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &device_client.DeleteDeviceRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteDevice(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *device.Filter) (*device.Filter, *device.Pare
 		resultFilter = &device.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(device.GetDescriptor())
 }
 
 func init() {

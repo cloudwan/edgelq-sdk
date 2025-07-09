@@ -357,6 +357,10 @@ message UpdateEdgelqInstanceRequest {
 message DeleteEdgelqInstanceRequest {
   // Name of ntt.ztp.v1.EdgelqInstance
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // EdgelqInstance service API for Ztp

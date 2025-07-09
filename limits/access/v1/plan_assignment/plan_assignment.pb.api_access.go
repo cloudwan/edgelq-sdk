@@ -258,12 +258,14 @@ func (a *apiPlanAssignmentAccess) SavePlanAssignment(ctx context.Context, res *p
 	return nil
 }
 
-func (a *apiPlanAssignmentAccess) DeletePlanAssignment(ctx context.Context, ref *plan_assignment.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiPlanAssignmentAccess) DeletePlanAssignment(ctx context.Context, ref *plan_assignment.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &plan_assignment_client.DeletePlanAssignmentRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeletePlanAssignment(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *plan_assignment.Filter) (*plan_assignment.Fi
 		resultFilter = &plan_assignment.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(plan_assignment.GetDescriptor())
 }
 
 func init() {

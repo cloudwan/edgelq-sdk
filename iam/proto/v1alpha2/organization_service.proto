@@ -347,6 +347,10 @@ message UpdateOrganizationRequest {
 message DeleteOrganizationRequest {
   // Name of ntt.iam.v1alpha2.Organization
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // Organization service API for IAM

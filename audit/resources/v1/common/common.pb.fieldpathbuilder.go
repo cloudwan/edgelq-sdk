@@ -115,6 +115,9 @@ func (ServiceDataFieldPathBuilder) Name() ServiceDataPathSelectorName {
 func (ServiceDataFieldPathBuilder) RegionId() ServiceDataPathSelectorRegionId {
 	return ServiceDataPathSelectorRegionId{}
 }
+func (ServiceDataFieldPathBuilder) Hostname() ServiceDataPathSelectorHostname {
+	return ServiceDataPathSelectorHostname{}
+}
 
 type ServiceDataPathSelectorName struct{}
 
@@ -141,6 +144,20 @@ func (s ServiceDataPathSelectorRegionId) WithValue(value string) *ServiceData_Fi
 }
 
 func (s ServiceDataPathSelectorRegionId) WithArrayOfValues(values []string) *ServiceData_FieldTerminalPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ServiceData_FieldTerminalPathArrayOfValues)
+}
+
+type ServiceDataPathSelectorHostname struct{}
+
+func (ServiceDataPathSelectorHostname) FieldPath() *ServiceData_FieldTerminalPath {
+	return &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorHostname}
+}
+
+func (s ServiceDataPathSelectorHostname) WithValue(value string) *ServiceData_FieldTerminalPathValue {
+	return s.FieldPath().WithIValue(value).(*ServiceData_FieldTerminalPathValue)
+}
+
+func (s ServiceDataPathSelectorHostname) WithArrayOfValues(values []string) *ServiceData_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ServiceData_FieldTerminalPathArrayOfValues)
 }
 

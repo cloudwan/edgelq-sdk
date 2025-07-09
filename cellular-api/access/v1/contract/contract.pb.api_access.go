@@ -252,15 +252,21 @@ func (a *apiContractAccess) SaveContract(ctx context.Context, res *contract.Cont
 	return nil
 }
 
-func (a *apiContractAccess) DeleteContract(ctx context.Context, ref *contract.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiContractAccess) DeleteContract(ctx context.Context, ref *contract.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &contract_client.DeleteContractRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteContract(ctx, request)
 	return err
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(contract.GetDescriptor())
 }
 
 func init() {

@@ -258,12 +258,14 @@ func (a *apiCustomizedImageAccess) SaveCustomizedImage(ctx context.Context, res 
 	return nil
 }
 
-func (a *apiCustomizedImageAccess) DeleteCustomizedImage(ctx context.Context, ref *customized_image.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiCustomizedImageAccess) DeleteCustomizedImage(ctx context.Context, ref *customized_image.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &customized_image_client.DeleteCustomizedImageRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteCustomizedImage(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *customized_image.Filter) (*customized_image.
 		resultFilter = &customized_image.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(customized_image.GetDescriptor())
 }
 
 func init() {

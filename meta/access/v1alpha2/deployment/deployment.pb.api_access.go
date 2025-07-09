@@ -226,7 +226,7 @@ func (a *apiDeploymentAccess) SaveDeployment(ctx context.Context, res *deploymen
 	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiDeploymentAccess) DeleteDeployment(ctx context.Context, ref *deployment.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiDeploymentAccess) DeleteDeployment(ctx context.Context, ref *deployment.Reference, opts ...gotenresource.DeleteOption) error {
 	return status.Errorf(codes.Internal, "Delete operation on Deployment is prohibited")
 }
 func getParentAndFilter(fullFilter *deployment.Filter) (*deployment.Filter, *deployment.ParentName) {
@@ -274,6 +274,10 @@ func getParentAndFilter(fullFilter *deployment.Filter) (*deployment.Filter, *dep
 		resultFilter = &deployment.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(deployment.GetDescriptor())
 }
 
 func init() {

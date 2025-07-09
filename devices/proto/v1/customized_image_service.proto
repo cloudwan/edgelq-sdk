@@ -357,6 +357,10 @@ message UpdateCustomizedImageRequest {
 message DeleteCustomizedImageRequest {
   // Name of ntt.devices.v1.CustomizedImage
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // CustomizedImage service API for Devices

@@ -294,12 +294,14 @@ func (a *apiTsConditionAccess) SaveTsCondition(ctx context.Context, res *ts_cond
 	return nil
 }
 
-func (a *apiTsConditionAccess) DeleteTsCondition(ctx context.Context, ref *ts_condition.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiTsConditionAccess) DeleteTsCondition(ctx context.Context, ref *ts_condition.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &ts_condition_client.DeleteTsConditionRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteTsCondition(ctx, request)
 	return err
@@ -349,6 +351,10 @@ func getParentAndFilter(fullFilter *ts_condition.Filter) (*ts_condition.Filter, 
 		resultFilter = &ts_condition.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(ts_condition.GetDescriptor())
 }
 
 func init() {

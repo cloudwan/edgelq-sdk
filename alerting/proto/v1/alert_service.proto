@@ -356,6 +356,10 @@ message UpdateAlertRequest {
 message DeleteAlertRequest {
   // Name of ntt.alerting.v1.Alert
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // Alert service API for Alerting

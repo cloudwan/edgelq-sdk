@@ -258,12 +258,14 @@ func (a *apiPermissionAccess) SavePermission(ctx context.Context, res *permissio
 	return nil
 }
 
-func (a *apiPermissionAccess) DeletePermission(ctx context.Context, ref *permission.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiPermissionAccess) DeletePermission(ctx context.Context, ref *permission.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &permission_client.DeletePermissionRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeletePermission(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *permission.Filter) (*permission.Filter, *per
 		resultFilter = &permission.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(permission.GetDescriptor())
 }
 
 func init() {

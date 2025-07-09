@@ -224,6 +224,9 @@ func (o *ServiceData) MakeDiffFieldMask(other *ServiceData) *ServiceData_FieldMa
 	if o.GetRegionId() != other.GetRegionId() {
 		res.Paths = append(res.Paths, &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorRegionId})
 	}
+	if o.GetHostname() != other.GetHostname() {
+		res.Paths = append(res.Paths, &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorHostname})
+	}
 	return res
 }
 
@@ -238,6 +241,7 @@ func (o *ServiceData) Clone() *ServiceData {
 	result := &ServiceData{}
 	result.Name = o.Name
 	result.RegionId = o.RegionId
+	result.Hostname = o.Hostname
 	return result
 }
 
@@ -248,6 +252,7 @@ func (o *ServiceData) CloneRaw() gotenobject.GotenObjectExt {
 func (o *ServiceData) Merge(source *ServiceData) {
 	o.Name = source.GetName()
 	o.RegionId = source.GetRegionId()
+	o.Hostname = source.GetHostname()
 }
 
 func (o *ServiceData) MergeRaw(source gotenobject.GotenObjectExt) {

@@ -2063,6 +2063,9 @@ type TsCndSpec_AnomalyAlertingCfg_LstmAutoEncoder struct {
 	// Enables teacher force mode during inference.
 	// It greatly reduces false positives, but may
 	// silence some actual small anomalies.
+	// It is especially important when time series data
+	// can change behavior persistently. For example, new
+	// workload was added to CPU.
 	TeacherForceAtInference bool `protobuf:"varint,8,opt,name=teacher_force_at_inference,json=teacherForceAtInference,proto3" json:"teacher_force_at_inference,omitempty"`
 }
 

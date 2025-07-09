@@ -258,12 +258,14 @@ func (a *apiSecretAccess) SaveSecret(ctx context.Context, res *secret.Secret, op
 	return nil
 }
 
-func (a *apiSecretAccess) DeleteSecret(ctx context.Context, ref *secret.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiSecretAccess) DeleteSecret(ctx context.Context, ref *secret.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &secret_client.DeleteSecretRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteSecret(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *secret.Filter) (*secret.Filter, *secret.Pare
 		resultFilter = &secret.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(secret.GetDescriptor())
 }
 
 func init() {

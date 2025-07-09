@@ -357,6 +357,10 @@ message UpdateTpmAttestationCertRequest {
 message DeleteTpmAttestationCertRequest {
   // Name of ntt.devices.v1.TpmAttestationCert
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // TpmAttestationCert service API for Devices

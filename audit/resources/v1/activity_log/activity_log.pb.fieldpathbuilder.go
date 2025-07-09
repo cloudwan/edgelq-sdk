@@ -313,6 +313,10 @@ func (ActivityLogPathSelectorService) RegionId() ActivityLogPathSelectorServiceR
 	return ActivityLogPathSelectorServiceRegionId{}
 }
 
+func (ActivityLogPathSelectorService) Hostname() ActivityLogPathSelectorServiceHostname {
+	return ActivityLogPathSelectorServiceHostname{}
+}
+
 type ActivityLogPathSelectorServiceName struct{}
 
 func (ActivityLogPathSelectorServiceName) FieldPath() *ActivityLog_FieldSubPath {
@@ -344,6 +348,23 @@ func (s ActivityLogPathSelectorServiceRegionId) WithValue(value string) *Activit
 }
 
 func (s ActivityLogPathSelectorServiceRegionId) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
+}
+
+type ActivityLogPathSelectorServiceHostname struct{}
+
+func (ActivityLogPathSelectorServiceHostname) FieldPath() *ActivityLog_FieldSubPath {
+	return &ActivityLog_FieldSubPath{
+		selector: ActivityLog_FieldPathSelectorService,
+		subPath:  common.NewServiceDataFieldPathBuilder().Hostname().FieldPath(),
+	}
+}
+
+func (s ActivityLogPathSelectorServiceHostname) WithValue(value string) *ActivityLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ActivityLog_FieldSubPathValue)
+}
+
+func (s ActivityLogPathSelectorServiceHostname) WithArrayOfValues(values []string) *ActivityLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ActivityLog_FieldSubPathArrayOfValues)
 }
 

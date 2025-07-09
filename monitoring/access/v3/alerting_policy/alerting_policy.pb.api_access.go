@@ -294,12 +294,14 @@ func (a *apiAlertingPolicyAccess) SaveAlertingPolicy(ctx context.Context, res *a
 	return nil
 }
 
-func (a *apiAlertingPolicyAccess) DeleteAlertingPolicy(ctx context.Context, ref *alerting_policy.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiAlertingPolicyAccess) DeleteAlertingPolicy(ctx context.Context, ref *alerting_policy.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &alerting_policy_client.DeleteAlertingPolicyRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteAlertingPolicy(ctx, request)
 	return err
@@ -349,6 +351,10 @@ func getParentAndFilter(fullFilter *alerting_policy.Filter) (*alerting_policy.Fi
 		resultFilter = &alerting_policy.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(alerting_policy.GetDescriptor())
 }
 
 func init() {

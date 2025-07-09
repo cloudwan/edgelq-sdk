@@ -258,12 +258,14 @@ func (a *apiNotificationAccess) SaveNotification(ctx context.Context, res *notif
 	return nil
 }
 
-func (a *apiNotificationAccess) DeleteNotification(ctx context.Context, ref *notification.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiNotificationAccess) DeleteNotification(ctx context.Context, ref *notification.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &notification_client.DeleteNotificationRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteNotification(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *notification.Filter) (*notification.Filter, 
 		resultFilter = &notification.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(notification.GetDescriptor())
 }
 
 func init() {

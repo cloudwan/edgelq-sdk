@@ -258,12 +258,14 @@ func (a *apiProvisioningApprovalRequestAccess) SaveProvisioningApprovalRequest(c
 	return nil
 }
 
-func (a *apiProvisioningApprovalRequestAccess) DeleteProvisioningApprovalRequest(ctx context.Context, ref *provisioning_approval_request.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiProvisioningApprovalRequestAccess) DeleteProvisioningApprovalRequest(ctx context.Context, ref *provisioning_approval_request.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &provisioning_approval_request_client.DeleteProvisioningApprovalRequestRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteProvisioningApprovalRequest(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *provisioning_approval_request.Filter) (*prov
 		resultFilter = &provisioning_approval_request.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(provisioning_approval_request.GetDescriptor())
 }
 
 func init() {

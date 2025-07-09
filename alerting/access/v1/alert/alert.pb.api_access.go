@@ -258,12 +258,14 @@ func (a *apiAlertAccess) SaveAlert(ctx context.Context, res *alert.Alert, opts .
 	return nil
 }
 
-func (a *apiAlertAccess) DeleteAlert(ctx context.Context, ref *alert.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiAlertAccess) DeleteAlert(ctx context.Context, ref *alert.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &alert_client.DeleteAlertRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteAlert(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *alert.Filter) (*alert.Filter, *alert.ParentN
 		resultFilter = &alert.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(alert.GetDescriptor())
 }
 
 func init() {

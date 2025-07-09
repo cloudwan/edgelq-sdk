@@ -117,6 +117,10 @@ message UpdateMetricDescriptorRequest {
 message DeleteMetricDescriptorRequest {
   // Name of ntt.monitoring.v4.MetricDescriptor
   string name = 3;
+
+  // If true, call will not return NotFound error if deleted resource does not
+  // exist.
+  bool allow_missing = 4;
 }
 
 // Request message for method

@@ -258,12 +258,14 @@ func (a *apiPhantomTimeSerieAccess) SavePhantomTimeSerie(ctx context.Context, re
 	return nil
 }
 
-func (a *apiPhantomTimeSerieAccess) DeletePhantomTimeSerie(ctx context.Context, ref *phantom_time_serie.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiPhantomTimeSerieAccess) DeletePhantomTimeSerie(ctx context.Context, ref *phantom_time_serie.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &phantom_time_serie_client.DeletePhantomTimeSerieRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeletePhantomTimeSerie(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *phantom_time_serie.Filter) (*phantom_time_se
 		resultFilter = &phantom_time_serie.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(phantom_time_serie.GetDescriptor())
 }
 
 func init() {

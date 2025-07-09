@@ -252,8 +252,12 @@ func (a *apiAuditedResourceDescriptorAccess) SaveAuditedResourceDescriptor(ctx c
 	return nil
 }
 
-func (a *apiAuditedResourceDescriptorAccess) DeleteAuditedResourceDescriptor(ctx context.Context, ref *audited_resource_descriptor.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiAuditedResourceDescriptorAccess) DeleteAuditedResourceDescriptor(ctx context.Context, ref *audited_resource_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
 	return status.Errorf(codes.Internal, "Delete operation on AuditedResourceDescriptor is prohibited")
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(audited_resource_descriptor.GetDescriptor())
 }
 
 func init() {

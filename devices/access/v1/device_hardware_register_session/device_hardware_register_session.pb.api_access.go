@@ -258,12 +258,14 @@ func (a *apiDeviceHardwareRegisterSessionAccess) SaveDeviceHardwareRegisterSessi
 	return nil
 }
 
-func (a *apiDeviceHardwareRegisterSessionAccess) DeleteDeviceHardwareRegisterSession(ctx context.Context, ref *device_hardware_register_session.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiDeviceHardwareRegisterSessionAccess) DeleteDeviceHardwareRegisterSession(ctx context.Context, ref *device_hardware_register_session.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &device_hardware_register_session_client.DeleteDeviceHardwareRegisterSessionRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteDeviceHardwareRegisterSession(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *device_hardware_register_session.Filter) (*d
 		resultFilter = &device_hardware_register_session.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(device_hardware_register_session.GetDescriptor())
 }
 
 func init() {

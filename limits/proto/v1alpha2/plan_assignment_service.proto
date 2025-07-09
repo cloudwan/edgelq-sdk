@@ -357,6 +357,10 @@ message UpdatePlanAssignmentRequest {
 message DeletePlanAssignmentRequest {
   // Name of ntt.limits.v1alpha2.PlanAssignment
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // PlanAssignment service API for Limits

@@ -252,15 +252,21 @@ func (a *apiProjectAccess) SaveProject(ctx context.Context, res *project.Project
 	return nil
 }
 
-func (a *apiProjectAccess) DeleteProject(ctx context.Context, ref *project.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiProjectAccess) DeleteProject(ctx context.Context, ref *project.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &project_client.DeleteProjectRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteProject(ctx, request)
 	return err
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(project.GetDescriptor())
 }
 
 func init() {

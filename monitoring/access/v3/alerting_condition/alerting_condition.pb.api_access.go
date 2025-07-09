@@ -294,12 +294,14 @@ func (a *apiAlertingConditionAccess) SaveAlertingCondition(ctx context.Context, 
 	return nil
 }
 
-func (a *apiAlertingConditionAccess) DeleteAlertingCondition(ctx context.Context, ref *alerting_condition.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiAlertingConditionAccess) DeleteAlertingCondition(ctx context.Context, ref *alerting_condition.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &alerting_condition_client.DeleteAlertingConditionRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteAlertingCondition(ctx, request)
 	return err
@@ -349,6 +351,10 @@ func getParentAndFilter(fullFilter *alerting_condition.Filter) (*alerting_condit
 		resultFilter = &alerting_condition.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(alerting_condition.GetDescriptor())
 }
 
 func init() {

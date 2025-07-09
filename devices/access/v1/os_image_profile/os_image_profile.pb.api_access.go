@@ -258,12 +258,14 @@ func (a *apiOsImageProfileAccess) SaveOsImageProfile(ctx context.Context, res *o
 	return nil
 }
 
-func (a *apiOsImageProfileAccess) DeleteOsImageProfile(ctx context.Context, ref *os_image_profile.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiOsImageProfileAccess) DeleteOsImageProfile(ctx context.Context, ref *os_image_profile.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &os_image_profile_client.DeleteOsImageProfileRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteOsImageProfile(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *os_image_profile.Filter) (*os_image_profile.
 		resultFilter = &os_image_profile.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(os_image_profile.GetDescriptor())
 }
 
 func init() {

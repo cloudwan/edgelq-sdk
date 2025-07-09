@@ -258,12 +258,14 @@ func (a *apiTpmAttestationCertAccess) SaveTpmAttestationCert(ctx context.Context
 	return nil
 }
 
-func (a *apiTpmAttestationCertAccess) DeleteTpmAttestationCert(ctx context.Context, ref *tpm_attestation_cert.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiTpmAttestationCertAccess) DeleteTpmAttestationCert(ctx context.Context, ref *tpm_attestation_cert.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &tpm_attestation_cert_client.DeleteTpmAttestationCertRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteTpmAttestationCert(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *tpm_attestation_cert.Filter) (*tpm_attestati
 		resultFilter = &tpm_attestation_cert.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(tpm_attestation_cert.GetDescriptor())
 }
 
 func init() {

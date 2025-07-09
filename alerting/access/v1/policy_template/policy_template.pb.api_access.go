@@ -294,12 +294,14 @@ func (a *apiPolicyTemplateAccess) SavePolicyTemplate(ctx context.Context, res *p
 	return nil
 }
 
-func (a *apiPolicyTemplateAccess) DeletePolicyTemplate(ctx context.Context, ref *policy_template.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiPolicyTemplateAccess) DeletePolicyTemplate(ctx context.Context, ref *policy_template.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &policy_template_client.DeletePolicyTemplateRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeletePolicyTemplate(ctx, request)
 	return err
@@ -349,6 +351,10 @@ func getParentAndFilter(fullFilter *policy_template.Filter) (*policy_template.Fi
 		resultFilter = &policy_template.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(policy_template.GetDescriptor())
 }
 
 func init() {

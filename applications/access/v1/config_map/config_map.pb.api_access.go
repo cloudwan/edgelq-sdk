@@ -258,12 +258,14 @@ func (a *apiConfigMapAccess) SaveConfigMap(ctx context.Context, res *config_map.
 	return nil
 }
 
-func (a *apiConfigMapAccess) DeleteConfigMap(ctx context.Context, ref *config_map.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiConfigMapAccess) DeleteConfigMap(ctx context.Context, ref *config_map.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &config_map_client.DeleteConfigMapRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteConfigMap(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *config_map.Filter) (*config_map.Filter, *con
 		resultFilter = &config_map.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(config_map.GetDescriptor())
 }
 
 func init() {

@@ -294,12 +294,14 @@ func (a *apiDocumentAccess) SaveDocument(ctx context.Context, res *document.Docu
 	return nil
 }
 
-func (a *apiDocumentAccess) DeleteDocument(ctx context.Context, ref *document.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiDocumentAccess) DeleteDocument(ctx context.Context, ref *document.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &document_client.DeleteDocumentRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteDocument(ctx, request)
 	return err
@@ -349,6 +351,10 @@ func getParentAndFilter(fullFilter *document.Filter) (*document.Filter, *documen
 		resultFilter = &document.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(document.GetDescriptor())
 }
 
 func init() {

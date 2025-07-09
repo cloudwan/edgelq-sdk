@@ -258,12 +258,14 @@ func (a *apiHardwareAccess) SaveHardware(ctx context.Context, res *hardware.Hard
 	return nil
 }
 
-func (a *apiHardwareAccess) DeleteHardware(ctx context.Context, ref *hardware.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiHardwareAccess) DeleteHardware(ctx context.Context, ref *hardware.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &hardware_client.DeleteHardwareRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteHardware(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *hardware.Filter) (*hardware.Filter, *hardwar
 		resultFilter = &hardware.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(hardware.GetDescriptor())
 }
 
 func init() {

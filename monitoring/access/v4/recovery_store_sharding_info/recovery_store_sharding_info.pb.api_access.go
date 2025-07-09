@@ -258,12 +258,14 @@ func (a *apiRecoveryStoreShardingInfoAccess) SaveRecoveryStoreShardingInfo(ctx c
 	return nil
 }
 
-func (a *apiRecoveryStoreShardingInfoAccess) DeleteRecoveryStoreShardingInfo(ctx context.Context, ref *recovery_store_sharding_info.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiRecoveryStoreShardingInfoAccess) DeleteRecoveryStoreShardingInfo(ctx context.Context, ref *recovery_store_sharding_info.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &recovery_store_sharding_info_client.DeleteRecoveryStoreShardingInfoRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteRecoveryStoreShardingInfo(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *recovery_store_sharding_info.Filter) (*recov
 		resultFilter = &recovery_store_sharding_info.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(recovery_store_sharding_info.GetDescriptor())
 }
 
 func init() {

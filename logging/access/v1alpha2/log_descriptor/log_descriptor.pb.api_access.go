@@ -258,12 +258,14 @@ func (a *apiLogDescriptorAccess) SaveLogDescriptor(ctx context.Context, res *log
 	return nil
 }
 
-func (a *apiLogDescriptorAccess) DeleteLogDescriptor(ctx context.Context, ref *log_descriptor.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiLogDescriptorAccess) DeleteLogDescriptor(ctx context.Context, ref *log_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &log_descriptor_client.DeleteLogDescriptorRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteLogDescriptor(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *log_descriptor.Filter) (*log_descriptor.Filt
 		resultFilter = &log_descriptor.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(log_descriptor.GetDescriptor())
 }
 
 func init() {

@@ -226,12 +226,14 @@ func (a *apiCryptoKeyAccess) SaveCryptoKey(ctx context.Context, res *crypto_key.
 	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiCryptoKeyAccess) DeleteCryptoKey(ctx context.Context, ref *crypto_key.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiCryptoKeyAccess) DeleteCryptoKey(ctx context.Context, ref *crypto_key.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &crypto_key_client.DeleteCryptoKeyRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteCryptoKey(ctx, request)
 	return err
@@ -281,6 +283,10 @@ func getParentAndFilter(fullFilter *crypto_key.Filter) (*crypto_key.Filter, *cry
 		resultFilter = &crypto_key.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(crypto_key.GetDescriptor())
 }
 
 func init() {

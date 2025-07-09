@@ -347,6 +347,10 @@ message UpdateSimCardStockRequest {
 message DeleteSimCardStockRequest {
   // Name of ntt.cellular_api.v1.SimCardStock
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // SimCardStock service API for CellularApi

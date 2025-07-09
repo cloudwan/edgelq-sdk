@@ -191,6 +191,7 @@ type ActivityLog struct {
 	//   authorization.denied_permissions
 	//   service.name
 	//   service.region_id
+	//   service.hostname
 	//   method.type
 	//   method.version
 	//   resource.name

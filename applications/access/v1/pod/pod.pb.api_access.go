@@ -258,12 +258,14 @@ func (a *apiPodAccess) SavePod(ctx context.Context, res *pod.Pod, opts ...gotenr
 	return nil
 }
 
-func (a *apiPodAccess) DeletePod(ctx context.Context, ref *pod.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiPodAccess) DeletePod(ctx context.Context, ref *pod.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &pod_client.DeletePodRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeletePod(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *pod.Filter) (*pod.Filter, *pod.ParentName) {
 		resultFilter = &pod.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(pod.GetDescriptor())
 }
 
 func init() {

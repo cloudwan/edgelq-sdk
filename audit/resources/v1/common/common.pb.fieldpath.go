@@ -916,6 +916,7 @@ type ServiceData_FieldPathSelector int32
 const (
 	ServiceData_FieldPathSelectorName     ServiceData_FieldPathSelector = 0
 	ServiceData_FieldPathSelectorRegionId ServiceData_FieldPathSelector = 1
+	ServiceData_FieldPathSelectorHostname ServiceData_FieldPathSelector = 2
 )
 
 func (s ServiceData_FieldPathSelector) String() string {
@@ -924,6 +925,8 @@ func (s ServiceData_FieldPathSelector) String() string {
 		return "name"
 	case ServiceData_FieldPathSelectorRegionId:
 		return "region_id"
+	case ServiceData_FieldPathSelectorHostname:
+		return "hostname"
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceData: %d", s))
 	}
@@ -939,6 +942,8 @@ func BuildServiceData_FieldPath(fp gotenobject.RawFieldPath) (ServiceData_FieldP
 			return &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorName}, nil
 		case "region_id", "regionId", "region-id":
 			return &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorRegionId}, nil
+		case "hostname":
+			return &ServiceData_FieldTerminalPath{selector: ServiceData_FieldPathSelectorHostname}, nil
 		}
 	}
 	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object ServiceData", fp)
@@ -988,6 +993,8 @@ func (fp *ServiceData_FieldTerminalPath) Get(source *ServiceData) (values []inte
 			values = append(values, source.Name)
 		case ServiceData_FieldPathSelectorRegionId:
 			values = append(values, source.RegionId)
+		case ServiceData_FieldPathSelectorHostname:
+			values = append(values, source.Hostname)
 		default:
 			panic(fmt.Sprintf("Invalid selector for ServiceData: %d", fp.selector))
 		}
@@ -1006,6 +1013,8 @@ func (fp *ServiceData_FieldTerminalPath) GetSingle(source *ServiceData) (interfa
 		return source.GetName(), source != nil
 	case ServiceData_FieldPathSelectorRegionId:
 		return source.GetRegionId(), source != nil
+	case ServiceData_FieldPathSelectorHostname:
+		return source.GetHostname(), source != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceData: %d", fp.selector))
 	}
@@ -1022,6 +1031,8 @@ func (fp *ServiceData_FieldTerminalPath) GetDefault() interface{} {
 		return ""
 	case ServiceData_FieldPathSelectorRegionId:
 		return ""
+	case ServiceData_FieldPathSelectorHostname:
+		return ""
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceData: %d", fp.selector))
 	}
@@ -1034,6 +1045,8 @@ func (fp *ServiceData_FieldTerminalPath) ClearValue(item *ServiceData) {
 			item.Name = ""
 		case ServiceData_FieldPathSelectorRegionId:
 			item.RegionId = ""
+		case ServiceData_FieldPathSelectorHostname:
+			item.Hostname = ""
 		default:
 			panic(fmt.Sprintf("Invalid selector for ServiceData: %d", fp.selector))
 		}
@@ -1047,7 +1060,8 @@ func (fp *ServiceData_FieldTerminalPath) ClearValueRaw(item proto.Message) {
 // IsLeaf - whether field path is holds simple value
 func (fp *ServiceData_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == ServiceData_FieldPathSelectorName ||
-		fp.selector == ServiceData_FieldPathSelectorRegionId
+		fp.selector == ServiceData_FieldPathSelectorRegionId ||
+		fp.selector == ServiceData_FieldPathSelectorHostname
 }
 
 func (fp *ServiceData_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -1059,6 +1073,8 @@ func (fp *ServiceData_FieldTerminalPath) WithIValue(value interface{}) ServiceDa
 	case ServiceData_FieldPathSelectorName:
 		return &ServiceData_FieldTerminalPathValue{ServiceData_FieldTerminalPath: *fp, value: value.(string)}
 	case ServiceData_FieldPathSelectorRegionId:
+		return &ServiceData_FieldTerminalPathValue{ServiceData_FieldTerminalPath: *fp, value: value.(string)}
+	case ServiceData_FieldPathSelectorHostname:
 		return &ServiceData_FieldTerminalPathValue{ServiceData_FieldTerminalPath: *fp, value: value.(string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceData: %d", fp.selector))
@@ -1075,6 +1091,8 @@ func (fp *ServiceData_FieldTerminalPath) WithIArrayOfValues(values interface{}) 
 	case ServiceData_FieldPathSelectorName:
 		return &ServiceData_FieldTerminalPathArrayOfValues{ServiceData_FieldTerminalPath: *fp, values: values.([]string)}
 	case ServiceData_FieldPathSelectorRegionId:
+		return &ServiceData_FieldTerminalPathArrayOfValues{ServiceData_FieldTerminalPath: *fp, values: values.([]string)}
+	case ServiceData_FieldPathSelectorHostname:
 		return &ServiceData_FieldTerminalPathArrayOfValues{ServiceData_FieldTerminalPath: *fp, values: values.([]string)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceData: %d", fp.selector))
@@ -1144,6 +1162,10 @@ func (fpv *ServiceData_FieldTerminalPathValue) AsRegionIdValue() (string, bool) 
 	res, ok := fpv.value.(string)
 	return res, ok
 }
+func (fpv *ServiceData_FieldTerminalPathValue) AsHostnameValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object ServiceData
 func (fpv *ServiceData_FieldTerminalPathValue) SetTo(target **ServiceData) {
@@ -1155,6 +1177,8 @@ func (fpv *ServiceData_FieldTerminalPathValue) SetTo(target **ServiceData) {
 		(*target).Name = fpv.value.(string)
 	case ServiceData_FieldPathSelectorRegionId:
 		(*target).RegionId = fpv.value.(string)
+	case ServiceData_FieldPathSelectorHostname:
+		(*target).Hostname = fpv.value.(string)
 	default:
 		panic(fmt.Sprintf("Invalid selector for ServiceData: %d", fpv.selector))
 	}
@@ -1181,6 +1205,16 @@ func (fpv *ServiceData_FieldTerminalPathValue) CompareWith(source *ServiceData) 
 	case ServiceData_FieldPathSelectorRegionId:
 		leftValue := fpv.value.(string)
 		rightValue := source.GetRegionId()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case ServiceData_FieldPathSelectorHostname:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetHostname()
 		if (leftValue) == (rightValue) {
 			return 0, true
 		} else if (leftValue) < (rightValue) {
@@ -1304,6 +1338,10 @@ func (fpaov *ServiceData_FieldTerminalPathArrayOfValues) GetRawValues() (values 
 		for _, v := range fpaov.values.([]string) {
 			values = append(values, v)
 		}
+	case ServiceData_FieldPathSelectorHostname:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -1312,6 +1350,10 @@ func (fpaov *ServiceData_FieldTerminalPathArrayOfValues) AsNameArrayOfValues() (
 	return res, ok
 }
 func (fpaov *ServiceData_FieldTerminalPathArrayOfValues) AsRegionIdArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *ServiceData_FieldTerminalPathArrayOfValues) AsHostnameArrayOfValues() ([]string, bool) {
 	res, ok := fpaov.values.([]string)
 	return res, ok
 }

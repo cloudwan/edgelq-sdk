@@ -258,12 +258,14 @@ func (a *apiAcceptedPlanAccess) SaveAcceptedPlan(ctx context.Context, res *accep
 	return nil
 }
 
-func (a *apiAcceptedPlanAccess) DeleteAcceptedPlan(ctx context.Context, ref *accepted_plan.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiAcceptedPlanAccess) DeleteAcceptedPlan(ctx context.Context, ref *accepted_plan.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &accepted_plan_client.DeleteAcceptedPlanRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteAcceptedPlan(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *accepted_plan.Filter) (*accepted_plan.Filter
 		resultFilter = &accepted_plan.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(accepted_plan.GetDescriptor())
 }
 
 func init() {

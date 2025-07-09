@@ -258,12 +258,14 @@ func (a *apiGroupMemberAccess) SaveGroupMember(ctx context.Context, res *group_m
 	return nil
 }
 
-func (a *apiGroupMemberAccess) DeleteGroupMember(ctx context.Context, ref *group_member.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiGroupMemberAccess) DeleteGroupMember(ctx context.Context, ref *group_member.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &group_member_client.DeleteGroupMemberRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteGroupMember(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *group_member.Filter) (*group_member.Filter, 
 		resultFilter = &group_member.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(group_member.GetDescriptor())
 }
 
 func init() {

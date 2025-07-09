@@ -346,6 +346,10 @@ message UpdateProjectRequest {
 message DeleteProjectRequest {
   // Name of ntt.monitoring.v3.Project
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // Project service API for Monitoring

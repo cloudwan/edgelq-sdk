@@ -252,15 +252,21 @@ func (a *apiSimCardStockAccess) SaveSimCardStock(ctx context.Context, res *sim_c
 	return nil
 }
 
-func (a *apiSimCardStockAccess) DeleteSimCardStock(ctx context.Context, ref *sim_card_stock.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiSimCardStockAccess) DeleteSimCardStock(ctx context.Context, ref *sim_card_stock.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &sim_card_stock_client.DeleteSimCardStockRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteSimCardStock(ctx, request)
 	return err
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(sim_card_stock.GetDescriptor())
 }
 
 func init() {

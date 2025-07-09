@@ -736,6 +736,10 @@ func (b *filterCndBuilderService) RegionId() *filterCndBuilderServiceRegionId {
 	return &filterCndBuilderServiceRegionId{builder: b.builder}
 }
 
+func (b *filterCndBuilderService) Hostname() *filterCndBuilderServiceHostname {
+	return &filterCndBuilderServiceHostname{builder: b.builder}
+}
+
 type filterCndBuilderServiceName struct {
 	builder *FilterBuilder
 }
@@ -851,6 +855,65 @@ func (b *filterCndBuilderServiceRegionId) compare(op gotenfilter.CompareOperator
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                         op,
 		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Service().RegionId().WithValue(value),
+	})
+}
+
+type filterCndBuilderServiceHostname struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderServiceHostname) Eq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderServiceHostname) Neq(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderServiceHostname) Gt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderServiceHostname) Gte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderServiceHostname) Lt(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderServiceHostname) Lte(value string) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderServiceHostname) In(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Service().Hostname().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceHostname) NotIn(values []string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		ResourceChangeLog_FieldPathArrayOfValues: NewResourceChangeLogFieldPathBuilder().Service().Hostname().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderServiceHostname) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Service().Hostname().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceHostname) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewResourceChangeLogFieldPathBuilder().Service().Hostname().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderServiceHostname) compare(op gotenfilter.CompareOperator, value string) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                         op,
+		ResourceChangeLog_FieldPathValue: NewResourceChangeLogFieldPathBuilder().Service().Hostname().WithValue(value),
 	})
 }
 

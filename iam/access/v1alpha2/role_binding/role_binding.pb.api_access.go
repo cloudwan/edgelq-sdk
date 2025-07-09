@@ -258,12 +258,14 @@ func (a *apiRoleBindingAccess) SaveRoleBinding(ctx context.Context, res *role_bi
 	return nil
 }
 
-func (a *apiRoleBindingAccess) DeleteRoleBinding(ctx context.Context, ref *role_binding.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiRoleBindingAccess) DeleteRoleBinding(ctx context.Context, ref *role_binding.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &role_binding_client.DeleteRoleBindingRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteRoleBinding(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *role_binding.Filter) (*role_binding.Filter, 
 		resultFilter = &role_binding.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(role_binding.GetDescriptor())
 }
 
 func init() {

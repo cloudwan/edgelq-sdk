@@ -346,6 +346,10 @@ message UpdatePermissionRequest {
 message DeletePermissionRequest {
   // Name of ntt.iam.v1alpha2.Permission
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // Permission service API for IAM

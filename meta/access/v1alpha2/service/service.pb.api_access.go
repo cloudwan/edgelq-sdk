@@ -220,8 +220,12 @@ func (a *apiServiceAccess) SaveService(ctx context.Context, res *service.Service
 	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiServiceAccess) DeleteService(ctx context.Context, ref *service.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiServiceAccess) DeleteService(ctx context.Context, ref *service.Reference, opts ...gotenresource.DeleteOption) error {
 	return status.Errorf(codes.Internal, "Delete operation on Service is prohibited")
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(service.GetDescriptor())
 }
 
 func init() {

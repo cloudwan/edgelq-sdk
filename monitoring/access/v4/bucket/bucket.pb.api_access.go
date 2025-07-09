@@ -258,12 +258,14 @@ func (a *apiBucketAccess) SaveBucket(ctx context.Context, res *bucket.Bucket, op
 	return nil
 }
 
-func (a *apiBucketAccess) DeleteBucket(ctx context.Context, ref *bucket.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiBucketAccess) DeleteBucket(ctx context.Context, ref *bucket.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &bucket_client.DeleteBucketRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteBucket(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *bucket.Filter) (*bucket.Filter, *bucket.Pare
 		resultFilter = &bucket.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(bucket.GetDescriptor())
 }
 
 func init() {

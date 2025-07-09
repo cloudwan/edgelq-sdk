@@ -359,6 +359,10 @@ message UpdateLogConditionTemplateRequest {
 message DeleteLogConditionTemplateRequest {
   // Name of ntt.alerting.v1.LogConditionTemplate
   string name = 1;
+
+  // If set to true, and the resource is not found, method will be successful
+  // and will not return NotFound error.
+  bool allow_missing = 2;
 }
 
 // A request message of the SearchLogConditionTemplates method.

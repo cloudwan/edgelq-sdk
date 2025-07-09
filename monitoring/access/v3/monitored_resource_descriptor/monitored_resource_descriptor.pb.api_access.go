@@ -252,15 +252,21 @@ func (a *apiMonitoredResourceDescriptorAccess) SaveMonitoredResourceDescriptor(c
 	return nil
 }
 
-func (a *apiMonitoredResourceDescriptorAccess) DeleteMonitoredResourceDescriptor(ctx context.Context, ref *monitored_resource_descriptor.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiMonitoredResourceDescriptorAccess) DeleteMonitoredResourceDescriptor(ctx context.Context, ref *monitored_resource_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &monitored_resource_descriptor_client.DeleteMonitoredResourceDescriptorRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteMonitoredResourceDescriptor(ctx, request)
 	return err
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(monitored_resource_descriptor.GetDescriptor())
 }
 
 func init() {

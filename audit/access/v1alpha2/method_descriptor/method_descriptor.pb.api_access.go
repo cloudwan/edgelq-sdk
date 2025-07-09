@@ -252,8 +252,12 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 	return nil
 }
 
-func (a *apiMethodDescriptorAccess) DeleteMethodDescriptor(ctx context.Context, ref *method_descriptor.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiMethodDescriptorAccess) DeleteMethodDescriptor(ctx context.Context, ref *method_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
 	return status.Errorf(codes.Internal, "Delete operation on MethodDescriptor is prohibited")
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(method_descriptor.GetDescriptor())
 }
 
 func init() {

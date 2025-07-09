@@ -294,12 +294,14 @@ func (a *apiLogConditionAccess) SaveLogCondition(ctx context.Context, res *log_c
 	return nil
 }
 
-func (a *apiLogConditionAccess) DeleteLogCondition(ctx context.Context, ref *log_condition.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiLogConditionAccess) DeleteLogCondition(ctx context.Context, ref *log_condition.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &log_condition_client.DeleteLogConditionRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteLogCondition(ctx, request)
 	return err
@@ -349,6 +351,10 @@ func getParentAndFilter(fullFilter *log_condition.Filter) (*log_condition.Filter
 		resultFilter = &log_condition.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(log_condition.GetDescriptor())
 }
 
 func init() {

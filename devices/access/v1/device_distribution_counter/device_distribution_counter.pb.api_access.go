@@ -226,7 +226,7 @@ func (a *apiDeviceDistributionCounterAccess) SaveDeviceDistributionCounter(ctx c
 	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiDeviceDistributionCounterAccess) DeleteDeviceDistributionCounter(ctx context.Context, ref *device_distribution_counter.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiDeviceDistributionCounterAccess) DeleteDeviceDistributionCounter(ctx context.Context, ref *device_distribution_counter.Reference, opts ...gotenresource.DeleteOption) error {
 	return status.Errorf(codes.Internal, "Delete operation on DeviceDistributionCounter is prohibited")
 }
 func getParentAndFilter(fullFilter *device_distribution_counter.Filter) (*device_distribution_counter.Filter, *device_distribution_counter.ParentName) {
@@ -274,6 +274,10 @@ func getParentAndFilter(fullFilter *device_distribution_counter.Filter) (*device
 		resultFilter = &device_distribution_counter.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(device_distribution_counter.GetDescriptor())
 }
 
 func init() {

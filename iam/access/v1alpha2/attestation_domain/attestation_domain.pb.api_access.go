@@ -258,12 +258,14 @@ func (a *apiAttestationDomainAccess) SaveAttestationDomain(ctx context.Context, 
 	return nil
 }
 
-func (a *apiAttestationDomainAccess) DeleteAttestationDomain(ctx context.Context, ref *attestation_domain.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiAttestationDomainAccess) DeleteAttestationDomain(ctx context.Context, ref *attestation_domain.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &attestation_domain_client.DeleteAttestationDomainRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteAttestationDomain(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *attestation_domain.Filter) (*attestation_dom
 		resultFilter = &attestation_domain.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(attestation_domain.GetDescriptor())
 }
 
 func init() {

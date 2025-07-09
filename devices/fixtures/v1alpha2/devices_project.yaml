@@ -1,5 +1,0 @@
-kind: devices.edgelq.com/Project
-version: v1alpha2
-resources:
-- name: projects/<project>
-  multiRegionPolicy: <multiRegionPolicy>

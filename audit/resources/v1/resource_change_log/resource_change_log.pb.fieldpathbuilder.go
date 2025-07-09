@@ -230,6 +230,10 @@ func (ResourceChangeLogPathSelectorService) RegionId() ResourceChangeLogPathSele
 	return ResourceChangeLogPathSelectorServiceRegionId{}
 }
 
+func (ResourceChangeLogPathSelectorService) Hostname() ResourceChangeLogPathSelectorServiceHostname {
+	return ResourceChangeLogPathSelectorServiceHostname{}
+}
+
 type ResourceChangeLogPathSelectorServiceName struct{}
 
 func (ResourceChangeLogPathSelectorServiceName) FieldPath() *ResourceChangeLog_FieldSubPath {
@@ -261,6 +265,23 @@ func (s ResourceChangeLogPathSelectorServiceRegionId) WithValue(value string) *R
 }
 
 func (s ResourceChangeLogPathSelectorServiceRegionId) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
+}
+
+type ResourceChangeLogPathSelectorServiceHostname struct{}
+
+func (ResourceChangeLogPathSelectorServiceHostname) FieldPath() *ResourceChangeLog_FieldSubPath {
+	return &ResourceChangeLog_FieldSubPath{
+		selector: ResourceChangeLog_FieldPathSelectorService,
+		subPath:  common.NewServiceDataFieldPathBuilder().Hostname().FieldPath(),
+	}
+}
+
+func (s ResourceChangeLogPathSelectorServiceHostname) WithValue(value string) *ResourceChangeLog_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*ResourceChangeLog_FieldSubPathValue)
+}
+
+func (s ResourceChangeLogPathSelectorServiceHostname) WithArrayOfValues(values []string) *ResourceChangeLog_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*ResourceChangeLog_FieldSubPathArrayOfValues)
 }
 

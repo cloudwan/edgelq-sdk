@@ -258,12 +258,14 @@ func (a *apiSimCardAccess) SaveSimCard(ctx context.Context, res *sim_card.SimCar
 	return nil
 }
 
-func (a *apiSimCardAccess) DeleteSimCard(ctx context.Context, ref *sim_card.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiSimCardAccess) DeleteSimCard(ctx context.Context, ref *sim_card.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &sim_card_client.DeleteSimCardRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteSimCard(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *sim_card.Filter) (*sim_card.Filter, *sim_car
 		resultFilter = &sim_card.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(sim_card.GetDescriptor())
 }
 
 func init() {

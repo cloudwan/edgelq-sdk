@@ -251,12 +251,14 @@ func (a *apiLimitAccess) SaveLimit(ctx context.Context, res *limit.Limit, opts .
 	return nil
 }
 
-func (a *apiLimitAccess) DeleteLimit(ctx context.Context, ref *limit.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiLimitAccess) DeleteLimit(ctx context.Context, ref *limit.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &limit_client.DeleteLimitRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteLimit(ctx, request)
 	return err
@@ -306,6 +308,10 @@ func getParentAndFilter(fullFilter *limit.Filter) (*limit.Filter, *limit.ParentN
 		resultFilter = &limit.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(limit.GetDescriptor())
 }
 
 func init() {

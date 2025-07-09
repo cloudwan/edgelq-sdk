@@ -220,8 +220,12 @@ func (a *apiRegionAccess) SaveRegion(ctx context.Context, res *region.Region, op
 	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiRegionAccess) DeleteRegion(ctx context.Context, ref *region.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiRegionAccess) DeleteRegion(ctx context.Context, ref *region.Reference, opts ...gotenresource.DeleteOption) error {
 	return status.Errorf(codes.Internal, "Delete operation on Region is prohibited")
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(region.GetDescriptor())
 }
 
 func init() {

@@ -258,12 +258,14 @@ func (a *apiTimeSeriesForwarderSinkAccess) SaveTimeSeriesForwarderSink(ctx conte
 	return nil
 }
 
-func (a *apiTimeSeriesForwarderSinkAccess) DeleteTimeSeriesForwarderSink(ctx context.Context, ref *time_series_forwarder_sink.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiTimeSeriesForwarderSinkAccess) DeleteTimeSeriesForwarderSink(ctx context.Context, ref *time_series_forwarder_sink.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &time_series_forwarder_sink_client.DeleteTimeSeriesForwarderSinkRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteTimeSeriesForwarderSink(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *time_series_forwarder_sink.Filter) (*time_se
 		resultFilter = &time_series_forwarder_sink.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(time_series_forwarder_sink.GetDescriptor())
 }
 
 func init() {

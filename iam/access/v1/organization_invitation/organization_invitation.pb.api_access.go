@@ -258,12 +258,14 @@ func (a *apiOrganizationInvitationAccess) SaveOrganizationInvitation(ctx context
 	return nil
 }
 
-func (a *apiOrganizationInvitationAccess) DeleteOrganizationInvitation(ctx context.Context, ref *organization_invitation.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiOrganizationInvitationAccess) DeleteOrganizationInvitation(ctx context.Context, ref *organization_invitation.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &organization_invitation_client.DeleteOrganizationInvitationRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteOrganizationInvitation(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *organization_invitation.Filter) (*organizati
 		resultFilter = &organization_invitation.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(organization_invitation.GetDescriptor())
 }
 
 func init() {

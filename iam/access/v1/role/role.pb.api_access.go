@@ -258,12 +258,14 @@ func (a *apiRoleAccess) SaveRole(ctx context.Context, res *role.Role, opts ...go
 	return nil
 }
 
-func (a *apiRoleAccess) DeleteRole(ctx context.Context, ref *role.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiRoleAccess) DeleteRole(ctx context.Context, ref *role.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &role_client.DeleteRoleRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteRole(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *role.Filter) (*role.Filter, *role.ParentName
 		resultFilter = &role.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(role.GetDescriptor())
 }
 
 func init() {

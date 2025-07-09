@@ -258,12 +258,14 @@ func (a *apiTimeSeriesCollectionRuleAccess) SaveTimeSeriesCollectionRule(ctx con
 	return nil
 }
 
-func (a *apiTimeSeriesCollectionRuleAccess) DeleteTimeSeriesCollectionRule(ctx context.Context, ref *time_series_collection_rule.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiTimeSeriesCollectionRuleAccess) DeleteTimeSeriesCollectionRule(ctx context.Context, ref *time_series_collection_rule.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &time_series_collection_rule_client.DeleteTimeSeriesCollectionRuleRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteTimeSeriesCollectionRule(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *time_series_collection_rule.Filter) (*time_s
 		resultFilter = &time_series_collection_rule.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(time_series_collection_rule.GetDescriptor())
 }
 
 func init() {

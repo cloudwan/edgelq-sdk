@@ -252,15 +252,21 @@ func (a *apiDeviceTypeAccess) SaveDeviceType(ctx context.Context, res *device_ty
 	return nil
 }
 
-func (a *apiDeviceTypeAccess) DeleteDeviceType(ctx context.Context, ref *device_type.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiDeviceTypeAccess) DeleteDeviceType(ctx context.Context, ref *device_type.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &device_type_client.DeleteDeviceTypeRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteDeviceType(ctx, request)
 	return err
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(device_type.GetDescriptor())
 }
 
 func init() {

@@ -258,12 +258,14 @@ func (a *apiServiceAccountAccess) SaveServiceAccount(ctx context.Context, res *s
 	return nil
 }
 
-func (a *apiServiceAccountAccess) DeleteServiceAccount(ctx context.Context, ref *service_account.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiServiceAccountAccess) DeleteServiceAccount(ctx context.Context, ref *service_account.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &service_account_client.DeleteServiceAccountRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteServiceAccount(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *service_account.Filter) (*service_account.Fi
 		resultFilter = &service_account.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(service_account.GetDescriptor())
 }
 
 func init() {

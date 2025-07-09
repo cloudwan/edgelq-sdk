@@ -226,7 +226,7 @@ func (a *apiResourceAccess) SaveResource(ctx context.Context, res *resource.Reso
 	return status.Errorf(codes.Internal, "save operation on %s does not exist", res.Name.AsReference().String())
 }
 
-func (a *apiResourceAccess) DeleteResource(ctx context.Context, ref *resource.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiResourceAccess) DeleteResource(ctx context.Context, ref *resource.Reference, opts ...gotenresource.DeleteOption) error {
 	return status.Errorf(codes.Internal, "Delete operation on Resource is prohibited")
 }
 func getParentAndFilter(fullFilter *resource.Filter) (*resource.Filter, *resource.ParentName) {
@@ -274,6 +274,10 @@ func getParentAndFilter(fullFilter *resource.Filter) (*resource.Filter, *resourc
 		resultFilter = &resource.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(resource.GetDescriptor())
 }
 
 func init() {

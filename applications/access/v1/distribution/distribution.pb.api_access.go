@@ -258,12 +258,14 @@ func (a *apiDistributionAccess) SaveDistribution(ctx context.Context, res *distr
 	return nil
 }
 
-func (a *apiDistributionAccess) DeleteDistribution(ctx context.Context, ref *distribution.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiDistributionAccess) DeleteDistribution(ctx context.Context, ref *distribution.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &distribution_client.DeleteDistributionRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteDistribution(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *distribution.Filter) (*distribution.Filter, 
 		resultFilter = &distribution.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(distribution.GetDescriptor())
 }
 
 func init() {

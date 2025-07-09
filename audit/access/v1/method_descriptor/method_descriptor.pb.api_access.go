@@ -258,12 +258,14 @@ func (a *apiMethodDescriptorAccess) SaveMethodDescriptor(ctx context.Context, re
 	return nil
 }
 
-func (a *apiMethodDescriptorAccess) DeleteMethodDescriptor(ctx context.Context, ref *method_descriptor.Reference, _ ...gotenresource.DeleteOption) error {
+func (a *apiMethodDescriptorAccess) DeleteMethodDescriptor(ctx context.Context, ref *method_descriptor.Reference, opts ...gotenresource.DeleteOption) error {
+	delOpts := gotenresource.MakeDeleteOptions(opts)
 	if !ref.IsFullyQualified() {
 		return status.Errorf(codes.InvalidArgument, "Reference %s is not fully specified", ref)
 	}
 	request := &method_descriptor_client.DeleteMethodDescriptorRequest{
-		Name: &ref.Name,
+		Name:         &ref.Name,
+		AllowMissing: delOpts.AllowMissing(),
 	}
 	_, err := a.client.DeleteMethodDescriptor(ctx, request)
 	return err
@@ -313,6 +315,10 @@ func getParentAndFilter(fullFilter *method_descriptor.Filter) (*method_descripto
 		resultFilter = &method_descriptor.Filter{FilterCondition: cndWithoutParent}
 	}
 	return resultFilter, resultParent
+}
+
+func GetApiAccessBuilder() *gotenaccess.ApiAccessBuilder {
+	return gotenaccess.GetRegistry().FindApiAccessBuilder(method_descriptor.GetDescriptor())
 }
 
 func init() {
