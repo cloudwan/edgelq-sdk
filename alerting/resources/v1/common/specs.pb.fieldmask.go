@@ -19,12 +19,12 @@ import (
 
 // proto imports
 import (
-	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -43,11 +43,11 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &notification_channel.NotificationChannel{}
 	_ = &logging_log.Log{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitoring_time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta_resource.Resource{}
 )
 
@@ -2937,7 +2937,6 @@ func FullPolicySpec_FieldMask() *PolicySpec_FieldMask {
 	res := &PolicySpec_FieldMask{}
 	res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorEnabled})
 	res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorProcessingLocation})
-	res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorNotifications})
 	res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorResourceIdentity})
 	res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorSupportingQueries})
 	res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorAiAgent})
@@ -2959,7 +2958,7 @@ func (fieldMask *PolicySpec_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 6)
+	presentSelectors := make([]bool, 5)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*PolicySpec_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -2989,15 +2988,13 @@ func (fieldMask *PolicySpec_FieldMask) Reset() {
 
 func (fieldMask *PolicySpec_FieldMask) Subtract(other *PolicySpec_FieldMask) *PolicySpec_FieldMask {
 	result := &PolicySpec_FieldMask{}
-	removedSelectors := make([]bool, 6)
+	removedSelectors := make([]bool, 5)
 	otherSubMasks := map[PolicySpec_FieldPathSelector]gotenobject.FieldMask{
-		PolicySpec_FieldPathSelectorNotifications:     &PolicySpec_Notification_FieldMask{},
 		PolicySpec_FieldPathSelectorResourceIdentity:  &PolicySpec_ResourceIdentity_FieldMask{},
 		PolicySpec_FieldPathSelectorSupportingQueries: &PolicySpec_SupportingAlertQuery_FieldMask{},
 		PolicySpec_FieldPathSelectorAiAgent:           &PolicySpec_AIAgentHandling_FieldMask{},
 	}
 	mySubMasks := map[PolicySpec_FieldPathSelector]gotenobject.FieldMask{
-		PolicySpec_FieldPathSelectorNotifications:     &PolicySpec_Notification_FieldMask{},
 		PolicySpec_FieldPathSelectorResourceIdentity:  &PolicySpec_ResourceIdentity_FieldMask{},
 		PolicySpec_FieldPathSelectorSupportingQueries: &PolicySpec_SupportingAlertQuery_FieldMask{},
 		PolicySpec_FieldPathSelectorAiAgent:           &PolicySpec_AIAgentHandling_FieldMask{},
@@ -3016,8 +3013,6 @@ func (fieldMask *PolicySpec_FieldMask) Subtract(other *PolicySpec_FieldMask) *Po
 			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
 				if tp, ok := path.(*PolicySpec_FieldTerminalPath); ok {
 					switch tp.selector {
-					case PolicySpec_FieldPathSelectorNotifications:
-						mySubMasks[PolicySpec_FieldPathSelectorNotifications] = FullPolicySpec_Notification_FieldMask()
 					case PolicySpec_FieldPathSelectorResourceIdentity:
 						mySubMasks[PolicySpec_FieldPathSelectorResourceIdentity] = FullPolicySpec_ResourceIdentity_FieldMask()
 					case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -3176,8 +3171,6 @@ func (fieldMask *PolicySpec_FieldMask) Project(source *PolicySpec) *PolicySpec {
 		return source
 	}
 	result := &PolicySpec{}
-	notificationsMask := &PolicySpec_Notification_FieldMask{}
-	wholeNotificationsAccepted := false
 	resourceIdentityMask := &PolicySpec_ResourceIdentity_FieldMask{}
 	wholeResourceIdentityAccepted := false
 	supportingQueriesMask := &PolicySpec_SupportingAlertQuery_FieldMask{}
@@ -3193,9 +3186,6 @@ func (fieldMask *PolicySpec_FieldMask) Project(source *PolicySpec) *PolicySpec {
 				result.Enabled = source.Enabled
 			case PolicySpec_FieldPathSelectorProcessingLocation:
 				result.ProcessingLocation = source.ProcessingLocation
-			case PolicySpec_FieldPathSelectorNotifications:
-				result.Notifications = source.Notifications
-				wholeNotificationsAccepted = true
 			case PolicySpec_FieldPathSelectorResourceIdentity:
 				result.ResourceIdentity = source.ResourceIdentity
 				wholeResourceIdentityAccepted = true
@@ -3208,8 +3198,6 @@ func (fieldMask *PolicySpec_FieldMask) Project(source *PolicySpec) *PolicySpec {
 			}
 		case *PolicySpec_FieldSubPath:
 			switch tp.selector {
-			case PolicySpec_FieldPathSelectorNotifications:
-				notificationsMask.AppendPath(tp.subPath.(PolicySpecNotification_FieldPath))
 			case PolicySpec_FieldPathSelectorResourceIdentity:
 				resourceIdentityMask.AppendPath(tp.subPath.(PolicySpecResourceIdentity_FieldPath))
 			case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -3217,11 +3205,6 @@ func (fieldMask *PolicySpec_FieldMask) Project(source *PolicySpec) *PolicySpec {
 			case PolicySpec_FieldPathSelectorAiAgent:
 				aiAgentMask.AppendPath(tp.subPath.(PolicySpecAIAgentHandling_FieldPath))
 			}
-		}
-	}
-	if wholeNotificationsAccepted == false && len(notificationsMask.Paths) > 0 {
-		for _, sourceItem := range source.GetNotifications() {
-			result.Notifications = append(result.Notifications, notificationsMask.Project(sourceItem))
 		}
 	}
 	if wholeResourceIdentityAccepted == false && len(resourceIdentityMask.Paths) > 0 {
@@ -3243,243 +3226,6 @@ func (fieldMask *PolicySpec_FieldMask) ProjectRaw(source gotenobject.GotenObject
 }
 
 func (fieldMask *PolicySpec_FieldMask) PathsCount() int {
-	if fieldMask == nil {
-		return 0
-	}
-	return len(fieldMask.Paths)
-}
-
-type PolicySpec_Notification_FieldMask struct {
-	Paths []PolicySpecNotification_FieldPath
-}
-
-func FullPolicySpec_Notification_FieldMask() *PolicySpec_Notification_FieldMask {
-	res := &PolicySpec_Notification_FieldMask{}
-	res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorEnabledKinds})
-	res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorChannel})
-	res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg})
-	res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing})
-	return res
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) String() string {
-	if fieldMask == nil {
-		return "<nil>"
-	}
-	pathsStr := make([]string, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		pathsStr = append(pathsStr, path.String())
-	}
-	return strings.Join(pathsStr, ", ")
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) IsFull() bool {
-	if fieldMask == nil {
-		return false
-	}
-	presentSelectors := make([]bool, 4)
-	for _, path := range fieldMask.Paths {
-		if asFinal, ok := path.(*PolicySpecNotification_FieldTerminalPath); ok {
-			presentSelectors[int(asFinal.selector)] = true
-		}
-	}
-	for _, flag := range presentSelectors {
-		if !flag {
-			return false
-		}
-	}
-	return true
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) ProtoReflect() preflect.Message {
-	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
-		return ParsePolicySpecNotification_FieldPath(raw)
-	})
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) ProtoMessage() {}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) Reset() {
-	if fieldMask != nil {
-		fieldMask.Paths = nil
-	}
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) Subtract(other *PolicySpec_Notification_FieldMask) *PolicySpec_Notification_FieldMask {
-	result := &PolicySpec_Notification_FieldMask{}
-	removedSelectors := make([]bool, 4)
-
-	for _, path := range other.GetPaths() {
-		switch tp := path.(type) {
-		case *PolicySpecNotification_FieldTerminalPath:
-			removedSelectors[int(tp.selector)] = true
-		}
-	}
-	for _, path := range fieldMask.GetPaths() {
-		if !removedSelectors[int(path.Selector())] {
-			result.Paths = append(result.Paths, path)
-		}
-	}
-
-	if len(result.Paths) == 0 {
-		return nil
-	}
-	return result
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
-	return fieldMask.Subtract(other.(*PolicySpec_Notification_FieldMask))
-}
-
-// FilterInputFields generates copy of field paths with output_only field paths removed
-func (fieldMask *PolicySpec_Notification_FieldMask) FilterInputFields() *PolicySpec_Notification_FieldMask {
-	result := &PolicySpec_Notification_FieldMask{}
-	result.Paths = append(result.Paths, fieldMask.Paths...)
-	return result
-}
-
-// ToFieldMask is used for proto conversions
-func (fieldMask *PolicySpec_Notification_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	for _, path := range fieldMask.Paths {
-		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
-	}
-	return protoFieldMask
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
-	if fieldMask == nil {
-		return status.Error(codes.Internal, "target field mask is nil")
-	}
-	fieldMask.Paths = make([]PolicySpecNotification_FieldPath, 0, len(protoFieldMask.Paths))
-	for _, strPath := range protoFieldMask.Paths {
-		path, err := ParsePolicySpecNotification_FieldPath(strPath)
-		if err != nil {
-			return err
-		}
-		fieldMask.Paths = append(fieldMask.Paths, path)
-	}
-	return nil
-}
-
-// implement methods required by customType
-func (fieldMask PolicySpec_Notification_FieldMask) Marshal() ([]byte, error) {
-	protoFieldMask := fieldMask.ToProtoFieldMask()
-	return proto.Marshal(protoFieldMask)
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) Unmarshal(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) Size() int {
-	return proto.Size(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask PolicySpec_Notification_FieldMask) MarshalJSON() ([]byte, error) {
-	return json.Marshal(fieldMask.ToProtoFieldMask())
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) UnmarshalJSON(data []byte) error {
-	protoFieldMask := &googlefieldmaskpb.FieldMask{}
-	if err := json.Unmarshal(data, protoFieldMask); err != nil {
-		return err
-	}
-	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) AppendPath(path PolicySpecNotification_FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path)
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
-	fieldMask.Paths = append(fieldMask.Paths, path.(PolicySpecNotification_FieldPath))
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) GetPaths() []PolicySpecNotification_FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	return fieldMask.Paths
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) GetRawPaths() []gotenobject.FieldPath {
-	if fieldMask == nil {
-		return nil
-	}
-	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
-	for _, path := range fieldMask.Paths {
-		rawPaths = append(rawPaths, path)
-	}
-	return rawPaths
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) SetFromCliFlag(raw string) error {
-	path, err := ParsePolicySpecNotification_FieldPath(raw)
-	if err != nil {
-		return err
-	}
-	fieldMask.Paths = append(fieldMask.Paths, path)
-	return nil
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) Set(target, source *PolicySpec_Notification) {
-	for _, path := range fieldMask.Paths {
-		val, _ := path.GetSingle(source)
-		// if val is nil, then field does not exist in source, skip
-		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
-		if val != nil {
-			path.WithIValue(val).SetTo(&target)
-		}
-	}
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
-	fieldMask.Set(target.(*PolicySpec_Notification), source.(*PolicySpec_Notification))
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) Project(source *PolicySpec_Notification) *PolicySpec_Notification {
-	if source == nil {
-		return nil
-	}
-	if fieldMask == nil {
-		return source
-	}
-	result := &PolicySpec_Notification{}
-
-	for _, p := range fieldMask.Paths {
-		switch tp := p.(type) {
-		case *PolicySpecNotification_FieldTerminalPath:
-			switch tp.selector {
-			case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-				result.EnabledKinds = source.EnabledKinds
-			case PolicySpecNotification_FieldPathSelectorChannel:
-				result.Channel = source.Channel
-			case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-				result.MaxAlertBodiesInMsg = source.MaxAlertBodiesInMsg
-			case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-				result.PutOnlyAlertsCounterWhenOverflowing = source.PutOnlyAlertsCounterWhenOverflowing
-			}
-		}
-	}
-	return result
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
-	return fieldMask.Project(source.(*PolicySpec_Notification))
-}
-
-func (fieldMask *PolicySpec_Notification_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}
@@ -7396,6 +7142,1510 @@ func (fieldMask *PolicySpec_AIAgentHandling_Remediation_Reboot_FieldMask) Projec
 }
 
 func (fieldMask *PolicySpec_AIAgentHandling_Remediation_Reboot_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type NotificationChannelSpec_FieldMask struct {
+	Paths []NotificationChannelSpec_FieldPath
+}
+
+func FullNotificationChannelSpec_FieldMask() *NotificationChannelSpec_FieldMask {
+	res := &NotificationChannelSpec_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabled})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorType})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabledKinds})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEmail})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorSlack})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationMask})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg})
+	res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing})
+	return res
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 10)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationChannelSpec_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationChannelSpec_FieldPath(raw)
+	})
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) ProtoMessage() {}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) Subtract(other *NotificationChannelSpec_FieldMask) *NotificationChannelSpec_FieldMask {
+	result := &NotificationChannelSpec_FieldMask{}
+	removedSelectors := make([]bool, 10)
+	otherSubMasks := map[NotificationChannelSpec_FieldPathSelector]gotenobject.FieldMask{
+		NotificationChannelSpec_FieldPathSelectorEmail:   &NotificationChannelSpec_Email_FieldMask{},
+		NotificationChannelSpec_FieldPathSelectorSlack:   &NotificationChannelSpec_Slack_FieldMask{},
+		NotificationChannelSpec_FieldPathSelectorWebhook: &NotificationChannelSpec_Webhook_FieldMask{},
+	}
+	mySubMasks := map[NotificationChannelSpec_FieldPathSelector]gotenobject.FieldMask{
+		NotificationChannelSpec_FieldPathSelectorEmail:   &NotificationChannelSpec_Email_FieldMask{},
+		NotificationChannelSpec_FieldPathSelectorSlack:   &NotificationChannelSpec_Slack_FieldMask{},
+		NotificationChannelSpec_FieldPathSelectorWebhook: &NotificationChannelSpec_Webhook_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationChannelSpec_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *NotificationChannelSpec_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*NotificationChannelSpec_FieldTerminalPath); ok {
+					switch tp.selector {
+					case NotificationChannelSpec_FieldPathSelectorEmail:
+						mySubMasks[NotificationChannelSpec_FieldPathSelectorEmail] = FullNotificationChannelSpec_Email_FieldMask()
+					case NotificationChannelSpec_FieldPathSelectorSlack:
+						mySubMasks[NotificationChannelSpec_FieldPathSelectorSlack] = FullNotificationChannelSpec_Slack_FieldMask()
+					case NotificationChannelSpec_FieldPathSelectorWebhook:
+						mySubMasks[NotificationChannelSpec_FieldPathSelectorWebhook] = FullNotificationChannelSpec_Webhook_FieldMask()
+					}
+				} else if tp, ok := path.(*NotificationChannelSpec_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &NotificationChannelSpec_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*NotificationChannelSpec_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *NotificationChannelSpec_FieldMask) FilterInputFields() *NotificationChannelSpec_FieldMask {
+	result := &NotificationChannelSpec_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *NotificationChannelSpec_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationChannelSpec_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationChannelSpec_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask NotificationChannelSpec_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask NotificationChannelSpec_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) AppendPath(path NotificationChannelSpec_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationChannelSpec_FieldPath))
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) GetPaths() []NotificationChannelSpec_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationChannelSpec_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) Set(target, source *NotificationChannelSpec) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*NotificationChannelSpec), source.(*NotificationChannelSpec))
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) Project(source *NotificationChannelSpec) *NotificationChannelSpec {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &NotificationChannelSpec{}
+	emailMask := &NotificationChannelSpec_Email_FieldMask{}
+	wholeEmailAccepted := false
+	slackMask := &NotificationChannelSpec_Slack_FieldMask{}
+	wholeSlackAccepted := false
+	webhookMask := &NotificationChannelSpec_Webhook_FieldMask{}
+	wholeWebhookAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationChannelSpec_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationChannelSpec_FieldPathSelectorEnabled:
+				result.Enabled = source.Enabled
+			case NotificationChannelSpec_FieldPathSelectorType:
+				result.Type = source.Type
+			case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+				result.EnabledKinds = source.EnabledKinds
+			case NotificationChannelSpec_FieldPathSelectorEmail:
+				result.Email = source.Email
+				wholeEmailAccepted = true
+			case NotificationChannelSpec_FieldPathSelectorSlack:
+				result.Slack = source.Slack
+				wholeSlackAccepted = true
+			case NotificationChannelSpec_FieldPathSelectorWebhook:
+				result.Webhook = source.Webhook
+				wholeWebhookAccepted = true
+			case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+				result.NotificationLanguageCode = source.NotificationLanguageCode
+			case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+				result.NotificationMask = source.NotificationMask
+			case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+				result.MaxAlertBodiesInMsg = source.MaxAlertBodiesInMsg
+			case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+				result.PutOnlyAlertsCounterWhenOverflowing = source.PutOnlyAlertsCounterWhenOverflowing
+			}
+		case *NotificationChannelSpec_FieldSubPath:
+			switch tp.selector {
+			case NotificationChannelSpec_FieldPathSelectorEmail:
+				emailMask.AppendPath(tp.subPath.(NotificationChannelSpecEmail_FieldPath))
+			case NotificationChannelSpec_FieldPathSelectorSlack:
+				slackMask.AppendPath(tp.subPath.(NotificationChannelSpecSlack_FieldPath))
+			case NotificationChannelSpec_FieldPathSelectorWebhook:
+				webhookMask.AppendPath(tp.subPath.(NotificationChannelSpecWebhook_FieldPath))
+			}
+		}
+	}
+	if wholeEmailAccepted == false && len(emailMask.Paths) > 0 {
+		result.Email = emailMask.Project(source.GetEmail())
+	}
+	if wholeSlackAccepted == false && len(slackMask.Paths) > 0 {
+		result.Slack = slackMask.Project(source.GetSlack())
+	}
+	if wholeWebhookAccepted == false && len(webhookMask.Paths) > 0 {
+		result.Webhook = webhookMask.Project(source.GetWebhook())
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*NotificationChannelSpec))
+}
+
+func (fieldMask *NotificationChannelSpec_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type NotificationChannelSpec_Email_FieldMask struct {
+	Paths []NotificationChannelSpecEmail_FieldPath
+}
+
+func FullNotificationChannelSpec_Email_FieldMask() *NotificationChannelSpec_Email_FieldMask {
+	res := &NotificationChannelSpec_Email_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationChannelSpecEmail_FieldTerminalPath{selector: NotificationChannelSpecEmail_FieldPathSelectorAddresses})
+	return res
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationChannelSpecEmail_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationChannelSpecEmail_FieldPath(raw)
+	})
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) ProtoMessage() {}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) Subtract(other *NotificationChannelSpec_Email_FieldMask) *NotificationChannelSpec_Email_FieldMask {
+	result := &NotificationChannelSpec_Email_FieldMask{}
+	removedSelectors := make([]bool, 1)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationChannelSpecEmail_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*NotificationChannelSpec_Email_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) FilterInputFields() *NotificationChannelSpec_Email_FieldMask {
+	result := &NotificationChannelSpec_Email_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationChannelSpecEmail_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationChannelSpecEmail_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask NotificationChannelSpec_Email_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask NotificationChannelSpec_Email_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) AppendPath(path NotificationChannelSpecEmail_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationChannelSpecEmail_FieldPath))
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) GetPaths() []NotificationChannelSpecEmail_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationChannelSpecEmail_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) Set(target, source *NotificationChannelSpec_Email) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*NotificationChannelSpec_Email), source.(*NotificationChannelSpec_Email))
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) Project(source *NotificationChannelSpec_Email) *NotificationChannelSpec_Email {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &NotificationChannelSpec_Email{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationChannelSpecEmail_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+				result.Addresses = source.Addresses
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*NotificationChannelSpec_Email))
+}
+
+func (fieldMask *NotificationChannelSpec_Email_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type NotificationChannelSpec_Slack_FieldMask struct {
+	Paths []NotificationChannelSpecSlack_FieldPath
+}
+
+func FullNotificationChannelSpec_Slack_FieldMask() *NotificationChannelSpec_Slack_FieldMask {
+	res := &NotificationChannelSpec_Slack_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationChannelSpecSlack_FieldTerminalPath{selector: NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook})
+	return res
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationChannelSpecSlack_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationChannelSpecSlack_FieldPath(raw)
+	})
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) ProtoMessage() {}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) Subtract(other *NotificationChannelSpec_Slack_FieldMask) *NotificationChannelSpec_Slack_FieldMask {
+	result := &NotificationChannelSpec_Slack_FieldMask{}
+	removedSelectors := make([]bool, 1)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationChannelSpecSlack_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*NotificationChannelSpec_Slack_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) FilterInputFields() *NotificationChannelSpec_Slack_FieldMask {
+	result := &NotificationChannelSpec_Slack_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationChannelSpecSlack_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationChannelSpecSlack_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask NotificationChannelSpec_Slack_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask NotificationChannelSpec_Slack_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) AppendPath(path NotificationChannelSpecSlack_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationChannelSpecSlack_FieldPath))
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) GetPaths() []NotificationChannelSpecSlack_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationChannelSpecSlack_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) Set(target, source *NotificationChannelSpec_Slack) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*NotificationChannelSpec_Slack), source.(*NotificationChannelSpec_Slack))
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) Project(source *NotificationChannelSpec_Slack) *NotificationChannelSpec_Slack {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &NotificationChannelSpec_Slack{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationChannelSpecSlack_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+				result.IncomingWebhook = source.IncomingWebhook
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*NotificationChannelSpec_Slack))
+}
+
+func (fieldMask *NotificationChannelSpec_Slack_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type NotificationChannelSpec_PagerDuty_FieldMask struct {
+	Paths []NotificationChannelSpecPagerDuty_FieldPath
+}
+
+func FullNotificationChannelSpec_PagerDuty_FieldMask() *NotificationChannelSpec_PagerDuty_FieldMask {
+	res := &NotificationChannelSpec_PagerDuty_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationChannelSpecPagerDuty_FieldTerminalPath{selector: NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey})
+	return res
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 1)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationChannelSpecPagerDuty_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationChannelSpecPagerDuty_FieldPath(raw)
+	})
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) ProtoMessage() {}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) Subtract(other *NotificationChannelSpec_PagerDuty_FieldMask) *NotificationChannelSpec_PagerDuty_FieldMask {
+	result := &NotificationChannelSpec_PagerDuty_FieldMask{}
+	removedSelectors := make([]bool, 1)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationChannelSpecPagerDuty_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*NotificationChannelSpec_PagerDuty_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) FilterInputFields() *NotificationChannelSpec_PagerDuty_FieldMask {
+	result := &NotificationChannelSpec_PagerDuty_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationChannelSpecPagerDuty_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationChannelSpecPagerDuty_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask NotificationChannelSpec_PagerDuty_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask NotificationChannelSpec_PagerDuty_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) AppendPath(path NotificationChannelSpecPagerDuty_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationChannelSpecPagerDuty_FieldPath))
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) GetPaths() []NotificationChannelSpecPagerDuty_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationChannelSpecPagerDuty_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) Set(target, source *NotificationChannelSpec_PagerDuty) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*NotificationChannelSpec_PagerDuty), source.(*NotificationChannelSpec_PagerDuty))
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) Project(source *NotificationChannelSpec_PagerDuty) *NotificationChannelSpec_PagerDuty {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &NotificationChannelSpec_PagerDuty{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationChannelSpecPagerDuty_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+				result.ServiceKey = source.ServiceKey
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*NotificationChannelSpec_PagerDuty))
+}
+
+func (fieldMask *NotificationChannelSpec_PagerDuty_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type NotificationChannelSpec_Webhook_FieldMask struct {
+	Paths []NotificationChannelSpecWebhook_FieldPath
+}
+
+func FullNotificationChannelSpec_Webhook_FieldMask() *NotificationChannelSpec_Webhook_FieldMask {
+	res := &NotificationChannelSpec_Webhook_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorUrl})
+	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders})
+	res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb})
+	return res
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 3)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationChannelSpecWebhook_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationChannelSpecWebhook_FieldPath(raw)
+	})
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) ProtoMessage() {}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) Subtract(other *NotificationChannelSpec_Webhook_FieldMask) *NotificationChannelSpec_Webhook_FieldMask {
+	result := &NotificationChannelSpec_Webhook_FieldMask{}
+	removedSelectors := make([]bool, 3)
+	otherSubMasks := map[NotificationChannelSpecWebhook_FieldPathSelector]gotenobject.FieldMask{
+		NotificationChannelSpecWebhook_FieldPathSelectorHeaders: &NotificationChannelSpec_Webhook_Header_FieldMask{},
+	}
+	mySubMasks := map[NotificationChannelSpecWebhook_FieldPathSelector]gotenobject.FieldMask{
+		NotificationChannelSpecWebhook_FieldPathSelectorHeaders: &NotificationChannelSpec_Webhook_Header_FieldMask{},
+	}
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationChannelSpecWebhook_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		case *NotificationChannelSpecWebhook_FieldSubPath:
+			otherSubMasks[tp.selector].AppendRawPath(tp.subPath)
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			if otherSubMask := otherSubMasks[path.Selector()]; otherSubMask != nil && otherSubMask.PathsCount() > 0 {
+				if tp, ok := path.(*NotificationChannelSpecWebhook_FieldTerminalPath); ok {
+					switch tp.selector {
+					case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+						mySubMasks[NotificationChannelSpecWebhook_FieldPathSelectorHeaders] = FullNotificationChannelSpec_Webhook_Header_FieldMask()
+					}
+				} else if tp, ok := path.(*NotificationChannelSpecWebhook_FieldSubPath); ok {
+					mySubMasks[tp.selector].AppendRawPath(tp.subPath)
+				}
+			} else {
+				result.Paths = append(result.Paths, path)
+			}
+		}
+	}
+	for selector, mySubMask := range mySubMasks {
+		if mySubMask.PathsCount() > 0 {
+			for _, allowedPath := range mySubMask.SubtractRaw(otherSubMasks[selector]).GetRawPaths() {
+				result.Paths = append(result.Paths, &NotificationChannelSpecWebhook_FieldSubPath{selector: selector, subPath: allowedPath})
+			}
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*NotificationChannelSpec_Webhook_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) FilterInputFields() *NotificationChannelSpec_Webhook_FieldMask {
+	result := &NotificationChannelSpec_Webhook_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationChannelSpecWebhook_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationChannelSpecWebhook_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask NotificationChannelSpec_Webhook_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask NotificationChannelSpec_Webhook_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) AppendPath(path NotificationChannelSpecWebhook_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationChannelSpecWebhook_FieldPath))
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) GetPaths() []NotificationChannelSpecWebhook_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationChannelSpecWebhook_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) Set(target, source *NotificationChannelSpec_Webhook) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*NotificationChannelSpec_Webhook), source.(*NotificationChannelSpec_Webhook))
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) Project(source *NotificationChannelSpec_Webhook) *NotificationChannelSpec_Webhook {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &NotificationChannelSpec_Webhook{}
+	headersMask := &NotificationChannelSpec_Webhook_Header_FieldMask{}
+	wholeHeadersAccepted := false
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationChannelSpecWebhook_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+				result.Url = source.Url
+			case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+				result.Headers = source.Headers
+				wholeHeadersAccepted = true
+			case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+				result.MaxMessageSizeMb = source.MaxMessageSizeMb
+			}
+		case *NotificationChannelSpecWebhook_FieldSubPath:
+			switch tp.selector {
+			case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+				headersMask.AppendPath(tp.subPath.(NotificationChannelSpecWebhookHeader_FieldPath))
+			}
+		}
+	}
+	if wholeHeadersAccepted == false && len(headersMask.Paths) > 0 {
+		for _, sourceItem := range source.GetHeaders() {
+			result.Headers = append(result.Headers, headersMask.Project(sourceItem))
+		}
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*NotificationChannelSpec_Webhook))
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_FieldMask) PathsCount() int {
+	if fieldMask == nil {
+		return 0
+	}
+	return len(fieldMask.Paths)
+}
+
+type NotificationChannelSpec_Webhook_Header_FieldMask struct {
+	Paths []NotificationChannelSpecWebhookHeader_FieldPath
+}
+
+func FullNotificationChannelSpec_Webhook_Header_FieldMask() *NotificationChannelSpec_Webhook_Header_FieldMask {
+	res := &NotificationChannelSpec_Webhook_Header_FieldMask{}
+	res.Paths = append(res.Paths, &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorKey})
+	res.Paths = append(res.Paths, &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorValue})
+	return res
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) String() string {
+	if fieldMask == nil {
+		return "<nil>"
+	}
+	pathsStr := make([]string, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		pathsStr = append(pathsStr, path.String())
+	}
+	return strings.Join(pathsStr, ", ")
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) IsFull() bool {
+	if fieldMask == nil {
+		return false
+	}
+	presentSelectors := make([]bool, 2)
+	for _, path := range fieldMask.Paths {
+		if asFinal, ok := path.(*NotificationChannelSpecWebhookHeader_FieldTerminalPath); ok {
+			presentSelectors[int(asFinal.selector)] = true
+		}
+	}
+	for _, flag := range presentSelectors {
+		if !flag {
+			return false
+		}
+	}
+	return true
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) ProtoReflect() preflect.Message {
+	return gotenobject.MakeFieldMaskReflection(fieldMask, func(raw string) (gotenobject.FieldPath, error) {
+		return ParseNotificationChannelSpecWebhookHeader_FieldPath(raw)
+	})
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) ProtoMessage() {}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) Reset() {
+	if fieldMask != nil {
+		fieldMask.Paths = nil
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) Subtract(other *NotificationChannelSpec_Webhook_Header_FieldMask) *NotificationChannelSpec_Webhook_Header_FieldMask {
+	result := &NotificationChannelSpec_Webhook_Header_FieldMask{}
+	removedSelectors := make([]bool, 2)
+
+	for _, path := range other.GetPaths() {
+		switch tp := path.(type) {
+		case *NotificationChannelSpecWebhookHeader_FieldTerminalPath:
+			removedSelectors[int(tp.selector)] = true
+		}
+	}
+	for _, path := range fieldMask.GetPaths() {
+		if !removedSelectors[int(path.Selector())] {
+			result.Paths = append(result.Paths, path)
+		}
+	}
+
+	if len(result.Paths) == 0 {
+		return nil
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) SubtractRaw(other gotenobject.FieldMask) gotenobject.FieldMask {
+	return fieldMask.Subtract(other.(*NotificationChannelSpec_Webhook_Header_FieldMask))
+}
+
+// FilterInputFields generates copy of field paths with output_only field paths removed
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) FilterInputFields() *NotificationChannelSpec_Webhook_Header_FieldMask {
+	result := &NotificationChannelSpec_Webhook_Header_FieldMask{}
+	result.Paths = append(result.Paths, fieldMask.Paths...)
+	return result
+}
+
+// ToFieldMask is used for proto conversions
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) ToProtoFieldMask() *googlefieldmaskpb.FieldMask {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	for _, path := range fieldMask.Paths {
+		protoFieldMask.Paths = append(protoFieldMask.Paths, path.String())
+	}
+	return protoFieldMask
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) FromProtoFieldMask(protoFieldMask *googlefieldmaskpb.FieldMask) error {
+	if fieldMask == nil {
+		return status.Error(codes.Internal, "target field mask is nil")
+	}
+	fieldMask.Paths = make([]NotificationChannelSpecWebhookHeader_FieldPath, 0, len(protoFieldMask.Paths))
+	for _, strPath := range protoFieldMask.Paths {
+		path, err := ParseNotificationChannelSpecWebhookHeader_FieldPath(strPath)
+		if err != nil {
+			return err
+		}
+		fieldMask.Paths = append(fieldMask.Paths, path)
+	}
+	return nil
+}
+
+// implement methods required by customType
+func (fieldMask NotificationChannelSpec_Webhook_Header_FieldMask) Marshal() ([]byte, error) {
+	protoFieldMask := fieldMask.ToProtoFieldMask()
+	return proto.Marshal(protoFieldMask)
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) Unmarshal(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := proto.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) Size() int {
+	return proto.Size(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask NotificationChannelSpec_Webhook_Header_FieldMask) MarshalJSON() ([]byte, error) {
+	return json.Marshal(fieldMask.ToProtoFieldMask())
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) UnmarshalJSON(data []byte) error {
+	protoFieldMask := &googlefieldmaskpb.FieldMask{}
+	if err := json.Unmarshal(data, protoFieldMask); err != nil {
+		return err
+	}
+	if err := fieldMask.FromProtoFieldMask(protoFieldMask); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) AppendPath(path NotificationChannelSpecWebhookHeader_FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path)
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) AppendRawPath(path gotenobject.FieldPath) {
+	fieldMask.Paths = append(fieldMask.Paths, path.(NotificationChannelSpecWebhookHeader_FieldPath))
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) GetPaths() []NotificationChannelSpecWebhookHeader_FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	return fieldMask.Paths
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) GetRawPaths() []gotenobject.FieldPath {
+	if fieldMask == nil {
+		return nil
+	}
+	rawPaths := make([]gotenobject.FieldPath, 0, len(fieldMask.Paths))
+	for _, path := range fieldMask.Paths {
+		rawPaths = append(rawPaths, path)
+	}
+	return rawPaths
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) SetFromCliFlag(raw string) error {
+	path, err := ParseNotificationChannelSpecWebhookHeader_FieldPath(raw)
+	if err != nil {
+		return err
+	}
+	fieldMask.Paths = append(fieldMask.Paths, path)
+	return nil
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) Set(target, source *NotificationChannelSpec_Webhook_Header) {
+	for _, path := range fieldMask.Paths {
+		val, _ := path.GetSingle(source)
+		// if val is nil, then field does not exist in source, skip
+		// otherwise, process (can still reflect.ValueOf(val).IsNil!)
+		if val != nil {
+			path.WithIValue(val).SetTo(&target)
+		}
+	}
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) SetRaw(target, source gotenobject.GotenObjectExt) {
+	fieldMask.Set(target.(*NotificationChannelSpec_Webhook_Header), source.(*NotificationChannelSpec_Webhook_Header))
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) Project(source *NotificationChannelSpec_Webhook_Header) *NotificationChannelSpec_Webhook_Header {
+	if source == nil {
+		return nil
+	}
+	if fieldMask == nil {
+		return source
+	}
+	result := &NotificationChannelSpec_Webhook_Header{}
+
+	for _, p := range fieldMask.Paths {
+		switch tp := p.(type) {
+		case *NotificationChannelSpecWebhookHeader_FieldTerminalPath:
+			switch tp.selector {
+			case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+				result.Key = source.Key
+			case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+				result.Value = source.Value
+			}
+		}
+	}
+	return result
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) ProjectRaw(source gotenobject.GotenObjectExt) gotenobject.GotenObjectExt {
+	return fieldMask.Project(source.(*NotificationChannelSpec_Webhook_Header))
+}
+
+func (fieldMask *NotificationChannelSpec_Webhook_Header_FieldMask) PathsCount() int {
 	if fieldMask == nil {
 		return 0
 	}

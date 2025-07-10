@@ -18,6 +18,7 @@ import (
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -38,6 +39,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &policy_template.PolicyTemplate{}
 	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
@@ -115,6 +117,18 @@ func (o *Policy) MakeDiffFieldMask(other *Policy) *Policy_FieldMask {
 			}
 		}
 	}
+
+	if len(o.GetNotificationChannels()) == len(other.GetNotificationChannels()) {
+		for i, lValue := range o.GetNotificationChannels() {
+			rValue := other.GetNotificationChannels()[i]
+			if lValue.String() != rValue.String() {
+				res.Paths = append(res.Paths, &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorNotificationChannels})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorNotificationChannels})
+	}
 	return res
 }
 
@@ -155,6 +169,19 @@ func (o *Policy) Clone() *Policy {
 	}
 	result.Spec = o.Spec.Clone()
 	result.TemplateSource = o.TemplateSource.Clone()
+	result.NotificationChannels = make([]*notification_channel.Reference, len(o.NotificationChannels))
+	for i, sourceValue := range o.NotificationChannels {
+		if sourceValue == nil {
+			result.NotificationChannels[i] = nil
+		} else if data, err := sourceValue.ProtoString(); err != nil {
+			panic(err)
+		} else {
+			result.NotificationChannels[i] = &notification_channel.Reference{}
+			if err := result.NotificationChannels[i].ParseProtoString(data); err != nil {
+				panic(err)
+			}
+		}
+	}
 	return result
 }
 
@@ -221,6 +248,32 @@ func (o *Policy) Merge(source *Policy) {
 		}
 		o.TemplateSource.Merge(source.GetTemplateSource())
 	}
+	for _, sourceValue := range source.GetNotificationChannels() {
+		exists := false
+		for _, currentValue := range o.NotificationChannels {
+			leftProtoStr, _ := currentValue.ProtoString()
+			rightProtoStr, _ := sourceValue.ProtoString()
+			if leftProtoStr == rightProtoStr {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *notification_channel.Reference
+			if sourceValue != nil {
+				if data, err := sourceValue.ProtoString(); err != nil {
+					panic(err)
+				} else {
+					newDstElement = &notification_channel.Reference{}
+					if err := newDstElement.ParseProtoString(data); err != nil {
+						panic(err)
+					}
+				}
+			}
+			o.NotificationChannels = append(o.NotificationChannels, newDstElement)
+		}
+	}
+
 }
 
 func (o *Policy) MergeRaw(source gotenobject.GotenObjectExt) {

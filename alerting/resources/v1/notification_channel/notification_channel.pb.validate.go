@@ -20,9 +20,9 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
-	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -41,8 +41,8 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
-	_ = &fieldmaskpb.FieldMask{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta.Meta{}
 )
@@ -83,33 +83,6 @@ func (obj *NotificationChannel) GotenValidate() error {
 	}
 	return nil
 }
-func (obj *NotificationChannel_Spec) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if _, ok := NotificationChannel_Spec_Type_name[int32(obj.Type)]; !ok {
-		return gotenvalidate.NewValidationError("Spec", "type", obj.Type, "field must be a defined enum value", nil)
-	}
-	if subobj, ok := interface{}(obj.Email).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Spec", "email", obj.Email, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Slack).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Spec", "slack", obj.Slack, "nested object validation failed", err)
-		}
-	}
-	if subobj, ok := interface{}(obj.Webhook).(gotenvalidate.Validator); ok {
-		if err := subobj.GotenValidate(); err != nil {
-			return gotenvalidate.NewValidationError("Spec", "webhook", obj.Webhook, "nested object validation failed", err)
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
 func (obj *NotificationChannel_State) GotenValidate() error {
 	if obj == nil {
 		return nil
@@ -118,58 +91,6 @@ func (obj *NotificationChannel_State) GotenValidate() error {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("State", "error", obj.Error, "nested object validation failed", err)
 		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *NotificationChannel_Spec_Email) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *NotificationChannel_Spec_Slack) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *NotificationChannel_Spec_PagerDuty) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *NotificationChannel_Spec_Webhook) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	for idx, elem := range obj.Headers {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("Webhook", "headers", obj.Headers[idx], "nested object validation failed", err)
-			}
-		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *NotificationChannel_Spec_Webhook_Header) GotenValidate() error {
-	if obj == nil {
-		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

@@ -22,6 +22,7 @@ import (
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -44,6 +45,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &policy_template.PolicyTemplate{}
 	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
@@ -84,6 +86,9 @@ func (obj *Policy) GotenValidate() error {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("Policy", "templateSource", obj.TemplateSource, "nested object validation failed", err)
 		}
+	}
+	if len(obj.NotificationChannels) > 8 {
+		return gotenvalidate.NewValidationError("Policy", "notificationChannels", obj.NotificationChannels, "field must have at most 8 items", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

@@ -5354,37 +5354,37 @@ type filterCndBuilderStateNotificationStatusesKind struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) Eq(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) Eq(value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) Neq(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) Neq(value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) Gt(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) Gt(value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) Gte(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) Gte(value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) Lt(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) Lt(value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) Lte(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) Lte(value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) In(values []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) In(values []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().State().NotificationStatuses().Kind().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) NotIn(values []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) NotIn(values []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		Alert_FieldPathArrayOfValues: NewAlertFieldPathBuilder().State().NotificationStatuses().Kind().WithArrayOfValues(values),
 	})
@@ -5402,7 +5402,7 @@ func (b *filterCndBuilderStateNotificationStatusesKind) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderStateNotificationStatusesKind) compare(op gotenfilter.CompareOperator, value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
+func (b *filterCndBuilderStateNotificationStatusesKind) compare(op gotenfilter.CompareOperator, value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:             op,
 		Alert_FieldPathValue: NewAlertFieldPathBuilder().State().NotificationStatuses().Kind().WithValue(value),

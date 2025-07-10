@@ -1802,11 +1802,11 @@ func (AlertPathSelectorStateNotificationStatusesKind) FieldPath() *Alert_FieldSu
 	}
 }
 
-func (s AlertPathSelectorStateNotificationStatusesKind) WithValue(value rcommon.PolicySpec_Notification_Kind) *Alert_FieldSubPathValue {
+func (s AlertPathSelectorStateNotificationStatusesKind) WithValue(value rcommon.NotificationChannelSpec_EventKind) *Alert_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*Alert_FieldSubPathValue)
 }
 
-func (s AlertPathSelectorStateNotificationStatusesKind) WithArrayOfValues(values []rcommon.PolicySpec_Notification_Kind) *Alert_FieldSubPathArrayOfValues {
+func (s AlertPathSelectorStateNotificationStatusesKind) WithArrayOfValues(values []rcommon.NotificationChannelSpec_EventKind) *Alert_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*Alert_FieldSubPathArrayOfValues)
 }
 
@@ -2780,11 +2780,11 @@ func (Alert_StatePathSelectorNotificationStatusesKind) FieldPath() *AlertState_F
 	}
 }
 
-func (s Alert_StatePathSelectorNotificationStatusesKind) WithValue(value rcommon.PolicySpec_Notification_Kind) *AlertState_FieldSubPathValue {
+func (s Alert_StatePathSelectorNotificationStatusesKind) WithValue(value rcommon.NotificationChannelSpec_EventKind) *AlertState_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertState_FieldSubPathValue)
 }
 
-func (s Alert_StatePathSelectorNotificationStatusesKind) WithArrayOfValues(values []rcommon.PolicySpec_Notification_Kind) *AlertState_FieldSubPathArrayOfValues {
+func (s Alert_StatePathSelectorNotificationStatusesKind) WithArrayOfValues(values []rcommon.NotificationChannelSpec_EventKind) *AlertState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertState_FieldSubPathArrayOfValues)
 }
 
@@ -3297,11 +3297,11 @@ func (Alert_State_NotificationPathSelectorKind) FieldPath() *AlertStateNotificat
 	return &AlertStateNotification_FieldTerminalPath{selector: AlertStateNotification_FieldPathSelectorKind}
 }
 
-func (s Alert_State_NotificationPathSelectorKind) WithValue(value rcommon.PolicySpec_Notification_Kind) *AlertStateNotification_FieldTerminalPathValue {
+func (s Alert_State_NotificationPathSelectorKind) WithValue(value rcommon.NotificationChannelSpec_EventKind) *AlertStateNotification_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*AlertStateNotification_FieldTerminalPathValue)
 }
 
-func (s Alert_State_NotificationPathSelectorKind) WithArrayOfValues(values []rcommon.PolicySpec_Notification_Kind) *AlertStateNotification_FieldTerminalPathArrayOfValues {
+func (s Alert_State_NotificationPathSelectorKind) WithArrayOfValues(values []rcommon.NotificationChannelSpec_EventKind) *AlertStateNotification_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*AlertStateNotification_FieldTerminalPathArrayOfValues)
 }
 

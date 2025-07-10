@@ -55,6 +55,9 @@ message Policy {
   // template source for current Policy
   TemplateSource template_source = 7;
 
+  // List of attached notification channels
+  repeated string notification_channels = 8;
+
   // TemplateSource describes where policy is coming from originally.
   message TemplateSource {
     // Reference to template

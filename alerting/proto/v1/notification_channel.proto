@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.alerting.v1;
 
+import "edgelq-sdk/alerting/proto/v1/specs.proto";
 import "google/api/resource.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
@@ -40,95 +41,10 @@ message NotificationChannel {
   string description = 6;
 
   // Specification
-  Spec spec = 4;
+  NotificationChannelSpec spec = 4;
 
   // State
   State state = 5;
-
-  // Spec informs what kind of channel it is, and how to send there messages.
-  message Spec {
-    // Enabled flag. Whether the NotificationChannel is enabled or not. Disabled
-    // channels will not be used for alerting.
-    bool enabled = 1;
-
-    // Type. Corresponding spec should a oneof field.
-    Type type = 2;
-
-    // Email
-    Email email = 3;
-
-    // Slack
-    Slack slack = 4;
-
-    // Webhook endpoint
-    Webhook webhook = 5;
-
-    // Default language for invitation is english (eng)
-    // Configuring unsupported language will fallback to english
-    // Currently only sendgrid uses this.
-    string notification_language_code = 6;
-
-    // Notification mask contains list of fields to include in the message.
-    // It must match NotificationMsg
-    google.protobuf.FieldMask notification_mask = 7;
-
-    // Email Spec
-    message Email {
-      // Email Addresses
-      repeated string addresses = 1;
-    }
-
-    // Slack Spec
-    message Slack {
-      // Slack Incoming Webhook URL
-      string incoming_webhook = 1;
-    }
-
-    // PagerDuty Spec
-    message PagerDuty {
-      // PagerDuty Service Key
-      string service_key = 1;
-    }
-
-    // Webhook Spec
-    message Webhook {
-      // Webhook URL
-      string url = 1;
-
-      // Headers
-      repeated Header headers = 2;
-
-      // default is 0 means all the alerts in a notification are sent in single
-      // request. Breaking into multiple messages may be significantly slower
-      // than sending a single message.
-      // For example, to use 250KB chunks, set 0.25 MB
-      double max_message_size_mb = 5;
-
-      // Header
-      message Header {
-        string key = 1;
-
-        string value = 2;
-      }
-    }
-
-    // Type of NotificationChannel
-    enum Type {
-      // Type is unknown
-      TYPE_UNSPECIFIED = 0;
-
-      // Email NotificationChannel
-      EMAIL = 1;
-
-      // Slack NotificationChannel
-      SLACK = 2;
-
-      // Webhook NotificationChannel
-      WEBHOOK = 3;
-      // PagerDuty NotificationChannel
-      // PAGERDUTY = 4;
-    }
-  }
 
   // State of NotificationChannel
   message State {

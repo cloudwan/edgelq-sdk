@@ -16,12 +16,12 @@ import (
 
 // proto imports
 import (
-	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -37,11 +37,11 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &notification_channel.NotificationChannel{}
 	_ = &logging_log.Log{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitoring_time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta_resource.Resource{}
 )
 
@@ -1204,18 +1204,6 @@ func (o *PolicySpec) MakeDiffFieldMask(other *PolicySpec) *PolicySpec_FieldMask 
 	if o.GetProcessingLocation() != other.GetProcessingLocation() {
 		res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorProcessingLocation})
 	}
-
-	if len(o.GetNotifications()) == len(other.GetNotifications()) {
-		for i, lValue := range o.GetNotifications() {
-			rValue := other.GetNotifications()[i]
-			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
-				res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorNotifications})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorNotifications})
-	}
 	{
 		subMask := o.GetResourceIdentity().MakeDiffFieldMask(other.GetResourceIdentity())
 		if subMask.IsFull() {
@@ -1262,10 +1250,6 @@ func (o *PolicySpec) Clone() *PolicySpec {
 	result := &PolicySpec{}
 	result.Enabled = o.Enabled
 	result.ProcessingLocation = o.ProcessingLocation
-	result.Notifications = make([]*PolicySpec_Notification, len(o.Notifications))
-	for i, sourceValue := range o.Notifications {
-		result.Notifications[i] = sourceValue.Clone()
-	}
 	result.ResourceIdentity = o.ResourceIdentity.Clone()
 	result.SupportingQueries = make([]*PolicySpec_SupportingAlertQuery, len(o.SupportingQueries))
 	for i, sourceValue := range o.SupportingQueries {
@@ -1282,24 +1266,6 @@ func (o *PolicySpec) CloneRaw() gotenobject.GotenObjectExt {
 func (o *PolicySpec) Merge(source *PolicySpec) {
 	o.Enabled = source.GetEnabled()
 	o.ProcessingLocation = source.GetProcessingLocation()
-	for _, sourceValue := range source.GetNotifications() {
-		exists := false
-		for _, currentValue := range o.Notifications {
-			if proto.Equal(sourceValue, currentValue) {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement *PolicySpec_Notification
-			if sourceValue != nil {
-				newDstElement = new(PolicySpec_Notification)
-				newDstElement.Merge(sourceValue)
-			}
-			o.Notifications = append(o.Notifications, newDstElement)
-		}
-	}
-
 	if source.GetResourceIdentity() != nil {
 		if o.ResourceIdentity == nil {
 			o.ResourceIdentity = new(PolicySpec_ResourceIdentity)
@@ -1334,117 +1300,6 @@ func (o *PolicySpec) Merge(source *PolicySpec) {
 
 func (o *PolicySpec) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*PolicySpec))
-}
-
-func (o *PolicySpec_Notification) GotenObjectExt() {}
-
-func (o *PolicySpec_Notification) MakeFullFieldMask() *PolicySpec_Notification_FieldMask {
-	return FullPolicySpec_Notification_FieldMask()
-}
-
-func (o *PolicySpec_Notification) MakeRawFullFieldMask() gotenobject.FieldMask {
-	return FullPolicySpec_Notification_FieldMask()
-}
-
-func (o *PolicySpec_Notification) MakeDiffFieldMask(other *PolicySpec_Notification) *PolicySpec_Notification_FieldMask {
-	if o == nil && other == nil {
-		return &PolicySpec_Notification_FieldMask{}
-	}
-	if o == nil || other == nil {
-		return FullPolicySpec_Notification_FieldMask()
-	}
-
-	res := &PolicySpec_Notification_FieldMask{}
-
-	if len(o.GetEnabledKinds()) == len(other.GetEnabledKinds()) {
-		for i, lValue := range o.GetEnabledKinds() {
-			rValue := other.GetEnabledKinds()[i]
-			if lValue != rValue {
-				res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorEnabledKinds})
-				break
-			}
-		}
-	} else {
-		res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorEnabledKinds})
-	}
-	if o.GetChannel().String() != other.GetChannel().String() {
-		res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorChannel})
-	}
-	if o.GetMaxAlertBodiesInMsg() != other.GetMaxAlertBodiesInMsg() {
-		res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg})
-	}
-	if o.GetPutOnlyAlertsCounterWhenOverflowing() != other.GetPutOnlyAlertsCounterWhenOverflowing() {
-		res.Paths = append(res.Paths, &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing})
-	}
-	return res
-}
-
-func (o *PolicySpec_Notification) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
-	return o.MakeDiffFieldMask(other.(*PolicySpec_Notification))
-}
-
-func (o *PolicySpec_Notification) Clone() *PolicySpec_Notification {
-	if o == nil {
-		return nil
-	}
-	result := &PolicySpec_Notification{}
-	result.EnabledKinds = make([]PolicySpec_Notification_Kind, len(o.EnabledKinds))
-	for i, sourceValue := range o.EnabledKinds {
-		result.EnabledKinds[i] = sourceValue
-	}
-	if o.Channel == nil {
-		result.Channel = nil
-	} else if data, err := o.Channel.ProtoString(); err != nil {
-		panic(err)
-	} else {
-		result.Channel = &notification_channel.Reference{}
-		if err := result.Channel.ParseProtoString(data); err != nil {
-			panic(err)
-		}
-	}
-	result.MaxAlertBodiesInMsg = o.MaxAlertBodiesInMsg
-	result.PutOnlyAlertsCounterWhenOverflowing = o.PutOnlyAlertsCounterWhenOverflowing
-	return result
-}
-
-func (o *PolicySpec_Notification) CloneRaw() gotenobject.GotenObjectExt {
-	return o.Clone()
-}
-
-func (o *PolicySpec_Notification) Merge(source *PolicySpec_Notification) {
-	for _, sourceValue := range source.GetEnabledKinds() {
-		exists := false
-		for _, currentValue := range o.EnabledKinds {
-			if currentValue == sourceValue {
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			var newDstElement PolicySpec_Notification_Kind
-			newDstElement = sourceValue
-			o.EnabledKinds = append(o.EnabledKinds, newDstElement)
-		}
-	}
-
-	if source.GetChannel() != nil {
-		if data, err := source.GetChannel().ProtoString(); err != nil {
-			panic(err)
-		} else {
-			o.Channel = &notification_channel.Reference{}
-			if err := o.Channel.ParseProtoString(data); err != nil {
-				panic(err)
-			}
-		}
-	} else {
-		o.Channel = nil
-	}
-	o.MaxAlertBodiesInMsg = source.GetMaxAlertBodiesInMsg()
-	o.PutOnlyAlertsCounterWhenOverflowing = source.GetPutOnlyAlertsCounterWhenOverflowing()
-}
-
-func (o *PolicySpec_Notification) MergeRaw(source gotenobject.GotenObjectExt) {
-	o.Merge(source.(*PolicySpec_Notification))
 }
 
 func (o *PolicySpec_ResourceIdentity) GotenObjectExt() {}
@@ -2817,6 +2672,488 @@ func (o *PolicySpec_AIAgentHandling_Remediation_Reboot) Merge(source *PolicySpec
 
 func (o *PolicySpec_AIAgentHandling_Remediation_Reboot) MergeRaw(source gotenobject.GotenObjectExt) {
 	o.Merge(source.(*PolicySpec_AIAgentHandling_Remediation_Reboot))
+}
+
+func (o *NotificationChannelSpec) GotenObjectExt() {}
+
+func (o *NotificationChannelSpec) MakeFullFieldMask() *NotificationChannelSpec_FieldMask {
+	return FullNotificationChannelSpec_FieldMask()
+}
+
+func (o *NotificationChannelSpec) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotificationChannelSpec_FieldMask()
+}
+
+func (o *NotificationChannelSpec) MakeDiffFieldMask(other *NotificationChannelSpec) *NotificationChannelSpec_FieldMask {
+	if o == nil && other == nil {
+		return &NotificationChannelSpec_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotificationChannelSpec_FieldMask()
+	}
+
+	res := &NotificationChannelSpec_FieldMask{}
+	if o.GetEnabled() != other.GetEnabled() {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabled})
+	}
+	if o.GetType() != other.GetType() {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorType})
+	}
+
+	if len(o.GetEnabledKinds()) == len(other.GetEnabledKinds()) {
+		for i, lValue := range o.GetEnabledKinds() {
+			rValue := other.GetEnabledKinds()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabledKinds})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabledKinds})
+	}
+	{
+		subMask := o.GetEmail().MakeDiffFieldMask(other.GetEmail())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEmail})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorEmail, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetSlack().MakeDiffFieldMask(other.GetSlack())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorSlack})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorSlack, subPath: subpath})
+			}
+		}
+	}
+	{
+		subMask := o.GetWebhook().MakeDiffFieldMask(other.GetWebhook())
+		if subMask.IsFull() {
+			res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook})
+		} else {
+			for _, subpath := range subMask.Paths {
+				res.Paths = append(res.Paths, &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook, subPath: subpath})
+			}
+		}
+	}
+	if o.GetNotificationLanguageCode() != other.GetNotificationLanguageCode() {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode})
+	}
+	if !proto.Equal(o.GetNotificationMask(), other.GetNotificationMask()) {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationMask})
+	}
+	if o.GetMaxAlertBodiesInMsg() != other.GetMaxAlertBodiesInMsg() {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg})
+	}
+	if o.GetPutOnlyAlertsCounterWhenOverflowing() != other.GetPutOnlyAlertsCounterWhenOverflowing() {
+		res.Paths = append(res.Paths, &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing})
+	}
+	return res
+}
+
+func (o *NotificationChannelSpec) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*NotificationChannelSpec))
+}
+
+func (o *NotificationChannelSpec) Clone() *NotificationChannelSpec {
+	if o == nil {
+		return nil
+	}
+	result := &NotificationChannelSpec{}
+	result.Enabled = o.Enabled
+	result.Type = o.Type
+	result.EnabledKinds = make([]NotificationChannelSpec_EventKind, len(o.EnabledKinds))
+	for i, sourceValue := range o.EnabledKinds {
+		result.EnabledKinds[i] = sourceValue
+	}
+	result.Email = o.Email.Clone()
+	result.Slack = o.Slack.Clone()
+	result.Webhook = o.Webhook.Clone()
+	result.NotificationLanguageCode = o.NotificationLanguageCode
+	result.NotificationMask = proto.Clone(o.NotificationMask).(*fieldmaskpb.FieldMask)
+	result.MaxAlertBodiesInMsg = o.MaxAlertBodiesInMsg
+	result.PutOnlyAlertsCounterWhenOverflowing = o.PutOnlyAlertsCounterWhenOverflowing
+	return result
+}
+
+func (o *NotificationChannelSpec) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *NotificationChannelSpec) Merge(source *NotificationChannelSpec) {
+	o.Enabled = source.GetEnabled()
+	o.Type = source.GetType()
+	for _, sourceValue := range source.GetEnabledKinds() {
+		exists := false
+		for _, currentValue := range o.EnabledKinds {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement NotificationChannelSpec_EventKind
+			newDstElement = sourceValue
+			o.EnabledKinds = append(o.EnabledKinds, newDstElement)
+		}
+	}
+
+	if source.GetEmail() != nil {
+		if o.Email == nil {
+			o.Email = new(NotificationChannelSpec_Email)
+		}
+		o.Email.Merge(source.GetEmail())
+	}
+	if source.GetSlack() != nil {
+		if o.Slack == nil {
+			o.Slack = new(NotificationChannelSpec_Slack)
+		}
+		o.Slack.Merge(source.GetSlack())
+	}
+	if source.GetWebhook() != nil {
+		if o.Webhook == nil {
+			o.Webhook = new(NotificationChannelSpec_Webhook)
+		}
+		o.Webhook.Merge(source.GetWebhook())
+	}
+	o.NotificationLanguageCode = source.GetNotificationLanguageCode()
+	if source.GetNotificationMask() != nil {
+		if o.NotificationMask == nil {
+			o.NotificationMask = new(fieldmaskpb.FieldMask)
+		}
+		proto.Merge(o.NotificationMask, source.GetNotificationMask())
+	}
+	o.MaxAlertBodiesInMsg = source.GetMaxAlertBodiesInMsg()
+	o.PutOnlyAlertsCounterWhenOverflowing = source.GetPutOnlyAlertsCounterWhenOverflowing()
+}
+
+func (o *NotificationChannelSpec) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*NotificationChannelSpec))
+}
+
+func (o *NotificationChannelSpec_Email) GotenObjectExt() {}
+
+func (o *NotificationChannelSpec_Email) MakeFullFieldMask() *NotificationChannelSpec_Email_FieldMask {
+	return FullNotificationChannelSpec_Email_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Email) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotificationChannelSpec_Email_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Email) MakeDiffFieldMask(other *NotificationChannelSpec_Email) *NotificationChannelSpec_Email_FieldMask {
+	if o == nil && other == nil {
+		return &NotificationChannelSpec_Email_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotificationChannelSpec_Email_FieldMask()
+	}
+
+	res := &NotificationChannelSpec_Email_FieldMask{}
+
+	if len(o.GetAddresses()) == len(other.GetAddresses()) {
+		for i, lValue := range o.GetAddresses() {
+			rValue := other.GetAddresses()[i]
+			if lValue != rValue {
+				res.Paths = append(res.Paths, &NotificationChannelSpecEmail_FieldTerminalPath{selector: NotificationChannelSpecEmail_FieldPathSelectorAddresses})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &NotificationChannelSpecEmail_FieldTerminalPath{selector: NotificationChannelSpecEmail_FieldPathSelectorAddresses})
+	}
+	return res
+}
+
+func (o *NotificationChannelSpec_Email) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*NotificationChannelSpec_Email))
+}
+
+func (o *NotificationChannelSpec_Email) Clone() *NotificationChannelSpec_Email {
+	if o == nil {
+		return nil
+	}
+	result := &NotificationChannelSpec_Email{}
+	result.Addresses = make([]string, len(o.Addresses))
+	for i, sourceValue := range o.Addresses {
+		result.Addresses[i] = sourceValue
+	}
+	return result
+}
+
+func (o *NotificationChannelSpec_Email) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *NotificationChannelSpec_Email) Merge(source *NotificationChannelSpec_Email) {
+	for _, sourceValue := range source.GetAddresses() {
+		exists := false
+		for _, currentValue := range o.Addresses {
+			if currentValue == sourceValue {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement string
+			newDstElement = sourceValue
+			o.Addresses = append(o.Addresses, newDstElement)
+		}
+	}
+
+}
+
+func (o *NotificationChannelSpec_Email) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*NotificationChannelSpec_Email))
+}
+
+func (o *NotificationChannelSpec_Slack) GotenObjectExt() {}
+
+func (o *NotificationChannelSpec_Slack) MakeFullFieldMask() *NotificationChannelSpec_Slack_FieldMask {
+	return FullNotificationChannelSpec_Slack_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Slack) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotificationChannelSpec_Slack_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Slack) MakeDiffFieldMask(other *NotificationChannelSpec_Slack) *NotificationChannelSpec_Slack_FieldMask {
+	if o == nil && other == nil {
+		return &NotificationChannelSpec_Slack_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotificationChannelSpec_Slack_FieldMask()
+	}
+
+	res := &NotificationChannelSpec_Slack_FieldMask{}
+	if o.GetIncomingWebhook() != other.GetIncomingWebhook() {
+		res.Paths = append(res.Paths, &NotificationChannelSpecSlack_FieldTerminalPath{selector: NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook})
+	}
+	return res
+}
+
+func (o *NotificationChannelSpec_Slack) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*NotificationChannelSpec_Slack))
+}
+
+func (o *NotificationChannelSpec_Slack) Clone() *NotificationChannelSpec_Slack {
+	if o == nil {
+		return nil
+	}
+	result := &NotificationChannelSpec_Slack{}
+	result.IncomingWebhook = o.IncomingWebhook
+	return result
+}
+
+func (o *NotificationChannelSpec_Slack) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *NotificationChannelSpec_Slack) Merge(source *NotificationChannelSpec_Slack) {
+	o.IncomingWebhook = source.GetIncomingWebhook()
+}
+
+func (o *NotificationChannelSpec_Slack) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*NotificationChannelSpec_Slack))
+}
+
+func (o *NotificationChannelSpec_PagerDuty) GotenObjectExt() {}
+
+func (o *NotificationChannelSpec_PagerDuty) MakeFullFieldMask() *NotificationChannelSpec_PagerDuty_FieldMask {
+	return FullNotificationChannelSpec_PagerDuty_FieldMask()
+}
+
+func (o *NotificationChannelSpec_PagerDuty) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotificationChannelSpec_PagerDuty_FieldMask()
+}
+
+func (o *NotificationChannelSpec_PagerDuty) MakeDiffFieldMask(other *NotificationChannelSpec_PagerDuty) *NotificationChannelSpec_PagerDuty_FieldMask {
+	if o == nil && other == nil {
+		return &NotificationChannelSpec_PagerDuty_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotificationChannelSpec_PagerDuty_FieldMask()
+	}
+
+	res := &NotificationChannelSpec_PagerDuty_FieldMask{}
+	if o.GetServiceKey() != other.GetServiceKey() {
+		res.Paths = append(res.Paths, &NotificationChannelSpecPagerDuty_FieldTerminalPath{selector: NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey})
+	}
+	return res
+}
+
+func (o *NotificationChannelSpec_PagerDuty) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*NotificationChannelSpec_PagerDuty))
+}
+
+func (o *NotificationChannelSpec_PagerDuty) Clone() *NotificationChannelSpec_PagerDuty {
+	if o == nil {
+		return nil
+	}
+	result := &NotificationChannelSpec_PagerDuty{}
+	result.ServiceKey = o.ServiceKey
+	return result
+}
+
+func (o *NotificationChannelSpec_PagerDuty) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *NotificationChannelSpec_PagerDuty) Merge(source *NotificationChannelSpec_PagerDuty) {
+	o.ServiceKey = source.GetServiceKey()
+}
+
+func (o *NotificationChannelSpec_PagerDuty) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*NotificationChannelSpec_PagerDuty))
+}
+
+func (o *NotificationChannelSpec_Webhook) GotenObjectExt() {}
+
+func (o *NotificationChannelSpec_Webhook) MakeFullFieldMask() *NotificationChannelSpec_Webhook_FieldMask {
+	return FullNotificationChannelSpec_Webhook_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Webhook) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotificationChannelSpec_Webhook_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Webhook) MakeDiffFieldMask(other *NotificationChannelSpec_Webhook) *NotificationChannelSpec_Webhook_FieldMask {
+	if o == nil && other == nil {
+		return &NotificationChannelSpec_Webhook_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotificationChannelSpec_Webhook_FieldMask()
+	}
+
+	res := &NotificationChannelSpec_Webhook_FieldMask{}
+	if o.GetUrl() != other.GetUrl() {
+		res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorUrl})
+	}
+
+	if len(o.GetHeaders()) == len(other.GetHeaders()) {
+		for i, lValue := range o.GetHeaders() {
+			rValue := other.GetHeaders()[i]
+			if len(lValue.MakeDiffFieldMask(rValue).Paths) > 0 {
+				res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders})
+				break
+			}
+		}
+	} else {
+		res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders})
+	}
+	if o.GetMaxMessageSizeMb() != other.GetMaxMessageSizeMb() {
+		res.Paths = append(res.Paths, &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb})
+	}
+	return res
+}
+
+func (o *NotificationChannelSpec_Webhook) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*NotificationChannelSpec_Webhook))
+}
+
+func (o *NotificationChannelSpec_Webhook) Clone() *NotificationChannelSpec_Webhook {
+	if o == nil {
+		return nil
+	}
+	result := &NotificationChannelSpec_Webhook{}
+	result.Url = o.Url
+	result.Headers = make([]*NotificationChannelSpec_Webhook_Header, len(o.Headers))
+	for i, sourceValue := range o.Headers {
+		result.Headers[i] = sourceValue.Clone()
+	}
+	result.MaxMessageSizeMb = o.MaxMessageSizeMb
+	return result
+}
+
+func (o *NotificationChannelSpec_Webhook) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *NotificationChannelSpec_Webhook) Merge(source *NotificationChannelSpec_Webhook) {
+	o.Url = source.GetUrl()
+	for _, sourceValue := range source.GetHeaders() {
+		exists := false
+		for _, currentValue := range o.Headers {
+			if proto.Equal(sourceValue, currentValue) {
+				exists = true
+				break
+			}
+		}
+		if !exists {
+			var newDstElement *NotificationChannelSpec_Webhook_Header
+			if sourceValue != nil {
+				newDstElement = new(NotificationChannelSpec_Webhook_Header)
+				newDstElement.Merge(sourceValue)
+			}
+			o.Headers = append(o.Headers, newDstElement)
+		}
+	}
+
+	o.MaxMessageSizeMb = source.GetMaxMessageSizeMb()
+}
+
+func (o *NotificationChannelSpec_Webhook) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*NotificationChannelSpec_Webhook))
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) GotenObjectExt() {}
+
+func (o *NotificationChannelSpec_Webhook_Header) MakeFullFieldMask() *NotificationChannelSpec_Webhook_Header_FieldMask {
+	return FullNotificationChannelSpec_Webhook_Header_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) MakeRawFullFieldMask() gotenobject.FieldMask {
+	return FullNotificationChannelSpec_Webhook_Header_FieldMask()
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) MakeDiffFieldMask(other *NotificationChannelSpec_Webhook_Header) *NotificationChannelSpec_Webhook_Header_FieldMask {
+	if o == nil && other == nil {
+		return &NotificationChannelSpec_Webhook_Header_FieldMask{}
+	}
+	if o == nil || other == nil {
+		return FullNotificationChannelSpec_Webhook_Header_FieldMask()
+	}
+
+	res := &NotificationChannelSpec_Webhook_Header_FieldMask{}
+	if o.GetKey() != other.GetKey() {
+		res.Paths = append(res.Paths, &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorKey})
+	}
+	if o.GetValue() != other.GetValue() {
+		res.Paths = append(res.Paths, &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorValue})
+	}
+	return res
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) MakeRawDiffFieldMask(other gotenobject.GotenObjectExt) gotenobject.FieldMask {
+	return o.MakeDiffFieldMask(other.(*NotificationChannelSpec_Webhook_Header))
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) Clone() *NotificationChannelSpec_Webhook_Header {
+	if o == nil {
+		return nil
+	}
+	result := &NotificationChannelSpec_Webhook_Header{}
+	result.Key = o.Key
+	result.Value = o.Value
+	return result
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) CloneRaw() gotenobject.GotenObjectExt {
+	return o.Clone()
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) Merge(source *NotificationChannelSpec_Webhook_Header) {
+	o.Key = source.GetKey()
+	o.Value = source.GetValue()
+}
+
+func (o *NotificationChannelSpec_Webhook_Header) MergeRaw(source gotenobject.GotenObjectExt) {
+	o.Merge(source.(*NotificationChannelSpec_Webhook_Header))
 }
 
 func (o *AlertingThreshold) GotenObjectExt() {}

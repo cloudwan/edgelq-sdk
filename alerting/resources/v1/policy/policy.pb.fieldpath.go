@@ -25,6 +25,7 @@ import (
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -52,6 +53,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &policy_template.PolicyTemplate{}
 	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
@@ -78,13 +80,14 @@ type Policy_FieldPath interface {
 type Policy_FieldPathSelector int32
 
 const (
-	Policy_FieldPathSelectorName           Policy_FieldPathSelector = 0
-	Policy_FieldPathSelectorMetadata       Policy_FieldPathSelector = 1
-	Policy_FieldPathSelectorDisplayName    Policy_FieldPathSelector = 2
-	Policy_FieldPathSelectorDescription    Policy_FieldPathSelector = 3
-	Policy_FieldPathSelectorSupportingDocs Policy_FieldPathSelector = 4
-	Policy_FieldPathSelectorSpec           Policy_FieldPathSelector = 5
-	Policy_FieldPathSelectorTemplateSource Policy_FieldPathSelector = 6
+	Policy_FieldPathSelectorName                 Policy_FieldPathSelector = 0
+	Policy_FieldPathSelectorMetadata             Policy_FieldPathSelector = 1
+	Policy_FieldPathSelectorDisplayName          Policy_FieldPathSelector = 2
+	Policy_FieldPathSelectorDescription          Policy_FieldPathSelector = 3
+	Policy_FieldPathSelectorSupportingDocs       Policy_FieldPathSelector = 4
+	Policy_FieldPathSelectorSpec                 Policy_FieldPathSelector = 5
+	Policy_FieldPathSelectorTemplateSource       Policy_FieldPathSelector = 6
+	Policy_FieldPathSelectorNotificationChannels Policy_FieldPathSelector = 7
 )
 
 func (s Policy_FieldPathSelector) String() string {
@@ -103,6 +106,8 @@ func (s Policy_FieldPathSelector) String() string {
 		return "spec"
 	case Policy_FieldPathSelectorTemplateSource:
 		return "template_source"
+	case Policy_FieldPathSelectorNotificationChannels:
+		return "notification_channels"
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", s))
 	}
@@ -128,6 +133,8 @@ func BuildPolicy_FieldPath(fp gotenobject.RawFieldPath) (Policy_FieldPath, error
 			return &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorSpec}, nil
 		case "template_source", "templateSource", "template-source":
 			return &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorTemplateSource}, nil
+		case "notification_channels", "notificationChannels", "notification-channels":
+			return &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorNotificationChannels}, nil
 		}
 	} else {
 		switch fp[0] {
@@ -218,6 +225,10 @@ func (fp *Policy_FieldTerminalPath) Get(source *Policy) (values []interface{}) {
 			if source.TemplateSource != nil {
 				values = append(values, source.TemplateSource)
 			}
+		case Policy_FieldPathSelectorNotificationChannels:
+			for _, value := range source.GetNotificationChannels() {
+				values = append(values, value)
+			}
 		default:
 			panic(fmt.Sprintf("Invalid selector for Policy: %d", fp.selector))
 		}
@@ -251,6 +262,9 @@ func (fp *Policy_FieldTerminalPath) GetSingle(source *Policy) (interface{}, bool
 	case Policy_FieldPathSelectorTemplateSource:
 		res := source.GetTemplateSource()
 		return res, res != nil
+	case Policy_FieldPathSelectorNotificationChannels:
+		res := source.GetNotificationChannels()
+		return res, res != nil
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", fp.selector))
 	}
@@ -277,6 +291,8 @@ func (fp *Policy_FieldTerminalPath) GetDefault() interface{} {
 		return (*rcommon.PolicySpec)(nil)
 	case Policy_FieldPathSelectorTemplateSource:
 		return (*Policy_TemplateSource)(nil)
+	case Policy_FieldPathSelectorNotificationChannels:
+		return ([]*notification_channel.Reference)(nil)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", fp.selector))
 	}
@@ -299,6 +315,8 @@ func (fp *Policy_FieldTerminalPath) ClearValue(item *Policy) {
 			item.Spec = nil
 		case Policy_FieldPathSelectorTemplateSource:
 			item.TemplateSource = nil
+		case Policy_FieldPathSelectorNotificationChannels:
+			item.NotificationChannels = nil
 		default:
 			panic(fmt.Sprintf("Invalid selector for Policy: %d", fp.selector))
 		}
@@ -314,7 +332,8 @@ func (fp *Policy_FieldTerminalPath) IsLeaf() bool {
 	return fp.selector == Policy_FieldPathSelectorName ||
 		fp.selector == Policy_FieldPathSelectorDisplayName ||
 		fp.selector == Policy_FieldPathSelectorDescription ||
-		fp.selector == Policy_FieldPathSelectorSupportingDocs
+		fp.selector == Policy_FieldPathSelectorSupportingDocs ||
+		fp.selector == Policy_FieldPathSelectorNotificationChannels
 }
 
 func (fp *Policy_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
@@ -337,6 +356,8 @@ func (fp *Policy_FieldTerminalPath) WithIValue(value interface{}) Policy_FieldPa
 		return &Policy_FieldTerminalPathValue{Policy_FieldTerminalPath: *fp, value: value.(*rcommon.PolicySpec)}
 	case Policy_FieldPathSelectorTemplateSource:
 		return &Policy_FieldTerminalPathValue{Policy_FieldTerminalPath: *fp, value: value.(*Policy_TemplateSource)}
+	case Policy_FieldPathSelectorNotificationChannels:
+		return &Policy_FieldTerminalPathValue{Policy_FieldTerminalPath: *fp, value: value.([]*notification_channel.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", fp.selector))
 	}
@@ -363,6 +384,8 @@ func (fp *Policy_FieldTerminalPath) WithIArrayOfValues(values interface{}) Polic
 		return &Policy_FieldTerminalPathArrayOfValues{Policy_FieldTerminalPath: *fp, values: values.([]*rcommon.PolicySpec)}
 	case Policy_FieldPathSelectorTemplateSource:
 		return &Policy_FieldTerminalPathArrayOfValues{Policy_FieldTerminalPath: *fp, values: values.([]*Policy_TemplateSource)}
+	case Policy_FieldPathSelectorNotificationChannels:
+		return &Policy_FieldTerminalPathArrayOfValues{Policy_FieldTerminalPath: *fp, values: values.([][]*notification_channel.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", fp.selector))
 	}
@@ -377,6 +400,8 @@ func (fp *Policy_FieldTerminalPath) WithIArrayItemValue(value interface{}) Polic
 	switch fp.selector {
 	case Policy_FieldPathSelectorSupportingDocs:
 		return &Policy_FieldTerminalPathArrayItemValue{Policy_FieldTerminalPath: *fp, value: value.(*document.Reference)}
+	case Policy_FieldPathSelectorNotificationChannels:
+		return &Policy_FieldTerminalPathArrayItemValue{Policy_FieldTerminalPath: *fp, value: value.(*notification_channel.Reference)}
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", fp.selector))
 	}
@@ -591,6 +616,10 @@ func (fpv *Policy_FieldTerminalPathValue) AsTemplateSourceValue() (*Policy_Templ
 	res, ok := fpv.value.(*Policy_TemplateSource)
 	return res, ok
 }
+func (fpv *Policy_FieldTerminalPathValue) AsNotificationChannelsValue() ([]*notification_channel.Reference, bool) {
+	res, ok := fpv.value.([]*notification_channel.Reference)
+	return res, ok
+}
 
 // SetTo stores value for selected field for object Policy
 func (fpv *Policy_FieldTerminalPathValue) SetTo(target **Policy) {
@@ -612,6 +641,8 @@ func (fpv *Policy_FieldTerminalPathValue) SetTo(target **Policy) {
 		(*target).Spec = fpv.value.(*rcommon.PolicySpec)
 	case Policy_FieldPathSelectorTemplateSource:
 		(*target).TemplateSource = fpv.value.(*Policy_TemplateSource)
+	case Policy_FieldPathSelectorNotificationChannels:
+		(*target).NotificationChannels = fpv.value.([]*notification_channel.Reference)
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", fpv.selector))
 	}
@@ -671,6 +702,8 @@ func (fpv *Policy_FieldTerminalPathValue) CompareWith(source *Policy) (int, bool
 	case Policy_FieldPathSelectorSpec:
 		return 0, false
 	case Policy_FieldPathSelectorTemplateSource:
+		return 0, false
+	case Policy_FieldPathSelectorNotificationChannels:
 		return 0, false
 	default:
 		panic(fmt.Sprintf("Invalid selector for Policy: %d", fpv.selector))
@@ -785,6 +818,10 @@ func (fpaiv *Policy_FieldTerminalPathArrayItemValue) GetRawItemValue() interface
 }
 func (fpaiv *Policy_FieldTerminalPathArrayItemValue) AsSupportingDocsItemValue() (*document.Reference, bool) {
 	res, ok := fpaiv.value.(*document.Reference)
+	return res, ok
+}
+func (fpaiv *Policy_FieldTerminalPathArrayItemValue) AsNotificationChannelsItemValue() (*notification_channel.Reference, bool) {
+	res, ok := fpaiv.value.(*notification_channel.Reference)
 	return res, ok
 }
 
@@ -910,6 +947,10 @@ func (fpaov *Policy_FieldTerminalPathArrayOfValues) GetRawValues() (values []int
 		for _, v := range fpaov.values.([]*Policy_TemplateSource) {
 			values = append(values, v)
 		}
+	case Policy_FieldPathSelectorNotificationChannels:
+		for _, v := range fpaov.values.([][]*notification_channel.Reference) {
+			values = append(values, v)
+		}
 	}
 	return
 }
@@ -939,6 +980,10 @@ func (fpaov *Policy_FieldTerminalPathArrayOfValues) AsSpecArrayOfValues() ([]*rc
 }
 func (fpaov *Policy_FieldTerminalPathArrayOfValues) AsTemplateSourceArrayOfValues() ([]*Policy_TemplateSource, bool) {
 	res, ok := fpaov.values.([]*Policy_TemplateSource)
+	return res, ok
+}
+func (fpaov *Policy_FieldTerminalPathArrayOfValues) AsNotificationChannelsArrayOfValues() ([][]*notification_channel.Reference, bool) {
+	res, ok := fpaov.values.([][]*notification_channel.Reference)
 	return res, ok
 }
 

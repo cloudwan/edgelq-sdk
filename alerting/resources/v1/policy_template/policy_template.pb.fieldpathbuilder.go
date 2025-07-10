@@ -8,7 +8,6 @@ package policy_template
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
@@ -37,7 +36,6 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &notification_channel.NotificationChannel{}
 	_ = &rcommon.LogCndSpec{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
@@ -868,10 +866,6 @@ func (PolicyTemplatePathSelectorSpecTemplate) ProcessingLocation() PolicyTemplat
 	return PolicyTemplatePathSelectorSpecTemplateProcessingLocation{}
 }
 
-func (PolicyTemplatePathSelectorSpecTemplate) Notifications() PolicyTemplatePathSelectorSpecTemplateNotifications {
-	return PolicyTemplatePathSelectorSpecTemplateNotifications{}
-}
-
 func (PolicyTemplatePathSelectorSpecTemplate) ResourceIdentity() PolicyTemplatePathSelectorSpecTemplateResourceIdentity {
 	return PolicyTemplatePathSelectorSpecTemplateResourceIdentity{}
 }
@@ -915,115 +909,6 @@ func (s PolicyTemplatePathSelectorSpecTemplateProcessingLocation) WithValue(valu
 }
 
 func (s PolicyTemplatePathSelectorSpecTemplateProcessingLocation) WithArrayOfValues(values []rcommon.PolicySpec_ProcessingLocation) *PolicyTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
-}
-
-type PolicyTemplatePathSelectorSpecTemplateNotifications struct{}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotifications) FieldPath() *PolicyTemplate_FieldSubPath {
-	return &PolicyTemplate_FieldSubPath{
-		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().FieldPath(),
-	}
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithValue(value []*rcommon.PolicySpec_Notification) *PolicyTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithArrayOfValues(values [][]*rcommon.PolicySpec_Notification) *PolicyTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotifications) WithItemValue(value *rcommon.PolicySpec_Notification) *PolicyTemplate_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
-}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotifications) EnabledKinds() PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds {
-	return PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds{}
-}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotifications) Channel() PolicyTemplatePathSelectorSpecTemplateNotificationsChannel {
-	return PolicyTemplatePathSelectorSpecTemplateNotificationsChannel{}
-}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotifications) MaxAlertBodiesInMsg() PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg {
-	return PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg{}
-}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotifications) PutOnlyAlertsCounterWhenOverflowing() PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhenOverflowing {
-	return PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhenOverflowing{}
-}
-
-type PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds struct{}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) FieldPath() *PolicyTemplate_FieldSubPath {
-	return &PolicyTemplate_FieldSubPath{
-		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().EnabledKinds().FieldPath(),
-	}
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithValue(value []rcommon.PolicySpec_Notification_Kind) *PolicyTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithArrayOfValues(values [][]rcommon.PolicySpec_Notification_Kind) *PolicyTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsEnabledKinds) WithItemValue(value rcommon.PolicySpec_Notification_Kind) *PolicyTemplate_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*PolicyTemplate_FieldSubPathArrayItemValue)
-}
-
-type PolicyTemplatePathSelectorSpecTemplateNotificationsChannel struct{}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotificationsChannel) FieldPath() *PolicyTemplate_FieldSubPath {
-	return &PolicyTemplate_FieldSubPath{
-		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().Channel().FieldPath(),
-	}
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsChannel) WithValue(value *notification_channel.Reference) *PolicyTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsChannel) WithArrayOfValues(values []*notification_channel.Reference) *PolicyTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
-}
-
-type PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg struct{}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg) FieldPath() *PolicyTemplate_FieldSubPath {
-	return &PolicyTemplate_FieldSubPath{
-		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().MaxAlertBodiesInMsg().FieldPath(),
-	}
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg) WithValue(value int32) *PolicyTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsMaxAlertBodiesInMsg) WithArrayOfValues(values []int32) *PolicyTemplate_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
-}
-
-type PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhenOverflowing struct{}
-
-func (PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhenOverflowing) FieldPath() *PolicyTemplate_FieldSubPath {
-	return &PolicyTemplate_FieldSubPath{
-		selector: PolicyTemplate_FieldPathSelectorSpecTemplate,
-		subPath:  rcommon.NewPolicySpecFieldPathBuilder().Notifications().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
-	}
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhenOverflowing) WithValue(value bool) *PolicyTemplate_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*PolicyTemplate_FieldSubPathValue)
-}
-
-func (s PolicyTemplatePathSelectorSpecTemplateNotificationsPutOnlyAlertsCounterWhenOverflowing) WithArrayOfValues(values []bool) *PolicyTemplate_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*PolicyTemplate_FieldSubPathArrayOfValues)
 }
 

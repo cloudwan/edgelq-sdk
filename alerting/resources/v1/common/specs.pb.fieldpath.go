@@ -23,12 +23,12 @@ import (
 
 // proto imports
 import (
-	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 // ensure the imports are used
@@ -51,11 +51,11 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &notification_channel.NotificationChannel{}
 	_ = &logging_log.Log{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitoring_time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta_resource.Resource{}
 )
 
@@ -7101,10 +7101,9 @@ type PolicySpec_FieldPathSelector int32
 const (
 	PolicySpec_FieldPathSelectorEnabled            PolicySpec_FieldPathSelector = 0
 	PolicySpec_FieldPathSelectorProcessingLocation PolicySpec_FieldPathSelector = 1
-	PolicySpec_FieldPathSelectorNotifications      PolicySpec_FieldPathSelector = 2
-	PolicySpec_FieldPathSelectorResourceIdentity   PolicySpec_FieldPathSelector = 3
-	PolicySpec_FieldPathSelectorSupportingQueries  PolicySpec_FieldPathSelector = 4
-	PolicySpec_FieldPathSelectorAiAgent            PolicySpec_FieldPathSelector = 5
+	PolicySpec_FieldPathSelectorResourceIdentity   PolicySpec_FieldPathSelector = 2
+	PolicySpec_FieldPathSelectorSupportingQueries  PolicySpec_FieldPathSelector = 3
+	PolicySpec_FieldPathSelectorAiAgent            PolicySpec_FieldPathSelector = 4
 )
 
 func (s PolicySpec_FieldPathSelector) String() string {
@@ -7113,8 +7112,6 @@ func (s PolicySpec_FieldPathSelector) String() string {
 		return "enabled"
 	case PolicySpec_FieldPathSelectorProcessingLocation:
 		return "processing_location"
-	case PolicySpec_FieldPathSelectorNotifications:
-		return "notifications"
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		return "resource_identity"
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7136,8 +7133,6 @@ func BuildPolicySpec_FieldPath(fp gotenobject.RawFieldPath) (PolicySpec_FieldPat
 			return &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorEnabled}, nil
 		case "processing_location", "processingLocation", "processing-location":
 			return &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorProcessingLocation}, nil
-		case "notifications":
-			return &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorNotifications}, nil
 		case "resource_identity", "resourceIdentity", "resource-identity":
 			return &PolicySpec_FieldTerminalPath{selector: PolicySpec_FieldPathSelectorResourceIdentity}, nil
 		case "supporting_queries", "supportingQueries", "supporting-queries":
@@ -7147,12 +7142,6 @@ func BuildPolicySpec_FieldPath(fp gotenobject.RawFieldPath) (PolicySpec_FieldPat
 		}
 	} else {
 		switch fp[0] {
-		case "notifications":
-			if subpath, err := BuildPolicySpecNotification_FieldPath(fp[1:]); err != nil {
-				return nil, err
-			} else {
-				return &PolicySpec_FieldSubPath{selector: PolicySpec_FieldPathSelectorNotifications, subPath: subpath}, nil
-			}
 		case "resource_identity", "resourceIdentity", "resource-identity":
 			if subpath, err := BuildPolicySpecResourceIdentity_FieldPath(fp[1:]); err != nil {
 				return nil, err
@@ -7220,10 +7209,6 @@ func (fp *PolicySpec_FieldTerminalPath) Get(source *PolicySpec) (values []interf
 			values = append(values, source.Enabled)
 		case PolicySpec_FieldPathSelectorProcessingLocation:
 			values = append(values, source.ProcessingLocation)
-		case PolicySpec_FieldPathSelectorNotifications:
-			for _, value := range source.GetNotifications() {
-				values = append(values, value)
-			}
 		case PolicySpec_FieldPathSelectorResourceIdentity:
 			if source.ResourceIdentity != nil {
 				values = append(values, source.ResourceIdentity)
@@ -7254,9 +7239,6 @@ func (fp *PolicySpec_FieldTerminalPath) GetSingle(source *PolicySpec) (interface
 		return source.GetEnabled(), source != nil
 	case PolicySpec_FieldPathSelectorProcessingLocation:
 		return source.GetProcessingLocation(), source != nil
-	case PolicySpec_FieldPathSelectorNotifications:
-		res := source.GetNotifications()
-		return res, res != nil
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		res := source.GetResourceIdentity()
 		return res, res != nil
@@ -7282,8 +7264,6 @@ func (fp *PolicySpec_FieldTerminalPath) GetDefault() interface{} {
 		return false
 	case PolicySpec_FieldPathSelectorProcessingLocation:
 		return PolicySpec_UNDEFINED
-	case PolicySpec_FieldPathSelectorNotifications:
-		return ([]*PolicySpec_Notification)(nil)
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		return (*PolicySpec_ResourceIdentity)(nil)
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7302,8 +7282,6 @@ func (fp *PolicySpec_FieldTerminalPath) ClearValue(item *PolicySpec) {
 			item.Enabled = false
 		case PolicySpec_FieldPathSelectorProcessingLocation:
 			item.ProcessingLocation = PolicySpec_UNDEFINED
-		case PolicySpec_FieldPathSelectorNotifications:
-			item.Notifications = nil
 		case PolicySpec_FieldPathSelectorResourceIdentity:
 			item.ResourceIdentity = nil
 		case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7336,8 +7314,6 @@ func (fp *PolicySpec_FieldTerminalPath) WithIValue(value interface{}) PolicySpec
 		return &PolicySpec_FieldTerminalPathValue{PolicySpec_FieldTerminalPath: *fp, value: value.(bool)}
 	case PolicySpec_FieldPathSelectorProcessingLocation:
 		return &PolicySpec_FieldTerminalPathValue{PolicySpec_FieldTerminalPath: *fp, value: value.(PolicySpec_ProcessingLocation)}
-	case PolicySpec_FieldPathSelectorNotifications:
-		return &PolicySpec_FieldTerminalPathValue{PolicySpec_FieldTerminalPath: *fp, value: value.([]*PolicySpec_Notification)}
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		return &PolicySpec_FieldTerminalPathValue{PolicySpec_FieldTerminalPath: *fp, value: value.(*PolicySpec_ResourceIdentity)}
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7360,8 +7336,6 @@ func (fp *PolicySpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) P
 		return &PolicySpec_FieldTerminalPathArrayOfValues{PolicySpec_FieldTerminalPath: *fp, values: values.([]bool)}
 	case PolicySpec_FieldPathSelectorProcessingLocation:
 		return &PolicySpec_FieldTerminalPathArrayOfValues{PolicySpec_FieldTerminalPath: *fp, values: values.([]PolicySpec_ProcessingLocation)}
-	case PolicySpec_FieldPathSelectorNotifications:
-		return &PolicySpec_FieldTerminalPathArrayOfValues{PolicySpec_FieldTerminalPath: *fp, values: values.([][]*PolicySpec_Notification)}
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		return &PolicySpec_FieldTerminalPathArrayOfValues{PolicySpec_FieldTerminalPath: *fp, values: values.([]*PolicySpec_ResourceIdentity)}
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7380,8 +7354,6 @@ func (fp *PolicySpec_FieldTerminalPath) WithRawIArrayOfValues(values interface{}
 
 func (fp *PolicySpec_FieldTerminalPath) WithIArrayItemValue(value interface{}) PolicySpec_FieldPathArrayItemValue {
 	switch fp.selector {
-	case PolicySpec_FieldPathSelectorNotifications:
-		return &PolicySpec_FieldTerminalPathArrayItemValue{PolicySpec_FieldTerminalPath: *fp, value: value.(*PolicySpec_Notification)}
 	case PolicySpec_FieldPathSelectorSupportingQueries:
 		return &PolicySpec_FieldTerminalPathArrayItemValue{PolicySpec_FieldTerminalPath: *fp, value: value.(*PolicySpec_SupportingAlertQuery)}
 	default:
@@ -7402,10 +7374,6 @@ var _ PolicySpec_FieldPath = (*PolicySpec_FieldSubPath)(nil)
 
 func (fps *PolicySpec_FieldSubPath) Selector() PolicySpec_FieldPathSelector {
 	return fps.selector
-}
-func (fps *PolicySpec_FieldSubPath) AsNotificationsSubPath() (PolicySpecNotification_FieldPath, bool) {
-	res, ok := fps.subPath.(PolicySpecNotification_FieldPath)
-	return res, ok
 }
 func (fps *PolicySpec_FieldSubPath) AsResourceIdentitySubPath() (PolicySpecResourceIdentity_FieldPath, bool) {
 	res, ok := fps.subPath.(PolicySpecResourceIdentity_FieldPath)
@@ -7433,10 +7401,6 @@ func (fps *PolicySpec_FieldSubPath) JSONString() string {
 // Get returns all values pointed by selected field from source PolicySpec
 func (fps *PolicySpec_FieldSubPath) Get(source *PolicySpec) (values []interface{}) {
 	switch fps.selector {
-	case PolicySpec_FieldPathSelectorNotifications:
-		for _, item := range source.GetNotifications() {
-			values = append(values, fps.subPath.GetRaw(item)...)
-		}
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		values = append(values, fps.subPath.GetRaw(source.GetResourceIdentity())...)
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7458,11 +7422,6 @@ func (fps *PolicySpec_FieldSubPath) GetRaw(source proto.Message) []interface{} {
 // GetSingle returns value of selected field from source PolicySpec
 func (fps *PolicySpec_FieldSubPath) GetSingle(source *PolicySpec) (interface{}, bool) {
 	switch fps.selector {
-	case PolicySpec_FieldPathSelectorNotifications:
-		if len(source.GetNotifications()) == 0 {
-			return nil, false
-		}
-		return fps.subPath.GetSingleRaw(source.GetNotifications()[0])
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		if source.GetResourceIdentity() == nil {
 			return nil, false
@@ -7495,10 +7454,6 @@ func (fps *PolicySpec_FieldSubPath) GetDefault() interface{} {
 func (fps *PolicySpec_FieldSubPath) ClearValue(item *PolicySpec) {
 	if item != nil {
 		switch fps.selector {
-		case PolicySpec_FieldPathSelectorNotifications:
-			for _, subItem := range item.Notifications {
-				fps.subPath.ClearValueRaw(subItem)
-			}
 		case PolicySpec_FieldPathSelectorResourceIdentity:
 			fps.subPath.ClearValueRaw(item.ResourceIdentity)
 		case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7599,10 +7554,6 @@ func (fpv *PolicySpec_FieldTerminalPathValue) AsProcessingLocationValue() (Polic
 	res, ok := fpv.value.(PolicySpec_ProcessingLocation)
 	return res, ok
 }
-func (fpv *PolicySpec_FieldTerminalPathValue) AsNotificationsValue() ([]*PolicySpec_Notification, bool) {
-	res, ok := fpv.value.([]*PolicySpec_Notification)
-	return res, ok
-}
 func (fpv *PolicySpec_FieldTerminalPathValue) AsResourceIdentityValue() (*PolicySpec_ResourceIdentity, bool) {
 	res, ok := fpv.value.(*PolicySpec_ResourceIdentity)
 	return res, ok
@@ -7626,8 +7577,6 @@ func (fpv *PolicySpec_FieldTerminalPathValue) SetTo(target **PolicySpec) {
 		(*target).Enabled = fpv.value.(bool)
 	case PolicySpec_FieldPathSelectorProcessingLocation:
 		(*target).ProcessingLocation = fpv.value.(PolicySpec_ProcessingLocation)
-	case PolicySpec_FieldPathSelectorNotifications:
-		(*target).Notifications = fpv.value.([]*PolicySpec_Notification)
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		(*target).ResourceIdentity = fpv.value.(*PolicySpec_ResourceIdentity)
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7667,8 +7616,6 @@ func (fpv *PolicySpec_FieldTerminalPathValue) CompareWith(source *PolicySpec) (i
 		} else {
 			return 1, true
 		}
-	case PolicySpec_FieldPathSelectorNotifications:
-		return 0, false
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		return 0, false
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7691,10 +7638,6 @@ type PolicySpec_FieldSubPathValue struct {
 
 var _ PolicySpec_FieldPathValue = (*PolicySpec_FieldSubPathValue)(nil)
 
-func (fpvs *PolicySpec_FieldSubPathValue) AsNotificationsPathValue() (PolicySpecNotification_FieldPathValue, bool) {
-	res, ok := fpvs.subPathValue.(PolicySpecNotification_FieldPathValue)
-	return res, ok
-}
 func (fpvs *PolicySpec_FieldSubPathValue) AsResourceIdentityPathValue() (PolicySpecResourceIdentity_FieldPathValue, bool) {
 	res, ok := fpvs.subPathValue.(PolicySpecResourceIdentity_FieldPathValue)
 	return res, ok
@@ -7713,8 +7656,6 @@ func (fpvs *PolicySpec_FieldSubPathValue) SetTo(target **PolicySpec) {
 		*target = new(PolicySpec)
 	}
 	switch fpvs.Selector() {
-	case PolicySpec_FieldPathSelectorNotifications:
-		panic("FieldPath setter is unsupported for array subpaths")
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		fpvs.subPathValue.(PolicySpecResourceIdentity_FieldPathValue).SetTo(&(*target).ResourceIdentity)
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7737,8 +7678,6 @@ func (fpvs *PolicySpec_FieldSubPathValue) GetRawValue() interface{} {
 
 func (fpvs *PolicySpec_FieldSubPathValue) CompareWith(source *PolicySpec) (int, bool) {
 	switch fpvs.Selector() {
-	case PolicySpec_FieldPathSelectorNotifications:
-		return 0, false // repeated field
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		return fpvs.subPathValue.(PolicySpecResourceIdentity_FieldPathValue).CompareWith(source.GetResourceIdentity())
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7794,10 +7733,6 @@ var _ PolicySpec_FieldPathArrayItemValue = (*PolicySpec_FieldTerminalPathArrayIt
 func (fpaiv *PolicySpec_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaiv.value
 }
-func (fpaiv *PolicySpec_FieldTerminalPathArrayItemValue) AsNotificationsItemValue() (*PolicySpec_Notification, bool) {
-	res, ok := fpaiv.value.(*PolicySpec_Notification)
-	return res, ok
-}
 func (fpaiv *PolicySpec_FieldTerminalPathArrayItemValue) AsSupportingQueriesItemValue() (*PolicySpec_SupportingAlertQuery, bool) {
 	res, ok := fpaiv.value.(*PolicySpec_SupportingAlertQuery)
 	return res, ok
@@ -7835,10 +7770,6 @@ type PolicySpec_FieldSubPathArrayItemValue struct {
 func (fpaivs *PolicySpec_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
 	return fpaivs.subPathItemValue.GetRawItemValue()
 }
-func (fpaivs *PolicySpec_FieldSubPathArrayItemValue) AsNotificationsPathItemValue() (PolicySpecNotification_FieldPathArrayItemValue, bool) {
-	res, ok := fpaivs.subPathItemValue.(PolicySpecNotification_FieldPathArrayItemValue)
-	return res, ok
-}
 func (fpaivs *PolicySpec_FieldSubPathArrayItemValue) AsResourceIdentityPathItemValue() (PolicySpecResourceIdentity_FieldPathArrayItemValue, bool) {
 	res, ok := fpaivs.subPathItemValue.(PolicySpecResourceIdentity_FieldPathArrayItemValue)
 	return res, ok
@@ -7855,8 +7786,6 @@ func (fpaivs *PolicySpec_FieldSubPathArrayItemValue) AsAiAgentPathItemValue() (P
 // Contains returns a boolean indicating if value that is being held is present in given 'PolicySpec'
 func (fpaivs *PolicySpec_FieldSubPathArrayItemValue) ContainsValue(source *PolicySpec) bool {
 	switch fpaivs.Selector() {
-	case PolicySpec_FieldPathSelectorNotifications:
-		return false // repeated/map field
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		return fpaivs.subPathItemValue.(PolicySpecResourceIdentity_FieldPathArrayItemValue).ContainsValue(source.GetResourceIdentity())
 	case PolicySpec_FieldPathSelectorSupportingQueries:
@@ -7911,10 +7840,6 @@ func (fpaov *PolicySpec_FieldTerminalPathArrayOfValues) GetRawValues() (values [
 		for _, v := range fpaov.values.([]PolicySpec_ProcessingLocation) {
 			values = append(values, v)
 		}
-	case PolicySpec_FieldPathSelectorNotifications:
-		for _, v := range fpaov.values.([][]*PolicySpec_Notification) {
-			values = append(values, v)
-		}
 	case PolicySpec_FieldPathSelectorResourceIdentity:
 		for _, v := range fpaov.values.([]*PolicySpec_ResourceIdentity) {
 			values = append(values, v)
@@ -7936,10 +7861,6 @@ func (fpaov *PolicySpec_FieldTerminalPathArrayOfValues) AsEnabledArrayOfValues()
 }
 func (fpaov *PolicySpec_FieldTerminalPathArrayOfValues) AsProcessingLocationArrayOfValues() ([]PolicySpec_ProcessingLocation, bool) {
 	res, ok := fpaov.values.([]PolicySpec_ProcessingLocation)
-	return res, ok
-}
-func (fpaov *PolicySpec_FieldTerminalPathArrayOfValues) AsNotificationsArrayOfValues() ([][]*PolicySpec_Notification, bool) {
-	res, ok := fpaov.values.([][]*PolicySpec_Notification)
 	return res, ok
 }
 func (fpaov *PolicySpec_FieldTerminalPathArrayOfValues) AsResourceIdentityArrayOfValues() ([]*PolicySpec_ResourceIdentity, bool) {
@@ -7965,10 +7886,6 @@ var _ PolicySpec_FieldPathArrayOfValues = (*PolicySpec_FieldSubPathArrayOfValues
 func (fpsaov *PolicySpec_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
 	return fpsaov.subPathArrayOfValues.GetRawValues()
 }
-func (fpsaov *PolicySpec_FieldSubPathArrayOfValues) AsNotificationsPathArrayOfValues() (PolicySpecNotification_FieldPathArrayOfValues, bool) {
-	res, ok := fpsaov.subPathArrayOfValues.(PolicySpecNotification_FieldPathArrayOfValues)
-	return res, ok
-}
 func (fpsaov *PolicySpec_FieldSubPathArrayOfValues) AsResourceIdentityPathArrayOfValues() (PolicySpecResourceIdentity_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(PolicySpecResourceIdentity_FieldPathArrayOfValues)
 	return res, ok
@@ -7979,524 +7896,6 @@ func (fpsaov *PolicySpec_FieldSubPathArrayOfValues) AsSupportingQueriesPathArray
 }
 func (fpsaov *PolicySpec_FieldSubPathArrayOfValues) AsAiAgentPathArrayOfValues() (PolicySpecAIAgentHandling_FieldPathArrayOfValues, bool) {
 	res, ok := fpsaov.subPathArrayOfValues.(PolicySpecAIAgentHandling_FieldPathArrayOfValues)
-	return res, ok
-}
-
-// FieldPath provides implementation to handle
-// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
-type PolicySpecNotification_FieldPath interface {
-	gotenobject.FieldPath
-	Selector() PolicySpecNotification_FieldPathSelector
-	Get(source *PolicySpec_Notification) []interface{}
-	GetSingle(source *PolicySpec_Notification) (interface{}, bool)
-	ClearValue(item *PolicySpec_Notification)
-
-	// Those methods build corresponding PolicySpecNotification_FieldPathValue
-	// (or array of values) and holds passed value. Panics if injected type is incorrect.
-	WithIValue(value interface{}) PolicySpecNotification_FieldPathValue
-	WithIArrayOfValues(values interface{}) PolicySpecNotification_FieldPathArrayOfValues
-	WithIArrayItemValue(value interface{}) PolicySpecNotification_FieldPathArrayItemValue
-}
-
-type PolicySpecNotification_FieldPathSelector int32
-
-const (
-	PolicySpecNotification_FieldPathSelectorEnabledKinds                        PolicySpecNotification_FieldPathSelector = 0
-	PolicySpecNotification_FieldPathSelectorChannel                             PolicySpecNotification_FieldPathSelector = 1
-	PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg                 PolicySpecNotification_FieldPathSelector = 2
-	PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing PolicySpecNotification_FieldPathSelector = 3
-)
-
-func (s PolicySpecNotification_FieldPathSelector) String() string {
-	switch s {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		return "enabled_kinds"
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		return "channel"
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		return "max_alert_bodies_in_msg"
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		return "put_only_alerts_counter_when_overflowing"
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", s))
-	}
-}
-
-func BuildPolicySpecNotification_FieldPath(fp gotenobject.RawFieldPath) (PolicySpecNotification_FieldPath, error) {
-	if len(fp) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "empty field path for object PolicySpec_Notification")
-	}
-	if len(fp) == 1 {
-		switch fp[0] {
-		case "enabled_kinds", "enabledKinds", "enabled-kinds":
-			return &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorEnabledKinds}, nil
-		case "channel":
-			return &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorChannel}, nil
-		case "max_alert_bodies_in_msg", "maxAlertBodiesInMsg", "max-alert-bodies-in-msg":
-			return &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg}, nil
-		case "put_only_alerts_counter_when_overflowing", "putOnlyAlertsCounterWhenOverflowing", "put-only-alerts-counter-when-overflowing":
-			return &PolicySpecNotification_FieldTerminalPath{selector: PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing}, nil
-		}
-	}
-	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object PolicySpec_Notification", fp)
-}
-
-func ParsePolicySpecNotification_FieldPath(rawField string) (PolicySpecNotification_FieldPath, error) {
-	fp, err := gotenobject.ParseRawFieldPath(rawField)
-	if err != nil {
-		return nil, err
-	}
-	return BuildPolicySpecNotification_FieldPath(fp)
-}
-
-func MustParsePolicySpecNotification_FieldPath(rawField string) PolicySpecNotification_FieldPath {
-	fp, err := ParsePolicySpecNotification_FieldPath(rawField)
-	if err != nil {
-		panic(err)
-	}
-	return fp
-}
-
-type PolicySpecNotification_FieldTerminalPath struct {
-	selector PolicySpecNotification_FieldPathSelector
-}
-
-var _ PolicySpecNotification_FieldPath = (*PolicySpecNotification_FieldTerminalPath)(nil)
-
-func (fp *PolicySpecNotification_FieldTerminalPath) Selector() PolicySpecNotification_FieldPathSelector {
-	return fp.selector
-}
-
-// String returns path representation in proto convention
-func (fp *PolicySpecNotification_FieldTerminalPath) String() string {
-	return fp.selector.String()
-}
-
-// JSONString returns path representation is JSON convention
-func (fp *PolicySpecNotification_FieldTerminalPath) JSONString() string {
-	return strcase.ToLowerCamel(fp.String())
-}
-
-// Get returns all values pointed by specific field from source PolicySpec_Notification
-func (fp *PolicySpecNotification_FieldTerminalPath) Get(source *PolicySpec_Notification) (values []interface{}) {
-	if source != nil {
-		switch fp.selector {
-		case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-			for _, value := range source.GetEnabledKinds() {
-				values = append(values, value)
-			}
-		case PolicySpecNotification_FieldPathSelectorChannel:
-			if source.Channel != nil {
-				values = append(values, source.Channel)
-			}
-		case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-			values = append(values, source.MaxAlertBodiesInMsg)
-		case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-			values = append(values, source.PutOnlyAlertsCounterWhenOverflowing)
-		default:
-			panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fp.selector))
-		}
-	}
-	return
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
-	return fp.Get(source.(*PolicySpec_Notification))
-}
-
-// GetSingle returns value pointed by specific field of from source PolicySpec_Notification
-func (fp *PolicySpecNotification_FieldTerminalPath) GetSingle(source *PolicySpec_Notification) (interface{}, bool) {
-	switch fp.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		res := source.GetEnabledKinds()
-		return res, res != nil
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		res := source.GetChannel()
-		return res, res != nil
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		return source.GetMaxAlertBodiesInMsg(), source != nil
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		return source.GetPutOnlyAlertsCounterWhenOverflowing(), source != nil
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fp.GetSingle(source.(*PolicySpec_Notification))
-}
-
-// GetDefault returns a default value of the field type
-func (fp *PolicySpecNotification_FieldTerminalPath) GetDefault() interface{} {
-	switch fp.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		return ([]PolicySpec_Notification_Kind)(nil)
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		return (*notification_channel.Reference)(nil)
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		return int32(0)
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		return false
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) ClearValue(item *PolicySpec_Notification) {
-	if item != nil {
-		switch fp.selector {
-		case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-			item.EnabledKinds = nil
-		case PolicySpecNotification_FieldPathSelectorChannel:
-			item.Channel = nil
-		case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-			item.MaxAlertBodiesInMsg = int32(0)
-		case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-			item.PutOnlyAlertsCounterWhenOverflowing = false
-		default:
-			panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fp.selector))
-		}
-	}
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) ClearValueRaw(item proto.Message) {
-	fp.ClearValue(item.(*PolicySpec_Notification))
-}
-
-// IsLeaf - whether field path is holds simple value
-func (fp *PolicySpecNotification_FieldTerminalPath) IsLeaf() bool {
-	return fp.selector == PolicySpecNotification_FieldPathSelectorEnabledKinds ||
-		fp.selector == PolicySpecNotification_FieldPathSelectorChannel ||
-		fp.selector == PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg ||
-		fp.selector == PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
-	return []gotenobject.FieldPath{fp}
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) WithIValue(value interface{}) PolicySpecNotification_FieldPathValue {
-	switch fp.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		return &PolicySpecNotification_FieldTerminalPathValue{PolicySpecNotification_FieldTerminalPath: *fp, value: value.([]PolicySpec_Notification_Kind)}
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		return &PolicySpecNotification_FieldTerminalPathValue{PolicySpecNotification_FieldTerminalPath: *fp, value: value.(*notification_channel.Reference)}
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		return &PolicySpecNotification_FieldTerminalPathValue{PolicySpecNotification_FieldTerminalPath: *fp, value: value.(int32)}
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		return &PolicySpecNotification_FieldTerminalPathValue{PolicySpecNotification_FieldTerminalPath: *fp, value: value.(bool)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
-	return fp.WithIValue(value)
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) WithIArrayOfValues(values interface{}) PolicySpecNotification_FieldPathArrayOfValues {
-	fpaov := &PolicySpecNotification_FieldTerminalPathArrayOfValues{PolicySpecNotification_FieldTerminalPath: *fp}
-	switch fp.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		return &PolicySpecNotification_FieldTerminalPathArrayOfValues{PolicySpecNotification_FieldTerminalPath: *fp, values: values.([][]PolicySpec_Notification_Kind)}
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		return &PolicySpecNotification_FieldTerminalPathArrayOfValues{PolicySpecNotification_FieldTerminalPath: *fp, values: values.([]*notification_channel.Reference)}
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		return &PolicySpecNotification_FieldTerminalPathArrayOfValues{PolicySpecNotification_FieldTerminalPath: *fp, values: values.([]int32)}
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		return &PolicySpecNotification_FieldTerminalPathArrayOfValues{PolicySpecNotification_FieldTerminalPath: *fp, values: values.([]bool)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fp.selector))
-	}
-	return fpaov
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
-	return fp.WithIArrayOfValues(values)
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) WithIArrayItemValue(value interface{}) PolicySpecNotification_FieldPathArrayItemValue {
-	switch fp.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		return &PolicySpecNotification_FieldTerminalPathArrayItemValue{PolicySpecNotification_FieldTerminalPath: *fp, value: value.(PolicySpec_Notification_Kind)}
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fp.selector))
-	}
-}
-
-func (fp *PolicySpecNotification_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
-	return fp.WithIArrayItemValue(value)
-}
-
-// PolicySpecNotification_FieldPathValue allows storing values for Notification fields according to their type
-type PolicySpecNotification_FieldPathValue interface {
-	PolicySpecNotification_FieldPath
-	gotenobject.FieldPathValue
-	SetTo(target **PolicySpec_Notification)
-	CompareWith(*PolicySpec_Notification) (cmp int, comparable bool)
-}
-
-func ParsePolicySpecNotification_FieldPathValue(pathStr, valueStr string) (PolicySpecNotification_FieldPathValue, error) {
-	fp, err := ParsePolicySpecNotification_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Notification field path value from %s: %v", valueStr, err)
-	}
-	return fpv.(PolicySpecNotification_FieldPathValue), nil
-}
-
-func MustParsePolicySpecNotification_FieldPathValue(pathStr, valueStr string) PolicySpecNotification_FieldPathValue {
-	fpv, err := ParsePolicySpecNotification_FieldPathValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpv
-}
-
-type PolicySpecNotification_FieldTerminalPathValue struct {
-	PolicySpecNotification_FieldTerminalPath
-	value interface{}
-}
-
-var _ PolicySpecNotification_FieldPathValue = (*PolicySpecNotification_FieldTerminalPathValue)(nil)
-
-// GetRawValue returns raw value stored under selected path for 'Notification' as interface{}
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) GetRawValue() interface{} {
-	return fpv.value
-}
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) AsEnabledKindsValue() ([]PolicySpec_Notification_Kind, bool) {
-	res, ok := fpv.value.([]PolicySpec_Notification_Kind)
-	return res, ok
-}
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) AsChannelValue() (*notification_channel.Reference, bool) {
-	res, ok := fpv.value.(*notification_channel.Reference)
-	return res, ok
-}
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) AsMaxAlertBodiesInMsgValue() (int32, bool) {
-	res, ok := fpv.value.(int32)
-	return res, ok
-}
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) AsPutOnlyAlertsCounterWhenOverflowingValue() (bool, bool) {
-	res, ok := fpv.value.(bool)
-	return res, ok
-}
-
-// SetTo stores value for selected field for object Notification
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) SetTo(target **PolicySpec_Notification) {
-	if *target == nil {
-		*target = new(PolicySpec_Notification)
-	}
-	switch fpv.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		(*target).EnabledKinds = fpv.value.([]PolicySpec_Notification_Kind)
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		(*target).Channel = fpv.value.(*notification_channel.Reference)
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		(*target).MaxAlertBodiesInMsg = fpv.value.(int32)
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		(*target).PutOnlyAlertsCounterWhenOverflowing = fpv.value.(bool)
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fpv.selector))
-	}
-}
-
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) SetToRaw(target proto.Message) {
-	typedObject := target.(*PolicySpec_Notification)
-	fpv.SetTo(&typedObject)
-}
-
-// CompareWith compares value in the 'PolicySpecNotification_FieldTerminalPathValue' with the value under path in 'PolicySpec_Notification'.
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) CompareWith(source *PolicySpec_Notification) (int, bool) {
-	switch fpv.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		return 0, false
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		leftValue := fpv.value.(*notification_channel.Reference)
-		rightValue := source.GetChannel()
-		if leftValue == nil {
-			if rightValue != nil {
-				return -1, true
-			}
-			return 0, true
-		}
-		if rightValue == nil {
-			return 1, true
-		}
-		if leftValue.String() == rightValue.String() {
-			return 0, true
-		} else if leftValue.String() < rightValue.String() {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		leftValue := fpv.value.(int32)
-		rightValue := source.GetMaxAlertBodiesInMsg()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if (leftValue) < (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		leftValue := fpv.value.(bool)
-		rightValue := source.GetPutOnlyAlertsCounterWhenOverflowing()
-		if (leftValue) == (rightValue) {
-			return 0, true
-		} else if !(leftValue) && (rightValue) {
-			return -1, true
-		} else {
-			return 1, true
-		}
-	default:
-		panic(fmt.Sprintf("Invalid selector for PolicySpec_Notification: %d", fpv.selector))
-	}
-}
-
-func (fpv *PolicySpecNotification_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
-	return fpv.CompareWith(source.(*PolicySpec_Notification))
-}
-
-// PolicySpecNotification_FieldPathArrayItemValue allows storing single item in Path-specific values for Notification according to their type
-// Present only for array (repeated) types.
-type PolicySpecNotification_FieldPathArrayItemValue interface {
-	gotenobject.FieldPathArrayItemValue
-	PolicySpecNotification_FieldPath
-	ContainsValue(*PolicySpec_Notification) bool
-}
-
-// ParsePolicySpecNotification_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
-func ParsePolicySpecNotification_FieldPathArrayItemValue(pathStr, valueStr string) (PolicySpecNotification_FieldPathArrayItemValue, error) {
-	fp, err := ParsePolicySpecNotification_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Notification field path array item value from %s: %v", valueStr, err)
-	}
-	return fpaiv.(PolicySpecNotification_FieldPathArrayItemValue), nil
-}
-
-func MustParsePolicySpecNotification_FieldPathArrayItemValue(pathStr, valueStr string) PolicySpecNotification_FieldPathArrayItemValue {
-	fpaiv, err := ParsePolicySpecNotification_FieldPathArrayItemValue(pathStr, valueStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaiv
-}
-
-type PolicySpecNotification_FieldTerminalPathArrayItemValue struct {
-	PolicySpecNotification_FieldTerminalPath
-	value interface{}
-}
-
-var _ PolicySpecNotification_FieldPathArrayItemValue = (*PolicySpecNotification_FieldTerminalPathArrayItemValue)(nil)
-
-// GetRawValue returns stored element value for array in object PolicySpec_Notification as interface{}
-func (fpaiv *PolicySpecNotification_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
-	return fpaiv.value
-}
-func (fpaiv *PolicySpecNotification_FieldTerminalPathArrayItemValue) AsEnabledKindsItemValue() (PolicySpec_Notification_Kind, bool) {
-	res, ok := fpaiv.value.(PolicySpec_Notification_Kind)
-	return res, ok
-}
-
-func (fpaiv *PolicySpecNotification_FieldTerminalPathArrayItemValue) GetSingle(source *PolicySpec_Notification) (interface{}, bool) {
-	return nil, false
-}
-
-func (fpaiv *PolicySpecNotification_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
-	return fpaiv.GetSingle(source.(*PolicySpec_Notification))
-}
-
-// Contains returns a boolean indicating if value that is being held is present in given 'Notification'
-func (fpaiv *PolicySpecNotification_FieldTerminalPathArrayItemValue) ContainsValue(source *PolicySpec_Notification) bool {
-	slice := fpaiv.PolicySpecNotification_FieldTerminalPath.Get(source)
-	for _, v := range slice {
-		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
-			if proto.Equal(asProtoMsg, v.(proto.Message)) {
-				return true
-			}
-		} else if reflect.DeepEqual(v, fpaiv.value) {
-			return true
-		}
-	}
-	return false
-}
-
-// PolicySpecNotification_FieldPathArrayOfValues allows storing slice of values for Notification fields according to their type
-type PolicySpecNotification_FieldPathArrayOfValues interface {
-	gotenobject.FieldPathArrayOfValues
-	PolicySpecNotification_FieldPath
-}
-
-func ParsePolicySpecNotification_FieldPathArrayOfValues(pathStr, valuesStr string) (PolicySpecNotification_FieldPathArrayOfValues, error) {
-	fp, err := ParsePolicySpecNotification_FieldPath(pathStr)
-	if err != nil {
-		return nil, err
-	}
-	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
-	if err != nil {
-		return nil, status.Errorf(codes.InvalidArgument, "error parsing Notification field path array of values from %s: %v", valuesStr, err)
-	}
-	return fpaov.(PolicySpecNotification_FieldPathArrayOfValues), nil
-}
-
-func MustParsePolicySpecNotification_FieldPathArrayOfValues(pathStr, valuesStr string) PolicySpecNotification_FieldPathArrayOfValues {
-	fpaov, err := ParsePolicySpecNotification_FieldPathArrayOfValues(pathStr, valuesStr)
-	if err != nil {
-		panic(err)
-	}
-	return fpaov
-}
-
-type PolicySpecNotification_FieldTerminalPathArrayOfValues struct {
-	PolicySpecNotification_FieldTerminalPath
-	values interface{}
-}
-
-var _ PolicySpecNotification_FieldPathArrayOfValues = (*PolicySpecNotification_FieldTerminalPathArrayOfValues)(nil)
-
-func (fpaov *PolicySpecNotification_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
-	switch fpaov.selector {
-	case PolicySpecNotification_FieldPathSelectorEnabledKinds:
-		for _, v := range fpaov.values.([][]PolicySpec_Notification_Kind) {
-			values = append(values, v)
-		}
-	case PolicySpecNotification_FieldPathSelectorChannel:
-		for _, v := range fpaov.values.([]*notification_channel.Reference) {
-			values = append(values, v)
-		}
-	case PolicySpecNotification_FieldPathSelectorMaxAlertBodiesInMsg:
-		for _, v := range fpaov.values.([]int32) {
-			values = append(values, v)
-		}
-	case PolicySpecNotification_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
-		for _, v := range fpaov.values.([]bool) {
-			values = append(values, v)
-		}
-	}
-	return
-}
-func (fpaov *PolicySpecNotification_FieldTerminalPathArrayOfValues) AsEnabledKindsArrayOfValues() ([][]PolicySpec_Notification_Kind, bool) {
-	res, ok := fpaov.values.([][]PolicySpec_Notification_Kind)
-	return res, ok
-}
-func (fpaov *PolicySpecNotification_FieldTerminalPathArrayOfValues) AsChannelArrayOfValues() ([]*notification_channel.Reference, bool) {
-	res, ok := fpaov.values.([]*notification_channel.Reference)
-	return res, ok
-}
-func (fpaov *PolicySpecNotification_FieldTerminalPathArrayOfValues) AsMaxAlertBodiesInMsgArrayOfValues() ([]int32, bool) {
-	res, ok := fpaov.values.([]int32)
-	return res, ok
-}
-func (fpaov *PolicySpecNotification_FieldTerminalPathArrayOfValues) AsPutOnlyAlertsCounterWhenOverflowingArrayOfValues() ([]bool, bool) {
-	res, ok := fpaov.values.([]bool)
 	return res, ok
 }
 
@@ -17049,6 +16448,3253 @@ func (fpaov *PolicySpecAIAgentHandlingRemediationReboot_FieldTerminalPathArrayOf
 	switch fpaov.selector {
 	}
 	return
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationChannelSpec_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationChannelSpec_FieldPathSelector
+	Get(source *NotificationChannelSpec) []interface{}
+	GetSingle(source *NotificationChannelSpec) (interface{}, bool)
+	ClearValue(item *NotificationChannelSpec)
+
+	// Those methods build corresponding NotificationChannelSpec_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationChannelSpec_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationChannelSpec_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationChannelSpec_FieldPathArrayItemValue
+}
+
+type NotificationChannelSpec_FieldPathSelector int32
+
+const (
+	NotificationChannelSpec_FieldPathSelectorEnabled                             NotificationChannelSpec_FieldPathSelector = 0
+	NotificationChannelSpec_FieldPathSelectorType                                NotificationChannelSpec_FieldPathSelector = 1
+	NotificationChannelSpec_FieldPathSelectorEnabledKinds                        NotificationChannelSpec_FieldPathSelector = 2
+	NotificationChannelSpec_FieldPathSelectorEmail                               NotificationChannelSpec_FieldPathSelector = 3
+	NotificationChannelSpec_FieldPathSelectorSlack                               NotificationChannelSpec_FieldPathSelector = 4
+	NotificationChannelSpec_FieldPathSelectorWebhook                             NotificationChannelSpec_FieldPathSelector = 5
+	NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode            NotificationChannelSpec_FieldPathSelector = 6
+	NotificationChannelSpec_FieldPathSelectorNotificationMask                    NotificationChannelSpec_FieldPathSelector = 7
+	NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg                 NotificationChannelSpec_FieldPathSelector = 8
+	NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing NotificationChannelSpec_FieldPathSelector = 9
+)
+
+func (s NotificationChannelSpec_FieldPathSelector) String() string {
+	switch s {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		return "enabled"
+	case NotificationChannelSpec_FieldPathSelectorType:
+		return "type"
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		return "enabled_kinds"
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		return "email"
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		return "slack"
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		return "webhook"
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return "notification_language_code"
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		return "notification_mask"
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		return "max_alert_bodies_in_msg"
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		return "put_only_alerts_counter_when_overflowing"
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", s))
+	}
+}
+
+func BuildNotificationChannelSpec_FieldPath(fp gotenobject.RawFieldPath) (NotificationChannelSpec_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object NotificationChannelSpec")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "enabled":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabled}, nil
+		case "type":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorType}, nil
+		case "enabled_kinds", "enabledKinds", "enabled-kinds":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabledKinds}, nil
+		case "email":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEmail}, nil
+		case "slack":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorSlack}, nil
+		case "webhook":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook}, nil
+		case "notification_language_code", "notificationLanguageCode", "notification-language-code":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode}, nil
+		case "notification_mask", "notificationMask", "notification-mask":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationMask}, nil
+		case "max_alert_bodies_in_msg", "maxAlertBodiesInMsg", "max-alert-bodies-in-msg":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg}, nil
+		case "put_only_alerts_counter_when_overflowing", "putOnlyAlertsCounterWhenOverflowing", "put-only-alerts-counter-when-overflowing":
+			return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "email":
+			if subpath, err := BuildNotificationChannelSpecEmail_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorEmail, subPath: subpath}, nil
+			}
+		case "slack":
+			if subpath, err := BuildNotificationChannelSpecSlack_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorSlack, subPath: subpath}, nil
+			}
+		case "webhook":
+			if subpath, err := BuildNotificationChannelSpecWebhook_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object NotificationChannelSpec", fp)
+}
+
+func ParseNotificationChannelSpec_FieldPath(rawField string) (NotificationChannelSpec_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationChannelSpec_FieldPath(fp)
+}
+
+func MustParseNotificationChannelSpec_FieldPath(rawField string) NotificationChannelSpec_FieldPath {
+	fp, err := ParseNotificationChannelSpec_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationChannelSpec_FieldTerminalPath struct {
+	selector NotificationChannelSpec_FieldPathSelector
+}
+
+var _ NotificationChannelSpec_FieldPath = (*NotificationChannelSpec_FieldTerminalPath)(nil)
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) Selector() NotificationChannelSpec_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationChannelSpec_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationChannelSpec_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source NotificationChannelSpec
+func (fp *NotificationChannelSpec_FieldTerminalPath) Get(source *NotificationChannelSpec) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationChannelSpec_FieldPathSelectorEnabled:
+			values = append(values, source.Enabled)
+		case NotificationChannelSpec_FieldPathSelectorType:
+			values = append(values, source.Type)
+		case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+			for _, value := range source.GetEnabledKinds() {
+				values = append(values, value)
+			}
+		case NotificationChannelSpec_FieldPathSelectorEmail:
+			if source.Email != nil {
+				values = append(values, source.Email)
+			}
+		case NotificationChannelSpec_FieldPathSelectorSlack:
+			if source.Slack != nil {
+				values = append(values, source.Slack)
+			}
+		case NotificationChannelSpec_FieldPathSelectorWebhook:
+			if source.Webhook != nil {
+				values = append(values, source.Webhook)
+			}
+		case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+			values = append(values, source.NotificationLanguageCode)
+		case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+			if source.NotificationMask != nil {
+				values = append(values, source.NotificationMask)
+			}
+		case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+			values = append(values, source.MaxAlertBodiesInMsg)
+		case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+			values = append(values, source.PutOnlyAlertsCounterWhenOverflowing)
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*NotificationChannelSpec))
+}
+
+// GetSingle returns value pointed by specific field of from source NotificationChannelSpec
+func (fp *NotificationChannelSpec_FieldTerminalPath) GetSingle(source *NotificationChannelSpec) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		return source.GetEnabled(), source != nil
+	case NotificationChannelSpec_FieldPathSelectorType:
+		return source.GetType(), source != nil
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		res := source.GetEnabledKinds()
+		return res, res != nil
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		res := source.GetEmail()
+		return res, res != nil
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		res := source.GetSlack()
+		return res, res != nil
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		res := source.GetWebhook()
+		return res, res != nil
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return source.GetNotificationLanguageCode(), source != nil
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		res := source.GetNotificationMask()
+		return res, res != nil
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		return source.GetMaxAlertBodiesInMsg(), source != nil
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		return source.GetPutOnlyAlertsCounterWhenOverflowing(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*NotificationChannelSpec))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationChannelSpec_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		return false
+	case NotificationChannelSpec_FieldPathSelectorType:
+		return NotificationChannelSpec_TYPE_UNSPECIFIED
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		return ([]NotificationChannelSpec_EventKind)(nil)
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		return (*NotificationChannelSpec_Email)(nil)
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		return (*NotificationChannelSpec_Slack)(nil)
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		return (*NotificationChannelSpec_Webhook)(nil)
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return ""
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		return (*fieldmaskpb.FieldMask)(nil)
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		return int32(0)
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		return false
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) ClearValue(item *NotificationChannelSpec) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationChannelSpec_FieldPathSelectorEnabled:
+			item.Enabled = false
+		case NotificationChannelSpec_FieldPathSelectorType:
+			item.Type = NotificationChannelSpec_TYPE_UNSPECIFIED
+		case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+			item.EnabledKinds = nil
+		case NotificationChannelSpec_FieldPathSelectorEmail:
+			item.Email = nil
+		case NotificationChannelSpec_FieldPathSelectorSlack:
+			item.Slack = nil
+		case NotificationChannelSpec_FieldPathSelectorWebhook:
+			item.Webhook = nil
+		case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+			item.NotificationLanguageCode = ""
+		case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+			item.NotificationMask = nil
+		case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+			item.MaxAlertBodiesInMsg = int32(0)
+		case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+			item.PutOnlyAlertsCounterWhenOverflowing = false
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*NotificationChannelSpec))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationChannelSpec_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationChannelSpec_FieldPathSelectorEnabled ||
+		fp.selector == NotificationChannelSpec_FieldPathSelectorType ||
+		fp.selector == NotificationChannelSpec_FieldPathSelectorEnabledKinds ||
+		fp.selector == NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode ||
+		fp.selector == NotificationChannelSpec_FieldPathSelectorNotificationMask ||
+		fp.selector == NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg ||
+		fp.selector == NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) WithIValue(value interface{}) NotificationChannelSpec_FieldPathValue {
+	switch fp.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(bool)}
+	case NotificationChannelSpec_FieldPathSelectorType:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(NotificationChannelSpec_Type)}
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.([]NotificationChannelSpec_EventKind)}
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(*NotificationChannelSpec_Email)}
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(*NotificationChannelSpec_Slack)}
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(*NotificationChannelSpec_Webhook)}
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(string)}
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(*fieldmaskpb.FieldMask)}
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(int32)}
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		return &NotificationChannelSpec_FieldTerminalPathValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationChannelSpec_FieldPathArrayOfValues {
+	fpaov := &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]bool)}
+	case NotificationChannelSpec_FieldPathSelectorType:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]NotificationChannelSpec_Type)}
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([][]NotificationChannelSpec_EventKind)}
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]*NotificationChannelSpec_Email)}
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]*NotificationChannelSpec_Slack)}
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]*NotificationChannelSpec_Webhook)}
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]string)}
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]*fieldmaskpb.FieldMask)}
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]int32)}
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		return &NotificationChannelSpec_FieldTerminalPathArrayOfValues{NotificationChannelSpec_FieldTerminalPath: *fp, values: values.([]bool)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationChannelSpec_FieldPathArrayItemValue {
+	switch fp.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		return &NotificationChannelSpec_FieldTerminalPathArrayItemValue{NotificationChannelSpec_FieldTerminalPath: *fp, value: value.(NotificationChannelSpec_EventKind)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpec_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type NotificationChannelSpec_FieldSubPath struct {
+	selector NotificationChannelSpec_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ NotificationChannelSpec_FieldPath = (*NotificationChannelSpec_FieldSubPath)(nil)
+
+func (fps *NotificationChannelSpec_FieldSubPath) Selector() NotificationChannelSpec_FieldPathSelector {
+	return fps.selector
+}
+func (fps *NotificationChannelSpec_FieldSubPath) AsEmailSubPath() (NotificationChannelSpecEmail_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationChannelSpecEmail_FieldPath)
+	return res, ok
+}
+func (fps *NotificationChannelSpec_FieldSubPath) AsSlackSubPath() (NotificationChannelSpecSlack_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationChannelSpecSlack_FieldPath)
+	return res, ok
+}
+func (fps *NotificationChannelSpec_FieldSubPath) AsWebhookSubPath() (NotificationChannelSpecWebhook_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationChannelSpecWebhook_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *NotificationChannelSpec_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *NotificationChannelSpec_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source NotificationChannelSpec
+func (fps *NotificationChannelSpec_FieldSubPath) Get(source *NotificationChannelSpec) (values []interface{}) {
+	switch fps.selector {
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		values = append(values, fps.subPath.GetRaw(source.GetEmail())...)
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		values = append(values, fps.subPath.GetRaw(source.GetSlack())...)
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		values = append(values, fps.subPath.GetRaw(source.GetWebhook())...)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*NotificationChannelSpec))
+}
+
+// GetSingle returns value of selected field from source NotificationChannelSpec
+func (fps *NotificationChannelSpec_FieldSubPath) GetSingle(source *NotificationChannelSpec) (interface{}, bool) {
+	switch fps.selector {
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		if source.GetEmail() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetEmail())
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		if source.GetSlack() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetSlack())
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		if source.GetWebhook() == nil {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetWebhook())
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fps.selector))
+	}
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*NotificationChannelSpec))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *NotificationChannelSpec_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) ClearValue(item *NotificationChannelSpec) {
+	if item != nil {
+		switch fps.selector {
+		case NotificationChannelSpec_FieldPathSelectorEmail:
+			fps.subPath.ClearValueRaw(item.Email)
+		case NotificationChannelSpec_FieldPathSelectorSlack:
+			fps.subPath.ClearValueRaw(item.Slack)
+		case NotificationChannelSpec_FieldPathSelectorWebhook:
+			fps.subPath.ClearValueRaw(item.Webhook)
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*NotificationChannelSpec))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *NotificationChannelSpec_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&NotificationChannelSpec_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) WithIValue(value interface{}) NotificationChannelSpec_FieldPathValue {
+	return &NotificationChannelSpec_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) WithIArrayOfValues(values interface{}) NotificationChannelSpec_FieldPathArrayOfValues {
+	return &NotificationChannelSpec_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) WithIArrayItemValue(value interface{}) NotificationChannelSpec_FieldPathArrayItemValue {
+	return &NotificationChannelSpec_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *NotificationChannelSpec_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// NotificationChannelSpec_FieldPathValue allows storing values for NotificationChannelSpec fields according to their type
+type NotificationChannelSpec_FieldPathValue interface {
+	NotificationChannelSpec_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **NotificationChannelSpec)
+	CompareWith(*NotificationChannelSpec) (cmp int, comparable bool)
+}
+
+func ParseNotificationChannelSpec_FieldPathValue(pathStr, valueStr string) (NotificationChannelSpec_FieldPathValue, error) {
+	fp, err := ParseNotificationChannelSpec_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NotificationChannelSpec field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationChannelSpec_FieldPathValue), nil
+}
+
+func MustParseNotificationChannelSpec_FieldPathValue(pathStr, valueStr string) NotificationChannelSpec_FieldPathValue {
+	fpv, err := ParseNotificationChannelSpec_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationChannelSpec_FieldTerminalPathValue struct {
+	NotificationChannelSpec_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpec_FieldPathValue = (*NotificationChannelSpec_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'NotificationChannelSpec' as interface{}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsEnabledValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsTypeValue() (NotificationChannelSpec_Type, bool) {
+	res, ok := fpv.value.(NotificationChannelSpec_Type)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsEnabledKindsValue() ([]NotificationChannelSpec_EventKind, bool) {
+	res, ok := fpv.value.([]NotificationChannelSpec_EventKind)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsEmailValue() (*NotificationChannelSpec_Email, bool) {
+	res, ok := fpv.value.(*NotificationChannelSpec_Email)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsSlackValue() (*NotificationChannelSpec_Slack, bool) {
+	res, ok := fpv.value.(*NotificationChannelSpec_Slack)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsWebhookValue() (*NotificationChannelSpec_Webhook, bool) {
+	res, ok := fpv.value.(*NotificationChannelSpec_Webhook)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsNotificationLanguageCodeValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsNotificationMaskValue() (*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpv.value.(*fieldmaskpb.FieldMask)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsMaxAlertBodiesInMsgValue() (int32, bool) {
+	res, ok := fpv.value.(int32)
+	return res, ok
+}
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) AsPutOnlyAlertsCounterWhenOverflowingValue() (bool, bool) {
+	res, ok := fpv.value.(bool)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object NotificationChannelSpec
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) SetTo(target **NotificationChannelSpec) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec)
+	}
+	switch fpv.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		(*target).Enabled = fpv.value.(bool)
+	case NotificationChannelSpec_FieldPathSelectorType:
+		(*target).Type = fpv.value.(NotificationChannelSpec_Type)
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		(*target).EnabledKinds = fpv.value.([]NotificationChannelSpec_EventKind)
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		(*target).Email = fpv.value.(*NotificationChannelSpec_Email)
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		(*target).Slack = fpv.value.(*NotificationChannelSpec_Slack)
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		(*target).Webhook = fpv.value.(*NotificationChannelSpec_Webhook)
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		(*target).NotificationLanguageCode = fpv.value.(string)
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		(*target).NotificationMask = fpv.value.(*fieldmaskpb.FieldMask)
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		(*target).MaxAlertBodiesInMsg = fpv.value.(int32)
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		(*target).PutOnlyAlertsCounterWhenOverflowing = fpv.value.(bool)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationChannelSpec_FieldTerminalPathValue' with the value under path in 'NotificationChannelSpec'.
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) CompareWith(source *NotificationChannelSpec) (int, bool) {
+	switch fpv.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetEnabled()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationChannelSpec_FieldPathSelectorType:
+		leftValue := fpv.value.(NotificationChannelSpec_Type)
+		rightValue := source.GetType()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		return 0, false
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		return 0, false
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		return 0, false
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		return 0, false
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetNotificationLanguageCode()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		return 0, false
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		leftValue := fpv.value.(int32)
+		rightValue := source.GetMaxAlertBodiesInMsg()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		leftValue := fpv.value.(bool)
+		rightValue := source.GetPutOnlyAlertsCounterWhenOverflowing()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if !(leftValue) && (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpec_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*NotificationChannelSpec))
+}
+
+type NotificationChannelSpec_FieldSubPathValue struct {
+	NotificationChannelSpec_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ NotificationChannelSpec_FieldPathValue = (*NotificationChannelSpec_FieldSubPathValue)(nil)
+
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) AsEmailPathValue() (NotificationChannelSpecEmail_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationChannelSpecEmail_FieldPathValue)
+	return res, ok
+}
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) AsSlackPathValue() (NotificationChannelSpecSlack_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationChannelSpecSlack_FieldPathValue)
+	return res, ok
+}
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) AsWebhookPathValue() (NotificationChannelSpecWebhook_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationChannelSpecWebhook_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) SetTo(target **NotificationChannelSpec) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec)
+	}
+	switch fpvs.Selector() {
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		fpvs.subPathValue.(NotificationChannelSpecEmail_FieldPathValue).SetTo(&(*target).Email)
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		fpvs.subPathValue.(NotificationChannelSpecSlack_FieldPathValue).SetTo(&(*target).Slack)
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		fpvs.subPathValue.(NotificationChannelSpecWebhook_FieldPathValue).SetTo(&(*target).Webhook)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) CompareWith(source *NotificationChannelSpec) (int, bool) {
+	switch fpvs.Selector() {
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		return fpvs.subPathValue.(NotificationChannelSpecEmail_FieldPathValue).CompareWith(source.GetEmail())
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		return fpvs.subPathValue.(NotificationChannelSpecSlack_FieldPathValue).CompareWith(source.GetSlack())
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		return fpvs.subPathValue.(NotificationChannelSpecWebhook_FieldPathValue).CompareWith(source.GetWebhook())
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *NotificationChannelSpec_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*NotificationChannelSpec))
+}
+
+// NotificationChannelSpec_FieldPathArrayItemValue allows storing single item in Path-specific values for NotificationChannelSpec according to their type
+// Present only for array (repeated) types.
+type NotificationChannelSpec_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationChannelSpec_FieldPath
+	ContainsValue(*NotificationChannelSpec) bool
+}
+
+// ParseNotificationChannelSpec_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationChannelSpec_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationChannelSpec_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationChannelSpec_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NotificationChannelSpec field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationChannelSpec_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationChannelSpec_FieldPathArrayItemValue(pathStr, valueStr string) NotificationChannelSpec_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationChannelSpec_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationChannelSpec_FieldTerminalPathArrayItemValue struct {
+	NotificationChannelSpec_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpec_FieldPathArrayItemValue = (*NotificationChannelSpec_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object NotificationChannelSpec as interface{}
+func (fpaiv *NotificationChannelSpec_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *NotificationChannelSpec_FieldTerminalPathArrayItemValue) AsEnabledKindsItemValue() (NotificationChannelSpec_EventKind, bool) {
+	res, ok := fpaiv.value.(NotificationChannelSpec_EventKind)
+	return res, ok
+}
+
+func (fpaiv *NotificationChannelSpec_FieldTerminalPathArrayItemValue) GetSingle(source *NotificationChannelSpec) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationChannelSpec_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*NotificationChannelSpec))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NotificationChannelSpec'
+func (fpaiv *NotificationChannelSpec_FieldTerminalPathArrayItemValue) ContainsValue(source *NotificationChannelSpec) bool {
+	slice := fpaiv.NotificationChannelSpec_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type NotificationChannelSpec_FieldSubPathArrayItemValue struct {
+	NotificationChannelSpec_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *NotificationChannelSpec_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *NotificationChannelSpec_FieldSubPathArrayItemValue) AsEmailPathItemValue() (NotificationChannelSpecEmail_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationChannelSpecEmail_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *NotificationChannelSpec_FieldSubPathArrayItemValue) AsSlackPathItemValue() (NotificationChannelSpecSlack_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationChannelSpecSlack_FieldPathArrayItemValue)
+	return res, ok
+}
+func (fpaivs *NotificationChannelSpec_FieldSubPathArrayItemValue) AsWebhookPathItemValue() (NotificationChannelSpecWebhook_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationChannelSpecWebhook_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'NotificationChannelSpec'
+func (fpaivs *NotificationChannelSpec_FieldSubPathArrayItemValue) ContainsValue(source *NotificationChannelSpec) bool {
+	switch fpaivs.Selector() {
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		return fpaivs.subPathItemValue.(NotificationChannelSpecEmail_FieldPathArrayItemValue).ContainsValue(source.GetEmail())
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		return fpaivs.subPathItemValue.(NotificationChannelSpecSlack_FieldPathArrayItemValue).ContainsValue(source.GetSlack())
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		return fpaivs.subPathItemValue.(NotificationChannelSpecWebhook_FieldPathArrayItemValue).ContainsValue(source.GetWebhook())
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec: %d", fpaivs.Selector()))
+	}
+}
+
+// NotificationChannelSpec_FieldPathArrayOfValues allows storing slice of values for NotificationChannelSpec fields according to their type
+type NotificationChannelSpec_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationChannelSpec_FieldPath
+}
+
+func ParseNotificationChannelSpec_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationChannelSpec_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationChannelSpec_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing NotificationChannelSpec field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationChannelSpec_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationChannelSpec_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationChannelSpec_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationChannelSpec_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationChannelSpec_FieldTerminalPathArrayOfValues struct {
+	NotificationChannelSpec_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationChannelSpec_FieldPathArrayOfValues = (*NotificationChannelSpec_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationChannelSpec_FieldPathSelectorEnabled:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorType:
+		for _, v := range fpaov.values.([]NotificationChannelSpec_Type) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorEnabledKinds:
+		for _, v := range fpaov.values.([][]NotificationChannelSpec_EventKind) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorEmail:
+		for _, v := range fpaov.values.([]*NotificationChannelSpec_Email) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorSlack:
+		for _, v := range fpaov.values.([]*NotificationChannelSpec_Slack) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorWebhook:
+		for _, v := range fpaov.values.([]*NotificationChannelSpec_Webhook) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorNotificationMask:
+		for _, v := range fpaov.values.([]*fieldmaskpb.FieldMask) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorMaxAlertBodiesInMsg:
+		for _, v := range fpaov.values.([]int32) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpec_FieldPathSelectorPutOnlyAlertsCounterWhenOverflowing:
+		for _, v := range fpaov.values.([]bool) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsEnabledArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsTypeArrayOfValues() ([]NotificationChannelSpec_Type, bool) {
+	res, ok := fpaov.values.([]NotificationChannelSpec_Type)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsEnabledKindsArrayOfValues() ([][]NotificationChannelSpec_EventKind, bool) {
+	res, ok := fpaov.values.([][]NotificationChannelSpec_EventKind)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsEmailArrayOfValues() ([]*NotificationChannelSpec_Email, bool) {
+	res, ok := fpaov.values.([]*NotificationChannelSpec_Email)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsSlackArrayOfValues() ([]*NotificationChannelSpec_Slack, bool) {
+	res, ok := fpaov.values.([]*NotificationChannelSpec_Slack)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsWebhookArrayOfValues() ([]*NotificationChannelSpec_Webhook, bool) {
+	res, ok := fpaov.values.([]*NotificationChannelSpec_Webhook)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsNotificationLanguageCodeArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsNotificationMaskArrayOfValues() ([]*fieldmaskpb.FieldMask, bool) {
+	res, ok := fpaov.values.([]*fieldmaskpb.FieldMask)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsMaxAlertBodiesInMsgArrayOfValues() ([]int32, bool) {
+	res, ok := fpaov.values.([]int32)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpec_FieldTerminalPathArrayOfValues) AsPutOnlyAlertsCounterWhenOverflowingArrayOfValues() ([]bool, bool) {
+	res, ok := fpaov.values.([]bool)
+	return res, ok
+}
+
+type NotificationChannelSpec_FieldSubPathArrayOfValues struct {
+	NotificationChannelSpec_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ NotificationChannelSpec_FieldPathArrayOfValues = (*NotificationChannelSpec_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *NotificationChannelSpec_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *NotificationChannelSpec_FieldSubPathArrayOfValues) AsEmailPathArrayOfValues() (NotificationChannelSpecEmail_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationChannelSpecEmail_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *NotificationChannelSpec_FieldSubPathArrayOfValues) AsSlackPathArrayOfValues() (NotificationChannelSpecSlack_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationChannelSpecSlack_FieldPathArrayOfValues)
+	return res, ok
+}
+func (fpsaov *NotificationChannelSpec_FieldSubPathArrayOfValues) AsWebhookPathArrayOfValues() (NotificationChannelSpecWebhook_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationChannelSpecWebhook_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationChannelSpecEmail_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationChannelSpecEmail_FieldPathSelector
+	Get(source *NotificationChannelSpec_Email) []interface{}
+	GetSingle(source *NotificationChannelSpec_Email) (interface{}, bool)
+	ClearValue(item *NotificationChannelSpec_Email)
+
+	// Those methods build corresponding NotificationChannelSpecEmail_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationChannelSpecEmail_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationChannelSpecEmail_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationChannelSpecEmail_FieldPathArrayItemValue
+}
+
+type NotificationChannelSpecEmail_FieldPathSelector int32
+
+const (
+	NotificationChannelSpecEmail_FieldPathSelectorAddresses NotificationChannelSpecEmail_FieldPathSelector = 0
+)
+
+func (s NotificationChannelSpecEmail_FieldPathSelector) String() string {
+	switch s {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		return "addresses"
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", s))
+	}
+}
+
+func BuildNotificationChannelSpecEmail_FieldPath(fp gotenobject.RawFieldPath) (NotificationChannelSpecEmail_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object NotificationChannelSpec_Email")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "addresses":
+			return &NotificationChannelSpecEmail_FieldTerminalPath{selector: NotificationChannelSpecEmail_FieldPathSelectorAddresses}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object NotificationChannelSpec_Email", fp)
+}
+
+func ParseNotificationChannelSpecEmail_FieldPath(rawField string) (NotificationChannelSpecEmail_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationChannelSpecEmail_FieldPath(fp)
+}
+
+func MustParseNotificationChannelSpecEmail_FieldPath(rawField string) NotificationChannelSpecEmail_FieldPath {
+	fp, err := ParseNotificationChannelSpecEmail_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationChannelSpecEmail_FieldTerminalPath struct {
+	selector NotificationChannelSpecEmail_FieldPathSelector
+}
+
+var _ NotificationChannelSpecEmail_FieldPath = (*NotificationChannelSpecEmail_FieldTerminalPath)(nil)
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) Selector() NotificationChannelSpecEmail_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source NotificationChannelSpec_Email
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) Get(source *NotificationChannelSpec_Email) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+			for _, value := range source.GetAddresses() {
+				values = append(values, value)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*NotificationChannelSpec_Email))
+}
+
+// GetSingle returns value pointed by specific field of from source NotificationChannelSpec_Email
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) GetSingle(source *NotificationChannelSpec_Email) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		res := source.GetAddresses()
+		return res, res != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*NotificationChannelSpec_Email))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		return ([]string)(nil)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) ClearValue(item *NotificationChannelSpec_Email) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+			item.Addresses = nil
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*NotificationChannelSpec_Email))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationChannelSpecEmail_FieldPathSelectorAddresses
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) WithIValue(value interface{}) NotificationChannelSpecEmail_FieldPathValue {
+	switch fp.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		return &NotificationChannelSpecEmail_FieldTerminalPathValue{NotificationChannelSpecEmail_FieldTerminalPath: *fp, value: value.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationChannelSpecEmail_FieldPathArrayOfValues {
+	fpaov := &NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues{NotificationChannelSpecEmail_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		return &NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues{NotificationChannelSpecEmail_FieldTerminalPath: *fp, values: values.([][]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationChannelSpecEmail_FieldPathArrayItemValue {
+	switch fp.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		return &NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue{NotificationChannelSpecEmail_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecEmail_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// NotificationChannelSpecEmail_FieldPathValue allows storing values for Email fields according to their type
+type NotificationChannelSpecEmail_FieldPathValue interface {
+	NotificationChannelSpecEmail_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **NotificationChannelSpec_Email)
+	CompareWith(*NotificationChannelSpec_Email) (cmp int, comparable bool)
+}
+
+func ParseNotificationChannelSpecEmail_FieldPathValue(pathStr, valueStr string) (NotificationChannelSpecEmail_FieldPathValue, error) {
+	fp, err := ParseNotificationChannelSpecEmail_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Email field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationChannelSpecEmail_FieldPathValue), nil
+}
+
+func MustParseNotificationChannelSpecEmail_FieldPathValue(pathStr, valueStr string) NotificationChannelSpecEmail_FieldPathValue {
+	fpv, err := ParseNotificationChannelSpecEmail_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationChannelSpecEmail_FieldTerminalPathValue struct {
+	NotificationChannelSpecEmail_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecEmail_FieldPathValue = (*NotificationChannelSpecEmail_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Email' as interface{}
+func (fpv *NotificationChannelSpecEmail_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationChannelSpecEmail_FieldTerminalPathValue) AsAddressesValue() ([]string, bool) {
+	res, ok := fpv.value.([]string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Email
+func (fpv *NotificationChannelSpecEmail_FieldTerminalPathValue) SetTo(target **NotificationChannelSpec_Email) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec_Email)
+	}
+	switch fpv.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		(*target).Addresses = fpv.value.([]string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecEmail_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec_Email)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationChannelSpecEmail_FieldTerminalPathValue' with the value under path in 'NotificationChannelSpec_Email'.
+func (fpv *NotificationChannelSpecEmail_FieldTerminalPathValue) CompareWith(source *NotificationChannelSpec_Email) (int, bool) {
+	switch fpv.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		return 0, false
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Email: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecEmail_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*NotificationChannelSpec_Email))
+}
+
+// NotificationChannelSpecEmail_FieldPathArrayItemValue allows storing single item in Path-specific values for Email according to their type
+// Present only for array (repeated) types.
+type NotificationChannelSpecEmail_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationChannelSpecEmail_FieldPath
+	ContainsValue(*NotificationChannelSpec_Email) bool
+}
+
+// ParseNotificationChannelSpecEmail_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationChannelSpecEmail_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationChannelSpecEmail_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationChannelSpecEmail_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Email field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationChannelSpecEmail_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationChannelSpecEmail_FieldPathArrayItemValue(pathStr, valueStr string) NotificationChannelSpecEmail_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationChannelSpecEmail_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue struct {
+	NotificationChannelSpecEmail_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecEmail_FieldPathArrayItemValue = (*NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object NotificationChannelSpec_Email as interface{}
+func (fpaiv *NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue) AsAddressesItemValue() (string, bool) {
+	res, ok := fpaiv.value.(string)
+	return res, ok
+}
+
+func (fpaiv *NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue) GetSingle(source *NotificationChannelSpec_Email) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*NotificationChannelSpec_Email))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Email'
+func (fpaiv *NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue) ContainsValue(source *NotificationChannelSpec_Email) bool {
+	slice := fpaiv.NotificationChannelSpecEmail_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// NotificationChannelSpecEmail_FieldPathArrayOfValues allows storing slice of values for Email fields according to their type
+type NotificationChannelSpecEmail_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationChannelSpecEmail_FieldPath
+}
+
+func ParseNotificationChannelSpecEmail_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationChannelSpecEmail_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationChannelSpecEmail_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Email field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationChannelSpecEmail_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationChannelSpecEmail_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationChannelSpecEmail_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationChannelSpecEmail_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues struct {
+	NotificationChannelSpecEmail_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationChannelSpecEmail_FieldPathArrayOfValues = (*NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationChannelSpecEmail_FieldPathSelectorAddresses:
+		for _, v := range fpaov.values.([][]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues) AsAddressesArrayOfValues() ([][]string, bool) {
+	res, ok := fpaov.values.([][]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationChannelSpecSlack_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationChannelSpecSlack_FieldPathSelector
+	Get(source *NotificationChannelSpec_Slack) []interface{}
+	GetSingle(source *NotificationChannelSpec_Slack) (interface{}, bool)
+	ClearValue(item *NotificationChannelSpec_Slack)
+
+	// Those methods build corresponding NotificationChannelSpecSlack_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationChannelSpecSlack_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationChannelSpecSlack_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationChannelSpecSlack_FieldPathArrayItemValue
+}
+
+type NotificationChannelSpecSlack_FieldPathSelector int32
+
+const (
+	NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook NotificationChannelSpecSlack_FieldPathSelector = 0
+)
+
+func (s NotificationChannelSpecSlack_FieldPathSelector) String() string {
+	switch s {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		return "incoming_webhook"
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", s))
+	}
+}
+
+func BuildNotificationChannelSpecSlack_FieldPath(fp gotenobject.RawFieldPath) (NotificationChannelSpecSlack_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object NotificationChannelSpec_Slack")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "incoming_webhook", "incomingWebhook", "incoming-webhook":
+			return &NotificationChannelSpecSlack_FieldTerminalPath{selector: NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object NotificationChannelSpec_Slack", fp)
+}
+
+func ParseNotificationChannelSpecSlack_FieldPath(rawField string) (NotificationChannelSpecSlack_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationChannelSpecSlack_FieldPath(fp)
+}
+
+func MustParseNotificationChannelSpecSlack_FieldPath(rawField string) NotificationChannelSpecSlack_FieldPath {
+	fp, err := ParseNotificationChannelSpecSlack_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationChannelSpecSlack_FieldTerminalPath struct {
+	selector NotificationChannelSpecSlack_FieldPathSelector
+}
+
+var _ NotificationChannelSpecSlack_FieldPath = (*NotificationChannelSpecSlack_FieldTerminalPath)(nil)
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) Selector() NotificationChannelSpecSlack_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source NotificationChannelSpec_Slack
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) Get(source *NotificationChannelSpec_Slack) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+			values = append(values, source.IncomingWebhook)
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*NotificationChannelSpec_Slack))
+}
+
+// GetSingle returns value pointed by specific field of from source NotificationChannelSpec_Slack
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) GetSingle(source *NotificationChannelSpec_Slack) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		return source.GetIncomingWebhook(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*NotificationChannelSpec_Slack))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) ClearValue(item *NotificationChannelSpec_Slack) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+			item.IncomingWebhook = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*NotificationChannelSpec_Slack))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) WithIValue(value interface{}) NotificationChannelSpecSlack_FieldPathValue {
+	switch fp.selector {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		return &NotificationChannelSpecSlack_FieldTerminalPathValue{NotificationChannelSpecSlack_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationChannelSpecSlack_FieldPathArrayOfValues {
+	fpaov := &NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues{NotificationChannelSpecSlack_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		return &NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues{NotificationChannelSpecSlack_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationChannelSpecSlack_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecSlack_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// NotificationChannelSpecSlack_FieldPathValue allows storing values for Slack fields according to their type
+type NotificationChannelSpecSlack_FieldPathValue interface {
+	NotificationChannelSpecSlack_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **NotificationChannelSpec_Slack)
+	CompareWith(*NotificationChannelSpec_Slack) (cmp int, comparable bool)
+}
+
+func ParseNotificationChannelSpecSlack_FieldPathValue(pathStr, valueStr string) (NotificationChannelSpecSlack_FieldPathValue, error) {
+	fp, err := ParseNotificationChannelSpecSlack_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Slack field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationChannelSpecSlack_FieldPathValue), nil
+}
+
+func MustParseNotificationChannelSpecSlack_FieldPathValue(pathStr, valueStr string) NotificationChannelSpecSlack_FieldPathValue {
+	fpv, err := ParseNotificationChannelSpecSlack_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationChannelSpecSlack_FieldTerminalPathValue struct {
+	NotificationChannelSpecSlack_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecSlack_FieldPathValue = (*NotificationChannelSpecSlack_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Slack' as interface{}
+func (fpv *NotificationChannelSpecSlack_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationChannelSpecSlack_FieldTerminalPathValue) AsIncomingWebhookValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Slack
+func (fpv *NotificationChannelSpecSlack_FieldTerminalPathValue) SetTo(target **NotificationChannelSpec_Slack) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec_Slack)
+	}
+	switch fpv.selector {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		(*target).IncomingWebhook = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecSlack_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec_Slack)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationChannelSpecSlack_FieldTerminalPathValue' with the value under path in 'NotificationChannelSpec_Slack'.
+func (fpv *NotificationChannelSpecSlack_FieldTerminalPathValue) CompareWith(source *NotificationChannelSpec_Slack) (int, bool) {
+	switch fpv.selector {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetIncomingWebhook()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Slack: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecSlack_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*NotificationChannelSpec_Slack))
+}
+
+// NotificationChannelSpecSlack_FieldPathArrayItemValue allows storing single item in Path-specific values for Slack according to their type
+// Present only for array (repeated) types.
+type NotificationChannelSpecSlack_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationChannelSpecSlack_FieldPath
+	ContainsValue(*NotificationChannelSpec_Slack) bool
+}
+
+// ParseNotificationChannelSpecSlack_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationChannelSpecSlack_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationChannelSpecSlack_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationChannelSpecSlack_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Slack field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationChannelSpecSlack_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationChannelSpecSlack_FieldPathArrayItemValue(pathStr, valueStr string) NotificationChannelSpecSlack_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationChannelSpecSlack_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationChannelSpecSlack_FieldTerminalPathArrayItemValue struct {
+	NotificationChannelSpecSlack_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecSlack_FieldPathArrayItemValue = (*NotificationChannelSpecSlack_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object NotificationChannelSpec_Slack as interface{}
+func (fpaiv *NotificationChannelSpecSlack_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *NotificationChannelSpecSlack_FieldTerminalPathArrayItemValue) GetSingle(source *NotificationChannelSpec_Slack) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationChannelSpecSlack_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*NotificationChannelSpec_Slack))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Slack'
+func (fpaiv *NotificationChannelSpecSlack_FieldTerminalPathArrayItemValue) ContainsValue(source *NotificationChannelSpec_Slack) bool {
+	slice := fpaiv.NotificationChannelSpecSlack_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// NotificationChannelSpecSlack_FieldPathArrayOfValues allows storing slice of values for Slack fields according to their type
+type NotificationChannelSpecSlack_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationChannelSpecSlack_FieldPath
+}
+
+func ParseNotificationChannelSpecSlack_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationChannelSpecSlack_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationChannelSpecSlack_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Slack field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationChannelSpecSlack_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationChannelSpecSlack_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationChannelSpecSlack_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationChannelSpecSlack_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues struct {
+	NotificationChannelSpecSlack_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationChannelSpecSlack_FieldPathArrayOfValues = (*NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues) AsIncomingWebhookArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationChannelSpecPagerDuty_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationChannelSpecPagerDuty_FieldPathSelector
+	Get(source *NotificationChannelSpec_PagerDuty) []interface{}
+	GetSingle(source *NotificationChannelSpec_PagerDuty) (interface{}, bool)
+	ClearValue(item *NotificationChannelSpec_PagerDuty)
+
+	// Those methods build corresponding NotificationChannelSpecPagerDuty_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationChannelSpecPagerDuty_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationChannelSpecPagerDuty_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationChannelSpecPagerDuty_FieldPathArrayItemValue
+}
+
+type NotificationChannelSpecPagerDuty_FieldPathSelector int32
+
+const (
+	NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey NotificationChannelSpecPagerDuty_FieldPathSelector = 0
+)
+
+func (s NotificationChannelSpecPagerDuty_FieldPathSelector) String() string {
+	switch s {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		return "service_key"
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", s))
+	}
+}
+
+func BuildNotificationChannelSpecPagerDuty_FieldPath(fp gotenobject.RawFieldPath) (NotificationChannelSpecPagerDuty_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object NotificationChannelSpec_PagerDuty")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "service_key", "serviceKey", "service-key":
+			return &NotificationChannelSpecPagerDuty_FieldTerminalPath{selector: NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object NotificationChannelSpec_PagerDuty", fp)
+}
+
+func ParseNotificationChannelSpecPagerDuty_FieldPath(rawField string) (NotificationChannelSpecPagerDuty_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationChannelSpecPagerDuty_FieldPath(fp)
+}
+
+func MustParseNotificationChannelSpecPagerDuty_FieldPath(rawField string) NotificationChannelSpecPagerDuty_FieldPath {
+	fp, err := ParseNotificationChannelSpecPagerDuty_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationChannelSpecPagerDuty_FieldTerminalPath struct {
+	selector NotificationChannelSpecPagerDuty_FieldPathSelector
+}
+
+var _ NotificationChannelSpecPagerDuty_FieldPath = (*NotificationChannelSpecPagerDuty_FieldTerminalPath)(nil)
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) Selector() NotificationChannelSpecPagerDuty_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source NotificationChannelSpec_PagerDuty
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) Get(source *NotificationChannelSpec_PagerDuty) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+			values = append(values, source.ServiceKey)
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*NotificationChannelSpec_PagerDuty))
+}
+
+// GetSingle returns value pointed by specific field of from source NotificationChannelSpec_PagerDuty
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) GetSingle(source *NotificationChannelSpec_PagerDuty) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		return source.GetServiceKey(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*NotificationChannelSpec_PagerDuty))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) ClearValue(item *NotificationChannelSpec_PagerDuty) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+			item.ServiceKey = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*NotificationChannelSpec_PagerDuty))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) WithIValue(value interface{}) NotificationChannelSpecPagerDuty_FieldPathValue {
+	switch fp.selector {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		return &NotificationChannelSpecPagerDuty_FieldTerminalPathValue{NotificationChannelSpecPagerDuty_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationChannelSpecPagerDuty_FieldPathArrayOfValues {
+	fpaov := &NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues{NotificationChannelSpecPagerDuty_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		return &NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues{NotificationChannelSpecPagerDuty_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationChannelSpecPagerDuty_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecPagerDuty_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// NotificationChannelSpecPagerDuty_FieldPathValue allows storing values for PagerDuty fields according to their type
+type NotificationChannelSpecPagerDuty_FieldPathValue interface {
+	NotificationChannelSpecPagerDuty_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **NotificationChannelSpec_PagerDuty)
+	CompareWith(*NotificationChannelSpec_PagerDuty) (cmp int, comparable bool)
+}
+
+func ParseNotificationChannelSpecPagerDuty_FieldPathValue(pathStr, valueStr string) (NotificationChannelSpecPagerDuty_FieldPathValue, error) {
+	fp, err := ParseNotificationChannelSpecPagerDuty_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PagerDuty field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationChannelSpecPagerDuty_FieldPathValue), nil
+}
+
+func MustParseNotificationChannelSpecPagerDuty_FieldPathValue(pathStr, valueStr string) NotificationChannelSpecPagerDuty_FieldPathValue {
+	fpv, err := ParseNotificationChannelSpecPagerDuty_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationChannelSpecPagerDuty_FieldTerminalPathValue struct {
+	NotificationChannelSpecPagerDuty_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecPagerDuty_FieldPathValue = (*NotificationChannelSpecPagerDuty_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'PagerDuty' as interface{}
+func (fpv *NotificationChannelSpecPagerDuty_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationChannelSpecPagerDuty_FieldTerminalPathValue) AsServiceKeyValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object PagerDuty
+func (fpv *NotificationChannelSpecPagerDuty_FieldTerminalPathValue) SetTo(target **NotificationChannelSpec_PagerDuty) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec_PagerDuty)
+	}
+	switch fpv.selector {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		(*target).ServiceKey = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecPagerDuty_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec_PagerDuty)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationChannelSpecPagerDuty_FieldTerminalPathValue' with the value under path in 'NotificationChannelSpec_PagerDuty'.
+func (fpv *NotificationChannelSpecPagerDuty_FieldTerminalPathValue) CompareWith(source *NotificationChannelSpec_PagerDuty) (int, bool) {
+	switch fpv.selector {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetServiceKey()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_PagerDuty: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecPagerDuty_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*NotificationChannelSpec_PagerDuty))
+}
+
+// NotificationChannelSpecPagerDuty_FieldPathArrayItemValue allows storing single item in Path-specific values for PagerDuty according to their type
+// Present only for array (repeated) types.
+type NotificationChannelSpecPagerDuty_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationChannelSpecPagerDuty_FieldPath
+	ContainsValue(*NotificationChannelSpec_PagerDuty) bool
+}
+
+// ParseNotificationChannelSpecPagerDuty_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationChannelSpecPagerDuty_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationChannelSpecPagerDuty_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationChannelSpecPagerDuty_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PagerDuty field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationChannelSpecPagerDuty_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationChannelSpecPagerDuty_FieldPathArrayItemValue(pathStr, valueStr string) NotificationChannelSpecPagerDuty_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationChannelSpecPagerDuty_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationChannelSpecPagerDuty_FieldTerminalPathArrayItemValue struct {
+	NotificationChannelSpecPagerDuty_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecPagerDuty_FieldPathArrayItemValue = (*NotificationChannelSpecPagerDuty_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object NotificationChannelSpec_PagerDuty as interface{}
+func (fpaiv *NotificationChannelSpecPagerDuty_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *NotificationChannelSpecPagerDuty_FieldTerminalPathArrayItemValue) GetSingle(source *NotificationChannelSpec_PagerDuty) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationChannelSpecPagerDuty_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*NotificationChannelSpec_PagerDuty))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'PagerDuty'
+func (fpaiv *NotificationChannelSpecPagerDuty_FieldTerminalPathArrayItemValue) ContainsValue(source *NotificationChannelSpec_PagerDuty) bool {
+	slice := fpaiv.NotificationChannelSpecPagerDuty_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// NotificationChannelSpecPagerDuty_FieldPathArrayOfValues allows storing slice of values for PagerDuty fields according to their type
+type NotificationChannelSpecPagerDuty_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationChannelSpecPagerDuty_FieldPath
+}
+
+func ParseNotificationChannelSpecPagerDuty_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationChannelSpecPagerDuty_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationChannelSpecPagerDuty_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing PagerDuty field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationChannelSpecPagerDuty_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationChannelSpecPagerDuty_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationChannelSpecPagerDuty_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationChannelSpecPagerDuty_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues struct {
+	NotificationChannelSpecPagerDuty_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationChannelSpecPagerDuty_FieldPathArrayOfValues = (*NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues) AsServiceKeyArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationChannelSpecWebhook_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationChannelSpecWebhook_FieldPathSelector
+	Get(source *NotificationChannelSpec_Webhook) []interface{}
+	GetSingle(source *NotificationChannelSpec_Webhook) (interface{}, bool)
+	ClearValue(item *NotificationChannelSpec_Webhook)
+
+	// Those methods build corresponding NotificationChannelSpecWebhook_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationChannelSpecWebhook_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationChannelSpecWebhook_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationChannelSpecWebhook_FieldPathArrayItemValue
+}
+
+type NotificationChannelSpecWebhook_FieldPathSelector int32
+
+const (
+	NotificationChannelSpecWebhook_FieldPathSelectorUrl              NotificationChannelSpecWebhook_FieldPathSelector = 0
+	NotificationChannelSpecWebhook_FieldPathSelectorHeaders          NotificationChannelSpecWebhook_FieldPathSelector = 1
+	NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb NotificationChannelSpecWebhook_FieldPathSelector = 2
+)
+
+func (s NotificationChannelSpecWebhook_FieldPathSelector) String() string {
+	switch s {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		return "url"
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return "headers"
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return "max_message_size_mb"
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", s))
+	}
+}
+
+func BuildNotificationChannelSpecWebhook_FieldPath(fp gotenobject.RawFieldPath) (NotificationChannelSpecWebhook_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object NotificationChannelSpec_Webhook")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "url":
+			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorUrl}, nil
+		case "headers":
+			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders}, nil
+		case "max_message_size_mb", "maxMessageSizeMb", "max-message-size-mb":
+			return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb}, nil
+		}
+	} else {
+		switch fp[0] {
+		case "headers":
+			if subpath, err := BuildNotificationChannelSpecWebhookHeader_FieldPath(fp[1:]); err != nil {
+				return nil, err
+			} else {
+				return &NotificationChannelSpecWebhook_FieldSubPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders, subPath: subpath}, nil
+			}
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object NotificationChannelSpec_Webhook", fp)
+}
+
+func ParseNotificationChannelSpecWebhook_FieldPath(rawField string) (NotificationChannelSpecWebhook_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationChannelSpecWebhook_FieldPath(fp)
+}
+
+func MustParseNotificationChannelSpecWebhook_FieldPath(rawField string) NotificationChannelSpecWebhook_FieldPath {
+	fp, err := ParseNotificationChannelSpecWebhook_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationChannelSpecWebhook_FieldTerminalPath struct {
+	selector NotificationChannelSpecWebhook_FieldPathSelector
+}
+
+var _ NotificationChannelSpecWebhook_FieldPath = (*NotificationChannelSpecWebhook_FieldTerminalPath)(nil)
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) Selector() NotificationChannelSpecWebhook_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source NotificationChannelSpec_Webhook
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) Get(source *NotificationChannelSpec_Webhook) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+			values = append(values, source.Url)
+		case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+			for _, value := range source.GetHeaders() {
+				values = append(values, value)
+			}
+		case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+			values = append(values, source.MaxMessageSizeMb)
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*NotificationChannelSpec_Webhook))
+}
+
+// GetSingle returns value pointed by specific field of from source NotificationChannelSpec_Webhook
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetSingle(source *NotificationChannelSpec_Webhook) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		return source.GetUrl(), source != nil
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		res := source.GetHeaders()
+		return res, res != nil
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return source.GetMaxMessageSizeMb(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*NotificationChannelSpec_Webhook))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		return ""
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return ([]*NotificationChannelSpec_Webhook_Header)(nil)
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return float64(0)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) ClearValue(item *NotificationChannelSpec_Webhook) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+			item.Url = ""
+		case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+			item.Headers = nil
+		case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+			item.MaxMessageSizeMb = float64(0)
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*NotificationChannelSpec_Webhook))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorUrl ||
+		fp.selector == NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithIValue(value interface{}) NotificationChannelSpecWebhook_FieldPathValue {
+	switch fp.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.(string)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.([]*NotificationChannelSpec_Webhook_Header)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.(float64)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationChannelSpecWebhook_FieldPathArrayOfValues {
+	fpaov := &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([]string)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([][]*NotificationChannelSpec_Webhook_Header)}
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, values: values.([]float64)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationChannelSpecWebhook_FieldPathArrayItemValue {
+	switch fp.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return &NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue{NotificationChannelSpecWebhook_FieldTerminalPath: *fp, value: value.(*NotificationChannelSpec_Webhook_Header)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhook_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+type NotificationChannelSpecWebhook_FieldSubPath struct {
+	selector NotificationChannelSpecWebhook_FieldPathSelector
+	subPath  gotenobject.FieldPath
+}
+
+var _ NotificationChannelSpecWebhook_FieldPath = (*NotificationChannelSpecWebhook_FieldSubPath)(nil)
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) Selector() NotificationChannelSpecWebhook_FieldPathSelector {
+	return fps.selector
+}
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) AsHeadersSubPath() (NotificationChannelSpecWebhookHeader_FieldPath, bool) {
+	res, ok := fps.subPath.(NotificationChannelSpecWebhookHeader_FieldPath)
+	return res, ok
+}
+
+// String returns path representation in proto convention
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) String() string {
+	return fps.selector.String() + "." + fps.subPath.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) JSONString() string {
+	return strcase.ToLowerCamel(fps.selector.String()) + "." + fps.subPath.JSONString()
+}
+
+// Get returns all values pointed by selected field from source NotificationChannelSpec_Webhook
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) Get(source *NotificationChannelSpec_Webhook) (values []interface{}) {
+	switch fps.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		for _, item := range source.GetHeaders() {
+			values = append(values, fps.subPath.GetRaw(item)...)
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fps.selector))
+	}
+	return
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) GetRaw(source proto.Message) []interface{} {
+	return fps.Get(source.(*NotificationChannelSpec_Webhook))
+}
+
+// GetSingle returns value of selected field from source NotificationChannelSpec_Webhook
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) GetSingle(source *NotificationChannelSpec_Webhook) (interface{}, bool) {
+	switch fps.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		if len(source.GetHeaders()) == 0 {
+			return nil, false
+		}
+		return fps.subPath.GetSingleRaw(source.GetHeaders()[0])
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fps.selector))
+	}
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fps.GetSingle(source.(*NotificationChannelSpec_Webhook))
+}
+
+// GetDefault returns a default value of the field type
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) GetDefault() interface{} {
+	return fps.subPath.GetDefault()
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) ClearValue(item *NotificationChannelSpec_Webhook) {
+	if item != nil {
+		switch fps.selector {
+		case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+			for _, subItem := range item.Headers {
+				fps.subPath.ClearValueRaw(subItem)
+			}
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fps.selector))
+		}
+	}
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) ClearValueRaw(item proto.Message) {
+	fps.ClearValue(item.(*NotificationChannelSpec_Webhook))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) IsLeaf() bool {
+	return fps.subPath.IsLeaf()
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	iPaths := []gotenobject.FieldPath{&NotificationChannelSpecWebhook_FieldTerminalPath{selector: fps.selector}}
+	iPaths = append(iPaths, fps.subPath.SplitIntoTerminalIPaths()...)
+	return iPaths
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) WithIValue(value interface{}) NotificationChannelSpecWebhook_FieldPathValue {
+	return &NotificationChannelSpecWebhook_FieldSubPathValue{fps, fps.subPath.WithRawIValue(value)}
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fps.WithIValue(value)
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) WithIArrayOfValues(values interface{}) NotificationChannelSpecWebhook_FieldPathArrayOfValues {
+	return &NotificationChannelSpecWebhook_FieldSubPathArrayOfValues{fps, fps.subPath.WithRawIArrayOfValues(values)}
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fps.WithIArrayOfValues(values)
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) WithIArrayItemValue(value interface{}) NotificationChannelSpecWebhook_FieldPathArrayItemValue {
+	return &NotificationChannelSpecWebhook_FieldSubPathArrayItemValue{fps, fps.subPath.WithRawIArrayItemValue(value)}
+}
+
+func (fps *NotificationChannelSpecWebhook_FieldSubPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fps.WithIArrayItemValue(value)
+}
+
+// NotificationChannelSpecWebhook_FieldPathValue allows storing values for Webhook fields according to their type
+type NotificationChannelSpecWebhook_FieldPathValue interface {
+	NotificationChannelSpecWebhook_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **NotificationChannelSpec_Webhook)
+	CompareWith(*NotificationChannelSpec_Webhook) (cmp int, comparable bool)
+}
+
+func ParseNotificationChannelSpecWebhook_FieldPathValue(pathStr, valueStr string) (NotificationChannelSpecWebhook_FieldPathValue, error) {
+	fp, err := ParseNotificationChannelSpecWebhook_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Webhook field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationChannelSpecWebhook_FieldPathValue), nil
+}
+
+func MustParseNotificationChannelSpecWebhook_FieldPathValue(pathStr, valueStr string) NotificationChannelSpecWebhook_FieldPathValue {
+	fpv, err := ParseNotificationChannelSpecWebhook_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationChannelSpecWebhook_FieldTerminalPathValue struct {
+	NotificationChannelSpecWebhook_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecWebhook_FieldPathValue = (*NotificationChannelSpecWebhook_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Webhook' as interface{}
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) AsUrlValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) AsHeadersValue() ([]*NotificationChannelSpec_Webhook_Header, bool) {
+	res, ok := fpv.value.([]*NotificationChannelSpec_Webhook_Header)
+	return res, ok
+}
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) AsMaxMessageSizeMbValue() (float64, bool) {
+	res, ok := fpv.value.(float64)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Webhook
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) SetTo(target **NotificationChannelSpec_Webhook) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec_Webhook)
+	}
+	switch fpv.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		(*target).Url = fpv.value.(string)
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		(*target).Headers = fpv.value.([]*NotificationChannelSpec_Webhook_Header)
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		(*target).MaxMessageSizeMb = fpv.value.(float64)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec_Webhook)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationChannelSpecWebhook_FieldTerminalPathValue' with the value under path in 'NotificationChannelSpec_Webhook'.
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) CompareWith(source *NotificationChannelSpec_Webhook) (int, bool) {
+	switch fpv.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetUrl()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return 0, false
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		leftValue := fpv.value.(float64)
+		rightValue := source.GetMaxMessageSizeMb()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecWebhook_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*NotificationChannelSpec_Webhook))
+}
+
+type NotificationChannelSpecWebhook_FieldSubPathValue struct {
+	NotificationChannelSpecWebhook_FieldPath
+	subPathValue gotenobject.FieldPathValue
+}
+
+var _ NotificationChannelSpecWebhook_FieldPathValue = (*NotificationChannelSpecWebhook_FieldSubPathValue)(nil)
+
+func (fpvs *NotificationChannelSpecWebhook_FieldSubPathValue) AsHeadersPathValue() (NotificationChannelSpecWebhookHeader_FieldPathValue, bool) {
+	res, ok := fpvs.subPathValue.(NotificationChannelSpecWebhookHeader_FieldPathValue)
+	return res, ok
+}
+
+func (fpvs *NotificationChannelSpecWebhook_FieldSubPathValue) SetTo(target **NotificationChannelSpec_Webhook) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec_Webhook)
+	}
+	switch fpvs.Selector() {
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		panic("FieldPath setter is unsupported for array subpaths")
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *NotificationChannelSpecWebhook_FieldSubPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec_Webhook)
+	fpvs.SetTo(&typedObject)
+}
+
+func (fpvs *NotificationChannelSpecWebhook_FieldSubPathValue) GetRawValue() interface{} {
+	return fpvs.subPathValue.GetRawValue()
+}
+
+func (fpvs *NotificationChannelSpecWebhook_FieldSubPathValue) CompareWith(source *NotificationChannelSpec_Webhook) (int, bool) {
+	switch fpvs.Selector() {
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return 0, false // repeated field
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fpvs.Selector()))
+	}
+}
+
+func (fpvs *NotificationChannelSpecWebhook_FieldSubPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpvs.CompareWith(source.(*NotificationChannelSpec_Webhook))
+}
+
+// NotificationChannelSpecWebhook_FieldPathArrayItemValue allows storing single item in Path-specific values for Webhook according to their type
+// Present only for array (repeated) types.
+type NotificationChannelSpecWebhook_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationChannelSpecWebhook_FieldPath
+	ContainsValue(*NotificationChannelSpec_Webhook) bool
+}
+
+// ParseNotificationChannelSpecWebhook_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationChannelSpecWebhook_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationChannelSpecWebhook_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationChannelSpecWebhook_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Webhook field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationChannelSpecWebhook_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationChannelSpecWebhook_FieldPathArrayItemValue(pathStr, valueStr string) NotificationChannelSpecWebhook_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationChannelSpecWebhook_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue struct {
+	NotificationChannelSpecWebhook_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecWebhook_FieldPathArrayItemValue = (*NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object NotificationChannelSpec_Webhook as interface{}
+func (fpaiv *NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+func (fpaiv *NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue) AsHeadersItemValue() (*NotificationChannelSpec_Webhook_Header, bool) {
+	res, ok := fpaiv.value.(*NotificationChannelSpec_Webhook_Header)
+	return res, ok
+}
+
+func (fpaiv *NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue) GetSingle(source *NotificationChannelSpec_Webhook) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*NotificationChannelSpec_Webhook))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Webhook'
+func (fpaiv *NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue) ContainsValue(source *NotificationChannelSpec_Webhook) bool {
+	slice := fpaiv.NotificationChannelSpecWebhook_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+type NotificationChannelSpecWebhook_FieldSubPathArrayItemValue struct {
+	NotificationChannelSpecWebhook_FieldPath
+	subPathItemValue gotenobject.FieldPathArrayItemValue
+}
+
+// GetRawValue returns stored array item value
+func (fpaivs *NotificationChannelSpecWebhook_FieldSubPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaivs.subPathItemValue.GetRawItemValue()
+}
+func (fpaivs *NotificationChannelSpecWebhook_FieldSubPathArrayItemValue) AsHeadersPathItemValue() (NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue, bool) {
+	res, ok := fpaivs.subPathItemValue.(NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue)
+	return res, ok
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Webhook'
+func (fpaivs *NotificationChannelSpecWebhook_FieldSubPathArrayItemValue) ContainsValue(source *NotificationChannelSpec_Webhook) bool {
+	switch fpaivs.Selector() {
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		return false // repeated/map field
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook: %d", fpaivs.Selector()))
+	}
+}
+
+// NotificationChannelSpecWebhook_FieldPathArrayOfValues allows storing slice of values for Webhook fields according to their type
+type NotificationChannelSpecWebhook_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationChannelSpecWebhook_FieldPath
+}
+
+func ParseNotificationChannelSpecWebhook_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationChannelSpecWebhook_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationChannelSpecWebhook_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Webhook field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationChannelSpecWebhook_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationChannelSpecWebhook_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationChannelSpecWebhook_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationChannelSpecWebhook_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues struct {
+	NotificationChannelSpecWebhook_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationChannelSpecWebhook_FieldPathArrayOfValues = (*NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationChannelSpecWebhook_FieldPathSelectorUrl:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpecWebhook_FieldPathSelectorHeaders:
+		for _, v := range fpaov.values.([][]*NotificationChannelSpec_Webhook_Header) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb:
+		for _, v := range fpaov.values.([]float64) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsUrlArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsHeadersArrayOfValues() ([][]*NotificationChannelSpec_Webhook_Header, bool) {
+	res, ok := fpaov.values.([][]*NotificationChannelSpec_Webhook_Header)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues) AsMaxMessageSizeMbArrayOfValues() ([]float64, bool) {
+	res, ok := fpaov.values.([]float64)
+	return res, ok
+}
+
+type NotificationChannelSpecWebhook_FieldSubPathArrayOfValues struct {
+	NotificationChannelSpecWebhook_FieldPath
+	subPathArrayOfValues gotenobject.FieldPathArrayOfValues
+}
+
+var _ NotificationChannelSpecWebhook_FieldPathArrayOfValues = (*NotificationChannelSpecWebhook_FieldSubPathArrayOfValues)(nil)
+
+func (fpsaov *NotificationChannelSpecWebhook_FieldSubPathArrayOfValues) GetRawValues() []interface{} {
+	return fpsaov.subPathArrayOfValues.GetRawValues()
+}
+func (fpsaov *NotificationChannelSpecWebhook_FieldSubPathArrayOfValues) AsHeadersPathArrayOfValues() (NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues, bool) {
+	res, ok := fpsaov.subPathArrayOfValues.(NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues)
+	return res, ok
+}
+
+// FieldPath provides implementation to handle
+// https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/field_mask.proto
+type NotificationChannelSpecWebhookHeader_FieldPath interface {
+	gotenobject.FieldPath
+	Selector() NotificationChannelSpecWebhookHeader_FieldPathSelector
+	Get(source *NotificationChannelSpec_Webhook_Header) []interface{}
+	GetSingle(source *NotificationChannelSpec_Webhook_Header) (interface{}, bool)
+	ClearValue(item *NotificationChannelSpec_Webhook_Header)
+
+	// Those methods build corresponding NotificationChannelSpecWebhookHeader_FieldPathValue
+	// (or array of values) and holds passed value. Panics if injected type is incorrect.
+	WithIValue(value interface{}) NotificationChannelSpecWebhookHeader_FieldPathValue
+	WithIArrayOfValues(values interface{}) NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues
+	WithIArrayItemValue(value interface{}) NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue
+}
+
+type NotificationChannelSpecWebhookHeader_FieldPathSelector int32
+
+const (
+	NotificationChannelSpecWebhookHeader_FieldPathSelectorKey   NotificationChannelSpecWebhookHeader_FieldPathSelector = 0
+	NotificationChannelSpecWebhookHeader_FieldPathSelectorValue NotificationChannelSpecWebhookHeader_FieldPathSelector = 1
+)
+
+func (s NotificationChannelSpecWebhookHeader_FieldPathSelector) String() string {
+	switch s {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		return "key"
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		return "value"
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", s))
+	}
+}
+
+func BuildNotificationChannelSpecWebhookHeader_FieldPath(fp gotenobject.RawFieldPath) (NotificationChannelSpecWebhookHeader_FieldPath, error) {
+	if len(fp) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "empty field path for object NotificationChannelSpec_Webhook_Header")
+	}
+	if len(fp) == 1 {
+		switch fp[0] {
+		case "key":
+			return &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorKey}, nil
+		case "value":
+			return &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorValue}, nil
+		}
+	}
+	return nil, status.Errorf(codes.InvalidArgument, "unknown field path '%s' for object NotificationChannelSpec_Webhook_Header", fp)
+}
+
+func ParseNotificationChannelSpecWebhookHeader_FieldPath(rawField string) (NotificationChannelSpecWebhookHeader_FieldPath, error) {
+	fp, err := gotenobject.ParseRawFieldPath(rawField)
+	if err != nil {
+		return nil, err
+	}
+	return BuildNotificationChannelSpecWebhookHeader_FieldPath(fp)
+}
+
+func MustParseNotificationChannelSpecWebhookHeader_FieldPath(rawField string) NotificationChannelSpecWebhookHeader_FieldPath {
+	fp, err := ParseNotificationChannelSpecWebhookHeader_FieldPath(rawField)
+	if err != nil {
+		panic(err)
+	}
+	return fp
+}
+
+type NotificationChannelSpecWebhookHeader_FieldTerminalPath struct {
+	selector NotificationChannelSpecWebhookHeader_FieldPathSelector
+}
+
+var _ NotificationChannelSpecWebhookHeader_FieldPath = (*NotificationChannelSpecWebhookHeader_FieldTerminalPath)(nil)
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) Selector() NotificationChannelSpecWebhookHeader_FieldPathSelector {
+	return fp.selector
+}
+
+// String returns path representation in proto convention
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) String() string {
+	return fp.selector.String()
+}
+
+// JSONString returns path representation is JSON convention
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) JSONString() string {
+	return strcase.ToLowerCamel(fp.String())
+}
+
+// Get returns all values pointed by specific field from source NotificationChannelSpec_Webhook_Header
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) Get(source *NotificationChannelSpec_Webhook_Header) (values []interface{}) {
+	if source != nil {
+		switch fp.selector {
+		case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+			values = append(values, source.Key)
+		case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+			values = append(values, source.Value)
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fp.selector))
+		}
+	}
+	return
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) GetRaw(source proto.Message) []interface{} {
+	return fp.Get(source.(*NotificationChannelSpec_Webhook_Header))
+}
+
+// GetSingle returns value pointed by specific field of from source NotificationChannelSpec_Webhook_Header
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) GetSingle(source *NotificationChannelSpec_Webhook_Header) (interface{}, bool) {
+	switch fp.selector {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		return source.GetKey(), source != nil
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		return source.GetValue(), source != nil
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fp.GetSingle(source.(*NotificationChannelSpec_Webhook_Header))
+}
+
+// GetDefault returns a default value of the field type
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) GetDefault() interface{} {
+	switch fp.selector {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		return ""
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		return ""
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) ClearValue(item *NotificationChannelSpec_Webhook_Header) {
+	if item != nil {
+		switch fp.selector {
+		case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+			item.Key = ""
+		case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+			item.Value = ""
+		default:
+			panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fp.selector))
+		}
+	}
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) ClearValueRaw(item proto.Message) {
+	fp.ClearValue(item.(*NotificationChannelSpec_Webhook_Header))
+}
+
+// IsLeaf - whether field path is holds simple value
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) IsLeaf() bool {
+	return fp.selector == NotificationChannelSpecWebhookHeader_FieldPathSelectorKey ||
+		fp.selector == NotificationChannelSpecWebhookHeader_FieldPathSelectorValue
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) SplitIntoTerminalIPaths() []gotenobject.FieldPath {
+	return []gotenobject.FieldPath{fp}
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) WithIValue(value interface{}) NotificationChannelSpecWebhookHeader_FieldPathValue {
+	switch fp.selector {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		return &NotificationChannelSpecWebhookHeader_FieldTerminalPathValue{NotificationChannelSpecWebhookHeader_FieldTerminalPath: *fp, value: value.(string)}
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		return &NotificationChannelSpecWebhookHeader_FieldTerminalPathValue{NotificationChannelSpecWebhookHeader_FieldTerminalPath: *fp, value: value.(string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) WithRawIValue(value interface{}) gotenobject.FieldPathValue {
+	return fp.WithIValue(value)
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) WithIArrayOfValues(values interface{}) NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues {
+	fpaov := &NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhookHeader_FieldTerminalPath: *fp}
+	switch fp.selector {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		return &NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhookHeader_FieldTerminalPath: *fp, values: values.([]string)}
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		return &NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues{NotificationChannelSpecWebhookHeader_FieldTerminalPath: *fp, values: values.([]string)}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fp.selector))
+	}
+	return fpaov
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) WithRawIArrayOfValues(values interface{}) gotenobject.FieldPathArrayOfValues {
+	return fp.WithIArrayOfValues(values)
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) WithIArrayItemValue(value interface{}) NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue {
+	switch fp.selector {
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fp.selector))
+	}
+}
+
+func (fp *NotificationChannelSpecWebhookHeader_FieldTerminalPath) WithRawIArrayItemValue(value interface{}) gotenobject.FieldPathArrayItemValue {
+	return fp.WithIArrayItemValue(value)
+}
+
+// NotificationChannelSpecWebhookHeader_FieldPathValue allows storing values for Header fields according to their type
+type NotificationChannelSpecWebhookHeader_FieldPathValue interface {
+	NotificationChannelSpecWebhookHeader_FieldPath
+	gotenobject.FieldPathValue
+	SetTo(target **NotificationChannelSpec_Webhook_Header)
+	CompareWith(*NotificationChannelSpec_Webhook_Header) (cmp int, comparable bool)
+}
+
+func ParseNotificationChannelSpecWebhookHeader_FieldPathValue(pathStr, valueStr string) (NotificationChannelSpecWebhookHeader_FieldPathValue, error) {
+	fp, err := ParseNotificationChannelSpecWebhookHeader_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpv, err := gotenobject.ParseFieldPathValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Header field path value from %s: %v", valueStr, err)
+	}
+	return fpv.(NotificationChannelSpecWebhookHeader_FieldPathValue), nil
+}
+
+func MustParseNotificationChannelSpecWebhookHeader_FieldPathValue(pathStr, valueStr string) NotificationChannelSpecWebhookHeader_FieldPathValue {
+	fpv, err := ParseNotificationChannelSpecWebhookHeader_FieldPathValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpv
+}
+
+type NotificationChannelSpecWebhookHeader_FieldTerminalPathValue struct {
+	NotificationChannelSpecWebhookHeader_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecWebhookHeader_FieldPathValue = (*NotificationChannelSpecWebhookHeader_FieldTerminalPathValue)(nil)
+
+// GetRawValue returns raw value stored under selected path for 'Header' as interface{}
+func (fpv *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue) GetRawValue() interface{} {
+	return fpv.value
+}
+func (fpv *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue) AsKeyValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+func (fpv *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue) AsValueValue() (string, bool) {
+	res, ok := fpv.value.(string)
+	return res, ok
+}
+
+// SetTo stores value for selected field for object Header
+func (fpv *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue) SetTo(target **NotificationChannelSpec_Webhook_Header) {
+	if *target == nil {
+		*target = new(NotificationChannelSpec_Webhook_Header)
+	}
+	switch fpv.selector {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		(*target).Key = fpv.value.(string)
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		(*target).Value = fpv.value.(string)
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue) SetToRaw(target proto.Message) {
+	typedObject := target.(*NotificationChannelSpec_Webhook_Header)
+	fpv.SetTo(&typedObject)
+}
+
+// CompareWith compares value in the 'NotificationChannelSpecWebhookHeader_FieldTerminalPathValue' with the value under path in 'NotificationChannelSpec_Webhook_Header'.
+func (fpv *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue) CompareWith(source *NotificationChannelSpec_Webhook_Header) (int, bool) {
+	switch fpv.selector {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetKey()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		leftValue := fpv.value.(string)
+		rightValue := source.GetValue()
+		if (leftValue) == (rightValue) {
+			return 0, true
+		} else if (leftValue) < (rightValue) {
+			return -1, true
+		} else {
+			return 1, true
+		}
+	default:
+		panic(fmt.Sprintf("Invalid selector for NotificationChannelSpec_Webhook_Header: %d", fpv.selector))
+	}
+}
+
+func (fpv *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue) CompareWithRaw(source proto.Message) (int, bool) {
+	return fpv.CompareWith(source.(*NotificationChannelSpec_Webhook_Header))
+}
+
+// NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue allows storing single item in Path-specific values for Header according to their type
+// Present only for array (repeated) types.
+type NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue interface {
+	gotenobject.FieldPathArrayItemValue
+	NotificationChannelSpecWebhookHeader_FieldPath
+	ContainsValue(*NotificationChannelSpec_Webhook_Header) bool
+}
+
+// ParseNotificationChannelSpecWebhookHeader_FieldPathArrayItemValue parses string and JSON-encoded value to its Value
+func ParseNotificationChannelSpecWebhookHeader_FieldPathArrayItemValue(pathStr, valueStr string) (NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue, error) {
+	fp, err := ParseNotificationChannelSpecWebhookHeader_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaiv, err := gotenobject.ParseFieldPathArrayItemValue(fp, valueStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Header field path array item value from %s: %v", valueStr, err)
+	}
+	return fpaiv.(NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue), nil
+}
+
+func MustParseNotificationChannelSpecWebhookHeader_FieldPathArrayItemValue(pathStr, valueStr string) NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue {
+	fpaiv, err := ParseNotificationChannelSpecWebhookHeader_FieldPathArrayItemValue(pathStr, valueStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaiv
+}
+
+type NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayItemValue struct {
+	NotificationChannelSpecWebhookHeader_FieldTerminalPath
+	value interface{}
+}
+
+var _ NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue = (*NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayItemValue)(nil)
+
+// GetRawValue returns stored element value for array in object NotificationChannelSpec_Webhook_Header as interface{}
+func (fpaiv *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayItemValue) GetRawItemValue() interface{} {
+	return fpaiv.value
+}
+
+func (fpaiv *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayItemValue) GetSingle(source *NotificationChannelSpec_Webhook_Header) (interface{}, bool) {
+	return nil, false
+}
+
+func (fpaiv *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayItemValue) GetSingleRaw(source proto.Message) (interface{}, bool) {
+	return fpaiv.GetSingle(source.(*NotificationChannelSpec_Webhook_Header))
+}
+
+// Contains returns a boolean indicating if value that is being held is present in given 'Header'
+func (fpaiv *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayItemValue) ContainsValue(source *NotificationChannelSpec_Webhook_Header) bool {
+	slice := fpaiv.NotificationChannelSpecWebhookHeader_FieldTerminalPath.Get(source)
+	for _, v := range slice {
+		if asProtoMsg, ok := fpaiv.value.(proto.Message); ok {
+			if proto.Equal(asProtoMsg, v.(proto.Message)) {
+				return true
+			}
+		} else if reflect.DeepEqual(v, fpaiv.value) {
+			return true
+		}
+	}
+	return false
+}
+
+// NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues allows storing slice of values for Header fields according to their type
+type NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues interface {
+	gotenobject.FieldPathArrayOfValues
+	NotificationChannelSpecWebhookHeader_FieldPath
+}
+
+func ParseNotificationChannelSpecWebhookHeader_FieldPathArrayOfValues(pathStr, valuesStr string) (NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues, error) {
+	fp, err := ParseNotificationChannelSpecWebhookHeader_FieldPath(pathStr)
+	if err != nil {
+		return nil, err
+	}
+	fpaov, err := gotenobject.ParseFieldPathArrayOfValues(fp, valuesStr)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "error parsing Header field path array of values from %s: %v", valuesStr, err)
+	}
+	return fpaov.(NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues), nil
+}
+
+func MustParseNotificationChannelSpecWebhookHeader_FieldPathArrayOfValues(pathStr, valuesStr string) NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues {
+	fpaov, err := ParseNotificationChannelSpecWebhookHeader_FieldPathArrayOfValues(pathStr, valuesStr)
+	if err != nil {
+		panic(err)
+	}
+	return fpaov
+}
+
+type NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues struct {
+	NotificationChannelSpecWebhookHeader_FieldTerminalPath
+	values interface{}
+}
+
+var _ NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues = (*NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues)(nil)
+
+func (fpaov *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
+	switch fpaov.selector {
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorKey:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	case NotificationChannelSpecWebhookHeader_FieldPathSelectorValue:
+		for _, v := range fpaov.values.([]string) {
+			values = append(values, v)
+		}
+	}
+	return
+}
+func (fpaov *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues) AsKeyArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
+}
+func (fpaov *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues) AsValueArrayOfValues() ([]string, bool) {
+	res, ok := fpaov.values.([]string)
+	return res, ok
 }
 
 // FieldPath provides implementation to handle

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ntt.alerting.v1;
 
+import "edgelq-sdk/alerting/proto/v1/notification_channel.proto";
 import "edgelq-sdk/alerting/proto/v1/specs.proto";
 import "google/api/resource.proto";
 import "google/protobuf/duration.proto";
@@ -227,7 +228,7 @@ message Alert {
     message Notification {
       // Kind informs what type of State has changed, and for which
       // we need to send notifications.
-      PolicySpec.Notification.Kind kind = 1;
+      NotificationChannelSpec.EventKind kind = 1;
 
       // Informs about list of channels to where notification
       // should be sent according to the corresponding kind.

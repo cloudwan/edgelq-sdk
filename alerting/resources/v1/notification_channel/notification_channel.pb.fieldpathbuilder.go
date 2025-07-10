@@ -6,25 +6,55 @@ package notification_channel
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
+	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
+	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
+	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // make sure we're using proto imports
 var (
+	_ = &rcommon.LogCndSpec{}
+	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log.Log{}
+	_ = &logging_log_descriptor.LogDescriptor{}
+	_ = &monitoring_common.LabelDescriptor{}
+	_ = &monitoring_metric_descriptor.MetricDescriptor{}
+	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
+	_ = &monitoring_project.Project{}
+	_ = &monitoring_time_serie.Point{}
+	_ = &anypb.Any{}
+	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
+	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -784,27 +814,27 @@ func (NotificationChannelPathSelectorSpec) FieldPath() *NotificationChannel_Fiel
 	return &NotificationChannel_FieldTerminalPath{selector: NotificationChannel_FieldPathSelectorSpec}
 }
 
-func (s NotificationChannelPathSelectorSpec) WithValue(value *NotificationChannel_Spec) *NotificationChannel_FieldTerminalPathValue {
+func (s NotificationChannelPathSelectorSpec) WithValue(value *rcommon.NotificationChannelSpec) *NotificationChannel_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldTerminalPathValue)
 }
 
-func (s NotificationChannelPathSelectorSpec) WithArrayOfValues(values []*NotificationChannel_Spec) *NotificationChannel_FieldTerminalPathArrayOfValues {
+func (s NotificationChannelPathSelectorSpec) WithArrayOfValues(values []*rcommon.NotificationChannelSpec) *NotificationChannel_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldTerminalPathArrayOfValues)
 }
 
-func (NotificationChannelPathSelectorSpec) WithSubPath(subPath NotificationChannelSpec_FieldPath) *NotificationChannel_FieldSubPath {
+func (NotificationChannelPathSelectorSpec) WithSubPath(subPath rcommon.NotificationChannelSpec_FieldPath) *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{selector: NotificationChannel_FieldPathSelectorSpec, subPath: subPath}
 }
 
-func (s NotificationChannelPathSelectorSpec) WithSubValue(subPathValue NotificationChannelSpec_FieldPathValue) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorSpec) WithSubValue(subPathValue rcommon.NotificationChannelSpec_FieldPathValue) *NotificationChannel_FieldSubPathValue {
 	return &NotificationChannel_FieldSubPathValue{NotificationChannel_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
 }
 
-func (s NotificationChannelPathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues NotificationChannelSpec_FieldPathArrayOfValues) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorSpec) WithSubArrayOfValues(subPathArrayOfValues rcommon.NotificationChannelSpec_FieldPathArrayOfValues) *NotificationChannel_FieldSubPathArrayOfValues {
 	return &NotificationChannel_FieldSubPathArrayOfValues{NotificationChannel_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
 }
 
-func (s NotificationChannelPathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue NotificationChannelSpec_FieldPathArrayItemValue) *NotificationChannel_FieldSubPathArrayItemValue {
+func (s NotificationChannelPathSelectorSpec) WithSubArrayItemValue(subPathArrayItemValue rcommon.NotificationChannelSpec_FieldPathArrayItemValue) *NotificationChannel_FieldSubPathArrayItemValue {
 	return &NotificationChannel_FieldSubPathArrayItemValue{NotificationChannel_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
 }
 
@@ -814,6 +844,10 @@ func (NotificationChannelPathSelectorSpec) Enabled() NotificationChannelPathSele
 
 func (NotificationChannelPathSelectorSpec) Type() NotificationChannelPathSelectorSpecType {
 	return NotificationChannelPathSelectorSpecType{}
+}
+
+func (NotificationChannelPathSelectorSpec) EnabledKinds() NotificationChannelPathSelectorSpecEnabledKinds {
+	return NotificationChannelPathSelectorSpecEnabledKinds{}
 }
 
 func (NotificationChannelPathSelectorSpec) Email() NotificationChannelPathSelectorSpecEmail {
@@ -836,12 +870,20 @@ func (NotificationChannelPathSelectorSpec) NotificationMask() NotificationChanne
 	return NotificationChannelPathSelectorSpecNotificationMask{}
 }
 
+func (NotificationChannelPathSelectorSpec) MaxAlertBodiesInMsg() NotificationChannelPathSelectorSpecMaxAlertBodiesInMsg {
+	return NotificationChannelPathSelectorSpecMaxAlertBodiesInMsg{}
+}
+
+func (NotificationChannelPathSelectorSpec) PutOnlyAlertsCounterWhenOverflowing() NotificationChannelPathSelectorSpecPutOnlyAlertsCounterWhenOverflowing {
+	return NotificationChannelPathSelectorSpecPutOnlyAlertsCounterWhenOverflowing{}
+}
+
 type NotificationChannelPathSelectorSpecEnabled struct{}
 
 func (NotificationChannelPathSelectorSpecEnabled) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Enabled().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Enabled().FieldPath(),
 	}
 }
 
@@ -858,16 +900,37 @@ type NotificationChannelPathSelectorSpecType struct{}
 func (NotificationChannelPathSelectorSpecType) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Type().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Type().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorSpecType) WithValue(value NotificationChannel_Spec_Type) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorSpecType) WithValue(value rcommon.NotificationChannelSpec_Type) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorSpecType) WithArrayOfValues(values []NotificationChannel_Spec_Type) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorSpecType) WithArrayOfValues(values []rcommon.NotificationChannelSpec_Type) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorSpecEnabledKinds struct{}
+
+func (NotificationChannelPathSelectorSpecEnabledKinds) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorSpec,
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().EnabledKinds().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorSpecEnabledKinds) WithValue(value []rcommon.NotificationChannelSpec_EventKind) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorSpecEnabledKinds) WithArrayOfValues(values [][]rcommon.NotificationChannelSpec_EventKind) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+func (s NotificationChannelPathSelectorSpecEnabledKinds) WithItemValue(value rcommon.NotificationChannelSpec_EventKind) *NotificationChannel_FieldSubPathArrayItemValue {
+	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannel_FieldSubPathArrayItemValue)
 }
 
 type NotificationChannelPathSelectorSpecEmail struct{}
@@ -875,15 +938,15 @@ type NotificationChannelPathSelectorSpecEmail struct{}
 func (NotificationChannelPathSelectorSpecEmail) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Email().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Email().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorSpecEmail) WithValue(value *NotificationChannel_Spec_Email) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorSpecEmail) WithValue(value *rcommon.NotificationChannelSpec_Email) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorSpecEmail) WithArrayOfValues(values []*NotificationChannel_Spec_Email) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorSpecEmail) WithArrayOfValues(values []*rcommon.NotificationChannelSpec_Email) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -896,7 +959,7 @@ type NotificationChannelPathSelectorSpecEmailAddresses struct{}
 func (NotificationChannelPathSelectorSpecEmailAddresses) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Email().Addresses().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Email().Addresses().FieldPath(),
 	}
 }
 
@@ -917,15 +980,15 @@ type NotificationChannelPathSelectorSpecSlack struct{}
 func (NotificationChannelPathSelectorSpecSlack) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Slack().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Slack().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorSpecSlack) WithValue(value *NotificationChannel_Spec_Slack) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorSpecSlack) WithValue(value *rcommon.NotificationChannelSpec_Slack) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorSpecSlack) WithArrayOfValues(values []*NotificationChannel_Spec_Slack) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorSpecSlack) WithArrayOfValues(values []*rcommon.NotificationChannelSpec_Slack) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -938,7 +1001,7 @@ type NotificationChannelPathSelectorSpecSlackIncomingWebhook struct{}
 func (NotificationChannelPathSelectorSpecSlackIncomingWebhook) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Slack().IncomingWebhook().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Slack().IncomingWebhook().FieldPath(),
 	}
 }
 
@@ -955,15 +1018,15 @@ type NotificationChannelPathSelectorSpecWebhook struct{}
 func (NotificationChannelPathSelectorSpecWebhook) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Webhook().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorSpecWebhook) WithValue(value *NotificationChannel_Spec_Webhook) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorSpecWebhook) WithValue(value *rcommon.NotificationChannelSpec_Webhook) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorSpecWebhook) WithArrayOfValues(values []*NotificationChannel_Spec_Webhook) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorSpecWebhook) WithArrayOfValues(values []*rcommon.NotificationChannelSpec_Webhook) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -984,7 +1047,7 @@ type NotificationChannelPathSelectorSpecWebhookUrl struct{}
 func (NotificationChannelPathSelectorSpecWebhookUrl) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().Url().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Webhook().Url().FieldPath(),
 	}
 }
 
@@ -1001,19 +1064,19 @@ type NotificationChannelPathSelectorSpecWebhookHeaders struct{}
 func (NotificationChannelPathSelectorSpecWebhookHeaders) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().Headers().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Webhook().Headers().FieldPath(),
 	}
 }
 
-func (s NotificationChannelPathSelectorSpecWebhookHeaders) WithValue(value []*NotificationChannel_Spec_Webhook_Header) *NotificationChannel_FieldSubPathValue {
+func (s NotificationChannelPathSelectorSpecWebhookHeaders) WithValue(value []*rcommon.NotificationChannelSpec_Webhook_Header) *NotificationChannel_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
 }
 
-func (s NotificationChannelPathSelectorSpecWebhookHeaders) WithArrayOfValues(values [][]*NotificationChannel_Spec_Webhook_Header) *NotificationChannel_FieldSubPathArrayOfValues {
+func (s NotificationChannelPathSelectorSpecWebhookHeaders) WithArrayOfValues(values [][]*rcommon.NotificationChannelSpec_Webhook_Header) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
-func (s NotificationChannelPathSelectorSpecWebhookHeaders) WithItemValue(value *NotificationChannel_Spec_Webhook_Header) *NotificationChannel_FieldSubPathArrayItemValue {
+func (s NotificationChannelPathSelectorSpecWebhookHeaders) WithItemValue(value *rcommon.NotificationChannelSpec_Webhook_Header) *NotificationChannel_FieldSubPathArrayItemValue {
 	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannel_FieldSubPathArrayItemValue)
 }
 
@@ -1030,7 +1093,7 @@ type NotificationChannelPathSelectorSpecWebhookHeadersKey struct{}
 func (NotificationChannelPathSelectorSpecWebhookHeadersKey) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().Headers().Key().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Webhook().Headers().Key().FieldPath(),
 	}
 }
 
@@ -1047,7 +1110,7 @@ type NotificationChannelPathSelectorSpecWebhookHeadersValue struct{}
 func (NotificationChannelPathSelectorSpecWebhookHeadersValue) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().Headers().Value().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Webhook().Headers().Value().FieldPath(),
 	}
 }
 
@@ -1064,7 +1127,7 @@ type NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb struct{}
 func (NotificationChannelPathSelectorSpecWebhookMaxMessageSizeMb) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().Webhook().MaxMessageSizeMb().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().Webhook().MaxMessageSizeMb().FieldPath(),
 	}
 }
 
@@ -1081,7 +1144,7 @@ type NotificationChannelPathSelectorSpecNotificationLanguageCode struct{}
 func (NotificationChannelPathSelectorSpecNotificationLanguageCode) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().NotificationLanguageCode().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().NotificationLanguageCode().FieldPath(),
 	}
 }
 
@@ -1098,7 +1161,7 @@ type NotificationChannelPathSelectorSpecNotificationMask struct{}
 func (NotificationChannelPathSelectorSpecNotificationMask) FieldPath() *NotificationChannel_FieldSubPath {
 	return &NotificationChannel_FieldSubPath{
 		selector: NotificationChannel_FieldPathSelectorSpec,
-		subPath:  NewNotificationChannelSpecFieldPathBuilder().NotificationMask().FieldPath(),
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().NotificationMask().FieldPath(),
 	}
 }
 
@@ -1107,6 +1170,40 @@ func (s NotificationChannelPathSelectorSpecNotificationMask) WithValue(value *fi
 }
 
 func (s NotificationChannelPathSelectorSpecNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorSpecMaxAlertBodiesInMsg struct{}
+
+func (NotificationChannelPathSelectorSpecMaxAlertBodiesInMsg) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorSpec,
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().MaxAlertBodiesInMsg().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorSpecMaxAlertBodiesInMsg) WithValue(value int32) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorSpecMaxAlertBodiesInMsg) WithArrayOfValues(values []int32) *NotificationChannel_FieldSubPathArrayOfValues {
+	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
+}
+
+type NotificationChannelPathSelectorSpecPutOnlyAlertsCounterWhenOverflowing struct{}
+
+func (NotificationChannelPathSelectorSpecPutOnlyAlertsCounterWhenOverflowing) FieldPath() *NotificationChannel_FieldSubPath {
+	return &NotificationChannel_FieldSubPath{
+		selector: NotificationChannel_FieldPathSelectorSpec,
+		subPath:  rcommon.NewNotificationChannelSpecFieldPathBuilder().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
+	}
+}
+
+func (s NotificationChannelPathSelectorSpecPutOnlyAlertsCounterWhenOverflowing) WithValue(value bool) *NotificationChannel_FieldSubPathValue {
+	return s.FieldPath().WithIValue(value).(*NotificationChannel_FieldSubPathValue)
+}
+
+func (s NotificationChannelPathSelectorSpecPutOnlyAlertsCounterWhenOverflowing) WithArrayOfValues(values []bool) *NotificationChannel_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
@@ -1224,334 +1321,6 @@ func (s NotificationChannelPathSelectorStateErrorMessage) WithArrayOfValues(valu
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannel_FieldSubPathArrayOfValues)
 }
 
-type NotificationChannelSpecFieldPathBuilder struct{}
-
-func NewNotificationChannelSpecFieldPathBuilder() NotificationChannelSpecFieldPathBuilder {
-	return NotificationChannelSpecFieldPathBuilder{}
-}
-func (NotificationChannelSpecFieldPathBuilder) Enabled() NotificationChannel_SpecPathSelectorEnabled {
-	return NotificationChannel_SpecPathSelectorEnabled{}
-}
-func (NotificationChannelSpecFieldPathBuilder) Type() NotificationChannel_SpecPathSelectorType {
-	return NotificationChannel_SpecPathSelectorType{}
-}
-func (NotificationChannelSpecFieldPathBuilder) Email() NotificationChannel_SpecPathSelectorEmail {
-	return NotificationChannel_SpecPathSelectorEmail{}
-}
-func (NotificationChannelSpecFieldPathBuilder) Slack() NotificationChannel_SpecPathSelectorSlack {
-	return NotificationChannel_SpecPathSelectorSlack{}
-}
-func (NotificationChannelSpecFieldPathBuilder) Webhook() NotificationChannel_SpecPathSelectorWebhook {
-	return NotificationChannel_SpecPathSelectorWebhook{}
-}
-func (NotificationChannelSpecFieldPathBuilder) NotificationLanguageCode() NotificationChannel_SpecPathSelectorNotificationLanguageCode {
-	return NotificationChannel_SpecPathSelectorNotificationLanguageCode{}
-}
-func (NotificationChannelSpecFieldPathBuilder) NotificationMask() NotificationChannel_SpecPathSelectorNotificationMask {
-	return NotificationChannel_SpecPathSelectorNotificationMask{}
-}
-
-type NotificationChannel_SpecPathSelectorEnabled struct{}
-
-func (NotificationChannel_SpecPathSelectorEnabled) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
-	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEnabled}
-}
-
-func (s NotificationChannel_SpecPathSelectorEnabled) WithValue(value bool) *NotificationChannelSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorEnabled) WithArrayOfValues(values []bool) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorType struct{}
-
-func (NotificationChannel_SpecPathSelectorType) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
-	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorType}
-}
-
-func (s NotificationChannel_SpecPathSelectorType) WithValue(value NotificationChannel_Spec_Type) *NotificationChannelSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorType) WithArrayOfValues(values []NotificationChannel_Spec_Type) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorEmail struct{}
-
-func (NotificationChannel_SpecPathSelectorEmail) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
-	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorEmail}
-}
-
-func (s NotificationChannel_SpecPathSelectorEmail) WithValue(value *NotificationChannel_Spec_Email) *NotificationChannelSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorEmail) WithArrayOfValues(values []*NotificationChannel_Spec_Email) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (NotificationChannel_SpecPathSelectorEmail) WithSubPath(subPath NotificationChannelSpecEmail_FieldPath) *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorEmail, subPath: subPath}
-}
-
-func (s NotificationChannel_SpecPathSelectorEmail) WithSubValue(subPathValue NotificationChannelSpecEmail_FieldPathValue) *NotificationChannelSpec_FieldSubPathValue {
-	return &NotificationChannelSpec_FieldSubPathValue{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s NotificationChannel_SpecPathSelectorEmail) WithSubArrayOfValues(subPathArrayOfValues NotificationChannelSpecEmail_FieldPathArrayOfValues) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return &NotificationChannelSpec_FieldSubPathArrayOfValues{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s NotificationChannel_SpecPathSelectorEmail) WithSubArrayItemValue(subPathArrayItemValue NotificationChannelSpecEmail_FieldPathArrayItemValue) *NotificationChannelSpec_FieldSubPathArrayItemValue {
-	return &NotificationChannelSpec_FieldSubPathArrayItemValue{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (NotificationChannel_SpecPathSelectorEmail) Addresses() NotificationChannel_SpecPathSelectorEmailAddresses {
-	return NotificationChannel_SpecPathSelectorEmailAddresses{}
-}
-
-type NotificationChannel_SpecPathSelectorEmailAddresses struct{}
-
-func (NotificationChannel_SpecPathSelectorEmailAddresses) FieldPath() *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{
-		selector: NotificationChannelSpec_FieldPathSelectorEmail,
-		subPath:  NewNotificationChannelSpecEmailFieldPathBuilder().Addresses().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_SpecPathSelectorEmailAddresses) WithValue(value []string) *NotificationChannelSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorEmailAddresses) WithArrayOfValues(values [][]string) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
-}
-
-func (s NotificationChannel_SpecPathSelectorEmailAddresses) WithItemValue(value string) *NotificationChannelSpec_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannelSpec_FieldSubPathArrayItemValue)
-}
-
-type NotificationChannel_SpecPathSelectorSlack struct{}
-
-func (NotificationChannel_SpecPathSelectorSlack) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
-	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorSlack}
-}
-
-func (s NotificationChannel_SpecPathSelectorSlack) WithValue(value *NotificationChannel_Spec_Slack) *NotificationChannelSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorSlack) WithArrayOfValues(values []*NotificationChannel_Spec_Slack) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (NotificationChannel_SpecPathSelectorSlack) WithSubPath(subPath NotificationChannelSpecSlack_FieldPath) *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorSlack, subPath: subPath}
-}
-
-func (s NotificationChannel_SpecPathSelectorSlack) WithSubValue(subPathValue NotificationChannelSpecSlack_FieldPathValue) *NotificationChannelSpec_FieldSubPathValue {
-	return &NotificationChannelSpec_FieldSubPathValue{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s NotificationChannel_SpecPathSelectorSlack) WithSubArrayOfValues(subPathArrayOfValues NotificationChannelSpecSlack_FieldPathArrayOfValues) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return &NotificationChannelSpec_FieldSubPathArrayOfValues{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s NotificationChannel_SpecPathSelectorSlack) WithSubArrayItemValue(subPathArrayItemValue NotificationChannelSpecSlack_FieldPathArrayItemValue) *NotificationChannelSpec_FieldSubPathArrayItemValue {
-	return &NotificationChannelSpec_FieldSubPathArrayItemValue{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (NotificationChannel_SpecPathSelectorSlack) IncomingWebhook() NotificationChannel_SpecPathSelectorSlackIncomingWebhook {
-	return NotificationChannel_SpecPathSelectorSlackIncomingWebhook{}
-}
-
-type NotificationChannel_SpecPathSelectorSlackIncomingWebhook struct{}
-
-func (NotificationChannel_SpecPathSelectorSlackIncomingWebhook) FieldPath() *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{
-		selector: NotificationChannelSpec_FieldPathSelectorSlack,
-		subPath:  NewNotificationChannelSpecSlackFieldPathBuilder().IncomingWebhook().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_SpecPathSelectorSlackIncomingWebhook) WithValue(value string) *NotificationChannelSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorSlackIncomingWebhook) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorWebhook struct{}
-
-func (NotificationChannel_SpecPathSelectorWebhook) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
-	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhook) WithValue(value *NotificationChannel_Spec_Webhook) *NotificationChannelSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhook) WithArrayOfValues(values []*NotificationChannel_Spec_Webhook) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
-}
-
-func (NotificationChannel_SpecPathSelectorWebhook) WithSubPath(subPath NotificationChannelSpecWebhook_FieldPath) *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{selector: NotificationChannelSpec_FieldPathSelectorWebhook, subPath: subPath}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhook) WithSubValue(subPathValue NotificationChannelSpecWebhook_FieldPathValue) *NotificationChannelSpec_FieldSubPathValue {
-	return &NotificationChannelSpec_FieldSubPathValue{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhook) WithSubArrayOfValues(subPathArrayOfValues NotificationChannelSpecWebhook_FieldPathArrayOfValues) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return &NotificationChannelSpec_FieldSubPathArrayOfValues{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhook) WithSubArrayItemValue(subPathArrayItemValue NotificationChannelSpecWebhook_FieldPathArrayItemValue) *NotificationChannelSpec_FieldSubPathArrayItemValue {
-	return &NotificationChannelSpec_FieldSubPathArrayItemValue{NotificationChannelSpec_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (NotificationChannel_SpecPathSelectorWebhook) Url() NotificationChannel_SpecPathSelectorWebhookUrl {
-	return NotificationChannel_SpecPathSelectorWebhookUrl{}
-}
-
-func (NotificationChannel_SpecPathSelectorWebhook) Headers() NotificationChannel_SpecPathSelectorWebhookHeaders {
-	return NotificationChannel_SpecPathSelectorWebhookHeaders{}
-}
-
-func (NotificationChannel_SpecPathSelectorWebhook) MaxMessageSizeMb() NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb {
-	return NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb{}
-}
-
-type NotificationChannel_SpecPathSelectorWebhookUrl struct{}
-
-func (NotificationChannel_SpecPathSelectorWebhookUrl) FieldPath() *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{
-		selector: NotificationChannelSpec_FieldPathSelectorWebhook,
-		subPath:  NewNotificationChannelSpecWebhookFieldPathBuilder().Url().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookUrl) WithValue(value string) *NotificationChannelSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookUrl) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorWebhookHeaders struct{}
-
-func (NotificationChannel_SpecPathSelectorWebhookHeaders) FieldPath() *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{
-		selector: NotificationChannelSpec_FieldPathSelectorWebhook,
-		subPath:  NewNotificationChannelSpecWebhookFieldPathBuilder().Headers().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookHeaders) WithValue(value []*NotificationChannel_Spec_Webhook_Header) *NotificationChannelSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookHeaders) WithArrayOfValues(values [][]*NotificationChannel_Spec_Webhook_Header) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookHeaders) WithItemValue(value *NotificationChannel_Spec_Webhook_Header) *NotificationChannelSpec_FieldSubPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannelSpec_FieldSubPathArrayItemValue)
-}
-
-func (NotificationChannel_SpecPathSelectorWebhookHeaders) Key() NotificationChannel_SpecPathSelectorWebhookHeadersKey {
-	return NotificationChannel_SpecPathSelectorWebhookHeadersKey{}
-}
-
-func (NotificationChannel_SpecPathSelectorWebhookHeaders) Value() NotificationChannel_SpecPathSelectorWebhookHeadersValue {
-	return NotificationChannel_SpecPathSelectorWebhookHeadersValue{}
-}
-
-type NotificationChannel_SpecPathSelectorWebhookHeadersKey struct{}
-
-func (NotificationChannel_SpecPathSelectorWebhookHeadersKey) FieldPath() *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{
-		selector: NotificationChannelSpec_FieldPathSelectorWebhook,
-		subPath:  NewNotificationChannelSpecWebhookFieldPathBuilder().Headers().Key().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookHeadersKey) WithValue(value string) *NotificationChannelSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookHeadersKey) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorWebhookHeadersValue struct{}
-
-func (NotificationChannel_SpecPathSelectorWebhookHeadersValue) FieldPath() *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{
-		selector: NotificationChannelSpec_FieldPathSelectorWebhook,
-		subPath:  NewNotificationChannelSpecWebhookFieldPathBuilder().Headers().Value().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookHeadersValue) WithValue(value string) *NotificationChannelSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookHeadersValue) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb struct{}
-
-func (NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb) FieldPath() *NotificationChannelSpec_FieldSubPath {
-	return &NotificationChannelSpec_FieldSubPath{
-		selector: NotificationChannelSpec_FieldPathSelectorWebhook,
-		subPath:  NewNotificationChannelSpecWebhookFieldPathBuilder().MaxMessageSizeMb().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb) WithValue(value float64) *NotificationChannelSpec_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldSubPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorWebhookMaxMessageSizeMb) WithArrayOfValues(values []float64) *NotificationChannelSpec_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorNotificationLanguageCode struct{}
-
-func (NotificationChannel_SpecPathSelectorNotificationLanguageCode) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
-	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationLanguageCode}
-}
-
-func (s NotificationChannel_SpecPathSelectorNotificationLanguageCode) WithValue(value string) *NotificationChannelSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorNotificationLanguageCode) WithArrayOfValues(values []string) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannel_SpecPathSelectorNotificationMask struct{}
-
-func (NotificationChannel_SpecPathSelectorNotificationMask) FieldPath() *NotificationChannelSpec_FieldTerminalPath {
-	return &NotificationChannelSpec_FieldTerminalPath{selector: NotificationChannelSpec_FieldPathSelectorNotificationMask}
-}
-
-func (s NotificationChannel_SpecPathSelectorNotificationMask) WithValue(value *fieldmaskpb.FieldMask) *NotificationChannelSpec_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpec_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_SpecPathSelectorNotificationMask) WithArrayOfValues(values []*fieldmaskpb.FieldMask) *NotificationChannelSpec_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpec_FieldTerminalPathArrayOfValues)
-}
-
 type NotificationChannelStateFieldPathBuilder struct{}
 
 func NewNotificationChannelStateFieldPathBuilder() NotificationChannelStateFieldPathBuilder {
@@ -1648,237 +1417,6 @@ func (s NotificationChannel_StatePathSelectorErrorMessage) WithValue(value strin
 
 func (s NotificationChannel_StatePathSelectorErrorMessage) WithArrayOfValues(values []string) *NotificationChannelState_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelState_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannelSpecEmailFieldPathBuilder struct{}
-
-func NewNotificationChannelSpecEmailFieldPathBuilder() NotificationChannelSpecEmailFieldPathBuilder {
-	return NotificationChannelSpecEmailFieldPathBuilder{}
-}
-func (NotificationChannelSpecEmailFieldPathBuilder) Addresses() NotificationChannel_Spec_EmailPathSelectorAddresses {
-	return NotificationChannel_Spec_EmailPathSelectorAddresses{}
-}
-
-type NotificationChannel_Spec_EmailPathSelectorAddresses struct{}
-
-func (NotificationChannel_Spec_EmailPathSelectorAddresses) FieldPath() *NotificationChannelSpecEmail_FieldTerminalPath {
-	return &NotificationChannelSpecEmail_FieldTerminalPath{selector: NotificationChannelSpecEmail_FieldPathSelectorAddresses}
-}
-
-func (s NotificationChannel_Spec_EmailPathSelectorAddresses) WithValue(value []string) *NotificationChannelSpecEmail_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecEmail_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_EmailPathSelectorAddresses) WithArrayOfValues(values [][]string) *NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecEmail_FieldTerminalPathArrayOfValues)
-}
-
-func (s NotificationChannel_Spec_EmailPathSelectorAddresses) WithItemValue(value string) *NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannelSpecEmail_FieldTerminalPathArrayItemValue)
-}
-
-type NotificationChannelSpecSlackFieldPathBuilder struct{}
-
-func NewNotificationChannelSpecSlackFieldPathBuilder() NotificationChannelSpecSlackFieldPathBuilder {
-	return NotificationChannelSpecSlackFieldPathBuilder{}
-}
-func (NotificationChannelSpecSlackFieldPathBuilder) IncomingWebhook() NotificationChannel_Spec_SlackPathSelectorIncomingWebhook {
-	return NotificationChannel_Spec_SlackPathSelectorIncomingWebhook{}
-}
-
-type NotificationChannel_Spec_SlackPathSelectorIncomingWebhook struct{}
-
-func (NotificationChannel_Spec_SlackPathSelectorIncomingWebhook) FieldPath() *NotificationChannelSpecSlack_FieldTerminalPath {
-	return &NotificationChannelSpecSlack_FieldTerminalPath{selector: NotificationChannelSpecSlack_FieldPathSelectorIncomingWebhook}
-}
-
-func (s NotificationChannel_Spec_SlackPathSelectorIncomingWebhook) WithValue(value string) *NotificationChannelSpecSlack_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecSlack_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_SlackPathSelectorIncomingWebhook) WithArrayOfValues(values []string) *NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecSlack_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannelSpecPagerDutyFieldPathBuilder struct{}
-
-func NewNotificationChannelSpecPagerDutyFieldPathBuilder() NotificationChannelSpecPagerDutyFieldPathBuilder {
-	return NotificationChannelSpecPagerDutyFieldPathBuilder{}
-}
-func (NotificationChannelSpecPagerDutyFieldPathBuilder) ServiceKey() NotificationChannel_Spec_PagerDutyPathSelectorServiceKey {
-	return NotificationChannel_Spec_PagerDutyPathSelectorServiceKey{}
-}
-
-type NotificationChannel_Spec_PagerDutyPathSelectorServiceKey struct{}
-
-func (NotificationChannel_Spec_PagerDutyPathSelectorServiceKey) FieldPath() *NotificationChannelSpecPagerDuty_FieldTerminalPath {
-	return &NotificationChannelSpecPagerDuty_FieldTerminalPath{selector: NotificationChannelSpecPagerDuty_FieldPathSelectorServiceKey}
-}
-
-func (s NotificationChannel_Spec_PagerDutyPathSelectorServiceKey) WithValue(value string) *NotificationChannelSpecPagerDuty_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecPagerDuty_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_PagerDutyPathSelectorServiceKey) WithArrayOfValues(values []string) *NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecPagerDuty_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannelSpecWebhookFieldPathBuilder struct{}
-
-func NewNotificationChannelSpecWebhookFieldPathBuilder() NotificationChannelSpecWebhookFieldPathBuilder {
-	return NotificationChannelSpecWebhookFieldPathBuilder{}
-}
-func (NotificationChannelSpecWebhookFieldPathBuilder) Url() NotificationChannel_Spec_WebhookPathSelectorUrl {
-	return NotificationChannel_Spec_WebhookPathSelectorUrl{}
-}
-func (NotificationChannelSpecWebhookFieldPathBuilder) Headers() NotificationChannel_Spec_WebhookPathSelectorHeaders {
-	return NotificationChannel_Spec_WebhookPathSelectorHeaders{}
-}
-func (NotificationChannelSpecWebhookFieldPathBuilder) MaxMessageSizeMb() NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb {
-	return NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb{}
-}
-
-type NotificationChannel_Spec_WebhookPathSelectorUrl struct{}
-
-func (NotificationChannel_Spec_WebhookPathSelectorUrl) FieldPath() *NotificationChannelSpecWebhook_FieldTerminalPath {
-	return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorUrl}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorUrl) WithValue(value string) *NotificationChannelSpecWebhook_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhook_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorUrl) WithArrayOfValues(values []string) *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannel_Spec_WebhookPathSelectorHeaders struct{}
-
-func (NotificationChannel_Spec_WebhookPathSelectorHeaders) FieldPath() *NotificationChannelSpecWebhook_FieldTerminalPath {
-	return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeaders) WithValue(value []*NotificationChannel_Spec_Webhook_Header) *NotificationChannelSpecWebhook_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhook_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeaders) WithArrayOfValues(values [][]*NotificationChannel_Spec_Webhook_Header) *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues)
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeaders) WithItemValue(value *NotificationChannel_Spec_Webhook_Header) *NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue {
-	return s.FieldPath().WithIArrayItemValue(value).(*NotificationChannelSpecWebhook_FieldTerminalPathArrayItemValue)
-}
-func (NotificationChannel_Spec_WebhookPathSelectorHeaders) WithSubPath(subPath NotificationChannelSpecWebhookHeader_FieldPath) *NotificationChannelSpecWebhook_FieldSubPath {
-	return &NotificationChannelSpecWebhook_FieldSubPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders, subPath: subPath}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeaders) WithSubValue(subPathValue NotificationChannelSpecWebhookHeader_FieldPathValue) *NotificationChannelSpecWebhook_FieldSubPathValue {
-	return &NotificationChannelSpecWebhook_FieldSubPathValue{NotificationChannelSpecWebhook_FieldPath: s.WithSubPath(subPathValue), subPathValue: subPathValue}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeaders) WithSubArrayOfValues(subPathArrayOfValues NotificationChannelSpecWebhookHeader_FieldPathArrayOfValues) *NotificationChannelSpecWebhook_FieldSubPathArrayOfValues {
-	return &NotificationChannelSpecWebhook_FieldSubPathArrayOfValues{NotificationChannelSpecWebhook_FieldPath: s.WithSubPath(subPathArrayOfValues), subPathArrayOfValues: subPathArrayOfValues}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeaders) WithSubArrayItemValue(subPathArrayItemValue NotificationChannelSpecWebhookHeader_FieldPathArrayItemValue) *NotificationChannelSpecWebhook_FieldSubPathArrayItemValue {
-	return &NotificationChannelSpecWebhook_FieldSubPathArrayItemValue{NotificationChannelSpecWebhook_FieldPath: s.WithSubPath(subPathArrayItemValue), subPathItemValue: subPathArrayItemValue}
-}
-
-func (NotificationChannel_Spec_WebhookPathSelectorHeaders) Key() NotificationChannel_Spec_WebhookPathSelectorHeadersKey {
-	return NotificationChannel_Spec_WebhookPathSelectorHeadersKey{}
-}
-
-func (NotificationChannel_Spec_WebhookPathSelectorHeaders) Value() NotificationChannel_Spec_WebhookPathSelectorHeadersValue {
-	return NotificationChannel_Spec_WebhookPathSelectorHeadersValue{}
-}
-
-type NotificationChannel_Spec_WebhookPathSelectorHeadersKey struct{}
-
-func (NotificationChannel_Spec_WebhookPathSelectorHeadersKey) FieldPath() *NotificationChannelSpecWebhook_FieldSubPath {
-	return &NotificationChannelSpecWebhook_FieldSubPath{
-		selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders,
-		subPath:  NewNotificationChannelSpecWebhookHeaderFieldPathBuilder().Key().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeadersKey) WithValue(value string) *NotificationChannelSpecWebhook_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhook_FieldSubPathValue)
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeadersKey) WithArrayOfValues(values []string) *NotificationChannelSpecWebhook_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannel_Spec_WebhookPathSelectorHeadersValue struct{}
-
-func (NotificationChannel_Spec_WebhookPathSelectorHeadersValue) FieldPath() *NotificationChannelSpecWebhook_FieldSubPath {
-	return &NotificationChannelSpecWebhook_FieldSubPath{
-		selector: NotificationChannelSpecWebhook_FieldPathSelectorHeaders,
-		subPath:  NewNotificationChannelSpecWebhookHeaderFieldPathBuilder().Value().FieldPath(),
-	}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeadersValue) WithValue(value string) *NotificationChannelSpecWebhook_FieldSubPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhook_FieldSubPathValue)
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorHeadersValue) WithArrayOfValues(values []string) *NotificationChannelSpecWebhook_FieldSubPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldSubPathArrayOfValues)
-}
-
-type NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb struct{}
-
-func (NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb) FieldPath() *NotificationChannelSpecWebhook_FieldTerminalPath {
-	return &NotificationChannelSpecWebhook_FieldTerminalPath{selector: NotificationChannelSpecWebhook_FieldPathSelectorMaxMessageSizeMb}
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb) WithValue(value float64) *NotificationChannelSpecWebhook_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhook_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_WebhookPathSelectorMaxMessageSizeMb) WithArrayOfValues(values []float64) *NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhook_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannelSpecWebhookHeaderFieldPathBuilder struct{}
-
-func NewNotificationChannelSpecWebhookHeaderFieldPathBuilder() NotificationChannelSpecWebhookHeaderFieldPathBuilder {
-	return NotificationChannelSpecWebhookHeaderFieldPathBuilder{}
-}
-func (NotificationChannelSpecWebhookHeaderFieldPathBuilder) Key() NotificationChannel_Spec_Webhook_HeaderPathSelectorKey {
-	return NotificationChannel_Spec_Webhook_HeaderPathSelectorKey{}
-}
-func (NotificationChannelSpecWebhookHeaderFieldPathBuilder) Value() NotificationChannel_Spec_Webhook_HeaderPathSelectorValue {
-	return NotificationChannel_Spec_Webhook_HeaderPathSelectorValue{}
-}
-
-type NotificationChannel_Spec_Webhook_HeaderPathSelectorKey struct{}
-
-func (NotificationChannel_Spec_Webhook_HeaderPathSelectorKey) FieldPath() *NotificationChannelSpecWebhookHeader_FieldTerminalPath {
-	return &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorKey}
-}
-
-func (s NotificationChannel_Spec_Webhook_HeaderPathSelectorKey) WithValue(value string) *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhookHeader_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_Webhook_HeaderPathSelectorKey) WithArrayOfValues(values []string) *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues)
-}
-
-type NotificationChannel_Spec_Webhook_HeaderPathSelectorValue struct{}
-
-func (NotificationChannel_Spec_Webhook_HeaderPathSelectorValue) FieldPath() *NotificationChannelSpecWebhookHeader_FieldTerminalPath {
-	return &NotificationChannelSpecWebhookHeader_FieldTerminalPath{selector: NotificationChannelSpecWebhookHeader_FieldPathSelectorValue}
-}
-
-func (s NotificationChannel_Spec_Webhook_HeaderPathSelectorValue) WithValue(value string) *NotificationChannelSpecWebhookHeader_FieldTerminalPathValue {
-	return s.FieldPath().WithIValue(value).(*NotificationChannelSpecWebhookHeader_FieldTerminalPathValue)
-}
-
-func (s NotificationChannel_Spec_Webhook_HeaderPathSelectorValue) WithArrayOfValues(values []string) *NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues {
-	return s.FieldPath().WithIArrayOfValues(values).(*NotificationChannelSpecWebhookHeader_FieldTerminalPathArrayOfValues)
 }
 
 type NotificationChannelStateErrorFieldPathBuilder struct{}

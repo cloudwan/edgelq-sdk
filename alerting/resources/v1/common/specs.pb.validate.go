@@ -20,12 +20,12 @@ import (
 
 // proto imports
 import (
-	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
 	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
 	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
 
 var (
@@ -43,11 +43,11 @@ var (
 
 // make sure we're using proto imports
 var (
-	_ = &notification_channel.NotificationChannel{}
 	_ = &logging_log.Log{}
 	_ = &monitoring_common.LabelDescriptor{}
 	_ = &monitoring_time_serie.Point{}
 	_ = &durationpb.Duration{}
+	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta_resource.Resource{}
 )
 
@@ -487,13 +487,6 @@ func (obj *PolicySpec) GotenValidate() error {
 	if _, ok := PolicySpec_ProcessingLocation_name[int32(obj.ProcessingLocation)]; !ok {
 		return gotenvalidate.NewValidationError("PolicySpec", "processingLocation", obj.ProcessingLocation, "field must be a defined enum value", nil)
 	}
-	for idx, elem := range obj.Notifications {
-		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
-			if err := subobj.GotenValidate(); err != nil {
-				return gotenvalidate.NewValidationError("PolicySpec", "notifications", obj.Notifications[idx], "nested object validation failed", err)
-			}
-		}
-	}
 	if obj.ResourceIdentity == nil {
 		return gotenvalidate.NewValidationError("PolicySpec", "resourceIdentity", obj.ResourceIdentity, "field is required", nil)
 	}
@@ -513,24 +506,6 @@ func (obj *PolicySpec) GotenValidate() error {
 		if err := subobj.GotenValidate(); err != nil {
 			return gotenvalidate.NewValidationError("PolicySpec", "aiAgent", obj.AiAgent, "nested object validation failed", err)
 		}
-	}
-	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
-		return cvobj.GotenCustomValidate()
-	}
-	return nil
-}
-func (obj *PolicySpec_Notification) GotenValidate() error {
-	if obj == nil {
-		return nil
-	}
-	for _, el := range obj.EnabledKinds {
-
-		if _, ok := PolicySpec_Notification_Kind_name[int32(el)]; !ok {
-			return gotenvalidate.NewValidationError("Notification", "enabledKinds", el, "field must be a defined enum value", nil)
-		}
-	}
-	if !(obj.MaxAlertBodiesInMsg >= 0) {
-		return gotenvalidate.NewValidationError("Notification", "maxAlertBodiesInMsg", obj.MaxAlertBodiesInMsg, "field must be greater or equal to 0", nil)
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()
@@ -914,6 +889,94 @@ func (obj *PolicySpec_AIAgentHandling_Remediation_FixInSSH) GotenValidate() erro
 	return nil
 }
 func (obj *PolicySpec_AIAgentHandling_Remediation_Reboot) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *NotificationChannelSpec) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if _, ok := NotificationChannelSpec_Type_name[int32(obj.Type)]; !ok {
+		return gotenvalidate.NewValidationError("NotificationChannelSpec", "type", obj.Type, "field must be a defined enum value", nil)
+	}
+	for _, el := range obj.EnabledKinds {
+
+		if _, ok := NotificationChannelSpec_EventKind_name[int32(el)]; !ok {
+			return gotenvalidate.NewValidationError("NotificationChannelSpec", "enabledKinds", el, "field must be a defined enum value", nil)
+		}
+	}
+	if subobj, ok := interface{}(obj.Email).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NotificationChannelSpec", "email", obj.Email, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Slack).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NotificationChannelSpec", "slack", obj.Slack, "nested object validation failed", err)
+		}
+	}
+	if subobj, ok := interface{}(obj.Webhook).(gotenvalidate.Validator); ok {
+		if err := subobj.GotenValidate(); err != nil {
+			return gotenvalidate.NewValidationError("NotificationChannelSpec", "webhook", obj.Webhook, "nested object validation failed", err)
+		}
+	}
+	if !(obj.MaxAlertBodiesInMsg >= 0) {
+		return gotenvalidate.NewValidationError("NotificationChannelSpec", "maxAlertBodiesInMsg", obj.MaxAlertBodiesInMsg, "field must be greater or equal to 0", nil)
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *NotificationChannelSpec_Email) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *NotificationChannelSpec_Slack) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *NotificationChannelSpec_PagerDuty) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *NotificationChannelSpec_Webhook) GotenValidate() error {
+	if obj == nil {
+		return nil
+	}
+	for idx, elem := range obj.Headers {
+		if subobj, ok := interface{}(elem).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("Webhook", "headers", obj.Headers[idx], "nested object validation failed", err)
+			}
+		}
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *NotificationChannelSpec_Webhook_Header) GotenValidate() error {
 	if obj == nil {
 		return nil
 	}

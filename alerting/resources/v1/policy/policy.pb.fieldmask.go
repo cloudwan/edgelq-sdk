@@ -21,6 +21,7 @@ import (
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
+	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
@@ -44,6 +45,7 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
+	_ = &notification_channel.NotificationChannel{}
 	_ = &policy_template.PolicyTemplate{}
 	_ = &rcommon.LogCndSpec{}
 	_ = &iam_project.Project{}
@@ -64,6 +66,7 @@ func FullPolicy_FieldMask() *Policy_FieldMask {
 	res.Paths = append(res.Paths, &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorSupportingDocs})
 	res.Paths = append(res.Paths, &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorSpec})
 	res.Paths = append(res.Paths, &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorTemplateSource})
+	res.Paths = append(res.Paths, &Policy_FieldTerminalPath{selector: Policy_FieldPathSelectorNotificationChannels})
 	return res
 }
 
@@ -82,7 +85,7 @@ func (fieldMask *Policy_FieldMask) IsFull() bool {
 	if fieldMask == nil {
 		return false
 	}
-	presentSelectors := make([]bool, 7)
+	presentSelectors := make([]bool, 8)
 	for _, path := range fieldMask.Paths {
 		if asFinal, ok := path.(*Policy_FieldTerminalPath); ok {
 			presentSelectors[int(asFinal.selector)] = true
@@ -112,7 +115,7 @@ func (fieldMask *Policy_FieldMask) Reset() {
 
 func (fieldMask *Policy_FieldMask) Subtract(other *Policy_FieldMask) *Policy_FieldMask {
 	result := &Policy_FieldMask{}
-	removedSelectors := make([]bool, 7)
+	removedSelectors := make([]bool, 8)
 	otherSubMasks := map[Policy_FieldPathSelector]gotenobject.FieldMask{
 		Policy_FieldPathSelectorMetadata:       &meta.Meta_FieldMask{},
 		Policy_FieldPathSelectorSpec:           &rcommon.PolicySpec_FieldMask{},
@@ -341,6 +344,8 @@ func (fieldMask *Policy_FieldMask) Project(source *Policy) *Policy {
 			case Policy_FieldPathSelectorTemplateSource:
 				result.TemplateSource = source.TemplateSource
 				wholeTemplateSourceAccepted = true
+			case Policy_FieldPathSelectorNotificationChannels:
+				result.NotificationChannels = source.NotificationChannels
 			}
 		case *Policy_FieldSubPath:
 			switch tp.selector {

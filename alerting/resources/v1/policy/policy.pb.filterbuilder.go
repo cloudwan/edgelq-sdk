@@ -276,6 +276,10 @@ func (b *filterCndBuilder) TemplateSource() *filterCndBuilderTemplateSource {
 	return &filterCndBuilderTemplateSource{builder: b.builder}
 }
 
+func (b *filterCndBuilder) NotificationChannels() *filterCndBuilderNotificationChannels {
+	return &filterCndBuilderNotificationChannels{builder: b.builder}
+}
+
 type filterCndBuilderName struct {
 	builder *FilterBuilder
 }
@@ -2701,10 +2705,6 @@ func (b *filterCndBuilderSpec) ProcessingLocation() *filterCndBuilderSpecProcess
 	return &filterCndBuilderSpecProcessingLocation{builder: b.builder}
 }
 
-func (b *filterCndBuilderSpec) Notifications() *filterCndBuilderSpecNotifications {
-	return &filterCndBuilderSpecNotifications{builder: b.builder}
-}
-
 func (b *filterCndBuilderSpec) ResourceIdentity() *filterCndBuilderSpecResourceIdentity {
 	return &filterCndBuilderSpecResourceIdentity{builder: b.builder}
 }
@@ -2832,385 +2832,6 @@ func (b *filterCndBuilderSpecProcessingLocation) compare(op gotenfilter.CompareO
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Policy_FieldPathValue: NewPolicyFieldPathBuilder().Spec().ProcessingLocation().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecNotifications struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecNotifications) Eq(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecNotifications) Neq(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecNotifications) Gt(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecNotifications) Gte(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecNotifications) Lt(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecNotifications) Lte(value []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecNotifications) In(values [][]*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) NotIn(values [][]*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) Contains(value *rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeValue,
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().FieldPath(),
-		Value:     NewPolicyFieldPathBuilder().Spec().Notifications().WithItemValue(value),
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) ContainsAnyOf(values []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	pathSelector := NewPolicyFieldPathBuilder().Spec().Notifications()
-	itemValues := make([]Policy_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAny,
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) ContainsAll(values []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	pathSelector := NewPolicyFieldPathBuilder().Spec().Notifications()
-	itemValues := make([]Policy_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAll,
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) compare(op gotenfilter.CompareOperator, value []*rcommon.PolicySpec_Notification) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Policy_FieldPathValue: NewPolicyFieldPathBuilder().Spec().Notifications().WithValue(value),
-	})
-}
-
-func (b *filterCndBuilderSpecNotifications) EnabledKinds() *filterCndBuilderSpecNotificationsEnabledKinds {
-	return &filterCndBuilderSpecNotificationsEnabledKinds{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpecNotifications) Channel() *filterCndBuilderSpecNotificationsChannel {
-	return &filterCndBuilderSpecNotificationsChannel{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpecNotifications) MaxAlertBodiesInMsg() *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg {
-	return &filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg{builder: b.builder}
-}
-
-func (b *filterCndBuilderSpecNotifications) PutOnlyAlertsCounterWhenOverflowing() *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing {
-	return &filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing{builder: b.builder}
-}
-
-type filterCndBuilderSpecNotificationsEnabledKinds struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) Eq(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) Neq(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) Gt(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) Gte(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) Lt(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) Lte(value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) In(values [][]rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) NotIn(values [][]rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) Contains(value rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeValue,
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().FieldPath(),
-		Value:     NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().WithItemValue(value),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) ContainsAnyOf(values []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	pathSelector := NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds()
-	itemValues := make([]Policy_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAny,
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) ContainsAll(values []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	pathSelector := NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds()
-	itemValues := make([]Policy_FieldPathArrayItemValue, 0, len(values))
-	for _, value := range values {
-		itemValues = append(itemValues, pathSelector.WithItemValue(value))
-	}
-	return b.builder.addCond(&FilterConditionContains{
-		Type:      gotenresource.ConditionContainsTypeAll,
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().FieldPath(),
-		Values:    itemValues,
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsEnabledKinds) compare(op gotenfilter.CompareOperator, value []rcommon.PolicySpec_Notification_Kind) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Policy_FieldPathValue: NewPolicyFieldPathBuilder().Spec().Notifications().EnabledKinds().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecNotificationsChannel struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) Eq(value *notification_channel.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) Neq(value *notification_channel.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) Gt(value *notification_channel.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) Gte(value *notification_channel.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) Lt(value *notification_channel.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) Lte(value *notification_channel.Reference) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) In(values []*notification_channel.Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().Channel().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) NotIn(values []*notification_channel.Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().Channel().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().Channel().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().Channel().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsChannel) compare(op gotenfilter.CompareOperator, value *notification_channel.Reference) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Policy_FieldPathValue: NewPolicyFieldPathBuilder().Spec().Notifications().Channel().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) Eq(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) Neq(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) Gt(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) Gte(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) Lt(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) Lte(value int32) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) In(values []int32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().MaxAlertBodiesInMsg().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) NotIn(values []int32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().MaxAlertBodiesInMsg().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().MaxAlertBodiesInMsg().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().MaxAlertBodiesInMsg().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsMaxAlertBodiesInMsg) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Policy_FieldPathValue: NewPolicyFieldPathBuilder().Spec().Notifications().MaxAlertBodiesInMsg().WithValue(value),
-	})
-}
-
-type filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing struct {
-	builder *FilterBuilder
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) Eq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Eq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) Neq(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Neq, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) Gt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) Gte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Gte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) Lt(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lt, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) Lte(value bool) *FilterBuilder {
-	return b.compare(gotenfilter.Lte, value)
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) In(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().PutOnlyAlertsCounterWhenOverflowing().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) NotIn(values []bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionNotIn{
-		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().Spec().Notifications().PutOnlyAlertsCounterWhenOverflowing().WithArrayOfValues(values),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) IsNull() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNull{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) IsNan() *FilterBuilder {
-	return b.builder.addCond(&FilterConditionIsNaN{
-		FieldPath: NewPolicyFieldPathBuilder().Spec().Notifications().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
-	})
-}
-
-func (b *filterCndBuilderSpecNotificationsPutOnlyAlertsCounterWhenOverflowing) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
-	return b.builder.addCond(&FilterConditionCompare{
-		Operator:              op,
-		Policy_FieldPathValue: NewPolicyFieldPathBuilder().Spec().Notifications().PutOnlyAlertsCounterWhenOverflowing().WithValue(value),
 	})
 }
 
@@ -6835,5 +6456,98 @@ func (b *filterCndBuilderTemplateSourceUpdatedFields) compare(op gotenfilter.Com
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:              op,
 		Policy_FieldPathValue: NewPolicyFieldPathBuilder().TemplateSource().UpdatedFields().WithValue(value),
+	})
+}
+
+type filterCndBuilderNotificationChannels struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderNotificationChannels) Eq(value []*notification_channel.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderNotificationChannels) Neq(value []*notification_channel.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderNotificationChannels) Gt(value []*notification_channel.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderNotificationChannels) Gte(value []*notification_channel.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderNotificationChannels) Lt(value []*notification_channel.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderNotificationChannels) Lte(value []*notification_channel.Reference) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderNotificationChannels) In(values [][]*notification_channel.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().NotificationChannels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderNotificationChannels) NotIn(values [][]*notification_channel.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		Policy_FieldPathArrayOfValues: NewPolicyFieldPathBuilder().NotificationChannels().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderNotificationChannels) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewPolicyFieldPathBuilder().NotificationChannels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderNotificationChannels) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewPolicyFieldPathBuilder().NotificationChannels().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderNotificationChannels) Contains(value *notification_channel.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewPolicyFieldPathBuilder().NotificationChannels().FieldPath(),
+		Value:     NewPolicyFieldPathBuilder().NotificationChannels().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderNotificationChannels) ContainsAnyOf(values []*notification_channel.Reference) *FilterBuilder {
+	pathSelector := NewPolicyFieldPathBuilder().NotificationChannels()
+	itemValues := make([]Policy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewPolicyFieldPathBuilder().NotificationChannels().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderNotificationChannels) ContainsAll(values []*notification_channel.Reference) *FilterBuilder {
+	pathSelector := NewPolicyFieldPathBuilder().NotificationChannels()
+	itemValues := make([]Policy_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewPolicyFieldPathBuilder().NotificationChannels().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderNotificationChannels) compare(op gotenfilter.CompareOperator, value []*notification_channel.Reference) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:              op,
+		Policy_FieldPathValue: NewPolicyFieldPathBuilder().NotificationChannels().WithValue(value),
 	})
 }

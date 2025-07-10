@@ -5596,7 +5596,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) GetSingleRaw(source proto.Me
 func (fp *AlertStateNotification_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		return rcommon.PolicySpec_Notification_UNDEFINED
+		return rcommon.NotificationChannelSpec_UNDEFINED
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		return ([]*notification_channel.Reference)(nil)
 	default:
@@ -5608,7 +5608,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) ClearValue(item *Alert_State
 	if item != nil {
 		switch fp.selector {
 		case AlertStateNotification_FieldPathSelectorKind:
-			item.Kind = rcommon.PolicySpec_Notification_UNDEFINED
+			item.Kind = rcommon.NotificationChannelSpec_UNDEFINED
 		case AlertStateNotification_FieldPathSelectorPendingChannels:
 			item.PendingChannels = nil
 		default:
@@ -5634,7 +5634,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) SplitIntoTerminalIPaths() []
 func (fp *AlertStateNotification_FieldTerminalPath) WithIValue(value interface{}) AlertStateNotification_FieldPathValue {
 	switch fp.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		return &AlertStateNotification_FieldTerminalPathValue{AlertStateNotification_FieldTerminalPath: *fp, value: value.(rcommon.PolicySpec_Notification_Kind)}
+		return &AlertStateNotification_FieldTerminalPathValue{AlertStateNotification_FieldTerminalPath: *fp, value: value.(rcommon.NotificationChannelSpec_EventKind)}
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		return &AlertStateNotification_FieldTerminalPathValue{AlertStateNotification_FieldTerminalPath: *fp, value: value.([]*notification_channel.Reference)}
 	default:
@@ -5650,7 +5650,7 @@ func (fp *AlertStateNotification_FieldTerminalPath) WithIArrayOfValues(values in
 	fpaov := &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		return &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp, values: values.([]rcommon.PolicySpec_Notification_Kind)}
+		return &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp, values: values.([]rcommon.NotificationChannelSpec_EventKind)}
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		return &AlertStateNotification_FieldTerminalPathArrayOfValues{AlertStateNotification_FieldTerminalPath: *fp, values: values.([][]*notification_channel.Reference)}
 	default:
@@ -5715,8 +5715,8 @@ var _ AlertStateNotification_FieldPathValue = (*AlertStateNotification_FieldTerm
 func (fpv *AlertStateNotification_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *AlertStateNotification_FieldTerminalPathValue) AsKindValue() (rcommon.PolicySpec_Notification_Kind, bool) {
-	res, ok := fpv.value.(rcommon.PolicySpec_Notification_Kind)
+func (fpv *AlertStateNotification_FieldTerminalPathValue) AsKindValue() (rcommon.NotificationChannelSpec_EventKind, bool) {
+	res, ok := fpv.value.(rcommon.NotificationChannelSpec_EventKind)
 	return res, ok
 }
 func (fpv *AlertStateNotification_FieldTerminalPathValue) AsPendingChannelsValue() ([]*notification_channel.Reference, bool) {
@@ -5731,7 +5731,7 @@ func (fpv *AlertStateNotification_FieldTerminalPathValue) SetTo(target **Alert_S
 	}
 	switch fpv.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		(*target).Kind = fpv.value.(rcommon.PolicySpec_Notification_Kind)
+		(*target).Kind = fpv.value.(rcommon.NotificationChannelSpec_EventKind)
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
 		(*target).PendingChannels = fpv.value.([]*notification_channel.Reference)
 	default:
@@ -5748,7 +5748,7 @@ func (fpv *AlertStateNotification_FieldTerminalPathValue) SetToRaw(target proto.
 func (fpv *AlertStateNotification_FieldTerminalPathValue) CompareWith(source *Alert_State_Notification) (int, bool) {
 	switch fpv.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		leftValue := fpv.value.(rcommon.PolicySpec_Notification_Kind)
+		leftValue := fpv.value.(rcommon.NotificationChannelSpec_EventKind)
 		rightValue := source.GetKind()
 		if (leftValue) == (rightValue) {
 			return 0, true
@@ -5872,7 +5872,7 @@ var _ AlertStateNotification_FieldPathArrayOfValues = (*AlertStateNotification_F
 func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case AlertStateNotification_FieldPathSelectorKind:
-		for _, v := range fpaov.values.([]rcommon.PolicySpec_Notification_Kind) {
+		for _, v := range fpaov.values.([]rcommon.NotificationChannelSpec_EventKind) {
 			values = append(values, v)
 		}
 	case AlertStateNotification_FieldPathSelectorPendingChannels:
@@ -5882,8 +5882,8 @@ func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) GetRawValues
 	}
 	return
 }
-func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) AsKindArrayOfValues() ([]rcommon.PolicySpec_Notification_Kind, bool) {
-	res, ok := fpaov.values.([]rcommon.PolicySpec_Notification_Kind)
+func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) AsKindArrayOfValues() ([]rcommon.NotificationChannelSpec_EventKind, bool) {
+	res, ok := fpaov.values.([]rcommon.NotificationChannelSpec_EventKind)
 	return res, ok
 }
 func (fpaov *AlertStateNotification_FieldTerminalPathArrayOfValues) AsPendingChannelsArrayOfValues() ([][]*notification_channel.Reference, bool) {

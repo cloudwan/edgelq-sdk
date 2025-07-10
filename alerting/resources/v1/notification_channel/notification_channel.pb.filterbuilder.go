@@ -11,14 +11,29 @@ import (
 
 // proto imports
 import (
+	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
+	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
 	iam_project "github.com/cloudwan/edgelq-sdk/iam/resources/v1/project"
+	logging_bucket "github.com/cloudwan/edgelq-sdk/logging/resources/v1/bucket"
+	logging_common "github.com/cloudwan/edgelq-sdk/logging/resources/v1/common"
+	logging_log "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log"
+	logging_log_descriptor "github.com/cloudwan/edgelq-sdk/logging/resources/v1/log_descriptor"
+	monitoring_common "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/common"
+	monitoring_metric_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/metric_descriptor"
+	monitoring_monitored_resource_descriptor "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/monitored_resource_descriptor"
+	monitoring_project "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/project"
+	monitoring_time_serie "github.com/cloudwan/edgelq-sdk/monitoring/resources/v4/time_serie"
 	meta_common "github.com/cloudwan/goten-sdk/meta-service/resources/v1/common"
+	meta_resource "github.com/cloudwan/goten-sdk/meta-service/resources/v1/resource"
 	meta_service "github.com/cloudwan/goten-sdk/meta-service/resources/v1/service"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	multi_region_policy "github.com/cloudwan/goten-sdk/types/multi_region_policy"
+	anypb "google.golang.org/protobuf/types/known/anypb"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
+	structpb "google.golang.org/protobuf/types/known/structpb"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -30,12 +45,27 @@ var (
 
 // make sure we're using proto imports
 var (
+	_ = &rcommon.LogCndSpec{}
+	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
 	_ = &iam_project.Project{}
+	_ = &logging_bucket.Bucket{}
+	_ = &logging_common.LabelDescriptor{}
+	_ = &logging_log.Log{}
+	_ = &logging_log_descriptor.LogDescriptor{}
+	_ = &monitoring_common.LabelDescriptor{}
+	_ = &monitoring_metric_descriptor.MetricDescriptor{}
+	_ = &monitoring_monitored_resource_descriptor.MonitoredResourceDescriptor{}
+	_ = &monitoring_project.Project{}
+	_ = &monitoring_time_serie.Point{}
+	_ = &anypb.Any{}
+	_ = &durationpb.Duration{}
 	_ = &fieldmaskpb.FieldMask{}
+	_ = &structpb.Struct{}
 	_ = &timestamppb.Timestamp{}
 	_ = &meta_common.LabelledDomain{}
+	_ = &meta_resource.Resource{}
 	_ = &meta_service.Service{}
 	_ = &meta.Meta{}
 	_ = &multi_region_policy.MultiRegionPolicy{}
@@ -2505,37 +2535,37 @@ type filterCndBuilderSpec struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpec) Eq(value *NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Eq(value *rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpec) Neq(value *NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Neq(value *rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpec) Gt(value *NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Gt(value *rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpec) Gte(value *NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Gte(value *rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpec) Lt(value *NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Lt(value *rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpec) Lte(value *NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) Lte(value *rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpec) In(values []*NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) In(values []*rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpec) NotIn(values []*NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) NotIn(values []*rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().WithArrayOfValues(values),
 	})
@@ -2553,7 +2583,7 @@ func (b *filterCndBuilderSpec) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpec) compare(op gotenfilter.CompareOperator, value *NotificationChannel_Spec) *FilterBuilder {
+func (b *filterCndBuilderSpec) compare(op gotenfilter.CompareOperator, value *rcommon.NotificationChannelSpec) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().WithValue(value),
@@ -2566,6 +2596,10 @@ func (b *filterCndBuilderSpec) Enabled() *filterCndBuilderSpecEnabled {
 
 func (b *filterCndBuilderSpec) Type() *filterCndBuilderSpecType {
 	return &filterCndBuilderSpecType{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpec) EnabledKinds() *filterCndBuilderSpecEnabledKinds {
+	return &filterCndBuilderSpecEnabledKinds{builder: b.builder}
 }
 
 func (b *filterCndBuilderSpec) Email() *filterCndBuilderSpecEmail {
@@ -2586,6 +2620,14 @@ func (b *filterCndBuilderSpec) NotificationLanguageCode() *filterCndBuilderSpecN
 
 func (b *filterCndBuilderSpec) NotificationMask() *filterCndBuilderSpecNotificationMask {
 	return &filterCndBuilderSpecNotificationMask{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpec) MaxAlertBodiesInMsg() *filterCndBuilderSpecMaxAlertBodiesInMsg {
+	return &filterCndBuilderSpecMaxAlertBodiesInMsg{builder: b.builder}
+}
+
+func (b *filterCndBuilderSpec) PutOnlyAlertsCounterWhenOverflowing() *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing {
+	return &filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing{builder: b.builder}
 }
 
 type filterCndBuilderSpecEnabled struct {
@@ -2651,37 +2693,37 @@ type filterCndBuilderSpecType struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecType) Eq(value NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) Eq(value rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecType) Neq(value NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) Neq(value rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecType) Gt(value NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) Gt(value rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecType) Gte(value NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) Gte(value rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecType) Lt(value NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) Lt(value rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecType) Lte(value NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) Lte(value rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecType) In(values []NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) In(values []rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Type().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecType) NotIn(values []NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) NotIn(values []rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Type().WithArrayOfValues(values),
 	})
@@ -2699,10 +2741,103 @@ func (b *filterCndBuilderSpecType) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecType) compare(op gotenfilter.CompareOperator, value NotificationChannel_Spec_Type) *FilterBuilder {
+func (b *filterCndBuilderSpecType) compare(op gotenfilter.CompareOperator, value rcommon.NotificationChannelSpec_Type) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Type().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecEnabledKinds struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) Eq(value []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) Neq(value []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) Gt(value []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) Gte(value []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) Lt(value []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) Lte(value []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) In(values [][]rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) NotIn(values [][]rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) Contains(value rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeValue,
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().FieldPath(),
+		Value:     NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().WithItemValue(value),
+	})
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) ContainsAnyOf(values []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	pathSelector := NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds()
+	itemValues := make([]NotificationChannel_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAny,
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) ContainsAll(values []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	pathSelector := NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds()
+	itemValues := make([]NotificationChannel_FieldPathArrayItemValue, 0, len(values))
+	for _, value := range values {
+		itemValues = append(itemValues, pathSelector.WithItemValue(value))
+	}
+	return b.builder.addCond(&FilterConditionContains{
+		Type:      gotenresource.ConditionContainsTypeAll,
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().FieldPath(),
+		Values:    itemValues,
+	})
+}
+
+func (b *filterCndBuilderSpecEnabledKinds) compare(op gotenfilter.CompareOperator, value []rcommon.NotificationChannelSpec_EventKind) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                           op,
+		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().EnabledKinds().WithValue(value),
 	})
 }
 
@@ -2710,37 +2845,37 @@ type filterCndBuilderSpecEmail struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecEmail) Eq(value *NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) Eq(value *rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecEmail) Neq(value *NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) Neq(value *rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecEmail) Gt(value *NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) Gt(value *rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecEmail) Gte(value *NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) Gte(value *rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecEmail) Lt(value *NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) Lt(value *rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecEmail) Lte(value *NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) Lte(value *rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecEmail) In(values []*NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) In(values []*rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Email().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecEmail) NotIn(values []*NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) NotIn(values []*rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Email().WithArrayOfValues(values),
 	})
@@ -2758,7 +2893,7 @@ func (b *filterCndBuilderSpecEmail) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecEmail) compare(op gotenfilter.CompareOperator, value *NotificationChannel_Spec_Email) *FilterBuilder {
+func (b *filterCndBuilderSpecEmail) compare(op gotenfilter.CompareOperator, value *rcommon.NotificationChannelSpec_Email) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Email().WithValue(value),
@@ -2866,37 +3001,37 @@ type filterCndBuilderSpecSlack struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecSlack) Eq(value *NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) Eq(value *rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecSlack) Neq(value *NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) Neq(value *rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecSlack) Gt(value *NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) Gt(value *rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecSlack) Gte(value *NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) Gte(value *rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecSlack) Lt(value *NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) Lt(value *rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecSlack) Lte(value *NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) Lte(value *rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecSlack) In(values []*NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) In(values []*rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Slack().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecSlack) NotIn(values []*NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) NotIn(values []*rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Slack().WithArrayOfValues(values),
 	})
@@ -2914,7 +3049,7 @@ func (b *filterCndBuilderSpecSlack) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecSlack) compare(op gotenfilter.CompareOperator, value *NotificationChannel_Spec_Slack) *FilterBuilder {
+func (b *filterCndBuilderSpecSlack) compare(op gotenfilter.CompareOperator, value *rcommon.NotificationChannelSpec_Slack) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Slack().WithValue(value),
@@ -2988,37 +3123,37 @@ type filterCndBuilderSpecWebhook struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecWebhook) Eq(value *NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) Eq(value *rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecWebhook) Neq(value *NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) Neq(value *rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecWebhook) Gt(value *NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) Gt(value *rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecWebhook) Gte(value *NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) Gte(value *rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecWebhook) Lt(value *NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) Lt(value *rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecWebhook) Lte(value *NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) Lte(value *rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecWebhook) In(values []*NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) In(values []*rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecWebhook) NotIn(values []*NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) NotIn(values []*rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().WithArrayOfValues(values),
 	})
@@ -3036,7 +3171,7 @@ func (b *filterCndBuilderSpecWebhook) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecWebhook) compare(op gotenfilter.CompareOperator, value *NotificationChannel_Spec_Webhook) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhook) compare(op gotenfilter.CompareOperator, value *rcommon.NotificationChannelSpec_Webhook) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Webhook().WithValue(value),
@@ -3118,37 +3253,37 @@ type filterCndBuilderSpecWebhookHeaders struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) Eq(value []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) Eq(value []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) Neq(value []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) Neq(value []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) Gt(value []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) Gt(value []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) Gte(value []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) Gte(value []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) Lt(value []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) Lt(value []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) Lte(value []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) Lte(value []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) In(values [][]*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) In(values [][]*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) NotIn(values [][]*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) NotIn(values [][]*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers().WithArrayOfValues(values),
 	})
@@ -3166,7 +3301,7 @@ func (b *filterCndBuilderSpecWebhookHeaders) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) Contains(value *NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) Contains(value *rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionContains{
 		Type:      gotenresource.ConditionContainsTypeValue,
 		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers().FieldPath(),
@@ -3174,7 +3309,7 @@ func (b *filterCndBuilderSpecWebhookHeaders) Contains(value *NotificationChannel
 	})
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) ContainsAnyOf(values []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) ContainsAnyOf(values []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	pathSelector := NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers()
 	itemValues := make([]NotificationChannel_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3187,7 +3322,7 @@ func (b *filterCndBuilderSpecWebhookHeaders) ContainsAnyOf(values []*Notificatio
 	})
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) ContainsAll(values []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) ContainsAll(values []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	pathSelector := NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers()
 	itemValues := make([]NotificationChannel_FieldPathArrayItemValue, 0, len(values))
 	for _, value := range values {
@@ -3200,7 +3335,7 @@ func (b *filterCndBuilderSpecWebhookHeaders) ContainsAll(values []*NotificationC
 	})
 }
 
-func (b *filterCndBuilderSpecWebhookHeaders) compare(op gotenfilter.CompareOperator, value []*NotificationChannel_Spec_Webhook_Header) *FilterBuilder {
+func (b *filterCndBuilderSpecWebhookHeaders) compare(op gotenfilter.CompareOperator, value []*rcommon.NotificationChannelSpec_Webhook_Header) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().Webhook().Headers().WithValue(value),
@@ -3507,6 +3642,124 @@ func (b *filterCndBuilderSpecNotificationMask) compare(op gotenfilter.CompareOpe
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                           op,
 		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().NotificationMask().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecMaxAlertBodiesInMsg struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) Eq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) Neq(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) Gt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) Gte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) Lt(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) Lte(value int32) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) In(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().MaxAlertBodiesInMsg().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) NotIn(values []int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().MaxAlertBodiesInMsg().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().MaxAlertBodiesInMsg().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().MaxAlertBodiesInMsg().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecMaxAlertBodiesInMsg) compare(op gotenfilter.CompareOperator, value int32) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                           op,
+		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().MaxAlertBodiesInMsg().WithValue(value),
+	})
+}
+
+type filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing struct {
+	builder *FilterBuilder
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) Eq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Eq, value)
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) Neq(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Neq, value)
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) Gt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gt, value)
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) Gte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Gte, value)
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) Lt(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lt, value)
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) Lte(value bool) *FilterBuilder {
+	return b.compare(gotenfilter.Lte, value)
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) In(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().PutOnlyAlertsCounterWhenOverflowing().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) NotIn(values []bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionNotIn{
+		NotificationChannel_FieldPathArrayOfValues: NewNotificationChannelFieldPathBuilder().Spec().PutOnlyAlertsCounterWhenOverflowing().WithArrayOfValues(values),
+	})
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) IsNull() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNull{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) IsNan() *FilterBuilder {
+	return b.builder.addCond(&FilterConditionIsNaN{
+		FieldPath: NewNotificationChannelFieldPathBuilder().Spec().PutOnlyAlertsCounterWhenOverflowing().FieldPath(),
+	})
+}
+
+func (b *filterCndBuilderSpecPutOnlyAlertsCounterWhenOverflowing) compare(op gotenfilter.CompareOperator, value bool) *FilterBuilder {
+	return b.builder.addCond(&FilterConditionCompare{
+		Operator:                           op,
+		NotificationChannel_FieldPathValue: NewNotificationChannelFieldPathBuilder().Spec().PutOnlyAlertsCounterWhenOverflowing().WithValue(value),
 	})
 }
 
