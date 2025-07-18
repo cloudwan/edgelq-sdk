@@ -167,8 +167,23 @@ func (obj *ConnectResponse) GotenValidate() error {
 				return gotenvalidate.NewValidationError("ConnectResponse", "pong", opt.Pong, "nested object validation failed", err)
 			}
 		}
+	case *ConnectResponse_NotAvailableLocally_:
+		if subobj, ok := interface{}(opt.NotAvailableLocally).(gotenvalidate.Validator); ok {
+			if err := subobj.GotenValidate(); err != nil {
+				return gotenvalidate.NewValidationError("ConnectResponse", "notAvailableLocally", opt.NotAvailableLocally, "nested object validation failed", err)
+			}
+		}
 	default:
 		_ = opt
+	}
+	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
+		return cvobj.GotenCustomValidate()
+	}
+	return nil
+}
+func (obj *ConnectResponse_NotAvailableLocally) GotenValidate() error {
+	if obj == nil {
+		return nil
 	}
 	if cvobj, ok := interface{}(obj).(gotenvalidate.CustomValidator); ok {
 		return cvobj.GotenCustomValidate()

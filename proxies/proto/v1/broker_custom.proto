@@ -52,6 +52,15 @@ message ConnectRequest {
 
     // Initial argument (optional)
     bytes arg = 5;
+
+    // If true, ConnectResponse will contain NotAvailableLocally in response
+    // instead of NotFound/OutOfRange. This is used so far internally between
+    // servers.
+    // TODO: This is temporary flag, till we migrate all clients to shard-aware
+    // ones: Client can probe what core endpoint owns given shard number for
+    // provider_name. Then it can, and should connect directly there, without
+    // setting this flag.
+    bool return_not_available = 8;
   }
 
   message ResumeRequest {
@@ -74,6 +83,15 @@ message ConnectRequest {
     uint64 channel_id = 5;
 
     uint64 last_message_id = 6;
+
+    // If true, ConnectResponse will contain NotAvailableLocally in response
+    // instead of NotFound/OutOfRange. This is used so far internally between
+    // servers.
+    // TODO: This is temporary flag, till we migrate all clients to shard-aware
+    // ones: Client can probe what core endpoint owns given shard number for
+    // provider_name. Then it can, and should connect directly there, without
+    // setting this flag.
+    bool return_not_available = 9;
   }
 }
 
@@ -98,7 +116,14 @@ message ConnectResponse {
     Error error = 7;
 
     Pong pong = 8;
+
+    // Informs that provider is not available locally.
+    // This is sent instead of open_response/resume_response
+    // if
+    NotAvailableLocally not_available_locally = 9;
   }
+
+  message NotAvailableLocally {}
 
   message OpenResponse {
     uint64 session_id = 1;
