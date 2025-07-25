@@ -25,8 +25,8 @@ import (
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	ts_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition_template"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
@@ -52,9 +52,9 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
 	_ = &rcommon.LogCndSpec{}
+	_ = &ts_condition_template.TsConditionTemplate{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
@@ -2446,7 +2446,7 @@ func (fp *TsConditionTemplateSource_FieldTerminalPath) GetSingleRaw(source proto
 func (fp *TsConditionTemplateSource_FieldTerminalPath) GetDefault() interface{} {
 	switch fp.selector {
 	case TsConditionTemplateSource_FieldPathSelectorTemplate:
-		return (*log_condition_template.Reference)(nil)
+		return (*ts_condition_template.Reference)(nil)
 	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
 		return (*fieldmaskpb.FieldMask)(nil)
 	default:
@@ -2484,7 +2484,7 @@ func (fp *TsConditionTemplateSource_FieldTerminalPath) SplitIntoTerminalIPaths()
 func (fp *TsConditionTemplateSource_FieldTerminalPath) WithIValue(value interface{}) TsConditionTemplateSource_FieldPathValue {
 	switch fp.selector {
 	case TsConditionTemplateSource_FieldPathSelectorTemplate:
-		return &TsConditionTemplateSource_FieldTerminalPathValue{TsConditionTemplateSource_FieldTerminalPath: *fp, value: value.(*log_condition_template.Reference)}
+		return &TsConditionTemplateSource_FieldTerminalPathValue{TsConditionTemplateSource_FieldTerminalPath: *fp, value: value.(*ts_condition_template.Reference)}
 	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
 		return &TsConditionTemplateSource_FieldTerminalPathValue{TsConditionTemplateSource_FieldTerminalPath: *fp, value: value.(*fieldmaskpb.FieldMask)}
 	default:
@@ -2500,7 +2500,7 @@ func (fp *TsConditionTemplateSource_FieldTerminalPath) WithIArrayOfValues(values
 	fpaov := &TsConditionTemplateSource_FieldTerminalPathArrayOfValues{TsConditionTemplateSource_FieldTerminalPath: *fp}
 	switch fp.selector {
 	case TsConditionTemplateSource_FieldPathSelectorTemplate:
-		return &TsConditionTemplateSource_FieldTerminalPathArrayOfValues{TsConditionTemplateSource_FieldTerminalPath: *fp, values: values.([]*log_condition_template.Reference)}
+		return &TsConditionTemplateSource_FieldTerminalPathArrayOfValues{TsConditionTemplateSource_FieldTerminalPath: *fp, values: values.([]*ts_condition_template.Reference)}
 	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
 		return &TsConditionTemplateSource_FieldTerminalPathArrayOfValues{TsConditionTemplateSource_FieldTerminalPath: *fp, values: values.([]*fieldmaskpb.FieldMask)}
 	default:
@@ -2563,8 +2563,8 @@ var _ TsConditionTemplateSource_FieldPathValue = (*TsConditionTemplateSource_Fie
 func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) GetRawValue() interface{} {
 	return fpv.value
 }
-func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) AsTemplateValue() (*log_condition_template.Reference, bool) {
-	res, ok := fpv.value.(*log_condition_template.Reference)
+func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) AsTemplateValue() (*ts_condition_template.Reference, bool) {
+	res, ok := fpv.value.(*ts_condition_template.Reference)
 	return res, ok
 }
 func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) AsUpdatedFieldsValue() (*fieldmaskpb.FieldMask, bool) {
@@ -2579,7 +2579,7 @@ func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) SetTo(target **TsCo
 	}
 	switch fpv.selector {
 	case TsConditionTemplateSource_FieldPathSelectorTemplate:
-		(*target).Template = fpv.value.(*log_condition_template.Reference)
+		(*target).Template = fpv.value.(*ts_condition_template.Reference)
 	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
 		(*target).UpdatedFields = fpv.value.(*fieldmaskpb.FieldMask)
 	default:
@@ -2596,7 +2596,7 @@ func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) SetToRaw(target pro
 func (fpv *TsConditionTemplateSource_FieldTerminalPathValue) CompareWith(source *TsCondition_TemplateSource) (int, bool) {
 	switch fpv.selector {
 	case TsConditionTemplateSource_FieldPathSelectorTemplate:
-		leftValue := fpv.value.(*log_condition_template.Reference)
+		leftValue := fpv.value.(*ts_condition_template.Reference)
 		rightValue := source.GetTemplate()
 		if leftValue == nil {
 			if rightValue != nil {
@@ -2725,7 +2725,7 @@ var _ TsConditionTemplateSource_FieldPathArrayOfValues = (*TsConditionTemplateSo
 func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) GetRawValues() (values []interface{}) {
 	switch fpaov.selector {
 	case TsConditionTemplateSource_FieldPathSelectorTemplate:
-		for _, v := range fpaov.values.([]*log_condition_template.Reference) {
+		for _, v := range fpaov.values.([]*ts_condition_template.Reference) {
 			values = append(values, v)
 		}
 	case TsConditionTemplateSource_FieldPathSelectorUpdatedFields:
@@ -2735,8 +2735,8 @@ func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) GetRawVal
 	}
 	return
 }
-func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) AsTemplateArrayOfValues() ([]*log_condition_template.Reference, bool) {
-	res, ok := fpaov.values.([]*log_condition_template.Reference)
+func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) AsTemplateArrayOfValues() ([]*ts_condition_template.Reference, bool) {
+	res, ok := fpaov.values.([]*ts_condition_template.Reference)
 	return res, ok
 }
 func (fpaov *TsConditionTemplateSource_FieldTerminalPathArrayOfValues) AsUpdatedFieldsArrayOfValues() ([]*fieldmaskpb.FieldMask, bool) {

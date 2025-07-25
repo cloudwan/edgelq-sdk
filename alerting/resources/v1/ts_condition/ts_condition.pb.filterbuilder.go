@@ -13,10 +13,10 @@ import (
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
+	ts_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition_template"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
@@ -51,11 +51,11 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
 	_ = &policy_template.PolicyTemplate{}
 	_ = &rcommon.LogCndSpec{}
+	_ = &ts_condition_template.TsConditionTemplate{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
@@ -6439,37 +6439,37 @@ type filterCndBuilderTemplateSourceTemplate struct {
 	builder *FilterBuilder
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) Eq(value *log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) Eq(value *ts_condition_template.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Eq, value)
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) Neq(value *log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) Neq(value *ts_condition_template.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Neq, value)
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) Gt(value *log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) Gt(value *ts_condition_template.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gt, value)
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) Gte(value *log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) Gte(value *ts_condition_template.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Gte, value)
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) Lt(value *log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) Lt(value *ts_condition_template.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lt, value)
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) Lte(value *log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) Lte(value *ts_condition_template.Reference) *FilterBuilder {
 	return b.compare(gotenfilter.Lte, value)
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) In(values []*log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) In(values []*ts_condition_template.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionIn{
 		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().TemplateSource().Template().WithArrayOfValues(values),
 	})
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) NotIn(values []*log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) NotIn(values []*ts_condition_template.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionNotIn{
 		TsCondition_FieldPathArrayOfValues: NewTsConditionFieldPathBuilder().TemplateSource().Template().WithArrayOfValues(values),
 	})
@@ -6487,7 +6487,7 @@ func (b *filterCndBuilderTemplateSourceTemplate) IsNan() *FilterBuilder {
 	})
 }
 
-func (b *filterCndBuilderTemplateSourceTemplate) compare(op gotenfilter.CompareOperator, value *log_condition_template.Reference) *FilterBuilder {
+func (b *filterCndBuilderTemplateSourceTemplate) compare(op gotenfilter.CompareOperator, value *ts_condition_template.Reference) *FilterBuilder {
 	return b.builder.addCond(&FilterConditionCompare{
 		Operator:                   op,
 		TsCondition_FieldPathValue: NewTsConditionFieldPathBuilder().TemplateSource().Template().WithValue(value),

@@ -8,10 +8,10 @@ package ts_condition
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	notification_channel "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/notification_channel"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
 	policy_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy_template"
+	ts_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition_template"
 	api "github.com/cloudwan/edgelq-sdk/common/api"
 	iam_iam_common "github.com/cloudwan/edgelq-sdk/iam/resources/v1/common"
 	iam_organization "github.com/cloudwan/edgelq-sdk/iam/resources/v1/organization"
@@ -40,11 +40,11 @@ import (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &notification_channel.NotificationChannel{}
 	_ = &policy.Policy{}
 	_ = &policy_template.PolicyTemplate{}
 	_ = &rcommon.LogCndSpec{}
+	_ = &ts_condition_template.TsConditionTemplate{}
 	_ = api.LaunchStage(0)
 	_ = &iam_iam_common.PCR{}
 	_ = &iam_organization.Organization{}
@@ -2123,11 +2123,11 @@ func (TsConditionPathSelectorTemplateSourceTemplate) FieldPath() *TsCondition_Fi
 	}
 }
 
-func (s TsConditionPathSelectorTemplateSourceTemplate) WithValue(value *log_condition_template.Reference) *TsCondition_FieldSubPathValue {
+func (s TsConditionPathSelectorTemplateSourceTemplate) WithValue(value *ts_condition_template.Reference) *TsCondition_FieldSubPathValue {
 	return s.FieldPath().WithIValue(value).(*TsCondition_FieldSubPathValue)
 }
 
-func (s TsConditionPathSelectorTemplateSourceTemplate) WithArrayOfValues(values []*log_condition_template.Reference) *TsCondition_FieldSubPathArrayOfValues {
+func (s TsConditionPathSelectorTemplateSourceTemplate) WithArrayOfValues(values []*ts_condition_template.Reference) *TsCondition_FieldSubPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsCondition_FieldSubPathArrayOfValues)
 }
 
@@ -2345,11 +2345,11 @@ func (TsCondition_TemplateSourcePathSelectorTemplate) FieldPath() *TsConditionTe
 	return &TsConditionTemplateSource_FieldTerminalPath{selector: TsConditionTemplateSource_FieldPathSelectorTemplate}
 }
 
-func (s TsCondition_TemplateSourcePathSelectorTemplate) WithValue(value *log_condition_template.Reference) *TsConditionTemplateSource_FieldTerminalPathValue {
+func (s TsCondition_TemplateSourcePathSelectorTemplate) WithValue(value *ts_condition_template.Reference) *TsConditionTemplateSource_FieldTerminalPathValue {
 	return s.FieldPath().WithIValue(value).(*TsConditionTemplateSource_FieldTerminalPathValue)
 }
 
-func (s TsCondition_TemplateSourcePathSelectorTemplate) WithArrayOfValues(values []*log_condition_template.Reference) *TsConditionTemplateSource_FieldTerminalPathArrayOfValues {
+func (s TsCondition_TemplateSourcePathSelectorTemplate) WithArrayOfValues(values []*ts_condition_template.Reference) *TsConditionTemplateSource_FieldTerminalPathArrayOfValues {
 	return s.FieldPath().WithIArrayOfValues(values).(*TsConditionTemplateSource_FieldTerminalPathArrayOfValues)
 }
 

@@ -18,8 +18,8 @@ import (
 import (
 	rcommon "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/common"
 	document "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/document"
-	log_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/log_condition_template"
 	policy "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/policy"
+	ts_condition_template "github.com/cloudwan/edgelq-sdk/alerting/resources/v1/ts_condition_template"
 	meta "github.com/cloudwan/goten-sdk/types/meta"
 	fieldmaskpb "google.golang.org/protobuf/types/known/fieldmaskpb"
 )
@@ -38,9 +38,9 @@ var (
 // make sure we're using proto imports
 var (
 	_ = &document.Document{}
-	_ = &log_condition_template.LogConditionTemplate{}
 	_ = &policy.Policy{}
 	_ = &rcommon.LogCndSpec{}
+	_ = &ts_condition_template.TsConditionTemplate{}
 	_ = &fieldmaskpb.FieldMask{}
 	_ = &meta.Meta{}
 )
@@ -534,7 +534,7 @@ func (o *TsCondition_TemplateSource) Clone() *TsCondition_TemplateSource {
 	} else if data, err := o.Template.ProtoString(); err != nil {
 		panic(err)
 	} else {
-		result.Template = &log_condition_template.Reference{}
+		result.Template = &ts_condition_template.Reference{}
 		if err := result.Template.ParseProtoString(data); err != nil {
 			panic(err)
 		}
@@ -552,7 +552,7 @@ func (o *TsCondition_TemplateSource) Merge(source *TsCondition_TemplateSource) {
 		if data, err := source.GetTemplate().ProtoString(); err != nil {
 			panic(err)
 		} else {
-			o.Template = &log_condition_template.Reference{}
+			o.Template = &ts_condition_template.Reference{}
 			if err := o.Template.ParseProtoString(data); err != nil {
 				panic(err)
 			}
