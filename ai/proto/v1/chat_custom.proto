@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat;chat_client";
+option java_multiple_files = false;
+option java_outer_classname = "ChatCustomProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+message Msg {
+  string content = 1;
+
+  Type type = 2;
+
+  enum Type {
+    UNDEFINED = 0;
+
+    SYSTEM = 1;
+
+    ASSISTANT = 2;
+
+    USER = 3;
+
+    SEARCH_ITEMS = 4;
+  }
+}
+
+// A request message of the Completion method.
+message CompletionRequest {
+  Init init = 1;
+
+  Msg query = 2;
+
+  message Init {
+    string chat_model = 1;
+
+    string search_index = 2;
+
+    repeated Msg history = 3;
+  }
+}
+
+// A response message of the Completion method.
+message CompletionResponse {
+  Msg response = 1;
+
+  bool complete = 2;
+}

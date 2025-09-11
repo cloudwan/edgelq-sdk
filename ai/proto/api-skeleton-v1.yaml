@@ -1,0 +1,47 @@
+name: ai.edgelq.com
+proto:
+  package:
+    name: ntt.ai
+    currentVersion: v1
+    goPackage: github.com/cloudwan/edgelq/ai
+    protoImportPathPrefix: edgelq/ai/proto
+  service:
+    name: AI
+    defaultHost: ai.edgelq.com
+    oauthScopes: https://apis.edgelq.com
+
+imports:
+- iam.edgelq.com
+- secrets.edgelq.com
+
+resources:
+- name: ChatModel
+  parents:
+  - iam.edgelq.com/Project
+
+- name: SearchDb
+  parents:
+  - iam.edgelq.com/Project
+
+- name: SearchIndex
+  plural: SearchIndices
+  parents:
+  - SearchDb
+
+- name: Document
+  multiRegion:
+    syncType: NEVER
+  parents:
+  - SearchIndex
+
+apis:
+- name: Chat
+  actions:
+  - name: Completion
+    streamingRequest: true
+    streamingResponse: true
+    multiRegionRouting:
+      skipCodeGenBasedRouting: true
+    withStoreHandle:
+      transaction: NONE
+      readOnly: true

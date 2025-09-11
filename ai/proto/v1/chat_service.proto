@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/chat_custom.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "goten-sdk/types/view.proto";
+import "goten-sdk/types/watch_type.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/chat;chat_client";
+option java_multiple_files = false;
+option java_outer_classname = "ChatServiceProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// Chat service API for AI
+service ChatService {
+  option (google.api.default_host) = "ai.edgelq.com";
+  option (google.api.oauth_scopes) = "https://apis.edgelq.com";
+
+  // Completion
+  rpc Completion(stream CompletionRequest) returns (stream CompletionResponse) {
+    option (google.api.http) = {
+      post : "/v1:completion"
+    };
+  }
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/chat_custom.proto";
+import "edgelq-sdk/ai/proto/v1/chat_model.proto";
+import "edgelq-sdk/ai/proto/v1/chat_model_service.proto";
+import "edgelq-sdk/ai/proto/v1/chat_service.proto";
+import "edgelq-sdk/ai/proto/v1/document.proto";
+import "edgelq-sdk/ai/proto/v1/document_service.proto";
+import "edgelq-sdk/ai/proto/v1/search_db.proto";
+import "edgelq-sdk/ai/proto/v1/search_db_service.proto";
+import "edgelq-sdk/ai/proto/v1/search_index.proto";
+import "edgelq-sdk/ai/proto/v1/search_index_service.proto";
+import "edgelq-sdk/iam/proto/v1/iam.proto";
+import "edgelq-sdk/secrets/proto/v1/secrets.proto";
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/client/v1/ai;ai_client";
+option java_multiple_files = true;
+option java_outer_classname = "AIProto";
+option java_package = "com.ntt.ai.pb.v1";

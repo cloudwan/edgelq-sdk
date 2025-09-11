@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "google/api/resource.proto";
+import "goten-sdk/types/meta.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/document;document";
+option java_multiple_files = true;
+option java_outer_classname = "DocumentProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// Document Resource represents specific document in a search index.
+// When uploaded to the service, it is automatically tokenized
+// and chunked in search service.
+// As of now, each Document must be some kind of text file (markdown,
+// protobuf, source code, json, yaml...).
+message Document {
+  option (google.api.resource) = {
+    type : "ai.edgelq.com/Document"
+    pattern : "projects/{project}/searchDbs/{search_db}/searchIndices/"
+              "{search_index}/documents/{document}"
+  };
+
+  // Name of Document
+  // When creating a new instance, this field is optional and if not provided,
+  // it will be generated automatically. Last ID segment must conform to the
+  // following regex: [a-z][a-z0-9\\-]{0,28}[a-z0-9]
+  string name = 1;
+
+  // Metadata is an object with information like create, update and delete time
+  // (for async deleted resources), has user labels/annotations, sharding
+  // information, multi-region syncing information and may have non-schema
+  // owners (useful for taking ownership of resources belonging to lower level
+  // services by higher ones).
+  goten.types.Meta metadata = 2;
+
+  // Document contents.
+  bytes content = 3;
+
+  // Computed based on checksum. Checksum can be used to later
+  // determine if file needs to be updated or not.
+  string checksum = 4;
+
+  string title = 5;
+
+  string title_prefix = 6;
+
+  FileType file_type = 7;
+
+  enum FileType {
+    UNDEFINED = 0;
+
+    MARKDOWN = 1;
+
+    GOLANG = 2;
+
+    PROTOBUF = 3;
+  }
+}

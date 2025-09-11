@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package ntt.ai.v1;
+
+import "edgelq-sdk/ai/proto/v1/search_db.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+
+option go_package = "github.com/cloudwan/edgelq-sdk/ai/resources/v1/search_db;search_db";
+option java_multiple_files = false;
+option java_outer_classname = "SearchDbChangeProto";
+option java_package = "com.ntt.ai.pb.v1";
+
+// SearchDbChange is used by Watch notifications Responses to describe change of
+// single SearchDb One of Added, Modified, Removed
+message SearchDbChange {
+  // SearchDb change
+  oneof change_type {
+    // Added is returned when watched document is added, either created or
+    // enters Query view
+    Added added = 1;
+
+    // Modified is returned when watched document is modified
+    Modified modified = 2;
+
+    // Current is returned in stateless watch when document enters query view or
+    // is modified within.
+    Current current = 4;
+
+    // Removed is returned when SearchDb is deleted or leaves Query view
+    Removed removed = 3;
+  }
+
+  // SearchDb has been added to query view
+  message Added {
+    SearchDb search_db = 1;
+
+    // Integer describing index of added SearchDb in resulting query view.
+    int32 view_index = 2;
+  }
+
+  // SearchDb changed some of it's fields - contains either full document or
+  // masked change
+  message Modified {
+    // Name of modified SearchDb
+    string name = 1;
+
+    // New version of SearchDb or masked difference, depending on mask_changes
+    // instrumentation of issued [WatchSearchDbRequest] or
+    // [WatchSearchDbsRequest]
+    SearchDb search_db = 2;
+
+    // Used when mask_changes is set, contains field paths of modified
+    // properties.
+    google.protobuf.FieldMask field_mask = 3;
+
+    // Previous view index specifies previous position of modified SearchDb.
+    // When modification doesn't affect sorted order, value will remain
+    // identical to [view_index].
+    int32 previous_view_index = 4;
+
+    // Integer specifying SearchDb new index in resulting query view.
+    int32 view_index = 5;
+  }
+
+  // SearchDb has been added or modified in a query view. Version used for
+  // stateless watching
+  message Current { SearchDb search_db = 1; }
+
+  // Removed is returned when SearchDb is deleted or leaves Query view
+  message Removed {
+    string name = 1;
+
+    // Integer specifying removed SearchDb index. Not populated in stateless
+    // watch type.
+    int32 view_index = 2;
+  }
+}
